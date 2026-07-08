@@ -7,7 +7,12 @@
 (function () {
     'use strict';
 
-    var BASE = location.pathname.indexOf('/pages/') !== -1 ? '../' : '';
+    if (window.NamelessAudioPlayer && (window.NamelessAudioPlayer.initialized || window.NamelessAudioPlayer.booting)) return;
+
+    var singleton = window.NamelessAudioPlayer || {};
+    window.NamelessAudioPlayer = singleton;
+    singleton.booting = true;
+
     var DEFAULT_VOLUME = 0.2;
     var LEGACY_STORE_KEY = 'nm-audio';
     var STORAGE = {
@@ -17,10 +22,17 @@
         time: 'namelessAudioTime'
     };
 
+    function assetUrl(path) {
+        var script = document.currentScript || document.querySelector('script[src*="audio-controller.js"]');
+        if (script && script.src) return new URL('../' + path, script.src).href;
+        var base = location.pathname.indexOf('/pages/') !== -1 ? '../' : '';
+        return base + path;
+    }
+
     var TRACKS = [
-        { id: 'oath', label: 'Oath', src: BASE + 'assets/audio/nameless-oath.mp3' },
-        { id: 'echoes-1', label: 'Échos I', src: BASE + 'assets/audio/nameless-echoes.mp3' },
-        { id: 'echoes-2', label: 'Échos II', src: BASE + 'assets/audio/nameless-echoes-2.mp3' }
+        { id: 'oath', label: 'Oath', src: assetUrl('assets/audio/nameless-oath.mp3') },
+        { id: 'echoes-1', label: 'Echos I', src: assetUrl('assets/audio/nameless-echoes.mp3') },
+        { id: 'echoes-2', label: 'Echos II', src: assetUrl('assets/audio/nameless-echoes-2.mp3') }
     ];
 
     function clampNumber(value, min, max, fallback) {
@@ -128,20 +140,34 @@
         return s;
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        if (!TRACKS.length || document.querySelector('.nm-audio-dock')) return;
+    function bootAudioPlayer() {
+        if (!TRACKS.length) {
+            singleton.booting = false;
+            return;
+        }
+        if (document.querySelector('.nm-audio-dock')) {
+            singleton.initialized = true;
+            singleton.booting = false;
+            return;
+        }
+        singleton.initialized = true;
+        singleton.booting = false;
 
         var pref = readPref();
         var failed = {};
         var current = trackIndexById(pref.trackId);
+        var wantedPlaying = false;
+        var resumeArmed = false;
 
         var audio = new Audio();
         audio.loop = true;
         audio.preload = 'none';
         audio.volume = pref.volume;
+        singleton.audio = audio;
 
         var dock = document.createElement('div');
         dock.className = 'nm-audio-dock';
+        singleton.dock = dock;
 
         var btn = document.createElement('button');
         btn.type = 'button';
@@ -180,6 +206,10 @@
         }
 
         function updateTrackLabel() {
+            if (btn.classList.contains('needs-resume')) {
+                label.textContent = 'Reprendre';
+                return;
+            }
             label.textContent = TRACKS[current].label;
             var next = nextValidFrom(current);
             var nextLabel = next === -1 ? 'aucune piste disponible' : TRACKS[next].label;
@@ -188,9 +218,31 @@
         }
 
         function setOn(on) {
+            if (on) btn.classList.remove('needs-resume');
             btn.classList.toggle('is-on', on);
             btn.setAttribute('aria-pressed', on ? 'true' : 'false');
             btn.setAttribute('aria-label', on ? "Couper l'ambiance sonore" : "Activer l'ambiance sonore");
+        }
+
+        function markNeedsResume() {
+            btn.classList.add('needs-resume');
+            btn.classList.remove('is-on');
+            btn.setAttribute('aria-pressed', 'false');
+            btn.setAttribute('aria-label', "Reprendre l'ambiance sonore");
+            label.textContent = 'Reprendre';
+        }
+
+        function armResume() {
+            if (resumeArmed) return;
+            resumeArmed = true;
+            var resume = function () {
+                resumeArmed = false;
+                document.removeEventListener('pointerdown', resume);
+                document.removeEventListener('keydown', resume);
+                if (readPref().enabled) playCurrent();
+            };
+            document.addEventListener('pointerdown', resume, { once: true });
+            document.addEventListener('keydown', resume, { once: true });
         }
 
         function loadTrack(index, restorePos) {
@@ -210,11 +262,19 @@
         }
 
         function playCurrent() {
+            wantedPlaying = true;
             var playPromise = audio.play();
-            if (playPromise && typeof playPromise.catch === 'function') {
-                playPromise.catch(function () {
-                    setOn(false);
-                    writePref({ enabled: false, trackId: TRACKS[current].id, pos: audio.currentTime || 0 });
+
+            if (playPromise && typeof playPromise.then === 'function') {
+                playPromise.then(function () {
+                    setOn(true);
+                    updateTrackLabel();
+                    writePref({ enabled: true, trackId: TRACKS[current].id });
+                }).catch(function () {
+                    if (!wantedPlaying) return;
+                    markNeedsResume();
+                    writePref({ enabled: true, trackId: TRACKS[current].id, pos: audio.currentTime || 0 });
+                    armResume();
                 });
             }
         }
@@ -224,11 +284,12 @@
             var ni = nextValidFrom(current);
             if (ni === -1) {
                 if (dock.parentNode) dock.remove();
+                singleton.initialized = false;
                 return;
             }
             loadTrack(ni, false);
             writePref({ trackId: TRACKS[current].id, pos: 0 });
-            if (btn.classList.contains('is-on')) playCurrent();
+            if (wantedPlaying || btn.classList.contains('is-on')) playCurrent();
         });
 
         audio.addEventListener('volumechange', function () {
@@ -249,8 +310,11 @@
                 writePref({ enabled: true, trackId: TRACKS[current].id });
                 playCurrent();
             } else {
+                wantedPlaying = false;
                 audio.pause();
                 setOn(false);
+                btn.classList.remove('needs-resume');
+                updateTrackLabel();
                 writePref({ enabled: false, trackId: TRACKS[current].id, pos: audio.currentTime || 0 });
             }
         });
@@ -259,7 +323,7 @@
             var ni = nextValidFrom(current);
             if (ni === -1) return;
 
-            var wasPlaying = !audio.paused;
+            var wasPlaying = wantedPlaying || !audio.paused;
             loadTrack(ni, false);
             writePref({ trackId: TRACKS[current].id, pos: 0 });
 
@@ -282,6 +346,10 @@
             if (!audio.paused) writePref({ trackId: TRACKS[current].id, pos: audio.currentTime || 0 });
         });
 
+        window.addEventListener('pagehide', function () {
+            if (!audio.paused) writePref({ trackId: TRACKS[current].id, pos: audio.currentTime || 0 });
+        });
+
         document.addEventListener('visibilitychange', function () {
             if (document.hidden && !audio.paused) {
                 writePref({ trackId: TRACKS[current].id, pos: audio.currentTime || 0 });
@@ -290,15 +358,15 @@
 
         if (pref.enabled) {
             setOn(true);
-            var resume = function () {
-                document.removeEventListener('pointerdown', resume);
-                document.removeEventListener('keydown', resume);
-                if (readPref().enabled) playCurrent();
-            };
-            document.addEventListener('pointerdown', resume, { once: true });
-            document.addEventListener('keydown', resume, { once: true });
+            armResume();
         }
 
         updateTrackLabel();
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootAudioPlayer, { once: true });
+    } else {
+        bootAudioPlayer();
+    }
 })();

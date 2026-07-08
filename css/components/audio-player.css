@@ -44,6 +44,10 @@
     color: var(--sao-gold-light, #e4cd97);
     border-color: var(--sao-border-hover, rgba(194,163,103,0.28));
 }
+.nm-audio-btn.needs-resume {
+    color: var(--sao-cyan, #6f92b3);
+    border-color: var(--sao-cyan, #6f92b3);
+}
 
 /* Bouton "piste suivante" */
 .nm-audio-next {
