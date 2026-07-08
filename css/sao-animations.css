@@ -1,0 +1,384 @@
+﻿/* ============================================
+   SAO (Sword Art Online) Animations & Effects
+   ============================================ */
+
+/* --- Keyframe Animations --- */
+
+@keyframes saoGlow {
+    0%, 100% { box-shadow: 0 0 4px rgba(196, 165, 90, 0.06); }
+    50% { box-shadow: 0 0 8px rgba(196, 165, 90, 0.1); }
+}
+
+@keyframes saoGlowCyan {
+    0%, 100% { box-shadow: 0 0 4px rgba(136, 175, 196, 0.06); }
+    50% { box-shadow: 0 0 8px rgba(136, 175, 196, 0.1); }
+}
+
+@keyframes saoFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes saoFadeInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes saoFadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes saoFadeInUp {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes saoSlideDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes saoPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes saoScanLine {
+    0% { top: -5%; }
+    100% { top: 105%; }
+}
+
+@keyframes saoFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes saoShimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes saoRotateGlow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes saoBorderDraw {
+    0% { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+    25% { clip-path: polygon(0 0, 100% 0, 100% 0, 0 100%); }
+    50% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+@keyframes saoFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+    75% { opacity: 0.95; }
+}
+
+@keyframes saoHexRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes saoDataStream {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 0% 100%; }
+}
+
+@keyframes saoMenuExpand {
+    from { width: 48px; opacity: 0.8; }
+    to { width: var(--expanded-width, 160px); opacity: 1; }
+}
+
+@keyframes saoTitleReveal {
+    0% { clip-path: inset(0 100% 0 0); opacity: 0; }
+    100% { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+@keyframes saoParticleFloat {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.35; }
+    90% { opacity: 0.35; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes saoRingPulse {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(0.8); opacity: 0.5; }
+}
+
+@keyframes saoGlitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+}
+
+@keyframes saoCountUp {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Particle System (CSS-only) --- */
+
+.sao-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.sao-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--sao-gold);
+    border-radius: 50%;
+    animation: saoParticleFloat linear infinite;
+    opacity: 0;
+    filter: blur(0.5px);
+}
+
+.sao-particle:nth-child(1) { left: 5%; animation-duration: 20s; animation-delay: 0s; width: 1px; height: 1px; }
+.sao-particle:nth-child(2) { left: 15%; animation-duration: 24s; animation-delay: 3s; width: 2px; height: 2px; }
+.sao-particle:nth-child(3) { left: 25%; animation-duration: 18s; animation-delay: 6s; }
+.sao-particle:nth-child(4) { left: 35%; animation-duration: 26s; animation-delay: 2s; width: 1px; height: 1px; }
+.sao-particle:nth-child(5) { left: 45%; animation-duration: 22s; animation-delay: 5s; }
+.sao-particle:nth-child(6) { left: 55%; animation-duration: 19s; animation-delay: 7s; width: 1px; height: 1px; }
+.sao-particle:nth-child(7) { left: 65%; animation-duration: 28s; animation-delay: 1s; }
+.sao-particle:nth-child(8) { left: 75%; animation-duration: 23s; animation-delay: 4s; width: 2px; height: 2px; }
+.sao-particle:nth-child(9) { left: 85%; animation-duration: 25s; animation-delay: 6.5s; }
+.sao-particle:nth-child(10) { left: 92%; animation-duration: 20s; animation-delay: 2.5s; width: 1px; height: 1px; }
+
+/* --- SAO Scan Line Effect --- */
+
+.sao-scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(136, 175, 196, 0.04), transparent);
+    z-index: 9998;
+    pointer-events: none;
+    animation: saoScanLine 12s linear infinite;
+}
+
+/* --- SAO Hexagonal Grid Background --- */
+
+.sao-hex-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.015;
+    background-image: 
+        linear-gradient(30deg, var(--sao-gold) 12%, transparent 12.5%, transparent 87%, var(--sao-gold) 87.5%, var(--sao-gold)),
+        linear-gradient(150deg, var(--sao-gold) 12%, transparent 12.5%, transparent 87%, var(--sao-gold) 87.5%, var(--sao-gold)),
+        linear-gradient(30deg, var(--sao-gold) 12%, transparent 12.5%, transparent 87%, var(--sao-gold) 87.5%, var(--sao-gold)),
+        linear-gradient(150deg, var(--sao-gold) 12%, transparent 12.5%, transparent 87%, var(--sao-gold) 87.5%, var(--sao-gold)),
+        linear-gradient(60deg, rgba(196, 165, 90, 0.25) 25%, transparent 25.5%, transparent 75%, rgba(196, 165, 90, 0.25) 75%, rgba(196, 165, 90, 0.25)),
+        linear-gradient(60deg, rgba(196, 165, 90, 0.25) 25%, transparent 25.5%, transparent 75%, rgba(196, 165, 90, 0.25) 75%, rgba(196, 165, 90, 0.25));
+    background-size: 60px 104px;
+    background-position: 0 0, 0 0, 30px 52px, 30px 52px, 0 0, 30px 52px;
+}
+
+/* --- Scroll-triggered Reveal Classes --- */
+
+.sao-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sao-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sao-reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sao-reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.sao-reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sao-reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Stagger delays for grid children */
+.sao-stagger > *:nth-child(1) { transition-delay: 0s; }
+.sao-stagger > *:nth-child(2) { transition-delay: 0.1s; }
+.sao-stagger > *:nth-child(3) { transition-delay: 0.2s; }
+.sao-stagger > *:nth-child(4) { transition-delay: 0.3s; }
+.sao-stagger > *:nth-child(5) { transition-delay: 0.4s; }
+.sao-stagger > *:nth-child(6) { transition-delay: 0.5s; }
+
+/* --- SAO Panel / Card Base Style --- */
+
+.sao-panel {
+    background: linear-gradient(145deg, rgba(15, 20, 40, 0.85), rgba(8, 12, 28, 0.95));
+    border: 1px solid rgba(196, 165, 90, 0.08);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.sao-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sao-gold), transparent);
+    opacity: 0.25;
+}
+
+.sao-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(136, 175, 196, 0.06), transparent);
+}
+
+/* --- SAO Corner Decorations --- */
+
+.sao-corners {
+    position: relative;
+}
+
+.sao-corners::before,
+.sao-corners::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: var(--sao-gold);
+    border-style: solid;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.sao-corners::before {
+    top: -1px;
+    left: -1px;
+    border-width: 2px 0 0 2px;
+}
+
+.sao-corners::after {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 2px 2px 0;
+}
+
+/* --- SAO Divider --- */
+
+.sao-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sao-gold), transparent);
+    margin: 2rem 0;
+    opacity: 0.15;
+    position: relative;
+}
+
+.sao-divider::after {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--sao-gold);
+    font-size: 10px;
+    background: var(--sao-bg-deep);
+    padding: 0 10px;
+}
+
+/* --- SAO Loading Spinner --- */
+
+.sao-loader {
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(196, 165, 90, 0.05);
+    border-top: 2px solid var(--sao-gold);
+    border-radius: 50%;
+    animation: saoHexRotate 1s linear infinite;
+    position: relative;
+}
+
+.sao-loader::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 2px solid rgba(136, 175, 196, 0.05);
+    border-bottom: 2px solid var(--sao-cyan);
+    border-radius: 50%;
+    animation: saoHexRotate 0.6s linear infinite reverse;
+}
+
+/* --- Respect reduced motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+    .sao-particles,
+    .sao-scanline {
+        display: none !important;
+    }
+    
+    .sao-reveal,
+    .sao-reveal-left,
+    .sao-reveal-right {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    .sao-panel::before,
+    .sao-panel::after {
+        animation: none !important;
+    }
+}
+
+/* --- Mobile optimizations --- */
+
+@media (max-width: 768px) {
+    .sao-particles {
+        display: none;
+    }
+    
+    .sao-hex-bg {
+        opacity: 0.015;
+    }
+    
+    .sao-scanline {
+        animation-duration: 12s;
+    }
+}

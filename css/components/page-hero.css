@@ -1,0 +1,356 @@
+/* ============================================================
+   NAMELESS — Hero à fond d'ambiance (même principe que l'accueil)
+   L'image_font est un FOND (background via pseudo-élément), le vrai
+   titre HTML passe AU-DESSUS. Overlay sombre + vignette + glow pour la
+   lisibilité. Ce n'est PAS une carte encadrée : ni bordure, ni radius,
+   ni ombre — juste une ambiance visuelle de section.
+   ============================================================ */
+
+.nm-scene-hero {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: clamp(3rem, 8vw, 5.5rem) max(6vw, 1.25rem) clamp(2.4rem, 6vw, 4rem) !important;
+    background-color: var(--nm-black);
+    background-image: linear-gradient(180deg, var(--nm-black), #04060b);
+    /* explicitement PAS de cadre flottant */
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 2rem;
+}
+
+/* Full-bleed : la section sort du conteneur centré et occupe toute la
+   largeur (overflow-x:hidden global sur html/body => aucun scroll H). */
+.nm-scene-hero--bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-bottom: 2.4rem;
+}
+
+/* Couche 1 : l'image_font en fond, plein cadre, légère dérive */
+.nm-scene-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--nm-scene, none) center / cover no-repeat;
+    animation: nm-hero-drift 34s ease-in-out infinite alternate;
+    will-change: transform;
+    pointer-events: none;
+}
+
+/* Couche 2 : overlay sombre + vignette + glow bleu (lisibilité) */
+.nm-scene-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(5,7,13,0.70) 0%, rgba(5,7,13,0.52) 45%, rgba(5,7,13,0.88) 100%),
+        radial-gradient(120% 100% at 50% 42%, rgba(5,7,13,0.10) 30%, rgba(0,0,0,0.60) 100%),
+        radial-gradient(70% 60% at 50% 30%, rgba(91,127,166,0.12), transparent 60%);
+}
+
+/* Couche 3 : le vrai contenu (eyebrow / h1 / sous-titre) au-dessus */
+.nm-scene-hero > * { position: relative; z-index: 2; }
+.nm-scene-hero h1 { text-shadow: 0 2px 22px rgba(0,0,0,0.65); }
+.nm-scene-hero p,
+.nm-scene-hero .quests-subtitle,
+.nm-scene-hero .bes-subtitle,
+.nm-scene-hero .items-subtitle { text-shadow: 0 1px 12px rgba(0,0,0,0.7); }
+
+/* Association page -> scène */
+.scene-map,
+.scene-bestiaire,
+.scene-items,
+.scene-quetes,
+.scene-wiki { --nm-scene: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    .nm-scene-hero::before { animation: none; transform: none; }
+}
+
+@media (max-width: 640px) {
+    .nm-scene-hero {
+        padding: clamp(2.4rem, 11vw, 3.6rem) 1.1rem clamp(1.8rem, 7vw, 2.6rem) !important;
+    }
+    .nm-scene-hero::before { background-position: center 42%; }
+}
+
+/* ============================================================
+   NAMELESS - fonds globaux image_font
+   L'image vit une seule fois sur le shell de page. Les heros,
+   filtres, cartes et panneaux restent du vrai HTML au-dessus.
+   ============================================================ */
+
+.page-visual-shell {
+    --page-bg-image: none;
+    --page-bg-position: center top;
+    --page-content-width: 1200px;
+    position: relative;
+    isolation: isolate;
+    min-height: calc(100vh - 70px);
+    width: 100%;
+    margin: 0;
+    padding: clamp(1.8rem, 4vw, 3.2rem) 0 4rem;
+    background-color: var(--sao-bg-deep);
+    background-image:
+        linear-gradient(
+            180deg,
+            rgba(3, 6, 14, 0.72) 0%,
+            rgba(3, 6, 14, 0.84) 42%,
+            rgba(3, 6, 14, 0.94) 100%
+        ),
+        var(--page-bg-image);
+    background-size: cover;
+    background-position: center top, var(--page-bg-position);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+}
+
+.page-visual-shell::before,
+.page-visual-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.page-visual-shell::before {
+    background:
+        radial-gradient(circle at 50% 8%, rgba(207, 170, 92, 0.12), transparent 34%),
+        radial-gradient(circle at 50% 38%, rgba(70, 120, 180, 0.10), transparent 44%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.46), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.46));
+}
+
+.page-visual-shell::after {
+    background:
+        linear-gradient(180deg, transparent 0%, rgba(2, 4, 10, 0.32) 55%, rgba(2, 4, 10, 0.72) 100%),
+        radial-gradient(120% 120% at 50% 46%, transparent 52%, rgba(0, 0, 0, 0.54) 100%);
+}
+
+.page-visual-shell > * {
+    position: relative;
+    z-index: 1;
+}
+
+.page-visual-shell:not(.wiki-visual-shell) > * {
+    width: min(var(--page-content-width), calc(100% - clamp(1.5rem, 5vw, 3rem)));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-visual-shell:not(.wiki-visual-shell) > .nm-scene-hero--bleed {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.map-visual-shell {
+    --page-bg-image: url("../../assets/brand/page-font-map.png");
+    --page-bg-position: center top;
+    --page-content-width: 1280px;
+}
+
+.bestiaire-visual-shell {
+    --page-bg-image: url("../../assets/brand/page-font-bestiaire.png");
+    --page-bg-position: center top;
+    --page-content-width: 1200px;
+}
+
+.items-visual-shell {
+    --page-bg-image: url("../../assets/brand/page-font-items.png");
+    --page-bg-position: center top;
+    --page-content-width: 1200px;
+}
+
+.quetes-visual-shell {
+    --page-bg-image: url("../../assets/brand/page-font-quetes.png");
+    --page-bg-position: center top;
+    --page-content-width: 1000px;
+}
+
+.wiki-visual-shell {
+    --page-bg-image: url("../../assets/brand/page-font-wiki.png");
+    --page-bg-position: center center;
+    min-height: calc(100vh - 70px);
+    padding: 0;
+}
+
+.map-container.page-visual-shell,
+.bestiaire-container.page-visual-shell,
+.items-container.page-visual-shell,
+.quetes-container.page-visual-shell {
+    max-width: none;
+    margin: 0;
+    padding: clamp(1.8rem, 4vw, 3.2rem) 0 4rem !important;
+}
+
+/* The page image is not repeated inside the hero anymore. */
+.page-visual-shell .nm-scene-hero {
+    background: transparent !important;
+    background-image: none !important;
+    margin-bottom: clamp(1.4rem, 3vw, 2rem);
+}
+
+.page-visual-shell .nm-scene-hero::before {
+    background: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 0 !important;
+}
+
+.page-visual-shell .nm-scene-hero::after {
+    background:
+        linear-gradient(180deg, rgba(5, 7, 13, 0.18), rgba(5, 7, 13, 0.46) 72%, rgba(5, 7, 13, 0.12)),
+        radial-gradient(70% 80% at 50% 38%, rgba(194, 163, 103, 0.10), transparent 62%);
+}
+
+.page-visual-shell .nm-scene-hero > p,
+.page-visual-shell .nm-scene-hero > .nm-eyebrow,
+.page-visual-shell .nm-scene-hero > h1,
+.page-visual-shell .nm-scene-hero > .quests-tier-indicator {
+    max-width: min(var(--page-content-width), calc(100% - 2rem));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-visual-shell .map-controls-container,
+.page-visual-shell .bes-filters,
+.page-visual-shell .items-filters,
+.page-visual-shell .quests-filters {
+    background: rgba(7, 12, 24, 0.68) !important;
+    border: 1px solid rgba(207, 170, 92, 0.22) !important;
+    box-shadow:
+        0 16px 44px rgba(0, 0, 0, 0.34),
+        0 0 34px rgba(91, 127, 166, 0.10),
+        inset 0 0 0 1px rgba(111, 146, 179, 0.06) !important;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+.page-visual-shell .map-search-input,
+.page-visual-shell .palier-dropdown,
+.page-visual-shell .bes-search input,
+.page-visual-shell .bes-filter-group select,
+.page-visual-shell .items-search input,
+.page-visual-shell .items-filter-group select,
+.page-visual-shell .quest-tier-selector select,
+.page-visual-shell #tier-select,
+.page-visual-shell .quest-search input,
+.page-visual-shell .wiki-search-input {
+    background: rgba(6, 11, 22, 0.78) !important;
+    border-color: rgba(111, 146, 179, 0.28) !important;
+}
+
+.page-visual-shell .creature-card,
+.page-visual-shell .item-card,
+.page-visual-shell .quest-step,
+.page-visual-shell .wiki-card,
+.page-visual-shell .wiki-stat-item,
+.page-visual-shell .bes-empty,
+.page-visual-shell .items-empty,
+.page-visual-shell .quests-empty {
+    background: linear-gradient(155deg, rgba(16, 22, 40, 0.72), rgba(8, 11, 20, 0.82)) !important;
+    border-color: rgba(207, 170, 92, 0.18) !important;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.26);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.page-visual-shell .creature-media,
+.page-visual-shell .item-media,
+.page-visual-shell .modal-media,
+.page-visual-shell .item-modal-media {
+    background: radial-gradient(circle at 50% 42%, rgba(111, 146, 179, 0.12), rgba(5, 7, 13, 0.42)) !important;
+}
+
+/* Carte: un seul decor continu derriere hero, filtres et cadre Leaflet. */
+.map-visual-shell .map-header {
+    padding-top: clamp(0.4rem, 2vw, 1rem);
+}
+
+.map-visual-shell .map-wrapper {
+    padding: 14px !important;
+    background: rgba(6, 10, 19, 0.40) !important;
+    border: 1px solid rgba(207, 170, 92, 0.26) !important;
+    box-shadow:
+        0 20px 54px rgba(0, 0, 0, 0.42),
+        0 0 42px rgba(111, 146, 179, 0.14),
+        inset 0 0 0 1px rgba(194, 163, 103, 0.10) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.map-visual-shell .map-wrapper::before,
+.map-visual-shell .map-wrapper::after {
+    pointer-events: none !important;
+}
+
+.map-visual-shell #game-map {
+    background: rgba(5, 7, 13, 0.48) !important;
+}
+
+.map-visual-shell .leaflet-container {
+    background: rgba(5, 7, 13, 0.44) !important;
+}
+
+.map-visual-shell .toggle-label {
+    background: rgba(8, 13, 25, 0.60) !important;
+    border-color: rgba(207, 170, 92, 0.16) !important;
+}
+
+/* Wiki: the global image stays behind both sidebar and content. */
+.wiki-visual-shell .wiki-layout {
+    min-height: calc(100vh - 70px);
+}
+
+.wiki-visual-shell .wiki-sidebar {
+    background: linear-gradient(180deg, rgba(7, 12, 24, 0.76), rgba(5, 8, 16, 0.84)) !important;
+    border-right: 1px solid rgba(207, 170, 92, 0.18) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.wiki-visual-shell .wiki-search {
+    border-bottom-color: rgba(207, 170, 92, 0.16) !important;
+}
+
+.wiki-visual-shell .wiki-content {
+    background: transparent;
+}
+
+.wiki-visual-shell .wiki-page.active {
+    background: transparent;
+}
+
+.wiki-visual-shell .wiki-search-results,
+.map-visual-shell .map-search-results {
+    background: rgba(7, 12, 24, 0.88) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+@media (max-width: 768px) {
+    .page-visual-shell {
+        min-height: calc(100vh - 55px);
+        padding: 1.25rem 0 3rem;
+        background-position: center top, center top;
+    }
+
+    .map-container.page-visual-shell,
+    .bestiaire-container.page-visual-shell,
+    .items-container.page-visual-shell,
+    .quetes-container.page-visual-shell {
+        padding: 1.25rem 0 3rem !important;
+    }
+
+    .map-visual-shell .map-wrapper {
+        padding: 10px !important;
+    }
+}

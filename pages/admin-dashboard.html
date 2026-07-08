@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard admin — Nameless</title>
+
+    <!-- Meta tags pour robots - Page privée -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Panneau d'administration Nameless — accès réservé aux administrateurs.">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
+    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20260129b">
+    <link rel="stylesheet" href="../css/components/admin-dashboard.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.0">
+    
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    
+    
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="../index.html" aria-label="Nameless - Accueil">
+                    <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="bestiaire.html" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="items.html" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="quetes.html" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="connexion.html" class="connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" class="dashboard-container" role="main">
+        <div class="dashboard-header">
+            <span class="nm-eyebrow">Espace réservé</span>
+            <h1>Dashboard administrateur</h1>
+            <p>Gestion des membres, de la guilde et du mur d'activité.</p>
+        </div>
+
+        <div id="loading" class="loading-spinner">
+            <p>Chargement du dashboard…</p>
+        </div>
+
+        <div id="error-content" class="error-message" style="display: none;">
+            <h2>Accès refusé</h2>
+            <p id="error-text">Vous devez être administrateur pour accéder à cette page.</p>
+        </div>
+        
+        <div id="dashboard-content" style="display: none;">
+            <!-- Statistiques -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3>Total Utilisateurs</h3>
+                    <div class="stat-number" id="stat-total-users">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Administrateurs</h3>
+                    <div class="stat-number" id="stat-admins">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Membres</h3>
+                    <div class="stat-number" id="stat-membres">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Joueurs</h3>
+                    <div class="stat-number" id="stat-utilisateurs">0</div>
+                </div>
+            </div>
+            
+            <!-- Navigation par onglets -->
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" data-tab="presence">
+                    Appel quotidien
+                </button>
+                <button class="tab-btn" data-tab="users">
+                    Utilisateurs
+                </button>
+                <button class="tab-btn" data-tab="guild">
+                    Guilde
+                </button>
+                <button class="tab-btn" data-tab="activity">
+                    Mur d'activité
+                </button>
+            </div>
+            
+            <!-- TAB: Appel Quotidien -->
+            <div class="tab-content active" data-tab-content="presence">
+                <!-- Section Présences du Jour -->
+                <div class="presence-section">
+                    <div class="presence-header">
+                        <h2>Appel Quotidien - Aujourd'hui</h2>
+                        <div class="presence-stats">
+                            <span class="mini-stat present">Presents: <strong id="stat-presents">0</strong></span>
+                            <span class="mini-stat absent">Absents: <strong id="stat-absents">0</strong></span>
+                            <span class="mini-stat mission">En mission: <strong id="stat-missions">0</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="presence-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Pseudo</th>
+                                <th>Classe</th>
+                                <th>Niveau</th>
+                                <th>Statut</th>
+                                <th>Heure</th>
+                            </tr>
+                        </thead>
+                        <tbody id="presence-tbody">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #888;">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+            <!-- Fin TAB: Appel Quotidien -->
+            
+            <!-- TAB: Gestion Utilisateurs -->
+            <div class="tab-content" data-tab-content="users">
+                <!-- Section Utilisateurs -->
+                <div class="users-section">
+                    <div class="users-header">
+                        <h2>Gestion des Utilisateurs</h2>
+                        <div class="search-filter">
+                            <input type="text" id="search-input" class="search-input" placeholder="🔍 Rechercher un utilisateur...">
+                            <select id="role-filter" class="filter-select">
+                                <option value="all">Tous les rôles</option>
+                                <option value="admin">Administrateurs</option>
+                                <option value="membre">Membres</option>
+                                <option value="joueur">Joueurs</option>
+                            </select>
+                            <select id="classe-filter" class="filter-select">
+                                <option value="all">Toutes les classes</option>
+                                <option value="Shaman">Shaman</option>
+                            <option value="Mage">Mage</option>
+                            <option value="Assassin">Assassin</option>
+                            <option value="Guerrier">Guerrier</option>
+                            <option value="Archer">Archer</option>
+                        </select>
+                        <select id="niveau-filter" class="filter-select">
+                            <option value="all">Tous les niveaux</option>
+                            <option value="1-20">Niveau 1-20</option>
+                            <option value="21-40">Niveau 21-40</option>
+                            <option value="41-60">Niveau 41-60</option>
+                            <option value="61-80">Niveau 61-80</option>
+                            <option value="81-100">Niveau 81-100</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="users-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="username">
+                                    Pseudo <span class="sort-icon">⇅</span>
+                                </th>
+                                <th class="sortable" data-sort="classe">
+                                    Classe <span class="sort-icon">⇅</span>
+                                </th>
+                                <th class="sortable" data-sort="niveau">
+                                    Niveau <span class="sort-icon">⇅</span>
+                                </th>
+                                <th class="sortable" data-sort="role">
+                                    Rôle <span class="sort-icon">⇅</span>
+                                </th>
+                                <th class="sortable" data-sort="created_at">
+                                    Membre depuis <span class="sort-icon">⇅</span>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <!-- Les utilisateurs seront insérés ici -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button id="prev-page" class="pagination-btn" disabled>← Précédent</button>
+                    <span id="page-info" class="page-info">Page 1 / 1</span>
+                    <button id="next-page" class="pagination-btn">Suivant →</button>
+                    <select id="items-per-page" class="filter-select" style="margin-left: 15px;">
+                        <option value="10">10 par page</option>
+                        <option value="15" selected>15 par page</option>
+                        <option value="25">25 par page</option>
+                        <option value="50">50 par page</option>
+                        <option value="100">100 par page</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+            <!-- Fin TAB: Gestion Utilisateurs -->
+            
+            <!-- TAB: Gestion Guilde -->
+            <div class="tab-content" data-tab-content="guild">
+                <!-- Section Gestion Guilde -->
+                <div class="guild-management-section">
+                    <h2 class="guild-section-heading">Gestion de la guilde</h2>
+
+                    <!-- Tabs Navigation -->
+                    <div class="guild-tabs">
+                        <button class="guild-tab active" data-guild-tab="planning" id="tab-planning">
+                            Planning
+                        </button>
+                        <button class="guild-tab" data-guild-tab="objectives" id="tab-objectives">
+                        Objectifs
+                    </button>
+                    <button class="guild-tab" data-guild-tab="presence" id="tab-presence">
+                        Présences
+                    </button>
+                </div>
+                
+                <!-- Planning Management -->
+                <div id="guild-planning-tab" class="guild-tab-content active">
+                    <div class="guild-form-container">
+                        <h3>Ajouter un événement au planning</h3>
+                        <form id="add-planning-form" style="display: grid; gap: 15px; max-width: 700px;">
+                            <input type="text" id="planning-titre" placeholder="Titre de l'événement" required>
+                            <textarea id="planning-description" placeholder="Description (optionnel)" rows="3"></textarea>
+                            <input type="datetime-local" id="planning-date" required>
+                            <select id="planning-type" required>
+                                <option value="">Sélectionner le type</option>
+                                <option value="reunion">🗣️ Réunion</option>
+                                <option value="raid">⚔️ Raid</option>
+                                <option value="event">🎉 Événement</option>
+                                <option value="pvp">🗡️ PvP</option>
+                                <option value="construction">🏗️ Construction</option>
+                                <option value="autre">📌 Autre</option>
+                            </select>
+                            <button type="submit" class="btn-submit">Ajouter au Planning</button>
+                        </form>
+                    </div>
+                    
+                    <div class="guild-list-container" style="margin-top: 30px;">
+                        <h3>Événements planifiés</h3>
+                        <div id="admin-planning-list" class="guild-items-list"></div>
+                    </div>
+                </div>
+                
+                <!-- Objectives Management -->
+                <div id="guild-objectives-tab" class="guild-tab-content" style="display: none;">
+                    <div class="guild-form-container">
+                        <h3>Créer un objectif hebdomadaire</h3>
+                        <form id="add-objective-form" style="display: grid; gap: 15px; max-width: 700px;">
+                            <input type="text" id="objective-titre" placeholder="Titre de l'objectif" required>
+                            <textarea id="objective-description" placeholder="Description détaillée" rows="3" required></textarea>
+                            <label style="color: #4ecdc4;">Semaine:</label>
+                            <input type="number" id="objective-semaine" placeholder="Numéro de semaine" required min="1" max="53">
+                            <input type="number" id="objective-annee" placeholder="Année" required min="2024">
+                            <select id="objective-statut" required>
+                                <option value="en_cours">⏳ En cours</option>
+                                <option value="termine">✅ Terminé</option>
+                                <option value="abandonne">❌ Abandonné</option>
+                            </select>
+                            <label style="color: #4ecdc4;">Progression (%):</label>
+                            <input type="number" id="objective-progression" placeholder="0-100" min="0" max="100" value="0" required>
+                            <button type="submit" class="btn-submit">Créer l'Objectif</button>
+                        </form>
+                    </div>
+                    
+                    <div class="guild-list-container" style="margin-top: 30px;">
+                        <h3>Objectifs actifs</h3>
+                        <div id="admin-objectives-list" class="guild-items-list"></div>
+                    </div>
+                </div>
+                
+                <!-- Presence Management -->
+                <div id="guild-presence-tab" class="guild-tab-content" style="display: none;">
+                    <div class="guild-form-container">
+                        <h3>Marquer manuellement une présence</h3>
+                        <form id="add-presence-form" style="display: grid; gap: 15px; max-width: 700px;">
+                            <select id="presence-user" required>
+                                <option value="">Sélectionner un membre</option>
+                            </select>
+                            <input type="date" id="presence-date" required>
+                            <select id="presence-statut" required>
+                                <option value="present">✅ Présent</option>
+                                <option value="absent">❌ Absent</option>
+                                <option value="en_mission">🎯 En mission</option>
+                            </select>
+                            <textarea id="presence-commentaire" placeholder="Commentaire (optionnel)" rows="2"></textarea>
+                            <button type="submit" class="btn-submit">Enregistrer la Présence</button>
+                        </form>
+                    </div>
+                    
+                    <div class="guild-list-container" style="margin-top: 30px;">
+                        <h3>Historique des présences (Aujourd'hui)</h3>
+                        <div id="admin-presence-list" class="guild-items-list"></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- Fin TAB: Gestion Guilde -->
+            
+            <!-- TAB: Mur d'Activité -->
+            <div class="tab-content" data-tab-content="activity">
+                <div class="activity-admin-container">
+                    <div class="activity-admin-header">
+                        <h2 class="activity-admin-title">Gestion du mur d'activité</h2>
+                        <p class="activity-admin-subtitle">Créez et gérez les publications affichées sur l'espace guilde</p>
+                    </div>
+                    
+                    <!-- Formulaire de création/édition -->
+                    <div class="activity-form">
+                        <h3 class="activity-form-heading">
+                            <span id="form-mode-title">Nouvelle publication</span>
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="activity-title">Titre *</label>
+                            <input type="text" id="activity-title" placeholder="Titre de la publication" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activity-type">Type *</label>
+                            <select id="activity-type" required>
+                                <option value="annonce">📢 Annonce</option>
+                                <option value="evenement">📅 Événement</option>
+                                <option value="info">ℹ️ Information</option>
+                                <option value="victoire">🏆 Victoire</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activity-content">Contenu *</label>
+                            <textarea id="activity-content" placeholder="Contenu de la publication..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activity-image">Image (optionnel)</label>
+                            <input type="file" id="activity-image" accept="image/*">
+                            <div id="image-preview-container" class="image-preview-container" style="display: none;">
+                                <img id="image-preview" class="image-preview" alt="Aperçu">
+                            </div>
+                        </div>
+                        
+                        <button class="btn-submit-activity" id="submit-activity-btn">
+                            <span id="submit-btn-text">Publier</span>
+                        </button>
+                        
+                        <button class="btn-submit-activity" id="cancel-edit-btn" 
+                                style="display: none; background: linear-gradient(135deg, #e74c3c, #c0392b); margin-top: 10px;">
+                            Annuler la modification
+                        </button>
+                    </div>
+                    
+                    <!-- Liste des activités -->
+                    <div class="activities-list">
+                        <h3 class="activities-list-header">Publications actuelles</h3>
+                        <div id="admin-activities-list">
+                            <div style="text-align: center; padding: 40px; color: #888;">
+                                Chargement des publications...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin TAB: Mur d'Activité -->
+        </div>
+    </main>
+
+    <!-- Modal de modification de rôle -->
+    <div id="role-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                Modifier le rôle de <span id="modal-username"></span>
+            </div>
+            <div class="modal-body">
+                <label class="modal-label">Nouveau rôle :</label>
+                <select id="modal-role-select" class="modal-select">
+                    <option value="joueur">Joueur</option>
+                    <option value="membre">Membre</option>
+                    <option value="admin">Administrateur</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal btn-cancel" id="role-modal-cancel">Annuler</button>
+                <button class="btn-modal btn-confirm" id="role-modal-confirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p><span class="nm-foot-tag">◆</span> Nameless — Sans nom. Jamais seuls. <span class="nm-foot-tag">◆</span></p>
+            <p style="letter-spacing: 1px; font-family: var(--font-text); font-size: 0.75rem; opacity: 0.7;">&copy; 2026 Nameless — Accès administrateur</p>
+        </div>
+    </footer>
+
+    <!-- Scripts - Chargement optimisé -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="../js/performance-monitor.js" defer></script>
+    <script src="../js/cache-manager.js" defer></script>
+    <script src="../js/navbar-mobile.js" defer></script>
+    <script src="../js/crypto-keys.js" defer></script>
+    <script src="../js/db-guard.js" defer></script>
+    <script src="../js/security-utils.js?v=20260706" defer></script>
+    <script src="../js/auth-supabase.js?v=20260215c" defer></script>
+    <script src="../js/admin-dashboard.js?v=20260129b" defer></script>
+    <script src="../js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+</body>
+</html>

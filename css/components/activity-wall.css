@@ -1,0 +1,389 @@
+﻿/* CSS pour le mur d'activité de la guilde */
+
+.activity-wall-container {
+    background: linear-gradient(135deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
+    border-radius: 4px;
+    border: 2px solid rgba(114, 168, 158, 0.2);
+    padding: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.activity-wall-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(114, 168, 158, 0.15);
+}
+
+.activity-wall-title {
+    color: var(--sao-teal, #72a89e);
+    font-family: 'Inter', 'Exo 2', sans-serif;
+    font-size: 1.8rem;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(78, 205, 196, 0.5);
+}
+
+.activity-wall-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.activity-post {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    padding: 20px;
+    border-left: 4px solid #ff6b35;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.activity-post:hover {
+    background: rgba(255, 107, 53, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+}
+
+.activity-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.activity-post-title {
+    color: #ff6b35;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0 0 5px 0;
+    font-family: 'Inter', 'Exo 2', sans-serif;
+}
+
+.activity-post-date {
+    color: #888;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.activity-post-content {
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.activity-post-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-top: 15px;
+    border: 2px solid rgba(114, 168, 158, 0.15);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.activity-post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-post-author {
+    color: var(--sao-teal, #72a89e);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.activity-post-type {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.type-annonce {
+    background: linear-gradient(135deg, #ff6b35, #ff8c5a);
+    color: white;
+}
+
+.type-evenement {
+    background: linear-gradient(135deg, var(--sao-teal, #72a89e), #44a3ff);
+    color: white;
+}
+
+.type-info {
+    background: linear-gradient(135deg, #f39c12, #f1c40f);
+    color: white;
+}
+
+.type-victoire {
+    background: linear-gradient(135deg, #5bb88a, #27ae60);
+    color: white;
+}
+
+.no-activities {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+}
+
+.no-activities-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.no-activities-text {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+/* Admin Dashboard Styles */
+.activity-admin-container {
+    background: linear-gradient(135deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
+    padding: 30px;
+    border-radius: 4px;
+    border: 2px solid rgba(114, 168, 158, 0.2);
+    margin-bottom: 30px;
+}
+
+.activity-admin-header {
+    margin-bottom: 30px;
+}
+
+.activity-admin-title {
+    color: var(--sao-teal, #72a89e);
+    font-family: 'Inter', 'Exo 2', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(78, 205, 196, 0.5);
+}
+
+.activity-admin-subtitle {
+    color: #888;
+    font-size: 1rem;
+}
+
+.activity-form {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 25px;
+    border-radius: 4px;
+    border: 1px solid rgba(114, 168, 158, 0.1);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--sao-teal, #72a89e);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(114, 168, 158, 0.15);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Exo 2', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--sao-teal, #72a89e);
+    background: rgba(114, 168, 158, 0.05);
+    box-shadow: 0 0 15px rgba(114, 168, 158, 0.15);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-group input[type="file"] {
+    display: block;
+    padding: 10px;
+    color: #e0e0e0;
+}
+
+.image-preview-container {
+    margin-top: 15px;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    border: 2px solid rgba(114, 168, 158, 0.15);
+}
+
+.btn-submit-activity {
+    background: linear-gradient(135deg, var(--sao-teal, #72a89e), #44a3ff);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-submit-activity:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(114, 168, 158, 0.2);
+}
+
+.btn-submit-activity:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.activities-list {
+    margin-top: 30px;
+}
+
+.activities-list-header {
+    color: #ff6b35;
+    font-family: 'Inter', 'Exo 2', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+.admin-activity-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 4px solid #ff6b35;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.admin-activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.admin-activity-title {
+    color: #ff6b35;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.admin-activity-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-edit-activity,
+.btn-delete-activity {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-edit-activity {
+    background: linear-gradient(135deg, var(--sao-teal, #72a89e), #44a3ff);
+    color: white;
+}
+
+.btn-edit-activity:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(114, 168, 158, 0.2);
+}
+
+.btn-delete-activity {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.btn-delete-activity:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+}
+
+.admin-activity-content {
+    color: #b0b0b0;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.admin-activity-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: #888;
+    flex-wrap: wrap;
+}
+
+.admin-activity-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 2px solid rgba(114, 168, 158, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .activity-wall-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .activity-wall-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .admin-activity-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .activity-post {
+        min-width: 100%;
+    }
+}

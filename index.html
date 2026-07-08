@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; frame-src 'self' https://www.youtube.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nameless — Guilde Minecraft</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Nameless, guilde Minecraft discrète et soudée — survivants oubliés d'Aincrad. Carte interactive, bestiaire, items, quêtes et wiki.">
+    <meta name="keywords" content="Nameless, guilde, Minecraft, Aincrad, carte interactive, bestiaire, items, quêtes, wiki">
+    <meta name="author" content="Nameless">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://iron-oath.github.io/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iron-oath.github.io/">
+    <meta property="og:title" content="Nameless — Guilde Minecraft">
+    <meta property="og:description" content="Sans nom. Jamais seuls. Le portail de la guilde Nameless : carte, bestiaire, items, quêtes et wiki.">
+    <meta property="og:image" content="https://iron-oath.github.io/assets/brand/nameless-logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nameless — Guilde Minecraft">
+    <meta name="twitter:description" content="Sans nom. Jamais seuls. Le portail de la guilde Nameless.">
+    <meta name="twitter:image" content="https://iron-oath.github.io/assets/brand/nameless-logo.png">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <meta name="msapplication-TileColor" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+    <link rel="icon" type="image/png" href="assets/brand/nameless-logo.png">
+    <link rel="apple-touch-icon" href="assets/brand/nameless-logo.png">
+
+    <!-- Preconnect pour les performances -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Preload des ressources critiques -->
+    <link rel="preload" href="css/style.css?v=nameless-1.1" as="style">
+    <link rel="preload" href="assets/brand/nameless-mark.svg" as="image">
+
+    <!-- Fonts : Cinzel (titres) + Inter (texte) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css?v=nameless-1.1">
+    <link rel="stylesheet" href="css/nameless-effects.css?v=nameless-1.0">
+    <link rel="stylesheet" href="css/components/audio-player.css?v=nameless-audio-1.0">
+    <link rel="stylesheet" href="css/components/home.css?v=nameless-1.0">
+</head>
+<body class="home-page">
+    <!-- Effets d'ambiance sobres (Nameless) -->
+    <div class="nm-fx" aria-hidden="true">
+        <div class="nm-fx-aurora"></div>
+        <div class="nm-fx-line"></div>
+        <div class="nm-fx-vignette"></div>
+    </div>
+
+    <!-- Skip link pour l'accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="index.html" aria-label="Nameless - Accueil">
+                    <img src="assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="index.html" class="nav-link active" role="menuitem" aria-current="page">Accueil</a></li>
+                <li role="none"><a href="pages/map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="pages/bestiaire.html" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="pages/items.html" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="pages/quetes.html" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="pages/wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="pages/profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="pages/connexion.html" class="connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" role="main">
+        <!-- Hero -->
+        <section class="hero hero--cinematic" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <h1 class="hero-title" id="hero-title">NAMELESS</h1>
+                <p class="hero-subtitle">Sans nom. Jamais seuls.</p>
+                <p class="hero-description">Nous avons survécu à Aincrad, puis choisi l'oubli. Une guilde discrète et soudée, pour ceux qui préfèrent l'ombre à la gloire.</p>
+                <div class="hero-buttons">
+                    <a href="pages/connexion.html" class="hero-button primary">Rejoindre la guilde</a>
+                    <a href="pages/wiki.html" class="hero-button secondary">Explorer le wiki</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Présentation courte -->
+        <section class="nm-section" aria-labelledby="intro-title">
+            <div class="container">
+                <span class="nm-eyebrow">La guilde</span>
+                <h2 class="section-title" id="intro-title">Ceux qui restent</h2>
+                <div class="nm-hairline" aria-hidden="true"></div>
+                <p class="nm-intro-inner nm-reveal">
+                    Nameless réunit les <strong>survivants oubliés</strong> d'un monde qui a voulu les effacer.
+                    Ici, pas de vantardise : de la <strong>loyauté</strong>, de la maîtrise, et une entraide
+                    sans faille. Explore notre monde, prépare tes expéditions, et forge ta place parmi les nôtres.
+                </p>
+            </div>
+        </section>
+
+        <!-- Carrousel : découvrir le domaine -->
+        <section class="nm-section" aria-labelledby="showcase-title">
+            <div class="container">
+                <span class="nm-eyebrow">Le domaine</span>
+                <h2 class="section-title" id="showcase-title">Découvrir Nameless</h2>
+                <div class="nm-hairline" aria-hidden="true"></div>
+
+                <div class="nm-carousel" data-carousel role="region" tabindex="0"
+                     aria-roledescription="carrousel" aria-label="Découvrir le domaine de Nameless">
+                    <div class="nm-carousel-viewport">
+                        <ul class="nm-carousel-track" data-carousel-track>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="1 sur 8">
+                                <article class="nm-slide-card slide-boss">
+                                    <span class="nm-slide-tag">Boss de palier</span>
+                                    <h3 class="nm-slide-title">Illfang, seigneur des Kobolds</h3>
+                                    <p class="nm-slide-desc">Le premier gardien d'Aincrad. On l'étudie, on s'organise, on l'abat ensemble.</p>
+                                    <a class="nm-slide-cta" href="pages/bestiaire.html">Consulter le bestiaire →</a>
+                                </article>
+                            </li>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="2 sur 8">
+                                <article class="nm-slide-card slide-map">
+                                    <span class="nm-slide-tag">Territoire</span>
+                                    <h3 class="nm-slide-title">La carte d'Aincrad</h3>
+                                    <p class="nm-slide-desc">Zones, donjons, villes et marchands — repérés palier par palier.</p>
+                                    <a class="nm-slide-cta" href="pages/map.html">Ouvrir la carte →</a>
+                                </article>
+                            </li>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="3 sur 8">
+                                <article class="nm-slide-card slide-bestiaire">
+                                    <span class="nm-slide-tag">Codex</span>
+                                    <h3 class="nm-slide-title">Le bestiaire</h3>
+                                    <p class="nm-slide-desc">Boss, élites et créatures : forces, faiblesses et zones d'apparition.</p>
+                                    <a class="nm-slide-cta" href="pages/bestiaire.html">Explorer le bestiaire →</a>
+                                </article>
+                            </li>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="4 sur 8">
+                                <article class="nm-slide-card slide-items">
+                                    <span class="nm-slide-tag">Reliques</span>
+                                    <h3 class="nm-slide-title">Le catalogue d'items</h3>
+                                    <p class="nm-slide-desc">Armes, armures et ressources d'Aincrad, classées par rareté.</p>
+                                    <a class="nm-slide-cta" href="pages/items.html">Parcourir les items →</a>
+                                </article>
+                            </li>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="5 sur 8">
+                                <article class="nm-slide-card slide-quetes">
+                                    <span class="nm-slide-tag">Progression</span>
+                                    <h3 class="nm-slide-title">Les quêtes</h3>
+                                    <p class="nm-slide-desc">Le parcours de la guilde : principales et secondaires, avec lieux et PNJ.</p>
+                                    <a class="nm-slide-cta" href="pages/quetes.html">Voir les quêtes →</a>
+                                </article>
+                            </li>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="6 sur 8">
+                                <article class="nm-slide-card slide-wiki">
+                                    <span class="nm-slide-tag">Archives</span>
+                                    <h3 class="nm-slide-title">Le savoir de la guilde</h3>
+                                    <p class="nm-slide-desc">Règles, classes, métiers et donjons réunis dans le wiki.</p>
+                                    <a class="nm-slide-cta" href="pages/wiki.html">Ouvrir le wiki →</a>
+                                </article>
+                            </li>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="7 sur 8">
+                                <article class="nm-slide-card slide-ensemble">
+                                    <span class="nm-slide-tag">Ensemble</span>
+                                    <h3 class="nm-slide-title">L'entraide au cœur</h3>
+                                    <p class="nm-slide-desc">Farm partagé, coups de main et préparation de groupe. On joue en meute.</p>
+                                    <a class="nm-slide-cta" href="pages/connexion.html">Rejoindre la guilde →</a>
+                                </article>
+                            </li>
+                            <li class="nm-slide" role="group" aria-roledescription="diapositive" aria-label="8 sur 8">
+                                <article class="nm-slide-card slide-recrutement">
+                                    <span class="nm-slide-tag">Recrutement</span>
+                                    <h3 class="nm-slide-title">Prendre place parmi les nôtres</h3>
+                                    <p class="nm-slide-desc">Discret, fiable, motivé ? Lie ton compte Minecraft et présente-toi.</p>
+                                    <a class="nm-slide-cta" href="https://discord.gg/BwxjRmh6qK" target="_blank" rel="noopener noreferrer">Nous rejoindre →</a>
+                                </article>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="nm-carousel-btn prev" type="button" data-carousel-prev aria-label="Diapositive précédente">‹</button>
+                    <button class="nm-carousel-btn next" type="button" data-carousel-next aria-label="Diapositive suivante">›</button>
+                    <div class="nm-carousel-dots" role="tablist" aria-label="Choisir une diapositive" data-carousel-dots></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nos priorités actuelles -->
+        <section class="nm-section" aria-labelledby="priorities-title">
+            <div class="container">
+                <span class="nm-eyebrow">Feuille de route</span>
+                <h2 class="section-title" id="priorities-title">Nos priorités actuelles</h2>
+                <div class="nm-hairline" aria-hidden="true"></div>
+                <div class="nm-card-grid">
+                    <div class="nm-info-card nm-reveal">
+                        <span class="nm-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg></span>
+                        <h3 class="nm-info-title">Préparation boss</h3>
+                        <p class="nm-info-text">Analyse des patterns, rôles assignés et consommables prêts avant chaque affrontement de palier.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <span class="nm-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg></span>
+                        <h3 class="nm-info-title">Exploration</h3>
+                        <p class="nm-info-text">Cartographier Aincrad étage par étage : passages, ressources et dangers.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <span class="nm-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h9a2 2 0 0 1 2 2v13l-3-2-3 2-3-2V6a2 2 0 0 0-2-2z"/><path d="M5 6a2 2 0 0 1 2-2"/></svg></span>
+                        <h3 class="nm-info-title">Quêtes</h3>
+                        <p class="nm-info-text">Avancer les lignes principales et secondaires ensemble, sans laisser personne derrière.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <span class="nm-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></span>
+                        <h3 class="nm-info-title">Optimisation équipement</h3>
+                        <p class="nm-info-text">Forge, enchantements et builds : tirer le meilleur de chaque set.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <span class="nm-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c0-2.8 2.2-5 5-5s5 2.2 5 5M14.5 19c0-2 1.3-3.7 3-4.3"/></svg></span>
+                        <h3 class="nm-info-title">Entraide membres</h3>
+                        <p class="nm-info-text">Coups de main, farm partagé et conseils entre anciens et nouveaux.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <span class="nm-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H18v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H18v3H6.5A2.5 2.5 0 0 1 4 20.5z"/></svg></span>
+                        <h3 class="nm-info-title">Documentation wiki</h3>
+                        <p class="nm-info-text">Consigner ce qu'on apprend pour que la guilde progresse plus vite.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pourquoi rejoindre Nameless -->
+        <section class="nm-section" aria-labelledby="why-title">
+            <div class="container">
+                <span class="nm-eyebrow">L'esprit de la guilde</span>
+                <h2 class="section-title" id="why-title">Pourquoi rejoindre Nameless ?</h2>
+                <div class="nm-hairline" aria-hidden="true"></div>
+                <div class="nm-card-grid">
+                    <div class="nm-info-card nm-reveal">
+                        <h3 class="nm-info-title">Guilde organisée</h3>
+                        <p class="nm-info-text">Des objectifs clairs, un planning et des rôles. On avance sans chaos.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <h3 class="nm-info-title">Entraide réelle</h3>
+                        <p class="nm-info-text">On joue en groupe. Personne ne reste bloqué seul.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <h3 class="nm-info-title">Progression collective</h3>
+                        <p class="nm-info-text">Ce que l'un apprend, toute la guilde en profite.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <h3 class="nm-info-title">Contenus difficiles</h3>
+                        <p class="nm-info-text">On prépare et on affronte les boss et donjons exigeants.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <h3 class="nm-info-title">Sérieux, sans pression</h3>
+                        <p class="nm-info-text">Exigeants sur le jeu, détendus sur le reste.</p>
+                    </div>
+                    <div class="nm-info-card nm-reveal">
+                        <h3 class="nm-info-title">Joueurs actifs</h3>
+                        <p class="nm-info-text">Une communauté vivante, présente au quotidien.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recrutement -->
+        <section class="nm-section" aria-labelledby="recruit-title">
+            <div class="container">
+                <div class="nm-recruit-panel nm-reveal">
+                    <span class="nm-eyebrow">Recrutement</span>
+                    <h2 id="recruit-title">Prête ou prêt à disparaître avec nous ?</h2>
+                    <p>Nameless accueille les aventuriers discrets et fiables. Lie ton compte Minecraft, présente-toi, et rejoins les rangs.</p>
+                    <a href="pages/connexion.html" class="cta-button">Rejoindre la guilde</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer role="contentinfo" class="site-footer">
+        <div class="container">
+            <p><span class="nm-foot-tag">◆</span> Nameless — Sans nom. Jamais seuls. <span class="nm-foot-tag">◆</span></p>
+            <p style="letter-spacing: 1px; font-family: var(--font-text); font-size: 0.75rem; opacity: 0.7;">&copy; 2026 Nameless — Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <!-- Scripts - ordre sécurité conservé -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="js/crypto-keys.js" defer></script>
+    <script src="js/db-guard.js" defer></script>
+    <script src="js/security-utils.js?v=20260706" defer></script>
+    <script src="js/auth-supabase.js?v=20260215c" defer></script>
+    <script src="js/navbar-mobile.js" defer></script>
+    <script src="js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+    <script src="js/home-carousel.js?v=spa-public-1.0" defer></script>
+    <script src="js/page-registry.js?v=spa-public-1.5" defer></script>
+    <script src="js/app-router.js?v=spa-public-1.0" defer></script>
+    <script>
+    // Révélation au scroll (sobre). Respecte prefers-reduced-motion.
+    document.addEventListener('DOMContentLoaded', () => {
+        const revealEls = document.querySelectorAll('.nm-reveal');
+        if (!revealEls.length) return;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce || !('IntersectionObserver' in window)) {
+            revealEls.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+            return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, i * 90);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+        revealEls.forEach(el => {
+            el.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+            observer.observe(el);
+        });
+    });
+    </script>
+</body>
+</html>

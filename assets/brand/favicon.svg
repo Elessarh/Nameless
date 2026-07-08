@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nameless">
+  <title>Nameless</title>
+  <defs>
+    <linearGradient id="fvGold" x1="16" y1="12" x2="48" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e8d3a0"/>
+      <stop offset="0.5" stop-color="#c2a367"/>
+      <stop offset="1" stop-color="#7f6236"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fond navy arrondi pour lisibilité en très petit -->
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="#0a0f1d"
+        stroke="url(#fvGold)" stroke-opacity="0.5" stroke-width="1.5"/>
+
+  <!-- N plein et large (pas de cercle pour rester net à 16px) -->
+  <g fill="url(#fvGold)">
+    <rect x="16" y="14" width="9" height="36" rx="1.5"/>
+    <rect x="39" y="14" width="9" height="36" rx="1.5"/>
+    <path d="M16 14 L25 14 L48 50 L39 50 Z"/>
+  </g>
+</svg>

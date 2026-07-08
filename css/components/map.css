@@ -1,0 +1,3281 @@
+/* Container principal de la carte - même style que bestiaire */
+.map-container {
+    padding: 100px 2rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* En-tête de la carte modernisé */
+.map-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.map-title {
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: transparent;
+    background: linear-gradient(135deg, #6a8fa0, #8a6aaa, #88afc4);
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-shadow: 
+        0 0 30px rgba(106, 143, 160, 0.5),
+        0 0 60px rgba(138, 106, 170, 0.3);
+    margin: 0 0 1rem 0;
+    position: relative;
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+.map-title::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg, transparent, rgba(106, 143, 160, 0.1), transparent);
+    border-radius: 20px;
+    z-index: -1;
+    animation: titleGlow 4s ease-in-out infinite;
+}
+
+.map-subtitle {
+    font-family: var(--font-text);
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* ========================================
+   INTERFACE DE CONTRÔLE MODERNISÉE
+======================================== */
+
+.map-controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(10, 10, 26, 0.95), rgba(20, 20, 40, 0.95));
+    border: 2px solid rgba(106, 143, 160, 0.3);
+    border-radius: 16px;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(106, 143, 160, 0.2);
+}
+
+/* Sélecteur de palier */
+.palier-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 180px;
+}
+
+.palier-label {
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.palier-dropdown {
+    padding: 0.8rem 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(106, 143, 160, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-family: var(--font-text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.palier-dropdown:hover {
+    border-color: var(--color-accent);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.palier-dropdown:focus {
+    outline: none;
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 15px rgba(136, 175, 196, 0.3);
+}
+
+/* Panneau de toggles */
+.element-toggles {
+    flex: 1;
+}
+
+.toggles-title {
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.toggles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.toggle-item {
+    position: relative;
+}
+
+.toggle-item input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 90px;
+    justify-content: center;
+}
+
+.toggle-label:hover {
+    background: rgba(106, 143, 160, 0.1);
+    border-color: rgba(106, 143, 160, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(106, 143, 160, 0.2);
+}
+
+.toggle-item input[type="checkbox"]:checked + .toggle-label {
+    background: linear-gradient(135deg, rgba(106, 143, 160, 0.2), rgba(138, 106, 170, 0.2));
+    border-color: var(--color-accent);
+    box-shadow: 0 0 15px rgba(106, 143, 160, 0.3);
+}
+
+.toggle-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.toggle-icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.toggle-item input[type="checkbox"]:checked + .toggle-label .toggle-icon {
+    background: rgba(106, 143, 160, 0.3);
+    box-shadow: 0 0 10px rgba(106, 143, 160, 0.4);
+}
+
+.toggle-text {
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 500;
+    /* Gérer les textes longs */
+    word-wrap: break-word;
+    hyphens: auto;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Mode icône seulement - masquer le texte complètement */
+.toggles-grid .toggle-text {
+    display: none !important;
+}
+
+.toggles-grid .toggle-label {
+    min-height: 60px;
+    padding: 0.8rem;
+    justify-content: center;
+}
+
+.toggles-grid .toggle-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.toggles-grid .toggle-icon img {
+    width: 32px;
+    height: 32px;
+}
+
+/* Bouton admin */
+.admin-toggle-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(255, 140, 0, 0.1);
+    border: 2px solid rgba(255, 140, 0, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 90px;
+    justify-content: center;
+    color: white;
+    font-family: var(--font-text);
+}
+
+.admin-toggle-btn:hover {
+    background: rgba(255, 140, 0, 0.2);
+    border-color: rgba(255, 140, 0, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 140, 0, 0.2);
+}
+
+/* ========================================
+   GESTION DES COUCHES DE MARKERS
+======================================== */
+
+.leaflet-control-layers {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(106, 143, 160, 0.3);
+    border-radius: 8px;
+}
+
+.leaflet-control-layers label {
+    color: white;
+}
+
+/* Animation des titres */
+@keyframes titlePulse {
+    0%, 100% {
+        filter: brightness(1) saturate(1);
+        transform: scale(1);
+    }
+    50% {
+        filter: brightness(1.2) saturate(1.3);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        opacity: 0.3;
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: rotate(180deg) scale(1.1);
+    }
+}
+
+@keyframes subtitleFade {
+    0% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.map-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse 400px 300px at 20% 30%, rgba(106, 143, 160, 0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 400px at 80% 70%, rgba(138, 106, 170, 0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 500px at 50% 90%, rgba(136, 175, 196, 0.03) 0%, transparent 70%),
+        radial-gradient(ellipse 350px 250px at 70% 20%, rgba(106, 143, 160, 0.025) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+    animation: backgroundFloat 24s ease-in-out infinite;
+}
+
+@keyframes backgroundFloat {
+    0%, 100% {
+        background-position: 0% 0%, 100% 100%, 50% 100%, 70% 0%;
+        opacity: 0.8;
+    }
+    25% {
+        background-position: 20% 10%, 80% 90%, 60% 80%, 60% 10%;
+        opacity: 1;
+    }
+    50% {
+        background-position: 10% 20%, 90% 80%, 40% 90%, 80% 20%;
+        opacity: 0.9;
+    }
+    75% {
+        background-position: 30% 5%, 70% 95%, 70% 70%, 50% 30%;
+        opacity: 1;
+    }
+}
+
+/* ===== SAO STYLE EFFECTS ===== */
+.sao-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Particules flottantes SAO */
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(106, 143, 160, 0.8);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 10px rgba(106, 143, 160, 0.8),
+        0 0 20px rgba(106, 143, 160, 0.4),
+        0 0 30px rgba(106, 143, 160, 0.2);
+    animation: floatUp 12s linear infinite;
+}
+
+.particle-1 { left: 10%; animation-delay: 0s; animation-duration: 16s; }
+.particle-2 { left: 25%; animation-delay: 1.5s; animation-duration: 14s; background: rgba(138, 106, 170, 0.8); box-shadow: 0 0 10px rgba(138, 106, 170, 0.8), 0 0 20px rgba(138, 106, 170, 0.4); }
+.particle-3 { left: 40%; animation-delay: 3s; animation-duration: 18s; }
+.particle-4 { left: 55%; animation-delay: 0.8s; animation-duration: 12s; background: rgba(136, 175, 196, 0.8); box-shadow: 0 0 10px rgba(136, 175, 196, 0.8), 0 0 20px rgba(136, 175, 196, 0.4); }
+.particle-5 { left: 70%; animation-delay: 2s; animation-duration: 17s; }
+.particle-6 { left: 85%; animation-delay: 4s; animation-duration: 15s; background: rgba(138, 106, 170, 0.8); box-shadow: 0 0 10px rgba(138, 106, 170, 0.8), 0 0 20px rgba(138, 106, 170, 0.4); }
+.particle-7 { left: 15%; animation-delay: 5s; animation-duration: 13s; background: rgba(136, 175, 196, 0.8); box-shadow: 0 0 10px rgba(136, 175, 196, 0.8), 0 0 20px rgba(136, 175, 196, 0.4); }
+.particle-8 { left: 75%; animation-delay: 1s; animation-duration: 19s; }
+
+/* Hexagones SAO */
+.hexagons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.hexagon {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(106, 143, 160, 0.4);
+    border-radius: 10px;
+    transform: rotate(45deg);
+    animation: rotateHex 20s linear infinite;
+}
+
+.hexagon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(106, 143, 160, 0.6);
+    border-radius: 5px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    animation: rotateHex 16s linear infinite reverse;
+}
+
+.hex-1 {
+    top: 20%;
+    right: 15%;
+    animation-delay: 0s;
+    border-color: rgba(106, 143, 160, 0.5);
+}
+
+.hex-2 {
+    bottom: 25%;
+    left: 10%;
+    animation-delay: 3s;
+    border-color: rgba(138, 106, 170, 0.4);
+    animation-duration: 24s;
+}
+
+.hex-3 {
+    top: 60%;
+    right: 30%;
+    animation-delay: 6s;
+    border-color: rgba(136, 175, 196, 0.3);
+    animation-duration: 30s;
+}
+
+.hex-4 {
+    top: 10%;
+    left: 25%;
+    animation-delay: 9s;
+    border-color: rgba(106, 143, 160, 0.3);
+    animation-duration: 16s;
+}
+
+/* Lignes de données */
+.data-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.data-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(106, 143, 160, 0.8) 20%, 
+        rgba(106, 143, 160, 0.8) 80%, 
+        transparent 100%);
+    animation: dataFlow 8s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(106, 143, 160, 0.5);
+}
+
+.line-1 {
+    top: 30%;
+    width: 200px;
+    left: -200px;
+    animation-delay: 0s;
+}
+
+.line-2 {
+    top: 70%;
+    width: 150px;
+    right: -150px;
+    animation-delay: 2s;
+    background: linear-gradient(90deg, transparent 0%, rgba(138, 106, 170, 0.8) 20%, rgba(138, 106, 170, 0.8) 80%, transparent 100%);
+    box-shadow: 0 0 10px rgba(138, 106, 170, 0.5);
+}
+
+.line-3 {
+    top: 50%;
+    width: 180px;
+    left: -180px;
+    animation-delay: 4s;
+    background: linear-gradient(90deg, transparent 0%, rgba(136, 175, 196, 0.8) 20%, rgba(136, 175, 196, 0.8) 80%, transparent 100%);
+    box-shadow: 0 0 10px rgba(136, 175, 196, 0.5);
+}
+
+/* Orbes lumineux */
+.light-orbs {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.orb {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(106, 143, 160, 0.8) 0%, rgba(106, 143, 160, 0.2) 70%, transparent 100%);
+    box-shadow: 0 0 20px rgba(106, 143, 160, 0.6);
+    animation: orbPulse 6s ease-in-out infinite;
+}
+
+.orb-1 {
+    top: 25%;
+    left: 80%;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    bottom: 30%;
+    right: 20%;
+    animation-delay: 1s;
+    background: radial-gradient(circle, rgba(138, 106, 170, 0.8) 0%, rgba(138, 106, 170, 0.2) 70%, transparent 100%);
+    box-shadow: 0 0 20px rgba(138, 106, 170, 0.6);
+}
+
+.orb-3 {
+    top: 70%;
+    left: 15%;
+    animation-delay: 2s;
+    background: radial-gradient(circle, rgba(136, 175, 196, 0.8) 0%, rgba(136, 175, 196, 0.2) 70%, transparent 100%);
+    box-shadow: 0 0 20px rgba(136, 175, 196, 0.6);
+}
+
+/* Lignes de scan horizontales */
+.scan-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(136, 175, 196, 0.8) 50%, 
+        transparent 100%);
+    box-shadow: 0 0 10px rgba(136, 175, 196, 0.6);
+    animation: scanMove 4s ease-in-out infinite;
+}
+
+.scan-1 {
+    top: 20%;
+    animation-delay: 0s;
+}
+
+.scan-2 {
+    top: 50%;
+    animation-delay: 1.5s;
+    background: linear-gradient(90deg, transparent 0%, rgba(106, 143, 160, 0.6) 50%, transparent 100%);
+}
+
+.scan-3 {
+    top: 80%;
+    animation-delay: 3s;
+}
+
+/* Interface holographique aux coins */
+.hologram-ui {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.holo-corner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(136, 175, 196, 0.6);
+    animation: cornerPulse 3s ease-in-out infinite;
+}
+
+.corner-tl {
+    top: 20px;
+    left: 20px;
+    border-right: none;
+    border-bottom: none;
+    animation-delay: 0s;
+}
+
+.corner-tr {
+    top: 20px;
+    right: 20px;
+    border-left: none;
+    border-bottom: none;
+    animation-delay: 0.7s;
+}
+
+.corner-bl {
+    bottom: 20px;
+    left: 20px;
+    border-right: none;
+    border-top: none;
+    animation-delay: 1.4s;
+}
+
+.corner-br {
+    bottom: 20px;
+    right: 20px;
+    border-left: none;
+    border-top: none;
+    animation-delay: 2.1s;
+}
+
+/* ===== ANIMATIONS SAO ===== */
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) translateX(0px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(50px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes rotateHex {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 0.3;
+    }
+}
+
+@keyframes dataFlow {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100vw);
+        opacity: 0;
+    }
+}
+
+@keyframes orbPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+}
+
+@keyframes scanLine {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes scanMove {
+    0%, 100% {
+        transform: translateY(0) scaleX(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(0) scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes cornerPulse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+        box-shadow: 0 0 5px rgba(136, 175, 196, 0.4);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(136, 175, 196, 0.8);
+    }
+}
+
+/* Logo central flottant */
+.central-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.7;
+    animation: logoFloat 6s ease-in-out infinite;
+}
+
+.logo-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, 
+        rgba(136, 175, 196, 0.2) 0%, 
+        rgba(136, 175, 196, 0.1) 30%, 
+        transparent 70%);
+    border-radius: 50%;
+    animation: glowPulse 4s ease-in-out infinite;
+}
+
+.logo-text {
+    display: block;
+    font-family: 'Orbitron', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: #88afc4;
+    text-shadow: 
+        0 0 10px rgba(136, 175, 196, 0.8),
+        0 0 20px rgba(136, 175, 196, 0.6),
+        0 0 30px rgba(136, 175, 196, 0.4);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.logo-subtitle {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(136, 175, 196, 0.8);
+    text-shadow: 0 0 5px rgba(136, 175, 196, 0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translate(-50%, -50%) translateY(0px);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) translateY(-10px);
+        opacity: 0.8;
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+/* Filtres/Contrôles - même style que le bestiaire */
+.filters {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.filter-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-button {
+    padding: 14px 24px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #88afc4;
+    border: 2px solid rgba(136, 175, 196, 0.4);
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Orbitron', 'Courier New', monospace;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(136, 175, 196, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.filter-button:hover::before {
+    left: 100%;
+}
+
+.filter-button:hover {
+    background: rgba(136, 175, 196, 0.1);
+    border-color: #88afc4;
+    box-shadow: 
+        0 0 20px rgba(136, 175, 196, 0.6),
+        inset 0 0 10px rgba(136, 175, 196, 0.1);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.filter-button.active {
+    background: rgba(136, 175, 196, 0.2);
+    border-color: #88afc4;
+    color: white;
+    box-shadow: 
+        0 0 25px rgba(136, 175, 196, 0.8),
+        inset 0 0 15px rgba(136, 175, 196, 0.2);
+}
+
+/* Sélecteur de palier */
+.filter-label {
+    color: #88afc4;
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+.floor-selector {
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #88afc4;
+    border: 2px solid rgba(136, 175, 196, 0.4);
+    border-radius: 6px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    min-width: 250px;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.floor-selector:hover {
+    border-color: #88afc4;
+    box-shadow: 0 0 15px rgba(136, 175, 196, 0.5);
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.floor-selector:focus {
+    border-color: #88afc4;
+    box-shadow: 0 0 20px rgba(136, 175, 196, 0.7);
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.floor-selector option {
+    background: rgba(0, 0, 0, 0.95);
+    color: #88afc4;
+    padding: 10px;
+    font-family: 'Orbitron', monospace;
+}
+
+.floor-selector option:disabled {
+    color: rgba(136, 175, 196, 0.4);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Sélecteur de palier */
+.filter-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown-label {
+    color: #88afc4;
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dropdown-select {
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #88afc4;
+    border: 2px solid rgba(136, 175, 196, 0.4);
+    border-radius: 6px;
+    font-family: 'Orbitron', monospace;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    min-width: 180px;
+}
+
+.dropdown-select:hover {
+    border-color: #88afc4;
+    box-shadow: 0 0 15px rgba(136, 175, 196, 0.5);
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.dropdown-select:focus {
+    outline: none;
+    border-color: #88afc4;
+    box-shadow: 0 0 20px rgba(136, 175, 196, 0.7);
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.dropdown-select option {
+    background: rgba(0, 0, 0, 0.95);
+    color: #88afc4;
+    padding: 8px;
+}
+
+/* Affichage du palier actuel */
+.floor-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 12px 18px;
+    background: rgba(106, 143, 160, 0.1);
+    border: 2px solid rgba(106, 143, 160, 0.5);
+    border-radius: 6px;
+    color: #88afc4;
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 0 15px rgba(106, 143, 160, 0.3),
+        inset 0 0 10px rgba(106, 143, 160, 0.1);
+    animation: floorPulse 2s ease-in-out infinite;
+}
+
+@keyframes floorPulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 15px rgba(106, 143, 160, 0.3),
+            inset 0 0 10px rgba(106, 143, 160, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 25px rgba(106, 143, 160, 0.6),
+            inset 0 0 15px rgba(106, 143, 160, 0.2);
+    }
+}
+
+#floor-text {
+    color: #ffffff;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(106, 143, 160, 0.8);
+}
+
+/* Wrapper de la carte - Style SAO */
+.map-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    background: 
+        linear-gradient(135deg, 
+            rgba(106, 143, 160, 0.05) 0%, 
+            rgba(138, 106, 170, 0.03) 50%, 
+            rgba(136, 175, 196, 0.05) 100%);
+    border: 2px solid rgba(106, 143, 160, 0.6);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 
+        0 0 30px rgba(106, 143, 160, 0.4),
+        inset 0 1px 0 rgba(106, 143, 160, 0.2),
+        inset 0 0 20px rgba(106, 143, 160, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.map-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(106, 143, 160, 0.2) 50%, 
+        transparent 100%);
+    animation: scanLine 3s ease-in-out infinite;
+    z-index: 1;
+}
+
+.map-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            rgba(106, 143, 160, 0.03) 1px,
+            transparent 2px,
+            transparent 4px
+        );
+    pointer-events: none;
+    z-index: 1;
+}
+
+
+
+
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%, 100% 50%, 0% 50%;
+    }
+    25% {
+        background-position: 100% 0%, 0% 100%, 50% 50%;
+    }
+    50% {
+        background-position: 50% 100%, 50% 0%, 100% 50%;
+    }
+    75% {
+        background-position: 0% 100%, 100% 0%, 25% 50%;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.8;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+}
+
+/* Carte elle-même */
+#game-map {
+    width: 100%;
+    height: 700px;
+    border-radius: 8px;
+    background: #0a0a1a;
+    overflow: hidden;
+    border: 1px solid rgba(106, 143, 160, 0.3);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(106, 143, 160, 0.2);
+    position: relative;
+    z-index: 10;
+}
+
+/* Affichage des coordonnées - style SAO */
+.coord-display {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: #88afc4;
+    font-family: 'Orbitron', 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid rgba(136, 175, 196, 0.5);
+    margin-top: 1rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 15px rgba(136, 175, 196, 0.3),
+        inset 0 0 10px rgba(136, 175, 196, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.coord-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            rgba(136, 175, 196, 0.05) 1px,
+            transparent 2px,
+            transparent 8px
+        );
+    pointer-events: none;
+}
+
+.coord-display strong {
+    color: #ffffff;
+}
+
+#coord-text {
+    color: #88afc4;
+    text-shadow: 0 0 10px rgba(136, 175, 196, 0.8);
+    font-family: 'Orbitron', monospace;
+    font-size: 16px;
+}
+
+/* Coordonnées en plein écran */
+#game-map:-webkit-full-screen .coord-display,
+#game-map:-moz-full-screen .coord-display,
+#game-map:fullscreen .coord-display {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10000;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid rgba(136, 175, 196, 0.7);
+    box-shadow: 
+        0 0 20px rgba(136, 175, 196, 0.5),
+        inset 0 0 15px rgba(136, 175, 196, 0.2);
+}
+
+/* Styles pour les popups personnalisés SAO */
+.leaflet-popup-content-wrapper.sao-popup {
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.95) 0%, 
+        rgba(10, 10, 26, 0.95) 100%) !important;
+    border: 2px solid rgba(106, 143, 160, 0.6) !important;
+    border-radius: 12px !important;
+    box-shadow: 
+        0 0 30px rgba(106, 143, 160, 0.4),
+        inset 0 1px 0 rgba(106, 143, 160, 0.2) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    font-family: 'Orbitron', sans-serif !important;
+}
+
+.leaflet-popup-tip {
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.95) 0%, 
+        rgba(10, 10, 26, 0.95) 100%) !important;
+    border: 2px solid rgba(106, 143, 160, 0.6) !important;
+    box-shadow: 0 0 15px rgba(106, 143, 160, 0.3) !important;
+}
+
+.leaflet-popup-close-button {
+    color: #6a8fa0 !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    padding: 4px 8px !important;
+    background: rgba(106, 143, 160, 0.1) !important;
+    border-radius: 4px !important;
+    transition: all 0.3s ease !important;
+}
+
+.leaflet-popup-close-button:hover {
+    background: rgba(106, 143, 160, 0.3) !important;
+    color: #ffffff !important;
+    transform: scale(1.1) !important;
+}
+
+/* ===== SÉLECTEUR DE PALIERS SAO ===== */
+.floor-selector-container {
+    margin-top: 1rem;
+    padding: 20px;
+    background: 
+        linear-gradient(135deg, 
+            rgba(106, 143, 160, 0.05) 0%, 
+            rgba(138, 106, 170, 0.03) 50%, 
+            rgba(136, 175, 196, 0.05) 100%);
+    border: 2px solid var(--color-accent);
+    border-radius: 12px;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 0 30px rgba(106, 143, 160, 0.4),
+        inset 0 1px 0 rgba(106, 143, 160, 0.2),
+        inset 0 0 20px rgba(106, 143, 160, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.floor-selector-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(106, 143, 160, 0.15) 50%, 
+        transparent 100%);
+    animation: scanLine 4s ease-in-out infinite;
+    z-index: 1;
+}
+
+.floor-selector-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            rgba(106, 143, 160, 0.02) 1px,
+            transparent 2px,
+            transparent 4px
+        );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floor-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.floor-nav-btn {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: var(--font-text);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.floor-nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(136, 175, 196, 0.3), transparent);
+    transition: left 0.4s;
+}
+
+.floor-nav-btn:hover::before {
+    left: 100%;
+}
+
+.floor-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--color-accent);
+    color: white;
+    box-shadow: 0 0 15px rgba(106, 143, 160, 0.5);
+    transform: translateY(-2px);
+}
+
+.floor-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.floor-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.floor-label {
+    color: var(--color-accent);
+    font-family: var(--font-title);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.floor-select {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+    border: 2px solid var(--color-accent);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-family: var(--font-text);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    backdrop-filter: blur(10px);
+}
+
+.floor-select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 15px rgba(106, 143, 160, 0.5);
+}
+
+.floor-select:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(106, 143, 160, 0.3);
+}
+
+.floor-select option {
+    background: var(--color-bg);
+    color: var(--color-white);
+    padding: 8px;
+    font-family: var(--font-text);
+}
+
+.floor-select option:checked {
+    background: var(--color-accent);
+    color: white;
+}
+
+.floor-display {
+    color: var(--color-accent);
+    font-family: var(--font-title);
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(106, 143, 160, 0.3);
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 10px rgba(106, 143, 160, 0.2),
+        inset 0 0 10px rgba(106, 143, 160, 0.05);
+    animation: textGlow 3s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 0 5px rgba(106, 143, 160, 0.5);
+        box-shadow: 
+            0 0 10px rgba(106, 143, 160, 0.2),
+            inset 0 0 10px rgba(106, 143, 160, 0.05);
+    }
+    50% {
+        text-shadow: 0 0 15px rgba(106, 143, 160, 0.8);
+        box-shadow: 
+            0 0 20px rgba(106, 143, 160, 0.4),
+            inset 0 0 15px rgba(106, 143, 160, 0.1);
+    }
+}
+
+
+
+.filter-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #666;
+    color: var(--color-text);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+    box-shadow: 0 0 10px rgba(106, 143, 160, 0.5);
+}
+
+.filter-icon {
+    font-size: 1.1rem;
+}
+
+.recenter-btn {
+    background: linear-gradient(45deg, var(--color-accent), #45aaf2);
+    border: none;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: var(--font-text);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(106, 143, 160, 0.3);
+}
+
+.recenter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(106, 143, 160, 0.4);
+}
+
+/* Personnalisation des contrôles Leaflet */
+.leaflet-control-zoom {
+    border: none !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    backdrop-filter: blur(15px) !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(106, 143, 160, 0.3) !important;
+}
+
+.leaflet-control-zoom a {
+    background: linear-gradient(135deg, rgba(106, 143, 160, 0.1), rgba(138, 106, 170, 0.1)) !important;
+    color: var(--color-accent) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(106, 143, 160, 0.2) !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.leaflet-control-zoom a:last-child {
+    border-bottom: none !important;
+}
+
+.leaflet-control-zoom a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(106, 143, 160, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.leaflet-control-zoom a:hover {
+    background: linear-gradient(135deg, rgba(106, 143, 160, 0.3), rgba(138, 106, 170, 0.3)) !important;
+    color: white !important;
+    transform: scale(1.1) !important;
+    box-shadow: 
+        0 0 20px rgba(106, 143, 160, 0.6),
+        inset 0 0 20px rgba(106, 143, 160, 0.2) !important;
+}
+
+.leaflet-control-zoom a:hover::before {
+    left: 100%;
+}
+
+.leaflet-control-zoom-in {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.leaflet-control-zoom-out {
+    border-radius: 0 0 12px 12px !important;
+}
+
+.leaflet-container {
+    background: transparent !important;
+    font-family: var(--font-text);
+}
+
+/* Assurer que tous les éléments Leaflet sont transparents */
+.leaflet-layer,
+.leaflet-tile-pane,
+.leaflet-tile {
+    background: transparent !important;
+}
+
+.leaflet-tile-container {
+    background: transparent !important;
+}
+
+/* Styles des popups personnalisés - SAO Style */
+.leaflet-popup-content-wrapper {
+    background: rgba(0, 0, 0, 0.95) !important;
+    border: 2px solid var(--color-accent) !important;
+    border-radius: 8px !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 0 20px rgba(106, 143, 160, 0.6) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.leaflet-popup-content {
+    font-family: var(--font-text) !important;
+    color: #ffffff !important;
+    margin: 12px 16px !important;
+    min-width: 120px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    box-sizing: border-box !important;
+}
+
+/* Styles spécifiques pour le texte des coordonnées */
+.leaflet-popup-content br + * {
+    color: var(--color-accent) !important;
+    font-family: 'Orbitron', monospace !important;
+    text-shadow: 0 0 5px rgba(106, 143, 160, 0.6) !important;
+}
+
+.leaflet-popup-content strong {
+    color: var(--color-accent) !important;
+    font-family: var(--font-title) !important;
+    font-weight: 600 !important;
+    text-shadow: 0 0 8px rgba(106, 143, 160, 0.6) !important;
+}
+
+.leaflet-popup-tip {
+    background: rgba(0, 0, 0, 0.95) !important;
+    border: 2px solid var(--color-accent) !important;
+}
+
+.leaflet-popup-close-button {
+    color: var(--color-accent) !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.leaflet-popup-close-button:hover {
+    color: #ffffff !important;
+    background: var(--color-accent) !important;
+}
+
+/* ===== PANNEAU D'ICÔNES ===== */
+.icon-panel {
+    position: fixed;
+    top: 150px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--color-accent);
+    border-radius: 12px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    min-width: 280px;
+    max-width: 320px;
+}
+
+.icon-panel h3 {
+    color: var(--color-accent);
+    font-family: var(--font-title);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.icon-panel h4 {
+    color: var(--color-white);
+    font-family: var(--font-title);
+    margin: 1rem 0 0.5rem 0;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 0.3rem;
+}
+
+.icon-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.icon-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-accent);
+}
+
+.icon-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-white);
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.icon-preview {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.icon-item:hover label {
+    color: var(--color-accent);
+}
+
+/* Système de placement par coordonnées */
+.waypoint-placer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(106, 143, 160, 0.3);
+}
+
+.placement-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.coord-inputs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.coord-inputs label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    color: var(--color-white);
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+}
+
+.coord-inputs input {
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    color: var(--color-white);
+    font-family: var(--font-text);
+    font-size: 0.85rem;
+}
+
+.coord-inputs input:focus {
+    outline: none;
+    border-color: var(--color-white);
+    box-shadow: 0 0 5px rgba(106, 143, 160, 0.5);
+}
+
+.icon-selector label {
+    color: var(--color-white);
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.icon-selector select {
+    width: 100%;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-accent);
+    border-radius: 4px;
+    color: var(--color-white);
+    font-family: var(--font-text);
+    font-size: 0.85rem;
+}
+
+.icon-selector select:focus {
+    outline: none;
+    border-color: var(--color-white);
+}
+
+.placement-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.waypoint-place-btn {
+    background: rgba(91, 184, 138, 0.2) !important;
+    border-color: #5bb88a !important;
+}
+
+.waypoint-place-btn:hover {
+    background: rgba(91, 184, 138, 0.4) !important;
+}
+
+.placement-modes {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(106, 143, 160, 0.3);
+}
+
+#place-mode-btn {
+    width: 100%;
+    background: rgba(106, 143, 160, 0.2);
+    border: 1px solid var(--color-accent);
+}
+
+#place-mode-btn.active {
+    background: var(--color-accent);
+    color: var(--color-white);
+}
+
+/* Icônes placées sur la carte */
+.map-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.map-icon:hover {
+    transform: scale(1.2);
+    border-color: var(--color-white);
+    box-shadow: 0 0 15px rgba(106, 143, 160, 0.6);
+}
+
+.map-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Popup de sélection d'icônes */
+.icon-selection h4 {
+    color: var(--color-accent);
+    font-family: var(--font-title);
+    margin-bottom: 0.8rem;
+    text-align: center;
+}
+
+.icon-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.icon-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(106, 143, 160, 0.1);
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    color: var(--color-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-text);
+    font-size: 0.8rem;
+}
+
+.icon-option:hover {
+    background: var(--color-accent);
+    transform: scale(1.05);
+}
+
+.icon-option img {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.3rem;
+}
+
+.icon-popup h5 {
+    color: var(--color-accent);
+    font-family: var(--font-title);
+    margin-bottom: 0.5rem;
+}
+
+.icon-popup p {
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+}
+
+.icon-popup button {
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+    color: var(--color-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-popup button:hover {
+    background: #ff0000;
+}
+
+/* ===== RESPONSIVE DESIGN - CARTE ===== */
+
+/* Tablettes et écrans moyens */
+@media (max-width: 1024px) {
+    .map-container {
+        padding: 90px 1.5rem 1.5rem;
+    }
+    
+    #game-map {
+        height: 600px;
+    }
+    
+    .floor-controls {
+        gap: 15px;
+    }
+    
+    .floor-select {
+        min-width: 120px;
+    }
+}
+
+/* Tablettes en mode portrait */
+@media (max-width: 768px) {
+    .map-container {
+        padding: 80px 1rem 1rem;
+    }
+    
+    .map-title {
+        font-size: 2.5rem !important;
+    }
+    
+    .map-subtitle {
+        font-size: 1rem !important;
+    }
+    
+    .map-header {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    /* Optimiser le panneau de contrôle sur mobile */
+    .map-controls-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .palier-selector {
+        min-width: 100%;
+    }
+    
+    .element-toggles {
+        width: 100%;
+    }
+    
+    .toggles-title {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .toggles-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .toggle-label {
+        min-height: 70px;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .toggle-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .toggle-icon img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    /* Amélioration des filtres avec moins de boutons */
+    .filters {
+        margin-bottom: 1.5rem;
+        gap: 1rem;
+    }
+    
+    .filter-group {
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .filter-button {
+        flex: 1;
+        min-width: 140px;
+        max-width: 200px;
+        text-align: center;
+        padding: 12px 16px;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+    }
+    
+    /* Style spécial pour le bouton Mode Édition qui est seul maintenant */
+    .filter-button.admin-only {
+        min-width: 160px;
+        background: rgba(138, 106, 170, 0.1);
+        border-color: rgba(138, 106, 170, 0.4);
+        color: #b19cd9;
+    }
+    
+    .filter-button.admin-only:hover {
+        background: rgba(138, 106, 170, 0.2);
+        border-color: #8a6aaa;
+        color: white;
+        box-shadow: 0 0 20px rgba(138, 106, 170, 0.6);
+    }
+    
+    #game-map {
+        height: 450px;
+        border-radius: 10px;
+    }
+    
+    .map-wrapper {
+        padding: 1rem;
+    }
+    
+    .floor-selector-container {
+        margin-top: 1.5rem;
+        padding: 15px;
+    }
+    
+    .floor-controls {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+    
+    .floor-info {
+        order: -1;
+        margin-bottom: 10px;
+    }
+    
+    .floor-nav-btn {
+        width: 50px;
+        height: 40px;
+    }
+    
+    .floor-select {
+        min-width: 160px;
+        padding: 8px 12px;
+    }
+    
+    /* Réduire les effets SAO sur mobile pour les performances */
+    .particle {
+        display: none;
+    }
+    
+    .hexagon {
+        animation-duration: 15s;
+    }
+    
+    .central-logo {
+        opacity: 0.5;
+    }
+    
+    .logo-text {
+        font-size: 18px;
+    }
+}
+
+/* Smartphones */
+@media (max-width: 480px) {
+    .map-container {
+        padding: 70px 0.5rem 0.5rem;
+    }
+    
+    .map-container h1 {
+        font-size: 1.8rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Panneau de contrôle ultra-compact pour smartphones */
+    .map-controls-container {
+        padding: 0.75rem;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .palier-selector {
+        gap: 0.4rem;
+    }
+    
+    .palier-label {
+        font-size: 0.95rem;
+    }
+    
+    .palier-dropdown {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .toggles-title {
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .toggles-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6rem;
+    }
+    
+    .toggle-label {
+        min-height: 60px;
+        padding: 0.6rem 0.4rem;
+    }
+    
+    .toggle-icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .toggle-icon img {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* Optimisation des filtres pour smartphones */
+    .filters {
+        margin-bottom: 1rem;
+        gap: 0.8rem;
+    }
+    
+    .filter-group {
+        justify-content: center;
+        gap: 0.8rem;
+    }
+    
+    .filter-button {
+        font-size: 10px;
+        padding: 10px 14px;
+        letter-spacing: 0.3px;
+        min-width: 120px;
+        max-width: 150px;
+        border-radius: 4px;
+    }
+    
+    .filter-button.admin-only {
+        min-width: 140px;
+        font-size: 9px;
+        padding: 8px 12px;
+    }
+    
+    #game-map {
+        height: 350px;
+        border-radius: 8px;
+    }
+    
+    .map-wrapper {
+        padding: 0.5rem;
+    }
+    
+    .floor-selector-container {
+        padding: 12px;
+    }
+    
+    .floor-select {
+        min-width: 140px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    .floor-display {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    
+    .floor-nav-btn {
+        width: 45px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+    .coord-display {
+        padding: 10px 16px;
+        font-size: 12px;
+        margin-top: 0.8rem;
+    }
+}
+
+/* Très petits écrans et anciens smartphones */
+@media (max-width: 320px) {
+    .map-container {
+        padding: 60px 0.25rem 0.25rem;
+    }
+    
+    .map-container h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+    
+    /* Interface ultra-compacte pour les filtres */
+    .filters {
+        margin-bottom: 0.8rem;
+        gap: 0.6rem;
+    }
+    
+    .filter-group {
+        gap: 0.6rem;
+    }
+    
+    .filter-button {
+        font-size: 9px;
+        padding: 8px 10px;
+        letter-spacing: 0.2px;
+        min-width: 100px;
+        max-width: 130px;
+        border-radius: 3px;
+    }
+    
+    .filter-button.admin-only {
+        min-width: 110px;
+        font-size: 8px;
+        padding: 6px 8px;
+    }
+    
+    #game-map {
+        height: 280px;
+        border-radius: 6px;
+    }
+    
+    .floor-selector-container {
+        padding: 8px;
+    }
+    
+    .floor-select {
+        min-width: 120px;
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+    
+    /* Simplification extrême des effets visuels */
+    .particle, .hexagon {
+        display: none;
+    }
+    
+    .central-logo {
+        display: none;
+    }
+}
+
+    /* Simplifier les animations SAO sur petit écran */
+    .sao-effects {
+        opacity: 0.7;
+    }
+    
+    .data-line, .scan-line {
+        display: none;
+    }
+    
+    .central-logo {
+        display: none;
+    }
+    
+    .holo-corner {
+        width: 40px;
+        height: 40px;
+    }
+
+/* Très petits écrans */
+@media (max-width: 320px) {
+    .map-container {
+        padding: 60px 0.3rem 0.3rem;
+    }
+    
+    .map-container h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    #game-map {
+        height: 300px;
+    }
+    
+    .filter-button {
+        font-size: 10px;
+        padding: 8px 12px;
+    }
+    
+    .floor-select {
+        min-width: 120px;
+        font-size: 11px;
+    }
+    
+    .floor-display {
+        font-size: 12px;
+    }
+    
+    .floor-nav-btn {
+        width: 40px;
+        height: 30px;
+        font-size: 12px;
+    }
+    
+    /* Désactiver la plupart des effets SAO */
+    .sao-effects {
+        display: none;
+    }
+}
+
+/* Style pour le mode plein écran */
+.fullscreen-mode {
+    overflow: hidden !important;
+}
+
+#game-map:-webkit-full-screen,
+#game-map:-moz-full-screen,
+#game-map:fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Arrière-plan subtil en plein écran */
+#game-map:-webkit-full-screen::before,
+#game-map:-moz-full-screen::before,
+#game-map:fullscreen::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg);
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* Bouton en mode plein écran */
+.control-btn[style*="position: fixed"] {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border: 2px solid var(--color-accent) !important;
+    color: white !important;
+}
+
+/* ===========================================
+   CONTRÔLES DE ZOOM AVANCÉS
+   =========================================== */
+
+.zoom-controls-advanced {
+    background: rgba(0, 0, 0, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border: 1px solid rgba(106, 143, 160, 0.3);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(106, 143, 160, 0.2);
+    animation: zoomControlsGlow 3s ease-in-out infinite;
+}
+
+@keyframes zoomControlsGlow {
+    0%, 100% {
+        box-shadow: 
+            0 4px 20px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(106, 143, 160, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 4px 25px rgba(0, 0, 0, 0.6),
+            0 0 25px rgba(106, 143, 160, 0.4);
+    }
+}
+
+.zoom-controls-advanced button {
+    font-family: 'Orbitron', monospace !important;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.zoom-controls-advanced button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px rgba(106, 143, 160, 0.4);
+    opacity: 0.9;
+}
+
+.zoom-controls-advanced button:active {
+    transform: translateY(0);
+    transition: all 0.1s ease;
+}
+
+/* Popup d'aide au zoom */
+.zoom-help-popup .leaflet-popup-content-wrapper {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(106, 143, 160, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(106, 143, 160, 0.3);
+}
+
+.zoom-help-popup .leaflet-popup-content {
+    margin: 8px 12px;
+    font-size: 12px;
+}
+
+.zoom-help-popup .leaflet-popup-tip {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(106, 143, 160, 0.3);
+    border-top: none;
+    border-right: none;
+}
+
+/* Amélioration de l'affichage des coordonnées pour haute résolution */
+.coord-display-live {
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(106, 143, 160, 0.3) !important;
+    border-radius: 8px !important;
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(106, 143, 160, 0.2) !important;
+}
+
+/* Responsive pour les contrôles de zoom */
+@media (max-width: 768px) {
+    .zoom-controls-advanced {
+        transform: scale(0.9);
+        transform-origin: top right;
+    }
+    
+    .zoom-controls-advanced button {
+        padding: 6px 10px !important;
+        font-size: 9px !important;
+    }
+    
+    /* Réduction de la taille des popups sur tablette */
+    .leaflet-popup-content-wrapper {
+        max-width: 250px !important;
+    }
+    
+    .leaflet-popup-content {
+        font-size: 12px !important;
+        margin: 10px 12px !important;
+    }
+    
+    .quest-popup {
+        min-width: 200px !important;
+    }
+    
+    .location-popup {
+        min-width: 200px !important;
+    }
+    
+    /* Réduction des éléments de popup */
+    .quest-header, .location-header {
+        padding: 8px !important;
+        font-size: 0.95rem !important;
+    }
+    
+    .quest-details, .location-details {
+        padding: 8px !important;
+    }
+    
+    .quest-details p, .location-details p {
+        font-size: 11px !important;
+    }
+    
+    /* Affichage des coordonnées plus compact */
+    .leaflet-control-attribution {
+        font-size: 10px !important;
+        padding: 2px 5px !important;
+    }
+    
+    .coord-display-live {
+        font-size: 11px !important;
+        padding: 6px 10px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .zoom-controls-advanced {
+        transform: scale(0.8);
+    }
+    
+    .zoom-controls-advanced div[style*="font-size: 9px"] {
+        display: none; /* Masquer les instructions sur très petits écrans */
+    }
+    
+    /* Popups très compacts sur mobile */
+    .leaflet-popup-content-wrapper {
+        max-width: 200px !important;
+        border-radius: 8px !important;
+    }
+    
+    .leaflet-popup-content {
+        font-size: 11px !important;
+        margin: 8px 10px !important;
+        line-height: 1.3 !important;
+    }
+    
+    .leaflet-popup-close-button {
+        font-size: 14px !important;
+        padding: 2px 6px !important;
+    }
+    
+    /* Quest popups très compacts */
+    .quest-popup {
+        min-width: 180px !important;
+        max-width: 200px !important;
+    }
+    
+    .location-popup {
+        min-width: 180px !important;
+        max-width: 200px !important;
+    }
+    
+    .quest-header, .location-header {
+        padding: 6px !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .quest-details, .location-details {
+        padding: 6px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .quest-details p, .location-details p {
+        font-size: 10px !important;
+        margin: 2px 0 !important;
+    }
+    
+    .quest-description, .location-description {
+        font-size: 10px !important;
+        padding-top: 6px !important;
+        margin-top: 6px !important;
+    }
+    
+    .quest-btn {
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+    
+    /* Liste de quêtes compacte */
+    .quest-popup.multi-quest .quest-list {
+        max-height: 150px !important;
+        padding: 6px !important;
+    }
+    
+    .quest-item {
+        padding: 4px 6px !important;
+        gap: 6px !important;
+    }
+    
+    .quest-icon {
+        font-size: 12px !important;
+    }
+    
+    .quest-name {
+        font-size: 10px !important;
+    }
+    
+    .quest-step {
+        font-size: 9px !important;
+        padding: 1px 4px !important;
+    }
+    
+    /* Affichage des coordonnées très compact sur mobile */
+    .leaflet-control-attribution {
+        font-size: 8px !important;
+        padding: 1px 4px !important;
+        max-width: 50% !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .coord-display-live {
+        font-size: 9px !important;
+        padding: 4px 8px !important;
+        max-width: 150px !important;
+    }
+    
+    /* Contrôle Leaflet plus petits */
+    .leaflet-control-zoom a {
+        width: 32px !important;
+        height: 32px !important;
+        line-height: 32px !important;
+        font-size: 16px !important;
+    }
+    
+    .leaflet-control-layers {
+        max-width: 200px !important;
+        font-size: 11px !important;
+    }
+}
+
+/* ========================================
+   STYLES POUR LES QUÊTES SUR LA CARTE
+======================================== */
+
+/* Popup de quête */
+.quest-marker-popup .leaflet-popup-content-wrapper {
+    background: linear-gradient(135deg, rgba(10, 10, 26, 0.95), rgba(20, 20, 40, 0.95));
+    border: 2px solid rgba(106, 143, 160, 0.3);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(106, 143, 160, 0.2);
+}
+
+.quest-marker-popup .leaflet-popup-content {
+    margin: 0;
+    font-family: var(--font-text);
+    color: white;
+}
+
+.quest-popup {
+    min-width: 280px;
+}
+
+.quest-header {
+    background: linear-gradient(135deg, rgba(106, 143, 160, 0.2), rgba(138, 106, 170, 0.2));
+    border: 1px solid rgba(106, 143, 160, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-family: var(--font-title);
+}
+
+.quest-header.principale {
+    background: linear-gradient(135deg, rgba(196, 165, 90, 0.2), rgba(255, 140, 0, 0.2));
+    border-color: rgba(196, 165, 90, 0.4);
+}
+
+.quest-header.secondaire {
+    background: linear-gradient(135deg, rgba(136, 175, 196, 0.2), rgba(138, 106, 170, 0.2));
+    border-color: rgba(136, 175, 196, 0.4);
+}
+
+.quest-details {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quest-details p {
+    margin: 4px 0;
+    font-size: 13px;
+}
+
+.quest-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.quest-actions {
+    text-align: center;
+}
+
+.quest-btn {
+    background: linear-gradient(135deg, rgba(106, 143, 160, 0.8), rgba(138, 106, 170, 0.8));
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: white;
+    font-family: var(--font-title);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(106, 143, 160, 0.3);
+}
+
+.quest-btn:hover {
+    background: linear-gradient(135deg, rgba(106, 143, 160, 1), rgba(138, 106, 170, 1));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(106, 143, 160, 0.3);
+}
+
+/* Style pour les popups multi-quêtes */
+.quest-popup.multi-quest .quest-list {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.quest-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    margin: 4px 0;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.quest-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.quest-item.principale {
+    border-color: rgba(196, 165, 90, 0.3);
+    background: rgba(196, 165, 90, 0.1);
+}
+
+.quest-item.secondaire {
+    border-color: rgba(136, 175, 196, 0.3);
+    background: rgba(136, 175, 196, 0.1);
+}
+
+.quest-icon {
+    font-size: 14px;
+    min-width: 20px;
+}
+
+.quest-name {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.quest-step {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: var(--font-title);
+}
+
+/* Personnalisation de la pointe du popup */
+.quest-marker-popup .leaflet-popup-tip {
+    background: linear-gradient(135deg, rgba(10, 10, 26, 0.95), rgba(20, 20, 40, 0.95));
+    border: 2px solid rgba(106, 143, 160, 0.3);
+    border-top: none;
+    border-right: none;
+}
+
+/* Bouton de fermeture */
+.quest-marker-popup .leaflet-popup-close-button {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.quest-marker-popup .leaflet-popup-close-button:hover {
+    color: var(--color-accent);
+}
+
+/* Styles pour les nouveaux types de lieux */
+
+/* Popups des villes */
+.location-popup {
+    min-width: 280px;
+}
+
+.location-popup.ville .location-header {
+    background: linear-gradient(135deg, rgba(196, 165, 90, 0.3), rgba(255, 140, 0, 0.2));
+    border: 1px solid rgba(196, 165, 90, 0.4);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-family: var(--font-title);
+    color: #c4a55a;
+}
+
+/* Popups des donjons */
+.location-popup.donjon .location-header {
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.3), rgba(139, 0, 0, 0.2));
+    border: 1px solid rgba(220, 20, 60, 0.4);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-family: var(--font-title);
+    color: #DC143C;
+}
+
+/* Popups des marchands */
+.location-popup.marchand .location-header {
+    background: linear-gradient(135deg, rgba(50, 205, 50, 0.3), rgba(34, 139, 34, 0.2));
+    border: 1px solid rgba(50, 205, 50, 0.4);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-family: var(--font-title);
+    color: #32CD32;
+}
+
+/* Popups des zones de monstres */
+.location-popup.monstre .location-header {
+    background: linear-gradient(135deg, rgba(138, 106, 170, 0.3), rgba(75, 0, 130, 0.2));
+    border: 1px solid rgba(138, 106, 170, 0.4);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-family: var(--font-title);
+    color: #8a6aaa;
+}
+
+/* Détails communs pour tous les types de lieux */
+.location-details {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.location-details p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.location-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+/* ==========================================
+   MARQUEUR DE SURBRILLANCE POUR QUÊTES
+   ========================================== */
+
+.quest-highlight-marker {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.quest-highlight-marker div {
+    animation: pulse 2s infinite !important;
+    border-radius: 50% !important;
+    position: relative !important;
+}
+
+.quest-highlight-marker div::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px solid #ff0080;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: pulse 2s infinite 0.5s;
+}
+
+/* ==========================================
+   OPTIMISATIONS DE PERFORMANCES MOBILE
+   ========================================== */
+
+/* Réduire les animations sur mobile pour améliorer les performances */
+@media (max-width: 768px) {
+    /* Désactiver les animations complexes sur mobile */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.3s !important;
+        transition-duration: 0.2s !important;
+    }
+    
+    /* Désactiver les animations d'arrière-plan */
+    .map-container::before,
+    .floor-selector-container::before,
+    .floor-selector-container::after {
+        animation: none !important;
+        opacity: 0.3;
+    }
+    
+    /* Optimiser le rendu des éléments */
+    .leaflet-popup-content-wrapper,
+    .leaflet-control-zoom,
+    .coord-display-live {
+        will-change: auto !important;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+    
+    /* Simplifier les ombres sur mobile */
+    .leaflet-popup-content-wrapper,
+    .map-controls-container,
+    .floor-selector-container {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    /* Réduire le blur sur mobile (coûteux en performances) */
+    .leaflet-popup-content-wrapper,
+    .map-controls-container,
+    .coord-display-live {
+        backdrop-filter: blur(5px) !important;
+        -webkit-backdrop-filter: blur(5px) !important;
+    }
+    
+    /* Empêcher les débordements dans les popups */
+    .quest-popup,
+    .location-popup {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+    
+    .quest-header,
+    .location-header,
+    .quest-details,
+    .location-details {
+        max-width: 100% !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Optimiser les images/icônes */
+    .toggle-icon img,
+    .icon-preview {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Performance maximale sur mobile */
+    * {
+        animation: none !important;
+    }
+    
+    .map-title,
+    .floor-display,
+    .zoom-controls-advanced {
+        animation: none !important;
+        text-shadow: 0 0 5px rgba(106, 143, 160, 0.5) !important;
+    }
+    
+    /* Simplifier encore plus les effets visuels */
+    .leaflet-popup-content-wrapper,
+    .map-controls-container {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    
+    /* Forcer le respect des tailles maximales */
+    .leaflet-popup-content-wrapper {
+        max-width: 220px !important;
+        width: auto !important;
+    }
+    
+    .leaflet-popup-content {
+        max-width: 100% !important;
+        width: auto !important;
+    }
+    
+    .quest-popup,
+    .location-popup {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Coordonnées ultra-compactes */
+    .coord-display-live > div {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+}
+
+/* Optimisation pour les très petits écrans */
+@media (max-width: 360px) {
+    .leaflet-popup-content-wrapper {
+        max-width: 180px !important;
+        font-size: 10px !important;
+    }
+    
+    .coord-display-live > div {
+        font-size: 8px !important;
+        padding: 3px 5px !important;
+        max-width: 100px !important;
+    }
+}
+/* ================================================================
+   NAMELESS — Carte (overrides premium, appended)
+   Restyle le shell (hero, contrôles, légende, toggles) + Leaflet.
+   N'enlève aucune règle existante; map.js inchangé.
+   ================================================================ */
+
+.map-container {
+    padding: 1.5rem 1.25rem 2.5rem !important;
+    max-width: 1280px;
+}
+
+/* --- Hero compact --- */
+.map-header { text-align: center; margin-bottom: 1.5rem; }
+.map-header .nm-eyebrow {
+    display: block;
+    color: var(--sao-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    font-size: 0.7rem;
+    margin-bottom: 0.6rem;
+}
+.map-title {
+    font-family: var(--font-title) !important;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem) !important;
+    letter-spacing: 0.12em;
+    background: var(--nm-gold-grad);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent;
+    padding: 0.04em 0.04em;
+    margin: 0;
+}
+.map-subtitle { color: var(--nm-steel) !important; font-size: 0.95rem; margin: 0.6rem auto 0; max-width: 560px; }
+
+/* --- Panneau de contrôles --- */
+.map-controls-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem 1.25rem;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    background: var(--sao-bg-panel);
+    border: 1px solid var(--sao-border);
+    border-radius: var(--nm-radius);
+    box-shadow: none;
+}
+.palier-label {
+    display: block;
+    color: var(--nm-steel);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+}
+
+/* Recherche */
+.map-search-container { flex: 1 1 240px; min-width: 200px; position: relative; }
+.search-input-wrapper { position: relative; }
+.map-search-input {
+    width: 100%;
+    padding: 0.6rem 2.2rem 0.6rem 0.95rem !important;
+    background: var(--nm-navy) !important;
+    border: 1px solid var(--sao-border-cyan) !important;
+    border-radius: 9px !important;
+    color: var(--sao-text-bright) !important;
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+}
+.map-search-input::placeholder { color: rgba(139,147,163,0.7); }
+.map-search-input:focus { outline: none; border-color: var(--sao-cyan) !important; box-shadow: var(--focus-ring) !important; }
+.search-clear-btn {
+    position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
+    background: transparent !important; border: none !important; color: var(--nm-steel) !important;
+    cursor: pointer; padding: 0.2rem 0.4rem; font-size: 0.85rem; box-shadow: none !important;
+}
+.search-clear-btn:hover { color: var(--sao-gold-light) !important; transform: translateY(-50%) !important; }
+.map-search-results {
+    position: absolute; left: 0; right: 0; top: calc(100% + 6px);
+    background: var(--sao-bg-panel) !important;
+    border: 1px solid var(--sao-border-hover) !important;
+    border-radius: 10px !important;
+    box-shadow: var(--sao-shadow) !important;
+    max-height: 320px; overflow-y: auto; z-index: 1200;
+}
+.search-result-item {
+    padding: 0.6rem 0.9rem !important;
+    color: var(--sao-text) !important;
+    border-bottom: 1px solid var(--sao-border) !important;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.search-result-item:last-child { border-bottom: none !important; }
+.search-result-item:hover { background: rgba(111,146,179,0.08) !important; color: var(--sao-text-bright) !important; }
+
+/* Palier */
+.palier-selector { flex: 0 0 auto; }
+.palier-dropdown {
+    padding: 0.55rem 0.9rem !important;
+    background: var(--nm-navy) !important;
+    color: var(--sao-text-bright) !important;
+    border: 1px solid var(--sao-border-cyan) !important;
+    border-radius: 8px !important;
+    font-family: var(--font-text); font-size: 0.85rem; cursor: pointer;
+}
+
+/* Légende / toggles */
+.element-toggles { flex: 1 1 100%; }
+.toggles-title {
+    color: var(--sao-gold-light) !important;
+    font-family: var(--font-text) !important;
+    font-size: 0.72rem !important;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    margin: 0.4rem 0 0.7rem !important;
+}
+.toggles-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.6rem !important;
+}
+.toggle-item { position: relative; }
+.toggle-item input[type="checkbox"] {
+    position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none;
+}
+.toggle-label {
+    display: flex !important;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem !important;
+    background: var(--sao-bg-card) !important;
+    border: 1px solid var(--sao-border) !important;
+    border-radius: 9px !important;
+    color: var(--nm-steel) !important;
+    cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+    opacity: 0.55;
+}
+.toggle-item input[type="checkbox"]:checked + .toggle-label {
+    opacity: 1;
+    color: var(--sao-text-bright) !important;
+    border-color: var(--sao-border-hover) !important;
+}
+.toggle-item input[type="checkbox"]:focus-visible + .toggle-label { box-shadow: var(--focus-ring); }
+.toggle-label:hover { border-color: var(--sao-cyan) !important; }
+.toggle-icon {
+    width: 24px; height: 24px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+}
+.toggle-icon img { width: 100%; height: 100%; object-fit: contain; }
+.toggle-text { font-size: 0.8rem; letter-spacing: 0.02em; }
+
+.admin-toggle-btn {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.5rem 0.75rem !important;
+    background: var(--sao-bg-card) !important;
+    border: 1px dashed var(--sao-border-hover) !important;
+    border-radius: 9px !important;
+    color: var(--sao-gold-light) !important;
+    cursor: pointer; width: 100%;
+}
+
+/* --- Zone carte --- */
+.map-wrapper {
+    position: relative;
+    border: 1px solid var(--sao-border-hover);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--sao-shadow);
+}
+#game-map { background: var(--nm-black); }
+.leaflet-container { background: var(--nm-black) !important; }
+
+/* --- Leaflet: contrôles zoom --- */
+.leaflet-bar {
+    border: 1px solid var(--sao-border-hover) !important;
+    box-shadow: var(--sao-shadow) !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+.leaflet-bar a, .leaflet-touch .leaflet-bar a {
+    background: rgba(10,14,26,0.94) !important;
+    color: var(--sao-gold-light) !important;
+    border-bottom: 1px solid var(--sao-border) !important;
+    width: 32px; height: 32px; line-height: 32px !important;
+    font-size: 1.1rem;
+}
+.leaflet-bar a:hover { background: rgba(16,22,40,0.98) !important; color: #fff !important; }
+
+/* --- Leaflet: popups premium (panneau de détail) --- */
+.leaflet-popup-content-wrapper {
+    background: linear-gradient(160deg, rgba(16,22,40,0.98), rgba(8,11,20,0.99)) !important;
+    color: var(--sao-text) !important;
+    border: 1px solid var(--sao-border-hover) !important;
+    border-radius: 12px !important;
+    box-shadow: var(--sao-shadow) !important;
+}
+.leaflet-popup-content { color: var(--sao-text) !important; margin: 0.9rem 1rem !important; font-family: var(--font-text) !important; }
+.leaflet-popup-content h1, .leaflet-popup-content h2, .leaflet-popup-content h3, .leaflet-popup-content b, .leaflet-popup-content strong {
+    color: var(--sao-gold-light) !important;
+    font-family: var(--font-title) !important;
+    letter-spacing: 0.03em;
+}
+.leaflet-popup-tip { background: rgba(12,16,28,0.99) !important; border: 1px solid var(--sao-border-hover) !important; }
+.leaflet-popup-close-button { color: var(--nm-steel) !important; }
+.leaflet-popup-close-button:hover { color: var(--sao-gold-light) !important; }
+
+/* --- Leaflet: attribution --- */
+.leaflet-control-attribution {
+    background: rgba(5,7,13,0.7) !important;
+    color: var(--nm-steel) !important;
+    font-size: 0.68rem !important;
+    border-radius: 6px 0 0 0;
+}
+.leaflet-control-attribution a { color: var(--sao-cyan) !important; }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .map-container { padding: 1rem 0.85rem 2rem !important; }
+    .map-controls-container { flex-direction: column; align-items: stretch; }
+    .toggles-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+}
+
+/* ============================================================
+   NAMELESS (Carte) — UN SEUL fond d'ambiance continu pour toute la
+   section Carte. L'image_font "carte" est le décor de fond de
+   .map-container ; le hero, le bloc filtres et le conteneur Leaflet
+   vivent PAR-DESSUS ce même fond (continuité visuelle).
+   TOUS les décors sont en pointer-events:none. Leaflet (#game-map,
+   z-index:10), markers, popups, zoom et filtres restent fonctionnels.
+   ============================================================ */
+
+/* Le fond continu vit sur la section entière */
+.map-container {
+    position: relative;
+    isolation: isolate;                              /* confine les décors (z négatifs) */
+}
+.map-container::before {                             /* fond gere par .map-visual-shell */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: none;
+    pointer-events: none;
+}
+.map-container::after {                              /* overlay sombre + vignette + glow */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(5,7,13,0.80) 0%, rgba(5,7,13,0.66) 40%, rgba(5,7,13,0.86) 100%),
+        radial-gradient(120% 90% at 50% 30%, transparent 45%, rgba(0,0,0,0.6) 100%),
+        radial-gradient(70% 60% at 50% 22%, rgba(91,127,166,0.10), transparent 60%);
+}
+
+/* Le grand rectangle de la carte : semi-transparent => le MÊME fond se
+   perçoit derrière. Filet doré, glow bleu, profondeur premium. */
+.map-wrapper {
+    padding: 14px !important;
+    border: 1px solid var(--nm-hairline) !important;
+    border-radius: 16px !important;
+    background: rgba(6, 9, 16, 0.34) !important;      /* semi-transparent (pas un bloc noir) */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    box-shadow:
+        0 18px 50px rgba(0,0,0,0.45),
+        0 0 42px rgba(111,146,179,0.14),             /* glow bleu discret */
+        inset 0 0 0 1px rgba(194,163,103,0.10) !important;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Neutralise l'ancienne animation scanLine SAO (sans réintroduire d'image) */
+.map-wrapper::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    background: none !important;
+    animation: none !important;
+    pointer-events: none !important;
+}
+
+/* Filet doré au bord de la carte + légère vignette (au-dessus des tuiles,
+   jamais cliquable) */
+.map-wrapper::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 12px !important;
+    z-index: 11 !important;                          /* > #game-map (z-index:10) */
+    border-radius: 12px !important;
+    pointer-events: none !important;
+    background: radial-gradient(130% 130% at 50% 45%, transparent 70%, rgba(5,7,13,0.40) 100%) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(194,163,103,0.32),      /* filet doré */
+        inset 0 0 34px rgba(0,0,0,0.25) !important;  /* profondeur douce */
+}
+
+/* Leaflet : fond transparent/semi-transparent => le décor de section se
+   perçoit dans les coins vides autour de la carte circulaire. */
+#game-map {
+    background: transparent !important;
+    border: 1px solid var(--nm-hairline) !important;
+    box-shadow: inset 0 2px 12px rgba(0,0,0,0.45) !important;
+}
+.leaflet-container {
+    background: rgba(5, 7, 13, 0.42) !important;
+}
+
+@media (max-width: 768px) {
+    .map-wrapper { padding: 10px !important; border-radius: 12px !important; }
+    .map-wrapper::after { inset: 8px !important; }
+    .map-container::before { background-position: center 20%; }
+}

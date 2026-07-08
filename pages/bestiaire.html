@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestiaire — Nameless</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Codex des créatures d'Aincrad — boss, élites et bêtes, avec paliers, zones, PV et butin. Le bestiaire de la guilde Nameless.">
+    <meta name="keywords" content="bestiaire, créatures, boss, monstres, Aincrad, Nameless, Minecraft">
+    <link rel="canonical" href="https://iron-oath.github.io/pages/bestiaire.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Bestiaire — Nameless">
+    <meta property="og:description" content="Le codex des créatures d'Aincrad : boss, élites et bêtes, avec zones et butin.">
+    <meta property="og:image" content="https://iron-oath.github.io/assets/brand/nameless-logo.png">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
+    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/bestiaire.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/page-hero.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.0">
+</head>
+<body>
+    <!-- Skip link pour l'accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="../index.html" aria-label="Nameless - Accueil">
+                    <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="bestiaire.html" class="nav-link active" role="menuitem" aria-current="page">Bestiaire</a></li>
+                <li role="none"><a href="items.html" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="quetes.html" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="connexion.html" class="connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" class="bestiaire-container page-visual-shell bestiaire-visual-shell" role="main">
+        <!-- Hero compact -->
+        <section class="bes-hero nm-scene-hero nm-scene-hero--bleed scene-bestiaire">
+            <span class="nm-eyebrow">Codex des créatures</span>
+            <h1>Bestiaire d'Aincrad</h1>
+            <p class="bes-subtitle">Le recensement des créatures d'Aincrad — boss, élites et bêtes, palier par palier.</p>
+        </section>
+
+        <!-- Filtres -->
+        <section class="bes-filters" aria-label="Filtres de recherche">
+            <div class="bes-search">
+                <label for="bes-search" class="visually-hidden">Rechercher une créature</label>
+                <input type="text" id="bes-search" placeholder="Rechercher une créature, une zone..." autocomplete="off">
+            </div>
+            <div class="bes-filter-group">
+                <label for="bes-palier" class="visually-hidden">Palier</label>
+                <select id="bes-palier" aria-label="Filtrer par palier">
+                    <option value="">Tous les paliers</option>
+                    <option value="1">Palier 1</option>
+                    <option value="2">Palier 2</option>
+                    <option value="3">Palier 3</option>
+                </select>
+                <label for="bes-category" class="visually-hidden">Catégorie</label>
+                <select id="bes-category" aria-label="Filtrer par catégorie">
+                    <option value="">Toutes catégories</option>
+                    <option value="boss">Boss</option>
+                    <option value="elite">Élite</option>
+                    <option value="creature">Créature</option>
+                </select>
+                <label for="bes-type" class="visually-hidden">Type</label>
+                <select id="bes-type" aria-label="Filtrer par type">
+                    <option value="">Tous les types</option>
+                </select>
+                <label for="bes-zone" class="visually-hidden">Zone</label>
+                <select id="bes-zone" aria-label="Filtrer par zone">
+                    <option value="">Toutes les zones</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="creatures-grid" id="creatures-grid" aria-label="Liste des créatures" aria-live="polite"></section>
+
+        <!-- Contrôles de pagination -->
+        <nav class="pagination-container" id="pagination-container" style="display: none;" aria-label="Pagination">
+            <div class="pagination-info">
+                <span id="pagination-info-text" aria-live="polite"></span>
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" id="prev-page" disabled aria-label="Page précédente">Précédent</button>
+                <div class="pagination-numbers" id="pagination-numbers" role="list"></div>
+                <button class="pagination-btn" id="next-page" aria-label="Page suivante">Suivant</button>
+            </div>
+            <div class="pagination-settings">
+                <label for="items-per-page">Par page</label>
+                <select id="items-per-page">
+                    <option value="12">12</option>
+                    <option value="24">24</option>
+                    <option value="36">36</option>
+                    <option value="48">48</option>
+                </select>
+            </div>
+        </nav>
+    </main>
+
+    <!-- Scripts - Chargement optimisé -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="../js/crypto-keys.js" defer></script>
+    <script src="../js/db-guard.js" defer></script>
+    <script src="../js/security-utils.js?v=20260706" defer></script>
+    <script src="../js/auth-supabase.js?v=20260215c" defer></script>
+    <script src="../js/bestiaire.js?v=spa-public-1.0" defer></script>
+    <script src="../js/navbar-mobile.js" defer></script>
+    <script src="../js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+</body>
+</html>

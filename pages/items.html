@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue d'Items — Nameless</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Le catalogue des items d'Aincrad — armes, armures, accessoires, consommables, ressources et runes. Le trésor de la guilde Nameless.">
+    <meta name="keywords" content="items, catalogue, armes, armures, accessoires, ressources, Aincrad, Nameless, Minecraft">
+    <link rel="canonical" href="https://iron-oath.github.io/pages/items.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Catalogue d'Items — Nameless">
+    <meta property="og:description" content="Tous les items d'Aincrad, classés par catégorie et rareté.">
+    <meta property="og:image" content="https://iron-oath.github.io/assets/brand/nameless-logo.png">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
+    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/components/items.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/page-hero.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.0">
+</head>
+<body>
+    <!-- Skip link pour l'accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="../index.html" aria-label="Nameless - Accueil">
+                    <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="bestiaire.html" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="items.html" class="nav-link active" role="menuitem" aria-current="page">Items</a></li>
+                <li role="none"><a href="quetes.html" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="connexion.html" class="connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" class="items-container page-visual-shell items-visual-shell" role="main">
+        <!-- Hero compact -->
+        <section class="items-hero nm-scene-hero nm-scene-hero--bleed scene-items">
+            <span class="nm-eyebrow">Catalogue des reliques</span>
+            <h1>Catalogue d'Items</h1>
+            <p class="items-subtitle">Les objets d'Aincrad — armes, armures, accessoires, consommables, ressources et runes.</p>
+        </section>
+
+        <!-- Filtres -->
+        <section class="items-filters" aria-label="Filtres de recherche">
+            <div class="items-search">
+                <label for="it-search" class="visually-hidden">Rechercher un item</label>
+                <input type="text" id="it-search" placeholder="Rechercher un item..." autocomplete="off">
+            </div>
+            <div class="items-filter-group">
+                <label for="it-category" class="visually-hidden">Catégorie</label>
+                <select id="it-category" aria-label="Filtrer par catégorie">
+                    <option value="">Toutes les catégories</option>
+                </select>
+                <label for="it-rarity" class="visually-hidden">Rareté</label>
+                <select id="it-rarity" aria-label="Filtrer par rareté">
+                    <option value="">Toutes les raretés</option>
+                    <option value="common">Commun</option>
+                    <option value="uncommon">Peu commun</option>
+                    <option value="rare">Rare</option>
+                    <option value="epic">Épique</option>
+                    <option value="legendary">Légendaire</option>
+                </select>
+                <button type="button" class="items-reset" id="it-reset">Réinitialiser</button>
+            </div>
+            <div class="items-count" id="it-count" aria-live="polite"></div>
+        </section>
+
+        <section class="items-grid" id="items-grid" aria-label="Liste des items" aria-live="polite"></section>
+
+        <!-- Pagination -->
+        <nav class="pagination-container" id="items-pagination-container" style="display: none;" aria-label="Pagination des items">
+            <div class="pagination-info"><span id="items-pagination-info-text" aria-live="polite"></span></div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" id="items-prev-page" disabled aria-label="Page précédente">Précédent</button>
+                <div class="pagination-numbers" id="items-pagination-numbers" role="list"></div>
+                <button class="pagination-btn" id="items-next-page" aria-label="Page suivante">Suivant</button>
+            </div>
+            <div class="pagination-settings">
+                <label for="items-per-page-select">Par page</label>
+                <select id="items-per-page-select">
+                    <option value="12">12</option>
+                    <option value="24">24</option>
+                    <option value="36">36</option>
+                    <option value="48">48</option>
+                </select>
+            </div>
+        </nav>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="../js/crypto-keys.js" defer></script>
+    <script src="../js/db-guard.js" defer></script>
+    <script src="../js/security-utils.js?v=20260706" defer></script>
+    <script src="../js/auth-supabase.js?v=20260215c" defer></script>
+    <script src="../js/items-catalog-hdv.js?v=20260129b" defer></script>
+    <script src="../js/items.js?v=spa-public-1.0" defer></script>
+    <script src="../js/navbar-mobile.js" defer></script>
+    <script src="../js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+</body>
+</html>

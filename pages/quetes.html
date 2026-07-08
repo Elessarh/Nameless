@@ -1,0 +1,1342 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quêtes d'Aincrad — Nameless</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Progression d'Aincrad — le guide des quêtes principales et secondaires de la guilde Nameless, avec lieux, PNJ, objectifs et coordonnées.">
+    <meta name="keywords" content="quêtes, progression, guide, Aincrad, Nameless, Minecraft">
+    <link rel="canonical" href="https://iron-oath.github.io/pages/quetes.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Quêtes d'Aincrad — Nameless">
+    <meta property="og:description" content="Le guide des quêtes d'Aincrad : lieux, PNJ, objectifs et coordonnées.">
+    <meta property="og:image" content="https://iron-oath.github.io/assets/brand/nameless-logo.png">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="../assets/brand/nameless-mark.svg">
+    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/quetes.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/page-hero.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.0">
+</head>
+<body>
+    <!-- Skip link pour l'accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="../index.html" aria-label="Nameless - Accueil">
+                    <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="bestiaire.html" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="items.html" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="quetes.html" class="nav-link active" role="menuitem" aria-current="page">Quêtes</a></li>
+                <li role="none"><a href="wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="connexion.html" class="nav-link connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" class="quetes-container page-visual-shell quetes-visual-shell" role="main">
+        <!-- Hero compact -->
+        <section class="quests-hero nm-scene-hero nm-scene-hero--bleed scene-quetes">
+            <span class="nm-eyebrow">Progression d'Aincrad</span>
+            <h1>Quêtes d'Aincrad</h1>
+            <p class="quests-subtitle">Le parcours de la guilde, palier par palier — quêtes principales et secondaires, avec lieux, PNJ et objectifs.</p>
+            <span class="quests-tier-indicator" id="quests-tier-indicator">Palier 1 sélectionné</span>
+        </section>
+
+        <!-- Filtres -->
+        <section class="quests-filters" aria-label="Filtres de quêtes">
+            <div class="filter-group quest-type-filters" role="group" aria-label="Type de quête">
+                <button class="quest-filter-btn active" data-filter="all">Toutes</button>
+                <button class="quest-filter-btn" data-filter="principale">Principale</button>
+                <button class="quest-filter-btn" data-filter="secondaire">Secondaires</button>
+            </div>
+            <div class="filter-group quest-tier-selector">
+                <label for="tier-select">Palier</label>
+                <select id="tier-select">
+                    <option value="1" selected>Palier 1</option>
+                    <option value="2">Palier 2</option>
+                    <option value="3">Palier 3</option>
+                    <option value="4">Palier 4</option>
+                    <option value="5">Palier 5</option>
+                </select>
+            </div>
+            <div class="filter-group quest-search">
+                <label for="quest-search-input" class="visually-hidden">Rechercher une quête</label>
+                <input type="text" id="quest-search-input" placeholder="Rechercher une quête, un PNJ, un lieu..." autocomplete="off">
+            </div>
+        </section>
+
+        <!-- Conteneur pour la pagination (injecté dynamiquement par quetes.js) -->
+        <nav class="quest-pagination" aria-label="Pagination des quêtes"></nav>
+
+        <!-- Quête Principale du Palier 1 -->
+        <section class="quest-section" data-category="principale" data-tier="1">
+            <h2>🏰 Quête Principale - Palier 1</h2>
+            <div class="quest-main-container">
+                
+                <!-- Étapes 1-7: Introduction -->
+                <div class="quest-step-group">
+                    <h3>🌟 Introduction - Premiers pas</h3>
+                    <div class="quest-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Parler au Maître Épéiste</h4>
+                            <p><strong>Lieu:</strong> Au Spawn</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1805" data-y="4294">X:1805, Z:4294</span></p>
+                            <p>Commencez votre aventure en parlant au Maître Épéiste au point de spawn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Tuer 10 Sangliers</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1797" data-y="3633">X:1797, Z:3633</span></p>
+                            <p>Éliminez 10 sangliers dans la zone de chasse.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Parler à Abraham</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1808" data-y="3649">X:1808, Z:3649</span></p>
+                            <p>Rendez-vous voir Abraham pour la suite de votre mission.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Parler à la Vieille Mara</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1560" data-y="3411">X:1560, Z:3411</span></p>
+                            <p>La vieille Mara vous donnera des informations importantes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Prendre la Rune</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1421" data-y="3092">X:1421, Z:3092</span></p>
+                            <p>Récupérez la rune mystérieuse à cet emplacement.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">6</span>
+                        <div class="step-content">
+                            <h4>Parler au Maître Épéiste</h4>
+                            <p><strong>Lieu:</strong> En haut de la tour</p>
+                            <p>Montez en haut de la tour pour parler au Maître Épéiste.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">7</span>
+                        <div class="step-content">
+                            <h4>Retour au Maître Épéiste</h4>
+                            <p><strong>Lieu:</strong> Au Spawn</p>
+                            <p><strong>Prérequis:</strong> Niveau 4 minimum</p>
+                            <p>Vous devez recevoir 2 quêtes importantes après avoir atteint le niveau 4.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branche 8.1: Quête d'Elma -->
+                <div class="quest-step-group">
+                    <h3>🌸 Branche 8.1 - La quête d'Elma (Mizunari)</h3>
+                    <div class="quest-step">
+                        <span class="step-number">8.1</span>
+                        <div class="step-content">
+                            <h4>Parler à Elma</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3136" data-y="3667">X:3136, Z:3667 (Mizunari)</span></p>
+                            <p>Début de la première branche - parlez à Elma à Mizunari.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.2</span>
+                        <div class="step-content">
+                            <h4>Trouver Harrold</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3326" data-y="3787">X:3326, Z:3787</span></p>
+                            <p>Trouvez et parlez à Harrold.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.3</span>
+                        <div class="step-content">
+                            <h4>Tuer Nephantes</h4>
+                            <p><strong>Objectif:</strong> Farm 1 Spore Corrompu</p>
+                            <p>Éliminez des Nephantes pour obtenir 1 Spore Corrompu.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.4</span>
+                        <div class="step-content">
+                            <h4>Rapport à Harrold</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3326" data-y="3787">X:3326, Z:3787</span></p>
+                            <p>Retournez voir Harrold avec la Spore Corrompu.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.5</span>
+                        <div class="step-content">
+                            <h4>Parler au Maître Épéiste</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1839" data-y="4530">X:1839, Z:4530 (Cathédrale)</span></p>
+                            <p>Rendez-vous à la Cathédrale pour parler au Maître Épéiste.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.6</span>
+                        <div class="step-content">
+                            <h4>Trouver Velka</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2844" data-y="2993">X:2844, Z:2993 (CastelBrume)</span></p>
+                            <p>Trouvez Velka à CastelBrume.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.7</span>
+                        <div class="step-content">
+                            <h4>Parler à Eric</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2864" data-y="4491">X:2864, Z:4491 (Ruine Squelettique)</span></p>
+                            <p>Rendez-vous aux Ruines Squelettiques pour parler à Eric.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.8</span>
+                        <div class="step-content">
+                            <h4>Farm 15 Âmes des Ruines</h4>
+                            <p><strong>Objectif:</strong> Collecter 15 Âmes des Ruines</p>
+                            <p>Farmez dans les ruines pour obtenir 15 Âmes des Ruines.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.9</span>
+                        <div class="step-content">
+                            <h4>Prendre le Téléporteur</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2752" data-y="4620">X:2752, Z:4620</span></p>
+                            <p>Utilisez le téléporteur à ces coordonnées.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.10</span>
+                        <div class="step-content">
+                            <h4>Parler au Spectre Archiviste</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2940" data-y="4476">X:2940, Z:4476</span></p>
+                            <p><strong>Note:</strong> Saut requis pour atteindre le PNJ.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.11</span>
+                        <div class="step-content">
+                            <h4>Farm Matériaux Spéciaux</h4>
+                            <p><strong>Objectif:</strong> 10 Tissus Maudits & 1 Cœur Putrifié</p>
+                            <p>Collectez ces matériaux rares dans la zone.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.12</span>
+                        <div class="step-content">
+                            <h4>Rapport au Spectre Archiviste</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2940" data-y="4476">X:2940, Z:4476</span></p>
+                            <p>Retournez voir le Spectre Archiviste avec les matériaux.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.1.13</span>
+                        <div class="step-content">
+                            <h4>🔥 Tuer Nasgul (Boss)</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2821" data-y="4439">X:2821, Z:4439</span></p>
+                            <p><strong>Type:</strong> Boss de fin de branche</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branche 8.2: Mine de Geldorak -->
+                <div class="quest-step-group">
+                    <h3>⛏️ Branche 8.2 - Mine de Geldorak</h3>
+                    <div class="quest-step">
+                        <span class="step-number">8.2</span>
+                        <div class="step-content">
+                            <h4>Craft Clé de la Mine de Geldorak</h4>
+                            <p><strong>Objectif:</strong> Fabriquer la clé d'accès</p>
+                            <p>Craftez la clé pour accéder à la mine de Geldorak.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.2.2</span>
+                        <div class="step-content">
+                            <h4>Parler à Neko</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="4270" data-y="4082">X:4270, Z:4082</span></p>
+                            <p>Trouvez et parlez à Neko.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8.2.3</span>
+                        <div class="step-content">
+                            <h4>🏰 Finir le Donjon (Mine)</h4>
+                            <p><strong>Objectif:</strong> Compléter la Mine de Geldorak</p>
+                            <p>Terminez entièrement le donjon de la mine.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suite Principale (Étapes 9-15) -->
+                <div class="quest-step-group">
+                    <h3>🎯 Suite Principale - Après les branches</h3>
+                    <div class="quest-step">
+                        <span class="step-number">9</span>
+                        <div class="step-content">
+                            <h4>Retour au Maître Épéiste</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1839" data-y="4530">X:1839, Z:4530 (Cathédrale)</span></p>
+                            <p>Suite après avoir terminé les deux branches.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">10</span>
+                        <div class="step-content">
+                            <h4>Parler aux 3 PNJs</h4>
+                            <p><strong>Lieu:</strong> Taverne (Ville de départ)</p>
+                            <p>Dialoguez avec les 3 PNJ dans la taverne.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">11</span>
+                        <div class="step-content">
+                            <h4>Parler au Maire</h4>
+                            <p><strong>Lieu:</strong> Valhatt</p>
+                            <p><strong>Prérequis:</strong> Nécessite la quête de Zebulgarath</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">12</span>
+                        <div class="step-content">
+                            <h4>🔥 Tuer Gorbel (Last Hit)</h4>
+                            <p><strong>Type:</strong> Mini-Boss</p>
+                            <p>Éliminez Gorbel - vous devez porter le coup final.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">13</span>
+                        <div class="step-content">
+                            <h4>Parler à l'Homme Cagoulé</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="325" data-y="3196">X:325, Z:3196</span></p>
+                            <p>Trouvez l'homme mystérieux cagoulé.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">14</span>
+                        <div class="step-content">
+                            <h4>Retour au Maître Épéiste</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1839" data-y="4530">X:1839, Z:4530 (Cathédrale)</span></p>
+                            <p>Retournez à la Cathédrale.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">15</span>
+                        <div class="step-content">
+                            <h4>Parler à Catherine</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2380" data-y="2417">X:2380, Z:2417 (Labyrinthe)</span></p>
+                            <p>Parlez à Catherine pour préparer le donjon du Labyrinthe.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Archipel d'Ika (Étapes 16-19) -->
+                <div class="quest-step-group">
+                    <h3>🏝️ Archipel d'Ika - Le Sceau</h3>
+                    <div class="quest-step">
+                        <span class="step-number">16</span>
+                        <div class="step-content">
+                            <h4>Réparer le Sceau</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3249" data-y="4295">X:3249, Z:4295 (Archipel d'Ika)</span></p>
+                            <p>Objectif interactif sur l'Archipel d'Ika.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">17</span>
+                        <div class="step-content">
+                            <h4>Parler à l'Ombre Mystérieuse</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3188" data-y="4011">X:3188, Z:4011</span></p>
+                            <p>Dialoguez avec cette entité mystérieuse.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">18</span>
+                        <div class="step-content">
+                            <h4>Rapport à Catherine</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2380" data-y="2417">X:2380, Z:2417</span></p>
+                            <p>Retournez faire votre rapport à Catherine.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">19</span>
+                        <div class="step-content">
+                            <h4>🏰 Finir le Labyrinthe des Déchus</h4>
+                            <p><strong>Type:</strong> Donjon majeur</p>
+                            <p>Terminez entièrement ce donjon important.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tolbana (Étapes 20-26) -->
+                <div class="quest-step-group">
+                    <h3>🌆 Tolbana - La Cité</h3>
+                    <div class="quest-step">
+                        <span class="step-number">20</span>
+                        <div class="step-content">
+                            <h4>Parler à Wali</h4>
+                            <p><strong>Lieu:</strong> Sortie du donjon</p>
+                            <p>Trouvez Wali à la sortie du Labyrinthe des Déchus.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">21</span>
+                        <div class="step-content">
+                            <h4>Parler à Mephisto</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3173" data-y="1648">X:3173, Z:1648 (Tolbana)</span></p>
+                            <p>Rendez-vous à Tolbana pour parler à Mephisto.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">22</span>
+                        <div class="step-content">
+                            <h4>Rapport à Wali</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3166" data-y="1689">X:3166, Z:1689</span></p>
+                            <p>Retournez voir Wali avec les informations.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">23</span>
+                        <div class="step-content">
+                            <h4>Parler à Emy</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3205" data-y="1677">X:3205, Z:1677</span></p>
+                            <p>Parlez à Emy et préparez-vous à livrer des ressources.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">24</span>
+                        <div class="step-content">
+                            <h4>Livrer les Ressources à Emy</h4>
+                            <p><strong>Objectif:</strong> 16 Peaux de Cerf & 10 Lingots de Fer</p>
+                            <p>Collectez et livrez ces ressources à Emy.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">25</span>
+                        <div class="step-content">
+                            <h4>Rapport à Wali</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3166" data-y="1689">X:3166, Z:1689</span></p>
+                            <p>Retournez voir Wali après avoir livré à Emy.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">26</span>
+                        <div class="step-content">
+                            <h4>Fin avec Mephisto</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3173" data-y="1648">X:3173, Z:1648 (Tolbana)</span></p>
+                            <p>Terminez cette partie de la quête avec Mephisto.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Virelune (Étapes 26.1-28) -->
+                <div class="quest-step-group">
+                    <h3>🌙 Virelune - Nouveau Chapitre</h3>
+                    <div class="quest-step">
+                        <span class="step-number">26.1</span>
+                        <div class="step-content">
+                            <h4>Parler à Ramoon</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1544" data-y="2178">X:1544, Z:2178 (Virelune)</span></p>
+                            <p>Nouveau chapitre commence avec Ramoon à Virelune.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">26.2</span>
+                        <div class="step-content">
+                            <h4>Parler à Malrik</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3297" data-y="1833">X:3297, Z:1833 (Tolbana)</span></p>
+                            <p>Retournez à Tolbana pour parler à Malrik.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">26.3</span>
+                        <div class="step-content">
+                            <h4>Tuer 10 Requins</h4>
+                            <p><strong>Objectif:</strong> Chasse maritime</p>
+                            <p>Éliminez 10 requins dans les zones aquatiques.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">26.4</span>
+                        <div class="step-content">
+                            <h4>Rapport à Malrik</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3297" data-y="1833">X:3297, Z:1833 (Tolbana)</span></p>
+                            <p>Retournez voir Malrik après la chasse.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">27.1</span>
+                        <div class="step-content">
+                            <h4>Parler à Virel</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1511" data-y="2188">X:1511, Z:2188 (Virelune)</span></p>
+                            <p>Retournez à Virelune pour parler à Virel.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">27.2</span>
+                        <div class="step-content">
+                            <h4>🐉 Tuer le Léviathan (Boss Majeur)</h4>
+                            <p><strong>Type:</strong> Boss majeur aquatique</p>
+                            <p>Affrontez et éliminez le redoutable Léviathan.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">27.3</span>
+                        <div class="step-content">
+                            <h4>Rapport à Virel</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1511" data-y="2188">X:1511, Z:2188 (Virelune)</span></p>
+                            <p>Retournez voir Virel après avoir vaincu le Léviathan.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">28</span>
+                        <div class="step-content">
+                            <h4>Suite avec Ramoon</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1544" data-y="2178">X:1544, Z:2178 (Virelune)</span></p>
+                            <p>Continuez l'aventure avec Ramoon après le boss.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donjon Final (Étapes 29) -->
+                <div class="quest-step-group">
+                    <h3>🕷️ Xal'Zirith - Donjon Final</h3>
+                    <div class="quest-step">
+                        <span class="step-number">29.1</span>
+                        <div class="step-content">
+                            <h4>Parler à Silrix</h4>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="979" data-y="1372">X:979, Z:1372 (Donjon Araignée)</span></p>
+                            <p>Préparez-vous pour le dernier donjon avec Silrix.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">29.2</span>
+                        <div class="step-content">
+                            <h4>🏆 Finir le Donjon de Xal'Zirith</h4>
+                            <p><strong>Type:</strong> Donjon final du Palier 1</p>
+                            <p><strong>Récompense:</strong> Achèvement du Palier 1</p>
+                            <p>Terminez ce donjon pour compléter entièrement le Palier 1 !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quêtes Secondaires du Palier 1 -->
+        <section class="quest-section" data-category="secondaire" data-tier="1">
+            <h2>⭐ Quêtes Secondaires - Palier 1</h2>
+            
+            <!-- Ville de Départ -->
+            <div class="secondary-quest-group">
+                <h3>🏘️ Ville de Départ</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🗡️ Varn</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2800" data-y="4297">X:2800, Z:4297</span></p>
+                        <p><strong>Demande:</strong> 4 Fourrures de Loup, 2 Eclats de Bois Magique, 1 Os de Squelette Supérieur</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌿 Milla</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2207" data-y="4187">X:2207, Z:4187</span></p>
+                        <p><strong>Demande:</strong> 15 Fragments de Feuilles, 2 Mycélium Magique</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⚔️ Inari</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1760" data-y="4736">X:1760, Z:4736</span></p>
+                        <p><strong>Demande:</strong> Full armure Ika</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🏹 Orin</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1745" data-y="4724">X:1745, Z:4724</span></p>
+                        <p><strong>Demande:</strong> 5 Minerais de Fer, 5 Corde d'Arc Sylvestre</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌸 Rikyu</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1500" data-y="4315">X:1500, Z:4315</span></p>
+                        <p><strong>Demande:</strong> 25 Fragments de Feuilles, 8 Fleur d'Allium</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🧙‍♂️ Bunta</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1500" data-y="4328">X:1500, Z:4328</span></p>
+                        <p><strong>Demande:</strong> 5 Eclats Bois Magique, 5 Poussière d'Os, 3 Noyau de Silme</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🕸️ Meiko</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1273" data-y="4308">X:1273, Z:4308</span></p>
+                        <p><strong>Demande:</strong> 5 Tissus d'Araignée, 3 Cuir Usé</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>💎 Saria</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1274" data-y="4317">X:1274, Z:4317</span></p>
+                        <p><strong>Demande:</strong> 50 Gelées de Silme, 10 Minerais de Fer</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🏹 Tilda</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1883" data-y="4010">X:1883, Z:4010</span></p>
+                        <p><strong>Demande:</strong> 1 Arc Courbé</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌳 Lila</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1878" data-y="3992">X:1878, Z:3992</span></p>
+                        <p><strong>Demande:</strong> 1 Coeur de Bois</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hanaka -->
+            <div class="secondary-quest-group">
+                <h3>🏯 Hanaka</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🐺 Genzo</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1532" data-y="3376">X:1532, Z:3376</span></p>
+                        <p><strong>Demande:</strong> 6 Crocs de Loup, 2 Eclats de Bois Magique</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🐗 Bartok</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1526" data-y="3377">X:1526, Z:3377</span></p>
+                        <p><strong>Demande:</strong> 25 Peaux de Sanglier, 25 Crocs de Loup</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌺 Greta</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1438" data-y="3407">X:1438, Z:3407</span></p>
+                        <p><strong>Demande:</strong> 15 Fleurs d'Allium, 5 Fils d'Araignée</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⛪ Soeur Therra</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1406" data-y="3435">X:1406, Z:3435</span></p>
+                        <p><strong>Demande:</strong> 20 Gelées de Silme, 1 Essence de Corbel</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌲 Toban</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1356" data-y="3441">X:1356, Z:3441</span></p>
+                        <p><strong>Demande:</strong> 5 Ecorces de Titan, 2 Mycélium Magique</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌼 Rina</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1502" data-y="3533">X:1502, Z:3533</span></p>
+                        <p><strong>Demande:</strong> 4 Fleurs d'Allium, 2 Gelées de Silme</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>✨ Maya</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1500" data-y="3560">X:1500, Z:3560</span></p>
+                        <p><strong>Demande:</strong> 8 Brindilles Enchantées, 2 Gelée de Silme</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mizunari -->
+            <div class="secondary-quest-group">
+                <h3>🌊 Mizunari</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🍃 Michelle</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3131" data-y="3666">X:3131, Z:3666</span></p>
+                        <p><strong>Demande:</strong> 10 Fragments de Feuilles</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌾 Martine</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3150" data-y="3672">X:3150, Z:3672</span></p>
+                        <p><strong>Demande:</strong> 16 Epis Sauvages</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌳 Elwyn</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3111" data-y="3703">X:3111, Z:3703</span></p>
+                        <p><strong>Demande:</strong> 10 Ecorces Sylvestre, 10 Brindilles Enchantés, 3 Racines Ancestrales</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⚒️ Louise</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3147" data-y="3704">X:3147, Z:3704</span></p>
+                        <p><strong>Demande:</strong> 10 Lingots de Cuivre</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🪓 Phares</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3149" data-y="3714">X:3149, Z:3714</span></p>
+                        <p><strong>Demande:</strong> 20 Bloches de Bois</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jardin des Géants -->
+            <div class="secondary-quest-group">
+                <h3>🌺 Jardin des Géants</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🧙‍♂️ Zebulgarath</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="372" data-y="2477">X:372, Z:2477</span></p>
+                        <p><strong>Demande:</strong> 3 Racines Ancestrales</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valhatt -->
+            <div class="secondary-quest-group">
+                <h3>⚔️ Valhatt</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>👻 Saya</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="492" data-y="3028">X:492, Z:3028</span></p>
+                        <p><strong>Demande:</strong> 4 Tissus Spectral, 3 Brindilles Enchantées</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌱 Ayaka</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="479" data-y="3013">X:479, Z:3013</span></p>
+                        <p><strong>Demande:</strong> 25 Pousses de Sylves, 5 Mycélium Magique</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🐗 Daiki</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="430" data-y="3046">X:430, Z:3046</span></p>
+                        <p><strong>Demande:</strong> 4 Peaux de Sanglier, 2 Crocs Albal</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Camp Militaire -->
+            <div class="secondary-quest-group">
+                <h3>🏛️ Camp Militaire</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🪓 Jean</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3225" data-y="2891">X:3225, Z:2891</span></p>
+                        <p><strong>Demande:</strong> 40 Bloches de Chêne, 20 Minerais de Fer</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌳 Corentin</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3291" data-y="2905">X:3291, Z:2905</span></p>
+                        <p><strong>Demande:</strong> 64 Bloches de Chêne</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>❄️ Fira</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3396" data-y="2947">X:3396, Z:2947</span></p>
+                        <p><strong>Demande:</strong> 1 Eclat Magique Glacial, 3 Poussières d'Os</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candelia -->
+            <div class="secondary-quest-group">
+                <h3>🕯️ Candelia</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🪵 Yannis</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2014" data-y="834">X:2014, Z:834</span></p>
+                        <p><strong>Demande:</strong> 32 Bûches de bois</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>❄️ Gilmar</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1959" data-y="791">X:1959, Z:791</span></p>
+                        <p><strong>Demande:</strong> 10 Eclat Magique Glacial, 5 Fragments Cassé Violet</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌲 Tomoko</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1955" data-y="814">X:1955, Z:814</span></p>
+                        <p><strong>Demande:</strong> 20 Ecorce Sylvestre, 5 Racines Ancestrales</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🪵 Pierre</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="2018" data-y="877">X:2018, Z:877</span></p>
+                        <p><strong>Demande:</strong> 20 Buches de Bois</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🦌 Roméo</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1991" data-y="832">X:1991, Z:832</span></p>
+                        <p><strong>Demande:</strong> 16 Peaux de Cerf des Montagnes</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌾 Emilie</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1984" data-y="753">X:1984, Z:753</span></p>
+                        <p><strong>Demande:</strong> 20 Epis de Blé</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Virelune -->
+            <div class="secondary-quest-group">
+                <h3>🌙 Virelune</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🪵 Juliette</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1565" data-y="1968">X:1565, Z:1968</span></p>
+                        <p><strong>Demande:</strong> 16 Bûches de Chêne, 16 Bûches de Bouleau</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⛏️ Luc</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1624" data-y="1852">X:1624, Z:1852</span></p>
+                        <p><strong>Demande:</strong> 3 Pioches Félés</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🕷️ Sam</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1600" data-y="2006">X:1600, Z:2006</span></p>
+                        <p><strong>Demande:</strong> Tuer 20 Araignées</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🦈 Monique</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1563" data-y="2000">X:1563, Z:2000</span></p>
+                        <p><strong>Demande:</strong> Tuer 10 Requins</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVF (Sans Village Fixe) -->
+            <div class="secondary-quest-group">
+                <h3>🚶‍♂️ SVF (Sans Village Fixe)</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>👻 Gilbert</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1700" data-y="1018">X:1700, Z:1018</span></p>
+                        <p><strong>Demande:</strong> 15 Tissus Spectral</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🦌 Horace</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="3084" data-y="1913">X:3084, Z:1913</span></p>
+                        <p><strong>Demande:</strong> 12 Cuirs Usé, 8 Peaux de Cerf des Montagnes</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🦈 Haruto</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="1868" data-y="2112">X:1868, Z:2112</span></p>
+                        <p><strong>Demande:</strong> 30 Gelées de Silme, 25 Carapaces de Requin</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Quête Principale du Palier 2 -->
+        <section class="quest-section" data-category="principale" data-tier="2" style="display: none;">
+            <h2>🏰 Quête Principale - Palier 2</h2>
+            <div class="quest-main-container">
+                
+                <!-- Introduction Palier 2 -->
+                <div class="quest-step-group">
+                    <h3>🌟 Début du Palier 2</h3>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Parler au Maître Épéiste</h4>
+                            <p><strong>PNJ:</strong> Maître Épéiste</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-40" data-y="-888">X:-40, Z:-888</span></p>
+                            <p>Commencez votre aventure au Palier 2 en parlant au Maître Épéiste.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Trouver Artheon à Urbus</h4>
+                            <p><strong>PNJ:</strong> Elyra</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="10" data-y="-666">X:10, Z:-666</span></p>
+                            <p>Trouvez Artheon aux coordonnées X: 133, Z: -375, Y: 140.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Tuer 20 Taureaux</h4>
+                            <p><strong>PNJ:</strong> Artheon</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="133" data-y="-375">X:133, Z:-375</span></p>
+                            <p>Éliminez 20 taureaux dans la zone.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Parler à Bantu</h4>
+                            <p><strong>PNJ:</strong> Artheon</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="133" data-y="-375">X:133, Z:-375</span></p>
+                            <p>Rendez-vous auprès de Bantu.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Tuer 25 Loups</h4>
+                            <p><strong>PNJ:</strong> Bantu</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-586" data-y="-255">X:-586, Z:-255</span></p>
+                            <p>Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">6</span>
+                        <div class="step-content">
+                            <h4>Obtenir 10 Planches d'Acacia et 1 Lingot d'Onyx Pur</h4>
+                            <p><strong>PNJ:</strong> Kwabena</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-437" data-y="-441">X:-437, Z:-441</span></p>
+                            <p>Rassemblez les matériaux demandés.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">7</span>
+                        <div class="step-content">
+                            <h4>Parler à Kwabeno</h4>
+                            <p><strong>PNJ:</strong> Kwabeno</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-427" data-y="-427">X:-427, Z:-427</span></p>
+                            <p>Discutez avec Kwabeno.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">8</span>
+                        <div class="step-content">
+                            <h4>Obtenir 10 Écailles Fulgurantes et 10 Cornes de Taureaux</h4>
+                            <p><strong>PNJ:</strong> Kwabeno</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-427" data-y="-427">X:-427, Z:-427</span></p>
+                            <p>Collectez les matériaux rares.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">9</span>
+                        <div class="step-content">
+                            <h4>Contacter Yaa</h4>
+                            <p><strong>PNJ:</strong> Fanny</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="743" data-y="-259">X:743, Z:-259</span></p>
+                            <p>Établissez le contact avec Yaa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">10</span>
+                        <div class="step-content">
+                            <h4>Obtenir 20 Bûches d'Acacia et 20 Bûches de Chêne</h4>
+                            <p><strong>PNJ:</strong> Bronn</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="638" data-y="-267">X:638, Z:-267</span></p>
+                            <p>Collectez les bûches pour Bronn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">11</span>
+                        <div class="step-content">
+                            <h4>Obtenir 20 Planches d'Acacia et 20 Planches de Chêne</h4>
+                            <p><strong>PNJ:</strong> Bronn</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="638" data-y="-267">X:638, Z:-267</span></p>
+                            <p>Fabriquez les planches pour Bronn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">12</span>
+                        <div class="step-content">
+                            <h4>Obtenir 20 Planches de Chêne, 20 Planches d'Acacia et 10 Bûches de Bouleau</h4>
+                            <p><strong>PNJ:</strong> Bronn</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="638" data-y="-267">X:638, Z:-267</span></p>
+                            <p>Dernière livraison pour Bronn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">13</span>
+                        <div class="step-content">
+                            <h4>Parler à la Statue de Yaa</h4>
+                            <p><strong>PNJ:</strong> Statue</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="740" data-y="-255">X:740, Z:-255</span></p>
+                            <p>Parlez à la Statue de Yaa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">14</span>
+                        <div class="step-content">
+                            <h4>Obtenir la Clé de Melliona</h4>
+                            <p><strong>Objectif:</strong> Donjon Abeille</p>
+                            <p>Obtenez la clé de Melliona en complétant le donjon des abeilles.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">15</span>
+                        <div class="step-content">
+                            <h4>Finir le Donjon Rush de Melliona</h4>
+                            <p><strong>Objectif:</strong> Compléter le rush</p>
+                            <p>Terminez le donjon Rush de Melliona.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quest-step">
+                        <span class="step-number">16</span>
+                        <div class="step-content">
+                            <h4>Obtenir 30 Bûches de Chêne, 10 Fourrures de Loup, 20 Minerais de Charbon</h4>
+                            <p><strong>PNJ:</strong> Yuko</p>
+                            <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-611" data-y="-247">X:-611, Z:-247</span></p>
+                            <p>Collectez les ressources pour Yuko.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quêtes Secondaires du Palier 2 -->
+        <section class="quest-section" data-category="secondaire" data-tier="2" style="display: none;">
+            <h2>⭐ Quêtes Secondaires - Palier 2</h2>
+            
+            <!-- Zone Est -->
+            <div class="secondary-quest-group">
+                <h3>🏘️ Zone Est</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🐗 Minutiare</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="695" data-y="-277">X:695, Z:-277</span></p>
+                        <p><strong>Demande:</strong> 15 Peaux de Sangliers, 15 Peau Épaisse</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⛏️ Shii</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="725" data-y="-302">X:725, Z:-302</span></p>
+                        <p><strong>Demande:</strong> 10 Minerais d'Onyx Impur</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🎒 Elyen</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="620" data-y="-566">X:620, Z:-566</span></p>
+                        <p><strong>Demande:</strong> 1 Sac de Toile, 1 Anneau sans nom, 1 Carnet Froissé</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zone Centrale -->
+            <div class="secondary-quest-group">
+                <h3>🏛️ Zone Centrale (Urbus)</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⛏️ Charles</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="116" data-y="-307">X:116, Z:-307</span></p>
+                        <p><strong>Demande:</strong> 30 Minerais de Bauxite</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🪶 Ifa</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="111" data-y="-391">X:111, Z:-391</span></p>
+                        <p><strong>Demande:</strong> 4 Plumes Enflammées, 4 Plumes Ondoyantes, 4 Plumes Terreuses</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🐺 Ife</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="106" data-y="-383">X:106, Z:-383</span></p>
+                        <p><strong>Demande:</strong> 6 Fourrures de Loup, 6 Peaux d'Ours</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zone Harpies -->
+            <div class="secondary-quest-group">
+                <h3>🦅 Zone Harpies</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⚡ Sissou</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-434" data-y="271">X:-434, Z:271</span></p>
+                        <p><strong>Demande:</strong> Vaincre 30 Harpies de Feu / Foudre</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🔥 Frank</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-486" data-y="268">X:-486, Z:268</span></p>
+                        <p><strong>Demande:</strong> Vaincre 5 Harpie de Feu, 5 Harpie de Foudre, 5 Harpie de Terre</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🌍 Poris</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-431" data-y="280">X:-431, Z:280</span></p>
+                        <p><strong>Demande:</strong> Vaincre 50 Harpies de Terre</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Village de Bantu -->
+            <div class="secondary-quest-group">
+                <h3>🏘️ Village de Bantu</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🐱 Itamii</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-554" data-y="-263">X:-554, Z:-263</span></p>
+                        <p><strong>Demande:</strong> Retrouver Relax le chat</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🍯 Baraka</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-576" data-y="-256">X:-576, Z:-256</span></p>
+                        <p><strong>Demande:</strong> 10 Miel</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🥚 Mansa</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-564" data-y="-255">X:-564, Z:-255</span></p>
+                        <p><strong>Demande:</strong> 15 Oeufs d'Harpie d'Eau, 10 Graisse d'Ours</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🪶 Nora</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-587" data-y="-245">X:-587, Z:-245</span></p>
+                        <p><strong>Demande:</strong> 3 Plumes Corrompues</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zone Nord -->
+            <div class="secondary-quest-group">
+                <h3>🐉 Zone Nord</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>⚔️ Chasseur de Dragon</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-204" data-y="-688">X:-204, Z:-688</span></p>
+                        <p><strong>Demande:</strong> Vaincre dans l'ordre : 1 Gardien du Sanctuaire, 1 Rugiboeuf le Gardien, 1 Velindra la Tisseuse, 1 Magnus Colosse de Veines</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sanctuaire de Keshûn -->
+            <div class="secondary-quest-group">
+                <h3>💀 Sanctuaire de Keshûn</h3>
+                
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>☠️ SamaelTVS</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-42" data-y="205">X:-42, Z:205</span></p>
+                        <p><strong>Demande:</strong> Vaincre 30 Squelettes dans le Sanctuaire de Keshûn</p>
+                    </div>
+                </div>
+
+                <div class="quest-step">
+                    <div class="step-content">
+                        <h4>🍄 Havca</h4>
+                        <p><strong>Coordonnées:</strong> <span class="coordinates" data-x="-160" data-y="10">X:-160, Z:10</span></p>
+                        <p><strong>Demande:</strong> Champignogno, 2 Herbes Parfumées</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts - Chargement optimisé -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="../js/crypto-keys.js" defer></script>
+    <script src="../js/db-guard.js" defer></script>
+    <script src="../js/security-utils.js?v=20260706" defer></script>
+    <script src="../js/auth-supabase.js?v=20260215c" defer></script>
+
+    <!-- Scripts de quêtes et navigation -->
+    <script src="../js/quetes.js?v=spa-public-1.0" defer></script>
+    <script src="../js/navbar-mobile.js" defer></script>
+    <script src="../js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+</body>
+</html>

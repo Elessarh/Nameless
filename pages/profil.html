@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon profil — Nameless</title>
+
+    <!-- Meta tags pour robots - Page privée -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Votre profil Nameless — pseudo Minecraft, rôle, classe, niveau et progression.">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
+    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/components/profil.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.0">
+</head>
+<body class="profil-page">
+    <!-- Skip link pour l'accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="../index.html" aria-label="Nameless - Accueil">
+                    <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="bestiaire.html" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="items.html" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="quetes.html" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="connexion.html" class="connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" class="profil-container" role="main">
+        <section class="profil-hero">
+            <span class="nm-eyebrow">Ta fiche d'aventurier</span>
+            <h1>Mon profil</h1>
+        </section>
+
+        <div id="loading" class="profil-loading" role="status" aria-live="polite">
+            <div class="profil-spinner" aria-hidden="true"></div>
+            <p>Chargement de votre profil…</p>
+        </div>
+
+        <div id="profil-content" style="display: none;">
+            <!-- Carte joueur -->
+            <div class="player-card">
+                <div class="player-card-head">
+                    <div id="mc-avatar-section" class="mc-avatar-section" style="display: none;">
+                        <img id="mc-avatar-img" class="mc-avatar-img" src="" alt="Avatar Minecraft" width="80" height="80">
+                    </div>
+                    <div class="player-identity">
+                        <h2 id="mc-display-name" class="mc-display-name"></h2>
+                        <span id="profil-title-fallback" class="player-fallback">Mon profil</span>
+                        <div class="player-role-line">
+                            <span id="profile-role" class="role-badge role-joueur">Joueur</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-actions">
+                    <a href="admin-dashboard.html" id="dashboard-btn" class="player-btn player-btn-admin" style="display: none;">Dashboard admin</a>
+                    <a href="espace-guilde.html" id="guilde-btn" class="player-btn" style="display: none;">Espace guilde</a>
+                </div>
+            </div>
+
+            <!-- Informations -->
+            <section class="profil-info" aria-label="Informations du profil">
+                <h3 class="profil-section-title">Informations</h3>
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="info-label">Pseudo Minecraft</span>
+                        <span class="info-value" id="profile-username">-</span>
+                    </div>
+                    <div class="info-row" id="email-row">
+                        <span class="info-label">Email</span>
+                        <span class="info-value" id="profile-email">-</span>
+                    </div>
+                    <div class="info-row">
+                        <label class="info-label" for="profile-classe">Classe</label>
+                        <span class="info-value">
+                            <select id="profile-classe" class="profile-select">
+                                <option value="Shaman">Shaman</option>
+                                <option value="Mage">Mage</option>
+                                <option value="Assassin">Assassin</option>
+                                <option value="Guerrier" selected>Guerrier</option>
+                                <option value="Archer">Archer</option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <label class="info-label" for="profile-niveau">Niveau</label>
+                        <span class="info-value">
+                            <input type="number" id="profile-niveau" class="profile-input" min="1" max="100" value="1">
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Membre depuis</span>
+                        <span class="info-value" id="profile-created">-</span>
+                    </div>
+                </div>
+                <div class="profil-save-row">
+                    <button id="save-profile-btn" class="save-profile-btn">Sauvegarder les modifications</button>
+                </div>
+            </section>
+
+            <!-- Statistiques -->
+            <section class="profil-stats" aria-label="Statistiques du joueur">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-messages">0</div>
+                    <div class="stat-label">Messages envoyés</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-items">0</div>
+                    <div class="stat-label">Items possédés</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-level">1</div>
+                    <div class="stat-label">Niveau</div>
+                </div>
+            </section>
+        </div>
+
+        <div id="error-content" class="profil-error" role="alert" style="display: none;">
+            <h2>Erreur</h2>
+            <p id="error-text">Une erreur est survenue lors du chargement du profil.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p><span class="nm-foot-tag">◆</span> Nameless — Sans nom. Jamais seuls. <span class="nm-foot-tag">◆</span></p>
+        </div>
+    </footer>
+
+    <!-- Scripts - Chargement optimisé -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="../js/performance-monitor.js" defer></script>
+    <script src="../js/cache-manager.js" defer></script>
+    <script src="../js/navbar-mobile.js" defer></script>
+    <script src="../js/crypto-keys.js" defer></script>
+    <script src="../js/db-guard.js" defer></script>
+    <script src="../js/security-utils.js?v=20260706" defer></script>
+    <script src="../js/auth-supabase.js?v=20260215c" defer></script>
+    <script src="../js/profil.js?v=nameless-1.0" defer></script>
+    <script src="../js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+/* ============================================================
+   NAMELESS — Accueil : carrousel + priorités + pourquoi rejoindre
+   Remplace les anciennes sections "Le domaine" / "Progression" /
+   "L'empreinte de la guilde". Sombre, doré, premium, sans faux chiffres.
+   ============================================================ */
+
+/* ---------- Carrousel ---------- */
+.nm-carousel {
+    position: relative;
+    margin-top: 2.5rem;
+}
+.nm-carousel-viewport {
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid var(--nm-hairline);
+    box-shadow: var(--sao-shadow), 0 0 40px rgba(111,146,179,0.10);
+}
+.nm-carousel-track {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+    .nm-carousel-track { transition: none; }
+}
+.nm-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+}
+
+.nm-slide-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    padding: 2.4rem 3.8rem 2.6rem;   /* marge latérale pour dégager les flèches préc/suiv */
+    background: linear-gradient(150deg, rgba(14,20,38,0.9), rgba(5,7,13,0.96));
+}
+/* Décor de fond (scène) — décoratif, sous le texte */
+.nm-slide-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-image: var(--nm-slide-img, none);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.42;
+    transform: scale(1.03);
+    pointer-events: none;
+}
+.nm-slide-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(5,7,13,0.15) 0%, rgba(5,7,13,0.55) 55%, rgba(5,7,13,0.92) 100%),
+        radial-gradient(120% 80% at 15% 90%, rgba(111,146,179,0.14), transparent 60%);
+}
+.nm-slide-tag {
+    align-self: flex-start;
+    font-family: var(--font-text);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sao-gold-light);
+    padding: 0.32rem 0.8rem;
+    border: 1px solid var(--sao-border-hover);
+    border-radius: 999px;
+    background: rgba(5,7,13,0.5);
+}
+.nm-slide-title {
+    font-family: var(--font-title);
+    font-size: clamp(1.5rem, 3.4vw, 2.3rem);
+    letter-spacing: 0.04em;
+    color: var(--sao-text-bright);
+    margin: 0.2rem 0 0;
+    line-height: 1.15;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+}
+.nm-slide-desc {
+    color: var(--sao-text);
+    max-width: 46ch;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    margin: 0;
+}
+.nm-slide-cta {
+    align-self: flex-start;
+    margin-top: 0.6rem;
+    color: var(--sao-gold-light);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    font-size: 0.92rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+.nm-slide-cta:hover { color: var(--sao-gold); border-color: var(--sao-gold); }
+
+/* Scènes par slide */
+.slide-boss      { --nm-slide-img: url("../../assets/brand/nameless-hero-boss.png"); }
+.slide-map       { --nm-slide-img: url("../../assets/brand/page-font-map.png"); }
+.slide-bestiaire { --nm-slide-img: url("../../assets/brand/page-font-bestiaire.png"); }
+.slide-items     { --nm-slide-img: url("../../assets/brand/page-font-items.png"); }
+.slide-quetes    { --nm-slide-img: url("../../assets/brand/page-font-quetes.png"); }
+.slide-wiki      { --nm-slide-img: url("../../assets/brand/page-font-wiki.png"); }
+.slide-ensemble  { --nm-slide-img: url("../../assets/caroussel_ensemble.png"); }
+.slide-recrutement { --nm-slide-img: url("../../assets/caroussel_recrutement.png"); }
+
+/* Boutons préc/suiv */
+.nm-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; line-height: 1;
+    color: var(--sao-gold-light);
+    background: rgba(5,7,13,0.72);
+    border: 1px solid var(--sao-border-hover);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 3;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.nm-carousel-btn:hover { background: rgba(10,15,29,0.95); border-color: var(--sao-gold); box-shadow: var(--sao-glow-gold); }
+.nm-carousel-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nm-carousel-btn.prev { left: 0.8rem; }
+.nm-carousel-btn.next { right: 0.8rem; }
+
+/* Indicateurs */
+.nm-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-top: 1.2rem;
+}
+.nm-carousel-dot {
+    width: 9px; height: 9px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--sao-border-hover);
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+.nm-carousel-dot[aria-selected="true"] {
+    background: var(--nm-gold-grad);
+    border-color: var(--sao-gold);
+    transform: scale(1.25);
+}
+.nm-carousel-dot:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ---------- Grilles de cartes (priorités / pourquoi rejoindre) ---------- */
+.nm-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+.nm-info-card {
+    background: var(--sao-bg-card);
+    border: 1px solid var(--sao-border);
+    border-radius: var(--nm-radius);
+    padding: 1.5rem 1.4rem;
+    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+.nm-info-card:hover {
+    border-color: var(--sao-border-hover);
+    box-shadow: var(--sao-shadow);
+    transform: translateY(-3px);
+}
+.nm-info-icon {
+    display: block;
+    width: 30px; height: 30px;
+    color: var(--sao-gold);
+    margin-bottom: 0.9rem;
+}
+.nm-info-icon svg { width: 100%; height: 100%; display: block; }
+.nm-info-title {
+    font-family: var(--font-title);
+    font-size: 1.08rem;
+    letter-spacing: 0.03em;
+    color: var(--sao-text-bright);
+    margin: 0 0 0.4rem;
+}
+.nm-info-text {
+    color: var(--nm-steel);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .nm-slide-card { min-height: 320px; padding: 1.8rem 3rem 2rem; }
+    .nm-slide-card::before { opacity: 0.5; }
+    .nm-carousel-btn { width: 38px; height: 38px; font-size: 1.35rem; }
+    .nm-carousel-btn.prev { left: 0.4rem; }
+    .nm-carousel-btn.next { right: 0.4rem; }
+}

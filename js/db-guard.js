@@ -1,0 +1,10 @@
+(function(){
+var _c=null,_rl=new Map(),_qc=0,_bl=false,_mxQ=8,_mxW=6000,_mxT=30;
+var _bp=['supabaseUrl','supabaseKey','rest','httpHeaders','headers','restUrl','realtimeUrl','storageUrl','functionsUrl','schema','realtime'];
+function _cr(t){var n=Date.now();if(!_rl.has(t))_rl.set(t,[]);var a=_rl.get(t).filter(function(x){return n-x<_mxW});if(a.length>=_mxQ){_bl=true;setTimeout(function(){_bl=false},_mxW);return false}a.push(n);_rl.set(t,a);_qc++;if(_qc>_mxT){_bl=true;return false}return true}
+setInterval(function(){_qc=Math.max(0,_qc-5)},5000);
+function _wp(o,d){if(!o||typeof o!=='object')return o;return new Proxy(o,{get:function(t,p){if(typeof p==='string'&&_bp.indexOf(p)!==-1)return undefined;var v=t[p];if(typeof v==='function'){return function(){if(d>10)return Promise.resolve({data:null,error:{message:'err'}});return _wp(v.apply(t,arguments),d+1)}}if(v&&typeof v==='object')return _wp(v,d+1);return v}})}
+function _mkP(cl){return new Proxy({},{get:function(_,p){if(typeof p==='symbol')return undefined;if(typeof p==='string'&&_bp.indexOf(p)!==-1)return undefined;if(p==='from')return function(t){if(_bl||!_cr(t))return new Proxy({},{get:function(){return function(){return Promise.resolve({data:null,error:{message:'rate limited'},count:null})}},set:function(){return true}});return _wp(cl.from(t),0)};if(p==='auth')return cl.auth;if(p==='channel')return function(){return cl.channel.apply(cl,arguments)};if(p==='removeChannel')return function(){return cl.removeChannel.apply(cl,arguments)};if(p==='storage')return cl.storage;if(p==='rpc')return function(fn,params){if(_bl)return Promise.resolve({data:null,error:{message:'rate limited'}});_qc++;return cl.rpc(fn,params)};var v=cl[p];if(typeof v==='function')return v.bind(cl);return v},set:function(){return true},ownKeys:function(){return[]},getOwnPropertyDescriptor:function(){return undefined},has:function(){return false}})}
+window._initDbGuard=function(cl){_c=cl;var p=_mkP(cl);Object.defineProperty(window,'_dbRef',{value:p,writable:false,enumerable:false,configurable:false});return p};
+try{Object.defineProperty(window,'_initDbGuard',{enumerable:false,configurable:false})}catch(e){}
+})();

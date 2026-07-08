@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — Nameless</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Connectez-vous ou liez votre compte Minecraft pour rejoindre la guilde Nameless.">
+    <meta name="keywords" content="connexion, compte, Nameless, guilde, Minecraft, Aincrad">
+    <link rel="canonical" href="https://iron-oath.github.io/pages/connexion.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Connexion — Nameless">
+    <meta property="og:description" content="Rejoignez la guilde Nameless.">
+    <meta property="og:image" content="https://iron-oath.github.io/assets/brand/nameless-logo.png">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
+    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/connexion.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.0">
+</head>
+<body>
+    <!-- Skip link pour l'accessibilité -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="../index.html" aria-label="Nameless - Accueil">
+                    <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="bestiaire.html" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="items.html" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="quetes.html" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="connexion.html" class="nav-link connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" class="main-content" role="main">
+        <div class="auth-container">
+            <div class="auth-wrapper">
+                <div class="auth-card">
+                    <h1 class="auth-title">NAMELESS</h1>
+                    <p class="auth-subtitle">Rejoignez la guilde des survivants d'Aincrad</p>
+                
+                <!-- Connexion Microsoft (méthode principale) -->
+                <div id="microsoft-login" class="auth-form">
+                    <p class="auth-info">Connectez-vous avec votre compte Microsoft lié à Minecraft pour accéder au site.</p>
+                    
+                    <button type="button" class="microsoft-btn" id="microsoft-login-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">
+                            <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                            <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                            <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                            <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                        </svg>
+                        Se connecter avec Microsoft
+                    </button>
+                    
+                    <p class="auth-hint">Utilisez le même compte Microsoft que pour Minecraft Java Edition.</p>
+                </div>
+                
+                <!-- Vérification pseudo Minecraft (affiché après OAuth si pas encore lié) -->
+                <div id="minecraft-verify" class="auth-form" style="display: none;">
+                    <h2>Lier votre compte Minecraft</h2>
+                    <p class="auth-info">Entrez votre pseudo Minecraft exact pour lier votre compte et afficher votre skin.</p>
+                    <div id="mc-verify-preview" class="mc-verify-preview"></div>
+                    <form id="mc-verify-form" aria-label="Vérification Minecraft">
+                        <div class="input-group">
+                            <label for="mc-username">Pseudo Minecraft</label>
+                            <input type="text" id="mc-username" placeholder="Ex: Notch" autocomplete="off" required minlength="3" maxlength="16">
+                        </div>
+                        <button type="submit" class="auth-btn" id="mc-verify-btn">Vérifier et lier le compte</button>
+                    </form>
+                    <div id="mc-verify-result" class="mc-verify-result" style="display: none;"></div>
+                </div>
+                
+                <!-- Formulaire de connexion classique (caché par défaut) -->
+                <div id="login-form" class="auth-form" style="display: none;">
+                    <h2>Connexion classique</h2>
+                    <form aria-label="Formulaire de connexion">
+                        <div class="input-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" autocomplete="email" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="login-password">Mot de passe</label>
+                            <input type="password" id="login-password" autocomplete="current-password" required>
+                        </div>
+                        <button type="submit" class="auth-btn">Se connecter</button>
+                    </form>
+                    <p class="auth-switch">
+                        Pas encore de compte ? 
+                        <a href="#" id="show-register">Créer un compte</a>
+                    </p>
+                    <p class="auth-switch">
+                        <a href="#" id="back-to-microsoft">← Retour à la connexion Microsoft</a>
+                    </p>
+                </div>
+                
+                <!-- Formulaire d'inscription classique (caché par défaut) -->
+                <div id="register-form" class="auth-form" style="display: none;">
+                    <h2>Inscription</h2>
+                    <form aria-label="Formulaire d'inscription">
+                        <div class="input-group">
+                            <label for="register-username">Pseudo joueur</label>
+                            <input type="text" id="register-username" placeholder="Votre pseudo dans le jeu" autocomplete="username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" autocomplete="email" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="register-password">Mot de passe</label>
+                            <input type="password" id="register-password" autocomplete="new-password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="register-confirm">Confirmer le mot de passe</label>
+                            <input type="password" id="register-confirm" autocomplete="new-password" required>
+                        </div>
+                        <button type="submit" class="auth-btn">Créer le compte</button>
+                    </form>
+                    <p class="auth-switch">
+                        Déjà un compte ? 
+                        <a href="#" id="show-login">Se connecter</a>
+                    </p>
+                </div>
+                
+                <!-- Séparateur et lien vers connexion classique -->
+                <div id="classic-toggle" class="classic-toggle">
+                    <div class="auth-divider"><span>ou</span></div>
+                    <a href="#" id="show-classic-login" class="classic-login-link">Connexion classique (email / mot de passe)</a>
+                </div>
+                
+                    <!-- Message d'erreur/succès -->
+                    <div id="auth-message" class="auth-message" role="alert" aria-live="polite" style="display: none;"></div>
+                </div>
+                
+                <!-- Section guilde Nameless -->
+                <aside class="guild-info">
+                    <span class="guild-eyebrow">La guilde</span>
+                    <h2 class="guild-title">Nameless</h2>
+                    <div class="guild-description">
+                        <p>Nameless réunit les <strong>survivants oubliés</strong> d'Aincrad — une guilde discrète, soudée, sérieuse.</p>
+
+                        <p>Ici, pas de vantardise : de la loyauté, de la maîtrise, et une entraide sans faille.</p>
+
+                        <p class="guild-list-title">Ce que tu trouveras</p>
+                        <ul class="guild-list">
+                            <li>Une communauté active et bienveillante</li>
+                            <li>Des expéditions et raids organisés</li>
+                            <li>De l'entraide pour tous les niveaux</li>
+                            <li>Des guides et stratégies partagés</li>
+                        </ul>
+
+                        <p>Lie ton compte Minecraft et rejoins les rangs.</p>
+                    </div>
+
+                    <a href="https://discord.gg/BwxjRmh6qK" target="_blank" rel="noopener noreferrer" class="discord-link">
+                        Rejoindre le Discord
+                    </a>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    
+    <!-- Scripts - Chargement optimisé -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="../js/crypto-keys.js" defer></script>
+    <script src="../js/db-guard.js" defer></script>
+    <script src="../js/security-utils.js?v=20260706" defer></script>
+    <script src="../js/auth-supabase.js?v=20260215c" defer></script>
+    <script src="../js/navbar-mobile.js" defer></script>
+    <script src="../js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+/* ============================================================
+   NAMELESS — Quêtes d'Aincrad (refonte premium)
+   Dark, lisible, timeline verticale. Cible le markup existant
+   (.quest-section / .quest-step / .step-number / .step-content)
+   + nouvelles classes de shell (.quests-hero / .quests-filters).
+   ============================================================ */
+
+.quetes-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+}
+
+/* --- Hero compact --- */
+.quests-hero {
+    text-align: center;
+    padding: 2.5rem 0 1.5rem;
+}
+.quests-hero .nm-eyebrow {
+    color: var(--sao-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    font-size: 0.7rem;
+    display: block;
+    margin-bottom: 0.6rem;
+}
+.quests-hero h1 {
+    font-family: var(--font-title);
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    letter-spacing: 0.12em;
+    background: var(--nm-gold-grad);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin: 0;
+}
+.quests-hero .quests-subtitle {
+    color: var(--nm-steel);
+    margin: 0.7rem auto 0;
+    max-width: 560px;
+    font-size: 0.98rem;
+}
+.quests-hero .quests-tier-indicator {
+    display: inline-block;
+    margin-top: 1.1rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--sao-border-hover);
+    border-radius: 999px;
+    color: var(--sao-gold-light);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* --- Barre de filtres --- */
+.quests-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem 1.2rem;
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0;
+    background: var(--sao-bg-panel);
+    border: 1px solid var(--sao-border);
+    border-radius: var(--nm-radius);
+}
+.quests-filters .filter-group { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.quests-filters label {
+    color: var(--nm-steel);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+.quest-type-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.quest-filter-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--sao-border-cyan);
+    border-radius: 999px;
+    color: var(--nm-steel);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+    letter-spacing: 0.02em;
+}
+.quest-filter-btn:hover { color: var(--sao-text-bright); border-color: var(--sao-cyan); }
+.quest-filter-btn.active {
+    color: var(--sao-gold-light);
+    border-color: var(--sao-border-hover);
+    background: linear-gradient(180deg, rgba(194,163,103,0.16), rgba(194,163,103,0.05));
+}
+.quest-tier-selector { display: flex; align-items: center; gap: 0.6rem; }
+.quest-tier-selector select,
+#tier-select {
+    padding: 0.5rem 0.9rem;
+    background: var(--nm-navy);
+    color: var(--sao-text-bright);
+    border: 1px solid var(--sao-border-cyan);
+    border-radius: 8px;
+    font-family: var(--font-text);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+.quest-search {
+    flex: 1 1 200px;
+    min-width: 160px;
+    display: flex;
+    align-items: center;
+}
+.quest-search input {
+    width: 100%;
+    padding: 0.55rem 0.9rem;
+    background: var(--nm-navy);
+    color: var(--sao-text-bright);
+    border: 1px solid var(--sao-border-cyan);
+    border-radius: 8px;
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+}
+.quest-search input::placeholder { color: rgba(139,147,163,0.7); }
+.quest-search input:focus { outline: none; border-color: var(--sao-cyan); box-shadow: var(--focus-ring); }
+
+/* --- Section de palier --- */
+.quest-section { margin: 2.5rem 0; }
+.quest-section > h2 {
+    font-family: var(--font-title);
+    font-size: 1.35rem;
+    letter-spacing: 0.06em;
+    color: var(--sao-gold-light);
+    padding-bottom: 0.7rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--nm-hairline);
+}
+
+/* Sous-groupes (introductions, chapitres, quêtes secondaires) */
+.quest-step-group > h3,
+.secondary-quest-group > h3,
+.secondary-quest-group > h4 {
+    font-family: var(--font-text);
+    font-weight: 600;
+    color: var(--sao-text-bright);
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+    margin: 1.8rem 0 1rem;
+    padding-left: 0.2rem;
+}
+
+/* --- Timeline verticale --- */
+.quest-main-container,
+.secondary-quest-group {
+    position: relative;
+    padding-left: 2.2rem;
+}
+.quest-main-container::before,
+.secondary-quest-group::before {
+    content: '';
+    position: absolute;
+    left: 12px; top: 6px; bottom: 6px;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--sao-border-hover) 12%, var(--sao-border-hover) 88%, transparent);
+}
+/* Rail acier pour les secondaires */
+.quest-section[data-category="secondaire"] .secondary-quest-group::before {
+    background: linear-gradient(180deg, transparent, var(--sao-border-cyan) 12%, var(--sao-border-cyan) 88%, transparent);
+}
+
+/* --- Carte de quête --- */
+.quest-step {
+    position: relative;
+    background: var(--sao-bg-card);
+    border: 1px solid var(--sao-border);
+    border-radius: var(--nm-radius);
+    padding: 1.1rem 1.25rem 1.1rem 1.4rem;
+    margin: 0 0 1rem;
+    transition: transform 0.35s cubic-bezier(.16,1,.3,1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.quest-step:hover {
+    transform: translateY(-2px);
+    border-color: var(--sao-border-hover);
+    box-shadow: var(--sao-shadow);
+}
+
+/* Badge de numéro d'étape, posé sur le rail */
+.quest-step .step-number {
+    position: absolute;
+    left: -2.2rem;
+    top: 1rem;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: var(--nm-navy);
+    border: 1px solid var(--sao-border-hover);
+    color: var(--sao-gold-light);
+    font-family: var(--font-title);
+    font-size: 0.78rem;
+    z-index: 1;
+}
+.quest-section[data-category="secondaire"] .quest-step .step-number {
+    color: var(--sao-cyan);
+    border-color: var(--sao-border-cyan);
+}
+
+.step-content h4 {
+    font-family: var(--font-text);
+    font-weight: 600;
+    color: var(--sao-text-bright);
+    font-size: 1.02rem;
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.01em;
+}
+.step-content p {
+    color: var(--sao-text);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin: 0.25rem 0;
+}
+.step-content p strong {
+    color: var(--sao-gold);
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 0.3rem;
+}
+
+/* Coordonnées cliquables (chip) */
+.coordinates {
+    display: inline-block;
+    padding: 0.1rem 0.55rem;
+    border: 1px solid var(--sao-border-cyan);
+    border-radius: 6px;
+    color: var(--sao-cyan) !important;
+    background: rgba(111,146,179,0.06);
+    font-size: 0.82rem;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+.coordinates:hover {
+    border-color: var(--sao-cyan);
+    color: var(--sao-gold-light) !important;
+    background: rgba(111,146,179,0.12);
+}
+
+/* --- Pagination --- */
+.quest-pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 2rem 0 0.5rem;
+}
+.pagination-info { color: var(--nm-steel); font-size: 0.82rem; letter-spacing: 0.04em; }
+.pagination-controls { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
+.pagination-btn {
+    min-width: 38px;
+    padding: 0.45rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--sao-border-cyan);
+    border-radius: 8px;
+    color: var(--nm-steel);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+.pagination-btn:hover:not(:disabled) { color: var(--sao-text-bright); border-color: var(--sao-cyan); }
+.pagination-btn.active {
+    color: var(--sao-gold-light);
+    border-color: var(--sao-border-hover);
+    background: linear-gradient(180deg, rgba(194,163,103,0.16), rgba(194,163,103,0.05));
+}
+.pagination-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.pagination-ellipsis { color: var(--nm-steel); padding: 0 0.3rem; align-self: center; }
+
+/* Message "aucune quête" / palier en développement */
+.quests-empty {
+    text-align: center;
+    color: var(--nm-steel);
+    font-style: italic;
+    padding: 2.5rem 1rem;
+    background: var(--sao-bg-panel);
+    border: 1px dashed var(--sao-border-hover);
+    border-radius: var(--nm-radius);
+    margin: 2rem 0;
+}
+.quests-empty h3 { color: var(--sao-gold-light); font-family: var(--font-title); letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+    .quetes-container { padding: 1.25rem 0.85rem 3rem; }
+    .quests-filters { flex-direction: column; align-items: stretch; }
+    .quest-type-filters { justify-content: center; }
+    .quest-main-container, .secondary-quest-group { padding-left: 1.9rem; }
+    .quest-step .step-number { left: -1.9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quest-step, .quest-filter-btn, .pagination-btn, .coordinates { transition: none !important; }
+}

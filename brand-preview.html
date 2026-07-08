@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Nameless — Brand preview (temporaire)</title>
+    <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black:#05070d; --navy:#0a0f1d; --gold:#c2a367; --gold-l:#e4cd97; --steel:#8b93a3;
+            --hair: rgba(194,163,103,0.22);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin:0; background:
+                radial-gradient(1000px 600px at 50% -10%, rgba(91,127,166,0.10), transparent 60%),
+                linear-gradient(180deg,var(--black),#04060b);
+            color:#c3c8d2; font-family:'Inter',sans-serif; min-height:100vh; padding:3rem 1.5rem;
+        }
+        h1 { font-family:'Cinzel',serif; color:var(--gold-l); letter-spacing:0.14em; text-align:center; font-weight:600; }
+        .note { text-align:center; color:var(--steel); font-size:0.85rem; margin-bottom:2.5rem; }
+        .grid { display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; align-items:flex-end; margin-bottom:3rem; }
+        .cell { text-align:center; }
+        .cell figcaption { color:var(--steel); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; margin-top:0.8rem; }
+        .swatch { background:var(--navy); border:1px solid var(--hair); border-radius:12px; padding:1.2rem; display:inline-flex; }
+        .transparent { background:
+            repeating-conic-gradient(#11151f 0% 25%, #0c1017 0% 50%) 50%/16px 16px; }
+        img { display:block; }
+
+        /* Navbar sim */
+        .navbar {
+            display:flex; align-items:center; gap:1rem; max-width:900px; margin:0 auto 2rem;
+            padding:0.6rem 1.2rem; background:linear-gradient(180deg, rgba(6,9,16,0.92), rgba(6,9,16,0.72));
+            border:1px solid var(--hair); border-radius:12px;
+        }
+        .navbar .brand { display:flex; align-items:center; gap:0.7rem; }
+        .navbar .brand span { font-family:'Cinzel',serif; letter-spacing:0.2em; color:var(--gold-l); font-size:0.95rem; }
+        .navbar nav { margin-left:auto; display:flex; gap:1.3rem; }
+        .navbar nav a { color:var(--steel); text-decoration:none; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; }
+        .lockup { text-align:center; margin-top:1rem; }
+    </style>
+</head>
+<body>
+    <h1>Nameless — Brand preview</h1>
+    <p class="note">Page temporaire. Monogramme « N » vectoriel. Vérifier lisibilité à petite taille.</p>
+
+    <!-- Simulation navbar sombre -->
+    <div class="navbar">
+        <span class="brand">
+            <img src="assets/brand/nameless-mark.svg" width="40" height="40" alt="Nameless">
+            <span>NAMELESS</span>
+        </span>
+        <nav><a href="#">Accueil</a><a href="#">Carte</a><a href="#">Quêtes</a><a href="#">Wiki</a></nav>
+    </div>
+
+    <!-- Tailles (mark transparent) -->
+    <div class="grid">
+        <figure class="cell"><span class="swatch transparent"><img src="assets/brand/nameless-mark.svg" width="256" height="256" alt="256"></span><figcaption>256 px</figcaption></figure>
+        <figure class="cell"><span class="swatch transparent"><img src="assets/brand/nameless-mark.svg" width="128" height="128" alt="128"></span><figcaption>128 px</figcaption></figure>
+        <figure class="cell"><span class="swatch transparent"><img src="assets/brand/nameless-mark.svg" width="64" height="64" alt="64"></span><figcaption>64 px</figcaption></figure>
+        <figure class="cell"><span class="swatch transparent"><img src="assets/brand/nameless-mark.svg" width="32" height="32" alt="32"></span><figcaption>32 px</figcaption></figure>
+    </div>
+
+    <!-- Favicon (fond navy) -->
+    <div class="grid">
+        <figure class="cell"><span class="swatch"><img src="assets/brand/favicon.svg" width="128" height="128" alt="favicon 128"></span><figcaption>favicon 128</figcaption></figure>
+        <figure class="cell"><span class="swatch"><img src="assets/brand/favicon.svg" width="64" height="64" alt="favicon 64"></span><figcaption>favicon 64</figcaption></figure>
+        <figure class="cell"><span class="swatch"><img src="assets/brand/favicon.svg" width="32" height="32" alt="favicon 32"></span><figcaption>favicon 32</figcaption></figure>
+        <figure class="cell"><span class="swatch"><img src="assets/brand/favicon.svg" width="16" height="16" alt="favicon 16"></span><figcaption>favicon 16</figcaption></figure>
+    </div>
+
+    <!-- Lockup horizontal -->
+    <div class="lockup">
+        <img src="assets/brand/nameless-logo-horizontal.svg" width="336" height="72" alt="Nameless">
+    </div>
+</body>
+</html>

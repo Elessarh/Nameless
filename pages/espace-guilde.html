@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace guilde — Nameless</title>
+
+    <!-- Meta tags pour robots - Page privée -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Espace privé de la guilde Nameless — accès réservé aux membres.">
+
+    <!-- Theme & Favicon -->
+    <meta name="theme-color" content="#05070d">
+    <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
+    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/components/guilde.css?v=20260129b">
+    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20260129b">
+    <link rel="stylesheet" href="../css/components/guild-chat.css?v=20260129b">
+    <link rel="stylesheet" href="../css/components/guild-dm.css?v=20260129b">
+    <link rel="stylesheet" href="../css/components/guilde-nameless.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.0">
+    
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    
+    <!-- Header et Navigation -->
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="../index.html" aria-label="Nameless - Accueil">
+                    <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="../index.html" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="map.html" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="bestiaire.html" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="items.html" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="quetes.html" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="wiki.html" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="profil.html" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="connexion.html" class="connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Contenu principal -->
+    <main id="main-content" class="guilde-container" role="main">
+        <div id="loading" class="loading">
+            <p>⏳ Chargement de l'espace guilde...</p>
+        </div>
+        
+        <div id="guilde-content" style="display: none;">
+            <div class="guilde-header">
+                <span class="nm-eyebrow">Quartier général</span>
+                <h1>Espace guilde</h1>
+                <p class="guilde-subtitle">Espace réservé aux membres de Nameless.</p>
+            </div>
+            
+            <!-- Layout en deux colonnes -->
+            <div class="guilde-two-columns">
+                <!-- Colonne gauche: Mur d'Activité -->
+                <div class="guilde-left-column">
+                    <div class="activity-wall-container">
+                        <div class="activity-wall-header">
+                            <h2 class="activity-wall-title">Mur d'activité</h2>
+                        </div>
+                        <div id="activity-wall-content" class="activity-wall-content">
+                            <div class="no-activities">
+                                <div class="no-activities-icon">📋</div>
+                                <p class="no-activities-text">Aucune activité pour le moment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Colonne droite: Onglets (Planning, Objectifs, Appel) -->
+                <div class="guilde-right-column">
+                    <!-- Système d'onglets pour les sections -->
+                    <div class="guilde-tabs-container">
+                        <div class="guilde-tabs">
+                            <button class="guilde-tab-btn active" data-tab="planning">
+                                Planning
+                            </button>
+                            <button class="guilde-tab-btn" data-tab="objectives">
+                                Objectifs
+                            </button>
+                            <button class="guilde-tab-btn" data-tab="presence">
+                                Appel
+                            </button>
+                        </div>
+                        
+                        <!-- TAB: Planning -->
+                        <div class="guilde-tab-content active" data-tab-content="planning">
+                            <div class="guilde-section">
+                                <h2 class="section-title">Planning de la semaine</h2>
+                                <div id="planning-list">
+                                    <div class="no-data">Aucun événement planifié</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- TAB: Objectifs -->
+                        <div class="guilde-tab-content" data-tab-content="objectives" style="display: none;">
+                            <div class="guilde-section">
+                                <h2 class="section-title">Objectifs de la semaine</h2>
+                                <div id="objectives-list">
+                                    <div class="no-data">Aucun objectif défini</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- TAB: Appel Quotidien -->
+                        <div class="guilde-tab-content" data-tab-content="presence" style="display: none;">
+                            <div class="guilde-section">
+                                <h2 class="section-title">Appel quotidien</h2>
+                                <div class="appel-actions">
+                                    <button id="mark-presence-btn" class="appel-btn present-btn">Marquer ma présence</button>
+                                    <button id="mark-absence-btn" class="appel-btn absent-btn">Déclarer une absence</button>
+                                </div>
+                                <div id="presence-list" class="presence-grid">
+                                    <div class="no-data">Chargement des présences...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="access-denied" class="guilde-denied" style="display: none;">
+            <h2>Accès refusé</h2>
+            <p>Cet espace est réservé aux membres de la guilde Nameless.</p>
+            <p class="guilde-denied-hint">Contactez un administrateur pour obtenir le rôle « Membre ».</p>
+        </div>
+    </main>
+
+    <!-- Bouton flottant pour le chat -->
+    <button class="chat-float-button" id="chat-toggle-btn" style="display: none;">
+        💬
+        <span class="chat-badge" id="chat-badge" style="display: none;">0</span>
+    </button>
+
+    <!-- Chat unifié de la guilde -->
+    <div class="chat-container" id="guild-chat">
+        <div class="chat-header">
+            <h3 class="chat-title">Chat de la guilde</h3>
+            <div class="chat-header-actions">
+                <button class="chat-close-btn" id="chat-close-btn">✕</button>
+            </div>
+        </div>
+        
+        <!-- Onglets Chat -->
+        <div class="chat-tabs">
+            <button class="chat-tab-btn active" data-tab="general" id="tab-general-btn">
+                Général
+            </button>
+            <button class="chat-tab-btn" data-tab="private" id="tab-private-btn">
+                Privés
+                <span class="tab-badge" id="tab-private-badge" style="display: none;">0</span>
+            </button>
+        </div>
+        
+        <!-- Contenu Chat Général -->
+        <div class="chat-tab-content active" id="chat-general-content">
+            <div class="chat-replying-to" id="chat-replying-to">
+                <div class="replying-to-text">
+                    <div class="replying-to-label">Répondre à <span id="reply-to-author"></span></div>
+                    <div class="replying-to-preview" id="reply-to-preview"></div>
+                </div>
+                <button class="cancel-reply-btn" id="cancel-reply-btn">✕</button>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-loading">
+                    <div class="spinner"></div>
+                    <p>Chargement des messages...</p>
+                </div>
+            </div>
+            
+            <div class="chat-image-preview" id="chat-image-preview" style="display: none;"></div>
+            
+            <div class="mention-autocomplete" id="mention-autocomplete" style="display: none;"></div>
+            
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input 
+                        type="file" 
+                        id="chat-image-input" 
+                        accept="image/*" 
+                        style="display: none;"
+                    >
+                    <button class="chat-image-btn" id="chat-image-btn" title="Joindre une image">
+                        📷
+                    </button>
+                    <input 
+                        type="text" 
+                        class="chat-input" 
+                        id="chat-input" 
+                        placeholder="Écrivez votre message..."
+                        maxlength="500"
+                    >
+                    <button class="chat-send-btn" id="chat-send-btn">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contenu Messages Privés -->
+        <div class="chat-tab-content" id="chat-private-content">
+            <div class="dm-layout">
+                <div class="dm-sidebar">
+                    <div class="dm-search-container">
+                        <input 
+                            type="text" 
+                            id="dm-search-input" 
+                            class="dm-search-input" 
+                            placeholder="🔍 Rechercher un membre..."
+                        >
+                    </div>
+                    <div class="dm-members-list" id="dm-members-list">
+                        <div class="dm-loading">Chargement...</div>
+                    </div>
+                </div>
+                
+                <div class="dm-chat-area" id="dm-chat-area">
+                    <div class="dm-placeholder" id="dm-placeholder">
+                        <div class="dm-placeholder-icon">✉️</div>
+                        <p>Sélectionnez un membre pour commencer une conversation privée</p>
+                    </div>
+                    
+                    <div class="dm-active-chat" id="dm-active-chat" style="display: none;">
+                        <div class="dm-chat-header">
+                            <div class="dm-recipient-info">
+                                <span class="dm-recipient-name" id="dm-recipient-name"></span>
+                                <span class="dm-recipient-status">En ligne</span>
+                            </div>
+                            <button class="dm-back-btn" id="dm-back-btn">← Retour</button>
+                        </div>
+                        
+                        <div class="dm-messages" id="dm-messages">
+                            <div class="dm-messages-loading">
+                                <div class="spinner"></div>
+                                <p>Chargement des messages...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="dm-image-preview" id="dm-image-preview" style="display: none;"></div>
+                        
+                        <div class="dm-input-container">
+                            <div class="dm-input-wrapper">
+                                <input 
+                                    type="file" 
+                                    id="dm-image-input" 
+                                    accept="image/*" 
+                                    style="display: none;"
+                                >
+                                <button class="dm-image-btn" id="dm-image-btn" title="Joindre une image">
+                                    📷
+                                </button>
+                                <input 
+                                    type="text" 
+                                    class="dm-input" 
+                                    id="dm-input" 
+                                    placeholder="Écrivez votre message privé..."
+                                    maxlength="500"
+                                >
+                                <button class="dm-send-btn" id="dm-send-btn">
+                                    ➤
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - Chargement optimisé -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="../js/performance-monitor.js" defer></script>
+    <script src="../js/cache-manager.js" defer></script>
+    <script src="../js/crypto-keys.js" defer></script>
+    <script src="../js/db-guard.js" defer></script>
+    <script src="../js/security-utils.js?v=20260706" defer></script>
+    <script src="../js/auth-supabase.js?v=20260215c" defer></script>
+    <script src="../js/espace-guilde.js?v=20260129b" defer></script>
+    <script src="../js/guild-chat.js?v=20260129b" defer></script>
+    <script src="../js/guild-dm.js?v=20260129b" defer></script>
+    <script src="../js/navbar-mobile.js" defer></script>
+    <script src="../js/audio-controller.js?v=nameless-audio-1.0" defer></script>
+</body>
+</html>

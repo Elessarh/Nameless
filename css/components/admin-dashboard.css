@@ -1,0 +1,1196 @@
+/* admin-dashboard.css - Styles pour le dashboard administrateur */
+
+/* === Minecraft Heads dans le Dashboard === */
+.mc-head-dashboard {
+    width: 22px;
+    height: 22px;
+    border-radius: 3px;
+    image-rendering: pixelated;
+    vertical-align: middle;
+    margin-right: 6px;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    box-shadow: 0 0 6px rgba(78, 205, 196, 0.15);
+    flex-shrink: 0;
+}
+
+.mc-head-dashboard.mc-head-default {
+    opacity: 0.45;
+    border-color: rgba(196, 165, 90, 0.15);
+    box-shadow: none;
+}
+
+.mc-user-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 100%);
+}
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 100px auto 50px;
+    padding: 30px;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(78, 205, 196, 0.1));
+    padding: 40px;
+    border-radius: 20px;
+    border: 3px solid rgba(78, 205, 196, 0.4);
+    margin-bottom: 35px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(78, 205, 196, 0.15);
+}
+
+.dashboard-header h1 {
+    color: #4ecdc4;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 30px rgba(78, 205, 196, 0.4);
+}
+
+.dashboard-header p {
+    color: #f0f0f0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.15), rgba(78, 205, 196, 0.08));
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid rgba(78, 205, 196, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #4ecdc4;
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+}
+
+.stat-card h3 {
+    color: #4ecdc4;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.stat-card .stat-number {
+    color: white;
+    font-size: 3rem;
+    font-weight: 800;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 2px 15px rgba(78, 205, 196, 0.4);
+}
+
+.users-section {
+    background: linear-gradient(135deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
+    padding: 35px;
+    border-radius: 20px;
+    border: 2px solid rgba(78, 205, 196, 0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(78, 205, 196, 0.1);
+}
+
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.users-header h2 {
+    color: #4ecdc4;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    text-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+}
+
+.search-filter {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(78, 205, 196, 0.4);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    min-width: 250px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+.filter-select {
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(78, 205, 196, 0.4);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+.filter-select option {
+    background: #1a1a2e;
+    color: white;
+    padding: 10px;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+}
+
+.users-table table {
+    width: 100%;
+    table-layout: auto;
+}
+
+.users-table thead {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(78, 205, 196, 0.1));
+}
+
+.users-table th {
+    padding: 18px;
+    text-align: left;
+    color: #4ecdc4;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    border-bottom: 3px solid rgba(78, 205, 196, 0.4);
+}
+
+.users-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.users-table th.sortable:hover {
+    background: rgba(78, 205, 196, 0.1);
+    color: #5ed9d1;
+}
+
+.users-table th.sortable.sorted-asc .sort-icon {
+    color: #4ecdc4;
+    transform: rotate(180deg);
+}
+
+.users-table th.sortable.sorted-desc .sort-icon {
+    color: #4ecdc4;
+}
+
+.sort-icon {
+    display: inline-block;
+    margin-left: 5px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+    font-size: 0.8em;
+}
+
+.users-table th.sortable:hover .sort-icon {
+    opacity: 1;
+}
+
+.users-table td {
+    padding: 18px;
+    color: #f0f0f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+}
+
+.users-table tr {
+    transition: all 0.3s ease;
+}
+
+.users-table tbody tr:hover {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(78, 205, 196, 0.05));
+    transform: scale(1.01);
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.role-joueur {
+    background: rgba(78, 205, 196, 0.15);
+    color: #4ecdc4;
+    border: 2px solid rgba(78, 205, 196, 0.4);
+}
+
+.role-membre {
+    background: rgba(78, 205, 196, 0.25);
+    color: #4ecdc4;
+    border: 2px solid rgba(78, 205, 196, 0.5);
+}
+
+.role-admin {
+    background: rgba(78, 205, 196, 0.35);
+    color: #4ecdc4;
+    border: 2px solid #4ecdc4;
+    box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin: 0 4px;
+    letter-spacing: 0.5px;
+}
+
+.btn-edit {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.25), rgba(78, 205, 196, 0.15));
+    color: #4ecdc4;
+    border: 2px solid #4ecdc4;
+}
+
+.btn-edit:hover {
+    background: linear-gradient(135deg, #4ecdc4, #44a3ff);
+    color: white;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, rgba(220, 90, 90, 0.2), rgba(220, 90, 90, 0.1));
+    color: #dc5a5a;
+    border: 2px solid rgba(220, 90, 90, 0.5);
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, rgba(220, 90, 90, 0.35), rgba(220, 90, 90, 0.25));
+    color: #dc5a5a;
+    border-color: #dc5a5a;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.pagination-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.page-info {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #4ecdc4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 60px;
+    color: #4ecdc4;
+    font-size: 1.3rem;
+}
+
+.loading-spinner p {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.error-message {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 107, 53, 0.1));
+    border: 3px solid #ff6b35;
+    color: #ff6b35;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin: 20px 0;
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+}
+
+.error-message h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: linear-gradient(135deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(78, 205, 196, 0.4);
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(78, 205, 196, 0.2);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    color: #4ecdc4;
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+.modal-body {
+    margin-bottom: 25px;
+}
+
+.modal-label {
+    color: #4ecdc4;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.modal-select {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(78, 205, 196, 0.4);
+    border-radius: 10px;
+    color: white;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+}
+
+.modal-select:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+.modal-select option {
+    background: #1a1a2e;
+    padding: 12px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.btn-modal {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-confirm {
+    background: linear-gradient(135deg, #4ecdc4, #44a3ff);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.btn-confirm:hover {
+    background: linear-gradient(135deg, #44a3ff, #4ecdc4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+}
+
+/* Styles pour les onglets du dashboard */
+.dashboard-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+    padding-bottom: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(78, 205, 196, 0.5) rgba(30, 30, 30, 0.3);
+}
+
+.dashboard-tabs::-webkit-scrollbar {
+    height: 6px;
+}
+
+.dashboard-tabs::-webkit-scrollbar-track {
+    background: rgba(30, 30, 30, 0.3);
+    border-radius: 3px;
+}
+
+.dashboard-tabs::-webkit-scrollbar-thumb {
+    background: rgba(78, 205, 196, 0.5);
+    border-radius: 3px;
+}
+
+.tab-btn {
+    background: rgba(30, 30, 30, 0.5);
+    color: #f0f0f0;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px 8px 0 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.tab-btn:hover {
+    background: rgba(78, 205, 196, 0.1);
+    color: #4ecdc4;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(68, 163, 255, 0.2));
+    color: #4ecdc4;
+    border-bottom-color: #4ecdc4;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Styles pour la gestion de guilde */
+.guild-management-section {
+    background: linear-gradient(135deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
+    padding: 35px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 107, 53, 0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.guild-tabs {
+    display: flex;
+    gap: 10px;
+    border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+    padding-bottom: 10px;
+}
+
+.guild-tab {
+    padding: 12px 25px;
+    background: rgba(30, 30, 45, 0.8);
+    border: 2px solid rgba(78, 205, 196, 0.3);
+    border-radius: 8px 8px 0 0;
+    color: #4ecdc4;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.guild-tab:hover {
+    background: rgba(78, 205, 196, 0.1);
+    border-color: #4ecdc4;
+}
+
+.guild-tab.active {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(78, 205, 196, 0.1));
+    border-color: #4ecdc4;
+    color: #fff;
+}
+
+.guild-tab-content {
+    padding: 30px 0;
+}
+
+.guild-form-container {
+    background: rgba(26, 26, 26, 0.6);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.guild-form-container h3 {
+    color: #4ecdc4;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.guild-form-container input,
+.guild-form-container textarea,
+.guild-form-container select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(78, 205, 196, 0.3);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+}
+
+.guild-form-container input:focus,
+.guild-form-container textarea:focus,
+.guild-form-container select:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+}
+
+.guild-list-container {
+    margin-top: 30px;
+}
+
+.guild-list-container h3 {
+    color: #ff6b35;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.guild-items-list {
+    display: grid;
+    gap: 15px;
+}
+
+.guild-item {
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.guild-item:hover {
+    border-color: #4ecdc4;
+    box-shadow: 0 5px 15px rgba(78, 205, 196, 0.2);
+}
+
+.guild-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.guild-item-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.guild-item-actions button {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.guild-item-actions .btn-edit {
+    background: #4ecdc4;
+    color: white;
+}
+
+.guild-item-actions .btn-delete {
+    background: #e74c3c;
+    color: white;
+}
+
+.guild-item-actions .btn-edit:hover,
+.guild-item-actions .btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Section Présences */
+.presence-section {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(78, 205, 196, 0.05));
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid rgba(78, 205, 196, 0.3);
+    margin-bottom: 35px;
+    box-shadow: 0 5px 20px rgba(78, 205, 196, 0.15);
+}
+
+.presence-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.presence-header h2 {
+    color: #4ecdc4;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.presence-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.mini-stat {
+    background: rgba(26, 26, 26, 0.6);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    border: 2px solid;
+}
+
+.mini-stat.present {
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
+.mini-stat.absent {
+    border-color: #f44336;
+    color: #f44336;
+}
+
+.mini-stat.mission {
+    border-color: #ff9800;
+    color: #ff9800;
+}
+
+.mini-stat strong {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.presence-table {
+    overflow-x: auto;
+}
+
+.presence-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.presence-table th {
+    background: rgba(78, 205, 196, 0.2);
+    color: #4ecdc4;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #4ecdc4;
+}
+
+.presence-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+.presence-table tr:hover {
+    background: rgba(78, 205, 196, 0.05);
+}
+
+.presence-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.presence-badge.present {
+    background: #4caf50;
+    color: white;
+}
+
+.presence-badge.absent {
+    background: #f44336;
+    color: white;
+}
+
+.presence-badge.en_mission {
+    background: #ff9800;
+    color: white;
+}
+
+.presence-badge.non-marque {
+    background: #666;
+    color: #ccc;
+}
+
+/* === RESPONSIVE MOBILE === */
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin: 60px auto 30px;
+        padding: 15px;
+    }
+    
+    .dashboard-header {
+        padding: 20px;
+    }
+    
+    .dashboard-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .dashboard-header p {
+        font-size: 0.9rem;
+    }
+    
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-card .stat-number {
+        font-size: 2rem;
+    }
+    
+    .users-section {
+        padding: 20px;
+        overflow-x: auto;
+    }
+    
+    .users-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .users-table {
+        font-size: 0.8rem;
+        min-width: 600px;
+    }
+    
+    .users-table th,
+    .users-table td {
+        padding: 8px 6px;
+        white-space: nowrap;
+    }
+    
+    .role-badge {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
+    
+    .action-btn {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+    }
+    
+    .pagination-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .page-info {
+        font-size: 0.9rem;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.3rem;
+    }
+    
+    .dashboard-tabs {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 5px;
+    }
+    
+    .tab-btn {
+        padding: 12px 20px;
+        font-size: 0.85rem;
+        min-width: 140px;
+    }
+    
+    .presence-section,
+    .users-section,
+    .guild-management-section {
+        padding: 20px;
+    }
+    
+    .presence-header h2,
+    .users-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .guild-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+    
+    .guild-tab {
+        min-width: 120px;
+        font-size: 0.85rem;
+        padding: 10px 15px;
+    }
+    
+    .presence-list,
+    .users-list {
+        gap: 10px;
+    }
+    
+    .presence-item,
+    .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+    
+    .presence-item .presence-name,
+    .user-item .user-name {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-header {
+        padding: 25px 15px;
+    }
+    
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .users-table {
+        font-size: 0.7rem;
+    }
+    
+    .users-table th,
+    .users-table td {
+        padding: 6px 4px;
+    }
+    
+    .action-btn {
+        font-size: 0.7rem;
+        padding: 5px 10px;
+        margin: 2px;
+    }
+    
+    .pagination {
+        gap: 10px;
+    }
+    
+    .tab-btn {
+        padding: 10px 15px;
+        font-size: 0.75rem;
+        min-width: 120px;
+    }
+    
+    .stat-card h3 {
+        font-size: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+}
+
+/* ==================================================================
+   NAMELESS — refonte visuelle du Dashboard admin (surcharge finale)
+   Ne modifie que l'apparence (couleurs / bordures / typo / fond).
+   La structure et TOUS les IDs/classes/data-* du JS sont preserves.
+   Rappel : cette UI ne remplace pas la securite RLS de Supabase.
+   ================================================================== */
+
+/* --- En-tete --- */
+.dashboard-container { max-width: 1180px; }
+.dashboard-header { text-align: center; border: none !important; }
+.dashboard-header .nm-eyebrow {
+    display: block; color: var(--sao-gold);
+    text-transform: uppercase; letter-spacing: 0.4em;
+    font-size: 0.7rem; margin-bottom: 0.6rem;
+}
+.dashboard-header h1 {
+    font-family: var(--font-title) !important;
+    background: var(--nm-gold-grad); -webkit-background-clip: text; background-clip: text;
+    color: transparent !important; letter-spacing: 0.06em;
+    text-shadow: none !important;
+}
+.dashboard-header p { color: var(--nm-steel) !important; }
+
+/* --- Cartes de stats --- */
+.stat-card {
+    background: var(--sao-bg-card) !important;
+    border: 1px solid var(--sao-border) !important;
+    border-radius: var(--nm-radius) !important;
+    box-shadow: none !important;
+}
+.stat-card:hover { border-color: var(--sao-border-hover) !important; box-shadow: var(--sao-shadow) !important; }
+.stat-card h3 { color: var(--nm-steel) !important; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.72rem !important; }
+.stat-card .stat-number, .stat-number {
+    font-family: var(--font-title) !important;
+    background: var(--nm-gold-grad); -webkit-background-clip: text; background-clip: text;
+    color: transparent !important; text-shadow: none !important;
+}
+
+/* --- Onglets principaux --- */
+.dashboard-tabs { border-bottom: 1px solid var(--nm-hairline) !important; }
+.tab-btn {
+    background: transparent !important;
+    color: var(--nm-steel) !important;
+    border: 1px solid transparent !important;
+    border-radius: 10px 10px 0 0 !important;
+    font-family: var(--font-text) !important;
+    letter-spacing: 0.04em;
+}
+.tab-btn:hover { color: var(--sao-text-bright) !important; }
+.tab-btn.active {
+    color: var(--sao-gold-light) !important;
+    background: linear-gradient(180deg, rgba(194,163,103,0.10), transparent) !important;
+    border-color: var(--nm-hairline) !important;
+    border-bottom: 2px solid var(--sao-gold) !important;
+}
+
+/* --- Sections & titres --- */
+.users-section, .presence-section, .guild-management-section, .activity-admin-container {
+    background: var(--sao-bg-card) !important;
+    border: 1px solid var(--sao-border) !important;
+    border-radius: var(--nm-radius) !important;
+}
+.users-header h2, .presence-header h2, .guild-section-heading,
+.activity-admin-title, .guild-form-container h3, .guild-list-container h3,
+.activities-list-header {
+    color: var(--sao-gold-light) !important;
+    font-family: var(--font-title) !important;
+    letter-spacing: 0.03em;
+    border-bottom-color: var(--nm-hairline) !important;
+}
+.guild-section-heading {
+    font-size: 1.6rem; margin-bottom: 1.6rem;
+    padding-bottom: 0.9rem; border-bottom: 1px solid var(--nm-hairline);
+}
+.activity-admin-subtitle { color: var(--nm-steel) !important; }
+.activity-form-heading { color: var(--sao-gold-light) !important; font-family: var(--font-title) !important; margin-bottom: 1.2rem; }
+
+/* --- Champs (recherche, filtres, formulaires) --- */
+.search-input, .filter-select,
+.guild-form-container input, .guild-form-container textarea, .guild-form-container select,
+.activity-form input, .activity-form textarea, .activity-form select,
+.modal-select {
+    background: var(--nm-navy) !important;
+    color: var(--sao-text-bright) !important;
+    border: 1px solid var(--sao-border-cyan) !important;
+    border-radius: 8px !important;
+    font-family: var(--font-text) !important;
+}
+.search-input:focus, .filter-select:focus,
+.guild-form-container input:focus, .guild-form-container textarea:focus, .guild-form-container select:focus,
+.activity-form input:focus, .activity-form textarea:focus, .activity-form select:focus,
+.modal-select:focus {
+    outline: none !important;
+    border-color: var(--sao-cyan) !important;
+    box-shadow: var(--focus-ring) !important;
+}
+.filter-select option, .modal-select option,
+.guild-form-container select option, .activity-form select option { background: var(--nm-navy) !important; color: var(--sao-text-bright) !important; }
+.guild-form-container label, .guild-management-section label, .activity-form label, .form-group label {
+    color: var(--nm-steel) !important; font-size: 0.82rem; letter-spacing: 0.04em;
+}
+
+/* --- Tableaux --- */
+.users-table, .presence-table { border: 1px solid var(--sao-border) !important; border-radius: var(--nm-radius); overflow: hidden; }
+.users-table thead, .presence-table thead { background: rgba(10,14,26,0.9) !important; }
+.users-table th, .presence-table th {
+    color: var(--sao-gold-light) !important;
+    font-family: var(--font-text) !important;
+    text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem !important;
+    border-bottom: 1px solid var(--nm-hairline) !important;
+}
+.users-table td, .presence-table td { color: var(--sao-text) !important; border-bottom: 1px solid var(--sao-border) !important; }
+.users-table tbody tr:hover, .presence-table tbody tr:hover { background: rgba(194,163,103,0.05) !important; }
+.users-table th.sortable:hover { color: #fff !important; }
+.sort-icon { color: var(--nm-steel) !important; }
+
+/* --- Badges de role --- */
+.role-badge { border-radius: 999px !important; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.7rem !important; border: 1px solid var(--sao-border-hover) !important; }
+.role-joueur { background: rgba(139,147,163,0.12) !important; color: var(--nm-steel) !important; }
+.role-membre { background: rgba(90,168,134,0.14) !important; color: #86d3b1 !important; border-color: rgba(90,168,134,0.5) !important; }
+.role-admin  { background: linear-gradient(180deg, rgba(194,163,103,0.18), rgba(194,163,103,0.05)) !important; color: var(--sao-gold-light) !important; }
+
+/* --- Boutons --- */
+.action-btn, .btn-edit, .btn-delete, .btn-submit, .btn-submit-activity, .btn-modal, .pagination-btn {
+    font-family: var(--font-text) !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.03em;
+}
+.btn-submit, .btn-submit-activity, .btn-confirm {
+    background: linear-gradient(180deg, rgba(194,163,103,0.22), rgba(194,163,103,0.06)) !important;
+    border: 1px solid var(--sao-border-hover) !important;
+    color: var(--sao-gold-light) !important;
+}
+.btn-submit:hover, .btn-submit-activity:hover, .btn-confirm:hover {
+    border-color: var(--sao-gold) !important; box-shadow: var(--sao-glow-gold) !important;
+}
+.btn-edit { background: rgba(111,146,179,0.14) !important; color: var(--sao-cyan) !important; border: 1px solid var(--sao-border-cyan) !important; }
+.btn-delete { background: rgba(193,88,95,0.14) !important; color: #e59aa0 !important; border: 1px solid rgba(193,88,95,0.4) !important; }
+.btn-cancel { background: transparent !important; color: var(--nm-steel) !important; border: 1px solid var(--sao-border) !important; }
+.pagination-btn { background: rgba(10,14,26,0.9) !important; color: var(--sao-gold-light) !important; border: 1px solid var(--sao-border-hover) !important; }
+.pagination-btn:disabled { opacity: 0.4 !important; }
+.page-info { color: var(--nm-steel) !important; }
+
+/* --- Onglets de guilde --- */
+.guild-tabs { border-bottom: 1px solid var(--nm-hairline) !important; display: flex; gap: 10px; margin-bottom: 1.8rem; }
+.guild-tab { background: transparent !important; color: var(--nm-steel) !important; border: 1px solid transparent !important; border-radius: 8px 8px 0 0 !important; font-family: var(--font-text) !important; }
+.guild-tab:hover { color: var(--sao-text-bright) !important; }
+.guild-tab.active { color: var(--sao-gold-light) !important; border-bottom: 2px solid var(--sao-gold) !important; }
+.guild-form-container { background: rgba(5,7,13,0.4) !important; border: 1px solid var(--sao-border) !important; border-radius: var(--nm-radius) !important; }
+
+/* --- Mini-stats de presence --- */
+.mini-stat { border-radius: 999px !important; border: 1px solid var(--sao-border) !important; }
+.mini-stat.present strong { color: #86d3b1 !important; }
+.mini-stat.absent strong { color: #e59aa0 !important; }
+.mini-stat.mission strong { color: var(--sao-gold-light) !important; }
+
+/* --- Chargement / erreur --- */
+.loading-spinner p { color: var(--nm-steel) !important; }
+.error-message { background: rgba(193,88,95,0.08) !important; border: 1px solid rgba(193,88,95,0.4) !important; border-radius: var(--nm-radius) !important; }
+.error-message h2 { color: #e59aa0 !important; font-family: var(--font-title) !important; }
+
+/* --- Modal --- */
+.modal-content { background: linear-gradient(160deg, rgba(16,22,40,0.98), rgba(8,11,20,0.99)) !important; border: 1px solid var(--sao-border-hover) !important; border-radius: 14px !important; }
+.modal-header { color: var(--sao-gold-light) !important; font-family: var(--font-title) !important; }
+.modal-label { color: var(--nm-steel) !important; }

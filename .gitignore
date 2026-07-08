@@ -1,0 +1,106 @@
+# Logs# Logs# Fichiers Node.js (non nécessaires pour GitHub Pages)
+
+*.log
+
+npm-debug.log**.lognode_modules/
+
+yarn-debug.log*
+
+yarn-error.log*npm-debug.log*npm-debug.log*
+
+
+
+# Runtime datayarn-debug.log*yarn-debug.log*
+
+pids
+
+*.pidyarn-error.log*yarn-error.log*
+
+*.seed
+
+*.pid.lockpackage-lock.json
+
+
+
+# dotenv environment variables file# Runtime dataserver.js
+
+.env
+
+pidspackage.json
+
+# Configuration files with sensitive data
+
+js/config.js*.pid
+
+config.js
+
+*.seed# Fichiers temporaires
+
+# IDE files
+
+.vscode/*.pid.lock*.tmp
+
+.idea/
+
+*.swp*.temp
+
+*.swo
+
+# Optional npm cache directory.DS_Store
+
+# OS generated files
+
+.DS_Store.npmThumbs.db
+
+.DS_Store?
+
+._*
+
+.Spotlight-V100
+
+.Trashes# Optional REPL history# Fichiers de développement local
+
+ehthumbs.db
+
+Thumbs.db.node_repl_history.vscode/
+
+
+
+# Temporary files.env
+
+*.tmp
+
+*.temp# Output of 'npm pack'*.log
+
+*.tgz
+
+# Sauvegardes
+
+# Yarn Integrity file*.bak
+
+.yarn-integrity*.backup
+
+
+
+# dotenv environment variables file# Cache
+
+.env.cache/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
