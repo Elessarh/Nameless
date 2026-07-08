@@ -408,6 +408,11 @@ async function logoutUser() {
 async function loginWithMicrosoft() {
     try {
         const btn = document.getElementById('microsoft-login-btn');
+        if (!supabase || !supabase.auth || typeof supabase.auth.signInWithOAuth !== 'function') {
+            showMessage('Connexion Microsoft indisponible. Vérifiez la configuration Supabase.', 'error');
+            return;
+        }
+
         if (btn) {
             btn.disabled = true;
             setMicrosoftButtonText(btn, 'Redirection vers Microsoft...');
@@ -430,7 +435,12 @@ async function loginWithMicrosoft() {
             }
         }
     } catch (error) {
-        showMessage('Erreur technique lors de la connexion Microsoft.');
+        const btn = document.getElementById('microsoft-login-btn');
+        if (btn) {
+            btn.disabled = false;
+            setMicrosoftButtonText(btn, 'Se connecter avec Microsoft');
+        }
+        showMessage('Erreur technique lors de la connexion Microsoft. Vérifiez le provider Azure dans Supabase.');
     }
 }
 
@@ -559,11 +569,9 @@ function handleConnexionPageAuth() {
         // Afficher le formulaire de vérification Minecraft
         var msLogin = document.getElementById('microsoft-login');
         var mcVerify = document.getElementById('minecraft-verify');
-        var classicToggle = document.getElementById('classic-toggle');
         
         if (msLogin) msLogin.style.display = 'none';
         if (mcVerify) mcVerify.style.display = 'block';
-        if (classicToggle) classicToggle.style.display = 'none';
     } else if (userProfile && userProfile.minecraft_username) {
         // Minecraft déjà lié, rediriger
         showMessage('Connexion réussie ! Redirection...', 'success');
@@ -780,52 +788,6 @@ function bindAuthInterface(root) {
         handleMinecraftVerification(e);
     });
 
-    bindOnce(root.querySelector('#show-classic-login'), 'click', 'ShowClassicLogin', function(e) {
-        e.preventDefault();
-        var msLoginSection = document.getElementById('microsoft-login');
-        var loginFormSection = document.getElementById('login-form');
-        var classicToggleSection = document.getElementById('classic-toggle');
-        if (msLoginSection) msLoginSection.style.display = 'none';
-        if (loginFormSection) loginFormSection.style.display = 'block';
-        if (classicToggleSection) classicToggleSection.style.display = 'none';
-    });
-
-    bindOnce(root.querySelector('#back-to-microsoft'), 'click', 'BackToMicrosoft', function(e) {
-        e.preventDefault();
-        var msLoginSection = document.getElementById('microsoft-login');
-        var loginFormSection = document.getElementById('login-form');
-        var classicToggleSection = document.getElementById('classic-toggle');
-        if (msLoginSection) msLoginSection.style.display = 'block';
-        if (loginFormSection) loginFormSection.style.display = 'none';
-        if (classicToggleSection) classicToggleSection.style.display = 'block';
-    });
-
-    bindOnce(root.querySelector('#login-form form'), 'submit', 'LoginForm', async function(e) {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        await loginUser(email, password);
-    });
-
-    bindOnce(root.querySelector('#register-form form'), 'submit', 'RegisterForm', async function(e) {
-        e.preventDefault();
-        const username = document.getElementById('register-username').value;
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        const confirmPassword = document.getElementById('register-confirm').value;
-        await registerUser(username, email, password, confirmPassword);
-    });
-
-    bindOnce(root.querySelector('#show-register'), 'click', 'ShowRegister', function(e) {
-        e.preventDefault();
-        showRegisterForm();
-    });
-
-    bindOnce(root.querySelector('#show-login'), 'click', 'ShowLogin', function(e) {
-        e.preventDefault();
-        showLoginForm();
-    });
-
     bindOnce(document.getElementById('logout-btn'), 'click', 'Logout', logoutUser);
 }
 
@@ -964,95 +926,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         mcVerifyForm.addEventListener('submit', handleMinecraftVerification);
     }
     
-    // Toggle connexion classique
-    var showClassicBtn = document.getElementById('show-classic-login');
-    if (showClassicBtn) {
-        showClassicBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var msLoginSection = document.getElementById('microsoft-login');
-            var loginFormSection = document.getElementById('login-form');
-            var classicToggleSection = document.getElementById('classic-toggle');
-            if (msLoginSection) msLoginSection.style.display = 'none';
-            if (loginFormSection) loginFormSection.style.display = 'block';
-            if (classicToggleSection) classicToggleSection.style.display = 'none';
-        });
-    }
-    
-    // Retour vers Microsoft depuis connexion classique
-    var backToMsBtn = document.getElementById('back-to-microsoft');
-    if (backToMsBtn) {
-        backToMsBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var msLoginSection = document.getElementById('microsoft-login');
-            var loginFormSection = document.getElementById('login-form');
-            var classicToggleSection = document.getElementById('classic-toggle');
-            if (msLoginSection) msLoginSection.style.display = 'block';
-            if (loginFormSection) loginFormSection.style.display = 'none';
-            if (classicToggleSection) classicToggleSection.style.display = 'block';
-        });
-    }
-    
     // Si déjà connecté sur la page connexion, gérer la redirection/MC verify
     if (currentUser && window.location.pathname.includes('connexion')) {
         handleConnexionPageAuth();
-    }
-    
-    // === FORMULAIRES CLASSIQUES (fallback) ===
-    
-    const loginForm = document.querySelector('#login-form form');
-    const registerForm = document.querySelector('#register-form form');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            await loginUser(email, password);
-        });
-    }
-    
-    if (registerForm) {
-        registerForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('register-username').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('register-confirm').value;
-            
-            await registerUser(username, email, password, confirmPassword);
-        });
-    } else {
-        setTimeout(() => {
-            const form = document.querySelector('form[id*="register"]');
-            if (form) {
-                form.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    const username = document.getElementById('register-username').value;
-                    const email = document.getElementById('register-email').value;
-                    const password = document.getElementById('register-password').value;
-                    const confirmPassword = document.getElementById('register-confirm').value;
-                    
-                    await registerUser(username, email, password, confirmPassword);
-                });
-            } else {
-                // console.error('Formulaire inscription non trouve dans le DOM');
-            }
-        }, 500);
-    }
-    
-    // Boutons de basculement entre formulaires
-    const showRegisterBtn = document.getElementById('show-register');
-    const showLoginBtn = document.getElementById('show-login');
-    
-    if (showRegisterBtn) {
-        showRegisterBtn.addEventListener('click', showRegisterForm);
-    }
-    
-    if (showLoginBtn) {
-        showLoginBtn.addEventListener('click', showLoginForm);
     }
     
     // Bouton de déconnexion

@@ -78,7 +78,7 @@
                 
                 <!-- Connexion Microsoft (méthode principale) -->
                 <div id="microsoft-login" class="auth-form">
-                    <p class="auth-info">Connectez-vous avec votre compte Microsoft lié à Minecraft pour accéder au site.</p>
+                    <p class="auth-info">Utilise le compte Microsoft lié à Minecraft.</p>
                     
                     <button type="button" class="microsoft-btn" id="microsoft-login-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">
@@ -90,7 +90,7 @@
                         Se connecter avec Microsoft
                     </button>
                     
-                    <p class="auth-hint">Utilisez le même compte Microsoft que pour Minecraft Java Edition.</p>
+                    <p class="auth-hint">La connexion passe par Microsoft OAuth via Supabase.</p>
                 </div>
                 
                 <!-- Vérification pseudo Minecraft (affiché après OAuth si pas encore lié) -->
@@ -107,64 +107,6 @@
                     </form>
                     <div id="mc-verify-result" class="mc-verify-result" style="display: none;"></div>
                 </div>
-                
-                <!-- Formulaire de connexion classique (caché par défaut) -->
-                <div id="login-form" class="auth-form" style="display: none;">
-                    <h2>Connexion classique</h2>
-                    <form aria-label="Formulaire de connexion">
-                        <div class="input-group">
-                            <label for="login-email">Email</label>
-                            <input type="email" id="login-email" autocomplete="email" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="login-password">Mot de passe</label>
-                            <input type="password" id="login-password" autocomplete="current-password" required>
-                        </div>
-                        <button type="submit" class="auth-btn">Se connecter</button>
-                    </form>
-                    <p class="auth-switch">
-                        Pas encore de compte ? 
-                        <a href="#" id="show-register">Créer un compte</a>
-                    </p>
-                    <p class="auth-switch">
-                        <a href="#" id="back-to-microsoft">← Retour à la connexion Microsoft</a>
-                    </p>
-                </div>
-                
-                <!-- Formulaire d'inscription classique (caché par défaut) -->
-                <div id="register-form" class="auth-form" style="display: none;">
-                    <h2>Inscription</h2>
-                    <form aria-label="Formulaire d'inscription">
-                        <div class="input-group">
-                            <label for="register-username">Pseudo joueur</label>
-                            <input type="text" id="register-username" placeholder="Votre pseudo dans le jeu" autocomplete="username" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="register-email">Email</label>
-                            <input type="email" id="register-email" autocomplete="email" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="register-password">Mot de passe</label>
-                            <input type="password" id="register-password" autocomplete="new-password" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="register-confirm">Confirmer le mot de passe</label>
-                            <input type="password" id="register-confirm" autocomplete="new-password" required>
-                        </div>
-                        <button type="submit" class="auth-btn">Créer le compte</button>
-                    </form>
-                    <p class="auth-switch">
-                        Déjà un compte ? 
-                        <a href="#" id="show-login">Se connecter</a>
-                    </p>
-                </div>
-                
-                <!-- Séparateur et lien vers connexion classique -->
-                <div id="classic-toggle" class="classic-toggle">
-                    <div class="auth-divider"><span>ou</span></div>
-                    <a href="#" id="show-classic-login" class="classic-login-link">Connexion classique (email / mot de passe)</a>
-                </div>
-                
                     <!-- Message d'erreur/succès -->
                     <div id="auth-message" class="auth-message" role="alert" aria-live="polite" style="display: none;"></div>
                 </div>
