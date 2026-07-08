@@ -151,7 +151,7 @@
             aliases: ['/pages/connexion.html'],
             title: 'Connexion - Nameless',
             css: [
-                'css/components/connexion.css?v=nameless-1.0'
+                'css/components/connexion.css?v=20260709'
             ],
             scripts: [],
             init: function (root) {
