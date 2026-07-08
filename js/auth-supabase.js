@@ -6,9 +6,9 @@ function _escAttr(t){if(window.NamelessSecurity&&window.NamelessSecurity.escapeA
 async function initSupabase() {
     try {
         const SUPABASE_URL = window._getSecureUrl ? window._getSecureUrl() : null;
-        const SUPABASE_ANON_KEY = window._getSecureKey ? window._getSecureKey() : null;
+        const SUPABASE_PUBLISHABLE_KEY = window._getSecureKey ? window._getSecureKey() : null;
         
-        if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
             throw new Error('Init error');
         }
         
@@ -48,7 +48,7 @@ async function initSupabase() {
             throw new Error('createClient non disponible après chargement');
         }
         
-        var _rawClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        var _rawClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
         supabase = window._initDbGuard ? window._initDbGuard(_rawClient) : _rawClient;
         _rawClient = null;
         try { delete window._initDbGuard; } catch(e) {}
@@ -414,17 +414,11 @@ async function loginWithMicrosoft() {
         }
         
         // Déterminer l'URL de redirection
-        const isInPages = window.location.pathname.includes('/pages/');
-        const baseUrl = window.location.origin;
-        const redirectUrl = isInPages 
-            ? baseUrl + '/pages/connexion.html' 
-            : baseUrl + '/connexion.html';
-        
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'azure',
             options: {
                 scopes: 'openid profile email',
-                redirectTo: redirectUrl
+                redirectTo: window.location.origin + '/profil'
             }
         });
         
