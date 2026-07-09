@@ -1219,7 +1219,7 @@ function displayAdminActivities(activities) {
     container.innerHTML = activities.map(activity => {
         // image_url validée (https, pas de javascript:/data:), sinon ignorée.
         const safeImg = (window.NamelessSecurity && activity.image_url)
-            ? window.NamelessSecurity.sanitizeUrl(activity.image_url)
+            ? window.NamelessSecurity.sanitizeImageUrl(activity.image_url)
             : '';
         return `
         <div class="admin-activity-item" data-id="${escapeHtml(activity.id)}">

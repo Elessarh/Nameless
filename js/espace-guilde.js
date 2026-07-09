@@ -592,7 +592,7 @@ function displayActivityWall(activities) {
     container.innerHTML = activities.map(activity => {
         // URL image validée (https, pas de javascript:/data:). Rejetée => pas d'image.
         const safeImg = (window.NamelessSecurity && activity.image_url)
-            ? window.NamelessSecurity.sanitizeUrl(activity.image_url)
+            ? window.NamelessSecurity.sanitizeImageUrl(activity.image_url)
             : '';
         // Type limité à un mot alphanumérique pour l'usage dans une classe CSS.
         const safeType = String(activity.type || 'annonce').replace(/[^a-z0-9_-]/gi, '');
