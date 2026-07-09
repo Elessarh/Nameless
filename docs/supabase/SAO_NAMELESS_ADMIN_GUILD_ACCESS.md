@@ -126,7 +126,52 @@ Dans ce cas, exécuter `SAO_NAMELESS_SCHEMA.sql` puis les patches.
 `SAO_NAMELESS_RLS_PATCH_004.sql` n'existe pas : le patch le plus récent est
 `SECURITY_PATCH_002` (appliqué après `RLS_PATCH_003`).
 
-## 7. Diagnostic
+## 7. Actions admin du dashboard (Edge Function `admin-user-actions`)
+
+Depuis le dashboard admin, trois actions sensibles passent par l'Edge Function
+`supabase/functions/admin-user-actions` — jamais par un update direct du
+navigateur :
+
+- **Modifier rôle** (`update_role`) : met à jour `user_profiles.role` ET
+  upsert `user_roles` en une seule action serveur. Refuse un rôle hors
+  `joueur|membre|admin`, refuse de retirer le dernier admin, exige
+  `confirm_self_demote: true` pour s'auto-rétrograder.
+- **Vérifier / retirer vérification Minecraft** (`set_minecraft_verified`) :
+  bascule `user_profiles.minecraft_verified`. Refuse `true` si aucun
+  `minecraft_uuid` n'est lié. Le joueur ne peut JAMAIS le faire lui-même
+  (trigger `prevent_profile_privilege_escalation`).
+- **Supprimer compte** (`delete_user`) : purge les objets Storage du joueur
+  (`chat/<uid>/`, `guild-activities/<uid>/`), puis supprime le compte
+  **Supabase Auth** ; les données publiques suivent par `on delete cascade`.
+  Refuse de supprimer le dernier admin ; auto-suppression seulement avec
+  `confirm_self_delete: true`. Suppression **définitive** (hard delete) ;
+  `admin_logs` garde l'audit.
+
+Sécurité : la fonction lit le JWT `Authorization`, résout l'appelant via
+`auth.getUser`, vérifie le rôle admin côté serveur (`user_roles` prioritaire,
+`user_profiles.role` en secours), et journalise chaque action dans
+`admin_logs`. Les erreurs renvoyées au front sont des codes génériques ;
+aucun token n'est loggé.
+
+Secrets requis (dashboard Supabase → Edge Functions → Secrets) :
+
+```text
+SERVICE_ROLE_KEY=   # côté Edge Function UNIQUEMENT, jamais dans le front
+```
+
+Déploiement :
+
+```bash
+npx supabase functions deploy admin-user-actions --no-verify-jwt --project-ref iwrvdntlrjnoqzbwbsfm
+```
+
+`--no-verify-jwt` ne désactive que le contrôle de la gateway : la fonction
+vérifie elle-même le JWT et le rôle admin à chaque requête.
+
+Patch SQL associé : `docs/supabase/SAO_NAMELESS_ADMIN_ACTIONS_PATCH.sql`
+(unicité `user_roles.user_id`, grants, policies `admin_logs`).
+
+## 8. Diagnostic
 
 Utiliser `docs/supabase/SAO_NAMELESS_ROLE_DEBUG.sql` :
 
