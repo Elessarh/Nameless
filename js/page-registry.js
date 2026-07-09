@@ -254,7 +254,7 @@
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/espace-guilde.js?v=20260709e',
+                'js/espace-guilde.js?v=20260709f',
                 'js/guild-chat.js?v=20260709e',
                 'js/guild-dm.js?v=20260709e'
             ],

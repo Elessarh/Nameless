@@ -358,7 +358,7 @@ async function loadPresence() {
         const userIds = presences.map(p => p.user_id);
         const { data: profiles, error: profilesError } = await supabase
             .from('user_profiles')
-            .select('id, username, classe, niveau')
+            .select('id, username, minecraft_username, classe, niveau')
             .in('id', userIds);
         
         if (profilesError) {
@@ -376,21 +376,29 @@ async function loadPresence() {
         
         // console.log('[DEBUG] Profils recus:', profiles);
         
-        container.innerHTML = presences.map(presence => {
+        // Construction DOM pure : les noms passent par textContent.
+        container.innerHTML = '';
+        presences.forEach(presence => {
             const profile = profileMap[presence.user_id];
-            const username = profile ? profile.username : 'Inconnu';
-            
+
             // Statut restreint à un token sûr (utilisé dans des classes CSS).
             const safeStatut = String(presence.statut || '').replace(/[^a-z0-9_-]/gi, '');
-            return `
-                <div class="presence-card ${safeStatut}">
-                    <div class="presence-username">${escapeHtml(username)}</div>
-                    <span class="presence-status status-${safeStatut}">
-                        ${escapeHtml(formatPresenceStatus(presence.statut))}
-                    </span>
-                </div>
-            `;
-        }).join('');
+
+            const card = document.createElement('div');
+            card.className = 'presence-card ' + safeStatut;
+
+            const nameEl = document.createElement('div');
+            nameEl.className = 'presence-username';
+            nameEl.textContent = getPresenceDisplayName(profile);
+            card.appendChild(nameEl);
+
+            const statusEl = document.createElement('span');
+            statusEl.className = 'presence-status status-' + safeStatut;
+            statusEl.textContent = formatPresenceStatus(presence.statut);
+            card.appendChild(statusEl);
+
+            container.appendChild(card);
+        });
         
         // console.log('[OK] Presences chargees:', presences.length);
         
@@ -469,6 +477,21 @@ async function markPresence(statut = 'present') {
 }
 
 // ========== FONCTIONS UTILITAIRES ==========
+
+// Nom public affiché dans l'appel :
+// 1. minecraft_username si présent ;
+// 2. username seulement s'il est personnalisé (pas le fallback technique
+//    Joueur_xxxxxx généré à l'inscription Microsoft) ;
+// 3. « Joueur inconnu » sinon. Jamais d'email.
+function getPresenceDisplayName(profile) {
+    if (!profile) return 'Joueur inconnu';
+    if (profile.minecraft_username) return profile.minecraft_username;
+
+    const username = String(profile.username || '').trim();
+    if (username && !/^Joueur_[A-Za-z0-9]{6}$/.test(username)) return username;
+
+    return 'Joueur inconnu';
+}
 
 function getWeekNumber(date) {
     const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
