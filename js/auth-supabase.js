@@ -768,7 +768,7 @@ function navigateHome() {
         return;
     }
 
-    window.location.href = window.location.pathname.includes('/pages/') ? '../index.html' : 'index.html';
+    window.location.href = '/';
 }
 
 function navigateProfile() {
