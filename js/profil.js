@@ -68,6 +68,67 @@ function waitForAuthAndUser() {
 }
 
 // Charger le profil de l'utilisateur connecté (renommé pour éviter conflit avec auth-supabase.js)
+function isMissingProfileError(error) {
+    if (!error) return false;
+    var message = String(error.message || '');
+    return error.code === 'PGRST116'
+        || message.indexOf('JSON object requested') !== -1
+        || message.indexOf('0 rows') !== -1
+        || message.indexOf('406') !== -1;
+}
+
+function getDefaultUsername() {
+    var userId = window.currentUser && window.currentUser.id ? String(window.currentUser.id).replace(/-/g, '') : '';
+    var suffix = userId ? userId.substring(0, 6) : Math.random().toString(36).substring(2, 8);
+    return 'Joueur_' + suffix;
+}
+
+async function fetchOwnProfile() {
+    var query = supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', window.currentUser.id);
+
+    if (typeof query.maybeSingle === 'function') {
+        return await query.maybeSingle();
+    }
+
+    return await query.single();
+}
+
+async function createOwnPlayerProfile() {
+    var result = await supabase
+        .from('user_profiles')
+        .insert([{
+            id: window.currentUser.id,
+            username: getDefaultUsername(),
+            role: 'joueur'
+        }])
+        .select('*')
+        .single();
+
+    if (!result.error) return result.data;
+
+    if (result.error.code === '23505') {
+        var retry = await fetchOwnProfile();
+        if (!retry.error && retry.data) return retry.data;
+    }
+
+    throw result.error;
+}
+
+async function resolveOwnProfile() {
+    var result = await fetchOwnProfile();
+
+    if (!result.error && result.data) return result.data;
+
+    if (!result.error || isMissingProfileError(result.error)) {
+        return await createOwnPlayerProfile();
+    }
+
+    throw result.error;
+}
+
 async function loadProfilePage() {
     try {
         // Double vérification
@@ -90,24 +151,22 @@ async function loadProfilePage() {
             return;
         }
         
-        // Récupérer le profil depuis user_profiles
-        const { data: profile, error } = await supabase
-            .from('user_profiles')
-            .select('*')
-            .eq('id', window.currentUser.id)
-            .single();
-            
-        if (error) {
-            showError('Impossible de charger votre profil. Veuillez réessayer.');
+        // Recuperer ou creer la fiche joueur de l'utilisateur connecte.
+        let profile = null;
+        try {
+            profile = await resolveOwnProfile();
+        } catch (error) {
+            showError('Impossible de charger votre profil. Veuillez reessayer.');
             return;
         }
         
         if (!profile) {
-            showError('Votre profil n\'existe pas encore. Contactez un administrateur.');
+            showError('Impossible de creer votre fiche joueur. Veuillez reessayer.');
             return;
         }
         
         localUserProfile = profile;
+        window.userProfile = profile;
         
         // Mettre en cache pour 5 minutes
         if (window.cacheManager) {

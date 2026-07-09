@@ -151,6 +151,13 @@ security definer
 set search_path = public
 as $$
 begin
+  -- Privileged SQL Editor / backend maintenance context.
+  -- Browser clients still go through authenticated RLS policies, so this does
+  -- not allow anonymous or normal users to self-promote from the frontend.
+  if auth.uid() is null then
+    return new;
+  end if;
+
   if tg_op = 'INSERT' then
     if auth.uid() is not null and new.id is distinct from auth.uid() and not public.is_admin() then
       raise exception 'profile id must match authenticated user';

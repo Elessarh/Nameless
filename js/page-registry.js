@@ -201,7 +201,7 @@
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/profil.js?v=nameless-1.0'
+                'js/profil.js?v=nameless-1.1'
             ],
             init: function (root) {
                 if (global.NamelessProfilePage && typeof global.NamelessProfilePage.init === 'function') {
