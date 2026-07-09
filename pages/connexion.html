@@ -93,20 +93,6 @@
                     <p class="auth-hint">La connexion passe par Microsoft OAuth via Supabase.</p>
                 </div>
                 
-                <!-- Vérification pseudo Minecraft (affiché après OAuth si pas encore lié) -->
-                <div id="minecraft-verify" class="auth-form" style="display: none;">
-                    <h2>Lier votre compte Minecraft</h2>
-                    <p class="auth-info">Entrez votre pseudo Minecraft exact pour lier votre compte et afficher votre skin.</p>
-                    <div id="mc-verify-preview" class="mc-verify-preview"></div>
-                    <form id="mc-verify-form" aria-label="Vérification Minecraft">
-                        <div class="input-group">
-                            <label for="mc-username">Pseudo Minecraft</label>
-                            <input type="text" id="mc-username" placeholder="Ex: Notch" autocomplete="off" required minlength="3" maxlength="16">
-                        </div>
-                        <button type="submit" class="auth-btn" id="mc-verify-btn">Vérifier et lier le compte</button>
-                    </form>
-                    <div id="mc-verify-result" class="mc-verify-result" style="display: none;"></div>
-                </div>
                     <!-- Message d'erreur/succès -->
                     <div id="auth-message" class="auth-message" role="alert" aria-live="polite" style="display: none;"></div>
                 </div>
@@ -145,7 +131,7 @@
     <script src="../js/crypto-keys.js?v=20260709" defer></script>
     <script src="../js/db-guard.js" defer></script>
     <script src="../js/security-utils.js?v=20260706" defer></script>
-    <script src="../js/auth-supabase.js?v=20260709c" defer></script>
+    <script src="../js/auth-supabase.js?v=20260709d" defer></script>
     <script src="../js/navbar-mobile.js" defer></script>
     <script src="../js/audio-controller.js?v=nameless-audio-1.1" defer></script>
 </body>
