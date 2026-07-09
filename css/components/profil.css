@@ -1,6 +1,6 @@
 /* ============================================================
    NAMELESS — Page Profil (refonte premium)
-   Carte joueur + infos + stats. Cible le markup existant
+   Carte joueur + infos + liaison Minecraft. Cible le markup existant
    (IDs préservés pour profil.js). Sombre, sobre, lisible.
    ============================================================ */
 
@@ -185,29 +185,56 @@
 }
 .save-profile-btn:hover { transform: translateY(-2px); box-shadow: var(--sao-glow-gold) !important; border-color: var(--sao-gold) !important; }
 
-/* --- Statistiques --- */
-.profil-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1rem;
-}
-.stat-card {
+/* --- Liaison Minecraft --- */
+.minecraft-link-panel {
     background: var(--sao-bg-card);
     border: 1px solid var(--sao-border);
     border-radius: var(--nm-radius);
-    padding: 1.6rem 1rem;
-    text-align: center;
-    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+    padding: 1.6rem 1.8rem;
 }
-.stat-card:hover { border-color: var(--sao-border-hover); box-shadow: var(--sao-shadow); }
-.stat-value {
-    font-family: var(--font-title);
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    background: var(--nm-gold-grad);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    line-height: 1.1;
+.minecraft-link-copy {
+    color: var(--nm-steel);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 1rem;
 }
-.stat-label { color: var(--nm-steel); text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; margin-top: 0.4rem; }
+.minecraft-link-form { display: grid; gap: 0.7rem; }
+.minecraft-link-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+.minecraft-name-input {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    text-align: left;
+}
+.profile-mc-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 0;
+    margin-bottom: 0.8rem;
+    color: var(--sao-text-bright);
+    font-weight: 600;
+}
+.profile-mc-preview:empty { display: none; }
+.profile-mc-preview img {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    border: 1px solid var(--sao-border-hover);
+    image-rendering: pixelated;
+}
+.profile-mc-status {
+    min-height: 1.2rem;
+    color: var(--nm-steel);
+    font-size: 0.86rem;
+    margin: 0.8rem 0 0;
+}
+.profile-mc-status.error { color: #e59aa0; }
+.profile-mc-status.success { color: #86d3b1; }
 
 /* --- Erreur --- */
 .profil-error {
@@ -230,4 +257,6 @@
     .player-actions { justify-content: center; }
     .info-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
     .info-value { text-align: left; }
+    .minecraft-link-controls { flex-direction: column; align-items: stretch; }
+    .minecraft-name-input { width: 100%; }
 }

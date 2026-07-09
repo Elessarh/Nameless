@@ -508,7 +508,9 @@ body .nav-connexion a.active[href*="profil"] {
     padding: 8px 15px;
     border-radius: 4px;
     transition: all 0.3s ease;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--font-text);
     font-size: 0.85rem;
     letter-spacing: 0.3px;
@@ -526,7 +528,7 @@ body .nav-connexion a.active[href*="profil"] {
     height: 24px;
     border-radius: 4px;
     vertical-align: middle;
-    margin-right: 6px;
+    margin-right: 0;
     image-rendering: pixelated;
     border: 1px solid rgba(196, 165, 90, 0.3);
     box-shadow: 0 0 8px rgba(196, 165, 90, 0.15);

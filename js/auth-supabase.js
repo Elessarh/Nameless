@@ -75,6 +75,31 @@ const usernamePendingMap = new Map();
 let isCheckingAuthState = false;
 let lastAuthStateCheck = 0;
 
+function isFallbackProfileName(name) {
+    if (!name) return true;
+    if (/^Joueur_[A-Za-z0-9]{6}$/.test(name)) return true;
+
+    if (currentUser && currentUser.email) {
+        var emailLocal = currentUser.email.split('@')[0] || '';
+        var sanitizedEmailLocal = emailLocal.replace(/[^A-Za-z0-9_-]/g, '_').substring(0, 32);
+        if (name === emailLocal || name === sanitizedEmailLocal) return true;
+    }
+
+    return false;
+}
+
+function getPublicProfileName(profile) {
+    if (!profile) return 'Joueur';
+    if (profile.minecraft_username) return profile.minecraft_username;
+    if (profile.username && !isFallbackProfileName(profile.username)) return profile.username;
+    return 'Lier Minecraft';
+}
+
+function getPublicMinecraftKey(profile) {
+    if (!profile) return '';
+    return profile.minecraft_uuid || profile.minecraft_username || '';
+}
+
 function createMicrosoftIcon() {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
@@ -136,10 +161,11 @@ function checkAuthState() {
                     let headImg = null;
                     
                     if (userProfile) {
-                        displayName = userProfile.minecraft_username || userProfile.username || 'Joueur';
-                        if (userProfile.minecraft_uuid) {
+                        displayName = getPublicProfileName(userProfile);
+                        var minecraftKey = getPublicMinecraftKey(userProfile);
+                        if (minecraftKey) {
                             headImg = document.createElement('img');
-                            headImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(userProfile.minecraft_uuid) + '/24';
+                            headImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(minecraftKey) + '/24';
                             headImg.className = 'mc-head-nav';
                             headImg.alt = '';
                             headImg.width = 24;
@@ -603,10 +629,6 @@ async function loadUserProfile() {
         userProfile = data;
         window.userProfile = userProfile; // Mettre à jour immédiatement
         
-        if (userProfile.username.includes('_') && userProfile.username.match(/.*_[a-z0-9]{4}$/)) {
-            await autoCorrectUsername();
-        }
-        
         if (currentUser.email && usernamePendingMap.has(currentUser.email)) {
             usernamePendingMap.delete(currentUser.email);
         }
@@ -639,7 +661,7 @@ async function createMissingProfile() {
             // Utilisateur OAuth Microsoft - pseudo temporaire
             username = 'Joueur_' + currentUser.id.substring(0, 6);
         } else {
-            username = currentUser.email ? currentUser.email.split('@')[0] : 'Joueur';
+            username = 'Joueur_' + currentUser.id.substring(0, 6);
         }
         
         const { data, error } = await supabase
@@ -680,36 +702,6 @@ async function createMissingProfile() {
     } catch (error) {
         // console.error('Erreur technique création profil:', error);
         throw error;
-    }
-}
-
-async function autoCorrectUsername() {
-    if (!currentUser || !userProfile) return;
-    
-    try {
-        const baseName = currentUser.email.split('@')[0];
-        
-        const { data: existingProfile } = await supabase
-            .from('user_profiles')
-            .select('username')
-            .eq('username', baseName)
-            .single();
-            
-        if (!existingProfile) {
-            const { data, error } = await supabase
-                .from('user_profiles')
-                .update({ username: baseName })
-                .eq('id', currentUser.id)
-                .select()
-                .single();
-                
-            if (!error && data) {
-                userProfile = data;
-                checkAuthState();
-            }
-        }
-    } catch (error) {
-        // Correction automatique échouée
     }
 }
 

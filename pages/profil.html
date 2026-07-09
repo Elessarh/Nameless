@@ -23,7 +23,7 @@
     <!-- Fonts & Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css?v=nameless-1.1">
-    <link rel="stylesheet" href="../css/components/profil.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/profil.css?v=nameless-1.1">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.1">
 </head>
 <body class="profil-page">
@@ -102,10 +102,6 @@
                         <span class="info-label">Pseudo Minecraft</span>
                         <span class="info-value" id="profile-username">-</span>
                     </div>
-                    <div class="info-row" id="email-row">
-                        <span class="info-label">Email</span>
-                        <span class="info-value" id="profile-email">-</span>
-                    </div>
                     <div class="info-row">
                         <label class="info-label" for="profile-classe">Classe</label>
                         <span class="info-value">
@@ -134,20 +130,19 @@
                 </div>
             </section>
 
-            <!-- Statistiques -->
-            <section class="profil-stats" aria-label="Statistiques du joueur">
-                <div class="stat-card">
-                    <div class="stat-value" id="stat-messages">0</div>
-                    <div class="stat-label">Messages envoyés</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="stat-items">0</div>
-                    <div class="stat-label">Items possédés</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="stat-level">1</div>
-                    <div class="stat-label">Niveau</div>
-                </div>
+            <!-- Liaison Minecraft -->
+            <section id="minecraft-link-panel" class="minecraft-link-panel" aria-label="Lier le compte Minecraft" style="display: none;">
+                <h3 class="profil-section-title">Compte Minecraft</h3>
+                <p class="minecraft-link-copy">Entre ton pseudo exact pour afficher ton nom et ta tete Minecraft sur le site.</p>
+                <div id="profile-mc-preview" class="profile-mc-preview" aria-live="polite"></div>
+                <form id="profile-mc-link-form" class="minecraft-link-form">
+                    <label class="info-label" for="profile-mc-username">Pseudo Minecraft</label>
+                    <div class="minecraft-link-controls">
+                        <input type="text" id="profile-mc-username" class="profile-input minecraft-name-input" autocomplete="off" required minlength="3" maxlength="16" placeholder="Ex: Notch">
+                        <button type="submit" id="profile-mc-link-btn" class="save-profile-btn">Lier le compte</button>
+                    </div>
+                </form>
+                <p id="profile-mc-status" class="profile-mc-status" role="status" aria-live="polite"></p>
             </section>
         </div>
 
@@ -172,8 +167,8 @@
     <script src="../js/crypto-keys.js?v=20260709" defer></script>
     <script src="../js/db-guard.js" defer></script>
     <script src="../js/security-utils.js?v=20260706" defer></script>
-    <script src="../js/auth-supabase.js?v=20260709b" defer></script>
-    <script src="../js/profil.js?v=nameless-1.1" defer></script>
+    <script src="../js/auth-supabase.js?v=20260709c" defer></script>
+    <script src="../js/profil.js?v=nameless-1.2" defer></script>
     <script src="../js/audio-controller.js?v=nameless-audio-1.1" defer></script>
 </body>
 </html>

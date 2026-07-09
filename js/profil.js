@@ -83,6 +83,24 @@ function getDefaultUsername() {
     return 'Joueur_' + suffix;
 }
 
+function getMinecraftDisplayName(profile) {
+    return profile && profile.minecraft_username ? profile.minecraft_username : 'Pseudo Minecraft a lier';
+}
+
+function getMinecraftProfileValue(profile) {
+    return profile && profile.minecraft_username ? profile.minecraft_username : 'Non lie';
+}
+
+function getMinecraftAvatarKey(profile) {
+    if (!profile) return '';
+    return profile.minecraft_uuid || profile.minecraft_username || '';
+}
+
+function setText(id, value) {
+    var element = document.getElementById(id);
+    if (element) element.textContent = value;
+}
+
 async function fetchOwnProfile() {
     var query = supabase
         .from('user_profiles')
@@ -189,27 +207,33 @@ function displayProfile(profile) {
     // Afficher le contenu
     document.getElementById('profil-content').style.display = 'block';
     
-    // Afficher le pseudo Minecraft et l'avatar
-    var mcUsername = profile.minecraft_username || profile.username || 'Inconnu';
-    document.getElementById('profile-username').textContent = mcUsername;
-    document.getElementById('profile-email').textContent = window.currentUser.email || 'Inconnu';
-    
-    // Afficher l'avatar Minecraft si le compte est lié
-    if (profile.minecraft_uuid) {
-        var avatarSection = document.getElementById('mc-avatar-section');
-        var avatarImg = document.getElementById('mc-avatar-img');
-        var displayNameEl = document.getElementById('mc-display-name');
-        var titleFallback = document.getElementById('profil-title-fallback');
-        
-        if (avatarSection && avatarImg) {
-            // uuid encodé (donnée Supabase non fiable) avant construction de l'URL
-            avatarImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(profile.minecraft_uuid) + '/128';
-            avatarImg.alt = mcUsername;
-            if (displayNameEl) displayNameEl.textContent = mcUsername;
-            avatarSection.style.display = 'flex';
-            if (titleFallback) titleFallback.style.display = 'none';
-        }
+    // Afficher uniquement l'identite Minecraft publique.
+    var mcUsername = getMinecraftDisplayName(profile);
+    var avatarKey = getMinecraftAvatarKey(profile);
+    var avatarSection = document.getElementById('mc-avatar-section');
+    var avatarImg = document.getElementById('mc-avatar-img');
+    var displayNameEl = document.getElementById('mc-display-name');
+    var titleFallback = document.getElementById('profil-title-fallback');
+    var minecraftLinkPanel = document.getElementById('minecraft-link-panel');
+
+    setText('profile-username', getMinecraftProfileValue(profile));
+    if (displayNameEl) displayNameEl.textContent = mcUsername;
+    if (titleFallback) titleFallback.style.display = 'none';
+
+    if (avatarSection && avatarImg && avatarKey) {
+        avatarImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(avatarKey) + '/128';
+        avatarImg.alt = mcUsername;
+        avatarSection.style.display = 'flex';
+    } else if (avatarSection && avatarImg) {
+        avatarImg.removeAttribute('src');
+        avatarImg.alt = '';
+        avatarSection.style.display = 'none';
     }
+
+    if (minecraftLinkPanel) {
+        minecraftLinkPanel.style.display = profile.minecraft_username && avatarKey ? 'none' : 'block';
+    }
+    bindMinecraftLinkForm();
     
     // Afficher le rôle avec le bon badge
     const roleBadge = document.getElementById('profile-role');
@@ -260,11 +284,114 @@ function displayProfile(profile) {
         saveBtn.dataset.profileSaveBound = 'true';
     }
     
-    // Charger les statistiques avec le vrai niveau
-    loadStats(profile);
 }
 
-// Obtenir le label du rôle en français
+// Gerer la liaison Minecraft depuis la fiche profil.
+function setMinecraftStatus(message, type) {
+    var status = document.getElementById('profile-mc-status');
+    if (!status) return;
+    status.textContent = message || '';
+    status.className = 'profile-mc-status' + (type ? ' ' + type : '');
+}
+
+function setMinecraftPreview(username, uuid) {
+    var preview = document.getElementById('profile-mc-preview');
+    if (!preview) return;
+
+    if (!username || !uuid) {
+        preview.replaceChildren();
+        return;
+    }
+
+    var img = document.createElement('img');
+    img.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(uuid) + '/64';
+    img.alt = username;
+    img.width = 64;
+    img.height = 64;
+
+    var name = document.createElement('span');
+    name.textContent = username;
+
+    preview.replaceChildren(img, name);
+}
+
+async function handleProfileMinecraftLink(event) {
+    if (event) event.preventDefault();
+
+    var input = document.getElementById('profile-mc-username');
+    var button = document.getElementById('profile-mc-link-btn');
+    var username = input ? input.value.trim() : '';
+
+    if (!username) {
+        setMinecraftStatus('Entre ton pseudo Minecraft.', 'error');
+        return;
+    }
+
+    if (!/^[A-Za-z0-9_]{3,16}$/.test(username)) {
+        setMinecraftStatus('Pseudo Minecraft invalide.', 'error');
+        return;
+    }
+
+    if (typeof window.verifyMinecraftUsername !== 'function' || typeof window.linkMinecraftAccount !== 'function') {
+        setMinecraftStatus('Verification Minecraft indisponible pour le moment.', 'error');
+        return;
+    }
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = 'Verification...';
+    }
+    setMinecraftStatus('');
+
+    try {
+        var result = await window.verifyMinecraftUsername(username);
+        if (!result || !result.valid) {
+            setMinecraftPreview('', '');
+            setMinecraftStatus('Pseudo Minecraft introuvable.', 'error');
+            return;
+        }
+
+        setMinecraftPreview(result.username, result.uuid);
+        var linked = await window.linkMinecraftAccount(result.username, result.uuid);
+
+        if (!linked) {
+            setMinecraftStatus('Impossible de lier ce compte Minecraft.', 'error');
+            return;
+        }
+
+        if (localUserProfile) {
+            localUserProfile.username = result.username;
+            localUserProfile.minecraft_username = result.username;
+            localUserProfile.minecraft_uuid = result.uuid;
+            window.userProfile = localUserProfile;
+        }
+
+        if (window.cacheManager && window.currentUser) {
+            window.cacheManager.invalidate(`user_profile_${window.currentUser.id}`);
+            window.cacheManager.invalidate('all_users');
+        }
+
+        setMinecraftStatus('Compte Minecraft lie.', 'success');
+        if (input) input.value = '';
+        if (localUserProfile) displayProfile(localUserProfile);
+    } catch (error) {
+        setMinecraftStatus('Erreur technique pendant la verification.', 'error');
+    } finally {
+        if (button) {
+            button.disabled = false;
+            button.textContent = 'Lier le compte';
+        }
+    }
+}
+
+function bindMinecraftLinkForm() {
+    var form = document.getElementById('profile-mc-link-form');
+    if (!form || form.dataset.profileMcBound === 'true') return;
+    form.addEventListener('submit', handleProfileMinecraftLink);
+    form.dataset.profileMcBound = 'true';
+}
+
+// Obtenir le label du role en francais.
 function getRoleLabel(role) {
     const labels = {
         'joueur': 'Joueur',
@@ -314,18 +441,6 @@ async function saveProfileChanges() {
     } catch (error) {
         showError('Une erreur technique est survenue.');
     }
-}
-
-// Charger les statistiques avec les vraies données du profil
-function loadStats(profile) {
-    // Afficher le vrai niveau de l'utilisateur
-    document.getElementById('stat-messages').textContent = '0';
-    document.getElementById('stat-items').textContent = '0';
-    document.getElementById('stat-level').textContent = profile.niveau || 1;
-    
-    // TODO: Implémenter la récupération des vraies statistiques
-    // - Compter les messages dans la table mailbox
-    // - Compter les items possédés
 }
 
 // Afficher un message d'erreur

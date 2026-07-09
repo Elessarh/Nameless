@@ -197,11 +197,11 @@
             source: 'pages/profil.html',
             title: 'Mon profil - Nameless',
             css: [
-                'css/components/profil.css?v=nameless-1.0'
+                'css/components/profil.css?v=nameless-1.1'
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/profil.js?v=nameless-1.1'
+                'js/profil.js?v=nameless-1.2'
             ],
             init: function (root) {
                 if (global.NamelessProfilePage && typeof global.NamelessProfilePage.init === 'function') {
