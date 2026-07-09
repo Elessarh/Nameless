@@ -653,6 +653,9 @@ grant execute on function public.is_guild_member() to authenticated;
 grant execute on function public.write_admin_log(text, text, uuid, jsonb) to authenticated;
 grant execute on function public.delete_user_completely(uuid) to authenticated;
 
+grant usage on schema public to authenticated;
+grant select, insert, update on public.user_profiles to authenticated;
+
 -- =========================================================
 -- RLS policies
 -- =========================================================

@@ -423,7 +423,7 @@ async function loginWithMicrosoft() {
             provider: 'azure',
             options: {
                 scopes: 'openid profile email',
-                redirectTo: window.location.origin + '/profil'
+                redirectTo: window.location.origin + '/pages/profil.html'
             }
         });
         
