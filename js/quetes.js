@@ -123,8 +123,13 @@
                 var section = coord.closest('.quest-section');
                 var tier = section ? section.getAttribute('data-tier') : '1';
                 if (x && y) {
-                    window.location.href = 'map.html?x=' + encodeURIComponent(x) +
+                    var target = '/carte?x=' + encodeURIComponent(x) +
                         '&y=' + encodeURIComponent(y) + '&floor=' + encodeURIComponent(tier);
+                    if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
+                        window.NamelessSpaRouter.navigate('/carte', { url: target });
+                    } else {
+                        window.location.href = target;
+                    }
                 }
             }.bind(this));
         }

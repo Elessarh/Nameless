@@ -300,11 +300,11 @@ class HDVSystem {
 
     // Rediriger vers la page de connexion si non connecté
     redirectToLogin() {
-        const loginUrl = '../pages/connexion.html';
+        const loginUrl = '/connexion';
         const currentUrl = window.location.href;
         
         // Éviter la boucle de redirection si on est déjà sur la page de connexion
-        if (!currentUrl.includes('connexion.html')) {
+        if (!currentUrl.includes('/connexion')) {
             this.showAuthError();
             setTimeout(() => {
                 window.location.href = loginUrl;

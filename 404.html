@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; frame-src 'self' https://www.youtube.com; base-uri 'self'; form-action 'self';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nameless</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
+    <link rel="stylesheet" href="/css/style.css?v=nameless-1.0">
+    <link rel="stylesheet" href="/css/components/audio-player.css?v=nameless-audio-1.1">
+</head>
+<body data-spa-fallback="true">
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <header class="header" role="banner">
+        <nav class="nav-container" role="navigation" aria-label="Navigation principale">
+            <div class="nav-logo-container">
+                <a href="/" aria-label="Nameless - Accueil">
+                    <img src="/assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
+                </a>
+            </div>
+            <ul class="nav-menu" id="nav-menu" role="menubar">
+                <li role="none"><a href="/" class="nav-link" role="menuitem">Accueil</a></li>
+                <li role="none"><a href="/carte" class="nav-link" role="menuitem">Carte</a></li>
+                <li role="none"><a href="/bestiaire" class="nav-link" role="menuitem">Bestiaire</a></li>
+                <li role="none"><a href="/items" class="nav-link" role="menuitem">Items</a></li>
+                <li role="none"><a href="/quetes" class="nav-link" role="menuitem">Quêtes</a></li>
+                <li role="none"><a href="/wiki" class="nav-link" role="menuitem">Wiki</a></li>
+            </ul>
+            <div class="nav-connexion">
+                <span id="user-info" class="user-info" style="display: none;">
+                    <a href="/profil" id="username" class="username-link"></a>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                </span>
+                <a href="/connexion" class="nav-link connexion-link" id="login-link">Connexion</a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        <section class="section">
+            <div class="container">
+                <p>Chargement...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+    <script src="/js/crypto-keys.js?v=20260709" defer></script>
+    <script src="/js/db-guard.js" defer></script>
+    <script src="/js/security-utils.js?v=20260706" defer></script>
+    <script src="/js/auth-supabase.js?v=20260709" defer></script>
+    <script src="/js/navbar-mobile.js" defer></script>
+    <script src="/js/audio-controller.js?v=nameless-audio-1.1" defer></script>
+    <script src="/js/page-registry.js?v=spa-clean-1.0" defer></script>
+    <script src="/js/app-router.js?v=spa-clean-1.0" defer></script>
+</body>
+</html>

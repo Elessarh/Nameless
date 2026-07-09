@@ -67,7 +67,7 @@ function waitForAuthAndUser() {
                 clearInterval(checkAuth);
                 showError('Vous devez être connecté pour accéder au dashboard.');
                 setTimeout(() => {
-                    window.location.href = 'connexion.html';
+                    window.location.href = '/connexion';
                 }, 2000);
                 resolve();
             }
@@ -82,7 +82,7 @@ async function checkAdminAccess() {
         if (!window.currentUser) {
             showError('Vous devez être connecté pour accéder au dashboard.');
             setTimeout(() => {
-                window.location.href = 'connexion.html';
+                window.location.href = '/connexion';
             }, 2000);
             return;
         }        localCurrentUser = window.currentUser;

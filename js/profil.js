@@ -31,11 +31,11 @@ function destroyProfilePage() {
 
 function navigateToConnexion() {
     if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
-        window.NamelessSpaRouter.navigate('/pages/connexion.html');
+        window.NamelessSpaRouter.navigate('/connexion');
         return;
     }
 
-    window.location.href = 'connexion.html';
+    window.location.href = '/connexion';
 }
 
 window.NamelessProfilePage = {

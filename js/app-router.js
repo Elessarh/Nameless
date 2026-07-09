@@ -46,8 +46,13 @@
     }
 
     function urlForRoute(routePath) {
-        var clean = routePath === '/' ? 'index.html' : routePath.replace(/^\/+/, '');
-        return new URL(clean, rootHref).href;
+        if (routePath === '/') return rootHref;
+        return new URL(routePath.replace(/^\/+/, ''), rootHref).href;
+    }
+
+    function sourceUrlForRoute(route) {
+        var source = route.source || (route.path === '/' ? 'index.html' : route.path.replace(/^\/+/, ''));
+        return new URL(source.replace(/^\/+/, ''), rootHref).href;
     }
 
     function isPlainLeftClick(event) {
@@ -82,7 +87,10 @@
                 if (!raw || raw.charAt(0) === '#') return;
                 if (/^[a-z][a-z0-9+.-]*:/i.test(raw) || raw.indexOf('//') === 0) return;
                 if (raw.indexOf('../') === 0) return;
-                anchor.href = new URL(raw.replace(/^\.\//, ''), rootHref).href;
+                var url = new URL(raw, document.baseURI);
+                var routePath = routePathFromUrl(url);
+                var route = registry.get(routePath);
+                anchor.href = route ? urlForRoute(route.path) : new URL(raw.replace(/^\.\//, ''), rootHref).href;
             });
         });
     }
@@ -197,8 +205,8 @@
         }
     }
 
-    function fetchDocument(routePath) {
-        return fetch(urlForRoute(routePath), { credentials: 'same-origin' })
+    function fetchDocument(route) {
+        return fetch(sourceUrlForRoute(route), { credentials: 'same-origin' })
             .then(function (response) {
                 if (!response.ok) throw new Error('Route fetch failed');
                 return response.text();
@@ -220,15 +228,15 @@
         var route = registry.get(routePath);
         if (!route || !appView) return Promise.resolve(false);
 
-        var canonical = route.path;
         var sameRoute = currentRoute && currentRoute.id === route.id;
         if (sameRoute && !options.force) {
             updateNavState(route);
+            if (options.push !== false) history.pushState({ route: route.path }, '', options.url || urlForRoute(route.path));
             return Promise.resolve(true);
         }
 
         var token = ++navToken;
-        return fetchDocument(canonical)
+        return fetchDocument(route)
             .then(function (doc) {
                 if (token !== navToken) return false;
                 return ensureStyles(route).then(function () {
@@ -236,7 +244,7 @@
                 }).then(function () {
                     if (token !== navToken) return false;
                     if (options.push !== false) {
-                        history.pushState({ route: canonical }, '', options.url || urlForRoute(canonical));
+                        history.pushState({ route: route.path }, '', options.url || urlForRoute(route.path));
                     }
                     if (!applyDocument(doc, route)) return false;
                     activateRoute(route, appView, options);
@@ -259,7 +267,7 @@
         if (!route) return;
 
         event.preventDefault();
-        navigate(routePath, { url: url.href }).then(function (handled) {
+        navigate(route.path).then(function (handled) {
             if (!handled) global.location.href = url.href;
         });
     }
@@ -285,9 +293,14 @@
         if (!route) return;
 
         history.replaceState({ route: route.path }, '', global.location.href);
-        currentRoute = route;
-        updateNavState(route);
-        activateRoute(route, appView, { scroll: false });
+        if (document.body && document.body.dataset.spaFallback === 'true') {
+            currentRoute = null;
+            navigate(route.path, { push: false, force: true, scroll: false });
+        } else {
+            currentRoute = route;
+            updateNavState(route);
+            activateRoute(route, appView, { scroll: false });
+        }
 
         document.addEventListener('click', onClick);
         global.addEventListener('popstate', onPopState);

@@ -1297,7 +1297,11 @@ function getCategoryDisplay(category) {
 
 function navigateToItem(itemName) {
     localStorage.setItem('searchItemFromBestiaire', itemName);
-    window.location.href = 'items.html';
+    if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
+        window.NamelessSpaRouter.navigate('/items');
+    } else {
+        window.location.href = '/items';
+    }
 }
 // Fonction pour générer le chemin de l'image d'un drop
 function getDropImagePath(drop) {

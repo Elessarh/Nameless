@@ -545,7 +545,7 @@ async function handleMinecraftVerification(e) {
         if (linked) {
             showMessage('Compte Minecraft "' + result.username + '" lié avec succès !', 'success');
             setTimeout(function() {
-                window.location.href = 'profil.html';
+                navigateProfile();
             }, 2000);
         } else {
             showMessage('Erreur lors de la liaison du compte. Réessayez.');
@@ -769,6 +769,15 @@ function navigateHome() {
     }
 
     window.location.href = window.location.pathname.includes('/pages/') ? '../index.html' : 'index.html';
+}
+
+function navigateProfile() {
+    if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
+        window.NamelessSpaRouter.navigate('/profil');
+        return;
+    }
+
+    window.location.href = '/profil';
 }
 
 function bindOnce(element, eventName, marker, handler) {

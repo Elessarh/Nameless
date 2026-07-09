@@ -2268,10 +2268,10 @@ function mapAutoStart() {
 // Fonction globale pour ouvrir la page des quêtes
 function openQuestPage() {
     if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
-        window.NamelessSpaRouter.navigate('/pages/quetes.html');
+        window.NamelessSpaRouter.navigate('/quetes');
         return;
     }
-    window.location.href = 'quetes.html';
+    window.location.href = '/quetes';
 }
 
 if (!window.NamelessMapQuestActionBound) {
