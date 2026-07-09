@@ -43,10 +43,11 @@ MICROSOFT_CLIENT_ID=
 MICROSOFT_CLIENT_SECRET=
 MICROSOFT_REDIRECT_URI=https://iwrvdntlrjnoqzbwbsfm.supabase.co/functions/v1/link-minecraft
 MINECRAFT_LINK_STATE_SECRET=
-SUPABASE_URL=https://iwrvdntlrjnoqzbwbsfm.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=
+SERVICE_ROLE_KEY=
 SITE_ORIGIN=https://nameless-sao.fr
 ```
+
+Do not set `SUPABASE_URL` with `supabase secrets set`; Supabase provides it automatically to Edge Functions.
 
 Optional:
 
@@ -55,7 +56,7 @@ MICROSOFT_TENANT=consumers
 MICROSOFT_OAUTH_SCOPES=XboxLive.signin offline_access
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` is allowed only inside this deployed function. It must never appear in HTML, CSS, browser JavaScript, GitHub Pages settings, or public config files.
+`SERVICE_ROLE_KEY` must contain the Supabase service role key and is allowed only inside this deployed function. It must never appear in HTML, CSS, browser JavaScript, GitHub Pages settings, or public config files.
 
 ## Required Microsoft redirect URI
 

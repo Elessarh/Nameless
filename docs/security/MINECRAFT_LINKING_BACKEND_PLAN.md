@@ -50,7 +50,7 @@ Les endpoints exacts devront etre valides au moment de l'implementation, car les
 ## Regles de securite
 
 - Aucun `MICROSOFT_CLIENT_SECRET` dans HTML, JS, CSS ou commits publics.
-- Aucune `SUPABASE_SERVICE_ROLE_KEY` dans HTML, JS, CSS ou commits publics.
+- Aucune service role key dans HTML, JS, CSS ou commits publics. Dans l'Edge Function, utiliser un secret custom `SERVICE_ROLE_KEY`.
 - Aucun token Xbox, XSTS ou Minecraft dans `localStorage`.
 - Aucun refresh token Xbox/Minecraft expose au navigateur.
 - Aucun pseudo Minecraft manuel ne peut declencher `minecraft_verified=true`.
