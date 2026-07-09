@@ -213,6 +213,73 @@
                     global.NamelessProfilePage.destroy();
                 }
             }
+        }),
+        publicRoute({
+            id: 'admin-dashboard',
+            path: '/admin-dashboard',
+            source: 'pages/admin-dashboard.html',
+            aliases: ['/admin-dashboard.html'],
+            title: 'Dashboard admin - Nameless',
+            css: [
+                'css/components/activity-wall.css?v=20260129b',
+                'css/components/admin-dashboard.css?v=nameless-1.0'
+            ],
+            scripts: [
+                'js/cache-manager.js',
+                'js/admin-dashboard.js?v=20260709'
+            ],
+            init: function (root) {
+                if (global.NamelessAdminDashboardPage && typeof global.NamelessAdminDashboardPage.init === 'function') {
+                    global.NamelessAdminDashboardPage.init(root);
+                }
+            },
+            destroy: function () {
+                if (global.NamelessAdminDashboardPage && typeof global.NamelessAdminDashboardPage.destroy === 'function') {
+                    global.NamelessAdminDashboardPage.destroy();
+                }
+            }
+        }),
+        publicRoute({
+            id: 'espace-guilde',
+            path: '/espace-guilde',
+            source: 'pages/espace-guilde.html',
+            aliases: ['/espace-guilde.html'],
+            title: 'Espace guilde - Nameless',
+            css: [
+                'css/components/guilde.css?v=20260129b',
+                'css/components/activity-wall.css?v=20260129b',
+                'css/components/guild-chat.css?v=20260129b',
+                'css/components/guild-dm.css?v=20260129b',
+                'css/components/guilde-nameless.css?v=nameless-1.0'
+            ],
+            scripts: [
+                'js/cache-manager.js',
+                'js/espace-guilde.js?v=20260709',
+                'js/guild-chat.js?v=20260709',
+                'js/guild-dm.js?v=20260709'
+            ],
+            init: function (root) {
+                if (global.NamelessGuildPage && typeof global.NamelessGuildPage.init === 'function') {
+                    global.NamelessGuildPage.init(root);
+                }
+                if (global.NamelessGuildChat && typeof global.NamelessGuildChat.init === 'function') {
+                    global.NamelessGuildChat.init(root);
+                }
+                if (global.NamelessGuildDm && typeof global.NamelessGuildDm.init === 'function') {
+                    global.NamelessGuildDm.init(root);
+                }
+            },
+            destroy: function () {
+                if (global.NamelessGuildDm && typeof global.NamelessGuildDm.destroy === 'function') {
+                    global.NamelessGuildDm.destroy();
+                }
+                if (global.NamelessGuildChat && typeof global.NamelessGuildChat.destroy === 'function') {
+                    global.NamelessGuildChat.destroy();
+                }
+                if (global.NamelessGuildPage && typeof global.NamelessGuildPage.destroy === 'function') {
+                    global.NamelessGuildPage.destroy();
+                }
+            }
         })
     ];
 

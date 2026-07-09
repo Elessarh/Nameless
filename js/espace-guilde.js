@@ -1,5 +1,7 @@
 /* espace-guilde.js - Gestion de l'espace guilde pour les membres */
 
+let guildInitToken = 0;
+
 // Fonction pour changer d'onglet
 function switchGuildeTab(tabName) {
     // console.log('[GUILDE] Changement d\'onglet vers:', tabName);
@@ -28,7 +30,8 @@ function switchGuildeTab(tabName) {
 }
 
 // Attendre que l'auth soit prête
-document.addEventListener('DOMContentLoaded', async function() {
+async function initGuildPage() {
+    const token = ++guildInitToken;
     // console.log('[GUILDE] Initialisation de l espace guilde...');
     
     // Cacher le lien "Guilde" du menu (on est déjà sur la page)
@@ -36,15 +39,29 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Onglets: délégation (remplace les onclick inline du HTML)
     document.querySelectorAll('.guilde-tab-btn').forEach(btn => {
+        if (btn.dataset.guildTabBound === 'true') return;
+        btn.dataset.guildTabBound = 'true';
         btn.addEventListener('click', () => switchGuildeTab(btn.dataset.tab));
     });
 
     // Attendre que Supabase et l'utilisateur soient prêts
     await waitForAuthAndUser();
+    if (token !== guildInitToken) return;
     
     // Vérifier que l'utilisateur est membre ou admin
     await checkMemberAccess();
-});
+}
+
+function destroyGuildPage() {
+    guildInitToken++;
+}
+
+window.NamelessGuildPage = {
+    init: initGuildPage,
+    destroy: destroyGuildPage
+};
+
+document.addEventListener('DOMContentLoaded', initGuildPage);
 
 // Cacher le lien Guilde du menu (on est déjà sur cette page)
 function hideGuildeLinkFromMenu() {
@@ -82,29 +99,33 @@ function waitForAuthAndUser() {
 }
 
 // Vérifier l'accès membre/admin
+function logGuildWarning(scope, error) {
+    if (!error) return;
+    console.warn('[Nameless guild]', scope, {
+        code: error.code || null,
+        message: error.message || String(error)
+    });
+}
+
+async function getCurrentUserRole() {
+    const { data, error } = await supabase.rpc('current_user_role');
+    if (error) {
+        logGuildWarning('current_user_role_failed', error);
+        throw error;
+    }
+
+    return String(data || '').trim();
+}
+
 async function checkMemberAccess() {
     try {
         if (!window.currentUser) {
             // console.error('[ERREUR] Pas d utilisateur connecte');
-            showAccessDenied();
+            showAccessDenied('Vous devez être connecté pour accéder à l\'espace guilde.');
             return;
         }
         
-        // Récupérer le profil
-        const { data: profile, error } = await supabase
-            .from('user_profiles')
-            .select('role')
-            .eq('id', window.currentUser.id)
-            .single();
-        
-        if (error || !profile) {
-            // console.error('[ERREUR] Erreur profil:', error);
-            showAccessDenied();
-            return;
-        }
-        
-        // Vérifier le rôle (nettoyer les espaces)
-        const role = (profile.role || '').trim();
+        const role = await getCurrentUserRole();
         
         if (role === 'membre' || role === 'admin') {
             // console.log('[OK] Acces autorise - Role:', role);
@@ -117,20 +138,26 @@ async function checkMemberAccess() {
             }
         } else {
             // console.warn('[ATTENTION] Acces refuse - Role:', role);
-            showAccessDenied();
+            showAccessDenied('Accès réservé aux membres de la guilde. Rôle membre non détecté côté Supabase.');
         }
         
     } catch (error) {
         // console.error('[ERREUR] Erreur verification acces:', error);
-        showAccessDenied();
+        logGuildWarning('member_access_failed', error);
+        showAccessDenied('Erreur Supabase : voir console.');
     }
 }
 
 // Afficher le message d'accès refusé
-function showAccessDenied() {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('guilde-content').style.display = 'none';
-    document.getElementById('access-denied').style.display = 'block';
+function showAccessDenied(message) {
+    const loading = document.getElementById('loading');
+    const content = document.getElementById('guilde-content');
+    const denied = document.getElementById('access-denied');
+    if (loading) loading.style.display = 'none';
+    if (content) content.style.display = 'none';
+    if (denied) denied.style.display = 'block';
+    const deniedText = document.getElementById('access-denied-text');
+    if (deniedText && message) deniedText.textContent = message;
 }
 
 // Charger toutes les données de la guilde
@@ -147,8 +174,16 @@ async function loadGuildeData() {
     ]);
     
     // Event listeners pour les boutons d'appel
-    document.getElementById('mark-presence-btn').addEventListener('click', () => markPresence('present'));
-    document.getElementById('mark-absence-btn').addEventListener('click', () => markPresence('absent'));
+    const presenceBtn = document.getElementById('mark-presence-btn');
+    const absenceBtn = document.getElementById('mark-absence-btn');
+    if (presenceBtn && presenceBtn.dataset.presenceBound !== 'true') {
+        presenceBtn.dataset.presenceBound = 'true';
+        presenceBtn.addEventListener('click', () => markPresence('present'));
+    }
+    if (absenceBtn && absenceBtn.dataset.presenceBound !== 'true') {
+        absenceBtn.dataset.presenceBound = 'true';
+        absenceBtn.addEventListener('click', () => markPresence('absent'));
+    }
 }
 
 // ========== PLANNING ==========
@@ -174,6 +209,9 @@ async function loadPlanning() {
         
         if (error) {
             // console.error('[ERREUR] Erreur chargement planning:', error);
+            logGuildWarning('planning_load_failed', error);
+            const container = document.getElementById('planning-list');
+            if (container) container.textContent = 'Erreur de chargement du planning.';
             return;
         }
         
@@ -187,6 +225,9 @@ async function loadPlanning() {
         
     } catch (error) {
         // console.error('[ERREUR]:', error);
+        logGuildWarning('planning_load_failed', error);
+        const container = document.getElementById('planning-list');
+        if (container) container.textContent = 'Erreur technique lors du chargement du planning.';
     }
 }
 
@@ -233,6 +274,9 @@ async function loadObjectives() {
         
         if (error) {
             // console.error('[ERREUR] Erreur chargement objectifs:', error);
+            logGuildWarning('objectives_load_failed', error);
+            const container = document.getElementById('objectives-list');
+            if (container) container.textContent = 'Erreur de chargement des objectifs.';
             return;
         }
         
@@ -246,6 +290,9 @@ async function loadObjectives() {
         
     } catch (error) {
         // console.error('[ERREUR]:', error);
+        logGuildWarning('objectives_load_failed', error);
+        const container = document.getElementById('objectives-list');
+        if (container) container.textContent = 'Erreur technique lors du chargement des objectifs.';
     }
 }
 
@@ -507,6 +554,9 @@ async function loadActivityWall() {
         
         if (error) {
             // console.error('[ERREUR] Erreur chargement activités:', error);
+            logGuildWarning('activity_wall_load_failed', error);
+            const container = document.getElementById('activity-wall-content');
+            if (container) container.textContent = 'Erreur de chargement du mur d’activité.';
             return;
         }
         
@@ -520,6 +570,9 @@ async function loadActivityWall() {
         
     } catch (error) {
         // console.error('[ERREUR] Erreur mur d\'activité:', error);
+        logGuildWarning('activity_wall_load_failed', error);
+        const container = document.getElementById('activity-wall-content');
+        if (container) container.textContent = 'Erreur technique lors du chargement du mur d’activité.';
     }
 }
 

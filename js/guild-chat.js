@@ -7,6 +7,7 @@ let chatSubscription = null;
 let selectedImage = null; // Image sélectionnée pour upload
 let userRole = null; // Rôle de l'utilisateur (admin ou membre)
 let guildMembers = []; // Liste des membres de la guilde pour les mentions
+let chatInitialized = false;
 // Cache messageId -> { author, content } pour répondre sans injecter le
 // contenu brut dans le DOM/onclick (voir replyToMessage).
 let messageCache = {};
@@ -22,17 +23,33 @@ function chatEscapeHtml(text) {
 }
 
 // Initialisation du chat
-document.addEventListener('DOMContentLoaded', async function() {
+async function initGuildChat() {
+    if (chatInitialized) return;
     // console.log('[CHAT] Initialisation du chat de la guilde...');
     
     // Attendre que l'utilisateur soit connecté
     await waitForChatAuth();
     
     // Vérifier si l'utilisateur est membre
-    if (await isGuildMember()) {
+    if (await isGuildMemberForChat()) {
         initializeChat();
     }
-});
+}
+
+function destroyGuildChat() {
+    chatInitialized = false;
+    if (chatSubscription && typeof supabase !== 'undefined' && supabase && typeof supabase.removeChannel === 'function') {
+        supabase.removeChannel(chatSubscription);
+    }
+    chatSubscription = null;
+}
+
+window.NamelessGuildChat = {
+    init: initGuildChat,
+    destroy: destroyGuildChat
+};
+
+document.addEventListener('DOMContentLoaded', initGuildChat);
 
 // Attendre l'authentification
 function waitForChatAuth() {
@@ -57,17 +74,14 @@ function waitForChatAuth() {
 }
 
 // Vérifier si l'utilisateur est membre de la guilde
-async function isGuildMember() {
+async function isGuildMemberForChat() {
     try {
         if (!window.currentUser) return false;
         
-        const { data: profile } = await supabase
-            .from('user_profiles')
-            .select('role')
-            .eq('id', window.currentUser.id)
-            .single();
+        const { data, error } = await supabase.rpc('current_user_role');
+        if (error) throw error;
         
-        const role = (profile?.role || '').trim();
+        const role = String(data || '').trim();
         userRole = role; // Stocker le rôle
         return role === 'membre' || role === 'admin';
     } catch (error) {
@@ -78,10 +92,13 @@ async function isGuildMember() {
 
 // Initialiser le chat
 function initializeChat() {
+    if (chatInitialized) return;
     // console.log('[CHAT] Initialisation des événements...');
     
     // Afficher le bouton flottant
     const chatBtn = document.getElementById('chat-toggle-btn');
+    if (!chatBtn) return;
+    chatInitialized = true;
     chatBtn.style.display = 'flex';
     
     // Event listeners pour les onglets

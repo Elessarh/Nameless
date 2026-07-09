@@ -6,17 +6,34 @@ let dmOpen = false;
 let currentRecipient = null;
 let selectedDmImage = null;
 let dmSubscription = null;
+let dmInitialized = false;
 
 // Initialisation
-document.addEventListener('DOMContentLoaded', async function() {
+async function initGuildDm() {
+    if (dmInitialized) return;
     // console.log('[DM] Initialisation des messages privés...');
     
     await waitForDmAuth();
     
-    if (await isGuildMember()) {
+    if (await isGuildMemberForDm()) {
         initializeDM();
     }
-});
+}
+
+function destroyGuildDm() {
+    dmInitialized = false;
+    if (dmSubscription && typeof supabase !== 'undefined' && supabase && typeof supabase.removeChannel === 'function') {
+        supabase.removeChannel(dmSubscription);
+    }
+    dmSubscription = null;
+}
+
+window.NamelessGuildDm = {
+    init: initGuildDm,
+    destroy: destroyGuildDm
+};
+
+document.addEventListener('DOMContentLoaded', initGuildDm);
 
 // Attendre l'authentification
 function waitForDmAuth() {
@@ -41,17 +58,14 @@ function waitForDmAuth() {
 }
 
 // Vérifier si membre
-async function isGuildMember() {
+async function isGuildMemberForDm() {
     try {
         if (!window.currentUser) return false;
         
-        const { data: profile } = await supabase
-            .from('user_profiles')
-            .select('role')
-            .eq('id', window.currentUser.id)
-            .single();
+        const { data, error } = await supabase.rpc('current_user_role');
+        if (error) throw error;
         
-        const role = (profile?.role || '').trim();
+        const role = String(data || '').trim();
         return role === 'membre' || role === 'admin';
     } catch (error) {
         // console.error('[DM] Erreur vérification membre:', error);
@@ -61,6 +75,9 @@ async function isGuildMember() {
 
 // Initialiser les DMs
 function initializeDM() {
+    if (dmInitialized) return;
+    if (!document.getElementById('dm-back-btn')) return;
+    dmInitialized = true;
     // console.log('[DM] Initialisation des événements DM...');
     
     // Event listeners

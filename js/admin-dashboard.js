@@ -6,6 +6,7 @@ let currentUserProfile = null;
 let allUsers = [];
 let filteredUsers = [];
 let editingUserId = null;
+let adminInitToken = 0;
 
 // Variables de pagination et tri
 let currentPage = 1;
@@ -41,14 +42,30 @@ function switchDashboardTab(tabName) {
 }
 
 // Initialisation au chargement de la page
-document.addEventListener('DOMContentLoaded', async function() {
+async function initAdminDashboardPage() {
+    const token = ++adminInitToken;
     
     // Attendre que auth-supabase.js soit chargé ET que l'utilisateur soit connecté
     await waitForAuthAndUser();
+    if (token !== adminInitToken) return;
     
     // Vérifier les droits admin
     await checkAdminAccess();
-});
+}
+
+function destroyAdminDashboardPage() {
+    adminInitToken++;
+    localCurrentUser = null;
+    currentUserProfile = null;
+}
+
+window.NamelessAdminDashboardPage = {
+    init: initAdminDashboardPage,
+    destroy: destroyAdminDashboardPage
+};
+
+// Initialisation au chargement de la page hors SPA.
+document.addEventListener('DOMContentLoaded', initAdminDashboardPage);
 
 // Attendre que l'authentification soit prête ET que l'utilisateur soit connecté
 function waitForAuthAndUser() {
@@ -76,6 +93,24 @@ function waitForAuthAndUser() {
 }
 
 // Vérifier que l'utilisateur est admin
+function logSupabaseWarning(scope, error) {
+    if (!error) return;
+    console.warn('[Nameless admin]', scope, {
+        code: error.code || null,
+        message: error.message || String(error)
+    });
+}
+
+async function getCurrentUserRole() {
+    const { data, error } = await supabase.rpc('current_user_role');
+    if (error) {
+        logSupabaseWarning('current_user_role_failed', error);
+        throw error;
+    }
+
+    return String(data || '').trim();
+}
+
 async function checkAdminAccess() {
     try {
         // Utiliser la session globale depuis auth-supabase.js
@@ -85,7 +120,9 @@ async function checkAdminAccess() {
                 window.location.href = '/connexion';
             }, 2000);
             return;
-        }        localCurrentUser = window.currentUser;
+        }
+
+        localCurrentUser = window.currentUser;
         
         // Récupérer le profil et vérifier le rôle
         const { data: profile, error } = await supabase
@@ -95,24 +132,20 @@ async function checkAdminAccess() {
             .single();
             
         if (error || !profile) {
-            showError('Impossible de vérifier vos droits d\'accès.');
+            logSupabaseWarning('admin_profile_failed', error);
+            showError('Profil introuvable. Impossible de vérifier vos droits d\'accès.');
             return;
         }
         
         currentUserProfile = profile;
+        const effectiveRole = await getCurrentUserRole();
         
         // Vérifier si l'utilisateur est admin
-        if (profile.role !== 'admin') {
-            showError('Vous devez être administrateur pour accéder à cette page.');
-            setTimeout(() => {
-                window.location.href = '../index.html';
-            }, 3000);
+        if (effectiveRole !== 'admin') {
+            showError('Accès admin requis. Rôle admin non détecté côté Supabase.');
             return;
         }
         
-        
-        // Charger les utilisateurs
-        await loadUsers();
         
         // Afficher le dashboard
         document.getElementById('loading').style.display = 'none';
@@ -125,6 +158,8 @@ async function checkAdminAccess() {
         
         // Initialiser les event listeners
         initializeEventListeners();
+        bindAdminGuildForms();
+        bindAdminActivityForm();
         
         // Charger les activités si l'onglet est actif ou pré-charger
         const savedTab = localStorage.getItem('dashboardActiveTab');
@@ -138,7 +173,8 @@ async function checkAdminAccess() {
         }
         
     } catch (error) {
-        showError('Une erreur technique est survenue.');
+        logSupabaseWarning('admin_access_failed', error);
+        showError('Erreur Supabase : voir console.');
     }
 }
 
@@ -572,7 +608,22 @@ async function confirmRoleChange() {
             .eq('id', editingUserId);
             
         if (error) {
+            logSupabaseWarning('profile_role_update_failed', error);
             alert('Erreur lors de la modification du rôle.');
+            return;
+        }
+
+        const { error: roleError } = await supabase
+            .from('user_roles')
+            .upsert({
+                user_id: editingUserId,
+                role: newRole,
+                assigned_by: localCurrentUser.id
+            }, { onConflict: 'user_id' });
+
+        if (roleError) {
+            logSupabaseWarning('user_roles_upsert_failed', roleError);
+            alert('Rôle profil modifié, mais synchronisation user_roles impossible. Vérifie les policies Supabase.');
             return;
         }
         
@@ -630,12 +681,15 @@ async function deleteUser(userId) {
 
 // Afficher un message d'erreur
 function showError(message) {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('dashboard-content').style.display = 'none';
+    const loading = document.getElementById('loading');
+    const content = document.getElementById('dashboard-content');
+    if (loading) loading.style.display = 'none';
+    if (content) content.style.display = 'none';
     
     const errorDiv = document.getElementById('error-content');
-    errorDiv.style.display = 'block';
-    document.getElementById('error-text').textContent = message;
+    if (errorDiv) errorDiv.style.display = 'block';
+    const errorText = document.getElementById('error-text');
+    if (errorText) errorText.textContent = message;
 }
 
 // ========== GESTION DE LA GUILDE ==========
@@ -846,10 +900,11 @@ async function deleteGuildItem(table, id, type) {
 }
 
 // Event listeners pour les formulaires de guilde
-document.addEventListener('DOMContentLoaded', function() {
+function bindAdminGuildForms() {
     // Formulaire planning
     const planningForm = document.getElementById('add-planning-form');
-    if (planningForm) {
+    if (planningForm && planningForm.dataset.adminFormBound !== 'true') {
+        planningForm.dataset.adminFormBound = 'true';
         planningForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -878,7 +933,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Formulaire objectifs
     const objectiveForm = document.getElementById('add-objective-form');
-    if (objectiveForm) {
+    if (objectiveForm && objectiveForm.dataset.adminFormBound !== 'true') {
+        objectiveForm.dataset.adminFormBound = 'true';
         objectiveForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -909,7 +965,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Formulaire présence
     const presenceForm = document.getElementById('add-presence-form');
-    if (presenceForm) {
+    if (presenceForm && presenceForm.dataset.adminFormBound !== 'true') {
+        presenceForm.dataset.adminFormBound = 'true';
         presenceForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -960,7 +1017,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
+}
+
+document.addEventListener('DOMContentLoaded', bindAdminGuildForms);
 
 // Fonctions utilitaires pour la guilde
 function formatEventType(type) {
@@ -1210,9 +1269,10 @@ function formatDateAdmin(dateString) {
 }
 
 // Prévisualiser l'image
-document.addEventListener('DOMContentLoaded', function() {
+function bindAdminActivityForm() {
     const imageInput = document.getElementById('activity-image');
-    if (imageInput) {
+    if (imageInput && imageInput.dataset.adminActivityBound !== 'true') {
+        imageInput.dataset.adminActivityBound = 'true';
         imageInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -1230,7 +1290,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Attacher les event listeners aux boutons
     const submitBtn = document.getElementById('submit-activity-btn');
-    if (submitBtn) {
+    if (submitBtn && submitBtn.dataset.adminActivityBound !== 'true') {
+        submitBtn.dataset.adminActivityBound = 'true';
         submitBtn.addEventListener('click', function(e) {
             e.preventDefault();
             window.submitActivity();
@@ -1238,10 +1299,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     const cancelBtn = document.getElementById('cancel-edit-btn');
-    if (cancelBtn) {
+    if (cancelBtn && cancelBtn.dataset.adminActivityBound !== 'true') {
+        cancelBtn.dataset.adminActivityBound = 'true';
         cancelBtn.addEventListener('click', cancelEdit);
     }
-});
+}
+
+document.addEventListener('DOMContentLoaded', bindAdminActivityForm);
 
 // Soumettre une activité (créer ou modifier)
 window.submitActivity = async function() {

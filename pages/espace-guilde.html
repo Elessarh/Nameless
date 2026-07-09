@@ -151,10 +151,9 @@
         
         <div id="access-denied" class="guilde-denied" style="display: none;">
             <h2>Accès refusé</h2>
-            <p>Cet espace est réservé aux membres de la guilde Nameless.</p>
+            <p id="access-denied-text">Cet espace est réservé aux membres de la guilde Nameless.</p>
             <p class="guilde-denied-hint">Contactez un administrateur pour obtenir le rôle « Membre ».</p>
         </div>
-    </main>
 
     <!-- Bouton flottant pour le chat -->
     <button class="chat-float-button" id="chat-toggle-btn" style="display: none;">
@@ -297,6 +296,7 @@
             </div>
         </div>
     </div>
+    </main>
 
     <!-- Scripts - Chargement optimisé -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
@@ -306,9 +306,9 @@
     <script src="../js/db-guard.js" defer></script>
     <script src="../js/security-utils.js?v=20260706" defer></script>
     <script src="../js/auth-supabase.js?v=20260709d" defer></script>
-    <script src="../js/espace-guilde.js?v=20260129b" defer></script>
-    <script src="../js/guild-chat.js?v=20260129b" defer></script>
-    <script src="../js/guild-dm.js?v=20260129b" defer></script>
+    <script src="../js/espace-guilde.js?v=20260709" defer></script>
+    <script src="../js/guild-chat.js?v=20260709" defer></script>
+    <script src="../js/guild-dm.js?v=20260709" defer></script>
     <script src="../js/navbar-mobile.js" defer></script>
     <script src="../js/audio-controller.js?v=nameless-audio-1.1" defer></script>
 </body>
