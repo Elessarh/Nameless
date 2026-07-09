@@ -23,7 +23,7 @@
     <!-- Fonts & Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css?v=nameless-1.1">
-    <link rel="stylesheet" href="../css/components/profil.css?v=nameless-1.2">
+    <link rel="stylesheet" href="../css/components/profil.css?v=nameless-1.3">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.1">
 </head>
 <body class="profil-page">
@@ -140,12 +140,16 @@
 
             <section id="minecraft-link-info" class="minecraft-link-info" aria-label="Liaison Minecraft" style="display: none;">
                 <div>
-                    <h3 class="profil-section-title">Liaison Minecraft automatique</h3>
+                    <h3 class="profil-section-title">Associer Minecraft</h3>
                     <p id="minecraft-link-status" class="minecraft-link-status">Minecraft non lié</p>
-                    <p class="minecraft-link-copy">Nameless va tenter de vérifier automatiquement ton profil via Xbox/Minecraft Services.</p>
-                    <div class="minecraft-link-actions">
-                        <button id="minecraft-retry-btn" class="save-profile-btn" type="button" style="display: none;">Réessayer la liaison Minecraft</button>
-                    </div>
+                    <p class="minecraft-link-copy">Cette étape récupère le profil public Minecraft. La vérification complète devra être validée par un admin.</p>
+                    <form id="minecraft-link-form" class="minecraft-link-form" novalidate>
+                        <label class="minecraft-link-label" for="minecraft-username-input">Pseudo Minecraft</label>
+                        <div class="minecraft-link-controls">
+                            <input id="minecraft-username-input" class="minecraft-link-input" type="text" autocomplete="off" inputmode="text" minlength="3" maxlength="16" pattern="[A-Za-z0-9_]{3,16}">
+                            <button id="minecraft-link-btn" class="save-profile-btn" type="submit">Associer ce pseudo</button>
+                        </div>
+                    </form>
                 </div>
             </section>
 
@@ -173,7 +177,7 @@
     <script src="../js/db-guard.js" defer></script>
     <script src="../js/security-utils.js?v=20260706" defer></script>
     <script src="../js/auth-supabase.js?v=20260709d" defer></script>
-    <script src="../js/profil.js?v=nameless-1.8" defer></script>
+    <script src="../js/profil.js?v=nameless-1.9" defer></script>
     <script src="../js/audio-controller.js?v=nameless-audio-1.1" defer></script>
 </body>
 </html>

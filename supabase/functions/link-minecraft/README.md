@@ -2,11 +2,24 @@
 
 This function performs the real Minecraft linking flow server-side.
 
-The SQL patch only prepares storage and RLS/triggers. It cannot fetch a Minecraft profile by itself. This function must be deployed and configured before automatic linking can work.
+Current status: the function is kept for diagnostics and a future official verification flow, but it is not launched automatically from the profile page anymore.
+
+Minecraft Services currently rejects the Microsoft app registration with:
+
+```text
+403 Forbidden
+Invalid app registration
+```
+
+That means Nameless cannot honestly claim a Microsoft -> Minecraft verified ownership check yet. The profile page now uses public Minecraft identity detection instead: the player enters a Minecraft username, the browser resolves public UUID/name data through PlayerDB, and `minecraft_verified` remains `false` until an admin validates it.
+
+Apply `docs/supabase/SAO_NAMELESS_MINECRAFT_PUBLIC_LINK_PATCH.sql` so authenticated players may save only public detected fields while admins/backend remain the only actors allowed to set `minecraft_verified = true`.
 
 ## Frontend behavior
 
-When a connected profile has no `minecraft_username`, `pages/profil.html` starts the linking flow automatically through:
+When a connected profile has no `minecraft_username`/`minecraft_uuid`, `pages/profil.html` shows a public Minecraft username form.
+
+The profile page no longer calls this function automatically:
 
 ```js
 supabase.functions.invoke('link-minecraft', {
@@ -17,19 +30,19 @@ supabase.functions.invoke('link-minecraft', {
 })
 ```
 
-No manual Minecraft button is required.
+Keep that flow disabled unless the Microsoft app registration becomes accepted by Minecraft Services.
 
 ## Flow
 
-1. The profile page invokes `link-minecraft` with `action: "start"`.
+1. A trusted caller invokes `link-minecraft` with `action: "start"`.
 2. The function validates the Supabase user session from the `Authorization` header.
 3. The function creates a signed, short-lived OAuth `state`.
 4. The function returns a Microsoft OAuth URL to the browser.
 5. Microsoft redirects back to `MICROSOFT_REDIRECT_URI`.
 6. The function exchanges the code server-side.
 7. The function authenticates through Xbox Live, XSTS, then Minecraft Services.
-8. The function fetches the verified Minecraft profile.
-9. The function updates `public.user_profiles` with verified Minecraft fields.
+8. Minecraft Services currently rejects the app registration before a verified profile can be fetched.
+9. If this becomes available later, the function updates `public.user_profiles` with verified Minecraft fields.
 10. The function redirects back to `/pages/profil.html?minecraft_link=success`.
 
 ## Required Supabase function secrets
@@ -92,7 +105,7 @@ Then push the frontend changes to GitHub Pages.
 
 - Do not store Xbox, XSTS, or Minecraft tokens in `localStorage`.
 - Do not return provider tokens to the browser.
-- Do not trust a manually entered Minecraft username.
+- Do not treat a manually entered Minecraft username as verified ownership.
 - Do not trust Microsoft `user_metadata` as Minecraft proof.
 - Only this backend flow, after successful verification, may set `minecraft_verified = true`.
 - Keep browser-facing errors generic.

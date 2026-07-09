@@ -205,7 +205,42 @@
     line-height: 1.55;
     margin: 0;
 }
-.minecraft-link-actions { margin-top: 1rem; }
+.minecraft-link-form { margin-top: 1rem; }
+.minecraft-link-label {
+    display: block;
+    color: var(--nm-steel);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.45rem;
+}
+.minecraft-link-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.minecraft-link-input {
+    flex: 1 1 180px;
+    min-width: 0;
+    padding: 0.72rem 0.9rem;
+    background: var(--nm-navy);
+    color: var(--sao-text-bright);
+    border: 1px solid var(--sao-border-cyan);
+    border-radius: 10px;
+    font-family: var(--font-text);
+    font-size: 0.92rem;
+}
+.minecraft-link-input:focus {
+    outline: none;
+    border-color: var(--sao-cyan);
+    box-shadow: var(--focus-ring);
+}
+.minecraft-link-input:disabled,
+.minecraft-link-controls .save-profile-btn:disabled {
+    cursor: wait;
+    opacity: 0.68;
+    transform: none;
+}
 
 /* --- Erreur --- */
 .profil-error {
@@ -229,4 +264,6 @@
     .info-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
     .info-value { text-align: left; }
     .minecraft-link-info { text-align: left; }
+    .minecraft-link-controls { flex-direction: column; align-items: stretch; }
+    .minecraft-link-controls .save-profile-btn { width: 100%; }
 }

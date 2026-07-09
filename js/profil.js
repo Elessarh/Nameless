@@ -3,7 +3,8 @@
 // Variables locales (currentUser et userProfile sont globaux depuis auth-supabase.js)
 let localUserProfile = null;
 let profileInitToken = 0;
-const MINECRAFT_AUTO_LINK_ATTEMPT_PREFIX = 'namelessMinecraftAutoLinkAttempt:';
+const MINECRAFT_USERNAME_PATTERN = /^[A-Za-z0-9_]{3,16}$/;
+const MINECRAFT_UUID_PATTERN = /^[0-9a-f]{32}$/i;
 
 // Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', async function() {
@@ -97,7 +98,7 @@ function getMinecraftUsernameValue(profile) {
 }
 
 function hasMinecraftIdentity(profile) {
-    return !!getMinecraftAvatarKey(profile);
+    return !!(profile && profile.minecraft_uuid);
 }
 
 function isMinecraftVerified(profile) {
@@ -112,7 +113,7 @@ function getMinecraftStatusValue(profile) {
 
 function getMinecraftAvatarKey(profile) {
     if (!profile) return '';
-    return profile.minecraft_uuid || profile.minecraft_username || '';
+    return profile.minecraft_uuid || '';
 }
 
 function setText(id, value) {
@@ -163,96 +164,161 @@ function setMinecraftLinkStatus(message) {
     setText('minecraft-link-status', message);
 }
 
-function setMinecraftRetryVisible(visible) {
-    setElementDisplay('minecraft-retry-btn', visible ? 'inline-block' : 'none');
+function normalizeMinecraftUsername(value) {
+    var username = String(value || '').trim();
+    return MINECRAFT_USERNAME_PATTERN.test(username) ? username : '';
 }
 
-function getMinecraftAttemptKey(profile) {
-    var userId = window.currentUser && window.currentUser.id ? window.currentUser.id : profile && profile.id;
-    return MINECRAFT_AUTO_LINK_ATTEMPT_PREFIX + (userId || 'anonymous');
+function normalizeMinecraftUuid(value) {
+    var uuid = String(value || '').replace(/-/g, '').toLowerCase();
+    return MINECRAFT_UUID_PATTERN.test(uuid) ? uuid : '';
 }
 
-function getStoredMinecraftAttempt(key) {
-    try {
-        return window.sessionStorage ? window.sessionStorage.getItem(key) : null;
-    } catch (error) {
-        return null;
+function setMinecraftLinkBusy(isBusy) {
+    var input = document.getElementById('minecraft-username-input');
+    var button = document.getElementById('minecraft-link-btn');
+
+    if (input) input.disabled = isBusy;
+    if (button) {
+        button.disabled = isBusy;
+        button.textContent = isBusy ? 'Association...' : 'Associer ce pseudo';
     }
 }
 
-function setStoredMinecraftAttempt(key) {
+function getPlayerDbErrorCode(data) {
+    if (!data || typeof data !== 'object') return '';
+    return String(data.code || data.error || '').toLowerCase();
+}
+
+async function fetchPublicMinecraftProfile(username) {
+    var response;
+    var data = null;
+
     try {
-        if (window.sessionStorage) window.sessionStorage.setItem(key, String(Date.now()));
+        response = await fetch('https://playerdb.co/api/player/minecraft/' + encodeURIComponent(username), {
+            headers: { Accept: 'application/json' }
+        });
     } catch (error) {
-        // Storage can be unavailable in hardened browser contexts.
+        throw { code: 'public_api_unavailable' };
     }
-}
 
-function clearStoredMinecraftAttempt(key) {
     try {
-        if (window.sessionStorage) window.sessionStorage.removeItem(key);
+        data = await response.json();
     } catch (error) {
-        // Storage can be unavailable in hardened browser contexts.
+        throw { code: 'public_api_invalid_response' };
     }
-}
 
-function getMinecraftReturnUrl() {
-    var url = new URL(window.location.href);
-    url.searchParams.set('minecraft_link', 'return');
-    url.searchParams.delete('reason');
-    url.hash = '';
-    return url.toString();
-}
-
-function clearMinecraftLinkUrlState() {
-    try {
-        var url = new URL(window.location.href);
-        url.searchParams.delete('minecraft_link');
-        url.searchParams.delete('reason');
-        window.history.replaceState({}, document.title, url.toString());
-    } catch (error) {
-        // History can be unavailable in some embedded contexts.
+    if (!response.ok) {
+        throw { code: response.status === 404 ? 'minecraft_public_not_found' : 'public_api_unavailable' };
     }
-}
 
-function getMinecraftReasonMessage(reason) {
-    const messages = {
-        microsoft_oauth_error: 'Microsoft n’a pas renvoyé de code OAuth pour la liaison Minecraft.',
-        microsoft_token_failed: 'Échange du code Microsoft échoué.',
-        xbox_auth_failed: 'Authentification Xbox Live échouée.',
-        xsts_failed: 'Autorisation XSTS échouée.',
-        minecraft_auth_failed: 'Authentification Minecraft Services échouée.',
-        minecraft_profile_failed: 'Récupération du profil Minecraft échouée.',
-        minecraft_not_owned: 'Aucun profil Minecraft Java vérifiable n’a été trouvé pour ce compte Microsoft.',
-        missing_entitlements: 'Ce compte Microsoft ne semble pas posséder les droits Minecraft nécessaires.',
-        profile_update_failed: 'Le profil Minecraft a été trouvé, mais la sauvegarde Supabase a échoué.',
-        missing_env: 'Configuration serveur incomplète pour la liaison Minecraft.',
-        invalid_state: 'Session de liaison Minecraft expirée ou invalide.'
+    var player = data && data.data && data.data.player ? data.data.player : null;
+    var apiCode = getPlayerDbErrorCode(data);
+    if (!player || (apiCode && apiCode !== 'player.found')) {
+        throw { code: 'minecraft_public_not_found' };
+    }
+
+    var officialUsername = normalizeMinecraftUsername(player.username || player.name);
+    var uuid = normalizeMinecraftUuid(player.raw_id || player.id || player.uuid);
+
+    if (!officialUsername || !uuid) {
+        throw { code: 'public_api_invalid_response' };
+    }
+
+    return {
+        username: officialUsername,
+        uuid: uuid
     };
-
-    if (!reason) return '';
-    return (messages[reason] || 'Échec de liaison Minecraft.') + ' [' + reason + ']';
 }
 
-function explainMinecraftLinkState(state) {
-    var reason = getMinecraftLinkReason();
+async function saveDetectedMinecraftProfile(minecraftProfile) {
+    var { data, error } = await supabase
+        .from('user_profiles')
+        .update({
+            minecraft_username: minecraftProfile.username,
+            minecraft_uuid: minecraftProfile.uuid,
+            minecraft_verified: false,
+            minecraft_linked_at: new Date().toISOString()
+        })
+        .eq('id', window.currentUser.id)
+        .select('*')
+        .single();
 
-    switch (state) {
-        case 'success':
-            return 'Liaison Minecraft terminée. Rechargement du profil...';
-        case 'not_found':
-            return 'Aucun profil Minecraft Java vérifiable n’a été trouvé pour ce compte Microsoft.';
-        case 'denied':
-            return 'Autorisation Minecraft refusée. La liaison automatique réessaiera lors d’une prochaine session.';
-        case 'unavailable':
-        case 'error':
-            if (reason) return getMinecraftReasonMessage(reason);
-            return 'Liaison Minecraft automatique indisponible pour le moment.';
-        case 'return':
-            return 'Vérification Minecraft en cours de synchronisation...';
-        default:
-            return 'Liaison Minecraft automatique en cours...';
+    if (error) throw error;
+    return data;
+}
+
+function getMinecraftPublicLinkErrorMessage(error) {
+    var code = error && error.code ? String(error.code) : '';
+    var message = error && error.message ? String(error.message) : '';
+
+    if (code === 'minecraft_public_not_found') return 'Pseudo Minecraft introuvable.';
+    if (code === 'public_api_unavailable') return 'Service public Minecraft indisponible pour le moment.';
+    if (code === 'public_api_invalid_response') return 'Réponse Minecraft publique invalide.';
+    if (code === '23505') return 'Ce profil Minecraft est déjà associé à un autre compte.';
+    if (code === 'P0001' || message.indexOf('minecraft link fields require backend verification') !== -1) {
+        return 'La base Supabase bloque encore l’association publique. Applique le patch Minecraft public avant de réessayer.';
     }
+
+    return 'Impossible d’associer ce pseudo Minecraft.';
+}
+
+function invalidateProfileCache() {
+    if (!window.cacheManager || !window.currentUser) return;
+    window.cacheManager.invalidate(`user_profile_${window.currentUser.id}`);
+    window.cacheManager.invalidate('all_users');
+}
+
+async function submitMinecraftPublicLink(event) {
+    if (event && typeof event.preventDefault === 'function') event.preventDefault();
+
+    var input = document.getElementById('minecraft-username-input');
+    var username = normalizeMinecraftUsername(input ? input.value : '');
+
+    if (!username) {
+        setMinecraftLinkStatus('Pseudo Minecraft invalide. Utilise 3 à 16 caractères : lettres, chiffres ou underscore.');
+        return;
+    }
+
+    setMinecraftLinkBusy(true);
+    setMinecraftLinkStatus('Recherche du profil Minecraft public...');
+
+    try {
+        var minecraftProfile = await fetchPublicMinecraftProfile(username);
+        setMinecraftLinkStatus('Profil public trouvé. Sauvegarde en cours...');
+
+        var updatedProfile = await saveDetectedMinecraftProfile(minecraftProfile);
+        localUserProfile = updatedProfile;
+        window.userProfile = updatedProfile;
+        invalidateProfileCache();
+        displayProfile(updatedProfile);
+        showSuccess('Minecraft détecté. La vérification complète devra être validée par un admin.');
+    } catch (error) {
+        setMinecraftLinkStatus(getMinecraftPublicLinkErrorMessage(error));
+    } finally {
+        setMinecraftLinkBusy(false);
+    }
+}
+
+function bindMinecraftPublicLinkForm() {
+    var form = document.getElementById('minecraft-link-form');
+    if (!form || form.dataset.minecraftPublicLinkBound === 'true') return;
+
+    form.addEventListener('submit', submitMinecraftPublicLink);
+    form.dataset.minecraftPublicLinkBound = 'true';
+}
+
+function prepareMinecraftPublicLink(profile, hasMinecraftProfile) {
+    bindMinecraftPublicLinkForm();
+
+    if (hasMinecraftProfile) return;
+
+    var input = document.getElementById('minecraft-username-input');
+    if (input && profile && profile.minecraft_username) {
+        input.value = profile.minecraft_username;
+    }
+
+    setMinecraftLinkStatus('Minecraft non lié.');
 }
 
 async function fetchOwnProfile() {
@@ -393,9 +459,8 @@ function displayProfile(profile) {
         avatarSection.style.display = 'none';
     }
 
-    
     setElementDisplay('minecraft-link-info', hasMinecraftProfile ? 'none' : 'block');
-    startAutomaticMinecraftLink(profile, hasMinecraftProfile);
+    prepareMinecraftPublicLink(profile, hasMinecraftProfile);
 
     // Afficher le rôle avec le bon badge
     const roleBadge = document.getElementById('profile-role');
@@ -446,78 +511,6 @@ function displayProfile(profile) {
         saveBtn.dataset.profileSaveBound = 'true';
     }
     
-}
-
-async function startAutomaticMinecraftLink(profile, hasMinecraftProfile) {
-    bindMinecraftRetryButton();
-
-    if (hasMinecraftProfile) {
-        clearStoredMinecraftAttempt(getMinecraftAttemptKey(profile));
-        setMinecraftRetryVisible(false);
-        return;
-    }
-
-    var state = getMinecraftLinkState();
-    var attemptKey = getMinecraftAttemptKey(profile);
-
-    if (state) {
-        setMinecraftLinkStatus(explainMinecraftLinkState(state));
-        setMinecraftRetryVisible(state === 'error' || state === 'denied' || state === 'not_found' || state === 'unavailable');
-        return;
-    }
-
-    if (getStoredMinecraftAttempt(attemptKey)) {
-        setMinecraftLinkStatus('Liaison Minecraft automatique déjà lancée pour cette session.');
-        setMinecraftRetryVisible(true);
-        return;
-    }
-
-    if (typeof supabase === 'undefined' || !supabase || !supabase.functions || typeof supabase.functions.invoke !== 'function') {
-        setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
-        setMinecraftRetryVisible(true);
-        return;
-    }
-
-    setStoredMinecraftAttempt(attemptKey);
-    setMinecraftLinkStatus('Liaison Minecraft automatique en cours...');
-    setMinecraftRetryVisible(false);
-
-    try {
-        var response = await supabase.functions.invoke('link-minecraft', {
-            body: {
-                action: 'start',
-                returnTo: getMinecraftReturnUrl()
-            }
-        });
-
-        if (response.error || !response.data || !response.data.url) {
-            clearStoredMinecraftAttempt(attemptKey);
-            setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
-            setMinecraftRetryVisible(true);
-            return;
-        }
-
-        window.location.assign(response.data.url);
-    } catch (error) {
-        clearStoredMinecraftAttempt(attemptKey);
-        setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
-        setMinecraftRetryVisible(true);
-    }
-}
-
-function retryMinecraftLink() {
-    var profile = localUserProfile || window.userProfile || {};
-    clearStoredMinecraftAttempt(getMinecraftAttemptKey(profile));
-    clearMinecraftLinkUrlState();
-    startAutomaticMinecraftLink(profile, false);
-}
-
-function bindMinecraftRetryButton() {
-    var button = document.getElementById('minecraft-retry-btn');
-    if (!button || button.dataset.minecraftRetryBound === 'true') return;
-
-    button.addEventListener('click', retryMinecraftLink);
-    button.dataset.minecraftRetryBound = 'true';
 }
 
 // Obtenir le label du role en francais.
