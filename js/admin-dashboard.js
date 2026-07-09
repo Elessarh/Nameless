@@ -80,7 +80,7 @@ function waitForAuthAndUser() {
             if (typeof supabase !== 'undefined' && supabase !== null && window.currentUser !== null && window.currentUser !== undefined) {
                 clearInterval(checkAuth);
                 resolve();
-            } else if (attempts >= maxAttempts) {
+            } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 showError('Vous devez être connecté pour accéder au dashboard.');
                 setTimeout(() => {
@@ -211,10 +211,11 @@ async function loadUsers() {
             .order('created_at', { ascending: false });
             
         if (error) {
+            logSupabaseWarning('users_load_failed', error);
             showError('Impossible de charger les utilisateurs.');
             return;
         }
-        
+
         allUsers = users || [];
         filteredUsers = allUsers;
         
@@ -229,8 +230,10 @@ async function loadUsers() {
         
         // Afficher les utilisateurs
         displayUsers();
-        
+
     } catch (error) {
+        logSupabaseWarning('users_load_failed', error);
+        showError('Erreur technique lors du chargement des utilisateurs.');
     }
 }
 
@@ -750,8 +753,11 @@ async function loadAdminPlanning() {
                 ${event.description ? `<div style="color: #ccc;">${escapeHtml(event.description)}</div>` : ''}
             </div>
         `).join('');
-        
+
     } catch (error) {
+        logSupabaseWarning('admin_planning_load_failed', error);
+        const container = document.getElementById('admin-planning-list');
+        if (container) container.textContent = 'Erreur Supabase lors du chargement du planning.';
     }
 }
 
@@ -796,8 +802,11 @@ async function loadAdminObjectives() {
             </div>
         `;
         }).join('');
-        
+
     } catch (error) {
+        logSupabaseWarning('admin_objectives_load_failed', error);
+        const container = document.getElementById('admin-objectives-list');
+        if (container) container.textContent = 'Erreur Supabase lors du chargement des objectifs.';
     }
 }
 
@@ -844,8 +853,11 @@ async function loadAdminPresence() {
             </div>
         `;
         }).join('');
-        
+
     } catch (error) {
+        logSupabaseWarning('admin_presence_load_failed', error);
+        const container = document.getElementById('admin-presence-list');
+        if (container) container.textContent = 'Erreur Supabase lors du chargement des présences.';
     }
 }
 
@@ -869,9 +881,10 @@ async function loadMembersForPresence() {
         
         select.innerHTML = '<option value="">Sélectionner un membre</option>' +
             data.map(user => `<option value="${escapeHtml(user.id)}">${escapeHtml(user.minecraft_username || user.username)}</option>`).join('');
-        
-        
+
+
     } catch (error) {
+        logSupabaseWarning('presence_member_list_failed', error);
     }
 }
 
@@ -1095,18 +1108,22 @@ async function loadPresences() {
             .from('user_profiles')
             .select('*')
             .in('role', ['membre', 'admin']);
-        
+
         if (membersError) {
+            logSupabaseWarning('presence_members_failed', membersError);
+            setPresenceTableMessage('Erreur Supabase lors du chargement des membres.');
             return;
         }
-        
+
         // Récupérer les présences du jour
         const { data: presences, error: presencesError } = await supabase
             .from('guild_presence')
             .select('*')
             .eq('date_presence', today);
-        
+
         if (presencesError) {
+            logSupabaseWarning('presence_load_failed', presencesError);
+            setPresenceTableMessage('Erreur Supabase lors du chargement des présences.');
             return;
         }
         
@@ -1163,10 +1180,27 @@ async function loadPresences() {
         document.getElementById('stat-presents').textContent = presents;
         document.getElementById('stat-absents').textContent = absents;
         document.getElementById('stat-missions').textContent = enMission;
-        
-        
+
+
     } catch (error) {
+        logSupabaseWarning('presence_load_failed', error);
+        setPresenceTableMessage('Erreur technique lors du chargement des présences.');
     }
+}
+
+// Message d'état dans le tableau des présences (texte pur, pas d'HTML dynamique).
+function setPresenceTableMessage(message) {
+    const tbody = document.getElementById('presence-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 5;
+    td.style.textAlign = 'center';
+    td.style.color = '#e74c3c';
+    td.textContent = message;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
 }
 
 function getPresenceLabel(statut) {
@@ -1199,8 +1233,11 @@ async function loadAdminActivities() {
         }
         
         displayAdminActivities(data || []);
-        
+
     } catch (error) {
+        logSupabaseWarning('activities_load_failed', error);
+        const container = document.getElementById('admin-activities-list');
+        if (container) container.textContent = 'Erreur technique lors du chargement des publications.';
     }
 }
 
@@ -1329,21 +1366,38 @@ window.submitActivity = async function() {
         // Upload de l'image si présente
         if (imageInput.files.length > 0) {
             const file = imageInput.files[0];
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-            const filePath = `guild-activities/${fileName}`;
-            
-            const { data: uploadData, error: uploadError } = await supabase.storage
-                .from('iron-oath-storage')
-                .upload(filePath, file);
-            
-            if (uploadError) {
-                alert('Erreur lors de l\'upload de l\'image. La publication sera créée sans image.');
+            const fileExt = String(file.name.split('.').pop() || '').toLowerCase();
+
+            if (['png', 'jpg', 'jpeg', 'webp'].indexOf(fileExt) === -1) {
+                alert('Formats d\'image acceptés : png, jpg, jpeg, webp. La publication sera créée sans image.');
             } else {
-                const { data: urlData } = supabase.storage
+                const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+                // Chemin imposé par la policy storage : guild-activities/<user_id>/<fichier>.
+                const filePath = `guild-activities/${localCurrentUser.id}/${fileName}`;
+
+                const { error: uploadError } = await supabase.storage
                     .from('iron-oath-storage')
-                    .getPublicUrl(filePath);
-                imageUrl = urlData.publicUrl;
+                    .upload(filePath, file);
+
+                if (uploadError) {
+                    logSupabaseWarning('activity_image_upload_failed', uploadError);
+                    alert('Erreur lors de l\'upload de l\'image. La publication sera créée sans image.');
+                } else {
+                    // Bucket privé : URL signée longue durée. Fallback URL
+                    // publique si le bucket est resté public.
+                    const { data: signed } = await supabase.storage
+                        .from('iron-oath-storage')
+                        .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 5);
+
+                    if (signed && signed.signedUrl) {
+                        imageUrl = signed.signedUrl;
+                    } else {
+                        const { data: urlData } = supabase.storage
+                            .from('iron-oath-storage')
+                            .getPublicUrl(filePath);
+                        imageUrl = urlData.publicUrl;
+                    }
+                }
             }
         }
         
@@ -1480,12 +1534,22 @@ async function deleteActivity(activityId) {
             .eq('id', activityId)
             .single();
         
-        // Supprimer l'image du storage si elle existe
+        // Supprimer l'image du storage si elle existe. Le chemin objet est la
+        // partie après le nom du bucket, valable pour les URLs publiques
+        // (/object/public/iron-oath-storage/...) et signées (/object/sign/...).
         if (activity?.image_url) {
-            const imagePath = activity.image_url.split('/').pop();
-            await supabase.storage
-                .from('iron-oath-storage')
-                .remove([`guild-activities/${imagePath}`]);
+            const bucketMarker = '/iron-oath-storage/';
+            const markerIndex = activity.image_url.indexOf(bucketMarker);
+            if (markerIndex !== -1) {
+                const objectPath = activity.image_url
+                    .slice(markerIndex + bucketMarker.length)
+                    .split('?')[0];
+                if (objectPath) {
+                    await supabase.storage
+                        .from('iron-oath-storage')
+                        .remove([objectPath]);
+                }
+            }
         }
         
         // Supprimer l'activité
