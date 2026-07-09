@@ -9,7 +9,7 @@ let editingUserId = null;
 let adminInitToken = 0;
 
 // Variables de pagination et tri
-let currentPage = 1;
+let adminUsersPage = 1;
 let usersPerPage = 15;
 let currentSortField = 'created_at';
 let currentSortDirection = 'desc'; // 'asc' ou 'desc'
@@ -46,7 +46,7 @@ async function initAdminDashboardPage() {
     const token = ++adminInitToken;
     
     // Attendre que auth-supabase.js soit chargé ET que l'utilisateur soit connecté
-    await waitForAuthAndUser();
+    await waitForAdminAuth();
     if (token !== adminInitToken) return;
     
     // Vérifier les droits admin
@@ -67,8 +67,17 @@ window.NamelessAdminDashboardPage = {
 // Initialisation au chargement de la page hors SPA.
 document.addEventListener('DOMContentLoaded', initAdminDashboardPage);
 
+function navigateAdminToConnexion() {
+    if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
+        window.NamelessSpaRouter.navigate('/connexion');
+        return;
+    }
+
+    window.location.href = '/connexion';
+}
+
 // Attendre que l'authentification soit prête ET que l'utilisateur soit connecté
-function waitForAuthAndUser() {
+function waitForAdminAuth() {
     return new Promise((resolve) => {
         let attempts = 0;
         const maxAttempts = 100; // 10 secondes max
@@ -82,10 +91,8 @@ function waitForAuthAndUser() {
                 resolve();
             } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
-                showError('Vous devez être connecté pour accéder au dashboard.');
-                setTimeout(() => {
-                    window.location.href = '/connexion';
-                }, 2000);
+                showAdminError('Vous devez être connecté pour accéder au dashboard.');
+                setTimeout(navigateAdminToConnexion, 2000);
                 resolve();
             }
         }, 100);
@@ -115,10 +122,8 @@ async function checkAdminAccess() {
     try {
         // Utiliser la session globale depuis auth-supabase.js
         if (!window.currentUser) {
-            showError('Vous devez être connecté pour accéder au dashboard.');
-            setTimeout(() => {
-                window.location.href = '/connexion';
-            }, 2000);
+            showAdminError('Vous devez être connecté pour accéder au dashboard.');
+            setTimeout(navigateAdminToConnexion, 2000);
             return;
         }
 
@@ -133,7 +138,7 @@ async function checkAdminAccess() {
             
         if (error || !profile) {
             logSupabaseWarning('admin_profile_failed', error);
-            showError('Profil introuvable. Impossible de vérifier vos droits d\'accès.');
+            showAdminError('Profil introuvable. Impossible de vérifier vos droits d\'accès.');
             return;
         }
         
@@ -142,7 +147,7 @@ async function checkAdminAccess() {
         
         // Vérifier si l'utilisateur est admin
         if (effectiveRole !== 'admin') {
-            showError('Accès admin requis. Rôle admin non détecté côté Supabase.');
+            showAdminError('Accès admin requis. Rôle admin non détecté côté Supabase.');
             return;
         }
         
@@ -174,7 +179,7 @@ async function checkAdminAccess() {
         
     } catch (error) {
         logSupabaseWarning('admin_access_failed', error);
-        showError('Erreur Supabase : voir console.');
+        showAdminError('Erreur Supabase : voir console.');
     }
 }
 
@@ -212,7 +217,7 @@ async function loadUsers() {
             
         if (error) {
             logSupabaseWarning('users_load_failed', error);
-            showError('Impossible de charger les utilisateurs.');
+            showAdminError('Impossible de charger les utilisateurs.');
             return;
         }
 
@@ -233,7 +238,7 @@ async function loadUsers() {
 
     } catch (error) {
         logSupabaseWarning('users_load_failed', error);
-        showError('Erreur technique lors du chargement des utilisateurs.');
+        showAdminError('Erreur technique lors du chargement des utilisateurs.');
     }
 }
 
@@ -262,7 +267,7 @@ function displayUsers() {
     }
     
     // Calculer les indices pour la pagination
-    const startIndex = (currentPage - 1) * usersPerPage;
+    const startIndex = (adminUsersPage - 1) * usersPerPage;
     const endIndex = Math.min(startIndex + usersPerPage, filteredUsers.length);
     const usersToDisplay = filteredUsers.slice(startIndex, endIndex);
     
@@ -355,11 +360,11 @@ function updatePagination() {
     const nextBtn = document.getElementById('next-page');
     
     // Afficher les informations de page
-    pageInfo.textContent = `Page ${currentPage} / ${totalPages || 1} (${filteredUsers.length} utilisateur${filteredUsers.length > 1 ? 's' : ''})`;
+    pageInfo.textContent = `Page ${adminUsersPage} / ${totalPages || 1} (${filteredUsers.length} utilisateur${filteredUsers.length > 1 ? 's' : ''})`;
     
     // Activer/désactiver les boutons
-    prevBtn.disabled = currentPage <= 1;
-    nextBtn.disabled = currentPage >= totalPages || totalPages === 0;
+    prevBtn.disabled = adminUsersPage <= 1;
+    nextBtn.disabled = adminUsersPage >= totalPages || totalPages === 0;
 }
 
 // Trier les utilisateurs
@@ -413,28 +418,28 @@ function initializeEventListeners() {
     // Recherche
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', (e) => {
-        currentPage = 1; // Reset à la page 1 lors d'une recherche
+        adminUsersPage = 1; // Reset à la page 1 lors d'une recherche
         filterUsers();
     });
     
     // Filtre par rôle
     const roleFilter = document.getElementById('role-filter');
     roleFilter.addEventListener('change', (e) => {
-        currentPage = 1;
+        adminUsersPage = 1;
         filterUsers();
     });
     
     // Filtre par classe
     const classeFilter = document.getElementById('classe-filter');
     classeFilter.addEventListener('change', (e) => {
-        currentPage = 1;
+        adminUsersPage = 1;
         filterUsers();
     });
     
     // Filtre par niveau
     const niveauFilter = document.getElementById('niveau-filter');
     niveauFilter.addEventListener('change', (e) => {
-        currentPage = 1;
+        adminUsersPage = 1;
         filterUsers();
     });
     
@@ -443,7 +448,7 @@ function initializeEventListeners() {
     if (itemsPerPageSelect) {
         itemsPerPageSelect.addEventListener('change', (e) => {
             usersPerPage = parseInt(e.target.value);
-            currentPage = 1;
+            adminUsersPage = 1;
             displayUsers();
             updatePagination();
         });
@@ -500,8 +505,8 @@ function initializeEventListeners() {
     const nextBtn = document.getElementById('next-page');
     
     prevBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
+        if (adminUsersPage > 1) {
+            adminUsersPage--;
             displayUsers();
             updatePagination();
         }
@@ -509,8 +514,8 @@ function initializeEventListeners() {
     
     nextBtn.addEventListener('click', () => {
         const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
+        if (adminUsersPage < totalPages) {
+            adminUsersPage++;
             displayUsers();
             updatePagination();
         }
@@ -568,7 +573,7 @@ function filterUsers() {
     // Trier les utilisateurs après filtrage
     sortUsers();
     
-    currentPage = 1; // Reset à la page 1
+    adminUsersPage = 1; // Reset à la page 1
     displayUsers();
     updatePagination();
 }
@@ -683,7 +688,7 @@ async function deleteUser(userId) {
 }
 
 // Afficher un message d'erreur
-function showError(message) {
+function showAdminError(message) {
     const loading = document.getElementById('loading');
     const content = document.getElementById('dashboard-content');
     if (loading) loading.style.display = 'none';

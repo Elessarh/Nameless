@@ -45,7 +45,7 @@ async function initGuildPage() {
     });
 
     // Attendre que Supabase et l'utilisateur soient prêts
-    await waitForAuthAndUser();
+    await waitForGuildAuth();
     if (token !== guildInitToken) return;
     
     // Vérifier que l'utilisateur est membre ou admin
@@ -76,7 +76,7 @@ function hideGuildeLinkFromMenu() {
 }
 
 // Attendre que l'authentification soit prête
-function waitForAuthAndUser() {
+function waitForGuildAuth() {
     return new Promise((resolve) => {
         let attempts = 0;
         const maxAttempts = 100;
