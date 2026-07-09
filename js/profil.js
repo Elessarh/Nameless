@@ -85,11 +85,29 @@ function getDefaultUsername() {
 }
 
 function getMinecraftDisplayName(profile) {
-    return profile && profile.minecraft_username ? profile.minecraft_username : 'Compte Microsoft connecté';
+    if (!profile) return 'Compte Microsoft connecté';
+    if (profile.minecraft_username) return profile.minecraft_username;
+    if (profile.minecraft_uuid) return 'Minecraft détecté';
+    return 'Compte Microsoft connecté';
 }
 
-function getMinecraftProfileValue(profile) {
-    return profile && profile.minecraft_username ? profile.minecraft_username : 'Minecraft non lié';
+function getMinecraftUsernameValue(profile) {
+    if (!profile) return 'Non renseigné';
+    return profile.minecraft_username || 'Non renseigné';
+}
+
+function hasMinecraftIdentity(profile) {
+    return !!getMinecraftAvatarKey(profile);
+}
+
+function isMinecraftVerified(profile) {
+    return !!(profile && profile.minecraft_verified === true);
+}
+
+function getMinecraftStatusValue(profile) {
+    if (isMinecraftVerified(profile)) return 'Minecraft vérifié';
+    if (hasMinecraftIdentity(profile)) return 'Minecraft détecté';
+    return 'Minecraft non lié';
 }
 
 function getMinecraftAvatarKey(profile) {
@@ -105,6 +123,19 @@ function setText(id, value) {
 function setElementDisplay(id, displayValue) {
     var element = document.getElementById(id);
     if (element) element.style.display = displayValue;
+}
+
+function bindMinecraftAvatarFallback(avatarSection, avatarImg, titleFallback) {
+    if (!avatarImg || avatarImg.dataset.minecraftAvatarFallbackBound === 'true') return;
+
+    avatarImg.addEventListener('error', function() {
+        avatarImg.removeAttribute('src');
+        avatarImg.alt = '';
+        if (avatarSection) avatarSection.style.display = 'none';
+        if (titleFallback) titleFallback.style.display = 'block';
+    });
+
+    avatarImg.dataset.minecraftAvatarFallbackBound = 'true';
 }
 
 function getMinecraftLinkState() {
@@ -297,14 +328,16 @@ function displayProfile(profile) {
     var displayNameEl = document.getElementById('mc-display-name');
     var titleFallback = document.getElementById('profil-title-fallback');
 
-    var hasMinecraftProfile = !!(profile.minecraft_username && avatarKey);
+    var hasMinecraftProfile = hasMinecraftIdentity(profile);
 
     setText('profile-microsoft-state', 'Compte Microsoft connecté');
-    setText('profile-minecraft-state', getMinecraftProfileValue(profile));
+    setText('profile-minecraft-state', getMinecraftStatusValue(profile));
+    setText('profile-minecraft-username', getMinecraftUsernameValue(profile));
     if (displayNameEl) displayNameEl.textContent = mcUsername;
     if (titleFallback) titleFallback.style.display = 'none';
 
     if (avatarSection && avatarImg && hasMinecraftProfile) {
+        bindMinecraftAvatarFallback(avatarSection, avatarImg, titleFallback);
         avatarImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(avatarKey) + '/128';
         avatarImg.alt = mcUsername;
         avatarSection.style.display = 'flex';
