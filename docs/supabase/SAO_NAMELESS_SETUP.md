@@ -38,7 +38,7 @@ Apres creation du premier compte depuis le site:
 Si le site renvoie `403 Forbidden` sur `user_profiles` apres une connexion Microsoft, executer d'abord:
 
 ```sql
--- docs/supabase/SAO_NAMELESS_RLS_PATCH_004.sql
+-- docs/supabase/SAO_NAMELESS_RLS_PATCH_003.sql
 ```
 
 Si le projet a deja ete initialise avant le patch 002, executer d'abord:

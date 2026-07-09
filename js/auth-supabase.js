@@ -197,15 +197,6 @@ function showMessage(message, type = 'error') {
     }
 }
 
-function isMissingProfileError(error) {
-    if (!error) return false;
-    var message = String(error.message || '');
-    return error.code === 'PGRST116'
-        || message.indexOf('JSON object requested') !== -1
-        || message.indexOf('0 rows') !== -1
-        || message.indexOf('406') !== -1;
-}
-
 // ========== FONCTIONS D'AUTHENTIFICATION ==========
 async function registerUser(username, email, password, confirmPassword) {
     try {
@@ -601,14 +592,12 @@ async function loadUserProfile() {
             .single();
             
         if (error) {
-            if (isMissingProfileError(error)) {
+            if (error.code === 'PGRST116' || error.message.includes('406')) {
+                return await createMissingProfile();
+            } else {
+                // console.error('Erreur chargement profil:', error);
                 return await createMissingProfile();
             }
-
-            userProfile = null;
-            window.userProfile = null;
-            checkAuthState();
-            return null;
         }
         
         userProfile = data;
