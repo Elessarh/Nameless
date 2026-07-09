@@ -75,17 +75,73 @@ function sanitizeLogMessage(value: unknown) {
     .slice(0, 500);
 }
 
-async function responseSafeMessage(response: Response) {
+function getSafeErrorCode(data: unknown) {
+  if (!data || typeof data !== 'object') return null;
+
+  const record = data as Record<string, unknown>;
+  return record.XErr
+    || record.xerr
+    || record.errorCode
+    || record.error_code
+    || record.code
+    || record.error
+    || null;
+}
+
+function getSafeErrorMessage(data: unknown) {
+  if (!data || typeof data !== 'object') return null;
+
+  const record = data as Record<string, unknown>;
+  return record.errorMessage
+    || record.error_message
+    || record.error_description
+    || record.message
+    || record.error
+    || null;
+}
+
+async function responseSafeDetails(response: Response) {
+  const details: Record<string, unknown> = {
+    status: response.status,
+    statusText: response.statusText,
+  };
+
   try {
     const contentType = response.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
       const data = await response.clone().json();
-      return sanitizeLogMessage(data.error_description || data.error || data.message || data);
+      const code = getSafeErrorCode(data);
+      const message = getSafeErrorMessage(data);
+
+      details.body = sanitizeLogMessage(data);
+      if (code) details.code = sanitizeLogMessage(code);
+      if (message) details.message = sanitizeLogMessage(message);
+      return details;
     }
 
-    return sanitizeLogMessage(await response.clone().text());
+    const body = sanitizeLogMessage(await response.clone().text());
+    details.body = body;
+    details.message = body;
   } catch (_error) {
-    return '';
+    details.message = '';
+  }
+
+  return details;
+}
+
+function mapXstsFailureReason(details: Record<string, unknown>) {
+  switch (String(details.code || '')) {
+    case '2148916233':
+      return 'xbox_account_missing';
+    case '2148916235':
+      return 'xbox_region_blocked';
+    case '2148916236':
+    case '2148916237':
+      return 'xbox_child_account';
+    case '2148916238':
+      return 'xbox_child_account_no_family';
+    default:
+      return 'xsts_failed';
   }
 }
 
@@ -235,6 +291,7 @@ async function postJson(
   body: Record<string, unknown>,
   reason: string,
   failureEvent: string,
+  getFailureReason?: (details: Record<string, unknown>) => string,
 ) {
   let response: Response;
   try {
@@ -252,11 +309,12 @@ async function postJson(
   }
 
   if (!response.ok) {
-    logSafe(failureEvent, {
-      status: response.status,
-      message: await responseSafeMessage(response),
-    });
-    throw new PublicLinkError(reason, response.status === 404 ? 404 : 502);
+    const details = await responseSafeDetails(response);
+    logSafe(failureEvent, details);
+    throw new PublicLinkError(
+      getFailureReason ? getFailureReason(details) : reason,
+      response.status === 404 ? 404 : 502,
+    );
   }
 
   return response.json();
@@ -279,17 +337,20 @@ async function postForm(url: string, form: URLSearchParams, reason: string, fail
   }
 
   if (!response.ok) {
-    logSafe(failureEvent, {
-      status: response.status,
-      message: await responseSafeMessage(response),
-    });
+    logSafe(failureEvent, await responseSafeDetails(response));
     throw new PublicLinkError(reason, 502);
   }
 
   return response.json();
 }
 
-async function getJson(url: string, token: string, reason: string, failureEvent: string) {
+async function getJson(
+  url: string,
+  token: string,
+  reason: string,
+  failureEvent: string,
+  getFailureReason?: (details: Record<string, unknown>) => string,
+) {
   let response: Response;
   try {
     response = await fetch(url, {
@@ -304,14 +365,13 @@ async function getJson(url: string, token: string, reason: string, failureEvent:
   }
 
   if (!response.ok) {
-    logSafe(failureEvent, {
-      status: response.status,
-      message: await responseSafeMessage(response),
-    });
+    const details = await responseSafeDetails(response);
+    logSafe(failureEvent, details);
 
-    if (response.status === 404) throw new PublicLinkError('minecraft_not_owned', 404);
-    if (response.status === 403) throw new PublicLinkError('missing_entitlements', 403);
-    throw new PublicLinkError(reason, 502);
+    throw new PublicLinkError(
+      getFailureReason ? getFailureReason(details) : reason,
+      response.status === 404 ? 404 : 502,
+    );
   }
 
   return response.json();
@@ -382,7 +442,7 @@ async function authorizeXsts(xboxToken: string) {
     },
     RelyingParty: 'rp://api.minecraftservices.com/',
     TokenType: 'JWT',
-  }, 'xsts_failed', 'xsts_auth_failed');
+  }, 'xsts_failed', 'xsts_auth_failed', mapXstsFailureReason);
 
   const userHash = result.DisplayClaims?.xui?.[0]?.uhs;
   if (!result.Token || !userHash) {
@@ -390,7 +450,7 @@ async function authorizeXsts(xboxToken: string) {
       status: 200,
       message: 'missing_xsts_token_or_user_hash',
     });
-    throw new PublicLinkError('xsts_failed', 502);
+    throw new PublicLinkError('xsts_missing_claims', 502);
   }
 
   logSafe('xsts_auth_ok');
@@ -404,16 +464,20 @@ async function authorizeXsts(xboxToken: string) {
 async function authenticateMinecraft(userHash: string, xstsToken: string) {
   logSafe('minecraft_services_auth_start');
 
-  const result = await postJson('https://api.minecraftservices.com/authentication/login_with_xbox', {
-    identityToken: `XBL3.0 x=${userHash};${xstsToken}`,
-  }, 'minecraft_auth_failed', 'minecraft_services_auth_failed');
+  const identityToken = `XBL3.0 x=${userHash};${xstsToken}`;
+  const result = await postJson(
+    'https://api.minecraftservices.com/authentication/login_with_xbox',
+    { identityToken },
+    'minecraft_auth_failed',
+    'minecraft_services_auth_failed',
+  );
 
   if (!result.access_token) {
     logSafe('minecraft_services_auth_failed', {
       status: 200,
       message: 'missing_minecraft_access_token',
     });
-    throw new PublicLinkError('minecraft_auth_failed', 502);
+    throw new PublicLinkError('minecraft_token_missing', 502);
   }
 
   logSafe('minecraft_services_auth_ok');
@@ -428,6 +492,7 @@ async function fetchMinecraftProfile(minecraftAccessToken: string) {
     minecraftAccessToken,
     'minecraft_profile',
     'minecraft_profile_failed',
+    (details) => details.status === 404 ? 'minecraft_not_owned_or_no_profile' : 'minecraft_profile_failed',
   );
 
   if (!profile.id || !profile.name) {
@@ -524,9 +589,16 @@ function getRedirectReason(error: unknown) {
     case 'microsoft_token_failed':
     case 'xbox_auth_failed':
     case 'xsts_failed':
+    case 'xsts_missing_claims':
+    case 'xbox_account_missing':
+    case 'xbox_region_blocked':
+    case 'xbox_child_account':
+    case 'xbox_child_account_no_family':
     case 'minecraft_auth_failed':
+    case 'minecraft_token_missing':
     case 'minecraft_profile_failed':
     case 'minecraft_not_owned':
+    case 'minecraft_not_owned_or_no_profile':
     case 'missing_entitlements':
     case 'profile_update_failed':
     case 'missing_env':
