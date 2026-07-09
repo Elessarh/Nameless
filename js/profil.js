@@ -163,6 +163,10 @@ function setMinecraftLinkStatus(message) {
     setText('minecraft-link-status', message);
 }
 
+function setMinecraftRetryVisible(visible) {
+    setElementDisplay('minecraft-retry-btn', visible ? 'inline-block' : 'none');
+}
+
 function getMinecraftAttemptKey(profile) {
     var userId = window.currentUser && window.currentUser.id ? window.currentUser.id : profile && profile.id;
     return MINECRAFT_AUTO_LINK_ATTEMPT_PREFIX + (userId || 'anonymous');
@@ -195,8 +199,39 @@ function clearStoredMinecraftAttempt(key) {
 function getMinecraftReturnUrl() {
     var url = new URL(window.location.href);
     url.searchParams.set('minecraft_link', 'return');
+    url.searchParams.delete('reason');
     url.hash = '';
     return url.toString();
+}
+
+function clearMinecraftLinkUrlState() {
+    try {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('minecraft_link');
+        url.searchParams.delete('reason');
+        window.history.replaceState({}, document.title, url.toString());
+    } catch (error) {
+        // History can be unavailable in some embedded contexts.
+    }
+}
+
+function getMinecraftReasonMessage(reason) {
+    const messages = {
+        microsoft_oauth_error: 'Microsoft n’a pas renvoyé de code OAuth pour la liaison Minecraft.',
+        microsoft_token_failed: 'Échange du code Microsoft échoué.',
+        xbox_auth_failed: 'Authentification Xbox Live échouée.',
+        xsts_failed: 'Autorisation XSTS échouée.',
+        minecraft_auth_failed: 'Authentification Minecraft Services échouée.',
+        minecraft_profile_failed: 'Récupération du profil Minecraft échouée.',
+        minecraft_not_owned: 'Aucun profil Minecraft Java vérifiable n’a été trouvé pour ce compte Microsoft.',
+        missing_entitlements: 'Ce compte Microsoft ne semble pas posséder les droits Minecraft nécessaires.',
+        profile_update_failed: 'Le profil Minecraft a été trouvé, mais la sauvegarde Supabase a échoué.',
+        missing_env: 'Configuration serveur incomplète pour la liaison Minecraft.',
+        invalid_state: 'Session de liaison Minecraft expirée ou invalide.'
+    };
+
+    if (!reason) return '';
+    return (messages[reason] || 'Échec de liaison Minecraft.') + ' [' + reason + ']';
 }
 
 function explainMinecraftLinkState(state) {
@@ -211,9 +246,7 @@ function explainMinecraftLinkState(state) {
             return 'Autorisation Minecraft refusée. La liaison automatique réessaiera lors d’une prochaine session.';
         case 'unavailable':
         case 'error':
-            if (reason === 'microsoft_oauth_error') {
-                return 'Microsoft n’a pas renvoyé de code OAuth pour la liaison Minecraft.';
-            }
+            if (reason) return getMinecraftReasonMessage(reason);
             return 'Liaison Minecraft automatique indisponible pour le moment.';
         case 'return':
             return 'Vérification Minecraft en cours de synchronisation...';
@@ -416,8 +449,11 @@ function displayProfile(profile) {
 }
 
 async function startAutomaticMinecraftLink(profile, hasMinecraftProfile) {
+    bindMinecraftRetryButton();
+
     if (hasMinecraftProfile) {
         clearStoredMinecraftAttempt(getMinecraftAttemptKey(profile));
+        setMinecraftRetryVisible(false);
         return;
     }
 
@@ -426,21 +462,25 @@ async function startAutomaticMinecraftLink(profile, hasMinecraftProfile) {
 
     if (state) {
         setMinecraftLinkStatus(explainMinecraftLinkState(state));
+        setMinecraftRetryVisible(state === 'error' || state === 'denied' || state === 'not_found' || state === 'unavailable');
         return;
     }
 
     if (getStoredMinecraftAttempt(attemptKey)) {
         setMinecraftLinkStatus('Liaison Minecraft automatique déjà lancée pour cette session.');
+        setMinecraftRetryVisible(true);
         return;
     }
 
     if (typeof supabase === 'undefined' || !supabase || !supabase.functions || typeof supabase.functions.invoke !== 'function') {
         setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
+        setMinecraftRetryVisible(true);
         return;
     }
 
     setStoredMinecraftAttempt(attemptKey);
     setMinecraftLinkStatus('Liaison Minecraft automatique en cours...');
+    setMinecraftRetryVisible(false);
 
     try {
         var response = await supabase.functions.invoke('link-minecraft', {
@@ -453,6 +493,7 @@ async function startAutomaticMinecraftLink(profile, hasMinecraftProfile) {
         if (response.error || !response.data || !response.data.url) {
             clearStoredMinecraftAttempt(attemptKey);
             setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
+            setMinecraftRetryVisible(true);
             return;
         }
 
@@ -460,7 +501,23 @@ async function startAutomaticMinecraftLink(profile, hasMinecraftProfile) {
     } catch (error) {
         clearStoredMinecraftAttempt(attemptKey);
         setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
+        setMinecraftRetryVisible(true);
     }
+}
+
+function retryMinecraftLink() {
+    var profile = localUserProfile || window.userProfile || {};
+    clearStoredMinecraftAttempt(getMinecraftAttemptKey(profile));
+    clearMinecraftLinkUrlState();
+    startAutomaticMinecraftLink(profile, false);
+}
+
+function bindMinecraftRetryButton() {
+    var button = document.getElementById('minecraft-retry-btn');
+    if (!button || button.dataset.minecraftRetryBound === 'true') return;
+
+    button.addEventListener('click', retryMinecraftLink);
+    button.dataset.minecraftRetryBound = 'true';
 }
 
 // Obtenir le label du role en francais.

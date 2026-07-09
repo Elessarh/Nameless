@@ -205,6 +205,7 @@
     line-height: 1.55;
     margin: 0;
 }
+.minecraft-link-actions { margin-top: 1rem; }
 
 /* --- Erreur --- */
 .profil-error {

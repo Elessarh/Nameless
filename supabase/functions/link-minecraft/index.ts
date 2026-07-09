@@ -44,7 +44,7 @@ function redirect(url: string) {
 
 function requiredEnv(name: string) {
   const value = Deno.env.get(name);
-  if (!value) throw new PublicLinkError('missing_function_config', 500);
+  if (!value) throw new PublicLinkError('missing_env', 500);
   return value;
 }
 
@@ -53,6 +53,40 @@ function logSafe(event: string, details: Record<string, unknown> = {}) {
     event,
     ...details,
   }));
+}
+
+function maskId(value: string | null | undefined) {
+  if (!value) return 'unknown';
+  if (value.length <= 12) return `${value.slice(0, 4)}...`;
+  return `${value.slice(0, 8)}...${value.slice(-4)}`;
+}
+
+function sanitizeLogMessage(value: unknown) {
+  if (value === null || value === undefined) return '';
+
+  const message = value instanceof Error
+    ? value.message
+    : typeof value === 'string'
+      ? value
+      : JSON.stringify(value);
+
+  return message
+    .replace(/[A-Za-z0-9._~+/=-]{80,}/g, '[redacted]')
+    .slice(0, 500);
+}
+
+async function responseSafeMessage(response: Response) {
+  try {
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await response.clone().json();
+      return sanitizeLogMessage(data.error_description || data.error || data.message || data);
+    }
+
+    return sanitizeLogMessage(await response.clone().text());
+  } catch (_error) {
+    return '';
+  }
 }
 
 function getMicrosoftRedirectUri() {
@@ -175,7 +209,7 @@ function adminClient() {
   const supabaseUrl = Deno.env.get('SUPABASE_URL');
   const serviceRoleKey = Deno.env.get('SERVICE_ROLE_KEY');
 
-  if (!supabaseUrl || !serviceRoleKey) throw new PublicLinkError('missing_function_config', 500);
+  if (!supabaseUrl || !serviceRoleKey) throw new PublicLinkError('missing_env', 500);
 
   return createClient(supabaseUrl, serviceRoleKey, {
     auth: {
@@ -196,39 +230,96 @@ async function getAuthenticatedUser(req: Request) {
   return data.user;
 }
 
-async function postJson(url: string, body: Record<string, unknown>, label: string) {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(body),
-  });
+async function postJson(
+  url: string,
+  body: Record<string, unknown>,
+  reason: string,
+  failureEvent: string,
+) {
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    logSafe(failureEvent, {
+      status: 'network_error',
+      message: sanitizeLogMessage(error),
+    });
+    throw new PublicLinkError(reason, 502);
+  }
 
-  if (!response.ok) throw new PublicLinkError(`${label}_failed`, response.status === 404 ? 404 : 502);
+  if (!response.ok) {
+    logSafe(failureEvent, {
+      status: response.status,
+      message: await responseSafeMessage(response),
+    });
+    throw new PublicLinkError(reason, response.status === 404 ? 404 : 502);
+  }
+
   return response.json();
 }
 
-async function postForm(url: string, form: URLSearchParams, label: string) {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
-    body: form,
-  });
+async function postForm(url: string, form: URLSearchParams, reason: string, failureEvent: string) {
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+      body: form,
+    });
+  } catch (error) {
+    logSafe(failureEvent, {
+      status: 'network_error',
+      message: sanitizeLogMessage(error),
+    });
+    throw new PublicLinkError(reason, 502);
+  }
 
-  if (!response.ok) throw new PublicLinkError(`${label}_failed`, 502);
+  if (!response.ok) {
+    logSafe(failureEvent, {
+      status: response.status,
+      message: await responseSafeMessage(response),
+    });
+    throw new PublicLinkError(reason, 502);
+  }
+
   return response.json();
 }
 
-async function getJson(url: string, token: string, label: string) {
-  const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
-  });
+async function getJson(url: string, token: string, reason: string, failureEvent: string) {
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
+    });
+  } catch (error) {
+    logSafe(failureEvent, {
+      status: 'network_error',
+      message: sanitizeLogMessage(error),
+    });
+    throw new PublicLinkError(reason, 502);
+  }
 
-  if (response.status === 404) throw new PublicLinkError('not_found', 404);
-  if (!response.ok) throw new PublicLinkError(`${label}_failed`, 502);
+  if (!response.ok) {
+    logSafe(failureEvent, {
+      status: response.status,
+      message: await responseSafeMessage(response),
+    });
+
+    if (response.status === 404) throw new PublicLinkError('minecraft_not_owned', 404);
+    if (response.status === 403) throw new PublicLinkError('missing_entitlements', 403);
+    throw new PublicLinkError(reason, 502);
+  }
+
   return response.json();
 }
 
 async function exchangeMicrosoftCode(code: string) {
+  logSafe('microsoft_code_exchange_start');
+
   const form = new URLSearchParams({
     client_id: requiredEnv('MICROSOFT_CLIENT_ID'),
     client_secret: requiredEnv('MICROSOFT_CLIENT_SECRET'),
@@ -237,12 +328,28 @@ async function exchangeMicrosoftCode(code: string) {
     redirect_uri: getMicrosoftRedirectUri(),
   });
 
-  const token = await postForm(MICROSOFT_TOKEN_ENDPOINT, form, 'microsoft_token');
-  if (!token.access_token) throw new PublicLinkError('microsoft_token_failed', 502);
+  const token = await postForm(
+    MICROSOFT_TOKEN_ENDPOINT,
+    form,
+    'microsoft_token_failed',
+    'microsoft_code_exchange_failed',
+  );
+
+  if (!token.access_token) {
+    logSafe('microsoft_code_exchange_failed', {
+      status: 200,
+      message: 'missing_access_token',
+    });
+    throw new PublicLinkError('microsoft_token_failed', 502);
+  }
+
+  logSafe('microsoft_code_exchange_ok');
   return token.access_token as string;
 }
 
 async function authenticateXboxLive(microsoftAccessToken: string) {
+  logSafe('xbox_live_auth_start');
+
   const result = await postJson('https://user.auth.xboxlive.com/user/authenticate', {
     Properties: {
       AuthMethod: 'RPS',
@@ -251,13 +358,23 @@ async function authenticateXboxLive(microsoftAccessToken: string) {
     },
     RelyingParty: 'http://auth.xboxlive.com',
     TokenType: 'JWT',
-  }, 'xbox_live');
+  }, 'xbox_auth_failed', 'xbox_live_auth_failed');
 
-  if (!result.Token) throw new PublicLinkError('xbox_live_failed', 502);
+  if (!result.Token) {
+    logSafe('xbox_live_auth_failed', {
+      status: 200,
+      message: 'missing_xbox_token',
+    });
+    throw new PublicLinkError('xbox_auth_failed', 502);
+  }
+
+  logSafe('xbox_live_auth_ok');
   return result.Token as string;
 }
 
 async function authorizeXsts(xboxToken: string) {
+  logSafe('xsts_auth_start');
+
   const result = await postJson('https://xsts.auth.xboxlive.com/xsts/authorize', {
     Properties: {
       SandboxId: 'RETAIL',
@@ -265,11 +382,18 @@ async function authorizeXsts(xboxToken: string) {
     },
     RelyingParty: 'rp://api.minecraftservices.com/',
     TokenType: 'JWT',
-  }, 'xsts');
+  }, 'xsts_failed', 'xsts_auth_failed');
 
   const userHash = result.DisplayClaims?.xui?.[0]?.uhs;
-  if (!result.Token || !userHash) throw new PublicLinkError('xsts_failed', 502);
+  if (!result.Token || !userHash) {
+    logSafe('xsts_auth_failed', {
+      status: 200,
+      message: 'missing_xsts_token_or_user_hash',
+    });
+    throw new PublicLinkError('xsts_failed', 502);
+  }
 
+  logSafe('xsts_auth_ok');
   return {
     token: result.Token as string,
     userHash: userHash as string,
@@ -278,22 +402,47 @@ async function authorizeXsts(xboxToken: string) {
 }
 
 async function authenticateMinecraft(userHash: string, xstsToken: string) {
+  logSafe('minecraft_services_auth_start');
+
   const result = await postJson('https://api.minecraftservices.com/authentication/login_with_xbox', {
     identityToken: `XBL3.0 x=${userHash};${xstsToken}`,
-  }, 'minecraft_auth');
+  }, 'minecraft_auth_failed', 'minecraft_services_auth_failed');
 
-  if (!result.access_token) throw new PublicLinkError('minecraft_auth_failed', 502);
+  if (!result.access_token) {
+    logSafe('minecraft_services_auth_failed', {
+      status: 200,
+      message: 'missing_minecraft_access_token',
+    });
+    throw new PublicLinkError('minecraft_auth_failed', 502);
+  }
+
+  logSafe('minecraft_services_auth_ok');
   return result.access_token as string;
 }
 
 async function fetchMinecraftProfile(minecraftAccessToken: string) {
+  logSafe('minecraft_profile_start');
+
   const profile = await getJson(
     'https://api.minecraftservices.com/minecraft/profile',
     minecraftAccessToken,
     'minecraft_profile',
+    'minecraft_profile_failed',
   );
 
-  if (!profile.id || !profile.name) throw new PublicLinkError('not_found', 404);
+  if (!profile.id || !profile.name) {
+    logSafe('minecraft_profile_failed', {
+      status: 200,
+      message: 'missing_profile_id_or_name',
+    });
+    throw new PublicLinkError('minecraft_profile_failed', 502);
+  }
+
+  logSafe('minecraft_profile_received', {
+    uuid: profile.id,
+    username: profile.name,
+  });
+
   return profile as {
     id: string;
     name: string;
@@ -301,30 +450,30 @@ async function fetchMinecraftProfile(minecraftAccessToken: string) {
   };
 }
 
-function normalizeHttpsUrl(rawUrl: unknown) {
-  if (typeof rawUrl !== 'string' || !rawUrl) return null;
-  if (rawUrl.startsWith('https://')) return rawUrl;
-  if (rawUrl.startsWith('http://textures.minecraft.net/')) return rawUrl.replace('http://', 'https://');
-  return null;
-}
+async function updateMinecraftProfile(userId: string, profile: { id: string; name: string }) {
+  logSafe('user_profiles_update_start', {
+    user_id: maskId(userId),
+  });
 
-async function updateMinecraftProfile(userId: string, profile: { id: string; name: string; skins?: Array<{ url?: string }> }, xuid: string | null) {
-  const skinUrl = normalizeHttpsUrl(profile.skins?.[0]?.url);
   const { error } = await adminClient()
     .from('user_profiles')
     .update({
-      username: profile.name,
       minecraft_username: profile.name,
       minecraft_uuid: profile.id,
       minecraft_verified: true,
-      minecraft_avatar_url: `https://mc-heads.net/avatar/${profile.id}/128`,
-      minecraft_skin_url: skinUrl,
       minecraft_linked_at: new Date().toISOString(),
-      microsoft_provider_id: xuid,
     })
     .eq('id', userId);
 
-  if (error) throw new PublicLinkError('profile_update_failed', 500);
+  if (error) {
+    logSafe('user_profiles_update_failed', {
+      status: error.code || 'supabase_error',
+      message: sanitizeLogMessage(error.message || error.details || error),
+    });
+    throw new PublicLinkError('profile_update_failed', 500);
+  }
+
+  logSafe('user_profiles_update_ok');
 }
 
 async function handleStart(req: Request) {
@@ -368,15 +517,46 @@ async function getReturnToFromState(rawState: string | null) {
   }
 }
 
+function getRedirectReason(error: unknown) {
+  if (!(error instanceof PublicLinkError)) return 'minecraft_profile_failed';
+
+  switch (error.code) {
+    case 'microsoft_token_failed':
+    case 'xbox_auth_failed':
+    case 'xsts_failed':
+    case 'minecraft_auth_failed':
+    case 'minecraft_profile_failed':
+    case 'minecraft_not_owned':
+    case 'missing_entitlements':
+    case 'profile_update_failed':
+    case 'missing_env':
+    case 'invalid_state':
+      return error.code;
+    case 'expired_state':
+      return 'invalid_state';
+    case 'invalid_redirect_uri_config':
+      return 'missing_env';
+    default:
+      return 'minecraft_profile_failed';
+  }
+}
+
 async function handleCallback(req: Request) {
   const url = new URL(req.url);
   const rawState = url.searchParams.get('state');
+  const hasCode = url.searchParams.has('code');
   const providerError = url.searchParams.get('error');
   const providerErrorDescription = url.searchParams.get('error_description');
   const providerErrorUri = url.searchParams.get('error_uri');
-  const returnTo = await getReturnToFromState(rawState);
+  let returnTo = `${getSiteOrigin()}/pages/profil.html`;
+
+  logSafe('microsoft_callback_received', {
+    has_code: hasCode,
+    has_error: !!providerError,
+  });
 
   if (providerError) {
+    returnTo = await getReturnToFromState(rawState);
     logSafe('microsoft_callback_error', {
       error: providerError,
       error_description: providerErrorDescription,
@@ -389,12 +569,17 @@ async function handleCallback(req: Request) {
   try {
     if (!rawState) throw new PublicLinkError('invalid_state');
     const state = await verifySignedState(rawState);
+    returnTo = sanitizeReturnTo(state.returnTo);
+    logSafe('state_verified', {
+      user_id: maskId(state.sub),
+    });
+
     const code = url.searchParams.get('code');
     if (!code) {
       logSafe('microsoft_callback_error', {
         error: 'missing_code',
       });
-      throw new PublicLinkError('missing_code');
+      throw new PublicLinkError('microsoft_token_failed', 400);
     }
 
     const microsoftAccessToken = await exchangeMicrosoftCode(code);
@@ -403,13 +588,11 @@ async function handleCallback(req: Request) {
     const minecraftAccessToken = await authenticateMinecraft(xsts.userHash, xsts.token);
     const profile = await fetchMinecraftProfile(minecraftAccessToken);
 
-    await updateMinecraftProfile(state.sub, profile, xsts.xuid);
+    await updateMinecraftProfile(state.sub, profile);
 
     return redirect(withMinecraftLinkState(state.returnTo, 'success'));
   } catch (error) {
-    const publicError = error instanceof PublicLinkError ? error : new PublicLinkError('error', 500);
-    const linkState = publicError.code === 'not_found' ? 'not_found' : 'error';
-    return redirect(withMinecraftLinkState(returnTo, linkState));
+    return redirect(withMinecraftLinkState(returnTo, 'error', getRedirectReason(error)));
   }
 }
 
