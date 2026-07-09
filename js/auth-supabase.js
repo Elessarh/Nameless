@@ -92,37 +92,12 @@ function getPublicProfileName(profile) {
     if (!profile) return 'Joueur';
     if (profile.minecraft_username) return profile.minecraft_username;
     if (profile.username && !isFallbackProfileName(profile.username)) return profile.username;
-    return 'Lier Minecraft';
+    return 'Compte Microsoft';
 }
 
 function getPublicMinecraftKey(profile) {
     if (!profile) return '';
     return profile.minecraft_uuid || profile.minecraft_username || '';
-}
-
-function getMicrosoftMetadataMinecraftName(user) {
-    var metadata = user && user.user_metadata ? user.user_metadata : {};
-    var appMetadata = user && user.app_metadata ? user.app_metadata : {};
-    var claims = metadata.custom_claims || {};
-    var candidates = [
-        metadata.minecraft_username,
-        metadata.minecraftUsername,
-        metadata.minecraft_name,
-        metadata.mc_username,
-        claims.minecraft_username,
-        claims.minecraftUsername,
-        appMetadata.minecraft_username,
-        appMetadata.minecraftUsername
-    ];
-
-    for (var i = 0; i < candidates.length; i++) {
-        var candidate = candidates[i];
-        if (typeof candidate === 'string' && /^[A-Za-z0-9_]{3,16}$/.test(candidate)) {
-            return candidate;
-        }
-    }
-
-    return '';
 }
 
 function createMicrosoftIcon() {
@@ -495,134 +470,9 @@ async function loginWithMicrosoft() {
     }
 }
 
-// ========== VERIFICATION MINECRAFT ==========
-async function verifyMinecraftUsername(username) {
-    try {
-        // Utiliser PlayerDB qui supporte CORS
-        const response = await fetch('https://playerdb.co/api/player/minecraft/' + encodeURIComponent(username));
-        const data = await response.json();
-        
-        if (data.success && data.data && data.data.player) {
-            return {
-                valid: true,
-                username: data.data.player.username,
-                uuid: data.data.player.raw_id,
-                avatar: data.data.player.avatar
-            };
-        }
-        return { valid: false };
-    } catch (error) {
-        return { valid: false };
-    }
-}
-
-async function linkMinecraftAccount(minecraftUsername, minecraftUuid) {
-    if (!currentUser) return false;
-    
-    try {
-        const { error } = await supabase
-            .from('user_profiles')
-            .update({
-                username: minecraftUsername,
-                minecraft_username: minecraftUsername,
-                minecraft_uuid: minecraftUuid
-            })
-            .eq('id', currentUser.id);
-        
-        if (error) throw error;
-        
-        // Mettre à jour le profil local
-        if (userProfile) {
-            userProfile.username = minecraftUsername;
-            userProfile.minecraft_username = minecraftUsername;
-            userProfile.minecraft_uuid = minecraftUuid;
-            window.userProfile = userProfile;
-        }
-        
-        checkAuthState();
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
-
-async function syncMinecraftFromMicrosoftMetadata() {
-    if (!currentUser || !userProfile || userProfile.minecraft_username) return userProfile;
-
-    var minecraftName = getMicrosoftMetadataMinecraftName(currentUser);
-    if (!minecraftName) return userProfile;
-
-    var result = await verifyMinecraftUsername(minecraftName);
-    if (!result || !result.valid) return userProfile;
-
-    await linkMinecraftAccount(result.username, result.uuid);
-    return userProfile;
-}
-
 function getMinecraftHeadUrl(uuid, size) {
     if (!uuid) return null;
     return 'https://mc-heads.net/avatar/' + uuid + '/' + (size || 32);
-}
-
-async function handleMinecraftVerification(e) {
-    if (e) e.preventDefault();
-    
-    const usernameInput = document.getElementById('mc-username');
-    const verifyBtn = null;
-    const previewDiv = document.getElementById('mc-verify-preview');
-    
-    const username = usernameInput ? usernameInput.value.trim() : '';
-    if (!username) {
-        showMessage('Veuillez entrer votre pseudo Minecraft.');
-        return;
-    }
-    
-    if (username.length < 3 || username.length > 16) {
-        showMessage('Le pseudo Minecraft doit contenir entre 3 et 16 caractères.');
-        return;
-    }
-    
-    if (verifyBtn) {
-        verifyBtn.disabled = true;
-        verifyBtn.textContent = '⏳ Vérification en cours...';
-    }
-    
-    const result = await verifyMinecraftUsername(username);
-    
-    if (result.valid) {
-        // Afficher la preview du skin
-        if (previewDiv) {
-            const previewImg = document.createElement('img');
-            previewImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(result.uuid) + '/64';
-            previewImg.alt = result.username;
-
-            const previewName = document.createElement('span');
-            previewName.className = 'mc-preview-name';
-            previewName.textContent = result.username;
-
-            previewDiv.replaceChildren(previewImg, previewName);
-        }
-        
-        // Sauvegarder dans le profil
-        const linked = await linkMinecraftAccount(result.username, result.uuid);
-        
-        if (linked) {
-            showMessage('Compte Minecraft "' + result.username + '" lié avec succès !', 'success');
-            setTimeout(function() {
-                navigateProfile();
-            }, 2000);
-        } else {
-            showMessage('Erreur lors de la liaison du compte. Réessayez.');
-        }
-    } else {
-        showMessage('Pseudo Minecraft "' + username + '" introuvable. Vérifiez l\'orthographe exacte.');
-        if (previewDiv) previewDiv.replaceChildren();
-    }
-    
-    if (verifyBtn) {
-        verifyBtn.disabled = false;
-        verifyBtn.textContent = '';
-    }
 }
 
 // Gérer l'état de connexion sur la page connexion
@@ -630,25 +480,9 @@ function handleConnexionPageAuth() {
     if (!window.location.pathname.includes('connexion')) return;
 
     if (userProfile) {
-        showMessage('Connexion rÃ©ussie ! Redirection...', 'success');
-        setTimeout(function() {
-            navigateProfile();
-        }, 1500);
-        return;
-    }
-    
-    if (userProfile && !userProfile.minecraft_username) {
-        // Afficher le formulaire de vérification Minecraft
-        var msLogin = document.getElementById('microsoft-login');
-        var mcVerify = document.getElementById('minecraft-verify');
-        
-        if (msLogin) msLogin.style.display = 'none';
-        if (mcVerify) mcVerify.style.display = 'block';
-    } else if (userProfile && userProfile.minecraft_username) {
-        // Minecraft déjà lié, rediriger
         showMessage('Connexion réussie ! Redirection...', 'success');
         setTimeout(function() {
-            navigateHome();
+            navigateProfile();
         }, 1500);
     }
 }
@@ -675,8 +509,6 @@ async function loadUserProfile() {
         userProfile = data;
         window.userProfile = userProfile; // Mettre à jour immédiatement
         
-        await syncMinecraftFromMicrosoftMetadata();
-
         if (currentUser.email && usernamePendingMap.has(currentUser.email)) {
             usernamePendingMap.delete(currentUser.email);
         }
@@ -744,7 +576,6 @@ async function createMissingProfile() {
         }
         
         userProfile = data;
-        await syncMinecraftFromMicrosoftMetadata();
         checkAuthState();
         return userProfile;
         
@@ -844,8 +675,6 @@ function exposeAuthGlobals() {
     window.isAdmin = isAdmin;
 
     window.loginWithMicrosoft = loginWithMicrosoft;
-    window.verifyMinecraftUsername = verifyMinecraftUsername;
-    window.linkMinecraftAccount = linkMinecraftAccount;
     window.getMinecraftHeadUrl = getMinecraftHeadUrl;
 
     window.updateGlobalAuthVars = function() {
@@ -933,7 +762,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
                 checkAuthState();
                 
-                // Vérification Minecraft sur la page connexion
+                // Redirection propre apres connexion.
                 if (event === 'SIGNED_IN') {
                     handleConnexionPageAuth();
                 }
@@ -958,7 +787,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
     
-    // === MICROSOFT OAUTH & MINECRAFT VERIFICATION ===
+    // === MICROSOFT OAUTH ===
     
     // Bouton connexion Microsoft
     var msLoginBtn = document.getElementById('microsoft-login-btn');
@@ -966,8 +795,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         msLoginBtn.addEventListener('click', loginWithMicrosoft);
     }
     
-    // Formulaire vérification Minecraft
-    // Si déjà connecté sur la page connexion, gérer la redirection/MC verify
+    // Si deja connecte sur la page connexion, gerer la redirection.
     if (currentUser && window.location.pathname.includes('connexion')) {
         handleConnexionPageAuth();
     }
@@ -987,8 +815,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     window.isAdmin = isAdmin;
     
     window.loginWithMicrosoft = loginWithMicrosoft;
-    window.verifyMinecraftUsername = verifyMinecraftUsername;
-    window.linkMinecraftAccount = linkMinecraftAccount;
     window.getMinecraftHeadUrl = getMinecraftHeadUrl;
 
     window.updateGlobalAuthVars = function() {

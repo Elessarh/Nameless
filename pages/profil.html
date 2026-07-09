@@ -99,8 +99,12 @@
                 <h3 class="profil-section-title">Informations</h3>
                 <div class="info-grid">
                     <div class="info-row">
-                        <span class="info-label">Pseudo Minecraft</span>
-                        <span class="info-value" id="profile-username">-</span>
+                        <span class="info-label">Compte Microsoft</span>
+                        <span class="info-value" id="profile-microsoft-state">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Minecraft</span>
+                        <span class="info-value" id="profile-minecraft-state">-</span>
                     </div>
                     <div class="info-row">
                         <label class="info-label" for="profile-classe">Classe</label>
@@ -130,6 +134,15 @@
                 </div>
             </section>
 
+            <section id="minecraft-link-info" class="minecraft-link-info" aria-label="Liaison Minecraft" style="display: none;">
+                <div>
+                    <h3 class="profil-section-title">Liaison Minecraft</h3>
+                    <p id="minecraft-link-status" class="minecraft-link-status">Minecraft non lié</p>
+                    <p class="minecraft-link-copy">La liaison Minecraft arrive bientôt. Elle nécessitera une vérification sécurisée via Xbox/Minecraft Services.</p>
+                </div>
+                <button id="minecraft-link-btn" class="save-profile-btn" type="button">Lier mon compte Minecraft</button>
+            </section>
+
         </div>
 
         <div id="error-content" class="profil-error" role="alert" style="display: none;">
@@ -154,7 +167,7 @@
     <script src="../js/db-guard.js" defer></script>
     <script src="../js/security-utils.js?v=20260706" defer></script>
     <script src="../js/auth-supabase.js?v=20260709d" defer></script>
-    <script src="../js/profil.js?v=nameless-1.3" defer></script>
+    <script src="../js/profil.js?v=nameless-1.4" defer></script>
     <script src="../js/audio-controller.js?v=nameless-audio-1.1" defer></script>
 </body>
 </html>

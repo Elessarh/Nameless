@@ -84,11 +84,11 @@ function getDefaultUsername() {
 }
 
 function getMinecraftDisplayName(profile) {
-    return profile && profile.minecraft_username ? profile.minecraft_username : 'Pseudo Minecraft non detecte';
+    return profile && profile.minecraft_username ? profile.minecraft_username : 'Compte Microsoft connecté';
 }
 
 function getMinecraftProfileValue(profile) {
-    return profile && profile.minecraft_username ? profile.minecraft_username : 'Non detecte';
+    return profile && profile.minecraft_username ? profile.minecraft_username : 'Minecraft non lié';
 }
 
 function getMinecraftAvatarKey(profile) {
@@ -99,6 +99,11 @@ function getMinecraftAvatarKey(profile) {
 function setText(id, value) {
     var element = document.getElementById(id);
     if (element) element.textContent = value;
+}
+
+function setElementDisplay(id, displayValue) {
+    var element = document.getElementById(id);
+    if (element) element.style.display = displayValue;
 }
 
 async function fetchOwnProfile() {
@@ -215,11 +220,14 @@ function displayProfile(profile) {
     var displayNameEl = document.getElementById('mc-display-name');
     var titleFallback = document.getElementById('profil-title-fallback');
 
-    setText('profile-username', getMinecraftProfileValue(profile));
+    var hasMinecraftProfile = !!(profile.minecraft_username && avatarKey);
+
+    setText('profile-microsoft-state', 'Compte Microsoft connecté');
+    setText('profile-minecraft-state', getMinecraftProfileValue(profile));
     if (displayNameEl) displayNameEl.textContent = mcUsername;
     if (titleFallback) titleFallback.style.display = 'none';
 
-    if (avatarSection && avatarImg && avatarKey) {
+    if (avatarSection && avatarImg && hasMinecraftProfile) {
         avatarImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(avatarKey) + '/128';
         avatarImg.alt = mcUsername;
         avatarSection.style.display = 'flex';
@@ -230,6 +238,9 @@ function displayProfile(profile) {
     }
 
     
+    setElementDisplay('minecraft-link-info', hasMinecraftProfile ? 'none' : 'flex');
+    bindMinecraftInfoButton();
+
     // Afficher le rôle avec le bon badge
     const roleBadge = document.getElementById('profile-role');
     const role = (profile.role || 'joueur').trim(); // Nettoyer les espaces
@@ -279,6 +290,17 @@ function displayProfile(profile) {
         saveBtn.dataset.profileSaveBound = 'true';
     }
     
+}
+
+function showMinecraftLinkInfo() {
+    setText('minecraft-link-status', 'La liaison Minecraft arrive bientôt. Elle nécessitera une vérification sécurisée via Xbox/Minecraft Services.');
+}
+
+function bindMinecraftInfoButton() {
+    var button = document.getElementById('minecraft-link-btn');
+    if (!button || button.dataset.minecraftInfoBound === 'true') return;
+    button.addEventListener('click', showMinecraftLinkInfo);
+    button.dataset.minecraftInfoBound = 'true';
 }
 
 // Obtenir le label du role en francais.
