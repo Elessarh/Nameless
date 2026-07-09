@@ -23,11 +23,9 @@
 -- Replace USER_ID and ADMIN_ID below with real UUIDs.
 -- If you forget to replace them, the script will not crash; targeted checks
 -- will simply return no row / simulate the nil UUID.
-drop table if exists pg_temp.nameless_role_debug_params;
-create temp table nameless_role_debug_params as
 select
-  nullif('USER_ID', 'USER_ID')::uuid as user_id,
-  nullif('ADMIN_ID', 'ADMIN_ID')::uuid as admin_id;
+  set_config('nameless.debug_user_id', coalesce(nullif('USER_ID', 'USER_ID'), ''), false) as debug_user_id,
+  set_config('nameless.debug_admin_id', coalesce(nullif('ADMIN_ID', 'ADMIN_ID'), ''), false) as debug_admin_id;
 
 -- Find real UUIDs to copy into the block above.
 select
@@ -61,7 +59,7 @@ select
 from public.user_profiles p
 left join auth.users u on u.id = p.id
 left join public.user_roles r on r.user_id = p.id
-where p.id = (select user_id from pg_temp.nameless_role_debug_params);
+where p.id = nullif(current_setting('nameless.debug_user_id', true), '')::uuid;
 
 -- ------------------------------------------------------------
 -- 2. List mismatches that can cause admin/guild access bugs
@@ -92,7 +90,7 @@ begin;
   set local role authenticated;
   select set_config(
     'request.jwt.claim.sub',
-    coalesce((select user_id::text from pg_temp.nameless_role_debug_params), '00000000-0000-0000-0000-000000000000'),
+    coalesce(nullif(current_setting('nameless.debug_user_id', true), ''), '00000000-0000-0000-0000-000000000000'),
     true
   );
   select set_config('request.jwt.claim.role', 'authenticated', true);
@@ -116,7 +114,7 @@ begin;
   set local role authenticated;
   select set_config(
     'request.jwt.claim.sub',
-    coalesce((select admin_id::text from pg_temp.nameless_role_debug_params), '00000000-0000-0000-0000-000000000000'),
+    coalesce(nullif(current_setting('nameless.debug_admin_id', true), ''), '00000000-0000-0000-0000-000000000000'),
     true
   );
   select set_config('request.jwt.claim.role', 'authenticated', true);
@@ -133,7 +131,7 @@ begin;
   set local role authenticated;
   select set_config(
     'request.jwt.claim.sub',
-    coalesce((select user_id::text from pg_temp.nameless_role_debug_params), '00000000-0000-0000-0000-000000000000'),
+    coalesce(nullif(current_setting('nameless.debug_user_id', true), ''), '00000000-0000-0000-0000-000000000000'),
     true
   );
   select set_config('request.jwt.claim.role', 'authenticated', true);
@@ -188,8 +186,10 @@ from public.user_profiles p
 left join auth.users u on u.id = p.id
 left join public.user_roles r on r.user_id = p.id
 where p.id in (
-  select user_id from pg_temp.nameless_role_debug_params where user_id is not null
+  select nullif(current_setting('nameless.debug_user_id', true), '')::uuid
+  where nullif(current_setting('nameless.debug_user_id', true), '') is not null
   union all
-  select admin_id from pg_temp.nameless_role_debug_params where admin_id is not null
+  select nullif(current_setting('nameless.debug_admin_id', true), '')::uuid
+  where nullif(current_setting('nameless.debug_admin_id', true), '') is not null
 )
 order by effective_role desc, p.username;
