@@ -8,6 +8,21 @@
 --
 -- Run in Supabase SQL Editor after PATCH_003.
 
+grant usage on schema public to authenticated;
+
+-- Table privileges open the door only to the authenticated role; RLS policies
+-- below still decide which rows/actions are actually allowed.
+grant select, insert, update on public.user_profiles to authenticated;
+grant select, insert, update, delete on public.user_roles to authenticated;
+grant select, insert, update, delete on public.guild_planning to authenticated;
+grant select, insert, update, delete on public.guild_objectives to authenticated;
+grant select, insert, update, delete on public.guild_presence to authenticated;
+grant select, insert, update, delete on public.guild_activity_wall to authenticated;
+grant select, insert, update, delete on public.guild_chat to authenticated;
+grant select, insert, update, delete on public.private_messages to authenticated;
+grant select, insert, update, delete on public.messages to authenticated;
+grant select, insert on public.admin_logs to authenticated;
+
 drop policy if exists "profiles authenticated read" on public.user_profiles;
 create policy "profiles authenticated read" on public.user_profiles
 for select to authenticated

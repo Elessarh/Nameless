@@ -120,8 +120,13 @@ begin;
   select set_config('request.jwt.claim.role', 'authenticated', true);
 
   select public.current_user_role() as admin_effective_role;
-  select count(*) as visible_profiles from public.user_profiles;
-  select count(*) as visible_admin_logs from public.admin_logs;
+  select
+    'user_profiles' as table_name,
+    has_table_privilege('public.user_profiles', 'select') as select_granted;
+  select
+    'admin_logs' as table_name,
+    has_table_privilege('public.admin_logs', 'select') as select_granted,
+    'If false, apply SAO_NAMELESS_SECURITY_PATCH_002.sql. RLS still restricts rows to admins.' as note;
 rollback;
 
 -- ------------------------------------------------------------
@@ -137,10 +142,16 @@ begin;
   select set_config('request.jwt.claim.role', 'authenticated', true);
 
   select public.current_user_role() as guild_effective_role;
-  select count(*) as visible_planning from public.guild_planning;
-  select count(*) as visible_objectives from public.guild_objectives;
-  select count(*) as visible_presence from public.guild_presence;
-  select count(*) as visible_activity from public.guild_activity_wall;
+  select
+    table_name,
+    has_table_privilege(format('public.%I', table_name), 'select') as select_granted
+  from (values
+    ('guild_planning'),
+    ('guild_objectives'),
+    ('guild_presence'),
+    ('guild_activity_wall'),
+    ('guild_chat')
+  ) as checked_tables(table_name);
 rollback;
 
 -- ------------------------------------------------------------
