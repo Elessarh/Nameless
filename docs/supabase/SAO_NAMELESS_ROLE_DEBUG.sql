@@ -22,8 +22,8 @@
 -- ------------------------------------------------------------
 select
   p.id,
+  u.email,
   p.username,
-  p.email,
   p.role as profile_role,
   r.role as user_roles_role,
   coalesce(r.role, p.role, 'joueur') as effective_role,
@@ -33,6 +33,7 @@ select
   p.created_at,
   p.updated_at
 from public.user_profiles p
+left join auth.users u on u.id = p.id
 left join public.user_roles r on r.user_id = p.id
 where p.id = 'USER_ID'::uuid;
 
@@ -41,8 +42,8 @@ where p.id = 'USER_ID'::uuid;
 -- ------------------------------------------------------------
 select
   p.id,
+  u.email,
   p.username,
-  p.email,
   p.role as profile_role,
   r.role as user_roles_role,
   coalesce(r.role, p.role, 'joueur') as effective_role,
@@ -52,6 +53,7 @@ select
     else 'ok'
   end as status
 from public.user_profiles p
+left join auth.users u on u.id = p.id
 left join public.user_roles r on r.user_id = p.id
 where r.user_id is null
    or r.role is distinct from p.role
@@ -68,7 +70,7 @@ begin;
   select
     auth.uid() as simulated_auth_uid,
     public.current_user_role() as current_user_role,
-    public.is_guild_member() as is_guild_member,
+    public.can_access_guild() as can_access_guild,
     public.is_admin() as is_admin;
 
   -- Expected:
@@ -139,12 +141,13 @@ rollback;
 -- ------------------------------------------------------------
 select
   p.id,
+  u.email,
   p.username,
-  p.email,
   p.role as profile_role,
   r.role as user_roles_role,
   coalesce(r.role, p.role, 'joueur') as effective_role
 from public.user_profiles p
+left join auth.users u on u.id = p.id
 left join public.user_roles r on r.user_id = p.id
 where p.id in ('USER_ID'::uuid, 'ADMIN_ID'::uuid)
 order by effective_role desc, p.username;
