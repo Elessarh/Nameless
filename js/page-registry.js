@@ -129,6 +129,7 @@
             source: 'pages/quetes.html',
             title: "Quetes d'Aincrad - Nameless",
             css: [
+                'css/components/pixel-icons.css?v=20260709',
                 'css/components/quetes.css?v=nameless-1.0',
                 'css/components/page-hero.css?v=nameless-1.1'
             ],

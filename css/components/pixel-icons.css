@@ -1,0 +1,981 @@
+/* ============================================================
+   NAMELESS - Local pixel icons
+   Decorative CSS icons used instead of system emoji glyphs.
+   ============================================================ */
+
+.nm-pixel-icon {
+    --pixel-a: #c2a367;
+    --pixel-b: #6f92b3;
+    --pixel-c: #101622;
+    --pixel-d: #f4dda0;
+    position: relative;
+    display: inline-block;
+    width: 1.08em;
+    height: 1.08em;
+    min-width: 1.08em;
+    margin-right: 0.46em;
+    vertical-align: -0.14em;
+    border: 1px solid rgba(244, 221, 160, 0.72);
+    border-radius: 2px;
+    background: var(--pixel-a);
+    box-shadow:
+        inset 0 0 0 2px rgba(5, 7, 13, 0.58),
+        0 0 0 1px rgba(0, 0, 0, 0.5),
+        0 6px 14px rgba(0, 0, 0, 0.28);
+    image-rendering: pixelated;
+    flex: 0 0 auto;
+}
+
+.nm-pixel-icon::before,
+.nm-pixel-icon::after {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    image-rendering: pixelated;
+}
+
+.icon-castle {
+    --pixel-a: #7c8591;
+    --pixel-b: #c2a367;
+    background:
+        linear-gradient(90deg, transparent 0 18%, var(--pixel-b) 18% 28%, transparent 28% 72%, var(--pixel-b) 72% 82%, transparent 82%),
+        linear-gradient(180deg, #a8b0bd 0 25%, #68717f 25% 100%);
+}
+
+.icon-castle::before {
+    left: 2px;
+    right: 2px;
+    top: 2px;
+    height: 3px;
+    background: var(--pixel-c);
+    box-shadow: 3px 0 0 var(--pixel-c), 6px 0 0 var(--pixel-c);
+}
+
+.icon-castle::after {
+    left: 50%;
+    bottom: 2px;
+    width: 4px;
+    height: 6px;
+    margin-left: -2px;
+    background: #070a11;
+}
+
+.icon-town {
+    --pixel-a: #7f5a38;
+    --pixel-b: #c2a367;
+    background:
+        linear-gradient(135deg, transparent 0 28%, var(--pixel-b) 28% 52%, transparent 52%),
+        linear-gradient(180deg, #8d633e 0 44%, #4e392b 44% 100%);
+}
+
+.icon-town::before {
+    left: 3px;
+    right: 3px;
+    top: 6px;
+    height: 2px;
+    background: #111827;
+    box-shadow: 0 4px 0 #111827;
+}
+
+.icon-town::after {
+    right: 2px;
+    bottom: 2px;
+    width: 3px;
+    height: 5px;
+    background: var(--pixel-b);
+}
+
+.icon-star {
+    --pixel-a: #f4dda0;
+    --pixel-b: #c2a367;
+    background: #1a2230;
+}
+
+.icon-star::before {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 12px;
+    background: var(--pixel-a);
+    box-shadow:
+        -4px 4px 0 var(--pixel-b),
+        4px 4px 0 var(--pixel-b),
+        0 4px 0 var(--pixel-d);
+}
+
+.icon-star::after {
+    left: 2px;
+    top: 6px;
+    width: 12px;
+    height: 4px;
+    background: var(--pixel-a);
+}
+
+.icon-flower {
+    --pixel-a: #d889a8;
+    --pixel-b: #89b77a;
+    background: #182130;
+}
+
+.icon-flower::before {
+    left: 3px;
+    top: 3px;
+    width: 4px;
+    height: 4px;
+    background: var(--pixel-a);
+    box-shadow:
+        6px 0 0 var(--pixel-a),
+        3px 3px 0 #f3c7d5,
+        0 6px 0 var(--pixel-a),
+        6px 6px 0 var(--pixel-a);
+}
+
+.icon-flower::after {
+    left: 7px;
+    bottom: 2px;
+    width: 2px;
+    height: 6px;
+    background: var(--pixel-b);
+}
+
+.icon-flame {
+    --pixel-a: #f0a040;
+    --pixel-b: #c95035;
+    background:
+        linear-gradient(180deg, transparent 0 17%, var(--pixel-b) 17% 100%);
+}
+
+.icon-flame::before {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 12px;
+    background: var(--pixel-a);
+    box-shadow: -3px 5px 0 var(--pixel-b), 3px 3px 0 #f4dda0;
+}
+
+.icon-flame::after {
+    left: 6px;
+    bottom: 2px;
+    width: 4px;
+    height: 5px;
+    background: #f4dda0;
+}
+
+.icon-pickaxe,
+.icon-axe {
+    --pixel-a: #9aa4b2;
+    --pixel-b: #8b5b35;
+    background: #172030;
+}
+
+.icon-pickaxe::before {
+    left: 3px;
+    top: 3px;
+    width: 10px;
+    height: 3px;
+    background: var(--pixel-a);
+    box-shadow: 3px 3px 0 #6f92b3;
+}
+
+.icon-pickaxe::after {
+    left: 7px;
+    top: 5px;
+    width: 3px;
+    height: 10px;
+    background: var(--pixel-b);
+    transform: rotate(35deg);
+    transform-origin: top center;
+}
+
+.icon-axe::before {
+    left: 3px;
+    top: 3px;
+    width: 8px;
+    height: 6px;
+    background: var(--pixel-a);
+    box-shadow: 4px 3px 0 #68717f;
+}
+
+.icon-axe::after {
+    left: 8px;
+    top: 5px;
+    width: 3px;
+    height: 11px;
+    background: var(--pixel-b);
+    transform: rotate(28deg);
+}
+
+.icon-target {
+    --pixel-a: #c95035;
+    --pixel-b: #f4dda0;
+    background:
+        linear-gradient(90deg, transparent 0 18%, var(--pixel-b) 18% 82%, transparent 82%),
+        linear-gradient(180deg, transparent 0 18%, var(--pixel-b) 18% 82%, transparent 82%),
+        #202a3a;
+}
+
+.icon-target::before {
+    inset: 3px;
+    border: 2px solid var(--pixel-a);
+    background: transparent;
+}
+
+.icon-target::after {
+    left: 6px;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    background: var(--pixel-a);
+}
+
+.icon-island {
+    --pixel-a: #78a66a;
+    --pixel-b: #6f92b3;
+    background: linear-gradient(180deg, #6f92b3 0 55%, #213044 55% 100%);
+}
+
+.icon-island::before {
+    left: 3px;
+    bottom: 3px;
+    width: 10px;
+    height: 4px;
+    background: #c2a367;
+}
+
+.icon-island::after {
+    left: 7px;
+    top: 3px;
+    width: 2px;
+    height: 8px;
+    background: #5c3f29;
+    box-shadow: -3px -1px 0 var(--pixel-a), 3px -2px 0 var(--pixel-a);
+}
+
+.icon-moon {
+    --pixel-a: #d8e1ec;
+    background: #111827;
+}
+
+.icon-moon::before {
+    left: 4px;
+    top: 3px;
+    width: 9px;
+    height: 10px;
+    background: var(--pixel-a);
+}
+
+.icon-moon::after {
+    left: 7px;
+    top: 2px;
+    width: 8px;
+    height: 11px;
+    background: #111827;
+}
+
+.icon-dragon,
+.icon-beast {
+    --pixel-a: #5fa06d;
+    --pixel-b: #c2a367;
+    background: #142032;
+}
+
+.icon-dragon::before,
+.icon-beast::before {
+    left: 3px;
+    top: 6px;
+    width: 10px;
+    height: 6px;
+    background: var(--pixel-a);
+}
+
+.icon-dragon::after {
+    left: 9px;
+    top: 3px;
+    width: 5px;
+    height: 5px;
+    background: var(--pixel-a);
+    box-shadow: -7px -2px 0 #83bf8a, -2px 8px 0 var(--pixel-b), -7px 8px 0 var(--pixel-b);
+}
+
+.icon-beast::after {
+    left: 3px;
+    top: 3px;
+    width: 3px;
+    height: 3px;
+    background: var(--pixel-b);
+    box-shadow: 8px 0 0 var(--pixel-b), 4px 7px 0 #070a11;
+}
+
+.icon-spider {
+    --pixel-a: #6b597b;
+    background: #111827;
+}
+
+.icon-spider::before {
+    left: 5px;
+    top: 5px;
+    width: 6px;
+    height: 6px;
+    background: var(--pixel-a);
+    box-shadow: -4px -2px 0 #9b89ac, 4px 2px 0 #9b89ac;
+}
+
+.icon-spider::after {
+    left: 2px;
+    top: 4px;
+    width: 12px;
+    height: 8px;
+    border-top: 2px solid var(--pixel-a);
+    border-bottom: 2px solid var(--pixel-a);
+}
+
+.icon-trophy {
+    --pixel-a: #c2a367;
+    --pixel-b: #f4dda0;
+    background: #162032;
+}
+
+.icon-trophy::before {
+    left: 4px;
+    top: 3px;
+    width: 8px;
+    height: 7px;
+    background: var(--pixel-a);
+    box-shadow: -3px 1px 0 var(--pixel-b), 3px 1px 0 var(--pixel-b);
+}
+
+.icon-trophy::after {
+    left: 6px;
+    bottom: 2px;
+    width: 4px;
+    height: 5px;
+    background: var(--pixel-b);
+    box-shadow: -2px 4px 0 var(--pixel-a), 2px 4px 0 var(--pixel-a);
+}
+
+.icon-sword {
+    --pixel-a: #d8e1ec;
+    --pixel-b: #c2a367;
+    background: #111827;
+}
+
+.icon-sword::before {
+    left: 7px;
+    top: 1px;
+    width: 3px;
+    height: 11px;
+    background: var(--pixel-a);
+    transform: rotate(35deg);
+    transform-origin: bottom center;
+}
+
+.icon-sword::after {
+    left: 3px;
+    bottom: 3px;
+    width: 9px;
+    height: 3px;
+    background: var(--pixel-b);
+    transform: rotate(35deg);
+}
+
+.icon-leaf,
+.icon-tree,
+.icon-grain {
+    --pixel-a: #78a66a;
+    --pixel-b: #8b5b35;
+    background: #142032;
+}
+
+.icon-leaf::before {
+    left: 4px;
+    top: 3px;
+    width: 8px;
+    height: 8px;
+    background: var(--pixel-a);
+    transform: skew(-18deg);
+}
+
+.icon-leaf::after {
+    left: 7px;
+    top: 8px;
+    width: 2px;
+    height: 6px;
+    background: var(--pixel-b);
+    transform: rotate(38deg);
+}
+
+.icon-tree::before {
+    left: 3px;
+    top: 2px;
+    width: 10px;
+    height: 9px;
+    background: var(--pixel-a);
+    box-shadow: 2px 3px 0 #5c8d61;
+}
+
+.icon-tree::after {
+    left: 7px;
+    bottom: 2px;
+    width: 3px;
+    height: 7px;
+    background: var(--pixel-b);
+}
+
+.icon-grain::before {
+    left: 7px;
+    top: 2px;
+    width: 2px;
+    height: 12px;
+    background: #c2a367;
+}
+
+.icon-grain::after {
+    left: 4px;
+    top: 3px;
+    width: 4px;
+    height: 3px;
+    background: #d7b36e;
+    box-shadow: 5px 3px 0 #d7b36e, -1px 6px 0 #d7b36e, 4px 9px 0 #d7b36e;
+}
+
+.icon-bow {
+    --pixel-a: #c2a367;
+    --pixel-b: #d8e1ec;
+    background: #111827;
+}
+
+.icon-bow::before {
+    left: 3px;
+    top: 2px;
+    width: 8px;
+    height: 12px;
+    border-right: 3px solid var(--pixel-a);
+    border-top: 2px solid var(--pixel-a);
+    border-bottom: 2px solid var(--pixel-a);
+}
+
+.icon-bow::after {
+    left: 10px;
+    top: 3px;
+    width: 2px;
+    height: 10px;
+    background: var(--pixel-b);
+}
+
+.icon-mage {
+    --pixel-a: #6f92b3;
+    --pixel-b: #c2a367;
+    background: #121a28;
+}
+
+.icon-mage::before {
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 5px;
+    background: var(--pixel-b);
+    box-shadow: 0 5px 0 var(--pixel-a), -2px 8px 0 var(--pixel-a), 2px 8px 0 var(--pixel-a);
+}
+
+.icon-mage::after {
+    right: 2px;
+    bottom: 2px;
+    width: 2px;
+    height: 9px;
+    background: #8b5b35;
+    box-shadow: 0 -2px 0 #f4dda0;
+}
+
+.icon-gem {
+    --pixel-a: #6f92b3;
+    --pixel-b: #d8e1ec;
+    background: #102033;
+}
+
+.icon-gem::before {
+    left: 3px;
+    top: 4px;
+    width: 10px;
+    height: 8px;
+    background: var(--pixel-a);
+    box-shadow: inset 3px 0 0 var(--pixel-b), inset -3px 0 0 #39617d;
+}
+
+.icon-gem::after {
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 3px;
+    background: #d8e1ec;
+}
+
+.icon-church {
+    --pixel-a: #8c95a3;
+    --pixel-b: #c2a367;
+    background: #162032;
+}
+
+.icon-church::before {
+    left: 4px;
+    top: 4px;
+    width: 8px;
+    height: 10px;
+    background: var(--pixel-a);
+}
+
+.icon-church::after {
+    left: 7px;
+    top: 1px;
+    width: 2px;
+    height: 8px;
+    background: var(--pixel-b);
+    box-shadow: -2px 2px 0 var(--pixel-b), 2px 2px 0 var(--pixel-b);
+}
+
+.icon-water {
+    --pixel-a: #6f92b3;
+    --pixel-b: #9fd0e8;
+    background: #132338;
+}
+
+.icon-water::before {
+    left: 2px;
+    top: 5px;
+    width: 12px;
+    height: 3px;
+    background: var(--pixel-b);
+    box-shadow: 3px 4px 0 var(--pixel-a), -2px 8px 0 var(--pixel-a);
+}
+
+.icon-water::after {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 4px;
+    background: var(--pixel-b);
+}
+
+.icon-ghost {
+    --pixel-a: #d8e1ec;
+    background: #111827;
+}
+
+.icon-ghost::before {
+    left: 4px;
+    top: 3px;
+    width: 8px;
+    height: 11px;
+    background: var(--pixel-a);
+    box-shadow: inset 2px 3px 0 #111827, inset -2px 3px 0 #111827;
+}
+
+.icon-ghost::after {
+    left: 4px;
+    bottom: 2px;
+    width: 2px;
+    height: 2px;
+    background: #111827;
+    box-shadow: 4px 0 0 #111827, 8px 0 0 #111827;
+}
+
+.icon-snow {
+    --pixel-a: #d8e1ec;
+    --pixel-b: #6f92b3;
+    background: #111827;
+}
+
+.icon-snow::before {
+    left: 7px;
+    top: 2px;
+    width: 2px;
+    height: 12px;
+    background: var(--pixel-a);
+    box-shadow: -4px 4px 0 var(--pixel-b), 4px 4px 0 var(--pixel-b);
+}
+
+.icon-snow::after {
+    left: 2px;
+    top: 7px;
+    width: 12px;
+    height: 2px;
+    background: var(--pixel-a);
+}
+
+.icon-candle {
+    --pixel-a: #f4dda0;
+    --pixel-b: #c95035;
+    background: #111827;
+}
+
+.icon-candle::before {
+    left: 6px;
+    top: 5px;
+    width: 5px;
+    height: 9px;
+    background: var(--pixel-a);
+}
+
+.icon-candle::after {
+    left: 7px;
+    top: 2px;
+    width: 3px;
+    height: 4px;
+    background: var(--pixel-b);
+    box-shadow: 1px 1px 0 #f0a040;
+}
+
+.icon-wood {
+    --pixel-a: #8b5b35;
+    --pixel-b: #c2a367;
+    background: #172030;
+}
+
+.icon-wood::before {
+    left: 3px;
+    top: 5px;
+    width: 11px;
+    height: 6px;
+    background: var(--pixel-a);
+    box-shadow: inset 2px 0 0 var(--pixel-b), inset -2px 0 0 #5c3f29;
+}
+
+.icon-wood::after {
+    left: 5px;
+    top: 7px;
+    width: 6px;
+    height: 2px;
+    background: #5c3f29;
+}
+
+.icon-wanderer,
+.icon-bag {
+    --pixel-a: #c2a367;
+    --pixel-b: #6f92b3;
+    background: #131c2b;
+}
+
+.icon-wanderer::before {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 4px;
+    background: var(--pixel-a);
+}
+
+.icon-wanderer::after {
+    left: 5px;
+    top: 7px;
+    width: 6px;
+    height: 7px;
+    background: var(--pixel-b);
+    box-shadow: -3px 5px 0 #8b5b35, 3px 5px 0 #8b5b35;
+}
+
+.icon-bag::before {
+    left: 4px;
+    top: 5px;
+    width: 9px;
+    height: 8px;
+    background: #8b5b35;
+}
+
+.icon-bag::after {
+    left: 6px;
+    top: 3px;
+    width: 5px;
+    height: 4px;
+    border: 2px solid var(--pixel-a);
+    border-bottom: 0;
+}
+
+.icon-feather,
+.icon-eagle {
+    --pixel-a: #d8e1ec;
+    --pixel-b: #6f92b3;
+    background: #111827;
+}
+
+.icon-feather::before {
+    left: 5px;
+    top: 2px;
+    width: 7px;
+    height: 12px;
+    background: var(--pixel-a);
+    transform: skew(-18deg);
+    box-shadow: inset 3px 0 0 var(--pixel-b);
+}
+
+.icon-feather::after {
+    left: 4px;
+    bottom: 2px;
+    width: 9px;
+    height: 2px;
+    background: var(--pixel-b);
+    transform: rotate(-28deg);
+}
+
+.icon-eagle::before {
+    left: 2px;
+    top: 5px;
+    width: 12px;
+    height: 5px;
+    background: var(--pixel-a);
+    box-shadow: inset 5px 0 0 var(--pixel-b), inset -5px 0 0 var(--pixel-b);
+}
+
+.icon-eagle::after {
+    left: 6px;
+    top: 3px;
+    width: 4px;
+    height: 7px;
+    background: #c2a367;
+}
+
+.icon-bolt {
+    --pixel-a: #f4dda0;
+    background: #111827;
+}
+
+.icon-bolt::before {
+    left: 5px;
+    top: 2px;
+    width: 6px;
+    height: 7px;
+    background: var(--pixel-a);
+    transform: skew(-18deg);
+}
+
+.icon-bolt::after {
+    left: 4px;
+    top: 8px;
+    width: 7px;
+    height: 6px;
+    background: #c2a367;
+    transform: skew(-18deg);
+}
+
+.icon-earth {
+    --pixel-a: #78a66a;
+    --pixel-b: #6f92b3;
+    background: var(--pixel-b);
+}
+
+.icon-earth::before {
+    left: 3px;
+    top: 4px;
+    width: 5px;
+    height: 4px;
+    background: var(--pixel-a);
+    box-shadow: 5px 5px 0 var(--pixel-a), 7px -1px 0 #5c8d61;
+}
+
+.icon-earth::after {
+    left: 2px;
+    top: 2px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(244, 221, 160, 0.58);
+}
+
+.icon-honey,
+.icon-egg,
+.icon-mushroom {
+    --pixel-a: #c2a367;
+    --pixel-b: #f4dda0;
+    background: #162032;
+}
+
+.icon-honey::before {
+    left: 4px;
+    top: 5px;
+    width: 9px;
+    height: 8px;
+    background: var(--pixel-a);
+    box-shadow: inset 2px 0 0 var(--pixel-b);
+}
+
+.icon-honey::after {
+    left: 5px;
+    top: 3px;
+    width: 7px;
+    height: 3px;
+    background: #8b5b35;
+}
+
+.icon-egg::before {
+    left: 5px;
+    top: 3px;
+    width: 7px;
+    height: 10px;
+    background: var(--pixel-b);
+    box-shadow: inset 2px 1px 0 #d8e1ec;
+}
+
+.icon-mushroom::before {
+    left: 3px;
+    top: 3px;
+    width: 11px;
+    height: 6px;
+    background: #c95035;
+    box-shadow: inset 3px 1px 0 #f4dda0;
+}
+
+.icon-mushroom::after {
+    left: 6px;
+    top: 8px;
+    width: 5px;
+    height: 6px;
+    background: var(--pixel-b);
+}
+
+.icon-skull {
+    --pixel-a: #d8e1ec;
+    background: #111827;
+}
+
+.icon-skull::before {
+    left: 4px;
+    top: 3px;
+    width: 8px;
+    height: 8px;
+    background: var(--pixel-a);
+    box-shadow: inset 2px 3px 0 #111827, inset -2px 3px 0 #111827;
+}
+
+.icon-skull::after {
+    left: 5px;
+    bottom: 3px;
+    width: 6px;
+    height: 4px;
+    background: var(--pixel-a);
+    box-shadow: inset 2px 0 0 #111827, inset -2px 0 0 #111827;
+}
+
+.icon-scroll,
+.icon-map,
+.icon-chest,
+.icon-shield,
+.icon-book,
+.icon-craft,
+.icon-potion {
+    --pixel-a: #c2a367;
+    --pixel-b: #6f92b3;
+    background: #172030;
+}
+
+.icon-scroll::before,
+.icon-book::before {
+    left: 3px;
+    top: 3px;
+    width: 10px;
+    height: 10px;
+    background: #d8c492;
+    box-shadow: inset 2px 0 0 var(--pixel-a);
+}
+
+.icon-scroll::after,
+.icon-book::after {
+    left: 5px;
+    top: 6px;
+    width: 6px;
+    height: 1px;
+    background: #5c3f29;
+    box-shadow: 0 3px 0 #5c3f29;
+}
+
+.icon-map::before {
+    left: 3px;
+    top: 3px;
+    width: 10px;
+    height: 10px;
+    background:
+        linear-gradient(90deg, transparent 0 32%, #5c8d61 32% 56%, transparent 56%),
+        #d8c492;
+}
+
+.icon-map::after {
+    right: 4px;
+    top: 5px;
+    width: 3px;
+    height: 3px;
+    background: #c95035;
+}
+
+.icon-chest::before {
+    left: 3px;
+    top: 5px;
+    width: 10px;
+    height: 8px;
+    background: #8b5b35;
+    box-shadow: inset 0 3px 0 var(--pixel-a);
+}
+
+.icon-chest::after {
+    left: 7px;
+    top: 8px;
+    width: 3px;
+    height: 3px;
+    background: #f4dda0;
+}
+
+.icon-shield::before {
+    left: 4px;
+    top: 2px;
+    width: 8px;
+    height: 12px;
+    background: var(--pixel-b);
+    box-shadow: inset 3px 0 0 var(--pixel-a);
+}
+
+.icon-shield::after {
+    left: 6px;
+    bottom: 2px;
+    width: 4px;
+    height: 3px;
+    background: #172030;
+}
+
+.icon-craft::before {
+    left: 4px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    background: #8b5b35;
+    box-shadow: inset 3px 0 0 #c2a367, inset 0 3px 0 #c2a367;
+}
+
+.icon-craft::after {
+    right: 3px;
+    top: 2px;
+    width: 3px;
+    height: 11px;
+    background: #d8e1ec;
+    transform: rotate(35deg);
+}
+
+.icon-potion::before {
+    left: 5px;
+    top: 5px;
+    width: 7px;
+    height: 8px;
+    background: #6f92b3;
+    box-shadow: inset 2px 0 0 #9fd0e8;
+}
+
+.icon-potion::after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 4px;
+    background: #d8e1ec;
+}
+
+@media (max-width: 640px) {
+    .nm-pixel-icon {
+        width: 1em;
+        height: 1em;
+        min-width: 1em;
+        margin-right: 0.38em;
+    }
+}
