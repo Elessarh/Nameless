@@ -187,10 +187,7 @@
 
 /* --- Liaison Minecraft --- */
 .minecraft-link-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    display: block;
     background: var(--sao-bg-card);
     border: 1px solid var(--sao-border);
     border-radius: var(--nm-radius);
@@ -230,5 +227,5 @@
     .player-actions { justify-content: center; }
     .info-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
     .info-value { text-align: left; }
-    .minecraft-link-info { flex-direction: column; align-items: stretch; text-align: left; }
+    .minecraft-link-info { text-align: left; }
 }

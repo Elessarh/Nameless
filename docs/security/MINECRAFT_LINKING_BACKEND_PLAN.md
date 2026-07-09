@@ -17,9 +17,9 @@ Le site ne doit jamais considerer `user_metadata`, un email, un pseudo saisi man
 
 Le site GitHub Pages reste un client public. La liaison Minecraft doit passer par un backend, idealement une Supabase Edge Function :
 
-1. Le joueur clique sur `Lier mon compte Minecraft`.
-2. Le front appelle une Edge Function `link-minecraft/start`.
-3. La fonction genere un `state` anti-CSRF, stocke une preuve temporaire cote serveur, puis redirige vers Microsoft OAuth avec les scopes requis.
+1. Le joueur ouvre son profil apres connexion Microsoft.
+2. Si `minecraft_username` est vide, le front appelle automatiquement l'Edge Function `link-minecraft`.
+3. La fonction genere un `state` anti-CSRF signe et court, puis renvoie une URL Microsoft OAuth avec les scopes requis.
 4. Microsoft renvoie le code OAuth vers une redirect URI de la fonction.
 5. La fonction echange le code contre des tokens cote serveur.
 6. La fonction effectue le flux Xbox Live / XSTS / Minecraft Services.
@@ -73,12 +73,11 @@ Le principe RLS attendu :
 
 ## UI temporaire
 
-Tant que la fonction n'existe pas :
+Tant que la fonction n'est pas deployee/configuree :
 
 - afficher `Compte Microsoft connecte` ;
 - afficher `Minecraft non lie` ;
-- afficher le bouton `Lier mon compte Minecraft` ;
-- au clic, afficher un message propre indiquant que la liaison necessitera une verification securisee via Xbox/Minecraft Services ;
+- afficher un statut de liaison automatique indisponible ;
 - ne pas appeler PlayerDB ou une API tierce cote front pour simuler une verification.
 
 ## References a verifier avant implementation
@@ -91,8 +90,8 @@ Tant que la fonction n'existe pas :
 ## Premiere implementation conseillee
 
 1. Appliquer le patch SQL en environnement Supabase de test.
-2. Creer l'Edge Function documentaire `link-minecraft`.
-3. Ajouter un endpoint `start` qui genere le `state` et redirige vers Microsoft.
-4. Ajouter un endpoint `callback` qui valide le `state`, echange les tokens et recupere le profil Minecraft.
+2. Configurer les secrets de l'Edge Function `link-minecraft`.
+3. Deployer la fonction `link-minecraft`.
+4. Verifier que Microsoft redirige bien vers `MICROSOFT_REDIRECT_URI`.
 5. Ecrire les champs Minecraft avec le service role uniquement dans la fonction.
 6. Ajouter des tests manuels RLS : utilisateur normal, admin, session invalide, tentative de modification directe des champs Minecraft.

@@ -3,6 +3,7 @@
 // Variables locales (currentUser et userProfile sont globaux depuis auth-supabase.js)
 let localUserProfile = null;
 let profileInitToken = 0;
+const MINECRAFT_AUTO_LINK_ATTEMPT_PREFIX = 'namelessMinecraftAutoLinkAttempt:';
 
 // Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', async function() {
@@ -106,6 +107,77 @@ function setElementDisplay(id, displayValue) {
     if (element) element.style.display = displayValue;
 }
 
+function getMinecraftLinkState() {
+    try {
+        return new URLSearchParams(window.location.search).get('minecraft_link') || '';
+    } catch (error) {
+        return '';
+    }
+}
+
+function hasMinecraftLinkReturnState() {
+    var state = getMinecraftLinkState();
+    return state === 'success' || state === 'return';
+}
+
+function setMinecraftLinkStatus(message) {
+    setText('minecraft-link-status', message);
+}
+
+function getMinecraftAttemptKey(profile) {
+    var userId = window.currentUser && window.currentUser.id ? window.currentUser.id : profile && profile.id;
+    return MINECRAFT_AUTO_LINK_ATTEMPT_PREFIX + (userId || 'anonymous');
+}
+
+function getStoredMinecraftAttempt(key) {
+    try {
+        return window.sessionStorage ? window.sessionStorage.getItem(key) : null;
+    } catch (error) {
+        return null;
+    }
+}
+
+function setStoredMinecraftAttempt(key) {
+    try {
+        if (window.sessionStorage) window.sessionStorage.setItem(key, String(Date.now()));
+    } catch (error) {
+        // Storage can be unavailable in hardened browser contexts.
+    }
+}
+
+function clearStoredMinecraftAttempt(key) {
+    try {
+        if (window.sessionStorage) window.sessionStorage.removeItem(key);
+    } catch (error) {
+        // Storage can be unavailable in hardened browser contexts.
+    }
+}
+
+function getMinecraftReturnUrl() {
+    var url = new URL(window.location.href);
+    url.searchParams.set('minecraft_link', 'return');
+    url.hash = '';
+    return url.toString();
+}
+
+function explainMinecraftLinkState(state) {
+    switch (state) {
+        case 'success':
+            return 'Liaison Minecraft terminée. Rechargement du profil...';
+        case 'not_found':
+            return 'Aucun profil Minecraft Java vérifiable n’a été trouvé pour ce compte Microsoft.';
+        case 'denied':
+            return 'Autorisation Minecraft refusée. La liaison automatique réessaiera lors d’une prochaine session.';
+        case 'unavailable':
+        case 'error':
+            return 'Liaison Minecraft automatique indisponible pour le moment.';
+        case 'return':
+            return 'Vérification Minecraft en cours de synchronisation...';
+        default:
+            return 'Liaison Minecraft automatique en cours...';
+    }
+}
+
 async function fetchOwnProfile() {
     var query = supabase
         .from('user_profiles')
@@ -166,9 +238,14 @@ async function loadProfilePage() {
         
         // Essayer de charger depuis le cache d'abord
         const cacheKey = `user_profile_${window.currentUser.id}`;
+        if (hasMinecraftLinkReturnState() && window.cacheManager) {
+            window.cacheManager.invalidate(cacheKey);
+            window.cacheManager.invalidate('all_users');
+        }
+
         const cachedProfile = window.cacheManager?.get(cacheKey);
         
-        if (cachedProfile) {
+        if (cachedProfile && !hasMinecraftLinkReturnState()) {
             localUserProfile = cachedProfile;
             displayProfile(cachedProfile);
             return;
@@ -238,8 +315,8 @@ function displayProfile(profile) {
     }
 
     
-    setElementDisplay('minecraft-link-info', hasMinecraftProfile ? 'none' : 'flex');
-    bindMinecraftInfoButton();
+    setElementDisplay('minecraft-link-info', hasMinecraftProfile ? 'none' : 'block');
+    startAutomaticMinecraftLink(profile, hasMinecraftProfile);
 
     // Afficher le rôle avec le bon badge
     const roleBadge = document.getElementById('profile-role');
@@ -292,15 +369,52 @@ function displayProfile(profile) {
     
 }
 
-function showMinecraftLinkInfo() {
-    setText('minecraft-link-status', 'La liaison Minecraft arrive bientôt. Elle nécessitera une vérification sécurisée via Xbox/Minecraft Services.');
-}
+async function startAutomaticMinecraftLink(profile, hasMinecraftProfile) {
+    if (hasMinecraftProfile) {
+        clearStoredMinecraftAttempt(getMinecraftAttemptKey(profile));
+        return;
+    }
 
-function bindMinecraftInfoButton() {
-    var button = document.getElementById('minecraft-link-btn');
-    if (!button || button.dataset.minecraftInfoBound === 'true') return;
-    button.addEventListener('click', showMinecraftLinkInfo);
-    button.dataset.minecraftInfoBound = 'true';
+    var state = getMinecraftLinkState();
+    var attemptKey = getMinecraftAttemptKey(profile);
+
+    if (state) {
+        setMinecraftLinkStatus(explainMinecraftLinkState(state));
+        return;
+    }
+
+    if (getStoredMinecraftAttempt(attemptKey)) {
+        setMinecraftLinkStatus('Liaison Minecraft automatique déjà lancée pour cette session.');
+        return;
+    }
+
+    if (typeof supabase === 'undefined' || !supabase || !supabase.functions || typeof supabase.functions.invoke !== 'function') {
+        setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
+        return;
+    }
+
+    setStoredMinecraftAttempt(attemptKey);
+    setMinecraftLinkStatus('Liaison Minecraft automatique en cours...');
+
+    try {
+        var response = await supabase.functions.invoke('link-minecraft', {
+            body: {
+                action: 'start',
+                returnTo: getMinecraftReturnUrl()
+            }
+        });
+
+        if (response.error || !response.data || !response.data.url) {
+            clearStoredMinecraftAttempt(attemptKey);
+            setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
+            return;
+        }
+
+        window.location.assign(response.data.url);
+    } catch (error) {
+        clearStoredMinecraftAttempt(attemptKey);
+        setMinecraftLinkStatus('Liaison Minecraft automatique indisponible pour le moment.');
+    }
 }
 
 // Obtenir le label du role en francais.
