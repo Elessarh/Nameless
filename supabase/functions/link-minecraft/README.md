@@ -49,14 +49,20 @@ SITE_ORIGIN=https://nameless-sao.fr
 
 Do not set `SUPABASE_URL` with `supabase secrets set`; Supabase provides it automatically to Edge Functions.
 
-Optional:
+`SERVICE_ROLE_KEY` must contain the Supabase service role key and is allowed only inside this deployed function. It must never appear in HTML, CSS, browser JavaScript, GitHub Pages settings, or public config files.
+
+## Microsoft OAuth parameters
+
+The function intentionally uses the personal Microsoft account endpoint for Minecraft linking:
 
 ```text
-MICROSOFT_TENANT=consumers
-MICROSOFT_OAUTH_SCOPES=XboxLive.signin offline_access
+authorize_endpoint=https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize
+token_endpoint=https://login.microsoftonline.com/consumers/oauth2/v2.0/token
+scope=XboxLive.signin offline_access
+prompt=select_account
+response_type=code
+response_mode=query
 ```
-
-`SERVICE_ROLE_KEY` must contain the Supabase service role key and is allowed only inside this deployed function. It must never appear in HTML, CSS, browser JavaScript, GitHub Pages settings, or public config files.
 
 ## Required Microsoft redirect URI
 
@@ -67,6 +73,12 @@ https://iwrvdntlrjnoqzbwbsfm.supabase.co/functions/v1/link-minecraft
 ```
 
 This is separate from the Supabase Auth Azure callback used for site login.
+
+The Microsoft app registration must allow personal Microsoft accounts. In Microsoft Entra, use an account type equivalent to:
+
+```text
+Accounts in any organizational directory and personal Microsoft accounts
+```
 
 ## Deploy
 

@@ -6,6 +6,11 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 };
 
+const MICROSOFT_AUTHORIZE_ENDPOINT = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize';
+const MICROSOFT_TOKEN_ENDPOINT = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token';
+const MICROSOFT_OAUTH_SCOPE = 'XboxLive.signin offline_access';
+const EXPECTED_MICROSOFT_REDIRECT_URI = 'https://iwrvdntlrjnoqzbwbsfm.supabase.co/functions/v1/link-minecraft';
+
 class PublicLinkError extends Error {
   code: string;
   status: number;
@@ -43,6 +48,27 @@ function requiredEnv(name: string) {
   return value;
 }
 
+function logSafe(event: string, details: Record<string, unknown> = {}) {
+  console.log(JSON.stringify({
+    event,
+    ...details,
+  }));
+}
+
+function getMicrosoftRedirectUri() {
+  const redirectUri = requiredEnv('MICROSOFT_REDIRECT_URI');
+  if (redirectUri !== EXPECTED_MICROSOFT_REDIRECT_URI) {
+    logSafe('microsoft_config_error', {
+      error: 'invalid_redirect_uri_config',
+      redirect_uri: redirectUri,
+      expected_redirect_uri: EXPECTED_MICROSOFT_REDIRECT_URI,
+    });
+    throw new PublicLinkError('invalid_redirect_uri_config', 500);
+  }
+
+  return redirectUri;
+}
+
 function getSiteOrigin() {
   const configured = Deno.env.get('SITE_ORIGIN') || Deno.env.get('PUBLIC_SITE_URL') || 'https://nameless-sao.fr';
   return new URL(configured).origin;
@@ -62,9 +88,10 @@ function sanitizeReturnTo(rawReturnTo: unknown) {
   }
 }
 
-function withMinecraftLinkState(returnTo: string, state: string) {
+function withMinecraftLinkState(returnTo: string, state: string, reason?: string) {
   const url = new URL(returnTo);
   url.searchParams.set('minecraft_link', state);
+  if (reason) url.searchParams.set('reason', reason);
   return url.toString();
 }
 
@@ -202,16 +229,15 @@ async function getJson(url: string, token: string, label: string) {
 }
 
 async function exchangeMicrosoftCode(code: string) {
-  const tenant = Deno.env.get('MICROSOFT_TENANT') || 'consumers';
   const form = new URLSearchParams({
     client_id: requiredEnv('MICROSOFT_CLIENT_ID'),
     client_secret: requiredEnv('MICROSOFT_CLIENT_SECRET'),
     code,
     grant_type: 'authorization_code',
-    redirect_uri: requiredEnv('MICROSOFT_REDIRECT_URI'),
+    redirect_uri: getMicrosoftRedirectUri(),
   });
 
-  const token = await postForm(`https://login.microsoftonline.com/${tenant}/oauth2/v2.0/token`, form, 'microsoft_token');
+  const token = await postForm(MICROSOFT_TOKEN_ENDPOINT, form, 'microsoft_token');
   if (!token.access_token) throw new PublicLinkError('microsoft_token_failed', 502);
   return token.access_token as string;
 }
@@ -312,15 +338,21 @@ async function handleStart(req: Request) {
     nonce: crypto.randomUUID(),
   });
 
-  const tenant = Deno.env.get('MICROSOFT_TENANT') || 'consumers';
-  const scopes = Deno.env.get('MICROSOFT_OAUTH_SCOPES') || 'XboxLive.signin offline_access';
-  const authorizeUrl = new URL(`https://login.microsoftonline.com/${tenant}/oauth2/v2.0/authorize`);
+  const redirectUri = getMicrosoftRedirectUri();
+  const authorizeUrl = new URL(MICROSOFT_AUTHORIZE_ENDPOINT);
   authorizeUrl.searchParams.set('client_id', requiredEnv('MICROSOFT_CLIENT_ID'));
   authorizeUrl.searchParams.set('response_type', 'code');
+  authorizeUrl.searchParams.set('redirect_uri', redirectUri);
   authorizeUrl.searchParams.set('response_mode', 'query');
-  authorizeUrl.searchParams.set('redirect_uri', requiredEnv('MICROSOFT_REDIRECT_URI'));
-  authorizeUrl.searchParams.set('scope', scopes);
+  authorizeUrl.searchParams.set('scope', MICROSOFT_OAUTH_SCOPE);
   authorizeUrl.searchParams.set('state', state);
+  authorizeUrl.searchParams.set('prompt', 'select_account');
+
+  logSafe('microsoft_authorize_start', {
+    authorize_endpoint: MICROSOFT_AUTHORIZE_ENDPOINT,
+    scope: MICROSOFT_OAUTH_SCOPE,
+    redirect_uri: redirectUri,
+  });
 
   return json({ url: authorizeUrl.toString() });
 }
@@ -340,17 +372,30 @@ async function handleCallback(req: Request) {
   const url = new URL(req.url);
   const rawState = url.searchParams.get('state');
   const providerError = url.searchParams.get('error');
+  const providerErrorDescription = url.searchParams.get('error_description');
+  const providerErrorUri = url.searchParams.get('error_uri');
   const returnTo = await getReturnToFromState(rawState);
 
   if (providerError) {
-    return redirect(withMinecraftLinkState(returnTo, providerError === 'access_denied' ? 'denied' : 'error'));
+    logSafe('microsoft_callback_error', {
+      error: providerError,
+      error_description: providerErrorDescription,
+      error_uri: providerErrorUri,
+    });
+
+    return redirect(withMinecraftLinkState(returnTo, 'error', 'microsoft_oauth_error'));
   }
 
   try {
     if (!rawState) throw new PublicLinkError('invalid_state');
     const state = await verifySignedState(rawState);
     const code = url.searchParams.get('code');
-    if (!code) throw new PublicLinkError('missing_code');
+    if (!code) {
+      logSafe('microsoft_callback_error', {
+        error: 'missing_code',
+      });
+      throw new PublicLinkError('missing_code');
+    }
 
     const microsoftAccessToken = await exchangeMicrosoftCode(code);
     const xboxToken = await authenticateXboxLive(microsoftAccessToken);

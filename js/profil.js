@@ -146,6 +146,14 @@ function getMinecraftLinkState() {
     }
 }
 
+function getMinecraftLinkReason() {
+    try {
+        return new URLSearchParams(window.location.search).get('reason') || '';
+    } catch (error) {
+        return '';
+    }
+}
+
 function hasMinecraftLinkReturnState() {
     var state = getMinecraftLinkState();
     return state === 'success' || state === 'return';
@@ -192,6 +200,8 @@ function getMinecraftReturnUrl() {
 }
 
 function explainMinecraftLinkState(state) {
+    var reason = getMinecraftLinkReason();
+
     switch (state) {
         case 'success':
             return 'Liaison Minecraft terminée. Rechargement du profil...';
@@ -201,6 +211,9 @@ function explainMinecraftLinkState(state) {
             return 'Autorisation Minecraft refusée. La liaison automatique réessaiera lors d’une prochaine session.';
         case 'unavailable':
         case 'error':
+            if (reason === 'microsoft_oauth_error') {
+                return 'Microsoft n’a pas renvoyé de code OAuth pour la liaison Minecraft.';
+            }
             return 'Liaison Minecraft automatique indisponible pour le moment.';
         case 'return':
             return 'Vérification Minecraft en cours de synchronisation...';
