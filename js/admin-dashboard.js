@@ -183,6 +183,145 @@ async function checkAdminAccess() {
     }
 }
 
+// ========== ACTIONS ADMIN SÉCURISÉES (Edge Function) ==========
+// Toutes les actions sensibles (rôle, vérification Minecraft, suppression)
+// passent par l'Edge Function admin-user-actions qui revérifie le JWT et le
+// rôle admin côté serveur. Aucune écriture directe sensible depuis le front.
+
+async function callAdminAction(payload) {
+    const { data, error } = await supabase.functions.invoke('admin-user-actions', {
+        body: payload
+    });
+
+    if (error) {
+        let code = '';
+        try {
+            if (error.context && typeof error.context.json === 'function') {
+                const body = await error.context.json();
+                code = body && body.error ? String(body.error) : '';
+            }
+        } catch (parseError) {
+            // Réponse non JSON : on garde le code générique.
+        }
+        logSupabaseWarning('admin_action_failed', { code: code || null, message: error.message });
+        throw { code: code || 'edge_function_error' };
+    }
+
+    if (data && data.error) {
+        logSupabaseWarning('admin_action_failed', { code: data.error, message: null });
+        throw { code: String(data.error) };
+    }
+
+    return data;
+}
+
+function getAdminActionErrorMessage(error) {
+    const code = error && error.code ? String(error.code) : '';
+    const messages = {
+        'admin_required': 'Action refusée : rôle admin non détecté côté Supabase.',
+        'missing_user_session': 'Session expirée. Reconnecte-toi.',
+        'invalid_user_session': 'Session invalide. Reconnecte-toi.',
+        'invalid_target_user_id': 'Identifiant de joueur invalide.',
+        'invalid_role': 'Rôle invalide.',
+        'invalid_verified_flag': 'Valeur de vérification invalide.',
+        'minecraft_not_linked': 'Ce joueur n\'a pas encore associé de pseudo Minecraft.',
+        'target_not_found': 'Joueur introuvable.',
+        'self_demote_requires_confirmation': 'Confirme explicitement le retrait de ton propre rôle admin.',
+        'self_delete_requires_confirmation': 'Confirme explicitement la suppression de ton propre compte.',
+        'cannot_remove_last_admin': 'Impossible : c\'est le dernier admin du site.',
+        'cannot_delete_last_admin': 'Impossible : c\'est le dernier admin du site.',
+        'auth_delete_blocked_by_storage': 'Suppression Auth bloquée par Storage ownership. Purger les fichiers du joueur puis réessayer.',
+        'missing_env': 'Edge Function non configurée (SERVICE_ROLE_KEY manquant côté Supabase).',
+        'edge_function_error': 'Edge Function admin-user-actions injoignable. Est-elle déployée ?'
+    };
+    return messages[code] || ('Action admin échouée' + (code ? ' (' + code + ')' : '') + '.');
+}
+
+function setActionButtonBusy(button, isBusy, busyText) {
+    if (!button) return;
+    if (isBusy) {
+        button.dataset.originalText = button.textContent;
+        button.textContent = busyText || 'En cours...';
+        button.disabled = true;
+    } else {
+        if (button.dataset.originalText) button.textContent = button.dataset.originalText;
+        button.disabled = false;
+    }
+}
+
+async function refreshUsersAfterAdminAction() {
+    if (window.cacheManager) {
+        window.cacheManager.invalidate('all_users');
+    }
+    await loadUsers();
+    await loadMembersForPresence();
+}
+
+function getMinecraftStatusInfo(user) {
+    if (!user || !user.minecraft_uuid) {
+        return { label: 'Non lié', className: 'mc-status mc-status-none' };
+    }
+    if (user.minecraft_verified === true) {
+        return { label: 'Minecraft vérifié', className: 'mc-status mc-status-verified' };
+    }
+    return { label: 'Minecraft détecté', className: 'mc-status mc-status-detected' };
+}
+
+async function setMinecraftVerified(user, verified, button) {
+    const displayName = user.minecraft_username || user.username || 'ce joueur';
+    const question = verified
+        ? 'Marquer le compte Minecraft de "' + displayName + '" comme vérifié ?'
+        : 'Retirer la vérification Minecraft de "' + displayName + '" ?';
+    if (!confirm(question)) return;
+
+    setActionButtonBusy(button, true, verified ? 'Vérification...' : 'Retrait...');
+    try {
+        await callAdminAction({
+            action: 'set_minecraft_verified',
+            target_user_id: user.id,
+            verified: verified
+        });
+        await refreshUsersAfterAdminAction();
+    } catch (error) {
+        alert(getAdminActionErrorMessage(error));
+        setActionButtonBusy(button, false);
+    }
+}
+
+async function secureDeleteUser(user, button) {
+    const displayName = user.minecraft_username || user.username || user.id;
+    const answer = prompt(
+        'Supprimer définitivement "' + displayName + '" ?\n\n' +
+        'Supprime le compte Supabase Auth et les données de profil liées ' +
+        '(profil, rôles, présences, messages). Action irréversible.\n\n' +
+        'Tape SUPPRIMER pour confirmer :'
+    );
+    if (answer === null) return;
+    if (answer.trim() !== 'SUPPRIMER') {
+        alert('Suppression annulée : confirmation incorrecte.');
+        return;
+    }
+
+    const payload = {
+        action: 'delete_user',
+        target_user_id: user.id
+    };
+    if (user.id === localCurrentUser.id) {
+        if (!confirm('ATTENTION : tu es en train de supprimer TON PROPRE compte admin. Continuer ?')) return;
+        payload.confirm_self_delete = true;
+    }
+
+    setActionButtonBusy(button, true, 'Suppression...');
+    try {
+        await callAdminAction(payload);
+        alert('Compte supprimé.');
+        await refreshUsersAfterAdminAction();
+    } catch (error) {
+        alert(getAdminActionErrorMessage(error));
+        setActionButtonBusy(button, false);
+    }
+}
+
 // Helper : générer le HTML d'une tête Minecraft (avec avatar par défaut)
 function mcHeadHtml(user, size) {
     // size numérique + uuid encodé pour l'URL: empêche tout breakout d'attribut
@@ -261,7 +400,7 @@ function displayUsers() {
     tbody.innerHTML = '';
     
     if (filteredUsers.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #888; padding: 30px;">Aucun utilisateur trouvé</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #888; padding: 30px;">Aucun utilisateur trouvé</td></tr>';
         updatePagination();
         return;
     }
@@ -300,31 +439,55 @@ function displayUsers() {
         roleBadge.textContent = getRoleLabel(user.role);
         tdRole.appendChild(roleBadge);
         tr.appendChild(tdRole);
-        
+
+        // Statut Minecraft (Non lié / détecté / vérifié) + UUID en title
+        const tdMinecraft = document.createElement('td');
+        const mcStatus = getMinecraftStatusInfo(user);
+        const mcBadge = document.createElement('span');
+        mcBadge.className = mcStatus.className;
+        mcBadge.textContent = mcStatus.label;
+        if (user.minecraft_uuid) {
+            mcBadge.title = 'UUID : ' + user.minecraft_uuid;
+        }
+        tdMinecraft.appendChild(mcBadge);
+        tr.appendChild(tdMinecraft);
+
         // Date de création
         const tdDate = document.createElement('td');
         tdDate.textContent = formatDate(user.created_at);
         tr.appendChild(tdDate);
-        
+
         // Actions
         const tdActions = document.createElement('td');
-        
+
         // Bouton Modifier
         const btnEdit = document.createElement('button');
         btnEdit.className = 'action-btn btn-edit';
         btnEdit.textContent = 'Modifier rôle';
         btnEdit.onclick = () => openRoleModal(user);
         tdActions.appendChild(btnEdit);
-        
-        // Bouton Supprimer (désactivé pour le compte actuel)
-        if (user.id !== localCurrentUser.id) {
-            const btnDelete = document.createElement('button');
-            btnDelete.className = 'action-btn btn-delete';
-            btnDelete.textContent = 'Supprimer';
-            btnDelete.onclick = () => confirmDeleteUser(user);
-            tdActions.appendChild(btnDelete);
+
+        // Boutons vérification Minecraft (uniquement si identité détectée)
+        if (user.minecraft_uuid) {
+            const btnVerify = document.createElement('button');
+            btnVerify.className = 'action-btn btn-edit';
+            if (user.minecraft_verified === true) {
+                btnVerify.textContent = 'Retirer vérification';
+                btnVerify.onclick = () => setMinecraftVerified(user, false, btnVerify);
+            } else {
+                btnVerify.textContent = 'Vérifier Minecraft';
+                btnVerify.onclick = () => setMinecraftVerified(user, true, btnVerify);
+            }
+            tdActions.appendChild(btnVerify);
         }
-        
+
+        // Bouton Supprimer (compte Auth + données liées, via Edge Function)
+        const btnDelete = document.createElement('button');
+        btnDelete.className = 'action-btn btn-delete';
+        btnDelete.textContent = 'Supprimer';
+        btnDelete.onclick = () => secureDeleteUser(user, btnDelete);
+        tdActions.appendChild(btnDelete);
+
         tr.appendChild(tdActions);
         tbody.appendChild(tr);
     });
@@ -391,6 +554,12 @@ function sortUsers() {
         if (currentSortField === 'created_at') {
             aValue = new Date(aValue).getTime();
             bValue = new Date(bValue).getTime();
+        }
+
+        // Tri statut Minecraft : non lié (0) < détecté (1) < vérifié (2)
+        if (currentSortField === 'minecraft_verified') {
+            aValue = a.minecraft_uuid ? (a.minecraft_verified === true ? 2 : 1) : 0;
+            bValue = b.minecraft_uuid ? (b.minecraft_verified === true ? 2 : 1) : 0;
         }
         
         // Comparaison
@@ -594,96 +763,46 @@ function closeRoleModal() {
     document.getElementById('role-modal').classList.remove('active');
 }
 
-// Confirmer le changement de rôle
-// SÉCURITÉ: Seul un admin peut modifier les rôles (vérifié via checkAdminAccess au chargement)
-// Les utilisateurs ne peuvent PAS modifier leur propre rôle - seule cette fonction le permet
+// Confirmer le changement de rôle.
+// SÉCURITÉ : l'écriture passe par l'Edge Function admin-user-actions qui
+// revérifie le JWT + rôle admin côté serveur et synchronise user_profiles ET
+// user_roles. Le front ne fait plus d'update direct.
 async function confirmRoleChange() {
     if (!editingUserId) return;
-    
+
     const newRole = document.getElementById('modal-role-select').value;
-    
+
     // Vérification de sécurité supplémentaire: s'assurer que les rôles sont valides
     const validRoles = ['joueur', 'membre', 'admin'];
     if (!validRoles.includes(newRole)) {
         alert('Rôle invalide.');
         return;
     }
-    
+
+    const payload = {
+        action: 'update_role',
+        target_user_id: editingUserId,
+        role: newRole
+    };
+
+    // Auto-rétrogradation : confirmation explicite obligatoire.
+    if (editingUserId === localCurrentUser.id && newRole !== 'admin') {
+        if (!confirm('ATTENTION : tu es en train de retirer TON PROPRE rôle admin. Continuer ?')) return;
+        payload.confirm_self_demote = true;
+    }
+
+    const confirmBtn = document.getElementById('role-modal-confirm');
+    setActionButtonBusy(confirmBtn, true, 'Modification...');
+
     try {
-        const { error } = await supabase
-            .from('user_profiles')
-            .update({ role: newRole })
-            .eq('id', editingUserId);
-            
-        if (error) {
-            logSupabaseWarning('profile_role_update_failed', error);
-            alert('Erreur lors de la modification du rôle.');
-            return;
-        }
-
-        const { error: roleError } = await supabase
-            .from('user_roles')
-            .upsert({
-                user_id: editingUserId,
-                role: newRole,
-                assigned_by: localCurrentUser.id
-            }, { onConflict: 'user_id' });
-
-        if (roleError) {
-            logSupabaseWarning('user_roles_upsert_failed', roleError);
-            alert('Rôle profil modifié, mais synchronisation user_roles impossible. Vérifie les policies Supabase.');
-            return;
-        }
-        
+        await callAdminAction(payload);
         alert('Rôle modifié avec succès !');
-        
-        // Invalider le cache des utilisateurs
-        if (window.cacheManager) {
-            window.cacheManager.invalidate('all_users');
-        }
-        
-        // Recharger les utilisateurs
-        await loadUsers();
-        
-        // Fermer le modal
         closeRoleModal();
-        
+        await refreshUsersAfterAdminAction();
     } catch (error) {
-        alert('Une erreur technique est survenue.');
-    }
-}
-
-// Confirmer la suppression d'un utilisateur
-function confirmDeleteUser(user) {
-    if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur "${user.username || user.email}" ?\n\nCette action est irréversible.`)) {
-        deleteUser(user.id);
-    }
-}
-
-// Supprimer un utilisateur
-async function deleteUser(userId) {
-    try {
-        if (!confirm('Êtes-vous sûr de vouloir supprimer définitivement cet utilisateur ? Cette action est irréversible.')) {
-            return;
-        }
-        
-        // Utiliser la fonction PostgreSQL pour suppression complète
-        const { data, error } = await supabase.rpc('delete_user_completely', {
-            user_id: userId
-        });
-            
-        if (error) {
-            alert('Erreur lors de la suppression de l\'utilisateur : ' + error.message);
-            return;
-        }
-        
-        alert('Utilisateur supprimé avec succès !');
-        
-        // Recharger les utilisateurs
-        await loadUsers();
-        
-    } catch (error) {
-        alert('Une erreur technique est survenue : ' + error.message);
+        alert(getAdminActionErrorMessage(error));
+    } finally {
+        setActionButtonBusy(confirmBtn, false);
     }
 }
 

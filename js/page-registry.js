@@ -222,11 +222,11 @@
             title: 'Dashboard admin - Nameless',
             css: [
                 'css/components/activity-wall.css?v=20260129b',
-                'css/components/admin-dashboard.css?v=nameless-1.0'
+                'css/components/admin-dashboard.css?v=nameless-1.1'
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/admin-dashboard.js?v=20260709e'
+                'js/admin-dashboard.js?v=20260709f'
             ],
             init: function (root) {
                 if (global.NamelessAdminDashboardPage && typeof global.NamelessAdminDashboardPage.init === 'function') {
