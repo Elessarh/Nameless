@@ -97,6 +97,11 @@ function getMinecraftUsernameValue(profile) {
     return profile.minecraft_username || 'Non renseigné';
 }
 
+function getMinecraftUuidValue(profile) {
+    if (!profile) return 'Non renseigné';
+    return profile.minecraft_uuid || 'Non renseigné';
+}
+
 function hasMinecraftIdentity(profile) {
     return !!(profile && profile.minecraft_uuid);
 }
@@ -281,7 +286,7 @@ async function submitMinecraftPublicLink(event) {
     }
 
     setMinecraftLinkBusy(true);
-    setMinecraftLinkStatus('Recherche du profil Minecraft public...');
+    setMinecraftLinkStatus('Recherche du profil Minecraft...');
 
     try {
         var minecraftProfile = await fetchPublicMinecraftProfile(username);
@@ -445,6 +450,7 @@ function displayProfile(profile) {
     setText('profile-microsoft-state', 'Compte Microsoft connecté');
     setText('profile-minecraft-state', getMinecraftStatusValue(profile));
     setText('profile-minecraft-username', getMinecraftUsernameValue(profile));
+    setText('profile-minecraft-uuid', getMinecraftUuidValue(profile));
     if (displayNameEl) displayNameEl.textContent = mcUsername;
     if (titleFallback) titleFallback.style.display = 'none';
 

@@ -111,6 +111,10 @@
                         <span class="info-value" id="profile-minecraft-username">-</span>
                     </div>
                     <div class="info-row">
+                        <span class="info-label">UUID Minecraft</span>
+                        <span class="info-value" id="profile-minecraft-uuid">-</span>
+                    </div>
+                    <div class="info-row">
                         <label class="info-label" for="profile-classe">Classe</label>
                         <span class="info-value">
                             <select id="profile-classe" class="profile-select">
@@ -140,14 +144,15 @@
 
             <section id="minecraft-link-info" class="minecraft-link-info" aria-label="Liaison Minecraft" style="display: none;">
                 <div>
-                    <h3 class="profil-section-title">Associer Minecraft</h3>
+                    <h3 class="profil-section-title">Associer ton pseudo Minecraft</h3>
                     <p id="minecraft-link-status" class="minecraft-link-status">Minecraft non lié</p>
-                    <p class="minecraft-link-copy">Cette étape récupère le profil public Minecraft. La vérification complète devra être validée par un admin.</p>
+                    <p class="minecraft-link-copy">Entre ton pseudo exact pour afficher ton UUID et ton avatar Minecraft.</p>
+                    <p class="minecraft-link-warning">Cette étape détecte le profil public Minecraft. La vérification admin reste séparée.</p>
                     <form id="minecraft-link-form" class="minecraft-link-form" novalidate>
                         <label class="minecraft-link-label" for="minecraft-username-input">Pseudo Minecraft</label>
                         <div class="minecraft-link-controls">
                             <input id="minecraft-username-input" class="minecraft-link-input" type="text" autocomplete="off" inputmode="text" minlength="3" maxlength="16" pattern="[A-Za-z0-9_]{3,16}">
-                            <button id="minecraft-link-btn" class="save-profile-btn" type="submit">Associer ce pseudo</button>
+                            <button id="minecraft-link-btn" class="save-profile-btn minecraft-link-submit" type="submit">Associer ce pseudo</button>
                         </div>
                     </form>
                 </div>
@@ -177,7 +182,7 @@
     <script src="../js/db-guard.js" defer></script>
     <script src="../js/security-utils.js?v=20260706" defer></script>
     <script src="../js/auth-supabase.js?v=20260709d" defer></script>
-    <script src="../js/profil.js?v=nameless-1.9" defer></script>
+    <script src="../js/profil.js?v=nameless-2.0" defer></script>
     <script src="../js/audio-controller.js?v=nameless-audio-1.1" defer></script>
 </body>
 </html>

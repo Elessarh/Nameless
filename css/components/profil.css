@@ -188,10 +188,13 @@
 /* --- Liaison Minecraft --- */
 .minecraft-link-info {
     display: block;
-    background: var(--sao-bg-card);
-    border: 1px solid var(--sao-border);
+    background:
+        radial-gradient(circle at 12% 12%, rgba(78, 201, 255, 0.12), transparent 32%),
+        linear-gradient(155deg, rgba(21, 30, 53, 0.96), rgba(9, 12, 22, 0.98));
+    border: 1px solid rgba(194, 163, 103, 0.62);
     border-radius: var(--nm-radius);
-    padding: 1.4rem 1.8rem;
+    padding: 1.65rem 1.9rem;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(78, 201, 255, 0.08);
 }
 .minecraft-link-info .profil-section-title { margin-bottom: 0.55rem; }
 .minecraft-link-status {
@@ -204,6 +207,12 @@
     font-size: 0.9rem;
     line-height: 1.55;
     margin: 0;
+}
+.minecraft-link-warning {
+    color: var(--sao-gold-light);
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin: 0.55rem 0 0;
 }
 .minecraft-link-form { margin-top: 1rem; }
 .minecraft-link-label {
@@ -234,6 +243,12 @@
     outline: none;
     border-color: var(--sao-cyan);
     box-shadow: var(--focus-ring);
+}
+.minecraft-link-submit {
+    background: linear-gradient(135deg, rgba(194,163,103,0.32), rgba(78,201,255,0.18)) !important;
+    border-color: rgba(194,163,103,0.78) !important;
+    box-shadow: 0 0 24px rgba(194,163,103,0.12);
+    white-space: nowrap;
 }
 .minecraft-link-input:disabled,
 .minecraft-link-controls .save-profile-btn:disabled {
