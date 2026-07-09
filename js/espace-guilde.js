@@ -88,10 +88,10 @@ function waitForAuthAndUser() {
                 clearInterval(checkAuth);
                 // console.log('[OK] Auth prete et utilisateur connecte');
                 resolve();
-            } else if (attempts >= maxAttempts) {
+            } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 // console.error('[ERREUR] Timeout: utilisateur non connecte');
-                showAccessDenied();
+                showAccessDenied('Vous devez être connecté pour accéder à l\'espace guilde.');
                 resolve();
             }
         }, 100);

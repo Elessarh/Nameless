@@ -3,6 +3,7 @@
 let chatOpen = false;
 let replyingToMessage = null;
 let lastMessageId = null;
+let lastMessageTime = null;
 let chatSubscription = null;
 let selectedImage = null; // Image sélectionnée pour upload
 let userRole = null; // Rôle de l'utilisateur (admin ou membre)
@@ -64,7 +65,7 @@ function waitForChatAuth() {
                 clearInterval(checkAuth);
                 // console.log('[CHAT] Auth prête');
                 resolve();
-            } else if (attempts >= maxAttempts) {
+            } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 // console.log('[CHAT] Timeout auth');
                 resolve();
@@ -225,9 +226,10 @@ async function loadMessages() {
         displayMessages(messages, profileMap);
         // console.log('[CHAT] Messages chargés:', messages.length);
         
-        // Stocker le dernier ID de message
+        // Stocker le dernier message affiché (repère pour le badge)
         if (messages.length > 0) {
             lastMessageId = messages[messages.length - 1].id;
+            lastMessageTime = messages[messages.length - 1].created_at;
         }
         
     } catch (error) {
@@ -527,11 +529,13 @@ function subscribeToMessages() {
 // Mettre à jour le badge de nouveaux messages
 async function updateChatBadge() {
     try {
+        // Les id sont des uuid : le repère de nouveauté est created_at.
         const { count } = await supabase
             .from('guild_chat')
             .select('*', { count: 'exact', head: true })
-            .gt('id', lastMessageId || 0);
-        
+            .eq('is_private', false)
+            .gt('created_at', lastMessageTime || new Date(0).toISOString());
+
         const badge = document.getElementById('chat-badge');
         const chatBtn = document.getElementById('chat-toggle-btn');
         
@@ -642,26 +646,45 @@ window.clearImagePreview = clearImagePreview; // Rendre accessible globalement
 // Upload de l'image
 async function uploadChatImage(file) {
     try {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `chat-images/${fileName}`;
-        
-        const { data, error } = await supabase.storage
-            .from('iron-oath-storage')
-            .upload(filePath, file);
-        
-        if (error) {
-            // console.error('[CHAT] Erreur upload image:', error);
+        const fileExt = String(file.name.split('.').pop() || '').toLowerCase();
+        if (['png', 'jpg', 'jpeg', 'webp'].indexOf(fileExt) === -1) {
+            alert('Formats acceptés : png, jpg, jpeg, webp.');
             return null;
         }
-        
+
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        // Chemin imposé par la policy storage : chat/<user_id>/<fichier>.
+        const filePath = `chat/${window.currentUser.id}/${fileName}`;
+
+        const { error } = await supabase.storage
+            .from('iron-oath-storage')
+            .upload(filePath, file);
+
+        if (error) {
+            console.warn('[Nameless chat] image_upload_failed', {
+                code: error.statusCode || error.code || null,
+                message: error.message || String(error)
+            });
+            return null;
+        }
+
+        // Bucket privé : URL signée longue durée. Fallback URL publique si le
+        // bucket est resté public (ancienne configuration).
+        const { data: signed } = await supabase.storage
+            .from('iron-oath-storage')
+            .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 5);
+
+        if (signed && signed.signedUrl) return signed.signedUrl;
+
         const { data: urlData } = supabase.storage
             .from('iron-oath-storage')
             .getPublicUrl(filePath);
-        
+
         return urlData.publicUrl;
     } catch (error) {
-        // console.error('[CHAT] Erreur upload:', error);
+        console.warn('[Nameless chat] image_upload_failed', {
+            message: error && error.message ? error.message : String(error)
+        });
         return null;
     }
 }

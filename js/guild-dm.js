@@ -48,7 +48,7 @@ function waitForDmAuth() {
                 clearInterval(checkAuth);
                 // console.log('[DM] Auth prête');
                 resolve();
-            } else if (attempts >= maxAttempts) {
+            } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 // console.log('[DM] Timeout auth');
                 resolve();
@@ -508,29 +508,48 @@ function clearDmImagePreview() {
 }
 window.clearDmImagePreview = clearDmImagePreview;
 
-// Upload image (réutilise la fonction du chat général)
+// Upload image (même convention que le chat général)
 async function uploadChatImage(file) {
     try {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `chat-images/${fileName}`;
-        
-        const { data, error } = await supabase.storage
-            .from('iron-oath-storage')
-            .upload(filePath, file);
-        
-        if (error) {
-            // console.error('[DM] Erreur upload:', error);
+        const fileExt = String(file.name.split('.').pop() || '').toLowerCase();
+        if (['png', 'jpg', 'jpeg', 'webp'].indexOf(fileExt) === -1) {
+            alert('Formats acceptés : png, jpg, jpeg, webp.');
             return null;
         }
-        
+
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+        // Chemin imposé par la policy storage : chat/<user_id>/<fichier>.
+        const filePath = `chat/${window.currentUser.id}/${fileName}`;
+
+        const { error } = await supabase.storage
+            .from('iron-oath-storage')
+            .upload(filePath, file);
+
+        if (error) {
+            console.warn('[Nameless dm] image_upload_failed', {
+                code: error.statusCode || error.code || null,
+                message: error.message || String(error)
+            });
+            return null;
+        }
+
+        // Bucket privé : URL signée longue durée. Fallback URL publique si le
+        // bucket est resté public (ancienne configuration).
+        const { data: signed } = await supabase.storage
+            .from('iron-oath-storage')
+            .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 5);
+
+        if (signed && signed.signedUrl) return signed.signedUrl;
+
         const { data: urlData } = supabase.storage
             .from('iron-oath-storage')
             .getPublicUrl(filePath);
-        
+
         return urlData.publicUrl;
     } catch (error) {
-        // console.error('[DM] Erreur:', error);
+        console.warn('[Nameless dm] image_upload_failed', {
+            message: error && error.message ? error.message : String(error)
+        });
         return null;
     }
 }
