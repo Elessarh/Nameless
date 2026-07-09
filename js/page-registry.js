@@ -153,6 +153,7 @@
             source: 'pages/wiki.html',
             title: 'Wiki - Nameless',
             css: [
+                'css/components/pixel-icons.css?v=20260709',
                 'css/components/wiki.css?v=nameless-1.0',
                 'css/components/page-hero.css?v=nameless-1.1'
             ],

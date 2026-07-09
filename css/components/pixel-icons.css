@@ -971,6 +971,364 @@
     background: #d8e1ec;
 }
 
+.icon-search,
+.icon-help,
+.icon-user,
+.icon-coin,
+.icon-guild,
+.icon-check,
+.icon-cross,
+.icon-warning,
+.icon-balance,
+.icon-game,
+.icon-music,
+.icon-idea,
+.icon-cart,
+.icon-vote,
+.icon-key,
+.icon-loop {
+    background: #141e2d;
+}
+
+.icon-search::before {
+    left: 3px;
+    top: 3px;
+    width: 7px;
+    height: 7px;
+    border: 2px solid #d8e1ec;
+}
+
+.icon-search::after {
+    right: 3px;
+    bottom: 3px;
+    width: 6px;
+    height: 2px;
+    background: #c2a367;
+    transform: rotate(45deg);
+}
+
+.icon-help::before {
+    left: 5px;
+    top: 3px;
+    width: 7px;
+    height: 5px;
+    border-top: 2px solid #f4dda0;
+    border-right: 2px solid #f4dda0;
+}
+
+.icon-help::after {
+    left: 7px;
+    top: 9px;
+    width: 3px;
+    height: 3px;
+    background: #c2a367;
+    box-shadow: 0 -3px 0 #f4dda0;
+}
+
+.icon-user::before {
+    left: 6px;
+    top: 3px;
+    width: 5px;
+    height: 5px;
+    background: #d8e1ec;
+}
+
+.icon-user::after {
+    left: 4px;
+    bottom: 3px;
+    width: 9px;
+    height: 6px;
+    background: #6f92b3;
+}
+
+.icon-coin::before {
+    left: 4px;
+    top: 3px;
+    width: 9px;
+    height: 10px;
+    background: #c2a367;
+    box-shadow: inset 3px 0 0 #f4dda0, inset -2px 0 0 #8b6f34;
+}
+
+.icon-coin::after {
+    left: 7px;
+    top: 5px;
+    width: 2px;
+    height: 6px;
+    background: #5c3f29;
+}
+
+.icon-guild::before {
+    left: 4px;
+    top: 3px;
+    width: 8px;
+    height: 10px;
+    background: #6f92b3;
+    box-shadow: inset 3px 0 0 #c2a367;
+}
+
+.icon-guild::after {
+    left: 7px;
+    top: 1px;
+    width: 2px;
+    height: 13px;
+    background: #f4dda0;
+    box-shadow: -3px 5px 0 #f4dda0, 3px 5px 0 #f4dda0;
+}
+
+.icon-check::before {
+    left: 4px;
+    top: 8px;
+    width: 5px;
+    height: 3px;
+    background: #78a66a;
+    transform: rotate(45deg);
+}
+
+.icon-check::after {
+    left: 7px;
+    top: 6px;
+    width: 8px;
+    height: 3px;
+    background: #9fd08e;
+    transform: rotate(-45deg);
+}
+
+.icon-cross::before,
+.icon-cross::after {
+    left: 3px;
+    top: 7px;
+    width: 11px;
+    height: 3px;
+    background: #c95035;
+}
+
+.icon-cross::before { transform: rotate(45deg); }
+.icon-cross::after { transform: rotate(-45deg); }
+
+.icon-warning::before {
+    left: 4px;
+    top: 3px;
+    width: 9px;
+    height: 10px;
+    background: #c2a367;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.icon-warning::after {
+    left: 7px;
+    top: 7px;
+    width: 2px;
+    height: 5px;
+    background: #111827;
+}
+
+.icon-balance::before {
+    left: 7px;
+    top: 3px;
+    width: 2px;
+    height: 11px;
+    background: #d8e1ec;
+    box-shadow: -5px 3px 0 #c2a367, 5px 3px 0 #c2a367;
+}
+
+.icon-balance::after {
+    left: 3px;
+    top: 6px;
+    width: 10px;
+    height: 2px;
+    background: #d8e1ec;
+}
+
+.icon-game::before {
+    left: 3px;
+    top: 6px;
+    width: 10px;
+    height: 6px;
+    background: #6f92b3;
+}
+
+.icon-game::after {
+    left: 5px;
+    top: 8px;
+    width: 2px;
+    height: 2px;
+    background: #f4dda0;
+    box-shadow: 5px 0 0 #c95035, 7px -2px 0 #78a66a;
+}
+
+.icon-music::before {
+    left: 5px;
+    top: 3px;
+    width: 7px;
+    height: 8px;
+    border-top: 3px solid #6f92b3;
+    border-right: 3px solid #6f92b3;
+}
+
+.icon-music::after {
+    left: 3px;
+    bottom: 3px;
+    width: 5px;
+    height: 4px;
+    background: #c2a367;
+    box-shadow: 6px -2px 0 #c2a367;
+}
+
+.icon-idea::before {
+    left: 5px;
+    top: 3px;
+    width: 7px;
+    height: 8px;
+    background: #f4dda0;
+    box-shadow: inset 2px 0 0 #c2a367;
+}
+
+.icon-idea::after {
+    left: 6px;
+    bottom: 2px;
+    width: 5px;
+    height: 3px;
+    background: #6f92b3;
+}
+
+.icon-cart::before {
+    left: 3px;
+    top: 5px;
+    width: 10px;
+    height: 6px;
+    border: 2px solid #c2a367;
+    border-top: 0;
+}
+
+.icon-cart::after {
+    left: 5px;
+    bottom: 2px;
+    width: 2px;
+    height: 2px;
+    background: #d8e1ec;
+    box-shadow: 6px 0 0 #d8e1ec;
+}
+
+.icon-vote::before {
+    left: 3px;
+    top: 6px;
+    width: 10px;
+    height: 7px;
+    background: #6f92b3;
+}
+
+.icon-vote::after {
+    left: 5px;
+    top: 3px;
+    width: 7px;
+    height: 4px;
+    border: 2px solid #f4dda0;
+    transform: rotate(-12deg);
+}
+
+.icon-key::before {
+    left: 3px;
+    top: 5px;
+    width: 6px;
+    height: 6px;
+    border: 2px solid #c2a367;
+}
+
+.icon-key::after {
+    left: 8px;
+    top: 8px;
+    width: 7px;
+    height: 2px;
+    background: #f4dda0;
+    box-shadow: 4px 2px 0 #f4dda0;
+}
+
+.icon-loop::before {
+    left: 3px;
+    top: 4px;
+    width: 10px;
+    height: 8px;
+    border: 2px solid #6f92b3;
+}
+
+.icon-loop::after {
+    right: 2px;
+    top: 3px;
+    width: 4px;
+    height: 4px;
+    background: #c2a367;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.wiki-menu-bars {
+    display: inline-grid;
+    gap: 4px;
+    width: 18px;
+}
+
+.wiki-menu-bars span {
+    display: block;
+    height: 2px;
+    background: currentColor;
+    box-shadow: 0 0 8px rgba(244, 221, 160, 0.32);
+}
+
+.wiki-step-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15em;
+    height: 1.15em;
+    margin-right: 0.45em;
+    border: 1px solid rgba(244, 221, 160, 0.7);
+    background: #141e2d;
+    color: #f4dda0;
+    font-family: var(--font-title, serif);
+    font-size: 0.78em;
+    line-height: 1;
+    box-shadow: inset 0 0 0 2px rgba(5, 7, 13, 0.58);
+}
+
+.wiki-bullet-pixel {
+    display: inline-block;
+    width: 0.72em;
+    height: 0.72em;
+    margin-right: 0.42em;
+    border: 1px solid rgba(244, 221, 160, 0.7);
+    background: linear-gradient(135deg, #c2a367 0 50%, #6f92b3 50% 100%);
+    box-shadow: inset 0 0 0 1px rgba(5, 7, 13, 0.58);
+    vertical-align: -0.08em;
+}
+
+.wiki-search-icon .nm-pixel-icon,
+.wiki-stat-label .nm-pixel-icon,
+.placeholder-icon .nm-pixel-icon {
+    margin-right: 0;
+}
+
+.wiki-search-icon .nm-pixel-icon {
+    width: 0.96rem;
+    height: 0.96rem;
+    min-width: 0.96rem;
+    vertical-align: 0;
+}
+
+.wiki-stat-value .nm-pixel-icon,
+.wiki-callout .nm-pixel-icon,
+.wiki-content li > .nm-pixel-icon {
+    width: 0.98em;
+    height: 0.98em;
+    min-width: 0.98em;
+    margin-right: 0.38em;
+}
+
+.placeholder-icon .nm-pixel-icon {
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+}
+
 @media (max-width: 640px) {
     .nm-pixel-icon {
         width: 1em;

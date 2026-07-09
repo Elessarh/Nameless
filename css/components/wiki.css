@@ -98,8 +98,22 @@
 .wiki-nav::-webkit-scrollbar-thumb { background: var(--sao-border-hover); border-radius: 3px; }
 .wiki-nav ul { list-style: none; margin: 0; padding: 0; }
 
-/* Réduction des emojis: on masque les pastilles emoji de la sidebar */
-.nav-emoji { display: none; }
+/* Local pixel icons in the sidebar */
+.nav-emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    margin-right: 0.42rem;
+    vertical-align: -0.12rem;
+}
+
+.nav-emoji .nm-pixel-icon {
+    width: 0.92rem;
+    height: 0.92rem;
+    min-width: 0.92rem;
+    margin-right: 0;
+}
 
 .wiki-nav a {
     display: block;

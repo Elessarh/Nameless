@@ -29,6 +29,7 @@
     <!-- Fonts & Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css?v=nameless-1.0">
+    <link rel="stylesheet" href="../css/components/pixel-icons.css?v=20260709">
     <link rel="stylesheet" href="../css/components/wiki.css?v=nameless-1.0">
     <link rel="stylesheet" href="../css/components/page-hero.css?v=nameless-1.1">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.1">
@@ -79,7 +80,7 @@
             <aside class="wiki-sidebar" id="wiki-sidebar">
                 <div class="wiki-search">
                     <div class="wiki-search-wrapper">
-                        <span class="wiki-search-icon">🔍</span>
+                        <span class="wiki-search-icon"><span class="nm-pixel-icon icon-search" aria-hidden="true"></span></span>
                         <input type="text" class="wiki-search-input" id="wiki-search" placeholder="Rechercher dans le wiki..." autocomplete="off">
                         <div class="wiki-search-results" id="wiki-search-results"></div>
                     </div>
@@ -87,14 +88,14 @@
                 <nav class="wiki-nav" id="wiki-nav">
                     <ul>
                         <!-- Accueil -->
-                        <li class="wiki-nav-item"><a data-page="accueil" class="active"><span class="nav-emoji">🏠</span> Accueil</a></li>
-                        <li class="wiki-nav-item"><a data-page="faq"><span class="nav-emoji">❓</span> FAQ</a></li>
-                        <li class="wiki-nav-item"><a data-page="devlogs"><span class="nav-emoji">📝</span> Devlogs</a></li>
-                        <li class="wiki-nav-item"><a data-page="roadmap"><span class="nav-emoji">🗺️</span> Roadmap 2025–2026</a></li>
+                        <li class="wiki-nav-item"><a data-page="accueil" class="active"><span class="nav-emoji"><span class="nm-pixel-icon icon-town" aria-hidden="true"></span></span> Accueil</a></li>
+                        <li class="wiki-nav-item"><a data-page="faq"><span class="nav-emoji"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span></span> FAQ</a></li>
+                        <li class="wiki-nav-item"><a data-page="devlogs"><span class="nav-emoji"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span></span> Devlogs</a></li>
+                        <li class="wiki-nav-item"><a data-page="roadmap"><span class="nav-emoji"><span class="nm-pixel-icon icon-map" aria-hidden="true"></span></span> Roadmap 2025–2026</a></li>
 
                         <!-- Règlement -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">📜</span> Règlement <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span></span> Règlement <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="reglement-aincrad">Règlement Aincrad</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="reglement-discord">Règlement Discord</a></li>
@@ -104,7 +105,7 @@
 
                         <!-- Premiers Pas -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">🚀</span> Premiers Pas <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span></span> Premiers Pas <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="premiers-pas">Introduction</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="debuter">Débuter l'aventure</a></li>
@@ -117,25 +118,25 @@
 
                         <!-- Classes & Compétences -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">⚔️</span> Classes &amp; Compétences <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></span> Classes &amp; Compétences <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="systeme-classe">Système de Classe</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="systeme-competence">Système de Compétence</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="guerrier">⚔️ Guerrier</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="assassin">🗡️ Assassin</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="mage">🔮 Mage</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="shaman">🌿 Shaman</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="archer">🏹 Archer</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="guerrier"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Guerrier</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="assassin"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Assassin</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="mage"><span class="nm-pixel-icon icon-mage" aria-hidden="true"></span> Mage</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="shaman"><span class="nm-pixel-icon icon-leaf" aria-hidden="true"></span> Shaman</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="archer"><span class="nm-pixel-icon icon-bow" aria-hidden="true"></span> Archer</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="equipement">Équipement &amp; Accessoires</a></li>
                             </ul>
                         </li>
 
                         <!-- Races -->
-                        <li class="wiki-nav-item"><a data-page="races"><span class="nav-emoji">👤</span> Races</a></li>
+                        <li class="wiki-nav-item"><a data-page="races"><span class="nav-emoji"><span class="nm-pixel-icon icon-user" aria-hidden="true"></span></span> Races</a></li>
 
                         <!-- Ressources -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">💎</span> Ressources <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span></span> Ressources <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="ressources">Introduction</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="ressources-monde">Ressources du Monde</a></li>
@@ -145,24 +146,24 @@
 
                         <!-- Métiers -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">🔨</span> Métiers <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></span> Métiers <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="metiers">Introduction</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="mineur">⛏️ Mineur</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="bucheron">🪓 Bûcheron</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="fermier">🌾 Fermier</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="pecheur">🎣 Pêcheur</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="chasseur">🏹 Chasseur</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="mineur"><span class="nm-pixel-icon icon-pickaxe" aria-hidden="true"></span> Mineur</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="bucheron"><span class="nm-pixel-icon icon-axe" aria-hidden="true"></span> Bûcheron</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="fermier"><span class="nm-pixel-icon icon-grain" aria-hidden="true"></span> Fermier</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="pecheur"><span class="nm-pixel-icon icon-water" aria-hidden="true"></span> Pêcheur</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="chasseur"><span class="nm-pixel-icon icon-bow" aria-hidden="true"></span> Chasseur</a></li>
                             </ul>
                         </li>
 
                         <!-- Systèmes -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">⚙️</span> Systèmes <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></span> Systèmes <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="anti-ks">Système Anti-KS</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="commerces">Commerces</a></li>
-                                <li class="wiki-nav-sub-item"><a data-page="housing">🏠 Housing</a></li>
+                                <li class="wiki-nav-sub-item"><a data-page="housing"><span class="nm-pixel-icon icon-town" aria-hidden="true"></span> Housing</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="housing-acquisition">↳ Acquisition</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="housing-manager">↳ Manager sa maison</a></li>
                             </ul>
@@ -170,7 +171,7 @@
 
                         <!-- Économie -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">💰</span> Économie &amp; Échanges <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span></span> Économie &amp; Échanges <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="economie">Vue d'ensemble</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="marche-guilde">Marché de Guilde</a></li>
@@ -181,7 +182,7 @@
 
                         <!-- Combat -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">🗡️</span> Combat &amp; Aventure <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></span> Combat &amp; Aventure <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="donjons">Donjons &amp; Boss Palier</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="raids">Raids</a></li>
@@ -195,11 +196,11 @@
                         </li>
 
                         <!-- Familier & Monture -->
-                        <li class="wiki-nav-item"><a data-page="familier-monture"><span class="nav-emoji">🐴</span> Familier &amp; Monture</a></li>
+                        <li class="wiki-nav-item"><a data-page="familier-monture"><span class="nav-emoji"><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span></span> Familier &amp; Monture</a></li>
 
                         <!-- Guildes -->
                         <li class="wiki-nav-group">
-                            <div class="wiki-nav-group-header"><span class="nav-emoji">⚜️</span> Guildes <span class="group-chevron">▼</span></div>
+                            <div class="wiki-nav-group-header"><span class="nav-emoji"><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span></span> Guildes <span class="group-chevron">▼</span></div>
                             <ul class="wiki-nav-group-children">
                                 <li class="wiki-nav-sub-item"><a data-page="guildes">Introduction</a></li>
                                 <li class="wiki-nav-sub-item"><a data-page="type-guilde">Type de Guilde</a></li>
@@ -211,13 +212,13 @@
                         </li>
 
                         <!-- Support -->
-                        <li class="wiki-nav-item"><a data-page="aide"><span class="nav-emoji">🆘</span> Besoin d'aide ?</a></li>
+                        <li class="wiki-nav-item"><a data-page="aide"><span class="nav-emoji"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span></span> Besoin d'aide ?</a></li>
                     </ul>
                 </nav>
             </aside>
 
             <!-- Mobile toggle -->
-            <button class="wiki-sidebar-toggle" id="sidebar-toggle" aria-label="Ouvrir le menu wiki">☰</button>
+            <button class="wiki-sidebar-toggle" id="sidebar-toggle" aria-label="Ouvrir le menu wiki"><span class="wiki-menu-bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
 
             <!-- Content -->
             <div class="wiki-content">
@@ -231,54 +232,54 @@
                     </div>
                     <p>Tu trouveras ici toutes les informations nécessaires pour survivre et prospérer dans l'Aincrad.</p>
 
-                    <h2>📚 Sections du Wiki</h2>
+                    <h2><span class="nm-pixel-icon icon-book" aria-hidden="true"></span> Sections du Wiki</h2>
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="reglement-aincrad">
-                            <div class="wiki-stat-label">📜</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Règlement</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="premiers-pas">
-                            <div class="wiki-stat-label">🚀</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Premiers Pas</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="systeme-classe">
-                            <div class="wiki-stat-label">⚔️</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Classes</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="races">
-                            <div class="wiki-stat-label">👤</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-user" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Races</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="ressources">
-                            <div class="wiki-stat-label">💎</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Ressources</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="metiers">
-                            <div class="wiki-stat-label">🔨</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Métiers</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="donjons">
-                            <div class="wiki-stat-label">🏰</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Donjons</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="housing">
-                            <div class="wiki-stat-label">🏠</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-town" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Housing</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="economie">
-                            <div class="wiki-stat-label">💰</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Économie</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="guildes">
-                            <div class="wiki-stat-label">⚜️</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Guildes</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="faq">
-                            <div class="wiki-stat-label">❓</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">FAQ</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="familier-monture">
-                            <div class="wiki-stat-label">🐴</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value" style="font-size:0.85rem">Familiers</div>
                         </div>
                     </div>
@@ -287,9 +288,9 @@
                 <!-- ===== FAQ ===== -->
                 <section class="wiki-page" id="page-faq">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> FAQ</div>
-                    <h1>❓ FAQ</h1>
+                    <h1><span class="nm-pixel-icon icon-help" aria-hidden="true"></span> FAQ</h1>
 
-                    <h2>🔧 Technique &amp; Installation</h2>
+                    <h2><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span> Technique &amp; Installation</h2>
                     <div class="wiki-card">
                         <ul>
                             <li><strong>Quelle version de Minecraft ?</strong> — Java Edition uniquement, version <strong>1.21.4</strong>.</li>
@@ -298,7 +299,7 @@
                         </ul>
                     </div>
 
-                    <h2>📅 Progression &amp; Événements</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Progression &amp; Événements</h2>
                     <div class="wiki-card">
                         <ul>
                             <li>Tu commences au <strong>Palier 1</strong> et progresses via les quêtes et donjons.</li>
@@ -306,7 +307,7 @@
                         </ul>
                     </div>
 
-                    <h2>💰 Économie &amp; Stuff</h2>
+                    <h2><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span> Économie &amp; Stuff</h2>
                     <div class="wiki-card">
                         <ul>
                             <li>Acheter et vendre via l'<strong>HDV</strong> ou commerce direct entre joueurs.</li>
@@ -315,7 +316,7 @@
                         </ul>
                     </div>
 
-                    <h2>🛡️ Race &amp; Classe</h2>
+                    <h2><span class="nm-pixel-icon icon-shield" aria-hidden="true"></span> Race &amp; Classe</h2>
                     <div class="wiki-card">
                         <ul>
                             <li>Le choix de <strong>race est irréversible</strong> — choisis bien !</li>
@@ -328,7 +329,7 @@
                 <!-- ===== DEVLOGS ===== -->
                 <section class="wiki-page" id="page-devlogs">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Devlogs</div>
-                    <h1>📝 Devlogs</h1>
+                    <h1><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Devlogs</h1>
 
                     <div class="wiki-card">
                         <h3>Devlog 1 — Premier jet de l'Aincrad</h3>
@@ -359,9 +360,9 @@
                 <!-- ===== ROADMAP ===== -->
                 <section class="wiki-page" id="page-roadmap">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Roadmap</div>
-                    <h1>🗺️ Roadmap 2025–2026</h1>
+                    <h1><span class="nm-pixel-icon icon-map" aria-hidden="true"></span> Roadmap 2025–2026</h1>
 
-                    <h2>✅ Terminé</h2>
+                    <h2><span class="nm-pixel-icon icon-check" aria-hidden="true"></span> Terminé</h2>
                     <ul>
                         <li>Système de classes complet (Guerrier, Assassin, Mage, Shaman, Archer) <span class="wiki-badge wiki-badge-done">Terminé</span></li>
                         <li>Housing de base (acquisition + gestion) <span class="wiki-badge wiki-badge-done">Terminé</span></li>
@@ -369,14 +370,14 @@
                         <li>Hôtel de Ventes <span class="wiki-badge wiki-badge-done">Terminé</span></li>
                     </ul>
 
-                    <h2>🔨 En cours</h2>
+                    <h2><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span> En cours</h2>
                     <ul>
                         <li>Équilibrage des classes <span class="wiki-badge wiki-badge-wip">En cours</span></li>
                         <li>Donjons Palier 2 <span class="wiki-badge wiki-badge-wip">En cours</span></li>
                         <li>Système de familiers avancés <span class="wiki-badge wiki-badge-wip">En cours</span></li>
                     </ul>
 
-                    <h2>📋 Prévu</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Prévu</h2>
                     <ul>
                         <li>Raids multi-guildes <span class="wiki-badge wiki-badge-planned">Prévu</span></li>
                         <li>Passe Héroïque (système de récompenses) <span class="wiki-badge wiki-badge-planned">Prévu</span></li>
@@ -390,34 +391,34 @@
                 <!-- ===== RÈGLEMENT AINCRAD ===== -->
                 <section class="wiki-page" id="page-reglement-aincrad">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Règlement <span class="sep">›</span> Aincrad</div>
-                    <h1>📜 Règlement dans l'Aincrad</h1>
+                    <h1><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Règlement dans l'Aincrad</h1>
 
-                    <h2>🤝 1. Respect entre joueurs</h2>
+                    <h2><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span> 1. Respect entre joueurs</h2>
                     <p>Insultes, harcèlement, discrimination et menaces entraîneront des <strong>sanctions immédiates</strong>. Le trolling et le grief répétitif sont également sanctionnés. Respecte le RP des autres joueurs.</p>
 
-                    <h2>🏰 2. Respect de l'Aincrad</h2>
+                    <h2><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> 2. Respect de l'Aincrad</h2>
                     <p>Pas de grief (casser les structures d'autres joueurs), pas de construction aberrante. La décoration de maison est personnelle, mais la carte ne doit pas être défigurée.</p>
 
-                    <h2>⚔️ 3. Règles PvP</h2>
+                    <h2><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> 3. Règles PvP</h2>
                     <ul>
                         <li>Le PvP est <strong>interdit</strong> dans les villes et zones protégées.</li>
                         <li>Zones PK uniquement dédiées au PvP.</li>
                         <li>Pas de triche ni de bug exploit en PvP.</li>
                     </ul>
 
-                    <h2>💰 4. Échanges &amp; Commerce</h2>
+                    <h2><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span> 4. Échanges &amp; Commerce</h2>
                     <ul>
                         <li>Les arnaques sont <strong>interdites</strong>.</li>
                         <li>Respect des prix HDV.</li>
                         <li>Tout échange doit être consenti par les deux parties.</li>
                     </ul>
 
-                    <h2>🔧 5. Triche &amp; Exploit</h2>
+                    <h2><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span> 5. Triche &amp; Exploit</h2>
                     <div class="wiki-callout wiki-callout-danger">
-                        <strong>⚠️ Tolérance zéro</strong> — Mods non autorisés = ban. Utiliser un bug/exploit sans le signaler = sanction. Duplication d'items/argent = ban permanent.
+                        <strong><span class="nm-pixel-icon icon-warning" aria-hidden="true"></span> Tolérance zéro</strong> — Mods non autorisés = ban. Utiliser un bug/exploit sans le signaler = sanction. Duplication d'items/argent = ban permanent.
                     </div>
 
-                    <h2>📢 6. Communication</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> 6. Communication</h2>
                     <ul>
                         <li>Pas de spam, flood ou pub.</li>
                         <li>Le chat global est en <strong>français</strong>.</li>
@@ -428,7 +429,7 @@
                 <!-- ===== RÈGLEMENT DISCORD ===== -->
                 <section class="wiki-page" id="page-reglement-discord">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Règlement <span class="sep">›</span> Discord</div>
-                    <h1>📜 Règlement Discord</h1>
+                    <h1><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Règlement Discord</h1>
 
                     <h2>1. Respect mutuel</h2>
                     <p>Pas d'insultes, harcèlement, menaces, ou contenu offensant envers les membres.</p>
@@ -451,48 +452,48 @@
                 <!-- ===== RÈGLEMENT VOCAL ===== -->
                 <section class="wiki-page" id="page-reglement-vocal">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Règlement <span class="sep">›</span> Chat Vocal</div>
-                    <h1>📜 Règlement Chat Vocal</h1>
+                    <h1><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Règlement Chat Vocal</h1>
 
-                    <h2>🎤 Micro</h2>
+                    <h2><span class="nm-pixel-icon icon-music" aria-hidden="true"></span> Micro</h2>
                     <ul>
                         <li>Pas de fond sonore gênant.</li>
                         <li>Utiliser <strong>Push-to-Talk</strong> si environnement bruyant.</li>
                         <li>Les soundboards doivent être modérées.</li>
                     </ul>
 
-                    <h2>🔇 Comportement</h2>
+                    <h2><span class="nm-pixel-icon icon-cross" aria-hidden="true"></span> Comportement</h2>
                     <ul>
                         <li>Pas de cris, insultes, ou provocations.</li>
                         <li>Discussions RP encouragées.</li>
                         <li>Respect de la conversation en cours.</li>
                     </ul>
 
-                    <h2>⚖️ Modération</h2>
+                    <h2><span class="nm-pixel-icon icon-balance" aria-hidden="true"></span> Modération</h2>
                     <p>Un modérateur peut demander le silence. Refus = mute temporaire ou permanent.</p>
                 </section>
 
                 <!-- ===== PREMIERS PAS ===== -->
                 <section class="wiki-page" id="page-premiers-pas">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Premiers Pas</div>
-                    <h1>🚀 Premiers Pas</h1>
+                    <h1><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span> Premiers Pas</h1>
                     <p>Tu viens d'arriver dans l'Aincrad et tu ne sais pas par où commencer ? Ce guide te guidera étape par étape pour comprendre les mécaniques fondamentales du serveur.</p>
 
-                    <h2>📖 Dans cette section</h2>
+                    <h2><span class="nm-pixel-icon icon-book" aria-hidden="true"></span> Dans cette section</h2>
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="debuter">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">🎮 Débuter</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-game" aria-hidden="true"></span> Débuter</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="audio-vocal">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">🎵 Audio</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-music" aria-hidden="true"></span> Audio</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="optimisation">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">💡 Optim.</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-idea" aria-hidden="true"></span> Optim.</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="boutique">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">🛒 Boutique</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-cart" aria-hidden="true"></span> Boutique</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="vote">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">🗳️ Vote</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-vote" aria-hidden="true"></span> Vote</div>
                         </div>
                     </div>
                 </section>
@@ -500,7 +501,7 @@
                 <!-- ===== DÉBUTER L'AVENTURE ===== -->
                 <section class="wiki-page" id="page-debuter">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="premiers-pas">Premiers Pas</a> <span class="sep">›</span> Débuter</div>
-                    <h1>🎮 Débuter l'aventure</h1>
+                    <h1><span class="nm-pixel-icon icon-game" aria-hidden="true"></span> Débuter l'aventure</h1>
 
                     <h2>Étape 1 : Rejoindre le serveur</h2>
                     <div class="wiki-card">
@@ -536,7 +537,7 @@
                 <!-- ===== AUDIO & VOCAL ===== -->
                 <section class="wiki-page" id="page-audio-vocal">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="premiers-pas">Premiers Pas</a> <span class="sep">›</span> Audio</div>
-                    <h1>🎵 Système Audio &amp; Vocal</h1>
+                    <h1><span class="nm-pixel-icon icon-music" aria-hidden="true"></span> Système Audio &amp; Vocal</h1>
                     <ul>
                         <li><strong>Musique immersive</strong> en jeu (zones et événements)</li>
                         <li>Utiliser un casque est recommandé</li>
@@ -549,7 +550,7 @@
                 <!-- ===== OPTIMISATION ===== -->
                 <section class="wiki-page" id="page-optimisation">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="premiers-pas">Premiers Pas</a> <span class="sep">›</span> Optimisation</div>
-                    <h1>💡 L'optimisation</h1>
+                    <h1><span class="nm-pixel-icon icon-idea" aria-hidden="true"></span> L'optimisation</h1>
 
                     <h2>Mods recommandés</h2>
                     <p>OptiFine ou Iris + Sodium pour de meilleures performances graphiques.</p>
@@ -569,21 +570,21 @@
                 <!-- ===== BOUTIQUE ===== -->
                 <section class="wiki-page" id="page-boutique">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="premiers-pas">Premiers Pas</a> <span class="sep">›</span> Boutique</div>
-                    <h1>🛒 Boutique</h1>
+                    <h1><span class="nm-pixel-icon icon-cart" aria-hidden="true"></span> Boutique</h1>
                     <ul>
                         <li>Accessible via le hub ou <code>/boutique</code></li>
                         <li><strong>Monnaie :</strong> Triggiums (achat réel)</li>
                         <li><strong>Contenu :</strong> cosmétiques, montures, familiers esthétiques, boost XP temporaire</li>
                     </ul>
                     <div class="wiki-callout wiki-callout-success">
-                        <strong>⚠️ Pas de Pay-to-Win !</strong> Aucun avantage de combat n'est achetable via la boutique.
+                        <strong><span class="nm-pixel-icon icon-warning" aria-hidden="true"></span> Pas de Pay-to-Win !</strong> Aucun avantage de combat n'est achetable via la boutique.
                     </div>
                 </section>
 
                 <!-- ===== VOTE ===== -->
                 <section class="wiki-page" id="page-vote">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="premiers-pas">Premiers Pas</a> <span class="sep">›</span> Vote</div>
-                    <h1>🗳️ Vote</h1>
+                    <h1><span class="nm-pixel-icon icon-vote" aria-hidden="true"></span> Vote</h1>
                     <ul>
                         <li>Voter quotidiennement sur les sites partenaires</li>
                         <li><strong>Récompenses :</strong> Cols, coffres de vote, Triggiums bonus</li>
@@ -595,29 +596,29 @@
                 <!-- ===== SYSTÈME DE CLASSE ===== -->
                 <section class="wiki-page" id="page-systeme-classe">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Classes <span class="sep">›</span> Système</div>
-                    <h1>⚔️ Système de Classe</h1>
+                    <h1><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Système de Classe</h1>
                     <p>Il existe <strong>5 classes</strong> jouables, chacune avec un arbre de compétences unique et un style de jeu distinct. Les classes ne sont pas verrouillées par la race.</p>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="guerrier">
                             <div class="wiki-stat-label">Rôle : Tank / DPS</div>
-                            <div class="wiki-stat-value class-guerrier">⚔️ Guerrier</div>
+                            <div class="wiki-stat-value class-guerrier"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Guerrier</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="assassin">
                             <div class="wiki-stat-label">Rôle : DPS / Éclaireur</div>
-                            <div class="wiki-stat-value class-assassin">🗡️ Assassin</div>
+                            <div class="wiki-stat-value class-assassin"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Assassin</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="mage">
                             <div class="wiki-stat-label">Rôle : DPS Range</div>
-                            <div class="wiki-stat-value class-mage">🔮 Mage</div>
+                            <div class="wiki-stat-value class-mage"><span class="nm-pixel-icon icon-mage" aria-hidden="true"></span> Mage</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="shaman">
                             <div class="wiki-stat-label">Rôle : Support / Heal</div>
-                            <div class="wiki-stat-value class-shaman">🌿 Shaman</div>
+                            <div class="wiki-stat-value class-shaman"><span class="nm-pixel-icon icon-leaf" aria-hidden="true"></span> Shaman</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="archer">
                             <div class="wiki-stat-label">Rôle : DPS Range</div>
-                            <div class="wiki-stat-value class-archer">🏹 Archer</div>
+                            <div class="wiki-stat-value class-archer"><span class="nm-pixel-icon icon-bow" aria-hidden="true"></span> Archer</div>
                         </div>
                     </div>
 
@@ -629,7 +630,7 @@
                 <!-- ===== SYSTÈME DE COMPÉTENCE ===== -->
                 <section class="wiki-page" id="page-systeme-competence">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Classes <span class="sep">›</span> Compétences</div>
-                    <h1>✨ Système de Compétence</h1>
+                    <h1><span class="nm-pixel-icon icon-star" aria-hidden="true"></span> Système de Compétence</h1>
                     <ul>
                         <li><strong>Arbre de compétences</strong> unique par classe</li>
                         <li>XP de compétence gagnée en utilisant les compétences en combat</li>
@@ -645,7 +646,7 @@
                 <!-- ===== GUERRIER ===== -->
                 <section class="wiki-page" id="page-guerrier">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="systeme-classe">Classes</a> <span class="sep">›</span> Guerrier</div>
-                    <h1><span class="class-guerrier">⚔️ Guerrier</span></h1>
+                    <h1><span class="class-guerrier"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Guerrier</span></h1>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Rôle</div><div class="wiki-stat-value">Tank / DPS Mêlée</div></div>
@@ -661,14 +662,14 @@
                     </ul>
 
                     <h2>Forces &amp; Faiblesses</h2>
-                    <div class="wiki-callout wiki-callout-success">✅ <strong>Forces :</strong> Haute résistance, excellent en 1v1</div>
-                    <div class="wiki-callout wiki-callout-danger">❌ <strong>Faiblesses :</strong> Mobilité réduite, compétences à distance limitées</div>
+                    <div class="wiki-callout wiki-callout-success"><span class="nm-pixel-icon icon-check" aria-hidden="true"></span> <strong>Forces :</strong> Haute résistance, excellent en 1v1</div>
+                    <div class="wiki-callout wiki-callout-danger"><span class="nm-pixel-icon icon-cross" aria-hidden="true"></span> <strong>Faiblesses :</strong> Mobilité réduite, compétences à distance limitées</div>
                 </section>
 
                 <!-- ===== ASSASSIN ===== -->
                 <section class="wiki-page" id="page-assassin">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="systeme-classe">Classes</a> <span class="sep">›</span> Assassin</div>
-                    <h1><span class="class-assassin">🗡️ Assassin</span></h1>
+                    <h1><span class="class-assassin"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Assassin</span></h1>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Rôle</div><div class="wiki-stat-value">DPS Mêlée / Éclaireur</div></div>
@@ -684,14 +685,14 @@
                     </ul>
 
                     <h2>Forces &amp; Faiblesses</h2>
-                    <div class="wiki-callout wiki-callout-success">✅ <strong>Forces :</strong> Burst damage, rapidité, infiltration</div>
-                    <div class="wiki-callout wiki-callout-danger">❌ <strong>Faiblesses :</strong> Fragilité, dépendant du positionnement</div>
+                    <div class="wiki-callout wiki-callout-success"><span class="nm-pixel-icon icon-check" aria-hidden="true"></span> <strong>Forces :</strong> Burst damage, rapidité, infiltration</div>
+                    <div class="wiki-callout wiki-callout-danger"><span class="nm-pixel-icon icon-cross" aria-hidden="true"></span> <strong>Faiblesses :</strong> Fragilité, dépendant du positionnement</div>
                 </section>
 
                 <!-- ===== MAGE ===== -->
                 <section class="wiki-page" id="page-mage">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="systeme-classe">Classes</a> <span class="sep">›</span> Mage</div>
-                    <h1><span class="class-mage">🔮 Mage</span></h1>
+                    <h1><span class="class-mage"><span class="nm-pixel-icon icon-mage" aria-hidden="true"></span> Mage</span></h1>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Rôle</div><div class="wiki-stat-value">DPS Range / Contrôle</div></div>
@@ -707,14 +708,14 @@
                     </ul>
 
                     <h2>Forces &amp; Faiblesses</h2>
-                    <div class="wiki-callout wiki-callout-success">✅ <strong>Forces :</strong> Dégâts de zone, contrôle, polyvalent</div>
-                    <div class="wiki-callout wiki-callout-danger">❌ <strong>Faiblesses :</strong> Fragile, dépendant du mana</div>
+                    <div class="wiki-callout wiki-callout-success"><span class="nm-pixel-icon icon-check" aria-hidden="true"></span> <strong>Forces :</strong> Dégâts de zone, contrôle, polyvalent</div>
+                    <div class="wiki-callout wiki-callout-danger"><span class="nm-pixel-icon icon-cross" aria-hidden="true"></span> <strong>Faiblesses :</strong> Fragile, dépendant du mana</div>
                 </section>
 
                 <!-- ===== SHAMAN ===== -->
                 <section class="wiki-page" id="page-shaman">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="systeme-classe">Classes</a> <span class="sep">›</span> Shaman</div>
-                    <h1><span class="class-shaman">🌿 Shaman</span></h1>
+                    <h1><span class="class-shaman"><span class="nm-pixel-icon icon-leaf" aria-hidden="true"></span> Shaman</span></h1>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Rôle</div><div class="wiki-stat-value">Support / Healer</div></div>
@@ -730,14 +731,14 @@
                     </ul>
 
                     <h2>Forces &amp; Faiblesses</h2>
-                    <div class="wiki-callout wiki-callout-success">✅ <strong>Forces :</strong> Indispensable en groupe, buffs puissants</div>
-                    <div class="wiki-callout wiki-callout-danger">❌ <strong>Faiblesses :</strong> DPS faible seul, dépendant du groupe</div>
+                    <div class="wiki-callout wiki-callout-success"><span class="nm-pixel-icon icon-check" aria-hidden="true"></span> <strong>Forces :</strong> Indispensable en groupe, buffs puissants</div>
+                    <div class="wiki-callout wiki-callout-danger"><span class="nm-pixel-icon icon-cross" aria-hidden="true"></span> <strong>Faiblesses :</strong> DPS faible seul, dépendant du groupe</div>
                 </section>
 
                 <!-- ===== ARCHER ===== -->
                 <section class="wiki-page" id="page-archer">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="systeme-classe">Classes</a> <span class="sep">›</span> Archer</div>
-                    <h1><span class="class-archer">🏹 Archer</span></h1>
+                    <h1><span class="class-archer"><span class="nm-pixel-icon icon-bow" aria-hidden="true"></span> Archer</span></h1>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Rôle</div><div class="wiki-stat-value">DPS Range</div></div>
@@ -753,14 +754,14 @@
                     </ul>
 
                     <h2>Forces &amp; Faiblesses</h2>
-                    <div class="wiki-callout wiki-callout-success">✅ <strong>Forces :</strong> Dégâts à distance, mobilité, kiting</div>
-                    <div class="wiki-callout wiki-callout-danger">❌ <strong>Faiblesses :</strong> Fragile au corps à corps, dépendant des munitions</div>
+                    <div class="wiki-callout wiki-callout-success"><span class="nm-pixel-icon icon-check" aria-hidden="true"></span> <strong>Forces :</strong> Dégâts à distance, mobilité, kiting</div>
+                    <div class="wiki-callout wiki-callout-danger"><span class="nm-pixel-icon icon-cross" aria-hidden="true"></span> <strong>Faiblesses :</strong> Fragile au corps à corps, dépendant des munitions</div>
                 </section>
 
                 <!-- ===== ÉQUIPEMENT ===== -->
                 <section class="wiki-page" id="page-equipement">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="systeme-classe">Classes</a> <span class="sep">›</span> Équipement</div>
-                    <h1>🛡️ Équipement &amp; Accessoires</h1>
+                    <h1><span class="nm-pixel-icon icon-shield" aria-hidden="true"></span> Équipement &amp; Accessoires</h1>
 
                     <h2>Emplacements</h2>
                     <p>Casque, Plastron, Jambières, Bottes, Arme, Bouclier (si compatible), Accessoire ×2</p>
@@ -787,10 +788,10 @@
                 <!-- ===== RACES ===== -->
                 <section class="wiki-page" id="page-races">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Races</div>
-                    <h1>👤 Races</h1>
+                    <h1><span class="nm-pixel-icon icon-user" aria-hidden="true"></span> Races</h1>
 
                     <div class="wiki-callout wiki-callout-danger">
-                        ⚠️ Le choix de race est <strong>IRRÉVERSIBLE</strong> ! Choisis bien.
+                        <span class="nm-pixel-icon icon-warning" aria-hidden="true"></span> Le choix de race est <strong>IRRÉVERSIBLE</strong> ! Choisis bien.
                     </div>
 
                     <div class="wiki-stats-grid">
@@ -806,15 +807,15 @@
                 <!-- ===== RESSOURCES ===== -->
                 <section class="wiki-page" id="page-ressources">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Ressources</div>
-                    <h1>💎 Ressources</h1>
+                    <h1><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span> Ressources</h1>
                     <p>Les ressources sont essentielles à la progression. Elles servent à crafter, échanger, et améliorer votre équipement.</p>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="ressources-monde">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">🌍 Du Monde</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-earth" aria-hidden="true"></span> Du Monde</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="ressources-appropriees">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">⚔️ Appropriées</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Appropriées</div>
                         </div>
                     </div>
                 </section>
@@ -822,7 +823,7 @@
                 <!-- ===== RESSOURCES DU MONDE ===== -->
                 <section class="wiki-page" id="page-ressources-monde">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="ressources">Ressources</a> <span class="sep">›</span> Du Monde</div>
-                    <h1>🌍 Ressources du Monde</h1>
+                    <h1><span class="nm-pixel-icon icon-earth" aria-hidden="true"></span> Ressources du Monde</h1>
                     <ul>
                         <li><strong>Minerais</strong> — Fer, or, diamant, mythril…</li>
                         <li><strong>Bois</strong> — Chêne, sapin, acajou, bois d'elfe…</li>
@@ -835,7 +836,7 @@
                 <!-- ===== RESSOURCES APPROPRIÉES ===== -->
                 <section class="wiki-page" id="page-ressources-appropriees">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="ressources">Ressources</a> <span class="sep">›</span> Appropriées</div>
-                    <h1>⚔️ Ressources Appropriées</h1>
+                    <h1><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Ressources Appropriées</h1>
                     <ul>
                         <li><strong>Drops de mobs :</strong> cuir, os, crocs, écailles…</li>
                         <li><strong>Drops de boss :</strong> essences, cœurs, fragments légendaires…</li>
@@ -846,22 +847,22 @@
                 <!-- ===== MÉTIERS ===== -->
                 <section class="wiki-page" id="page-metiers">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Métiers</div>
-                    <h1>🔨 Métiers</h1>
+                    <h1><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span> Métiers</h1>
                     <p><strong>5 métiers</strong> disponibles. Tu peux exercer <strong>tous les métiers simultanément</strong>. Chaque métier a ses propres niveaux et recettes.</p>
 
                     <div class="wiki-stats-grid">
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="mineur"><div class="wiki-stat-value" style="font-size:0.85rem">⛏️ Mineur</div></div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="bucheron"><div class="wiki-stat-value" style="font-size:0.85rem">🪓 Bûcheron</div></div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="fermier"><div class="wiki-stat-value" style="font-size:0.85rem">🌾 Fermier</div></div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="pecheur"><div class="wiki-stat-value" style="font-size:0.85rem">🎣 Pêcheur</div></div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="chasseur"><div class="wiki-stat-value" style="font-size:0.85rem">🏹 Chasseur</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="mineur"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-pickaxe" aria-hidden="true"></span> Mineur</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="bucheron"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-axe" aria-hidden="true"></span> Bûcheron</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="fermier"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-grain" aria-hidden="true"></span> Fermier</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="pecheur"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-water" aria-hidden="true"></span> Pêcheur</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="chasseur"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-bow" aria-hidden="true"></span> Chasseur</div></div>
                     </div>
                 </section>
 
                 <!-- ===== MINEUR ===== -->
                 <section class="wiki-page" id="page-mineur">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="metiers">Métiers</a> <span class="sep">›</span> Mineur</div>
-                    <h1>⛏️ Mineur</h1>
+                    <h1><span class="nm-pixel-icon icon-pickaxe" aria-hidden="true"></span> Mineur</h1>
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Récolte</div><div class="wiki-stat-value">Minerais &amp; pierres</div></div>
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Outil</div><div class="wiki-stat-value">Pioche</div></div>
@@ -874,7 +875,7 @@
                 <!-- ===== BÛCHERON ===== -->
                 <section class="wiki-page" id="page-bucheron">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="metiers">Métiers</a> <span class="sep">›</span> Bûcheron</div>
-                    <h1>🪓 Bûcheron</h1>
+                    <h1><span class="nm-pixel-icon icon-axe" aria-hidden="true"></span> Bûcheron</h1>
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Récolte</div><div class="wiki-stat-value">Bois &amp; résines</div></div>
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Outil</div><div class="wiki-stat-value">Hache</div></div>
@@ -887,7 +888,7 @@
                 <!-- ===== FERMIER ===== -->
                 <section class="wiki-page" id="page-fermier">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="metiers">Métiers</a> <span class="sep">›</span> Fermier</div>
-                    <h1>🌾 Fermier</h1>
+                    <h1><span class="nm-pixel-icon icon-grain" aria-hidden="true"></span> Fermier</h1>
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Récolte</div><div class="wiki-stat-value">Graines, fruits, légumes</div></div>
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Outils</div><div class="wiki-stat-value">Houe &amp; arrosoir</div></div>
@@ -900,7 +901,7 @@
                 <!-- ===== PÊCHEUR ===== -->
                 <section class="wiki-page" id="page-pecheur">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="metiers">Métiers</a> <span class="sep">›</span> Pêcheur</div>
-                    <h1>🎣 Pêcheur</h1>
+                    <h1><span class="nm-pixel-icon icon-water" aria-hidden="true"></span> Pêcheur</h1>
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Récolte</div><div class="wiki-stat-value">Poissons &amp; trésors</div></div>
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Outil</div><div class="wiki-stat-value">Canne à pêche</div></div>
@@ -913,7 +914,7 @@
                 <!-- ===== CHASSEUR ===== -->
                 <section class="wiki-page" id="page-chasseur">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="metiers">Métiers</a> <span class="sep">›</span> Chasseur</div>
-                    <h1>🏹 Chasseur</h1>
+                    <h1><span class="nm-pixel-icon icon-bow" aria-hidden="true"></span> Chasseur</h1>
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Récolte</div><div class="wiki-stat-value">Peaux, os, crocs, viande</div></div>
                         <div class="wiki-stat-item"><div class="wiki-stat-label">Outil</div><div class="wiki-stat-value">Couteau de chasse</div></div>
@@ -926,7 +927,7 @@
                 <!-- ===== ANTI-KS ===== -->
                 <section class="wiki-page" id="page-anti-ks">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Systèmes <span class="sep">›</span> Anti-KS</div>
-                    <h1>🛡️ Système Anti-KS</h1>
+                    <h1><span class="nm-pixel-icon icon-shield" aria-hidden="true"></span> Système Anti-KS</h1>
                     <p><strong>KS</strong> = Kill Steal (voler le kill/loot d'un autre joueur).</p>
                     <ul>
                         <li>Le système attribue le loot au joueur/groupe ayant infligé le <strong>plus de dégâts</strong>.</li>
@@ -939,7 +940,7 @@
                 <!-- ===== COMMERCES ===== -->
                 <section class="wiki-page" id="page-commerces">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Systèmes <span class="sep">›</span> Commerces</div>
-                    <h1>🏪 Commerces</h1>
+                    <h1><span class="nm-pixel-icon icon-town" aria-hidden="true"></span> Commerces</h1>
                     <p>Les joueurs peuvent acheter un <strong>Commerce</strong> (boutique physique sur la map).</p>
                     <ul>
                         <li><strong>Types :</strong> Armurier, Potionnier, Forgeron, Épicier, etc.</li>
@@ -953,7 +954,7 @@
                 <!-- ===== HOUSING ===== -->
                 <section class="wiki-page" id="page-housing">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Systèmes <span class="sep">›</span> Housing</div>
-                    <h1>🏠 Housing</h1>
+                    <h1><span class="nm-pixel-icon icon-town" aria-hidden="true"></span> Housing</h1>
                     <p>Chaque joueur peut acquérir un <strong>logement</strong> dans l'Aincrad.</p>
                     <ul>
                         <li><strong>Types :</strong> Appartement, Maison, Domaine (selon budget)</li>
@@ -963,10 +964,10 @@
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="housing-acquisition">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">🔑 Acquisition</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-key" aria-hidden="true"></span> Acquisition</div>
                         </div>
                         <div class="wiki-stat-item" style="cursor:pointer" data-goto="housing-manager">
-                            <div class="wiki-stat-value" style="font-size:0.85rem">🔧 Manager</div>
+                            <div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span> Manager</div>
                         </div>
                     </div>
                 </section>
@@ -974,7 +975,7 @@
                 <!-- ===== HOUSING ACQUISITION ===== -->
                 <section class="wiki-page" id="page-housing-acquisition">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="housing">Housing</a> <span class="sep">›</span> Acquisition</div>
-                    <h1>🔑 Acquisition d'un logement</h1>
+                    <h1><span class="nm-pixel-icon icon-key" aria-hidden="true"></span> Acquisition d'un logement</h1>
                     <ul>
                         <li>Achat via <strong>PNJ immobilier</strong> dans les villes</li>
                         <li>Prix variés selon la taille et le palier</li>
@@ -986,7 +987,7 @@
                 <!-- ===== HOUSING MANAGER ===== -->
                 <section class="wiki-page" id="page-housing-manager">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="housing">Housing</a> <span class="sep">›</span> Manager</div>
-                    <h1>🔧 Manager sa maison</h1>
+                    <h1><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span> Manager sa maison</h1>
                     <ul>
                         <li>Meubles et décorations achetables ou craftables</li>
                         <li><strong>Coffre de maison</strong> = stockage personnel</li>
@@ -998,15 +999,15 @@
                 <!-- ===== ÉCONOMIE ===== -->
                 <section class="wiki-page" id="page-economie">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Économie</div>
-                    <h1>💰 Économie &amp; Échanges</h1>
+                    <h1><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span> Économie &amp; Échanges</h1>
 
-                    <h2>💎 La Monnaie : Les Cols</h2>
+                    <h2><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span> La Monnaie : Les Cols</h2>
                     <ul>
                         <li><strong>Obtention :</strong> quêtes, donjons, vente d'objets, commerce entre joueurs</li>
                         <li><strong>Achats :</strong> habitations, bases de guildes, commerces, équipements/ressources</li>
                     </ul>
 
-                    <h2>🔄 Système d'Échange</h2>
+                    <h2><span class="nm-pixel-icon icon-loop" aria-hidden="true"></span> Système d'Échange</h2>
                     <ul>
                         <li>Via <strong>Sneak + Clic droit</strong> sur le joueur, ou <code>/trade [pseudo]</code></li>
                         <li>Validation sécurisée (les deux parties doivent accepter)</li>
@@ -1014,21 +1015,21 @@
                     </ul>
 
                     <div class="wiki-stats-grid">
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="marche-guilde"><div class="wiki-stat-value" style="font-size:0.85rem">🏰 Marché Guilde</div></div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="hdv-wiki"><div class="wiki-stat-value" style="font-size:0.85rem">🏛️ HDV</div></div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="banque"><div class="wiki-stat-value" style="font-size:0.85rem">🏦 Banque</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="marche-guilde"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Marché Guilde</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="hdv-wiki"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> HDV</div></div>
+                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="banque"><div class="wiki-stat-value" style="font-size:0.85rem"><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Banque</div></div>
                     </div>
                 </section>
 
                 <!-- ===== MARCHÉ DE GUILDE ===== -->
                 <section class="wiki-page" id="page-marche-guilde">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="economie">Économie</a> <span class="sep">›</span> Marché de Guilde</div>
-                    <h1>🏰 Marché de Guilde</h1>
+                    <h1><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Marché de Guilde</h1>
                     <p>Les guildes peuvent devenir de véritables puissances économiques avec leur propre marché sur leur territoire.</p>
                     <ul>
-                        <li>🏆 <strong>Objets Exclusifs</strong> liés à l'histoire de la guilde</li>
-                        <li>⚔️ <strong>Butins de Donjons</strong> de guilde</li>
-                        <li>💎 <strong>Monopole de Ressources</strong> (certaines rares uniquement accessibles à certaines factions)</li>
+                        <li><span class="nm-pixel-icon icon-trophy" aria-hidden="true"></span> <strong>Objets Exclusifs</strong> liés à l'histoire de la guilde</li>
+                        <li><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> <strong>Butins de Donjons</strong> de guilde</li>
+                        <li><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span> <strong>Monopole de Ressources</strong> (certaines rares uniquement accessibles à certaines factions)</li>
                     </ul>
                     <p>Entièrement gérés par les membres. Les joueurs solo peuvent interagir et négocier des tarifs préférentiels.</p>
                 </section>
@@ -1036,20 +1037,20 @@
                 <!-- ===== HDV WIKI ===== -->
                 <section class="wiki-page" id="page-hdv-wiki">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="economie">Économie</a> <span class="sep">›</span> HDV</div>
-                    <h1>🏛️ Hôtel de Ventes</h1>
+                    <h1><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Hôtel de Ventes</h1>
                     <p>Espace de vente/achat d'équipements entre joueurs de manière sécurisée.</p>
 
-                    <h2>📍 Localisation</h2>
+                    <h2><span class="nm-pixel-icon icon-map" aria-hidden="true"></span> Localisation</h2>
                     <p>Capitales de chaque palier.</p>
 
-                    <h2>⚙️ Fonctionnement</h2>
+                    <h2><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span> Fonctionnement</h2>
                     <ul>
                         <li>Vente à <strong>prix fixe</strong> en Cols</li>
                         <li>Système d'<strong>enchères</strong></li>
                         <li>Achat depuis les offres disponibles</li>
                     </ul>
 
-                    <h2>📦 Inventaire de l'HDV</h2>
+                    <h2><span class="nm-pixel-icon icon-chest" aria-hidden="true"></span> Inventaire de l'HDV</h2>
                     <ul>
                         <li>Objets achetés/gagnés envoyés dans l'inventaire d'HDV</li>
                         <li>Objets non vendus retournés à expiration</li>
@@ -1060,25 +1061,25 @@
                 <!-- ===== BANQUE ===== -->
                 <section class="wiki-page" id="page-banque">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="economie">Économie</a> <span class="sep">›</span> Banque</div>
-                    <h1>🏦 Banque</h1>
+                    <h1><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Banque</h1>
 
-                    <h2>💰 Stockage sécurisé et centralisé</h2>
+                    <h2><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span> Stockage sécurisé et centralisé</h2>
                     <p>La banque est <strong>commune à tous les paliers</strong>. Déposez au Palier 1, récupérez dans n'importe quelle capitale.</p>
 
                     <div class="wiki-callout wiki-callout-success">
-                        🛡️ Les items en banque sont <strong>totalement protégés</strong>.
+                        <span class="nm-pixel-icon icon-shield" aria-hidden="true"></span> Les items en banque sont <strong>totalement protégés</strong>.
                     </div>
 
-                    <h2>📈 Amélioration du stockage</h2>
+                    <h2><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span> Amélioration du stockage</h2>
                     <p>Espace évolutif, extensible en échange de Cols.</p>
                 </section>
 
                 <!-- ===== DONJONS ===== -->
                 <section class="wiki-page" id="page-donjons">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> Donjons</div>
-                    <h1>👹 Donjons et Boss Palier</h1>
+                    <h1><span class="nm-pixel-icon icon-skull" aria-hidden="true"></span> Donjons et Boss Palier</h1>
 
-                    <h2>🏰 A. Donjons classiques</h2>
+                    <h2><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> A. Donjons classiques</h2>
                     <div class="wiki-card">
                         <ul>
                             <li>Difficulté progressive adaptée à l'avancée</li>
@@ -1087,7 +1088,7 @@
                         </ul>
                     </div>
 
-                    <h2>👑 B. Boss de Palier</h2>
+                    <h2><span class="nm-pixel-icon icon-trophy" aria-hidden="true"></span> B. Boss de Palier</h2>
                     <div class="wiki-card">
                         <ul>
                             <li><strong>Défis ultimes</strong> du serveur</li>
@@ -1095,11 +1096,11 @@
                             <li>Butins <strong>Légendaires</strong></li>
                         </ul>
                         <div class="wiki-callout wiki-callout-danger">
-                            💀 <strong>Mort = exclusion temporaire du serveur</strong>
+                            <span class="nm-pixel-icon icon-skull" aria-hidden="true"></span> <strong>Mort = exclusion temporaire du serveur</strong>
                         </div>
                     </div>
 
-                    <h2>⚠️ Critères d'Accès</h2>
+                    <h2><span class="nm-pixel-icon icon-warning" aria-hidden="true"></span> Critères d'Accès</h2>
                     <ul>
                         <li><strong>Niveau requis</strong> (minimum et parfois maximum)</li>
                         <li><strong>Groupe</strong> (nombre de participants limité)</li>
@@ -1110,9 +1111,9 @@
                 <!-- ===== RAIDS ===== -->
                 <section class="wiki-page" id="page-raids">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> Raids</div>
-                    <h1>🏯 Raids</h1>
+                    <h1><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Raids</h1>
                     <div class="wiki-placeholder">
-                        <div class="placeholder-icon">🚧</div>
+                        <div class="placeholder-icon"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></div>
                         <p>Cette page sera rédigée en accord avec la RoadMap.</p>
                     </div>
                 </section>
@@ -1120,9 +1121,9 @@
                 <!-- ===== ALCHIMIE ===== -->
                 <section class="wiki-page" id="page-alchimie">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> Alchimie</div>
-                    <h1>🧪 Alchimie</h1>
+                    <h1><span class="nm-pixel-icon icon-potion" aria-hidden="true"></span> Alchimie</h1>
                     <div class="wiki-placeholder">
-                        <div class="placeholder-icon">🚧</div>
+                        <div class="placeholder-icon"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></div>
                         <p>Contenu à venir — cette page sera complétée prochainement.</p>
                     </div>
                 </section>
@@ -1130,24 +1131,24 @@
                 <!-- ===== MORT TEMPORAIRE ===== -->
                 <section class="wiki-page" id="page-mort-temporaire">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> Mort Temporaire</div>
-                    <h1>💀 Mort Temporaire</h1>
+                    <h1><span class="nm-pixel-icon icon-skull" aria-hidden="true"></span> Mort Temporaire</h1>
                     <p>Dans SAO France, la mort n'est pas définitive mais peut entraîner une <strong>exclusion temporaire</strong>.</p>
 
-                    <h2>⚠️ Les 3 Zones Concernées</h2>
+                    <h2><span class="nm-pixel-icon icon-warning" aria-hidden="true"></span> Les 3 Zones Concernées</h2>
                     <div class="wiki-card">
-                        <h3>1️⃣ Raids ⚔️</h3>
+                        <h3><span class="wiki-step-mark" aria-hidden="true">1</span> Raids <span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></h3>
                         <p>Zones de haut niveau pour groupes organisés. Mort = exclusion temporaire.</p>
                     </div>
                     <div class="wiki-card">
-                        <h3>2️⃣ Donjons de Palier 🏰</h3>
+                        <h3><span class="wiki-step-mark" aria-hidden="true">2</span> Donjons de Palier <span class="nm-pixel-icon icon-castle" aria-hidden="true"></span></h3>
                         <p>Défis majeurs pour débloquer les paliers supérieurs. Mort = exclusion temporaire.</p>
                     </div>
                     <div class="wiki-card">
-                        <h3>3️⃣ Zones PK 🔪</h3>
+                        <h3><span class="wiki-step-mark" aria-hidden="true">3</span> Zones PK <span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></h3>
                         <p>PvP activé en permanence. Mort = exclusion temporaire + <strong>perte d'une partie de l'équipement</strong>.</p>
                     </div>
 
-                    <h2>⏳ Durée de l'Exclusion</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Durée de l'Exclusion</h2>
                     <ul>
                         <li><strong>La Zone :</strong> Boss de Palier plus punitif que Raid</li>
                         <li><strong>La Récidive :</strong> morts répétées = durée allongée</li>
@@ -1158,9 +1159,9 @@
                 <!-- ===== EXPÉDITION ===== -->
                 <section class="wiki-page" id="page-expedition">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> Expédition</div>
-                    <h1>🌋 Expédition</h1>
+                    <h1><span class="nm-pixel-icon icon-flame" aria-hidden="true"></span> Expédition</h1>
                     <div class="wiki-placeholder">
-                        <div class="placeholder-icon">🚧</div>
+                        <div class="placeholder-icon"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></div>
                         <p>Cette page sera rédigée en accord avec la RoadMap.</p>
                     </div>
                 </section>
@@ -1168,9 +1169,9 @@
                 <!-- ===== PK ===== -->
                 <section class="wiki-page" id="page-pk">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> PK</div>
-                    <h1>🩸 PK (Player Killing)</h1>
+                    <h1><span class="nm-pixel-icon icon-skull" aria-hidden="true"></span> PK (Player Killing)</h1>
                     <div class="wiki-placeholder">
-                        <div class="placeholder-icon">🚧</div>
+                        <div class="placeholder-icon"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></div>
                         <p>Cette page sera rédigée en accord avec la RoadMap.</p>
                     </div>
                 </section>
@@ -1178,10 +1179,10 @@
                 <!-- ===== WORLDBOSS ===== -->
                 <section class="wiki-page" id="page-worldboss">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> WorldBoss</div>
-                    <h1>☠️ WorldBoss</h1>
+                    <h1><span class="nm-pixel-icon icon-skull" aria-hidden="true"></span> WorldBoss</h1>
                     <p>Événement spécial rassemblant l'ensemble des joueurs contre un ennemi puissant. <strong>3 fois par semaine.</strong></p>
 
-                    <h2>📅 Planning</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Planning</h2>
                     <table class="wiki-table">
                         <thead><tr><th>Jour</th><th>Heure</th><th>Boss</th><th>Zone</th></tr></thead>
                         <tbody>
@@ -1191,7 +1192,7 @@
                         </tbody>
                     </table>
 
-                    <h2>📋 Comment Participer</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Comment Participer</h2>
                     <ul>
                         <li>Rendez-vous dans la zone aux horaires prévus</li>
                         <li><strong>Coopération Obligatoire</strong> — barre de vie impossible à gérer seul</li>
@@ -1203,9 +1204,9 @@
                 <!-- ===== PASSE HÉROÏQUE ===== -->
                 <section class="wiki-page" id="page-passe-heroique">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Combat <span class="sep">›</span> Passe Héroïque</div>
-                    <h1>🗡️ Passe Héroïque</h1>
+                    <h1><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span> Passe Héroïque</h1>
                     <div class="wiki-placeholder">
-                        <div class="placeholder-icon">🚧</div>
+                        <div class="placeholder-icon"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></div>
                         <p>Cette page sera rédigée lorsque le Passe Héroïque sera présent en jeu.</p>
                     </div>
                 </section>
@@ -1213,18 +1214,18 @@
                 <!-- ===== FAMILIER & MONTURE ===== -->
                 <section class="wiki-page" id="page-familier-monture">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Familier &amp; Monture</div>
-                    <h1>🐴 Familier &amp; Monture</h1>
+                    <h1><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span> Familier &amp; Monture</h1>
 
-                    <h2>🐶 Familiers</h2>
+                    <h2><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span> Familiers</h2>
                     <div class="wiki-card">
                         <ul>
-                            <li>🔹 <strong>Familiers utilitaires 🛡</strong> — Buffs et attributs <span class="wiki-badge wiki-badge-planned">Bientôt</span></li>
-                            <li>🔹 <strong>Familiers passifs 🌿</strong> — Purement esthétiques <span class="wiki-badge wiki-badge-done">Disponible</span></li>
-                            <li>🔹 <strong>Familiers de combat ⚔</strong> — Attaque aux côtés du maître <span class="wiki-badge wiki-badge-planned">Bientôt</span></li>
+                            <li><span class="wiki-bullet-pixel" aria-hidden="true"></span> <strong>Familiers utilitaires <span class="nm-pixel-icon icon-shield" aria-hidden="true"></span></strong> — Buffs et attributs <span class="wiki-badge wiki-badge-planned">Bientôt</span></li>
+                            <li><span class="wiki-bullet-pixel" aria-hidden="true"></span> <strong>Familiers passifs <span class="nm-pixel-icon icon-leaf" aria-hidden="true"></span></strong> — Purement esthétiques <span class="wiki-badge wiki-badge-done">Disponible</span></li>
+                            <li><span class="wiki-bullet-pixel" aria-hidden="true"></span> <strong>Familiers de combat <span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></strong> — Attaque aux côtés du maître <span class="wiki-badge wiki-badge-planned">Bientôt</span></li>
                         </ul>
                     </div>
 
-                    <h2>🏇 Montures</h2>
+                    <h2><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span> Montures</h2>
                     <table class="wiki-table">
                         <thead><tr><th>Type</th><th>Description</th></tr></thead>
                         <tbody>
@@ -1241,24 +1242,24 @@
                     </ul>
 
                     <div class="wiki-callout wiki-callout-warning">
-                        ⚠️ Les montures sont <strong>inutilisables</strong> à l'intérieur des Donjons.
+                        <span class="nm-pixel-icon icon-warning" aria-hidden="true"></span> Les montures sont <strong>inutilisables</strong> à l'intérieur des Donjons.
                     </div>
                 </section>
 
                 <!-- ===== GUILDES ===== -->
                 <section class="wiki-page" id="page-guildes">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Guildes</div>
-                    <h1>⚜️ Guildes</h1>
+                    <h1><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span> Guildes</h1>
                     <p>Les guildes sont des factions structurées qui influencent l'économie, la politique et l'exploration de l'Aincrad.</p>
 
-                    <h2>🏰 Création et Hiérarchie</h2>
+                    <h2><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Création et Hiérarchie</h2>
                     <ul>
                         <li>Candidature via <strong>Google Form</strong> avec logo personnalisé</li>
                         <li>Gestion via <code>/guild menu</code></li>
                         <li>Rangs Custom avec permissions spécifiques</li>
                     </ul>
 
-                    <h2>🏠 Bases de Guilde</h2>
+                    <h2><span class="nm-pixel-icon icon-town" aria-hidden="true"></span> Bases de Guilde</h2>
                     <p>Via <code>/gbase buy</code> :</p>
                     <ul>
                         <li><strong>Bases Instanciées</strong> — serveur privé</li>
@@ -1268,7 +1269,7 @@
                         Accès au coffre/banque/shop d'items de guilde exclusivement dans l'enceinte de la base.
                     </div>
 
-                    <h2>📈 Progression et Avantages</h2>
+                    <h2><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span> Progression et Avantages</h2>
                     <ul>
                         <li>XP via missions et événements des Game Designers</li>
                         <li>Nombre maximal de membres augmente avec le niveau</li>
@@ -1279,22 +1280,22 @@
                 <!-- ===== TYPE DE GUILDE ===== -->
                 <section class="wiki-page" id="page-type-guilde">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="guildes">Guildes</a> <span class="sep">›</span> Types</div>
-                    <h1>🔰 Type de Guilde</h1>
+                    <h1><span class="nm-pixel-icon icon-shield" aria-hidden="true"></span> Type de Guilde</h1>
                     <p>Le choix de type est stratégique et oriente toute la progression de la guilde.</p>
 
                     <div class="wiki-stats-grid">
                         <div class="wiki-stat-item">
-                            <div class="wiki-stat-label">⚔️</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value class-guerrier">Conquérant</div>
                             <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--sao-text)">Conquête et domination</p>
                         </div>
                         <div class="wiki-stat-item">
-                            <div class="wiki-stat-label">🧭</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-map" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value class-mage">Aventurier</div>
                             <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--sao-text)">Exploration et découverte</p>
                         </div>
                         <div class="wiki-stat-item">
-                            <div class="wiki-stat-label">💰</div>
+                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span></div>
                             <div class="wiki-stat-value class-archer">Marchand</div>
                             <p style="margin:0.3rem 0 0;font-size:0.8rem;color:var(--sao-text)">Économie et commerce</p>
                         </div>
@@ -1308,9 +1309,9 @@
                 <!-- ===== FONCTIONNEMENT GUILDE ===== -->
                 <section class="wiki-page" id="page-fonctionnement-guilde">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="guildes">Guildes</a> <span class="sep">›</span> Fonctionnement</div>
-                    <h1>📋 Fonctionnement d'une Guilde</h1>
+                    <h1><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Fonctionnement d'une Guilde</h1>
 
-                    <h2>📋 Gestion &amp; Hiérarchie</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Gestion &amp; Hiérarchie</h2>
                     <ul>
                         <li>Effectif limité à <strong>30 joueurs</strong></li>
                         <li>Rôles &amp; Permissions configurables</li>
@@ -1318,7 +1319,7 @@
                         <li>Logistique (accès zones spéciales, expéditions, équipements)</li>
                     </ul>
 
-                    <h2>🏰 Territoire</h2>
+                    <h2><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span> Territoire</h2>
                     <p>Emplacement sur la carte ou zone instanciée. L'évolution débloque :</p>
                     <ol>
                         <li><strong>Commerce</strong> — marché de guilde exclusif</li>
@@ -1326,51 +1327,51 @@
                         <li><strong>Arsenal</strong> — équipements uniques</li>
                     </ol>
 
-                    <h2>📈 Progression</h2>
+                    <h2><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span> Progression</h2>
                     <p>XP via missions spécifiques et événements Game Designers.</p>
                 </section>
 
                 <!-- ===== ALLIANCES ===== -->
                 <section class="wiki-page" id="page-alliances">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="guildes">Guildes</a> <span class="sep">›</span> Alliances</div>
-                    <h1>🤝 Alliances</h1>
+                    <h1><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span> Alliances</h1>
                     <p>Les guildes Officielles peuvent former des alliances (pas besoin du même type de guilde).</p>
 
-                    <h2>📜 Règles</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Règles</h2>
                     <ul>
                         <li>Maximum <strong>3 guildes</strong> par alliance</li>
                         <li>Respect de l'équilibre pour l'équité</li>
                         <li>Réservé aux <strong>Guildes Officielles</strong></li>
                     </ul>
 
-                    <h2>🎯 Objectifs</h2>
+                    <h2><span class="nm-pixel-icon icon-target" aria-hidden="true"></span> Objectifs</h2>
                     <p>Activités communes, groupe de conquérants, puissance marchande, équipe d'éclaireurs pour boss.</p>
 
-                    <h2>📝 Comment réaliser une alliance ?</h2>
+                    <h2><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Comment réaliser une alliance ?</h2>
                     <ol>
                         <li>Créer un serveur Discord dédié</li>
                         <li>Ouvrir un ticket sur le Discord officiel</li>
                         <li>Présenter le projet (objectifs, collaboration, motivations)</li>
                     </ol>
 
-                    <h2>🔮 Perspectives</h2>
+                    <h2><span class="nm-pixel-icon icon-mage" aria-hidden="true"></span> Perspectives</h2>
                     <p>Tournois inter-alliances, événements spéciaux, affrontements stratégiques lors d'événements de guerre.</p>
                 </section>
 
                 <!-- ===== TABLE RONDE ===== -->
                 <section class="wiki-page" id="page-table-ronde">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="guildes">Guildes</a> <span class="sep">›</span> Table Ronde</div>
-                    <h1>⚖️ Table Ronde</h1>
+                    <h1><span class="nm-pixel-icon icon-balance" aria-hidden="true"></span> Table Ronde</h1>
                     <p>La Table Ronde est l'organe politique suprême de SAO Minecraft. Chaque mois, les leaders de guildes se rassemblent pour <strong>sculpter l'avenir du serveur</strong>.</p>
 
-                    <h2>🛡️ Participation &amp; Présence</h2>
+                    <h2><span class="nm-pixel-icon icon-shield" aria-hidden="true"></span> Participation &amp; Présence</h2>
                     <ul>
                         <li><strong>Représentation :</strong> Leader de chaque guilde + 1 à 2 bras droits</li>
                         <li><strong>Immersion :</strong> Présence en jeu requise</li>
                         <li><strong>Diffusion :</strong> Peut être streamé</li>
                     </ul>
 
-                    <h2>⚖️ Système d'Influence</h2>
+                    <h2><span class="nm-pixel-icon icon-balance" aria-hidden="true"></span> Système d'Influence</h2>
                     <p>Plus votre guilde est puissante, plus vous pesez sur les votes. Calculé selon :</p>
                     <ul>
                         <li>Le <strong>Niveau de Guilde</strong></li>
@@ -1383,7 +1384,7 @@
                 <!-- ===== LISTE GUILDES ===== -->
                 <section class="wiki-page" id="page-liste-guildes">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> <a data-page="guildes">Guildes</a> <span class="sep">›</span> Liste</div>
-                    <h1>📍 Liste des Guildes Officielles</h1>
+                    <h1><span class="nm-pixel-icon icon-map" aria-hidden="true"></span> Liste des Guildes Officielles</h1>
                     <p>La liste des guildes officielles est mise à jour régulièrement. Consultez le Discord pour la version la plus récente.</p>
                     <div class="wiki-callout wiki-callout-info">
                         Pour créer ou enregistrer une guilde, envoyez votre candidature via le <strong>Google Form</strong> disponible sur le Discord.
@@ -1393,14 +1394,14 @@
                 <!-- ===== AIDE ===== -->
                 <section class="wiki-page" id="page-aide">
                     <div class="wiki-breadcrumb"><a data-page="accueil">Wiki</a> <span class="sep">›</span> Support</div>
-                    <h1>🆘 Besoin d'aide ?</h1>
+                    <h1><span class="nm-pixel-icon icon-help" aria-hidden="true"></span> Besoin d'aide ?</h1>
                     <p>Rejoins le <strong>Discord officiel</strong> Sword Art Online Minecraft pour obtenir toutes les réponses !</p>
                     <ul>
                         <li>Pose ta question dans le channel <strong>FAQ</strong></li>
                         <li>Ou crée un <strong>ticket</strong> pour une demande plus spécifique</li>
                     </ul>
                     <div class="wiki-callout wiki-callout-info">
-                        🔗 <strong>discord.gg/BwxjRmh6qK</strong>
+                        <span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> <strong>discord.gg/BwxjRmh6qK</strong>
                     </div>
                 </section>
 
