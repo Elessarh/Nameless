@@ -703,6 +703,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     const supabaseReady = await initSupabase();
     if (!supabaseReady) {
+        window.namelessAuthReady = true;
         // console.error('❌ Impossible d\'initialiser Supabase');
         // Forcer l'affichage du bouton connexion si Supabase échoue
         setTimeout(() => {
@@ -748,7 +749,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Mettre à jour l'UI une seule fois
     checkAuthState();
-    
+
+    // Signale aux pages protégées que l'état de session initial est connu :
+    // elles peuvent refuser l'accès immédiatement au lieu d'attendre le timeout.
+    window.namelessAuthReady = true;
+
     // Écouter les changements d'authentification
     supabase.auth.onAuthStateChange(async (event, session) => {
         try {

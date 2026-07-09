@@ -201,7 +201,7 @@
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/profil.js?v=nameless-2.0'
+                'js/profil.js?v=nameless-2.1'
             ],
             init: function (root) {
                 if (global.NamelessProfilePage && typeof global.NamelessProfilePage.init === 'function') {
@@ -226,7 +226,7 @@
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/admin-dashboard.js?v=20260709'
+                'js/admin-dashboard.js?v=20260709e'
             ],
             init: function (root) {
                 if (global.NamelessAdminDashboardPage && typeof global.NamelessAdminDashboardPage.init === 'function') {
@@ -254,9 +254,9 @@
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/espace-guilde.js?v=20260709',
-                'js/guild-chat.js?v=20260709',
-                'js/guild-dm.js?v=20260709'
+                'js/espace-guilde.js?v=20260709e',
+                'js/guild-chat.js?v=20260709e',
+                'js/guild-dm.js?v=20260709e'
             ],
             init: function (root) {
                 if (global.NamelessGuildPage && typeof global.NamelessGuildPage.init === 'function') {

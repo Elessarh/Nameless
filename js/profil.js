@@ -57,7 +57,7 @@ function waitForAuthAndUser() {
             if (typeof supabase !== 'undefined' && supabase !== null && window.currentUser !== null && window.currentUser !== undefined) {
                 clearInterval(checkAuth);
                 resolve();
-            } else if (attempts >= maxAttempts) {
+            } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 showError('Vous devez être connecté pour voir votre profil.');
                 setTimeout(() => {
