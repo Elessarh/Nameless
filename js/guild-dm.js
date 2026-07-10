@@ -8,6 +8,19 @@ let selectedDmImage = null;
 let dmSubscription = null;
 let dmInitialized = false;
 
+// Nom public affiché dans les DM : minecraft_username prioritaire, puis
+// username personnalisé (jamais le fallback technique Joueur_xxxxxx), puis
+// « Joueur inconnu ». Jamais d'email ni d'UUID.
+function getDmDisplayName(profile) {
+    if (!profile) return 'Joueur inconnu';
+    if (profile.minecraft_username) return profile.minecraft_username;
+
+    const username = String(profile.username || '').trim();
+    if (username && !/^Joueur_[A-Za-z0-9]{6}$/.test(username)) return username;
+
+    return 'Joueur inconnu';
+}
+
 // Initialisation
 async function initGuildDm() {
     if (dmInitialized) return;
@@ -166,7 +179,7 @@ async function loadDmMembers() {
         
         const { data: members, error } = await supabase
             .from('user_profiles')
-            .select('id, username')
+            .select('id, username, minecraft_username')
             .in('role', ['membre', 'admin'])
             .neq('id', window.currentUser.id)
             .order('username');
@@ -189,10 +202,12 @@ async function loadDmMembers() {
         // délégation (voir initializeDM).
         list.innerHTML = '';
         members.forEach(member => {
+            const displayName = getDmDisplayName(member);
+
             const item = document.createElement('div');
             item.className = 'dm-member-item';
             item.dataset.memberId = member.id;
-            item.dataset.username = member.username || '';
+            item.dataset.username = displayName;
 
             const avatar = document.createElement('div');
             avatar.className = 'dm-member-avatar';
@@ -204,7 +219,7 @@ async function loadDmMembers() {
 
             const nameSpan = document.createElement('span');
             nameSpan.className = 'dm-member-name';
-            nameSpan.textContent = member.username || '';
+            nameSpan.textContent = displayName;
             info.appendChild(nameSpan);
 
             const previewSpan = document.createElement('span');
@@ -283,16 +298,16 @@ async function loadDmMessages(recipientId) {
             return;
         }
         
-        // Récupérer les profils
+        // Récupérer les profils (pseudo Minecraft prioritaire)
         const userIds = [...new Set(messages.map(m => m.user_id))];
         const { data: profiles } = await supabase
             .from('user_profiles')
-            .select('id, username')
+            .select('id, username, minecraft_username')
             .in('id', userIds);
-        
+
         const profileMap = {};
         (profiles || []).forEach(p => {
-            profileMap[p.id] = p.username;
+            profileMap[p.id] = getDmDisplayName(p);
         });
         
         displayDmMessages(messages, profileMap);

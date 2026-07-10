@@ -13,6 +13,21 @@ let chatInitialized = false;
 // contenu brut dans le DOM/onclick (voir replyToMessage).
 let messageCache = {};
 
+// Nom public affiché dans le chat :
+// 1. minecraft_username si présent ;
+// 2. username seulement s'il est personnalisé (pas le fallback technique
+//    Joueur_xxxxxx généré à l'inscription Microsoft) ;
+// 3. « Joueur inconnu ». Jamais d'email ni d'UUID.
+function getChatDisplayName(profile) {
+    if (!profile) return 'Joueur inconnu';
+    if (profile.minecraft_username) return profile.minecraft_username;
+
+    const username = String(profile.username || '').trim();
+    if (username && !/^Joueur_[A-Za-z0-9]{6}$/.test(username)) return username;
+
+    return 'Joueur inconnu';
+}
+
 // Helper d'échappement centralisé (fallback si security-utils absent).
 function chatEscapeHtml(text) {
     if (window.NamelessSecurity && window.NamelessSecurity.escapeHtml) {
@@ -211,16 +226,16 @@ async function loadMessages() {
             return;
         }
         
-        // Récupérer les profils des auteurs
+        // Récupérer les profils des auteurs (pseudo Minecraft prioritaire)
         const userIds = [...new Set(messages.map(m => m.user_id))];
         const { data: profiles } = await supabase
             .from('user_profiles')
-            .select('id, username')
+            .select('id, username, minecraft_username')
             .in('id', userIds);
-        
+
         const profileMap = {};
         (profiles || []).forEach(p => {
-            profileMap[p.id] = p.username;
+            profileMap[p.id] = getChatDisplayName(p);
         });
         
         displayMessages(messages, profileMap);
@@ -689,18 +704,22 @@ async function uploadChatImage(file) {
     }
 }
 
-// Charger les membres de la guilde
+// Charger les membres de la guilde (pour les mentions @pseudo)
 async function loadGuildMembers() {
     try {
         const { data: members, error } = await supabase
             .from('user_profiles')
-            .select('id, username')
+            .select('id, username, minecraft_username')
             .in('role', ['membre', 'admin'])
             .order('username');
-        
+
         if (error) throw error;
-        
-        guildMembers = members || [];
+
+        // Les mentions utilisent le nom public ; les profils sans nom
+        // exploitable (fallback technique) sont exclus de l'autocomplete.
+        guildMembers = (members || [])
+            .map(member => ({ id: member.id, username: getChatDisplayName(member) }))
+            .filter(member => member.username !== 'Joueur inconnu');
         // console.log('[CHAT] Membres chargés:', guildMembers.length);
     } catch (error) {
         // console.error('[CHAT] Erreur chargement membres:', error);

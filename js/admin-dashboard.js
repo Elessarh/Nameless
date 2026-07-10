@@ -1489,12 +1489,17 @@ window.submitActivity = async function() {
             }
         }
         
+        // Nom public de l'auteur : pseudo Minecraft prioritaire, jamais l'email.
+        const authorName = currentUserProfile?.minecraft_username
+            || currentUserProfile?.username
+            || 'Admin';
+
         const activityData = {
             titre: title,
             type: type,
             contenu: content,
             image_url: imageUrl,
-            author_name: currentUserProfile?.username || localCurrentUser?.email || 'Admin'
+            author_name: authorName
         };
         
         
