@@ -198,25 +198,26 @@
     line-height: 1.2;
 }
 
-/* Mode icône seulement - masquer le texte complètement */
+/* Ancien mode « icône seule » retiré : boutons compacts icône + texte.
+   Les valeurs finales vivent dans le bloc Nameless en fin de fichier. */
 .toggles-grid .toggle-text {
-    display: none !important;
+    display: inline !important;
 }
 
 .toggles-grid .toggle-label {
-    min-height: 60px;
-    padding: 0.8rem;
-    justify-content: center;
+    min-height: 34px;
+    padding: 0.32rem 0.6rem;
+    justify-content: flex-start;
 }
 
 .toggles-grid .toggle-icon {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
 }
 
 .toggles-grid .toggle-icon img {
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
 }
 
 /* Bouton admin */
@@ -3077,8 +3078,8 @@
 }
 .toggles-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.6rem !important;
+    grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+    gap: 0.45rem !important;
 }
 .toggle-item { position: relative; }
 .toggle-item input[type="checkbox"] {
@@ -3086,12 +3087,17 @@
 }
 .toggle-label {
     display: flex !important;
+    flex-direction: row !important;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.5rem 0.75rem !important;
+    justify-content: flex-start !important;
+    gap: 0.45rem;
+    /* Compact : hauteur contenue, icône à taille fixe, texte lisible. */
+    padding: 0.32rem 0.6rem !important;
+    min-height: 34px;
+    max-height: 40px;
     background: var(--sao-bg-card) !important;
     border: 1px solid var(--sao-border) !important;
-    border-radius: 9px !important;
+    border-radius: 8px !important;
     color: var(--nm-steel) !important;
     cursor: pointer;
     transition: border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
@@ -3105,11 +3111,23 @@
 .toggle-item input[type="checkbox"]:focus-visible + .toggle-label { box-shadow: var(--focus-ring); }
 .toggle-label:hover { border-color: var(--sao-cyan) !important; }
 .toggle-icon {
-    width: 24px; height: 24px; flex-shrink: 0;
+    width: 20px; height: 20px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
+    font-size: 14px; line-height: 1;
 }
-.toggle-icon img { width: 100%; height: 100%; object-fit: contain; }
-.toggle-text { font-size: 0.8rem; letter-spacing: 0.02em; }
+.toggle-icon img {
+    width: 20px !important;
+    height: 20px !important;
+    object-fit: contain !important;
+    display: block;
+}
+.toggle-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .admin-toggle-btn {
     display: flex; align-items: center; gap: 0.6rem;

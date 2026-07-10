@@ -224,7 +224,7 @@
 .page-visual-shell .bes-filters,
 .page-visual-shell .items-filters,
 .page-visual-shell .quests-filters {
-    background: rgba(7, 12, 24, 0.68) !important;
+    background: rgba(7, 12, 24, 0.55) !important;
     border: 1px solid rgba(207, 170, 92, 0.22) !important;
     box-shadow:
         0 16px 44px rgba(0, 0, 0, 0.34),
@@ -276,15 +276,17 @@
 }
 
 .map-visual-shell .map-wrapper {
-    padding: 14px !important;
-    background: rgba(6, 10, 19, 0.40) !important;
+    padding: 12px !important;
+    /* Cadre volontairement léger : le décor de la section reste visible
+       derrière, la carte garde son filet doré et sa profondeur. */
+    background: rgba(6, 10, 19, 0.20) !important;
     border: 1px solid rgba(207, 170, 92, 0.26) !important;
     box-shadow:
-        0 20px 54px rgba(0, 0, 0, 0.42),
-        0 0 42px rgba(111, 146, 179, 0.14),
+        0 20px 54px rgba(0, 0, 0, 0.34),
+        0 0 42px rgba(111, 146, 179, 0.12),
         inset 0 0 0 1px rgba(194, 163, 103, 0.10) !important;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
 }
 
 .map-visual-shell .map-wrapper::before,
@@ -293,15 +295,15 @@
 }
 
 .map-visual-shell #game-map {
-    background: rgba(5, 7, 13, 0.48) !important;
+    background: rgba(5, 7, 13, 0.28) !important;
 }
 
 .map-visual-shell .leaflet-container {
-    background: rgba(5, 7, 13, 0.44) !important;
+    background: rgba(5, 7, 13, 0.24) !important;
 }
 
 .map-visual-shell .toggle-label {
-    background: rgba(8, 13, 25, 0.60) !important;
+    background: rgba(8, 13, 25, 0.52) !important;
     border-color: rgba(207, 170, 92, 0.16) !important;
 }
 
