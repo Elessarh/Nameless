@@ -1667,3 +1667,51 @@ body.home-page::before { background: transparent; }
     .nm-reveal { opacity: 1 !important; transform: none !important; }
     .nav-link::after, .hero-button, .cta-button, .feature-card, .nm-quick-card { transition: none !important; }
 }
+
+/* ============================================================
+   NAMELESS — Selects thématisés (global)
+   Remplace l'apparence blanche navigateur sur tous les <select> :
+   fond nuit, filet doré/bleu, flèche dorée, focus visible.
+   Les composants qui surchargent (carte, filtres) restent prioritaires.
+   ============================================================ */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--nm-navy);
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23c2a367' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    color: var(--sao-text-bright);
+    border: 1px solid var(--sao-border-cyan);
+    border-radius: 8px;
+    padding: 0.45rem 2rem 0.45rem 0.75rem;
+    font-family: var(--font-text);
+    font-size: 0.88rem;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+select:hover {
+    border-color: rgba(194, 163, 103, 0.45);
+}
+select:focus,
+select:focus-visible {
+    outline: none;
+    border-color: var(--sao-cyan, #6f92b3);
+    box-shadow: var(--focus-ring);
+}
+select:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+/* Les listes d'options suivent le thème (support variable selon OS/navigateur,
+   mais on ne laisse jamais du blanc pur là où c'est stylable). */
+select option,
+select optgroup {
+    background-color: #0a0f1d;
+    color: #e8eaf0;
+}
+select option:disabled {
+    color: #6b7280;
+}
