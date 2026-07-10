@@ -10,9 +10,12 @@
 // variable d'environnement manque.
 //
 // Actions :
-// - set_minecraft_verified { target_user_id, verified }
-// - update_role            { target_user_id, role, confirm_self_demote? }
-// - delete_user            { target_user_id, confirm_self_delete? }
+// - update_role { target_user_id, role, confirm_self_demote? }
+// - delete_user { target_user_id, confirm_self_delete? }
+//
+// set_minecraft_verified est retirée : il n'existe pas de vérification
+// officielle Microsoft -> Minecraft (403 Invalid app registration). L'action
+// renvoie action_disabled (410) pour les anciens clients.
 
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
@@ -188,40 +191,6 @@ async function writeAdminLog(
   }
 }
 
-async function handleSetMinecraftVerified(
-  client: AdminClient,
-  caller: { id: string },
-  payload: Record<string, unknown>,
-) {
-  const targetId = requireTargetId(payload);
-  if (typeof payload.verified !== 'boolean') throw new ActionError('invalid_verified_flag');
-  const verified = payload.verified;
-
-  const { data: profile, error: profileError } = await client
-    .from('user_profiles')
-    .select('id, minecraft_uuid, minecraft_verified')
-    .eq('id', targetId)
-    .maybeSingle();
-
-  if (profileError) throw new ActionError('profile_lookup_failed', 500);
-  if (!profile) throw new ActionError('target_not_found', 404);
-
-  // On ne peut vérifier qu'une identité Minecraft détectée.
-  if (verified && !profile.minecraft_uuid) throw new ActionError('minecraft_not_linked');
-
-  const { error } = await client
-    .from('user_profiles')
-    .update({ minecraft_verified: verified })
-    .eq('id', targetId);
-
-  if (error) throw new ActionError('update_failed', 500);
-
-  await writeAdminLog(client, caller.id, 'set_minecraft_verified', targetId, { verified });
-  logSafe('minecraft_verified_updated', { target: maskId(targetId), verified });
-
-  return json({ success: true, verified });
-}
-
 async function handleUpdateRole(
   client: AdminClient,
   caller: { id: string },
@@ -233,7 +202,7 @@ async function handleUpdateRole(
 
   // Auto-rétrogradation : confirmation explicite exigée.
   if (targetId === caller.id && role !== 'admin' && payload.confirm_self_demote !== true) {
-    throw new ActionError('self_demote_requires_confirmation');
+    throw new ActionError('self_downgrade_confirmation_required');
   }
 
   // Jamais retirer le dernier admin.
@@ -251,14 +220,17 @@ async function handleUpdateRole(
     .maybeSingle();
 
   if (profileError) throw new ActionError('profile_lookup_failed', 500);
-  if (!profile) throw new ActionError('target_not_found', 404);
+  if (!profile) throw new ActionError('target_user_not_found', 404);
 
   const { error: updateError } = await client
     .from('user_profiles')
     .update({ role })
     .eq('id', targetId);
 
-  if (updateError) throw new ActionError('update_failed', 500);
+  if (updateError) {
+    logSafe('role_update_failed', { step: 'user_profiles', code: updateError.code || null });
+    throw new ActionError('role_update_failed', 500);
+  }
 
   const { error: upsertError } = await client
     .from('user_roles')
@@ -267,7 +239,10 @@ async function handleUpdateRole(
       { onConflict: 'user_id' },
     );
 
-  if (upsertError) throw new ActionError('role_sync_failed', 500);
+  if (upsertError) {
+    logSafe('role_update_failed', { step: 'user_roles', code: upsertError.code || null });
+    throw new ActionError('role_update_failed', 500);
+  }
 
   await writeAdminLog(client, caller.id, 'update_role', targetId, { role });
   logSafe('role_updated', { target: maskId(targetId), role });
@@ -341,7 +316,7 @@ async function handleDeleteUser(
       throw new ActionError('auth_delete_blocked_by_storage', 409);
     }
     if (/not.*found/i.test(message)) {
-      throw new ActionError('target_not_found', 404);
+      throw new ActionError('target_user_not_found', 404);
     }
     throw new ActionError('auth_delete_failed', 500);
   }
@@ -379,12 +354,13 @@ async function handleRequest(req: Request) {
   logSafe('admin_action_authorized', { action, caller: maskId(caller.id) });
 
   switch (action) {
-    case 'set_minecraft_verified':
-      return await handleSetMinecraftVerified(client, caller, payload);
     case 'update_role':
       return await handleUpdateRole(client, caller, payload);
     case 'delete_user':
       return await handleDeleteUser(client, caller, payload);
+    case 'set_minecraft_verified':
+      // Retirée : plus de vérification Minecraft. Réponse propre, pas de 500.
+      return json({ error: 'action_disabled' }, 410);
     default:
       return json({ error: 'unknown_action' }, 400);
   }
@@ -403,6 +379,6 @@ Deno.serve(async (req) => {
     logSafe('admin_action_unexpected_error', {
       message: String(error instanceof Error ? error.message : error).slice(0, 200),
     });
-    return json({ error: 'error' }, 500);
+    return json({ error: 'internal_error' }, 500);
   }
 });
