@@ -1,9 +1,14 @@
 -- SAO Nameless - Admin actions support patch
 -- Date: 2026-07-09
 --
--- Support pour l'Edge Function admin-user-actions (set_minecraft_verified,
--- update_role, delete_user). À exécuter manuellement dans le SQL Editor,
--- APRÈS SAO_NAMELESS_SCHEMA.sql. Idempotent.
+-- Support pour l'Edge Function admin-user-actions (update_role, delete_user).
+-- À exécuter manuellement dans le SQL Editor, APRÈS SAO_NAMELESS_SCHEMA.sql.
+-- Idempotent.
+--
+-- Note : il n'existe pas de vérification officielle Minecraft. La colonne
+-- user_profiles.minecraft_verified reste en base pour compatibilité mais
+-- n'est plus utilisée par l'UI ; le trigger anti-escalade continue de
+-- bloquer sa modification par un joueur.
 --
 -- Rappels sécurité :
 -- - la fonction Edge utilise SERVICE_ROLE_KEY côté serveur uniquement ;

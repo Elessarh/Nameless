@@ -128,7 +128,7 @@ Dans ce cas, exécuter `SAO_NAMELESS_SCHEMA.sql` puis les patches.
 
 ## 7. Actions admin du dashboard (Edge Function `admin-user-actions`)
 
-Depuis le dashboard admin, trois actions sensibles passent par l'Edge Function
+Depuis le dashboard admin, les actions sensibles passent par l'Edge Function
 `supabase/functions/admin-user-actions` — jamais par un update direct du
 navigateur :
 
@@ -136,16 +136,19 @@ navigateur :
   upsert `user_roles` en une seule action serveur. Refuse un rôle hors
   `joueur|membre|admin`, refuse de retirer le dernier admin, exige
   `confirm_self_demote: true` pour s'auto-rétrograder.
-- **Vérifier / retirer vérification Minecraft** (`set_minecraft_verified`) :
-  bascule `user_profiles.minecraft_verified`. Refuse `true` si aucun
-  `minecraft_uuid` n'est lié. Le joueur ne peut JAMAIS le faire lui-même
-  (trigger `prevent_profile_privilege_escalation`).
 - **Supprimer compte** (`delete_user`) : purge les objets Storage du joueur
   (`chat/<uid>/`, `guild-activities/<uid>/`), puis supprime le compte
   **Supabase Auth** ; les données publiques suivent par `on delete cascade`.
   Refuse de supprimer le dernier admin ; auto-suppression seulement avec
   `confirm_self_delete: true`. Suppression **définitive** (hard delete) ;
   `admin_logs` garde l'audit.
+
+Note Minecraft : il n'existe **pas de vérification officielle** de possession
+d'un compte Minecraft (Minecraft Services refuse l'app : `403 Invalid app
+registration`). Le site n'affiche que « Minecraft non lié » ou « Minecraft
+détecté » (pseudo public + UUID). La colonne `minecraft_verified` reste en
+base pour compatibilité mais n'est plus utilisée par l'UI ; l'action
+`set_minecraft_verified` renvoie `action_disabled`.
 
 Sécurité : la fonction lit le JWT `Authorization`, résout l'appelant via
 `auth.getUser`, vérifie le rôle admin côté serveur (`user_roles` prioritaire,

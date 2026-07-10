@@ -184,9 +184,9 @@ async function checkAdminAccess() {
 }
 
 // ========== ACTIONS ADMIN SÉCURISÉES (Edge Function) ==========
-// Toutes les actions sensibles (rôle, vérification Minecraft, suppression)
-// passent par l'Edge Function admin-user-actions qui revérifie le JWT et le
-// rôle admin côté serveur. Aucune écriture directe sensible depuis le front.
+// Toutes les actions sensibles (rôle, suppression de compte) passent par
+// l'Edge Function admin-user-actions qui revérifie le JWT et le rôle admin
+// côté serveur. Aucune écriture directe sensible depuis le front.
 
 async function callAdminAction(payload) {
     const { data, error } = await supabase.functions.invoke('admin-user-actions', {
@@ -223,13 +223,14 @@ function getAdminActionErrorMessage(error) {
         'invalid_user_session': 'Session invalide. Reconnecte-toi.',
         'invalid_target_user_id': 'Identifiant de joueur invalide.',
         'invalid_role': 'Rôle invalide.',
-        'invalid_verified_flag': 'Valeur de vérification invalide.',
-        'minecraft_not_linked': 'Ce joueur n\'a pas encore associé de pseudo Minecraft.',
-        'target_not_found': 'Joueur introuvable.',
-        'self_demote_requires_confirmation': 'Confirme explicitement le retrait de ton propre rôle admin.',
+        'target_user_not_found': 'Joueur introuvable.',
+        'self_downgrade_confirmation_required': 'Confirme explicitement le retrait de ton propre rôle admin.',
         'self_delete_requires_confirmation': 'Confirme explicitement la suppression de ton propre compte.',
         'cannot_remove_last_admin': 'Impossible : c\'est le dernier admin du site.',
         'cannot_delete_last_admin': 'Impossible : c\'est le dernier admin du site.',
+        'role_update_failed': 'Écriture du rôle refusée côté Supabase. Vérifie les patches SQL.',
+        'action_disabled': 'Action désactivée : la vérification Minecraft n\'existe plus.',
+        'internal_error': 'Erreur interne de l\'Edge Function. Voir les logs Supabase.',
         'auth_delete_blocked_by_storage': 'Suppression Auth bloquée par Storage ownership. Purger les fichiers du joueur puis réessayer.',
         'missing_env': 'Edge Function non configurée (SERVICE_ROLE_KEY manquant côté Supabase).',
         'edge_function_error': 'Edge Function admin-user-actions injoignable. Est-elle déployée ?'
@@ -258,34 +259,11 @@ async function refreshUsersAfterAdminAction() {
 }
 
 function getMinecraftStatusInfo(user) {
+    // Deux états seulement : il n'existe pas de vérification officielle.
     if (!user || !user.minecraft_uuid) {
-        return { label: 'Non lié', className: 'mc-status mc-status-none' };
-    }
-    if (user.minecraft_verified === true) {
-        return { label: 'Minecraft vérifié', className: 'mc-status mc-status-verified' };
+        return { label: 'Minecraft non lié', className: 'mc-status mc-status-none' };
     }
     return { label: 'Minecraft détecté', className: 'mc-status mc-status-detected' };
-}
-
-async function setMinecraftVerified(user, verified, button) {
-    const displayName = user.minecraft_username || user.username || 'ce joueur';
-    const question = verified
-        ? 'Marquer le compte Minecraft de "' + displayName + '" comme vérifié ?'
-        : 'Retirer la vérification Minecraft de "' + displayName + '" ?';
-    if (!confirm(question)) return;
-
-    setActionButtonBusy(button, true, verified ? 'Vérification...' : 'Retrait...');
-    try {
-        await callAdminAction({
-            action: 'set_minecraft_verified',
-            target_user_id: user.id,
-            verified: verified
-        });
-        await refreshUsersAfterAdminAction();
-    } catch (error) {
-        alert(getAdminActionErrorMessage(error));
-        setActionButtonBusy(button, false);
-    }
 }
 
 async function secureDeleteUser(user, button) {
@@ -440,7 +418,7 @@ function displayUsers() {
         tdRole.appendChild(roleBadge);
         tr.appendChild(tdRole);
 
-        // Statut Minecraft (Non lié / détecté / vérifié) + UUID en title
+        // Statut Minecraft (Non lié / détecté) + UUID en title
         const tdMinecraft = document.createElement('td');
         const mcStatus = getMinecraftStatusInfo(user);
         const mcBadge = document.createElement('span');
@@ -466,20 +444,6 @@ function displayUsers() {
         btnEdit.textContent = 'Modifier rôle';
         btnEdit.onclick = () => openRoleModal(user);
         tdActions.appendChild(btnEdit);
-
-        // Boutons vérification Minecraft (uniquement si identité détectée)
-        if (user.minecraft_uuid) {
-            const btnVerify = document.createElement('button');
-            btnVerify.className = 'action-btn btn-edit';
-            if (user.minecraft_verified === true) {
-                btnVerify.textContent = 'Retirer vérification';
-                btnVerify.onclick = () => setMinecraftVerified(user, false, btnVerify);
-            } else {
-                btnVerify.textContent = 'Vérifier Minecraft';
-                btnVerify.onclick = () => setMinecraftVerified(user, true, btnVerify);
-            }
-            tdActions.appendChild(btnVerify);
-        }
 
         // Bouton Supprimer (compte Auth + données liées, via Edge Function)
         const btnDelete = document.createElement('button');
@@ -556,10 +520,10 @@ function sortUsers() {
             bValue = new Date(bValue).getTime();
         }
 
-        // Tri statut Minecraft : non lié (0) < détecté (1) < vérifié (2)
-        if (currentSortField === 'minecraft_verified') {
-            aValue = a.minecraft_uuid ? (a.minecraft_verified === true ? 2 : 1) : 0;
-            bValue = b.minecraft_uuid ? (b.minecraft_verified === true ? 2 : 1) : 0;
+        // Tri statut Minecraft : non lié (0) < détecté (1)
+        if (currentSortField === 'minecraft_uuid') {
+            aValue = a.minecraft_uuid ? 1 : 0;
+            bValue = b.minecraft_uuid ? 1 : 0;
         }
         
         // Comparaison

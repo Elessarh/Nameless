@@ -201,7 +201,7 @@
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/profil.js?v=nameless-2.1'
+                'js/profil.js?v=nameless-2.2'
             ],
             init: function (root) {
                 if (global.NamelessProfilePage && typeof global.NamelessProfilePage.init === 'function') {
@@ -222,11 +222,11 @@
             title: 'Dashboard admin - Nameless',
             css: [
                 'css/components/activity-wall.css?v=20260129b',
-                'css/components/admin-dashboard.css?v=nameless-1.1'
+                'css/components/admin-dashboard.css?v=nameless-1.2'
             ],
             scripts: [
                 'js/cache-manager.js',
-                'js/admin-dashboard.js?v=20260709f'
+                'js/admin-dashboard.js?v=20260709g'
             ],
             init: function (root) {
                 if (global.NamelessAdminDashboardPage && typeof global.NamelessAdminDashboardPage.init === 'function') {

@@ -106,12 +106,9 @@ function hasMinecraftIdentity(profile) {
     return !!(profile && profile.minecraft_uuid);
 }
 
-function isMinecraftVerified(profile) {
-    return !!(profile && profile.minecraft_verified === true);
-}
-
 function getMinecraftStatusValue(profile) {
-    if (isMinecraftVerified(profile)) return 'Minecraft vérifié';
+    // Il n'existe pas de vérification officielle Microsoft -> Minecraft :
+    // seul le profil public compte. Deux états : détecté ou non lié.
     if (hasMinecraftIdentity(profile)) return 'Minecraft détecté';
     return 'Minecraft non lié';
 }
@@ -297,7 +294,7 @@ async function submitMinecraftPublicLink(event) {
         window.userProfile = updatedProfile;
         invalidateProfileCache();
         displayProfile(updatedProfile);
-        showSuccess('Minecraft détecté. La vérification complète devra être validée par un admin.');
+        showSuccess('Minecraft détecté : profil public associé à ton compte.');
     } catch (error) {
         setMinecraftLinkStatus(getMinecraftPublicLinkErrorMessage(error));
     } finally {

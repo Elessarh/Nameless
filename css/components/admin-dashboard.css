@@ -1199,4 +1199,3 @@ body {
 .mc-status { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3px; white-space: nowrap; }
 .mc-status-none { background: rgba(136, 136, 136, 0.15); color: #9aa3b2; border: 1px solid rgba(136, 136, 136, 0.35); }
 .mc-status-detected { background: rgba(255, 165, 0, 0.12); color: #f7b955; border: 1px solid rgba(247, 185, 85, 0.4); }
-.mc-status-verified { background: rgba(76, 175, 80, 0.14); color: #6fdc75; border: 1px solid rgba(111, 220, 117, 0.4); }
