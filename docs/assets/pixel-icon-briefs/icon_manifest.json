@@ -1,0 +1,24 @@
+{
+  "palette": {
+    "gold": "#c2a367",
+    "gold_light": "#f4dda0",
+    "night_blue": "#0a0f1d",
+    "steel_blue": "#6f92b3",
+    "green_accent": "#4e7a5a",
+    "boss_red": "#a53a3a"
+  },
+  "format": { "sizes": [32, 64], "background": "transparent", "type": "png" },
+  "target_dir": "assets/icons/pixel/",
+  "icons": [
+    { "id": "castle",       "filename": "castle.png",       "usage": "wiki/quetes — territoire, châteaux, paliers",   "prompt": "prompts/castle.md" },
+    { "id": "star",         "filename": "star.png",         "usage": "quêtes principales",                            "prompt": "prompts/star.md" },
+    { "id": "flower",       "filename": "flower.png",       "usage": "quêtes secondaires",                            "prompt": "prompts/flower.md" },
+    { "id": "scroll",       "filename": "scroll.png",       "usage": "wiki — articles, savoir",                       "prompt": "prompts/scroll.md" },
+    { "id": "sword",        "filename": "sword.png",        "usage": "combat, classes guerrières",                    "prompt": "prompts/sword.md" },
+    { "id": "chest",        "filename": "chest.png",        "usage": "récompenses, loot",                             "prompt": "prompts/chest.md" },
+    { "id": "map",          "filename": "map.png",          "usage": "exploration, carte",                            "prompt": "prompts/map.md" },
+    { "id": "npc",          "filename": "npc.png",          "usage": "PNJ, dialogues",                                "prompt": "prompts/npc.md" },
+    { "id": "boss_skull",   "filename": "boss_skull.png",   "usage": "boss, dangers",                                 "prompt": "prompts/boss_skull.md" },
+    { "id": "guild_banner", "filename": "guild_banner.png", "usage": "guilde, sections communauté",                   "prompt": "prompts/guild_banner.md" }
+  ]
+}
