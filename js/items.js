@@ -241,6 +241,7 @@
         var img = document.createElement('img');
         img.className = 'item-image';
         img.loading = 'lazy';
+        img.decoding = 'async';
         img.alt = item.name;
         img.dataset.fallback = 'item';
         img.src = item.image;

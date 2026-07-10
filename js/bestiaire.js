@@ -1039,6 +1039,7 @@ function buildCard(creature) {
     const img = document.createElement('img');
     img.className = 'creature-image';
     img.loading = 'lazy';
+    img.decoding = 'async';
     img.alt = creature.name;
     img.dataset.fallback = 'bes';
     img.src = creature.image;

@@ -30,9 +30,9 @@
 
     <!-- Fonts & Styles -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css?v=nameless-1.1">
-    <link rel="stylesheet" href="../css/components/map.css?v=nameless-1.0">
-    <link rel="stylesheet" href="../css/components/page-hero.css?v=nameless-1.1">
+    <link rel="stylesheet" href="../css/style.css?v=20260710a">
+    <link rel="stylesheet" href="../css/components/map.css?v=20260710a">
+    <link rel="stylesheet" href="../css/components/page-hero.css?v=20260710a">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.1">
     
     <!-- Leaflet CSS -->
@@ -193,10 +193,11 @@
         </div>
     </main>
 
-    <!-- Leaflet JS -->
+    <!-- Leaflet JS : defer garde l'ordre d'exécution (avant map.js) sans
+         bloquer le parsing de la page. -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+    crossorigin="" defer></script>
     
     <!-- Scripts - Chargement optimisé -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
