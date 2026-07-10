@@ -35,8 +35,16 @@
         source: 'index.html',
         aliases: ['/', '/index.html'],
         title: 'Nameless - Guilde Minecraft',
-        css: [],
-        scripts: [],
+        // Déclarés ici pour que l'accueil soit complet même quand la session
+        // a démarré sur une route propre servie par 404.html (fallback SPA),
+        // dont le <head> ne contient pas les styles/scripts de l'accueil.
+        css: [
+            'css/nameless-effects.css?v=nameless-1.0',
+            'css/components/home.css?v=nameless-1.0'
+        ],
+        scripts: [
+            'js/home-carousel.js?v=spa-public-1.0'
+        ],
         init: function (root) {
             if (global.NamelessHomePage && typeof global.NamelessHomePage.init === 'function') {
                 global.NamelessHomePage.init(root);
@@ -58,8 +66,8 @@
             title: "Carte d'Aincrad - Nameless",
             css: [
                 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-                'css/components/map.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=nameless-1.1'
+                'css/components/map.css?v=20260710a',
+                'css/components/page-hero.css?v=20260710a'
             ],
             scripts: [
                 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
@@ -83,10 +91,10 @@
             title: 'Bestiaire - Nameless',
             css: [
                 'css/components/bestiaire.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=nameless-1.1'
+                'css/components/page-hero.css?v=20260710a'
             ],
             scripts: [
-                'js/bestiaire.js?v=spa-public-1.0'
+                'js/bestiaire.js?v=20260710a'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -106,11 +114,11 @@
             title: "Catalogue d'Items - Nameless",
             css: [
                 'css/components/items.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=nameless-1.1'
+                'css/components/page-hero.css?v=20260710a'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20260129b',
-                'js/items.js?v=spa-public-1.0'
+                'js/items.js?v=20260710a'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
@@ -131,7 +139,7 @@
             css: [
                 'css/components/pixel-icons.css?v=20260709',
                 'css/components/quetes.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=nameless-1.1'
+                'css/components/page-hero.css?v=20260710a'
             ],
             scripts: [
                 'js/quetes.js?v=spa-public-1.0'
@@ -155,7 +163,7 @@
             css: [
                 'css/components/pixel-icons.css?v=20260709',
                 'css/components/wiki.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=nameless-1.1'
+                'css/components/page-hero.css?v=20260710a'
             ],
             scripts: [
                 'js/wiki.js?v=spa-public-1.0'

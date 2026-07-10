@@ -7,7 +7,14 @@
     <title>Nameless</title>
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
-    <link rel="stylesheet" href="/css/style.css?v=nameless-1.0">
+
+    <!-- Même socle que index.html : fonts + styles globaux identiques, sinon
+         une session SPA démarrée ici rend les pages sans leur style complet. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css?v=20260710a">
     <link rel="stylesheet" href="/css/components/audio-player.css?v=nameless-audio-1.1">
 </head>
 <body data-spa-fallback="true">
@@ -58,7 +65,7 @@
     <script src="/js/auth-supabase.js?v=20260709e" defer></script>
     <script src="/js/navbar-mobile.js" defer></script>
     <script src="/js/audio-controller.js?v=nameless-audio-1.1" defer></script>
-    <script src="/js/page-registry.js?v=spa-clean-1.0" defer></script>
+    <script src="/js/page-registry.js?v=20260710a" defer></script>
     <script src="/js/app-router.js?v=spa-clean-1.0" defer></script>
 </body>
 </html>
