@@ -5,12 +5,18 @@
 // elle-même le JWT et le rôle admin côté serveur avant toute action, même si
 // elle est déployée avec --no-verify-jwt.
 //
+// Robustesse : aucun code top-level ne peut throw (pas de lecture env, pas de
+// client) ; toute requête reçoit un JSON avec CORS, y compris quand une
+// variable d'environnement manque.
+//
 // Actions :
 // - set_minecraft_verified { target_user_id, verified }
 // - update_role            { target_user_id, role, confirm_self_demote? }
 // - delete_user            { target_user_id, confirm_self_delete? }
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient } from 'npm:@supabase/supabase-js@2';
+
+type AdminClient = ReturnType<typeof createClient>;
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -22,6 +28,7 @@ const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
 const VALID_ROLES = ['joueur', 'membre', 'admin'];
 const STORAGE_BUCKET = 'iron-oath-storage';
 const STORAGE_PREFIXES = ['chat', 'guild-activities'];
+const REQUIRED_ENV_VARS = ['SUPABASE_URL', 'SERVICE_ROLE_KEY'];
 
 class ActionError extends Error {
   code: string;
@@ -42,7 +49,11 @@ function json(body: Record<string, unknown>, status = 200) {
 }
 
 function logSafe(event: string, details: Record<string, unknown> = {}) {
-  console.log(JSON.stringify({ event, ...details }));
+  try {
+    console.log(JSON.stringify({ event, ...details }));
+  } catch (_error) {
+    console.log(JSON.stringify({ event }));
+  }
 }
 
 function maskId(value: string | null | undefined) {
@@ -50,20 +61,35 @@ function maskId(value: string | null | undefined) {
   return `${value.slice(0, 8)}...`;
 }
 
-function requiredEnv(name: string) {
-  const value = Deno.env.get(name);
-  if (!value) throw new ActionError('missing_env', 500);
-  return value;
+// Lecture env sans throw : renvoie la liste des variables manquantes.
+function getMissingEnv() {
+  const missing: string[] = [];
+  for (const name of REQUIRED_ENV_VARS) {
+    let value = '';
+    try {
+      value = Deno.env.get(name) || '';
+    } catch (_error) {
+      value = '';
+    }
+    if (!value) missing.push(name);
+  }
+  return missing;
 }
 
-function adminClient() {
+let cachedAdminClient: AdminClient | null = null;
+
+function adminClient(): AdminClient {
+  if (cachedAdminClient) return cachedAdminClient;
+
   const supabaseUrl = Deno.env.get('SUPABASE_URL');
   const serviceRoleKey = Deno.env.get('SERVICE_ROLE_KEY');
   if (!supabaseUrl || !serviceRoleKey) throw new ActionError('missing_env', 500);
 
-  return createClient(supabaseUrl, serviceRoleKey, {
+  cachedAdminClient = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+
+  return cachedAdminClient;
 }
 
 async function getCaller(req: Request) {
@@ -79,7 +105,7 @@ async function getCaller(req: Request) {
 
 // Rôle effectif côté serveur : user_roles gagne, user_profiles.role en
 // secours — même règle que public.current_user_role().
-async function getEffectiveRole(client: ReturnType<typeof adminClient>, userId: string) {
+async function getEffectiveRole(client: AdminClient, userId: string) {
   const { data: roleRow, error: roleError } = await client
     .from('user_roles')
     .select('role')
@@ -99,7 +125,7 @@ async function getEffectiveRole(client: ReturnType<typeof adminClient>, userId: 
   return String(profileRow?.role || 'joueur');
 }
 
-async function requireAdmin(client: ReturnType<typeof adminClient>, userId: string) {
+async function requireAdmin(client: AdminClient, userId: string) {
   const role = await getEffectiveRole(client, userId);
   if (role !== 'admin') {
     logSafe('admin_action_denied', { caller: maskId(userId), role });
@@ -115,7 +141,7 @@ function requireTargetId(payload: Record<string, unknown>) {
 
 // Liste des admins effectifs (user_roles prioritaire, user_profiles en
 // secours). Empêche de retirer/supprimer le dernier admin.
-async function listEffectiveAdmins(client: ReturnType<typeof adminClient>) {
+async function listEffectiveAdmins(client: AdminClient) {
   const [{ data: roles, error: rolesError }, { data: profiles, error: profilesError }] = await Promise.all([
     client.from('user_roles').select('user_id, role'),
     client.from('user_profiles').select('id, role'),
@@ -142,7 +168,7 @@ async function listEffectiveAdmins(client: ReturnType<typeof adminClient>) {
 }
 
 async function writeAdminLog(
-  client: ReturnType<typeof adminClient>,
+  client: AdminClient,
   actorId: string,
   action: string,
   targetId: string,
@@ -163,7 +189,7 @@ async function writeAdminLog(
 }
 
 async function handleSetMinecraftVerified(
-  client: ReturnType<typeof adminClient>,
+  client: AdminClient,
   caller: { id: string },
   payload: Record<string, unknown>,
 ) {
@@ -197,7 +223,7 @@ async function handleSetMinecraftVerified(
 }
 
 async function handleUpdateRole(
-  client: ReturnType<typeof adminClient>,
+  client: AdminClient,
   caller: { id: string },
   payload: Record<string, unknown>,
 ) {
@@ -249,31 +275,36 @@ async function handleUpdateRole(
   return json({ success: true, role });
 }
 
-async function removeUserStorageObjects(client: ReturnType<typeof adminClient>, targetId: string) {
+async function removeUserStorageObjects(client: AdminClient, targetId: string) {
   for (const prefix of STORAGE_PREFIXES) {
     const folder = `${prefix}/${targetId}`;
-    const { data: objects, error } = await client.storage.from(STORAGE_BUCKET).list(folder, { limit: 1000 });
 
-    if (error) {
-      logSafe('storage_list_failed', { folder: prefix, code: error.message ? 'error' : null });
-      continue;
-    }
+    try {
+      const { data: objects, error } = await client.storage.from(STORAGE_BUCKET).list(folder, { limit: 1000 });
 
-    const paths = (objects || [])
-      .filter((object) => object.name)
-      .map((object) => `${folder}/${object.name}`);
-
-    if (paths.length > 0) {
-      const { error: removeError } = await client.storage.from(STORAGE_BUCKET).remove(paths);
-      if (removeError) {
-        logSafe('storage_remove_failed', { folder: prefix });
+      if (error) {
+        logSafe('storage_list_failed', { folder: prefix });
+        continue;
       }
+
+      const paths = (objects || [])
+        .filter((object) => object.name)
+        .map((object) => `${folder}/${object.name}`);
+
+      if (paths.length > 0) {
+        const { error: removeError } = await client.storage.from(STORAGE_BUCKET).remove(paths);
+        if (removeError) {
+          logSafe('storage_remove_failed', { folder: prefix });
+        }
+      }
+    } catch (_error) {
+      logSafe('storage_cleanup_failed', { folder: prefix });
     }
   }
 }
 
 async function handleDeleteUser(
-  client: ReturnType<typeof adminClient>,
+  client: AdminClient,
   caller: { id: string },
   payload: Record<string, unknown>,
 ) {
@@ -319,39 +350,59 @@ async function handleDeleteUser(
   return json({ success: true, deleted: true });
 }
 
+async function handleRequest(req: Request) {
+  logSafe('admin_user_actions_request_start', { method: req.method });
+
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { status: 200, headers: corsHeaders });
+  }
+
+  if (req.method !== 'POST') {
+    return json({ error: 'not_found' }, 404);
+  }
+
+  // Env d'abord : réponse claire plutôt qu'un crash générique.
+  const missingEnv = getMissingEnv();
+  if (missingEnv.length > 0) {
+    logSafe('admin_user_actions_missing_env', { missing: missingEnv.join(',') });
+    return json({ error: 'missing_env', missing: missingEnv.join(',') }, 500);
+  }
+
+  const payload = await req.json().catch(() => ({})) as Record<string, unknown>;
+  const action = String(payload.action || '');
+  logSafe('admin_action_received', { action: action || 'missing' });
+
+  const caller = await getCaller(req);
+  const client = adminClient();
+  await requireAdmin(client, caller.id);
+
+  logSafe('admin_action_authorized', { action, caller: maskId(caller.id) });
+
+  switch (action) {
+    case 'set_minecraft_verified':
+      return await handleSetMinecraftVerified(client, caller, payload);
+    case 'update_role':
+      return await handleUpdateRole(client, caller, payload);
+    case 'delete_user':
+      return await handleDeleteUser(client, caller, payload);
+    default:
+      return json({ error: 'unknown_action' }, 400);
+  }
+}
+
 Deno.serve(async (req) => {
-  if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
-  if (req.method !== 'POST') return json({ error: 'not_found' }, 404);
-
+  // Try/catch global : la fonction répond TOUJOURS un JSON avec CORS,
+  // jamais un crash silencieux.
   try {
-    requiredEnv('SERVICE_ROLE_KEY');
-
-    const caller = await getCaller(req);
-    const client = adminClient();
-    await requireAdmin(client, caller.id);
-
-    const payload = await req.json().catch(() => ({})) as Record<string, unknown>;
-    const action = String(payload.action || '');
-
-    logSafe('admin_action_start', { action, caller: maskId(caller.id) });
-
-    switch (action) {
-      case 'set_minecraft_verified':
-        return await handleSetMinecraftVerified(client, caller, payload);
-      case 'update_role':
-        return await handleUpdateRole(client, caller, payload);
-      case 'delete_user':
-        return await handleDeleteUser(client, caller, payload);
-      default:
-        return json({ error: 'unknown_action' }, 400);
-    }
+    return await handleRequest(req);
   } catch (error) {
-    const publicError = error instanceof ActionError ? error : new ActionError('error', 500);
-    if (!(error instanceof ActionError)) {
-      logSafe('admin_action_unexpected_error', {
-        message: String(error instanceof Error ? error.message : error).slice(0, 200),
-      });
+    if (error instanceof ActionError) {
+      return json({ error: error.code }, error.status);
     }
-    return json({ error: publicError.code }, publicError.status);
+
+    logSafe('admin_action_unexpected_error', {
+      message: String(error instanceof Error ? error.message : error).slice(0, 200),
+    });
+    return json({ error: 'error' }, 500);
   }
 });
