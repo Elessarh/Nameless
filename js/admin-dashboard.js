@@ -543,7 +543,7 @@ function formatDate(dateString) {
     
     const date = new Date(dateString);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('fr-FR', options);
+    return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
 
 // Initialiser les event listeners
@@ -1172,7 +1172,7 @@ function formatDate(dateString) {
         hour: '2-digit',
         minute: '2-digit'
     };
-    return date.toLocaleDateString('fr-FR', options);
+    return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
 
 function escapeHtml(text) {
@@ -1238,7 +1238,7 @@ async function loadPresences() {
         tbody.innerHTML = members.map(member => {
             const presence = presenceMap[member.id];
             const statut = presence ? presence.statut : 'non-marque';
-            const heure = presence ? new Date(presence.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '-';
+            const heure = presence ? new Date(presence.created_at).toLocaleTimeString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', { hour: '2-digit', minute: '2-digit' }) : '-';
             
             // Compter les stats
             if (statut === 'present') presents++;
@@ -1390,7 +1390,7 @@ function formatDateAdmin(dateString) {
         hour: '2-digit',
         minute: '2-digit'
     };
-    return date.toLocaleDateString('fr-FR', options);
+    return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
 
 // Prévisualiser l'image
@@ -1667,6 +1667,5 @@ async function deleteActivity(activityId) {
 // Rendre les fonctions accessibles globalement pour les appels dynamiques depuis le HTML généré
 window.editActivity = editActivity;
 window.deleteActivity = deleteActivity;
-
 
 

@@ -502,7 +502,7 @@ function displayProfile(profile) {
     if (profile.created_at) {
         const date = new Date(profile.created_at);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('profile-created').textContent = date.toLocaleDateString('fr-FR', options);
+        document.getElementById('profile-created').textContent = date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
     } else {
         document.getElementById('profile-created').textContent = 'Date inconnue';
     }
@@ -598,4 +598,3 @@ function formatDate(dateString) {
     if (diffDays < 365) return `Il y a ${Math.floor(diffDays / 30)} mois`;
     return `Il y a ${Math.floor(diffDays / 365)} ans`;
 }
-

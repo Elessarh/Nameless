@@ -511,7 +511,7 @@ function formatDate(dateString) {
         hour: '2-digit',
         minute: '2-digit'
     };
-    return date.toLocaleDateString('fr-FR', options);
+    return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
 
 function formatEventType(type) {
@@ -652,7 +652,7 @@ function formatActivityDate(dateString) {
     if (days < 7) return `Il y a ${days}j`;
     
     const options = { day: 'numeric', month: 'long', year: 'numeric' };
-    return date.toLocaleDateString('fr-FR', options);
+    return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
 
 function formatActivityType(type) {
@@ -664,4 +664,3 @@ function formatActivityType(type) {
     };
     return types[type] || '📢 Annonce';
 }
-

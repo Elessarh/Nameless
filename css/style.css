@@ -1715,3 +1715,55 @@ select optgroup {
 select option:disabled {
     color: #6b7280;
 }
+/* Language switcher ------------------------------------------------------- */
+.language-switcher {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    padding: 2px;
+    margin-right: 0.75rem;
+    border: 1px solid rgba(198, 164, 92, 0.38);
+    border-radius: 999px;
+    background: rgba(5, 7, 13, 0.72);
+}
+
+.language-option {
+    min-width: 2.25rem;
+    min-height: 1.85rem;
+    padding: 0.25rem 0.5rem;
+    border: 0;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.7);
+    background: transparent;
+    font: 600 0.68rem/1 "Inter", sans-serif;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.language-option:hover,
+.language-option:focus-visible {
+    color: #fff;
+}
+
+.language-option:focus-visible {
+    outline: 2px solid #c6a45c;
+    outline-offset: 2px;
+}
+
+.language-option.active {
+    color: #080a0f;
+    background: #c6a45c;
+    box-shadow: 0 0 12px rgba(198, 164, 92, 0.25);
+}
+
+@media (max-width: 900px) {
+    .language-switcher {
+        margin-right: 0.35rem;
+    }
+
+    .language-option {
+        min-width: 2rem;
+        padding-inline: 0.4rem;
+    }
+}

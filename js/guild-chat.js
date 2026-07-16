@@ -595,7 +595,7 @@ function formatChatTime(dateString) {
     if (hours < 24) return `${hours}h`;
     
     const options = { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
-    return date.toLocaleDateString('fr-FR', options);
+    return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
 
 // Échapper le HTML (délègue au helper centralisé, échappe aussi les quotes).
