@@ -234,22 +234,43 @@
 /* Grille de sections (accueil) */
 .wiki-stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.9rem;
     margin: 1.4rem 0;
 }
 .wiki-stat-item {
-    background: var(--sao-bg-card);
-    border: 1px solid var(--sao-border);
-    border-radius: var(--nm-radius);
-    padding: 1.4rem 1rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 128px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(155deg, rgba(16, 22, 38, 0.92), rgba(8, 12, 23, 0.96));
+    border: 1px solid rgba(111, 146, 179, 0.22);
+    border-radius: 13px;
+    padding: 1.15rem 1rem;
     text-align: center;
     transition: transform 0.35s cubic-bezier(.16,1,.3,1), border-color 0.35s ease, box-shadow 0.35s ease;
 }
+.wiki-stat-item::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(244, 221, 160, 0.55), transparent);
+    opacity: 0.35;
+}
 .wiki-stat-item[data-goto] { cursor: pointer; }
-.wiki-stat-item:hover { transform: translateY(-4px); border-color: var(--sao-border-hover); box-shadow: var(--sao-shadow), var(--sao-glow-cyan); }
-.wiki-stat-label { font-size: 1.6rem; margin-bottom: 0.5rem; filter: saturate(0.85); }
-.wiki-stat-value { color: var(--sao-text-bright); font-weight: 500; letter-spacing: 0.03em; }
+.wiki-stat-item:hover { transform: translateY(-3px); border-color: rgba(194, 163, 103, 0.48); box-shadow: 0 16px 36px rgba(0, 0, 0, 0.34); }
+.wiki-stat-item:focus-within { border-color: var(--sao-cyan); box-shadow: var(--focus-ring); }
+.wiki-stat-label { color: var(--nm-steel); font-size: 0.72rem; margin-bottom: 0.45rem; filter: none; }
+.wiki-stat-value { color: var(--sao-text-bright); font-weight: 600; letter-spacing: 0.025em; }
+
+@media (max-width: 560px) {
+    .wiki-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
+    .wiki-stat-item { min-height: 112px; padding: 0.9rem 0.65rem; }
+}
 
 /* === Mobile toggle + overlay === */
 .wiki-sidebar-toggle {

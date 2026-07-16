@@ -58,7 +58,7 @@ Secret scan:
 
 - No `service_role`, `sb_secret`, database password, connection string, Microsoft client secret, or hardcoded bearer token found in active HTML/JS/CSS.
 - `SERVICE_ROLE_KEY` appears only inside the Supabase Edge Function environment access, not in browser code.
-- The visible Supabase key in `js/crypto-keys.js` is publishable and must be treated as public.
+- The visible Supabase key in `js/supabase-public-config.js` is publishable and must be treated as public. The former misleading `crypto-keys.js` obfuscation has been removed.
 - The old bad project ref `zhbuwwwvafbrrxpsupebt` is not present in active front files.
 
 XSS/injection scan:

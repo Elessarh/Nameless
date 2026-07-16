@@ -5,8 +5,9 @@ function _escAttr(t){if(window.NamelessSecurity&&window.NamelessSecurity.escapeA
 
 async function initSupabase() {
     try {
-        const SUPABASE_URL = window._getSecureUrl ? window._getSecureUrl() : null;
-        const SUPABASE_PUBLISHABLE_KEY = window._getSecureKey ? window._getSecureKey() : null;
+        const publicConfig = window.NamelessPublicConfig || {};
+        const SUPABASE_URL = publicConfig.supabaseUrl || null;
+        const SUPABASE_PUBLISHABLE_KEY = publicConfig.supabasePublishableKey || null;
         
         if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
             throw new Error('Init error');

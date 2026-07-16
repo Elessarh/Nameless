@@ -2417,6 +2417,7 @@ function initializeMapSearch() {
     const searchInput = document.getElementById('map-search-input');
     const searchResults = document.getElementById('map-search-results');
     const searchClear = document.getElementById('map-search-clear');
+    const searchContainer = searchInput?.closest('.map-search-container');
     
     if (!searchInput || !searchResults) return;
     
@@ -2433,7 +2434,7 @@ function initializeMapSearch() {
         }
         
         if (query.length < 2) {
-            searchResults.style.display = 'none';
+            hideSearchResults(searchResults, searchInput, searchContainer);
             return;
         }
         
@@ -2446,7 +2447,7 @@ function initializeMapSearch() {
     if (searchClear) {
         searchClear.addEventListener('click', function() {
             searchInput.value = '';
-            searchResults.style.display = 'none';
+            hideSearchResults(searchResults, searchInput, searchContainer);
             searchClear.style.display = 'none';
             searchInput.focus();
         });
@@ -2455,9 +2456,23 @@ function initializeMapSearch() {
     // Fermer les résultats si on clique ailleurs
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.map-search-container')) {
-            searchResults.style.display = 'none';
+            hideSearchResults(searchResults, searchInput, searchContainer);
         }
     }, { signal: mapController.signal });
+
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            hideSearchResults(searchResults, searchInput, searchContainer);
+            return;
+        }
+        if (e.key === 'ArrowDown') {
+            const firstResult = searchResults.querySelector('.search-result-item');
+            if (firstResult) {
+                e.preventDefault();
+                firstResult.focus();
+            }
+        }
+    });
     
     // Réouvrir les résultats si on focus l'input
     searchInput.addEventListener('focus', function() {
@@ -2466,6 +2481,12 @@ function initializeMapSearch() {
             displaySearchResults(results, searchResults);
         }
     });
+}
+
+function hideSearchResults(container, input, searchContainer) {
+    container.style.display = 'none';
+    input?.setAttribute('aria-expanded', 'false');
+    searchContainer?.classList.remove('has-results');
 }
 
 // Construire la liste des éléments recherchables
@@ -2611,18 +2632,54 @@ function buildSearchableItems() {
 
 // Rechercher dans les éléments
 function searchItems(items, query) {
+    const normalizedQuery = normalizeSearchText(query);
     return items.filter(item => {
-        const nameMatch = item.name.toLowerCase().includes(query);
-        const typeMatch = item.type.toLowerCase().includes(query);
+        const searchableName = `${item.name} ${translateSearchText(item.name)}`;
+        const searchableType = `${item.type} ${translateSearchText(item.type)}`;
+        const nameMatch = normalizeSearchText(searchableName).includes(normalizedQuery);
+        const typeMatch = normalizeSearchText(searchableType).includes(normalizedQuery);
         return nameMatch || typeMatch;
     }).slice(0, 15); // Limiter à 15 résultats
 }
 
+function normalizeSearchText(value) {
+    return String(value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+}
+
+function getSearchTypeClass(type) {
+    const normalized = normalizeSearchText(type);
+    if (normalized.includes('principale')) return 'main-quest';
+    if (normalized.includes('secondaire')) return 'side-quest';
+    if (normalized.includes('ville')) return 'town';
+    if (normalized.includes('donjon')) return 'dungeon';
+    if (normalized.includes('monstre')) return 'monster';
+    if (normalized.includes('marchand')) return 'merchant';
+    return 'location';
+}
+
+function translateSearchText(value) {
+    return window.NamelessI18n ? window.NamelessI18n.translate(value) : value;
+}
+
 // Afficher les résultats de recherche
 function displaySearchResults(results, container) {
+    const searchInput = document.getElementById('map-search-input');
+    const searchContainer = searchInput?.closest('.map-search-container');
+    container.replaceChildren();
+
     if (results.length === 0) {
-        container.innerHTML = '<div class="search-no-results">Aucun résultat trouvé</div>';
+        const empty = document.createElement('div');
+        empty.className = 'search-no-results';
+        empty.innerHTML = '<span class="search-empty-mark" aria-hidden="true"></span><strong></strong><small></small>';
+        empty.querySelector('strong').textContent = translateSearchText('Aucun résultat trouvé');
+        empty.querySelector('small').textContent = translateSearchText('Essayez un nom de quête, de PNJ, de monstre ou de ville.');
+        container.appendChild(empty);
         container.style.display = 'block';
+        searchInput?.setAttribute('aria-expanded', 'true');
+        searchContainer?.classList.add('has-results');
         return;
     }
     
@@ -2635,10 +2692,22 @@ function displaySearchResults(results, container) {
         grouped[item.type].push(item);
     });
     
-    let html = '';
+    const summary = document.createElement('div');
+    summary.className = 'search-results-summary';
+    const resultLabel = results.length === 1 ? 'résultat' : 'résultats';
+    summary.innerHTML = '<span></span><kbd>Esc</kbd>';
+    summary.querySelector('span').textContent = `${results.length} ${translateSearchText(resultLabel)}`;
+    container.appendChild(summary);
     
     for (const [type, items] of Object.entries(grouped)) {
-        html += `<div class="search-category-header">${items[0].icon} ${type}</div>`;
+        const category = document.createElement('section');
+        category.className = 'search-category';
+        const categoryHeader = document.createElement('div');
+        categoryHeader.className = `search-category-header type-${getSearchTypeClass(type)}`;
+        categoryHeader.innerHTML = '<span class="search-type-icon" aria-hidden="true"></span><span class="search-category-name"></span><span class="search-category-count"></span>';
+        categoryHeader.querySelector('.search-category-name').textContent = translateSearchText(type);
+        categoryHeader.querySelector('.search-category-count').textContent = String(items.length);
+        category.appendChild(categoryHeader);
         
         items.forEach(item => {
             // Convertir les coordonnées Leaflet vers coordonnées du jeu selon le palier
@@ -2653,20 +2722,39 @@ function displaySearchResults(results, container) {
                 gameZ = Math.round(5121 - item.coordinates.lat);
             }
             
-            html += `
-                <div class="search-result-item" data-lat="${item.coordinates.lat}" data-lng="${item.coordinates.lng}">
-                    <div class="search-result-icon">${item.icon}</div>
-                    <div class="search-result-info">
-                        <div class="search-result-name">${escapeHtmlSearch(item.name)}</div>
-                        <div class="search-result-coords">X: ${gameX}, Z: ${gameZ}</div>
-                    </div>
-                </div>
-            `;
+            const resultButton = document.createElement('button');
+            resultButton.type = 'button';
+            resultButton.className = `search-result-item type-${getSearchTypeClass(item.type)}`;
+            resultButton.dataset.lat = item.coordinates.lat;
+            resultButton.dataset.lng = item.coordinates.lng;
+            resultButton.setAttribute('aria-label', `${translateSearchText('Aller à cet emplacement')} : ${item.name}, X ${gameX}, Z ${gameZ}`);
+
+            const icon = document.createElement('span');
+            icon.className = 'search-result-icon';
+            icon.setAttribute('aria-hidden', 'true');
+
+            const info = document.createElement('span');
+            info.className = 'search-result-info';
+            const name = document.createElement('span');
+            name.className = 'search-result-name';
+            name.textContent = item.name;
+            const coords = document.createElement('span');
+            coords.className = 'search-result-coords';
+            coords.textContent = `X ${gameX}  ·  Z ${gameZ}`;
+            info.append(name, coords);
+
+            const arrow = document.createElement('span');
+            arrow.className = 'search-result-arrow';
+            arrow.setAttribute('aria-hidden', 'true');
+            resultButton.append(icon, info, arrow);
+            category.appendChild(resultButton);
         });
+
+        container.appendChild(category);
     }
-    
-    container.innerHTML = html;
     container.style.display = 'block';
+    searchInput?.setAttribute('aria-expanded', 'true');
+    searchContainer?.classList.add('has-results');
     
     // Ajouter les événements de clic
     container.querySelectorAll('.search-result-item').forEach(item => {
@@ -2701,18 +2789,29 @@ function displaySearchResults(results, container) {
             }, 3000);
             
             // Fermer les résultats et vider la recherche
-            container.style.display = 'none';
-            document.getElementById('map-search-input').value = '';
+            const activeInput = document.getElementById('map-search-input');
+            hideSearchResults(container, activeInput, activeInput?.closest('.map-search-container'));
+            activeInput.value = '';
             document.getElementById('map-search-clear').style.display = 'none';
         });
-    });
-}
 
-// Fonction d'échappement HTML pour la recherche
-function escapeHtmlSearch(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+        item.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                (this.nextElementSibling?.matches('.search-result-item')
+                    ? this.nextElementSibling
+                    : this.closest('.search-category')?.nextElementSibling?.querySelector('.search-result-item'))?.focus();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                (this.previousElementSibling?.matches('.search-result-item')
+                    ? this.previousElementSibling
+                    : this.closest('.search-category')?.previousElementSibling?.querySelector('.search-result-item:last-child'))?.focus();
+            } else if (e.key === 'Escape') {
+                hideSearchResults(container, searchInput, searchContainer);
+                searchInput?.focus();
+            }
+        });
+    });
 }
 
 // Démarrage autonome (hors SPA) — placé en fin de module pour que toutes les

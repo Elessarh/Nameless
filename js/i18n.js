@@ -89,6 +89,46 @@
         });
     }
 
+    function applyReviewedTerminology(source, translated) {
+        var value = translated;
+
+        // Context-aware corrections for recurring game terms. These rules also
+        // cover long generated sentences that are not practical to duplicate
+        // in the hand-reviewed exact-string catalogue.
+        if (/palier/i.test(source)) {
+            value = value
+                .replace(/\btiers\b/gi, 'floors')
+                .replace(/\btier\b/gi, 'floor')
+                .replace(/\blevels\b/gi, 'floors')
+                .replace(/\blevel\b/gi, 'floor');
+        }
+        if (/quêtes? secondaires?/i.test(source)) {
+            value = value
+                .replace(/\bsecondary quests\b/gi, 'side quests')
+                .replace(/\bsecondary quest\b/gi, 'side quest');
+        }
+        if (/métiers?/i.test(source)) {
+            value = value
+                .replace(/\btrades\b/gi, 'professions')
+                .replace(/\btrade\b/gi, 'profession');
+        }
+        if (/familiers?/i.test(source)) {
+            value = value
+                .replace(/\bfamilies\b/gi, 'pets')
+                .replace(/\bfamily\b/gi, 'pet')
+                .replace(/\bfamiliars\b/gi, 'pets')
+                .replace(/\bfamiliar\b/gi, 'pet');
+        }
+        if (/recherche/i.test(source)) value = value.replace(/\bresearch\b/gi, 'search');
+        if (/lieux?/i.test(source)) {
+            value = value
+                .replace(/\bplaces\b/gi, 'locations')
+                .replace(/\bplace\b/gi, 'location');
+        }
+
+        return value;
+    }
+
     function translateDynamic(source) {
         var match;
         var rules = [
@@ -132,6 +172,7 @@
 
         var catalog = getEnglishCatalog();
         var translated = dynamicCatalog[clean] || catalog[clean] || translateDynamic(clean) || clean;
+        translated = applyReviewedTerminology(clean, translated);
         return interpolate(translated, variables);
     }
 

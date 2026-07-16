@@ -1,6 +1,7 @@
 # SAO-Nameless Client Keys
 
-Cette phase documente les cles a utiliser plus tard. Elle ne modifie pas `js/crypto-keys.js`.
+Cette phase documente les cles publiques utilisables par le navigateur. La
+configuration active se trouve dans `js/supabase-public-config.js`.
 
 ## Valeurs a recuperer dans Supabase
 
@@ -35,14 +36,13 @@ La cle anon est publique par nature dans un site statique GitHub Pages. La secur
 
 ## Integration future dans le site
 
-Le fichier existant `js/crypto-keys.js` expose:
-
-- `window._getSecureUrl()`
-- `window._getSecureKey()`
+Le fichier `js/supabase-public-config.js` expose uniquement
+`window.NamelessPublicConfig` avec l'URL du projet et la cle publishable.
 
 `js/auth-supabase.js` consomme ces deux fonctions pour initialiser Supabase.
 
-Quand la bascule sera validee, remplacer uniquement les valeurs obfusquees de `js/crypto-keys.js` par:
+Quand la bascule sera validee, renseigner uniquement les valeurs publiques de
+`js/supabase-public-config.js` avec:
 
 ```txt
 SAO_NAMELESS_SUPABASE_URL=<SUPABASE_URL>

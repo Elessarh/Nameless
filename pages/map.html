@@ -95,10 +95,13 @@
                         class="map-search-input" 
                         placeholder="Quête, PNJ, monstre, ville..."
                         autocomplete="off"
+                        aria-autocomplete="list"
+                        aria-controls="map-search-results"
+                        aria-expanded="false"
                     >
-                    <button id="map-search-clear" class="search-clear-btn" style="display: none;">✕</button>
+                    <button id="map-search-clear" class="search-clear-btn" type="button" aria-label="Effacer la recherche" style="display: none;">×</button>
                 </div>
-                <div id="map-search-results" class="map-search-results" style="display: none;"></div>
+                <div id="map-search-results" class="map-search-results" role="region" aria-label="Résultats de recherche" aria-live="polite" style="display: none;"></div>
             </div>
             
             <!-- Sélecteur de palier -->
@@ -201,9 +204,10 @@
     
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20260715" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20260716" defer></script>
     <script src="../js/i18n.js?v=20260715" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
-    <script src="../js/crypto-keys.js?v=20260709" defer></script>
+    <script src="../js/supabase-public-config.js?v=20260716" defer></script>
     <script src="../js/db-guard.js" defer></script>
     <script src="../js/security-utils.js?v=20260706" defer></script>
     <script src="../js/auth-supabase.js?v=20260709e" defer></script>
