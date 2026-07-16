@@ -1893,9 +1893,6 @@ function initMapView() {
                             <p><strong>Position:</strong> X:${q.coordinates[0]}, Z:${q.coordinates[1]}</p>
                             <p class="quest-description">${q.description}</p>
                         </div>
-                        <div class="quest-actions">
-                            <button type="button" data-map-action="open-quests" class="quest-btn"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Voir toutes les quêtes</span></button>
-                        </div>
                     </div>
                 `;
             } else {
@@ -1927,9 +1924,6 @@ function initMapView() {
                         </div>
                         <div class="quest-details" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 0 0 8px 8px;">
                             <p style="margin: 0;"><strong><span class="map-popup-pin" aria-hidden="true"></span><span>Position:</span></strong> X:${quest.coordinates[0]}, Z:${quest.coordinates[1]}</p>
-                        </div>
-                        <div class="quest-actions" style="padding: 10px;">
-                            <button type="button" data-map-action="open-quests" class="quest-btn"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Voir toutes les quêtes</span></button>
                         </div>
                     </div>
                 `;
@@ -2178,9 +2172,6 @@ function initMapView() {
                             <p><strong>Position:</strong> X:${q.coordinates[0]}, Z:${q.coordinates[1]}</p>
                             <p class="quest-description">${q.description}</p>
                         </div>
-                        <div class="quest-actions">
-                            <button type="button" data-map-action="open-quests" class="quest-btn"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Voir toutes les quêtes</span></button>
-                        </div>
                     </div>
                 `;
             } else {
@@ -2291,25 +2282,6 @@ window.NamelessMapPage = { init: initMapView, destroy: destroyMapView };
 function mapAutoStart() {
     if (window.NamelessSpaRouter && window.NamelessSpaRouter.controlsLifecycle) return;
     initMapView();
-}
-
-// Fonction globale pour ouvrir la page des quêtes
-function openQuestPage() {
-    if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
-        window.NamelessSpaRouter.navigate('/quetes');
-        return;
-    }
-    window.location.href = '/quetes';
-}
-
-if (!window.NamelessMapQuestActionBound) {
-    window.NamelessMapQuestActionBound = true;
-    document.addEventListener('click', function(event) {
-        var target = event.target && event.target.closest ? event.target.closest('[data-map-action="open-quests"]') : null;
-        if (!target) return;
-        event.preventDefault();
-        openQuestPage();
-    });
 }
 
 // ==========================================

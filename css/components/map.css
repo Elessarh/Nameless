@@ -2500,11 +2500,6 @@
         margin-top: 6px !important;
     }
     
-    .quest-btn {
-        font-size: 10px !important;
-        padding: 6px 12px !important;
-    }
-    
     /* Liste de quêtes compacte */
     .quest-popup.multi-quest .quest-list {
         max-height: 150px !important;
@@ -2623,29 +2618,6 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 8px;
     margin-top: 8px;
-}
-
-.quest-actions {
-    text-align: center;
-}
-
-.quest-btn {
-    background: linear-gradient(135deg, rgba(106, 143, 160, 0.8), rgba(138, 106, 170, 0.8));
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    color: white;
-    font-family: var(--font-title);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(106, 143, 160, 0.3);
-}
-
-.quest-btn:hover {
-    background: linear-gradient(135deg, rgba(106, 143, 160, 1), rgba(138, 106, 170, 1));
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(106, 143, 160, 0.3);
 }
 
 /* Style pour les popups multi-quêtes */

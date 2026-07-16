@@ -223,7 +223,7 @@ inline conservés (non sécurité) ; ils bloquent seulement la CSP stricte :
 - `bestiaire.js` : `onclick` goToPage/openCreatureModal/navigateToItem, `onerror`
   fallback — IDs internes + noms du catalogue codé en dur. **Corrigé : non requis.**
 - `quetes.js` : pagination `questSystem.*` — index internes. **Non requis.**
-- `map.js` : `openQuestPage()` statique ; `x/y/floor` d'URL → nombres (pas d'HTML).
+- `map.js` : paramètres `x/y/floor` de l'URL convertis en nombres (pas d'HTML).
 - `item-selector.js` : `onerror` fallback statique.
 - `profil.js` : avatar via `.src` (propriété DOM, pas d'innerHTML) — sûr.
 - `wiki.js` : `location.hash` → `getElementById('page-'+hash)` (pas d'innerHTML).

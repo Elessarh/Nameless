@@ -66,12 +66,12 @@
             title: "Carte d'Aincrad - Nameless",
             css: [
                 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-                'css/components/map.css?v=20260716d',
+                'css/components/map.css?v=20260716e',
                 'css/components/page-hero.css?v=20260716c'
             ],
             scripts: [
                 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-                'js/map.js?v=spa-public-1.3'
+                'js/map.js?v=spa-public-1.4'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {

@@ -126,7 +126,7 @@ const mapRuntimeText = [
     'Terres du Sud-Est', 'Zone:', 'Zoom amélioré !',
     'Utilisez la molette pour zoomer', 'ou les contrôles en haut à droite',
     'Type:', 'Étape:', 'Position:', 'PNJ:', 'Quête Principale',
-    'Quête Secondaire', 'Quêtes à cet emplacement', 'Voir toutes les quêtes',
+    'Quête Secondaire', 'Quêtes à cet emplacement',
     'Ville', 'Donjon', 'Marchand', 'Zone de Monstres'
 ];
 for (const source of mapRuntimeText) assertReviewed(source, 'js/map.js runtime');

@@ -42,9 +42,7 @@ Recommandation finale: **Option B - Zero Secret Front avec backend/serverless** 
   - fallback image via listener `error`.
 
 - `js/map.js`
-  - suppression des `onclick` inline dans popups Leaflet;
-  - delegation `data-map-action="open-quests"`;
-  - navigation SPA quand routeur disponible.
+  - suppression des `onclick` inline dans les popups Leaflet.
 
 ## Ce qui reste impossible en GitHub Pages statique
 

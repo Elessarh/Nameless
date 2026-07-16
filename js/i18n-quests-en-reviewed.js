@@ -36,7 +36,6 @@
         'PNJ:': 'NPC:',
         'Quête ciblée': 'Selected quest',
         'Cliquez ailleurs pour fermer': 'Click elsewhere to close',
-        'Voir toutes les quêtes': 'View all quests',
         'Quêtes à cet emplacement': 'Quests at this location',
         'Carte chargée avec succès': 'Map loaded successfully',
         'Coordonnées pixel:': 'Pixel coordinates:',
