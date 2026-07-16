@@ -125,7 +125,7 @@ const mapRuntimeText = [
     'Terres du Sud', 'Terres du Nord-Est', 'Plaines Centrales Est',
     'Terres du Sud-Est', 'Zone:', 'Zoom amélioré !',
     'Utilisez la molette pour zoomer', 'ou les contrôles en haut à droite',
-    'Type:', 'Étape:', 'Coordonnées:', 'PNJ:', 'Quête Principale',
+    'Type:', 'Étape:', 'Position:', 'PNJ:', 'Quête Principale',
     'Quête Secondaire', 'Quêtes à cet emplacement', 'Voir toutes les quêtes',
     'Ville', 'Donjon', 'Marchand', 'Zone de Monstres'
 ];

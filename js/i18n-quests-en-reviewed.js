@@ -25,6 +25,7 @@
         'Mode Édition': 'Edit Mode',
         'Lieu:': 'Location:',
         'Coordonnées:': 'Coordinates:',
+        'Position:': 'Location:',
         'Prérequis:': 'Requirements:',
         'Objectif:': 'Objective:',
         'Récompense:': 'Reward:',
