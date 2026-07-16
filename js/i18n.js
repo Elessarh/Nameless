@@ -11,6 +11,7 @@
     var DEFAULT_LANGUAGE = 'fr';
     var SUPPORTED_LANGUAGES = ['fr', 'en'];
     var originalText = new WeakMap();
+    var internalTextWrites = new WeakSet();
     var originalAttributes = new WeakMap();
     var observer = null;
     var applying = false;
@@ -170,6 +171,16 @@
         if (!clean) return source;
         if (currentLanguage === 'fr') return interpolate(clean, variables);
 
+        // Coordinates are data, not prose. Never send their numeric portion
+        // through the catalogue: an older automatic translation had removed
+        // minus signs from a few Floor 2 coordinates. Only an optional place
+        // name in parentheses is translated.
+        var coordinateMatch = clean.match(/^(X:\s*-?\d+\s*,\s*Z:\s*-?\d+)(?:\s*\(([^)]+)\))?$/i);
+        if (coordinateMatch) {
+            if (!coordinateMatch[2]) return coordinateMatch[1];
+            return coordinateMatch[1] + ' (' + translate(coordinateMatch[2]) + ')';
+        }
+
         var catalog = getEnglishCatalog();
         var translated = dynamicCatalog[clean] || catalog[clean] || translateDynamic(clean) || clean;
         translated = applyReviewedTerminology(clean, translated);
@@ -191,14 +202,20 @@
         if (!clean) return;
 
         if (currentLanguage === 'fr') {
-            if (node.nodeValue !== source) node.nodeValue = source;
+            if (node.nodeValue !== source) {
+                internalTextWrites.add(node);
+                node.nodeValue = source;
+            }
             return;
         }
 
         var translated = translate(clean);
         if (translated !== clean) {
             var nextValue = withOriginalWhitespace(source, translated);
-            if (node.nodeValue !== nextValue) node.nodeValue = nextValue;
+            if (node.nodeValue !== nextValue) {
+                internalTextWrites.add(node);
+                node.nodeValue = nextValue;
+            }
         }
     }
 
@@ -321,7 +338,18 @@
         observer = new MutationObserver(function (mutations) {
             if (applying) return;
             mutations.forEach(function (mutation) {
-                if (mutation.type === 'characterData') applyTextNode(mutation.target);
+                if (mutation.type === 'characterData') {
+                    if (internalTextWrites.has(mutation.target)) {
+                        internalTextWrites.delete(mutation.target);
+                        return;
+                    }
+                    // Application code may reuse an existing text node (live
+                    // map coordinates, status labels, counters). Treat the new
+                    // French value as the source instead of restoring the
+                    // value captured during the initial page pass.
+                    originalText.set(mutation.target, mutation.target.nodeValue);
+                    applyTextNode(mutation.target);
+                }
                 mutation.addedNodes.forEach(function (node) { applyRoot(node); });
             });
             createSwitcher();

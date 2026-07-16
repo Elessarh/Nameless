@@ -6,6 +6,21 @@ let map = null; // Variable globale pour la carte
 let currentMapOverlay = null; // Overlay de la carte actuelle
 let currentFloor = 1; // Palier actuel
 
+// A focused result must remain readable in its surroundings. Zoom level 4 was
+// effectively a pixel-level view on CRS.Simple and made search navigation
+// disorienting, especially on mobile.
+const SEARCH_FOCUS_ZOOM_DESKTOP = 1;
+const SEARCH_FOCUS_ZOOM_MOBILE = 0;
+
+function focusMapLocation(latLng) {
+    if (!map) return;
+    const preferredZoom = window.innerWidth <= 768
+        ? SEARCH_FOCUS_ZOOM_MOBILE
+        : SEARCH_FOCUS_ZOOM_DESKTOP;
+    const targetZoom = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), preferredZoom));
+    map.setView(latLng, targetZoom, { animate: true });
+}
+
 // Cycle de vie SPA (nettoyage Leaflet + écouteurs)
 let mapController = null;
 let mapResizeTimer = null;
@@ -519,7 +534,7 @@ function initMapView() {
             .setLatLng(newCenter)
             .setContent(`
                 <div style="font-family: 'Orbitron', sans-serif; text-align: center; padding: 5px;">
-                    <strong style="color: #00ffaa;">🏰 Palier ${selectedFloor}</strong><br>
+                    <strong style="color: #00ffaa;"><span class="map-popup-symbol town" aria-hidden="true"></span><span>Palier ${selectedFloor}</span></strong><br>
                     <small style="color: #888;">Carte chargée avec succès</small>
                 </div>
             `)
@@ -586,7 +601,7 @@ function initMapView() {
                 const leafletCoords = gameToLeafletCoords(gameX, gameZ, currentFloor);
                 
                 // Centrer la carte sur ces coordonnées avec un zoom approprié
-                map.setView(leafletCoords, 4);
+                focusMapLocation(leafletCoords);
                 
                 // Créer un marqueur temporaire pour mettre en évidence la position
                 const highlightMarker = L.marker(leafletCoords, {
@@ -611,7 +626,7 @@ function initMapView() {
                     .setLatLng(leafletCoords)
                     .setContent(`
                         <div style="text-align: center; color: #00a8ff; font-family: 'Orbitron', monospace;">
-                            <strong>📍 Quête ciblée</strong><br>
+                            <strong><span class="map-popup-pin" aria-hidden="true"></span><span>Quête ciblée</span></strong><br>
                             <span style="color: #00ffff;">X: ${gameX}, Z: ${gameZ}</span><br>
                             <small style="color: #888;">Cliquez ailleurs pour fermer</small>
                         </div>
@@ -695,7 +710,7 @@ function initMapView() {
             // Version ultra-compacte pour mobile
             div.innerHTML = `
                 <div style="background: rgba(0,0,0,0.85); color: #00a8ff; padding: 4px 6px; border-radius: 4px; font-family: 'Orbitron', monospace; font-size: 9px; max-width: 120px;">
-                    <div style="font-size: 8px;">📍 <span id="mouse-x" style="color: #0ff;">-</span>, <span id="mouse-y" style="color: #0ff;">-</span></div>
+                    <div style="font-size: 8px;"><span class="map-popup-pin" aria-hidden="true"></span><span id="mouse-x" style="color: #0ff;">-</span>, <span id="mouse-y" style="color: #0ff;">-</span></div>
                     <div id="precision-indicator" style="display: none;"></div>
                     <div id="zone-info" style="display: none;"></div>
                 </div>
@@ -704,7 +719,7 @@ function initMapView() {
             // Version compacte pour tablette
             div.innerHTML = `
                 <div style="background: rgba(0,0,0,0.9); color: #00a8ff; padding: 6px 8px; border-radius: 5px; font-family: 'Orbitron', monospace; font-size: 10px; max-width: 150px;">
-                    <div style="font-size: 9px;">📍 X: <span id="mouse-x" style="color: #0ff;">-</span></div>
+                    <div style="font-size: 9px;"><span class="map-popup-pin" aria-hidden="true"></span>X: <span id="mouse-x" style="color: #0ff;">-</span></div>
                     <div style="font-size: 9px;">Z: <span id="mouse-y" style="color: #0ff;">-</span></div>
                     <div id="precision-indicator" style="display: none;"></div>
                     <div id="zone-info" style="display: none;"></div>
@@ -714,7 +729,7 @@ function initMapView() {
             // Version complète pour desktop
             div.innerHTML = `
                 <div style="background: rgba(0,0,0,0.9); color: #00a8ff; padding: 10px; border-radius: 6px; font-family: 'Orbitron', monospace; font-size: 12px; min-width: 200px;">
-                    <div><strong>📍 Coordonnées Pixel:</strong></div>
+                    <div><strong><span class="map-popup-pin" aria-hidden="true"></span><span>Coordonnées pixel:</span></strong></div>
                     <div style="margin: 4px 0;">X: <span id="mouse-x" style="color: #00ffff; font-weight: bold;">-</span>, Z: <span id="mouse-y" style="color: #00ffff; font-weight: bold;">-</span></div>
                     <div id="precision-indicator" style="font-size: 9px; color: #ff6b00; margin-bottom: 4px;">Précision: Standard</div>
                     <div style="font-size: 10px; color: #888; margin-top: 4px;">
@@ -765,19 +780,19 @@ function initMapView() {
                 let precisionColor = "";
                 
                 if (currentZoom >= 8) {
-                    precisionText = "🔬 ULTRA-PRÉCISION (Pixel parfait)";
+                    precisionText = "ULTRA-PRÉCISION (Pixel parfait)";
                     precisionColor = "#ff0080";
                 } else if (currentZoom >= 6) {
-                    precisionText = "🔍 HAUTE PRÉCISION (Millième)";
+                    precisionText = "HAUTE PRÉCISION (Millième)";
                     precisionColor = "#ff6b00";
                 } else if (currentZoom >= 3) {
-                    precisionText = "📏 PRÉCISION FINE (Centième)";
+                    precisionText = "PRÉCISION FINE (Centième)";
                     precisionColor = "#ffaa00";
                 } else if (currentZoom >= 0) {
-                    precisionText = "📐 PRÉCISION NORMALE (Dixième)";
+                    precisionText = "PRÉCISION NORMALE (Dixième)";
                     precisionColor = "#00ffff";
                 } else {
-                    precisionText = "🗺️ PRÉCISION STANDARD";
+                    precisionText = "PRÉCISION STANDARD";
                     precisionColor = "#888888";
                 }
                 
@@ -848,13 +863,6 @@ function initMapView() {
                             zone = "Terres du Sud-Est";
                         }
                     }
-                }
-                
-                // Ajouter l'indicateur de précision selon le zoom
-                if (currentZoom >= 6) {
-                    zone += " 🔬"; // Indicateur de précision maximale
-                } else if (currentZoom >= 3) {
-                    zone += " 🔍"; // Indicateur de haute précision
                 }
                 
                 zoneInfo.textContent = zone;
@@ -938,7 +946,7 @@ function initMapView() {
             .setLatLng([2560, 2560])
             .setContent(`
                 <div style="font-family: 'Orbitron', sans-serif; text-align: center;">
-                    <strong style="color: #00a8ff;">🔍 Zoom Amélioré !</strong><br>
+                    <strong style="color: #00a8ff;"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Zoom amélioré !</span></strong><br>
                     <small style="color: #888;">
                         Utilisez la molette pour zoomer<br>
                         ou les contrôles en haut à droite
@@ -1859,7 +1867,13 @@ function initMapView() {
             const marker = L.marker(leafletCoords, { 
                 icon: icon,
                 questType: quest.type, // Ajouter le type pour l'organisation des couches
-                questName: combinedName // Ajouter le nom pour la recherche
+                questName: combinedName, // Compatibilité avec l'organisation des couches
+                questEntries: questGroup.map(q => ({
+                    name: q.name,
+                    type: q.type,
+                    npc: q.npc || '',
+                    description: q.description
+                }))
             });
             
             // Créer le contenu du popup
@@ -1871,7 +1885,7 @@ function initMapView() {
                 popupContent = `
                     <div class="quest-popup">
                         <div class="quest-header ${q.type}">
-                            <strong>${q.type === 'principale' ? '⭐' : '📜'} ${q.name}</strong>
+                            <strong><span class="map-popup-symbol ${q.type}" aria-hidden="true"></span><span>${q.name}</span></strong>
                         </div>
                         <div class="quest-details">
                             <p><strong>Type:</strong> ${q.type === 'principale' ? 'Quête Principale' : 'Quête Secondaire'}</p>
@@ -1880,7 +1894,7 @@ function initMapView() {
                             <p class="quest-description">${q.description}</p>
                         </div>
                         <div class="quest-actions">
-                            <button type="button" data-map-action="open-quests" class="quest-btn">📋 Voir toutes les quêtes</button>
+                            <button type="button" data-map-action="open-quests" class="quest-btn"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Voir toutes les quêtes</span></button>
                         </div>
                     </div>
                 `;
@@ -1889,7 +1903,7 @@ function initMapView() {
                 popupContent = `
                     <div class="quest-popup multi-quest" style="min-width: 280px;">
                         <div class="quest-header" style="background: linear-gradient(135deg, #4a90d9, #357abd); padding: 12px; border-radius: 8px 8px 0 0;">
-                            <strong style="font-size: 1.1em;">🏹 ${questGroup.length} Quêtes à cet emplacement</strong>
+                            <strong style="font-size: 1.1em;"><span class="map-popup-symbol grouped" aria-hidden="true"></span><span>${questGroup.length}</span> <span>Quêtes à cet emplacement</span></strong>
                         </div>
                         <div class="quest-list" style="max-height: 300px; overflow-y: auto; padding: 10px;">
                 `;
@@ -1898,7 +1912,7 @@ function initMapView() {
                     popupContent += `
                         <div class="quest-item ${q.type}" style="background: ${q.type === 'principale' ? 'rgba(255,215,0,0.15)' : 'rgba(100,149,237,0.15)'}; border-left: 3px solid ${q.type === 'principale' ? '#ffd700' : '#6495ed'}; padding: 10px; margin-bottom: 8px; border-radius: 4px;">
                             <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                                <span style="font-size: 1.2em; margin-right: 8px;">${q.type === 'principale' ? '⭐' : '📜'}</span>
+                                <span class="map-popup-symbol ${q.type}" aria-hidden="true"></span>
                                 <strong style="color: ${q.type === 'principale' ? '#ffd700' : '#87ceeb'};">${q.name}</strong>
                             </div>
                             <div style="font-size: 0.9em; color: #ccc;">
@@ -1912,10 +1926,10 @@ function initMapView() {
                 popupContent += `
                         </div>
                         <div class="quest-details" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 0 0 8px 8px;">
-                            <p style="margin: 0;"><strong>📍 Coordonnées:</strong> X:${quest.coordinates[0]}, Z:${quest.coordinates[1]}</p>
+                            <p style="margin: 0;"><strong><span class="map-popup-pin" aria-hidden="true"></span><span>Coordonnées:</span></strong> X:${quest.coordinates[0]}, Z:${quest.coordinates[1]}</p>
                         </div>
                         <div class="quest-actions" style="padding: 10px;">
-                            <button type="button" data-map-action="open-quests" class="quest-btn">📋 Voir toutes les quêtes</button>
+                            <button type="button" data-map-action="open-quests" class="quest-btn"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Voir toutes les quêtes</span></button>
                         </div>
                     </div>
                 `;
@@ -1951,13 +1965,15 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(ville.coordinates[0], ville.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
-                icon: villeIcon
+                icon: villeIcon,
+                locationName: ville.name,
+                locationType: 'Ville'
             });
 
             const popupContent = `
                 <div class="location-popup ville">
                     <div class="location-header">
-                        <strong>🏰 ${ville.name}</strong>
+                        <strong><span class="map-popup-symbol town" aria-hidden="true"></span><span>${ville.name}</span></strong>
                     </div>
                     <div class="location-details">
                         <p><strong>Type:</strong> Ville</p>
@@ -1989,13 +2005,15 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(donjon.coordinates[0], donjon.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
-                icon: donjonIcon
+                icon: donjonIcon,
+                locationName: donjon.name,
+                locationType: 'Donjon'
             });
 
             const popupContent = `
                 <div class="location-popup donjon">
                     <div class="location-header">
-                        <strong>⚔️ ${donjon.name}</strong>
+                        <strong><span class="map-popup-symbol dungeon" aria-hidden="true"></span><span>${donjon.name}</span></strong>
                     </div>
                     <div class="location-details">
                         <p><strong>Type:</strong> Donjon</p>
@@ -2027,13 +2045,15 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(marchand.coordinates[0], marchand.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
-                icon: marchandIcon
+                icon: marchandIcon,
+                locationName: marchand.name,
+                locationType: 'Marchand'
             });
 
             const popupContent = `
                 <div class="location-popup marchand">
                     <div class="location-header">
-                        <strong>💰 ${marchand.name}</strong>
+                        <strong><span class="map-popup-symbol merchant" aria-hidden="true"></span><span>${marchand.name}</span></strong>
                     </div>
                     <div class="location-details">
                         <p><strong>Type:</strong> Marchand</p>
@@ -2065,13 +2085,15 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(zone.coordinates[0], zone.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
-                icon: monstreIcon
+                icon: monstreIcon,
+                locationName: zone.name,
+                locationType: 'Zone de Monstres'
             });
 
             const popupContent = `
                 <div class="location-popup monstre">
                     <div class="location-header">
-                        <strong>👹 ${zone.name}</strong>
+                        <strong><span class="map-popup-symbol monster" aria-hidden="true"></span><span>${zone.name}</span></strong>
                     </div>
                     <div class="location-details">
                         <p><strong>Type:</strong> Zone de Monstres</p>
@@ -2130,7 +2152,13 @@ function initMapView() {
                 icon: icon,
                 questType: quest.type,
                 questName: combinedName,
-                npcName: combinedNpc
+                npcName: combinedNpc,
+                questEntries: questGroup.map(q => ({
+                    name: q.name,
+                    type: q.type,
+                    npc: q.npc || '',
+                    description: q.description
+                }))
             });
             
             // Créer le contenu du popup
@@ -2141,7 +2169,7 @@ function initMapView() {
                 popupContent = `
                     <div class="quest-popup">
                         <div class="quest-header ${q.type}">
-                            <strong>${q.type === 'principale' ? '⭐' : '📜'} ${q.name}</strong>
+                            <strong><span class="map-popup-symbol ${q.type}" aria-hidden="true"></span><span>${q.name}</span></strong>
                         </div>
                         <div class="quest-details">
                             <p><strong>Type:</strong> ${q.type === 'principale' ? 'Quête Principale' : 'Quête Secondaire'}</p>
@@ -2151,7 +2179,7 @@ function initMapView() {
                             <p class="quest-description">${q.description}</p>
                         </div>
                         <div class="quest-actions">
-                            <button type="button" data-map-action="open-quests" class="quest-btn">📋 Voir toutes les quêtes</button>
+                            <button type="button" data-map-action="open-quests" class="quest-btn"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Voir toutes les quêtes</span></button>
                         </div>
                     </div>
                 `;
@@ -2159,13 +2187,13 @@ function initMapView() {
                 popupContent = `
                     <div class="quest-popup multi-quest" style="min-width: 280px;">
                         <div class="quest-header" style="background: linear-gradient(135deg, #4a90d9, #357abd); padding: 12px; border-radius: 8px 8px 0 0;">
-                            <strong style="font-size: 1.1em;">🏹 ${questGroup.length} Quêtes à cet emplacement</strong>
+                            <strong style="font-size: 1.1em;"><span class="map-popup-symbol grouped" aria-hidden="true"></span><span>${questGroup.length}</span> <span>Quêtes à cet emplacement</span></strong>
                         </div>
                         <div class="quest-list" style="max-height: 300px; overflow-y: auto; padding: 10px;">
                             ${questGroup.map((q, index) => `
                                 <div class="quest-item ${q.type}" style="background: ${q.type === 'principale' ? 'rgba(255,215,0,0.15)' : 'rgba(100,149,237,0.15)'}; border-left: 3px solid ${q.type === 'principale' ? '#ffd700' : '#6495ed'}; padding: 10px; margin-bottom: 8px; border-radius: 4px;">
                                     <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                                        <span style="font-size: 1.2em; margin-right: 8px;">${q.type === 'principale' ? '⭐' : '📜'}</span>
+                                        <span class="map-popup-symbol ${q.type}" aria-hidden="true"></span>
                                         <strong style="color: ${q.type === 'principale' ? '#ffd700' : '#87ceeb'};">${q.name}</strong>
                                     </div>
                                     <div style="font-size: 0.9em; color: #ccc;">
@@ -2177,7 +2205,7 @@ function initMapView() {
                             `).join('')}
                         </div>
                         <div class="quest-details" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 0 0 8px 8px;">
-                            <p style="margin: 0;"><strong>📍 Coordonnées:</strong> X:${quest.coordinates[0]}, Z:${quest.coordinates[1]}</p>
+                            <p style="margin: 0;"><strong><span class="map-popup-pin" aria-hidden="true"></span><span>Coordonnées:</span></strong> X:${quest.coordinates[0]}, Z:${quest.coordinates[1]}</p>
                         </div>
                     </div>
                 `;
@@ -2496,133 +2524,92 @@ function buildSearchableItems() {
     // Déterminer quel groupe utiliser selon le palier actuel
     const currentQuestGroups = currentFloor === 2 ? layerGroupsFloor2 : layerGroups;
     
-    // Ajouter les quêtes principales
-    currentQuestGroups.questesPrincipales.eachLayer(function(marker) {
-        if (marker.options && marker.options.questName) {
-            items.push({
+    function appendQuestSearchItems(group, fallbackType) {
+        group.eachLayer(function(marker) {
+            const entries = marker.options?.questEntries || (marker.options?.questName ? [{
                 name: marker.options.questName,
-                type: 'Quête Principale',
-                icon: '⭐',
-                coordinates: marker.getLatLng(),
-                marker: marker,
-                floor: currentFloor
-            });
-            // Ajouter aussi le PNJ comme élément recherchable (Palier 2)
-            if (currentFloor === 2 && marker.options.npcName) {
+                type: fallbackType,
+                npc: marker.options.npcName || ''
+            }] : []);
+
+            entries.forEach(entry => {
+                const translatedType = entry.type === 'principale' ? 'Quête Principale' : 'Quête Secondaire';
                 items.push({
-                    name: marker.options.npcName + ' (PNJ)',
-                    type: 'Quête Principale',
-                    icon: '👤',
+                    name: entry.name,
+                    type: translatedType,
                     coordinates: marker.getLatLng(),
                     marker: marker,
-                    floor: currentFloor,
-                    questName: marker.options.questName
+                    floor: currentFloor
                 });
-            }
-        }
-    });
-    
-    // Ajouter les quêtes secondaires
-    currentQuestGroups.questesSecondaires.eachLayer(function(marker) {
-        if (marker.options && marker.options.questName) {
-            items.push({
-                name: marker.options.questName,
-                type: 'Quête Secondaire',
-                icon: '📜',
-                coordinates: marker.getLatLng(),
-                marker: marker,
-                floor: currentFloor
+
+                if (entry.npc) {
+                    items.push({
+                        name: entry.npc,
+                        type: 'PNJ',
+                        coordinates: marker.getLatLng(),
+                        marker: marker,
+                        floor: currentFloor,
+                        questName: entry.name
+                    });
+                }
             });
-            // Ajouter aussi le PNJ comme élément recherchable (Palier 2)
-            if (currentFloor === 2 && marker.options.npcName) {
-                items.push({
-                    name: marker.options.npcName + ' (PNJ)',
-                    type: 'Quête Secondaire',
-                    icon: '👤',
-                    coordinates: marker.getLatLng(),
-                    marker: marker,
-                    floor: currentFloor,
-                    questName: marker.options.questName
-                });
-            }
-        }
-    });
+        });
+    }
+
+    appendQuestSearchItems(currentQuestGroups.questesPrincipales, 'principale');
+    appendQuestSearchItems(currentQuestGroups.questesSecondaires, 'secondaire');
     
     // Les éléments suivants ne sont disponibles que sur le Palier 1
     if (currentFloor === 1) {
         // Ajouter les villes
         layerGroups.villes.eachLayer(function(marker) {
-            const popup = marker.getPopup();
-            if (popup) {
-                const content = popup.getContent();
-                const match = content.match(/<strong>🏰\s*([^<]+)<\/strong>/);
-                if (match) {
-                    items.push({
-                        name: match[1],
-                        type: 'Ville',
-                        icon: '🏰',
-                        coordinates: marker.getLatLng(),
-                        marker: marker,
-                        floor: 1
-                    });
-                }
+            if (marker.options?.locationName) {
+                items.push({
+                    name: marker.options.locationName,
+                    type: marker.options.locationType || 'Ville',
+                    coordinates: marker.getLatLng(),
+                    marker: marker,
+                    floor: 1
+                });
             }
         });
         
         // Ajouter les donjons
         layerGroups.donjons.eachLayer(function(marker) {
-            const popup = marker.getPopup();
-            if (popup) {
-                const content = popup.getContent();
-                const match = content.match(/<strong>⚔️\s*([^<]+)<\/strong>/);
-                if (match) {
-                    items.push({
-                        name: match[1],
-                        type: 'Donjon',
-                        icon: '⚔️',
-                        coordinates: marker.getLatLng(),
-                        marker: marker,
-                        floor: 1
-                    });
-                }
+            if (marker.options?.locationName) {
+                items.push({
+                    name: marker.options.locationName,
+                    type: marker.options.locationType || 'Donjon',
+                    coordinates: marker.getLatLng(),
+                    marker: marker,
+                    floor: 1
+                });
             }
         });
         
         // Ajouter les monstres
         layerGroups.monstres.eachLayer(function(marker) {
-            const popup = marker.getPopup();
-            if (popup) {
-                const content = popup.getContent();
-                const match = content.match(/<strong>👹\s*([^<]+)<\/strong>/);
-                if (match) {
-                    items.push({
-                        name: match[1],
-                        type: 'Zone de Monstres',
-                        icon: '👹',
-                        coordinates: marker.getLatLng(),
-                        marker: marker,
-                        floor: 1
-                    });
-                }
+            if (marker.options?.locationName) {
+                items.push({
+                    name: marker.options.locationName,
+                    type: marker.options.locationType || 'Zone de Monstres',
+                    coordinates: marker.getLatLng(),
+                    marker: marker,
+                    floor: 1
+                });
             }
         });
         
         // Ajouter les marchands
         layerGroups.marchands.eachLayer(function(marker) {
-            const popup = marker.getPopup();
-            if (popup) {
-                const content = popup.getContent();
-                const match = content.match(/<strong>💰\s*([^<]+)<\/strong>/);
-                if (match) {
-                    items.push({
-                        name: match[1],
-                        type: 'Marchand',
-                        icon: '💰',
-                        coordinates: marker.getLatLng(),
-                        marker: marker,
-                        floor: 1
-                    });
-                }
+            if (marker.options?.locationName) {
+                items.push({
+                    name: marker.options.locationName,
+                    type: marker.options.locationType || 'Marchand',
+                    coordinates: marker.getLatLng(),
+                    marker: marker,
+                    floor: 1
+                });
             }
         });
     }
@@ -2657,6 +2644,7 @@ function getSearchTypeClass(type) {
     if (normalized.includes('donjon')) return 'dungeon';
     if (normalized.includes('monstre')) return 'monster';
     if (normalized.includes('marchand')) return 'merchant';
+    if (normalized.includes('pnj') || normalized.includes('npc')) return 'npc';
     return 'location';
 }
 
@@ -2674,8 +2662,8 @@ function displaySearchResults(results, container) {
         const empty = document.createElement('div');
         empty.className = 'search-no-results';
         empty.innerHTML = '<span class="search-empty-mark" aria-hidden="true"></span><strong></strong><small></small>';
-        empty.querySelector('strong').textContent = translateSearchText('Aucun résultat trouvé');
-        empty.querySelector('small').textContent = translateSearchText('Essayez un nom de quête, de PNJ, de monstre ou de ville.');
+        empty.querySelector('strong').textContent = 'Aucun résultat trouvé';
+        empty.querySelector('small').textContent = 'Essayez un nom de quête, de PNJ, de monstre ou de ville.';
         container.appendChild(empty);
         container.style.display = 'block';
         searchInput?.setAttribute('aria-expanded', 'true');
@@ -2696,7 +2684,7 @@ function displaySearchResults(results, container) {
     summary.className = 'search-results-summary';
     const resultLabel = results.length === 1 ? 'résultat' : 'résultats';
     summary.innerHTML = '<span></span><kbd>Esc</kbd>';
-    summary.querySelector('span').textContent = `${results.length} ${translateSearchText(resultLabel)}`;
+    summary.querySelector('span').textContent = `${results.length} ${resultLabel}`;
     container.appendChild(summary);
     
     for (const [type, items] of Object.entries(grouped)) {
@@ -2705,7 +2693,7 @@ function displaySearchResults(results, container) {
         const categoryHeader = document.createElement('div');
         categoryHeader.className = `search-category-header type-${getSearchTypeClass(type)}`;
         categoryHeader.innerHTML = '<span class="search-type-icon" aria-hidden="true"></span><span class="search-category-name"></span><span class="search-category-count"></span>';
-        categoryHeader.querySelector('.search-category-name').textContent = translateSearchText(type);
+        categoryHeader.querySelector('.search-category-name').textContent = type;
         categoryHeader.querySelector('.search-category-count').textContent = String(items.length);
         category.appendChild(categoryHeader);
         
@@ -2763,7 +2751,7 @@ function displaySearchResults(results, container) {
             const lng = parseFloat(this.dataset.lng);
             
             // Centrer la carte sur l'élément
-            map.setView([lat, lng], 4);
+            focusMapLocation([lat, lng]);
             
             // Créer un effet de mise en surbrillance temporaire
             const highlightMarker = L.marker([lat, lng], {

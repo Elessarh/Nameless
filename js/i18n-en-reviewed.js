@@ -173,6 +173,22 @@
         'Chargement...': 'Loading…',
         'Publication en cours...': 'Publishing…',
         'Aucun message pour le moment.': 'No messages yet.',
-        'Aucun utilisateur trouvé': 'No users found'
+        'Aucun utilisateur trouvé': 'No users found',
+        'Bases de Palier': 'Floor Bases',
+        'Boss de Palier plus punitif que Raid': 'Floor Bosses are more punishing than Raids',
+        'Boss de Palier': 'Floor Boss',
+        'B. Boss de Palier': 'B. Floor Bosses',
+        'Donjons et Boss Palier': 'Dungeons and Floor Bosses',
+        'Donjons & Boss Palier': 'Dungeons & Floor Bosses',
+        'Devlog 4 — Combats et Donjons': 'Devlog 4 — Combat and Dungeons',
+        'Donjons Palier 2': 'Floor 2 Dungeons',
+        'Donjons, craft': 'Dungeons, crafting',
+        'Butins de Donjons': 'Dungeon Loot',
+        'A. Donjons classiques': 'A. Standard Dungeons',
+        'Donjons de Palier': 'Floor Dungeons',
+        "à l'intérieur des Donjons.": 'inside Dungeons.',
+        'Shop de Guilde (potions utilitaires)': 'Guild Shop (utility potions)',
+        'sur le Palier 1.': 'on Floor 1.',
+        "Majestueux et insaisissable, le Cerf des Montagnes habite les hauteurs glacées et les forêts enneigées. On raconte qu'il apparaît aux âmes pures, guidant les voyageurs égarés vers la sécurité.": 'Majestic and elusive, the Mountain Deer lives among icy peaks and snow-covered forests. It is said to appear before pure souls and guide lost travellers to safety.'
     });
 }(window));
