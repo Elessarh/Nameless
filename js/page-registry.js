@@ -67,7 +67,7 @@
             css: [
                 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
                 'css/components/map.css?v=20260716d',
-                'css/components/page-hero.css?v=20260710a'
+                'css/components/page-hero.css?v=20260716c'
             ],
             scripts: [
                 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
@@ -91,10 +91,10 @@
             title: 'Bestiaire - Nameless',
             css: [
                 'css/components/bestiaire.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=20260710a'
+                'css/components/page-hero.css?v=20260716c'
             ],
             scripts: [
-                'js/bestiaire.js?v=20260710a'
+                'js/bestiaire.js?v=20260716b'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -114,7 +114,7 @@
             title: "Catalogue d'Items - Nameless",
             css: [
                 'css/components/items.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=20260710a'
+                'css/components/page-hero.css?v=20260716c'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20260129b',
@@ -139,7 +139,7 @@
             css: [
                 'css/components/pixel-icons.css?v=20260709',
                 'css/components/quetes.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=20260710a'
+                'css/components/page-hero.css?v=20260716c'
             ],
             scripts: [
                 'js/quetes.js?v=spa-public-1.0'
@@ -163,7 +163,7 @@
             css: [
                 'css/components/pixel-icons.css?v=20260709',
                 'css/components/wiki.css?v=nameless-1.0',
-                'css/components/page-hero.css?v=20260710a'
+                'css/components/page-hero.css?v=20260716c'
             ],
             scripts: [
                 'js/wiki.js?v=spa-public-1.0'
@@ -205,7 +205,7 @@
             source: 'pages/profil.html',
             title: 'Mon profil - Nameless',
             css: [
-                'css/components/profil.css?v=nameless-1.3'
+                'css/components/profil.css?v=nameless-1.4'
             ],
             scripts: [
                 'js/cache-manager.js',

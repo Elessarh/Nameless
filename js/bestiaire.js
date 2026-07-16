@@ -256,7 +256,7 @@ const creaturesData = [
         image: "../assets/mobs/Narax.png",
         description: "Un archidémon des flammes éternelles, seigneur d'un royaume infernal.",
         drops: [],
-        location: "Cœur des Enfers"
+        location: "Ruines Maudites"
     },
     {
         id: 18,
@@ -283,7 +283,7 @@ const creaturesData = [
         image: "../assets/mobs/Ornstein.avif",
         description: "Le légendaire tueur de dragons, chevalier au service du soleil, maître de la lance sacrée.",
         drops: [],
-        location: "Cathédrale du Soleil"
+        location: "Donjon Labyrinthe"
     },
     {
         id: 20,
@@ -307,7 +307,7 @@ const creaturesData = [
         image: "../assets/mobs/Smoug.png",
         description: "Le dragon ancien des montagnes, gardien d'un trésor légendaire accumulé sur des millénaires.",
         drops: [],
-        location: "Pic du Dragon"
+        location: "Donjon Labyrinthe"
     },
     {
         id: 22,
@@ -339,7 +339,7 @@ const creaturesData = [
             { name: "Fil d'Araignée", rate: 50, image: "FildAraignée.png" },
             { name: "Venin d'Araignée", rate: 25, image: "VenindAraignée.png" }
         ],
-        location: "Cavernes Sombres"
+        location: "Donjon de Xal'Zirith"
     },
     {
         id: 24,
@@ -354,7 +354,7 @@ const creaturesData = [
             { name: "Fil d'Araignée", rate: 60, image: "FildAraignée.png" },
             { name: "Venin d'Araignée", rate: 40, image: "VenindAraignée.png" }
         ],
-        location: "Cavernes Sombres"
+        location: "Donjon de Xal'Zirith"
     },
     {
         id: 25,
@@ -369,7 +369,7 @@ const creaturesData = [
             { name: "Fil d'Araignée Renforcé", rate: 55, image: "FildAraignéeRenforcé.png" },
             { name: "Tissu d'Araignée", rate: 30, image: "TissudAraignée.png" }
         ],
-        location: "Cavernes Sombres"
+        location: "Donjon de Xal'Zirith"
     },
 
     // Palier 1 - Kobolds
@@ -383,7 +383,7 @@ const creaturesData = [
         image: "../assets/mobs/Kobold.png",
         description: "Un petit humanoïde rusé vivant dans les cavernes. Faible individuellement mais dangereux en groupe.",
         drops: [],
-        location: "Mines de Kobold"
+        location: "Donjon Kobold"
     },
     {
         id: 27,
@@ -395,7 +395,7 @@ const creaturesData = [
         image: "../assets/mobs/Archer_kobold.png",
         description: "Un kobold équipé d'un arc rudimentaire. Il préfère attaquer à distance depuis les hauteurs.",
         drops: [],
-        location: "Mines de Kobold"
+        location: "Donjon Kobold"
     },
     {
         id: 28,
@@ -407,7 +407,7 @@ const creaturesData = [
         image: "../assets/mobs/Guerrier_kobold.png",
         description: "Un kobold plus grand et mieux équipé que ses congénères. Il mène les groupes au combat.",
         drops: [],
-        location: "Mines de Kobold"
+        location: "Donjon Kobold"
     },
     {
         id: 29,
@@ -419,7 +419,7 @@ const creaturesData = [
         image: "../assets/mobs/Hallebardier_Kobold.png",
         description: "Armé d'une hallebarde artisanale, ce kobold défend les passages stratégiques des mines.",
         drops: [],
-        location: "Mines de Kobold"
+        location: "Donjon Kobold"
     },
     {
         id: 30,
@@ -431,7 +431,7 @@ const creaturesData = [
         image: "../assets/mobs/Mineur_Kobold.png",
         description: "Un kobold mineur qui extrait des minerais. Plus résistant que la moyenne grâce à son travail.",
         drops: [],
-        location: "Mines de Kobold"
+        location: "Donjon Kobold"
     },
     {
         id: 31,
@@ -443,7 +443,7 @@ const creaturesData = [
         image: "../assets/mobs/Soldat_kobold.png",
         description: "Un kobold entraîné au combat organisé. Il porte une armure fonctionnelle et se bat avec discipline.",
         drops: [],
-        location: "Mines de Kobold"
+        location: "Donjon Kobold"
     },
     {
         id: 32,
@@ -455,7 +455,7 @@ const creaturesData = [
         image: "../assets/mobs/Sorcier_kobold.png",
         description: "Un kobold qui a appris les rudiments de la magie. Ses sorts sont primitifs mais efficaces.",
         drops: [],
-        location: "Mines de Kobold"
+        location: "Donjon Kobold"
     },
 
     // Palier 1 - Squelettes
@@ -472,7 +472,7 @@ const creaturesData = [
             { name: "Os de Squelette", rate: 60, image: "OsdeSquelette.png" },
             { name: "Poussière d'Os", rate: 40, image: "PoussièredOs.png" }
         ],
-        location: "Cimetière Maudit"
+        location: "Ruines Maudites"
     },
     {
         id: 34,
@@ -486,7 +486,7 @@ const creaturesData = [
         drops: [
             { name: "Os de Squelette", rate: 55, image: "OsdeSquelette.png" }
         ],
-        location: "Cimetière Maudit"
+        location: "Ruines Maudites"
     },
     {
         id: 35,
@@ -500,7 +500,7 @@ const creaturesData = [
         drops: [
             { name: "Os de Squelette Renforcé", rate: 50, image: "OsdeSqueletteRenforcé.png" }
         ],
-        location: "Cimetière Maudit"
+        location: "Ruines Maudites"
     },
     {
         id: 36,
@@ -514,7 +514,7 @@ const creaturesData = [
         drops: [
             { name: "Os de Squelette Renforcé", rate: 50, image: "OsdeSqueletteRenforcé.png" }
         ],
-        location: "Cimetière Maudit"
+        location: "Ruines Maudites"
     },
     {
         id: 37,
@@ -528,7 +528,7 @@ const creaturesData = [
         drops: [
             { name: "Os de Squelette Renforcé", rate: 55, image: "OsdeSqueletteRenforcé.png" }
         ],
-        location: "Cimetière Maudit"
+        location: "Ruines Maudites"
     },
     {
         id: 38,
@@ -542,7 +542,7 @@ const creaturesData = [
         drops: [
             { name: "Os de Squelette Renforcé", rate: 40, image: "OsdeSqueletteRenforcé.png" }
         ],
-        location: "Cimetière Maudit"
+        location: "Ruines Maudites"
     },
     {
         id: 39,
@@ -554,7 +554,7 @@ const creaturesData = [
         image: "../assets/mobs/Sorcier_squelette.png",
         description: "Un nécromancien déchu qui maîtrise encore les arts sombres. Ses sorts drainent la vie.",
         drops: [],
-        location: "Cimetière Maudit"
+        location: "Ruines Maudites"
     },
 
     // Palier 1 - Déchus
@@ -568,7 +568,7 @@ const creaturesData = [
         image: "../assets/mobs/Soldat-Déchu.png",
         description: "Un soldat corrompu par les ténèbres. Son âme est perdue mais son entraînement perdure.",
         drops: [],
-        location: "Terres Déchues"
+        location: "Donjon Labyrinthe"
     },
     {
         id: 41,
@@ -580,7 +580,7 @@ const creaturesData = [
         image: "../assets/mobs/Gardien-Déchu.png",
         description: "Autrefois protecteur de la lumière, maintenant serviteur des ombres. Sa force n'a fait que croître.",
         drops: [],
-        location: "Terres Déchues"
+        location: "Donjon Labyrinthe"
     },
     {
         id: 42,
@@ -592,7 +592,7 @@ const creaturesData = [
         image: "../assets/mobs/Guerrier Déchu.png",
         description: "Un champion tombé dans les ténèbres. Sa lame brise les espoirs comme elle brise les armures.",
         drops: [],
-        location: "Terres Déchues"
+        location: "Donjon Labyrinthe"
     },
     {
         id: 43,
@@ -606,7 +606,7 @@ const creaturesData = [
         drops: [
             { name: "Âme de l'Herald", rate: 25, image: "ÂmedelHerald.png" }
         ],
-        location: "Terres Déchues"
+        location: "Donjon Labyrinthe"
     },
     {
         id: 44,
@@ -620,7 +620,7 @@ const creaturesData = [
         drops: [
             { name: "Âme du Reaper", rate: 10, image: "ÂmeduReaper.png" }
         ],
-        location: "Terres Déchues"
+        location: "Donjon Labyrinthe"
     },
 
     // Palier 1 - Autres créatures
@@ -741,7 +741,7 @@ const creaturesData = [
         image: "../assets/mobs/illfang.png",
         description: "Le roi des kobolds, un seigneur de guerre redoutable. Premier boss légendaire d'Aincrad.",
         drops: [],
-        location: "Palais Kobold"
+        location: "Donjon Kobold"
     },
     {
         id: 54,
@@ -753,7 +753,7 @@ const creaturesData = [
         image: "../assets/mobs/Jira.png",
         description: "Un démon ancien emprisonné dans les profondeurs. Sa rage est sans limites.",
         drops: [],
-        location: "Cachot Infernal"
+        location: "Donjon de Xal'Zirith"
     },
     {
         id: 55,
@@ -765,7 +765,7 @@ const creaturesData = [
         image: "../assets/mobs/Kamilia.png",
         description: "Une archimage corrompue. Ses sorts peuvent plier la réalité elle-même.",
         drops: [],
-        location: "Tour Arcanique"
+        location: "Donjon de Xal'Zirith"
     },
     {
         id: 56,
@@ -791,7 +791,7 @@ const creaturesData = [
         image: "../assets/mobs/priscilia.png",
         description: "Une dragonne métamorphe, reine des dragons. Sa beauté cache une puissance dévastatrice.",
         drops: [],
-        location: "Nid du Dragon"
+        location: "Donjon de Xal'Zirith"
     },
     {
         id: 58,
@@ -803,7 +803,7 @@ const creaturesData = [
         image: "../assets/mobs/soulknight.png",
         description: "Un chevalier dont l'âme est liée à son armure pour l'éternité. Gardien immortel.",
         drops: [],
-        location: "Forteresse Oubliée"
+        location: "Ruines Maudites"
     },
     {
         id: 59,
@@ -815,7 +815,7 @@ const creaturesData = [
         image: "../assets/mobs/Yula.png",
         description: "La sorcière des marais, maîtresse des malédictions. Ses potions sont mortelles.",
         drops: [],
-        location: "Marais Maudit"
+        location: "Donjon de Xal'Zirith"
     },
     {
         id: 60,
@@ -827,9 +827,18 @@ const creaturesData = [
         image: "../assets/mobs/Octana.png",
         description: "Une pieuvre colossale des profondeurs. Ses tentacules peuvent couler des navires entiers.",
         drops: [],
-        location: "Fosse Océanique"
+        location: "Donjon de Xal'Zirith"
     }
 ];
+
+// Une zone inconnue ne doit jamais être devinée. Les futures entrées sans
+// emplacement confirmé restent clairement identifiées jusqu'à validation.
+const UNKNOWN_BESTIARY_LOCATION = '???';
+creaturesData.forEach((creature) => {
+    if (typeof creature.location !== 'string' || !creature.location.trim()) {
+        creature.location = UNKNOWN_BESTIARY_LOCATION;
+    }
+});
 
 // État de l'application
 let filteredCreatures = [...creaturesData];

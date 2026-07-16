@@ -1402,7 +1402,7 @@
   "css/components/connexion.css?v=20260709": "css/components/connection.css?v=20260709",
   "css/components/guilde-nameless.css?v=nameless-1.0": "css/components/nameless.css?v=nameless-1.0",
   "css/components/guilde.css?v=20260129b": "css/components/guild.css?v=20260129b",
-  "css/components/profil.css?v=nameless-1.3": "css/components/profile.css?v=nameless-1.3",
+  "css/components/profil.css?v=nameless-1.4": "css/components/profil.css?v=nameless-1.4",
   "cuir, os, crocs, écailles…": "leather, bones, hooks, scales...",
   "d'Aincrad — une guilde discrète, soudée, sérieuse.": "Aincrad — a discreet, welded, serious guild.",
   "d'un monde qui a voulu les effacer. Ici, pas de vantardise : de la": "of a world that tried to erase them. Here, there is no boasting—only",

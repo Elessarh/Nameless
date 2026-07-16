@@ -1,7 +1,7 @@
 /* ============================================================
    NAMELESS - Ambiance sonore optionnelle
    - Aucun autoplay: la lecture attend toujours une action utilisateur.
-   - Bouton ON/OFF, piste suivante, nom court de piste.
+   - Bouton ON/OFF, pistes précédente/suivante, titre et progression.
    - Preferences non sensibles en localStorage.
    ============================================================ */
 (function () {
@@ -31,8 +31,8 @@
 
     var TRACKS = [
         { id: 'oath', label: 'Oath', src: assetUrl('assets/audio/nameless-oath.mp3') },
-        { id: 'echoes-1', label: 'Echos I', src: assetUrl('assets/audio/nameless-echoes.mp3') },
-        { id: 'echoes-2', label: 'Echos II', src: assetUrl('assets/audio/nameless-echoes-2.mp3') }
+        { id: 'echoes-1', label: 'Echoes I', src: assetUrl('assets/audio/nameless-echoes.mp3') },
+        { id: 'echoes-2', label: 'Echoes II', src: assetUrl('assets/audio/nameless-echoes-2.mp3') }
     ];
 
     function clampNumber(value, min, max, fallback) {
@@ -160,7 +160,7 @@
         var resumeArmed = false;
 
         var audio = new Audio();
-        audio.loop = true;
+        audio.loop = TRACKS.length === 1;
         audio.preload = 'none';
         audio.volume = pref.volume;
         singleton.audio = audio;
@@ -183,13 +183,53 @@
         var label = document.createElement('span');
         label.className = 'nm-audio-label';
 
+        var trackIndex = document.createElement('span');
+        trackIndex.className = 'nm-audio-track-index';
+        trackIndex.setAttribute('aria-hidden', 'true');
+
+        var titleRow = document.createElement('span');
+        titleRow.className = 'nm-audio-title-row';
+        titleRow.appendChild(label);
+        titleRow.appendChild(trackIndex);
+
+        var currentTime = document.createElement('span');
+        currentTime.className = 'nm-audio-time nm-audio-current-time';
+        currentTime.textContent = '0:00';
+
+        var progress = document.createElement('span');
+        progress.className = 'nm-audio-progress';
+        progress.setAttribute('aria-hidden', 'true');
+        var progressFill = document.createElement('i');
+        progress.appendChild(progressFill);
+
+        var duration = document.createElement('span');
+        duration.className = 'nm-audio-time nm-audio-duration';
+        duration.textContent = '--:--';
+
+        var timeline = document.createElement('span');
+        timeline.className = 'nm-audio-timeline';
+        timeline.appendChild(currentTime);
+        timeline.appendChild(progress);
+        timeline.appendChild(duration);
+
+        var info = document.createElement('span');
+        info.className = 'nm-audio-info';
+        info.appendChild(titleRow);
+        info.appendChild(timeline);
+
+        var prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.className = 'nm-audio-skip nm-audio-prev';
+        prevBtn.appendChild(svgSkip());
+
         var nextBtn = document.createElement('button');
         nextBtn.type = 'button';
-        nextBtn.className = 'nm-audio-next';
+        nextBtn.className = 'nm-audio-skip nm-audio-next';
         nextBtn.appendChild(svgSkip());
 
         btn.appendChild(eq);
-        btn.appendChild(label);
+        btn.appendChild(info);
+        if (TRACKS.length > 1) dock.appendChild(prevBtn);
         dock.appendChild(btn);
         if (TRACKS.length > 1) dock.appendChild(nextBtn);
         document.body.appendChild(dock);
@@ -205,31 +245,79 @@
             return failed[ni] ? -1 : ni;
         }
 
+        function previousValidFrom(from) {
+            var n = TRACKS.length;
+            var tried = 0;
+            var ni = from;
+            do {
+                ni = (ni - 1 + n) % n;
+                tried++;
+            } while (failed[ni] && tried < n);
+            return failed[ni] ? -1 : ni;
+        }
+
+        function isEnglish() {
+            return window.NamelessI18n && window.NamelessI18n.getLanguage() === 'en';
+        }
+
+        function formatTime(value) {
+            var seconds = Number(value);
+            if (!isFinite(seconds) || seconds < 0) return '--:--';
+            var minutes = Math.floor(seconds / 60);
+            var remainder = Math.floor(seconds % 60);
+            return minutes + ':' + (remainder < 10 ? '0' : '') + remainder;
+        }
+
+        function updateProgress() {
+            var total = Number(audio.duration);
+            var elapsed = Number(audio.currentTime) || 0;
+            var hasDuration = isFinite(total) && total > 0;
+            var percent = hasDuration ? Math.min(100, Math.max(0, elapsed / total * 100)) : 0;
+            currentTime.textContent = formatTime(elapsed);
+            duration.textContent = hasDuration ? formatTime(total) : '--:--';
+            progressFill.style.width = percent + '%';
+        }
+
         function updateTrackLabel() {
+            label.textContent = TRACKS[current].label;
+            trackIndex.textContent = (current + 1) + ' / ' + TRACKS.length;
+            var next = nextValidFrom(current);
+            var previous = previousValidFrom(current);
+            var nextLabel = next === -1 ? 'aucune piste disponible' : TRACKS[next].label;
+            var previousLabel = previous === -1 ? 'aucune piste disponible' : TRACKS[previous].label;
+            var nextPrefix = isEnglish() ? 'Next track: ' : 'Piste suivante : ';
+            var previousPrefix = isEnglish() ? 'Previous track: ' : 'Piste précédente : ';
+            var unavailable = isEnglish() ? 'no track available' : 'aucune piste disponible';
+            nextBtn.setAttribute('aria-label', nextPrefix + (next === -1 ? unavailable : nextLabel));
+            nextBtn.title = nextBtn.getAttribute('aria-label');
+            prevBtn.setAttribute('aria-label', previousPrefix + (previous === -1 ? unavailable : previousLabel));
+            prevBtn.title = prevBtn.getAttribute('aria-label');
+            btn.title = TRACKS[current].label;
+        }
+
+        function updateToggleCopy() {
             if (btn.classList.contains('needs-resume')) {
-                label.textContent = 'Reprendre';
+                btn.setAttribute('aria-label', isEnglish() ? 'Resume background music' : "Reprendre l'ambiance sonore");
                 return;
             }
-            label.textContent = TRACKS[current].label;
-            var next = nextValidFrom(current);
-            var nextLabel = next === -1 ? 'aucune piste disponible' : TRACKS[next].label;
-            nextBtn.setAttribute('aria-label', 'Piste suivante : ' + nextLabel);
-            nextBtn.title = 'Piste suivante : ' + nextLabel;
+            var on = btn.classList.contains('is-on');
+            btn.setAttribute('aria-label', on
+                ? (isEnglish() ? 'Mute background music' : "Couper l'ambiance sonore")
+                : (isEnglish() ? 'Play background music' : "Activer l'ambiance sonore"));
         }
 
         function setOn(on) {
             if (on) btn.classList.remove('needs-resume');
             btn.classList.toggle('is-on', on);
             btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-            btn.setAttribute('aria-label', on ? "Couper l'ambiance sonore" : "Activer l'ambiance sonore");
+            updateToggleCopy();
         }
 
         function markNeedsResume() {
             btn.classList.add('needs-resume');
             btn.classList.remove('is-on');
             btn.setAttribute('aria-pressed', 'false');
-            btn.setAttribute('aria-label', "Reprendre l'ambiance sonore");
-            label.textContent = 'Reprendre';
+            updateToggleCopy();
         }
 
         function armResume() {
@@ -248,6 +336,9 @@
         function loadTrack(index, restorePos) {
             current = Math.max(0, Math.min(TRACKS.length - 1, Math.floor(index)));
             audio.src = TRACKS[current].src;
+            currentTime.textContent = '0:00';
+            duration.textContent = '--:--';
+            progressFill.style.width = '0%';
             updateTrackLabel();
 
             if (restorePos && pref.pos > 0 && TRACKS[current].id === pref.trackId) {
@@ -333,8 +424,33 @@
             }
         });
 
+        prevBtn.addEventListener('click', function () {
+            var pi = previousValidFrom(current);
+            if (pi === -1) return;
+
+            var wasPlaying = wantedPlaying || !audio.paused;
+            loadTrack(pi, false);
+            writePref({ trackId: TRACKS[current].id, pos: 0 });
+
+            if (wasPlaying) {
+                setOn(true);
+                playCurrent();
+            }
+        });
+
+        audio.addEventListener('loadedmetadata', updateProgress);
+        audio.addEventListener('durationchange', updateProgress);
+        audio.addEventListener('ended', function () {
+            var ni = nextValidFrom(current);
+            if (ni === -1) return;
+            loadTrack(ni, false);
+            writePref({ trackId: TRACKS[current].id, pos: 0 });
+            playCurrent();
+        });
+
         var lastSave = 0;
         audio.addEventListener('timeupdate', function () {
+            updateProgress();
             var now = Date.now();
             if (!audio.paused && now - lastSave > 4000) {
                 lastSave = now;
@@ -356,12 +472,18 @@
             }
         });
 
+        document.addEventListener('nameless:languagechange', function () {
+            updateToggleCopy();
+            updateTrackLabel();
+        });
+
         if (pref.enabled) {
             setOn(true);
             armResume();
         }
 
         updateTrackLabel();
+        updateProgress();
     }
 
     if (document.readyState === 'loading') {

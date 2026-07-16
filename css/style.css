@@ -1463,9 +1463,9 @@ body.home-page::before { background: transparent; }
     z-index: 1;
     pointer-events: none;
     background:
-        linear-gradient(90deg, rgba(5,7,13,0.96) 0%, rgba(5,7,13,0.82) 42%, rgba(5,7,13,0.5) 100%),
-        linear-gradient(180deg, rgba(5,7,13,0.55) 0%, rgba(5,7,13,0.22) 45%, rgba(5,7,13,0.9) 100%),
-        radial-gradient(130% 100% at 32% 45%, transparent 40%, rgba(0,0,0,0.6) 100%),
+        linear-gradient(90deg, rgba(5,7,13,0.84) 0%, rgba(5,7,13,0.68) 42%, rgba(5,7,13,0.34) 100%),
+        linear-gradient(180deg, rgba(5,7,13,0.38) 0%, rgba(5,7,13,0.14) 45%, rgba(5,7,13,0.72) 100%),
+        radial-gradient(130% 100% at 32% 45%, transparent 40%, rgba(0,0,0,0.42) 100%),
         radial-gradient(80% 70% at 64% 34%, rgba(91,127,166,0.10), transparent 62%);
 }
 @keyframes nm-hero-drift {

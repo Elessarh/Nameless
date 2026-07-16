@@ -100,9 +100,9 @@
     background-image:
         linear-gradient(
             180deg,
-            rgba(3, 6, 14, 0.72) 0%,
-            rgba(3, 6, 14, 0.84) 42%,
-            rgba(3, 6, 14, 0.94) 100%
+            rgba(3, 6, 14, 0.50) 0%,
+            rgba(3, 6, 14, 0.64) 42%,
+            rgba(3, 6, 14, 0.82) 100%
         ),
         var(--page-bg-image);
     background-size: cover;
@@ -124,13 +124,13 @@
     background:
         radial-gradient(circle at 50% 8%, rgba(207, 170, 92, 0.12), transparent 34%),
         radial-gradient(circle at 50% 38%, rgba(70, 120, 180, 0.10), transparent 44%),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.46), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.46));
+        linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.28));
 }
 
 .page-visual-shell::after {
     background:
-        linear-gradient(180deg, transparent 0%, rgba(2, 4, 10, 0.32) 55%, rgba(2, 4, 10, 0.72) 100%),
-        radial-gradient(120% 120% at 50% 46%, transparent 52%, rgba(0, 0, 0, 0.54) 100%);
+        linear-gradient(180deg, transparent 0%, rgba(2, 4, 10, 0.18) 55%, rgba(2, 4, 10, 0.48) 100%),
+        radial-gradient(120% 120% at 50% 46%, transparent 52%, rgba(0, 0, 0, 0.38) 100%);
 }
 
 .page-visual-shell > * {
@@ -207,7 +207,7 @@
 
 .page-visual-shell .nm-scene-hero::after {
     background:
-        linear-gradient(180deg, rgba(5, 7, 13, 0.18), rgba(5, 7, 13, 0.46) 72%, rgba(5, 7, 13, 0.12)),
+        linear-gradient(180deg, rgba(5, 7, 13, 0.10), rgba(5, 7, 13, 0.30) 72%, rgba(5, 7, 13, 0.08)),
         radial-gradient(70% 80% at 50% 38%, rgba(194, 163, 103, 0.10), transparent 62%);
 }
 
@@ -224,7 +224,7 @@
 .page-visual-shell .bes-filters,
 .page-visual-shell .items-filters,
 .page-visual-shell .quests-filters {
-    background: rgba(7, 12, 24, 0.55) !important;
+    background: rgba(7, 12, 24, 0.46) !important;
     border: 1px solid rgba(207, 170, 92, 0.22) !important;
     box-shadow:
         0 16px 44px rgba(0, 0, 0, 0.34),
@@ -256,7 +256,7 @@
 .page-visual-shell .bes-empty,
 .page-visual-shell .items-empty,
 .page-visual-shell .quests-empty {
-    background: linear-gradient(155deg, rgba(16, 22, 40, 0.72), rgba(8, 11, 20, 0.82)) !important;
+    background: linear-gradient(155deg, rgba(16, 22, 40, 0.64), rgba(8, 11, 20, 0.74)) !important;
     border-color: rgba(207, 170, 92, 0.18) !important;
     box-shadow: 0 12px 34px rgba(0, 0, 0, 0.26);
     backdrop-filter: blur(3px);
@@ -279,14 +279,14 @@
     padding: 12px !important;
     /* Cadre volontairement léger : le décor de la section reste visible
        derrière, la carte garde son filet doré et sa profondeur. */
-    background: rgba(6, 10, 19, 0.20) !important;
+    background: rgba(6, 10, 19, 0.07) !important;
     border: 1px solid rgba(207, 170, 92, 0.26) !important;
     box-shadow:
         0 20px 54px rgba(0, 0, 0, 0.34),
         0 0 42px rgba(111, 146, 179, 0.12),
         inset 0 0 0 1px rgba(194, 163, 103, 0.10) !important;
-    backdrop-filter: blur(1.5px);
-    -webkit-backdrop-filter: blur(1.5px);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .map-visual-shell .map-wrapper::before,
@@ -295,11 +295,11 @@
 }
 
 .map-visual-shell #game-map {
-    background: rgba(5, 7, 13, 0.28) !important;
+    background: rgba(5, 7, 13, 0.08) !important;
 }
 
 .map-visual-shell .leaflet-container {
-    background: rgba(5, 7, 13, 0.24) !important;
+    background: rgba(5, 7, 13, 0.07) !important;
 }
 
 .map-visual-shell .toggle-label {
@@ -313,7 +313,7 @@
 }
 
 .wiki-visual-shell .wiki-sidebar {
-    background: linear-gradient(180deg, rgba(7, 12, 24, 0.76), rgba(5, 8, 16, 0.84)) !important;
+    background: linear-gradient(180deg, rgba(7, 12, 24, 0.64), rgba(5, 8, 16, 0.72)) !important;
     border-right: 1px solid rgba(207, 170, 92, 0.18) !important;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);

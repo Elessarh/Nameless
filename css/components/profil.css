@@ -4,6 +4,18 @@
    (IDs préservés pour profil.js). Sombre, sobre, lisible.
    ============================================================ */
 
+body.profil-page {
+    background-color: var(--nm-black);
+    background-image:
+        linear-gradient(180deg, rgba(3, 6, 14, 0.48) 0%, rgba(3, 6, 14, 0.62) 45%, rgba(3, 6, 14, 0.78) 100%),
+        radial-gradient(110% 90% at 50% 36%, transparent 44%, rgba(0, 0, 0, 0.38) 100%),
+        url("../../assets/brand/page-font-profil.png");
+    background-size: cover, cover, cover;
+    background-position: center top, center top, center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 .profil-container {
     max-width: 860px;
     margin: 0 auto;
@@ -51,7 +63,7 @@
     gap: 1.2rem;
     padding: 1.6rem 1.8rem;
     margin-bottom: 1.5rem;
-    background: linear-gradient(155deg, rgba(16,22,40,0.9), rgba(8,11,20,0.95));
+    background: linear-gradient(155deg, rgba(16,22,40,0.76), rgba(8,11,20,0.86));
     border: 1px solid var(--sao-border-hover);
     border-radius: 16px;
     box-shadow: var(--sao-shadow);
@@ -121,7 +133,7 @@
 
 /* --- Informations --- */
 .profil-info {
-    background: var(--sao-bg-card);
+    background: rgba(8, 12, 23, 0.78);
     border: 1px solid var(--sao-border);
     border-radius: var(--nm-radius);
     padding: 1.6rem 1.8rem;
@@ -190,7 +202,7 @@
     display: block;
     background:
         radial-gradient(circle at 12% 12%, rgba(78, 201, 255, 0.12), transparent 32%),
-        linear-gradient(155deg, rgba(21, 30, 53, 0.96), rgba(9, 12, 22, 0.98));
+        linear-gradient(155deg, rgba(21, 30, 53, 0.80), rgba(9, 12, 22, 0.88));
     border: 1px solid rgba(194, 163, 103, 0.62);
     border-radius: var(--nm-radius);
     padding: 1.65rem 1.9rem;
@@ -272,6 +284,10 @@
 
 /* --- Responsive --- */
 @media (max-width: 600px) {
+    body.profil-page {
+        background-attachment: scroll;
+    }
+
     .profil-container { padding: 1.25rem 0.85rem 3rem; }
     .player-card { flex-direction: column; align-items: stretch; text-align: center; }
     .player-card-head { flex-direction: column; text-align: center; }
