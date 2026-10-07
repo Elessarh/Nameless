@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-07",
+  "method": "Lighthouse mobile default simulated throttling, one sample per route; before HTTPS production vs after HTTP localhost with gzip. Not a paired deployment measurement. INP field data unavailable.",
+  "before": {
+    "home": {
+      "url": "https://nameless-sao.fr/",
+      "time": "2026-10-06T22:10:37.807Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 70,
+        "accessibility": 93,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 57903.33050000008,
+      "cls": 0,
+      "tbt_ms": 0,
+      "transfer_bytes": 19615426
+    },
+    "wiki": {
+      "url": "https://nameless-sao.fr/pages/wiki.html",
+      "time": "2026-10-06T22:10:05.539Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 69,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 92
+      },
+      "lcp_ms": 26680.06349999999,
+      "cls": 0,
+      "tbt_ms": 0,
+      "transfer_bytes": 4913630
+    },
+    "map": {
+      "url": "https://nameless-sao.fr/pages/map.html",
+      "time": "2026-10-06T22:10:37.563Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 67,
+        "accessibility": 89,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "lcp_ms": 48773.35199999997,
+      "cls": 0,
+      "tbt_ms": 107,
+      "transfer_bytes": 18900088
+    }
+  },
+  "after": {
+    "home": {
+      "url": "http://127.0.0.1:4173/",
+      "time": "2026-10-07T03:43:58.187Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 91,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3529.2860999999994,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 640932
+    },
+    "wiki": {
+      "url": "http://127.0.0.1:4173/wiki/",
+      "time": "2026-10-07T03:44:09.743Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 89,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3756.495300000001,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 388338
+    },
+    "map": {
+      "url": "http://127.0.0.1:4173/carte/",
+      "time": "2026-10-07T03:50:10.754Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 77,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 6692.522800000001,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 1024826
+    },
+    "bestiary": {
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "time": "2026-10-07T03:44:34.694Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3605.2338,
+      "cls": 0.00726560871651308,
+      "tbt_ms": 0.5,
+      "transfer_bytes": 1639183
+    },
+    "items": {
+      "url": "http://127.0.0.1:4173/items/",
+      "time": "2026-10-07T03:44:45.850Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3830.8649999999993,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 485362
+    },
+    "quests": {
+      "url": "http://127.0.0.1:4173/quetes/",
+      "time": "2026-10-07T03:44:57.026Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 91,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3454.548,
+      "cls": 0,
+      "tbt_ms": 23,
+      "transfer_bytes": 368808
+    },
+    "login": {
+      "url": "http://127.0.0.1:4173/connexion/",
+      "time": "2026-10-07T03:45:08.317Z",
+      "lighthouse": "13.5.0",
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69
+      },
+      "lcp_ms": 3155.5335000000005,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 330840
+    }
+  },
+  "local_map_before_progressive": {
+    "lcp_ms": 64440,
+    "transfer_bytes": 12790627,
+    "note": "Intermediate local observation before overview/marker optimization, rounded LCP from tool output. Same mobile/gzip settings, not a production baseline."
+  }
+}

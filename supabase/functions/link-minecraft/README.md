@@ -4,6 +4,13 @@ This function performs the real Minecraft linking flow server-side.
 
 Current status: the function is kept for diagnostics and a future official verification flow, but it is not launched automatically from the profile page anymore.
 
+The request boundary now validates origins, bounded JSON objects, JWT format,
+and a server start budget from `SAO_NAMELESS_HARDENING_004.sql`. Provider calls
+time out after 15 seconds and their response bodies are excluded from logs.
+This does not reactivate the UI or certify the dormant OAuth linking flow;
+before any future activation, review browser/session binding and one-use state
+handling as well as the Microsoft app registration.
+
 Minecraft Services currently rejects the Microsoft app registration with:
 
 ```text

@@ -2,31 +2,44 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard admin — Nameless</title>
 
     <!-- Meta tags pour robots - Page privée -->
-    <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Panneau d'administration Nameless — accès réservé aux administrateurs.">
 
     <!-- Theme & Favicon -->
     <meta name="theme-color" content="#05070d">
     <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
-    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+    <link rel="mask-icon" href="../assets/brand/pinned-tab.svg" color="#c2a367">
     <!-- Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
     <!-- Fonts & Styles -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css?v=20260716d">
-    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20260129b">
-    <link rel="stylesheet" href="../css/components/admin-dashboard.css?v=nameless-1.2">
-    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.2">
+    <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
+    <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../css/style.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/admin-dashboard.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
     
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="noindex, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nameless">
+    <meta property="og:url" content="https://nameless-sao.fr/admin-dashboard">
+    <meta property="og:title" content="Dashboard admin — Nameless">
+    <meta property="og:description" content="Panneau d'administration Nameless — accès réservé aux administrateurs.">
+    <meta property="og:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nameless face à Illfang dans Aincrad">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dashboard admin — Nameless">
+    <meta name="twitter:description" content="Panneau d'administration Nameless — accès réservé aux administrateurs.">
+    <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261007a">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
@@ -40,13 +53,13 @@
                     <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
                 </a>
             </div>
-            <ul class="nav-menu" id="nav-menu" role="menubar">
-                <li role="none"><a href="/" class="nav-link" role="menuitem">Accueil</a></li>
-                <li role="none"><a href="/carte" class="nav-link" role="menuitem">Carte</a></li>
-                <li role="none"><a href="/bestiaire" class="nav-link" role="menuitem">Bestiaire</a></li>
-                <li role="none"><a href="/items" class="nav-link" role="menuitem">Items</a></li>
-                <li role="none"><a href="/quetes" class="nav-link" role="menuitem">Quêtes</a></li>
-                <li role="none"><a href="/wiki" class="nav-link" role="menuitem">Wiki</a></li>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/carte" class="nav-link">Carte</a></li>
+                <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
+                <li><a href="/items" class="nav-link">Items</a></li>
+                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
+                <li><a href="/wiki" class="nav-link">Wiki</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
@@ -102,23 +115,23 @@
             </div>
             
             <!-- Navigation par onglets -->
-            <div class="dashboard-tabs">
-                <button class="tab-btn active" data-tab="presence">
+            <div class="dashboard-tabs" role="tablist" aria-label="Administration">
+                <button class="tab-btn active" data-tab="presence" id="admin-tab-presence" role="tab" aria-controls="admin-panel-presence">
                     Appel quotidien
                 </button>
-                <button class="tab-btn" data-tab="users">
+                <button class="tab-btn" data-tab="users" id="admin-tab-users" role="tab" aria-controls="admin-panel-users">
                     Utilisateurs
                 </button>
-                <button class="tab-btn" data-tab="guild">
+                <button class="tab-btn" data-tab="guild" id="admin-tab-guild" role="tab" aria-controls="admin-panel-guild">
                     Guilde
                 </button>
-                <button class="tab-btn" data-tab="activity">
+                <button class="tab-btn" data-tab="activity" id="admin-tab-activity" role="tab" aria-controls="admin-panel-activity">
                     Mur d'activité
                 </button>
             </div>
             
             <!-- TAB: Appel Quotidien -->
-            <div class="tab-content active" data-tab-content="presence">
+            <div class="tab-content active" data-tab-content="presence" id="admin-panel-presence" role="tabpanel" aria-labelledby="admin-tab-presence">
                 <!-- Section Présences du Jour -->
                 <div class="presence-section">
                     <div class="presence-header">
@@ -153,19 +166,22 @@
             <!-- Fin TAB: Appel Quotidien -->
             
             <!-- TAB: Gestion Utilisateurs -->
-            <div class="tab-content" data-tab-content="users">
+            <div class="tab-content" data-tab-content="users" id="admin-panel-users" role="tabpanel" aria-labelledby="admin-tab-users">
                 <!-- Section Utilisateurs -->
                 <div class="users-section">
                     <div class="users-header">
                         <h2>Gestion des Utilisateurs</h2>
                         <div class="search-filter">
-                            <input type="text" id="search-input" class="search-input" placeholder="🔍 Rechercher un utilisateur...">
+                            <label class="visually-hidden" for="search-input">Rechercher un utilisateur</label>
+                            <input type="text" id="search-input" class="search-input" placeholder="Rechercher un utilisateur...">
+                            <label class="visually-hidden" for="role-filter">Filtrer par rôle</label>
                             <select id="role-filter" class="filter-select">
                                 <option value="all">Tous les rôles</option>
                                 <option value="admin">Administrateurs</option>
                                 <option value="membre">Membres</option>
                                 <option value="joueur">Joueurs</option>
                             </select>
+                            <label class="visually-hidden" for="classe-filter">Filtrer par classe</label>
                             <select id="classe-filter" class="filter-select">
                                 <option value="all">Toutes les classes</option>
                                 <option value="Shaman">Shaman</option>
@@ -174,7 +190,8 @@
                             <option value="Guerrier">Guerrier</option>
                             <option value="Archer">Archer</option>
                         </select>
-                        <select id="niveau-filter" class="filter-select">
+                        <label class="visually-hidden" for="niveau-filter">Filtrer par niveau</label>
+                            <select id="niveau-filter" class="filter-select">
                             <option value="all">Tous les niveaux</option>
                             <option value="1-20">Niveau 1-20</option>
                             <option value="21-40">Niveau 21-40</option>
@@ -221,7 +238,8 @@
                     <button id="prev-page" class="pagination-btn" disabled>← Précédent</button>
                     <span id="page-info" class="page-info">Page 1 / 1</span>
                     <button id="next-page" class="pagination-btn">Suivant →</button>
-                    <select id="items-per-page" class="filter-select" style="margin-left: 15px;">
+                    <label class="visually-hidden" for="items-per-page">Utilisateurs par page</label>
+                            <select id="items-per-page" class="filter-select" style="margin-left: 15px;">
                         <option value="10">10 par page</option>
                         <option value="15" selected>15 par page</option>
                         <option value="25">25 par page</option>
@@ -234,40 +252,44 @@
             <!-- Fin TAB: Gestion Utilisateurs -->
             
             <!-- TAB: Gestion Guilde -->
-            <div class="tab-content" data-tab-content="guild">
+            <div class="tab-content" data-tab-content="guild" id="admin-panel-guild" role="tabpanel" aria-labelledby="admin-tab-guild">
                 <!-- Section Gestion Guilde -->
                 <div class="guild-management-section">
                     <h2 class="guild-section-heading">Gestion de la guilde</h2>
 
                     <!-- Tabs Navigation -->
-                    <div class="guild-tabs">
-                        <button class="guild-tab active" data-guild-tab="planning" id="tab-planning">
+                    <div class="guild-tabs" role="tablist" aria-label="Gestion de la guilde">
+                        <button class="guild-tab active" data-guild-tab="planning" id="tab-planning" role="tab" aria-controls="guild-planning-tab">
                             Planning
                         </button>
-                        <button class="guild-tab" data-guild-tab="objectives" id="tab-objectives">
+                        <button class="guild-tab" data-guild-tab="objectives" id="tab-objectives" role="tab" aria-controls="guild-objectives-tab">
                         Objectifs
                     </button>
-                    <button class="guild-tab" data-guild-tab="presence" id="tab-presence">
+                    <button class="guild-tab" data-guild-tab="presence" id="tab-presence" role="tab" aria-controls="guild-presence-tab">
                         Présences
                     </button>
                 </div>
                 
                 <!-- Planning Management -->
-                <div id="guild-planning-tab" class="guild-tab-content active">
+                <div id="guild-planning-tab" role="tabpanel" aria-labelledby="tab-planning" class="guild-tab-content active">
                     <div class="guild-form-container">
                         <h3>Ajouter un événement au planning</h3>
                         <form id="add-planning-form" style="display: grid; gap: 15px; max-width: 700px;">
-                            <input type="text" id="planning-titre" placeholder="Titre de l'événement" required>
-                            <textarea id="planning-description" placeholder="Description (optionnel)" rows="3"></textarea>
+                            <label class="admin-field-label" for="planning-titre">Titre de l’événement</label>
+                            <input type="text" id="planning-titre" maxlength="120" placeholder="Titre de l'événement" required>
+                            <label class="admin-field-label" for="planning-description">Description de l’événement</label>
+                            <textarea id="planning-description" maxlength="10000" placeholder="Description (optionnel)" rows="3"></textarea>
+                            <label class="admin-field-label" for="planning-date">Date et heure (Paris)</label>
                             <input type="datetime-local" id="planning-date" required>
+                            <label class="admin-field-label" for="planning-type">Type d’événement</label>
                             <select id="planning-type" required>
                                 <option value="">Sélectionner le type</option>
-                                <option value="reunion">🗣️ Réunion</option>
-                                <option value="raid">⚔️ Raid</option>
-                                <option value="event">🎉 Événement</option>
-                                <option value="pvp">🗡️ PvP</option>
-                                <option value="construction">🏗️ Construction</option>
-                                <option value="autre">📌 Autre</option>
+                                <option value="reunion">Réunion</option>
+                                <option value="raid">Raid</option>
+                                <option value="event">Événement</option>
+                                <option value="pvp">PvP</option>
+                                <option value="construction">Construction</option>
+                                <option value="autre">Autre</option>
                             </select>
                             <button type="submit" class="btn-submit">Ajouter au Planning</button>
                         </form>
@@ -280,21 +302,27 @@
                 </div>
                 
                 <!-- Objectives Management -->
-                <div id="guild-objectives-tab" class="guild-tab-content" style="display: none;">
+                <div id="guild-objectives-tab" role="tabpanel" aria-labelledby="tab-objectives" class="guild-tab-content" style="display: none;">
                     <div class="guild-form-container">
                         <h3>Créer un objectif hebdomadaire</h3>
                         <form id="add-objective-form" style="display: grid; gap: 15px; max-width: 700px;">
-                            <input type="text" id="objective-titre" placeholder="Titre de l'objectif" required>
-                            <textarea id="objective-description" placeholder="Description détaillée" rows="3" required></textarea>
-                            <label style="color: #4ecdc4;">Semaine:</label>
+                            <label class="admin-field-label" for="objective-titre">Titre de l’objectif</label>
+                            <input type="text" id="objective-titre" maxlength="120" placeholder="Titre de l'objectif" required>
+                            <label class="admin-field-label" for="objective-description">Description de l’objectif</label>
+                            <textarea id="objective-description" maxlength="10000" placeholder="Description détaillée" rows="3" required></textarea>
+
+                            <label class="admin-field-label" for="objective-semaine">Numéro de semaine ISO</label>
                             <input type="number" id="objective-semaine" placeholder="Numéro de semaine" required min="1" max="53">
-                            <input type="number" id="objective-annee" placeholder="Année" required min="2024">
+                            <label class="admin-field-label" for="objective-annee">Année ISO</label>
+                            <input type="number" id="objective-annee" placeholder="Année" required min="2024" max="2100">
+                            <label class="admin-field-label" for="objective-statut">Statut de l’objectif</label>
                             <select id="objective-statut" required>
-                                <option value="en_cours">⏳ En cours</option>
-                                <option value="termine">✅ Terminé</option>
-                                <option value="abandonne">❌ Abandonné</option>
+                                <option value="en_cours">En cours</option>
+                                <option value="termine">Terminé</option>
+                                <option value="abandonne">Abandonné</option>
                             </select>
-                            <label style="color: #4ecdc4;">Progression (%):</label>
+
+                            <label class="admin-field-label" for="objective-progression">Progression (%)</label>
                             <input type="number" id="objective-progression" placeholder="0-100" min="0" max="100" value="0" required>
                             <button type="submit" class="btn-submit">Créer l'Objectif</button>
                         </form>
@@ -307,20 +335,24 @@
                 </div>
                 
                 <!-- Presence Management -->
-                <div id="guild-presence-tab" class="guild-tab-content" style="display: none;">
+                <div id="guild-presence-tab" role="tabpanel" aria-labelledby="tab-presence" class="guild-tab-content" style="display: none;">
                     <div class="guild-form-container">
                         <h3>Marquer manuellement une présence</h3>
                         <form id="add-presence-form" style="display: grid; gap: 15px; max-width: 700px;">
+                            <label class="admin-field-label" for="presence-user">Membre</label>
                             <select id="presence-user" required>
                                 <option value="">Sélectionner un membre</option>
                             </select>
+                            <label class="admin-field-label" for="presence-date">Date de présence</label>
                             <input type="date" id="presence-date" required>
+                            <label class="admin-field-label" for="presence-statut">Statut de présence</label>
                             <select id="presence-statut" required>
-                                <option value="present">✅ Présent</option>
-                                <option value="absent">❌ Absent</option>
-                                <option value="en_mission">🎯 En mission</option>
+                                <option value="present">Présent</option>
+                                <option value="absent">Absent</option>
+                                <option value="en_mission">En mission</option>
                             </select>
-                            <textarea id="presence-commentaire" placeholder="Commentaire (optionnel)" rows="2"></textarea>
+                            <label class="admin-field-label" for="presence-commentaire">Commentaire de présence</label>
+                            <textarea id="presence-commentaire" maxlength="500" placeholder="Commentaire (optionnel)" rows="2"></textarea>
                             <button type="submit" class="btn-submit">Enregistrer la Présence</button>
                         </form>
                     </div>
@@ -335,7 +367,7 @@
             <!-- Fin TAB: Gestion Guilde -->
             
             <!-- TAB: Mur d'Activité -->
-            <div class="tab-content" data-tab-content="activity">
+            <div class="tab-content" data-tab-content="activity" id="admin-panel-activity" role="tabpanel" aria-labelledby="admin-tab-activity">
                 <div class="activity-admin-container">
                     <div class="activity-admin-header">
                         <h2 class="activity-admin-title">Gestion du mur d'activité</h2>
@@ -350,27 +382,27 @@
                         
                         <div class="form-group">
                             <label for="activity-title">Titre *</label>
-                            <input type="text" id="activity-title" placeholder="Titre de la publication" required>
+                            <input type="text" id="activity-title" maxlength="120" placeholder="Titre de la publication" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="activity-type">Type *</label>
                             <select id="activity-type" required>
-                                <option value="annonce">📢 Annonce</option>
-                                <option value="evenement">📅 Événement</option>
-                                <option value="info">ℹ️ Information</option>
-                                <option value="victoire">🏆 Victoire</option>
+                                <option value="annonce">Annonce</option>
+                                <option value="evenement">Événement</option>
+                                <option value="info">Information</option>
+                                <option value="victoire">Victoire</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
                             <label for="activity-content">Contenu *</label>
-                            <textarea id="activity-content" placeholder="Contenu de la publication..." required></textarea>
+                            <textarea id="activity-content" maxlength="10000" placeholder="Contenu de la publication..." required></textarea>
                         </div>
                         
                         <div class="form-group">
                             <label for="activity-image">Image (optionnel)</label>
-                            <input type="file" id="activity-image" accept="image/*">
+                            <input type="file" id="activity-image" accept="image/png,image/jpeg,image/webp,image/gif">
                             <div id="image-preview-container" class="image-preview-container" style="display: none;">
                                 <img id="image-preview" class="image-preview" alt="Aperçu">
                             </div>
@@ -399,16 +431,14 @@
             </div>
             <!-- Fin TAB: Mur d'Activité -->
         </div>
-    </main>
-
     <!-- Modal de modification de rôle -->
-    <div id="role-modal" class="modal">
+    <div id="role-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="role-modal-title" aria-hidden="true">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" id="role-modal-title">
                 Modifier le rôle de <span id="modal-username"></span>
             </div>
             <div class="modal-body">
-                <label class="modal-label">Nouveau rôle :</label>
+                <label class="modal-label" for="modal-role-select">Nouveau rôle :</label>
                 <select id="modal-role-select" class="modal-select">
                     <option value="joueur">Joueur</option>
                     <option value="membre">Membre</option>
@@ -422,29 +452,35 @@
         </div>
     </div>
 
+    </main>
+
     <!-- Footer -->
     <footer class="site-footer" role="contentinfo">
-        <div class="container">
-            <p><span class="nm-foot-tag">◆</span> Nameless — Sans nom. Jamais seuls. <span class="nm-foot-tag">◆</span></p>
-            <p style="letter-spacing: 1px; font-family: var(--font-text); font-size: 0.75rem; opacity: 0.7;">&copy; 2026 Nameless — Accès administrateur</p>
-        </div>
+        <p data-i18n-ignore>© 2026 Nameless</p>
+        <nav aria-label="Informations de Nameless">
+            <a href="/confidentialite">Confidentialité</a>
+            <a href="/conditions">Conditions d’utilisation</a>
+        </nav>
     </footer>
 
     <!-- Scripts - Chargement optimisé -->
-    <script src="../js/i18n-en.js?v=20260715" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-quests-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-game-en-reviewed.js?v=20260716e" defer></script>
-    <script src="../js/i18n.js?v=20260716d" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
-    <script src="../js/performance-monitor.js" defer></script>
-    <script src="../js/cache-manager.js" defer></script>
-    <script src="../js/navbar-mobile.js" defer></script>
-    <script src="../js/supabase-public-config.js?v=20260716" defer></script>
-    <script src="../js/db-guard.js" defer></script>
-    <script src="../js/security-utils.js?v=20260706" defer></script>
-    <script src="../js/auth-supabase.js?v=20260709e" defer></script>
-    <script src="../js/admin-dashboard.js?v=20260709g" defer></script>
-    <script src="../js/audio-controller.js?v=nameless-audio-1.2" defer></script>
+    <script src="../js/i18n-en.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n.js?v=20261007a" defer></script>
+    <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
+    <script src="../js/performance-monitor.js?v=20261007a" defer></script>
+    <script src="../js/guild-date-utils.js?v=20261007a" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
+    <script src="../js/supabase-public-config.js?v=20261007a" defer></script>
+    <script src="../js/db-guard.js?v=20261007a" defer></script>
+    <script src="../js/cache-manager.js?v=20261007a" defer></script>
+    <script src="../js/security-utils.js?v=20261007a" defer></script>
+    <script src="../js/auth-supabase.js?v=20261007a" defer></script>
+    <script src="../js/admin-dashboard.js?v=20261007a" defer></script>
+    <script src="../js/audio-controller.js?v=20261007a" defer></script>
+    <script src="../js/global-search.js?v=20261007a" defer></script>
 </body>
 </html>

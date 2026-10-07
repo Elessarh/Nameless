@@ -1,3 +1,5 @@
+(function () {
+'use strict';
 /* admin-dashboard.js - Gestion du dashboard administrateur */
 
 // Variables locales (currentUser est global depuis auth-supabase.js)
@@ -16,10 +18,13 @@ let currentSortDirection = 'desc'; // 'asc' ou 'desc'
 
 // Fonction de gestion des onglets du dashboard
 function switchDashboardTab(tabName) {
+    if (!['presence', 'users', 'guild', 'activity'].includes(tabName)) tabName = 'presence';
     
     // Retirer la classe active de tous les boutons et contenus
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.tabIndex = -1;
     });
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
@@ -29,16 +34,17 @@ function switchDashboardTab(tabName) {
     const activeButton = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
     const activeContent = document.querySelector(`.tab-content[data-tab-content="${tabName}"]`);
     
-    if (activeButton) activeButton.classList.add('active');
+    if (activeButton) { activeButton.classList.add('active'); activeButton.setAttribute('aria-selected', 'true'); activeButton.tabIndex = 0; }
     if (activeContent) activeContent.classList.add('active');
     
+    if (tabName === 'guild') switchGuildTab(document.querySelector('.guild-tab.active')?.dataset.guildTab || 'planning');
     // Charger les données spécifiques à l'onglet
     if (tabName === 'activity') {
         loadAdminActivities();
     }
     
     // Sauvegarder l'onglet actif dans localStorage
-    localStorage.setItem('dashboardActiveTab', tabName);
+    try { localStorage.setItem('dashboardActiveTab', tabName); } catch (_) {}
 }
 
 // Initialisation au chargement de la page
@@ -46,14 +52,15 @@ async function initAdminDashboardPage() {
     const token = ++adminInitToken;
     
     // Attendre que auth-supabase.js soit chargé ET que l'utilisateur soit connecté
-    await waitForAdminAuth();
+    if (!await waitForAdminAuth(token)) return;
     if (token !== adminInitToken) return;
     
     // Vérifier les droits admin
-    await checkAdminAccess();
+    await checkAdminAccess(token);
 }
 
 function destroyAdminDashboardPage() {
+    closeRoleModal(false);
     adminInitToken++;
     localCurrentUser = null;
     currentUserProfile = null;
@@ -77,23 +84,23 @@ function navigateAdminToConnexion() {
 }
 
 // Attendre que l'authentification soit prête ET que l'utilisateur soit connecté
-function waitForAdminAuth() {
+function waitForAdminAuth(token) {
     return new Promise((resolve) => {
         let attempts = 0;
         const maxAttempts = 100; // 10 secondes max
         
         const checkAuth = setInterval(() => {
             attempts++;
+            if (token !== adminInitToken) { clearInterval(checkAuth); resolve(false); return; }
             
             // Vérifier que Supabase ET window.currentUser sont prêts
             if (typeof supabase !== 'undefined' && supabase !== null && window.currentUser !== null && window.currentUser !== undefined) {
                 clearInterval(checkAuth);
-                resolve();
+                resolve(true);
             } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 showAdminError('Vous devez être connecté pour accéder au dashboard.');
-                setTimeout(navigateAdminToConnexion, 2000);
-                resolve();
+                resolve(false);
             }
         }, 100);
     });
@@ -118,7 +125,7 @@ async function getCurrentUserRole() {
     return String(data || '').trim();
 }
 
-async function checkAdminAccess() {
+async function checkAdminAccess(token) {
     try {
         // Utiliser la session globale depuis auth-supabase.js
         if (!window.currentUser) {
@@ -136,6 +143,7 @@ async function checkAdminAccess() {
             .eq('id', localCurrentUser.id)
             .single();
             
+        if (token !== adminInitToken) return;
         if (error || !profile) {
             logSupabaseWarning('admin_profile_failed', error);
             showAdminError('Profil introuvable. Impossible de vérifier vos droits d\'accès.');
@@ -144,10 +152,11 @@ async function checkAdminAccess() {
         
         currentUserProfile = profile;
         const effectiveRole = await getCurrentUserRole();
+        if (token !== adminInitToken) return;
         
         // Vérifier si l'utilisateur est admin
         if (effectiveRole !== 'admin') {
-            showAdminError('Accès admin requis. Rôle admin non détecté côté Supabase.');
+            showAdminError('Cet espace est réservé aux administrateurs de Nameless.');
             return;
         }
         
@@ -158,8 +167,11 @@ async function checkAdminAccess() {
         
         // Charger les données
         await loadUsers();
+        if (token !== adminInitToken) return;
         await loadPresences();
-        await loadMembersForPresence(); // Charger la liste des membres pour le formulaire de présence
+        if (token !== adminInitToken) return;
+        await loadMembersForPresence();
+        if (token !== adminInitToken) return; // Charger la liste des membres pour le formulaire de présence
         
         // Initialiser les event listeners
         initializeEventListeners();
@@ -167,9 +179,11 @@ async function checkAdminAccess() {
         bindAdminActivityForm();
         
         // Charger les activités si l'onglet est actif ou pré-charger
-        const savedTab = localStorage.getItem('dashboardActiveTab');
+        let savedTab = null;
+        try { savedTab = localStorage.getItem('dashboardActiveTab'); } catch (_) {}
         if (savedTab === 'activity') {
-            await loadAdminActivities();
+            window.cacheManager?.invalidate('guild_activity_wall');
+        await loadAdminActivities();
         }
         
         // Restaurer l'onglet actif depuis localStorage
@@ -179,7 +193,7 @@ async function checkAdminAccess() {
         
     } catch (error) {
         logSupabaseWarning('admin_access_failed', error);
-        showAdminError('Erreur Supabase : voir console.');
+        if (token === adminInitToken) showAdminError('Impossible de vérifier votre accès. Réessayez dans un instant.');
     }
 }
 
@@ -218,7 +232,16 @@ async function callAdminAction(payload) {
 function getAdminActionErrorMessage(error) {
     const code = error && error.code ? String(error.code) : '';
     const messages = {
-        'admin_required': 'Action refusée : rôle admin non détecté côté Supabase.',
+        'admin_action_rate_limited': 'Trop d’actions rapprochées. Patientez une minute avant de réessayer.',
+        'security_patch_required': 'La configuration de sécurité du serveur doit être mise à jour avant cette action.',
+        'admin_audit_unavailable': 'Le journal administratif est indisponible. Réessayez dans un instant.',
+        'origin_not_allowed': 'Cette action doit être effectuée depuis le site Nameless.',
+        'invalid_json': 'La demande est invalide. Actualisez la page puis réessayez.',
+        'invalid_json_object': 'La demande est invalide. Actualisez la page puis réessayez.',
+        'unexpected_field': 'La demande contient un champ non autorisé. Actualisez la page puis réessayez.',
+        'payload_too_large': 'La demande est trop volumineuse.',
+        'invalid_confirmation': 'La confirmation de cette action est invalide.',
+        'admin_required': 'Action réservée aux administrateurs.',
         'missing_user_session': 'Session expirée. Reconnecte-toi.',
         'invalid_user_session': 'Session invalide. Reconnecte-toi.',
         'invalid_target_user_id': 'Identifiant de joueur invalide.',
@@ -548,6 +571,25 @@ function formatDate(dateString) {
 
 // Initialiser les event listeners
 function initializeEventListeners() {
+    [['.tab-btn', switchDashboardTab, 'tab'], ['.guild-tab', switchGuildTab, 'guildTab']].forEach(([selector, activate, key]) => {
+        const tabs = [...document.querySelectorAll(selector)];
+        tabs.forEach((button) => {
+            button.setAttribute('aria-selected', button.classList.contains('active') ? 'true' : 'false');
+            button.tabIndex = button.classList.contains('active') ? 0 : -1;
+            if (button.dataset.keyboardTabsBound) return;
+            button.dataset.keyboardTabsBound = 'true';
+            button.addEventListener('keydown', (event) => {
+                const index = tabs.indexOf(button);
+                const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
+                    : event.key === 'ArrowRight' ? (index + 1) % tabs.length
+                    : event.key === 'ArrowLeft' ? (index + tabs.length - 1) % tabs.length : -1;
+                if (next < 0) return;
+                event.preventDefault();
+                activate(tabs[next].dataset[key]);
+                tabs[next].focus();
+            });
+        });
+    });
     // Recherche
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', (e) => {
@@ -712,20 +754,44 @@ function filterUsers() {
 }
 
 // Ouvrir le modal de modification de rôle
+let roleModalFocus = null;
+let roleModalInert = [];
 function openRoleModal(user) {
+    const modal = document.getElementById('role-modal');
+    if (!modal) return;
     editingUserId = user.id;
-    var displayName = user.minecraft_username || user.username || user.email;
-    var headImg = mcHeadHtml(user, 28);
-    document.getElementById('modal-username').innerHTML = headImg + escapeHtml(displayName);
+    roleModalFocus = document.activeElement;
+    const displayName = user.minecraft_username || user.username || user.email;
+    document.getElementById('modal-username').innerHTML = mcHeadHtml(user, 28) + escapeHtml(displayName);
     document.getElementById('modal-role-select').value = user.role || 'joueur';
-    document.getElementById('role-modal').classList.add('active');
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    roleModalInert = [...document.querySelectorAll('header, footer, main > *')]
+        .filter((element) => element !== modal && !element.contains(modal))
+        .map((element) => ({ element, inert: element.inert }));
+    roleModalInert.forEach(({ element }) => { element.inert = true; });
+    document.getElementById('modal-role-select').focus();
 }
-
-// Fermer le modal de modification de rôle
-function closeRoleModal() {
+function closeRoleModal(restoreFocus = true) {
     editingUserId = null;
-    document.getElementById('role-modal').classList.remove('active');
+    const modal = document.getElementById('role-modal');
+    if (modal) { modal.classList.remove('active'); modal.setAttribute('aria-hidden', 'true'); }
+    roleModalInert.forEach(({ element, inert }) => { element.inert = inert; });
+    roleModalInert = [];
+    if (restoreFocus && roleModalFocus?.isConnected) roleModalFocus.focus();
+    roleModalFocus = null;
 }
+document.addEventListener('keydown', (event) => {
+    if (event.target.closest && event.target.closest('dialog[open]')) return;
+    const modal = document.getElementById('role-modal');
+    if (!modal?.classList.contains('active')) return;
+    if (event.key === 'Escape') { event.preventDefault(); closeRoleModal(); return; }
+    if (event.key !== 'Tab') return;
+    const controls = [...modal.querySelectorAll('select, button:not([disabled])')];
+    const first = controls[0]; const last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+});
 
 // Confirmer le changement de rôle.
 // SÉCURITÉ : l'écriture passe par l'Edge Function admin-user-actions qui
@@ -787,6 +853,7 @@ function showAdminError(message) {
 
 // Basculer entre les onglets de gestion de guilde
 function switchGuildTab(tabName) {
+    if (!['planning', 'objectives', 'presence'].includes(tabName)) tabName = 'planning';
     // Masquer tous les contenus
     document.querySelectorAll('.guild-tab-content').forEach(tab => {
         tab.style.display = 'none';
@@ -799,7 +866,10 @@ function switchGuildTab(tabName) {
     
     // Afficher le contenu sélectionné
     document.getElementById(`guild-${tabName}-tab`).style.display = 'block';
-    document.getElementById(`tab-${tabName}`).classList.add('active');
+    const activeTab = document.getElementById(`tab-${tabName}`);
+    activeTab.classList.add('active');
+    activeTab.setAttribute('aria-selected', 'true');
+    activeTab.tabIndex = 0;
     
     // Charger les données de l'onglet
     if (tabName === 'planning') {
@@ -834,10 +904,10 @@ async function loadAdminPlanning() {
                 <div class="guild-item-header">
                     <div class="guild-item-title">${escapeHtml(event.titre)}</div>
                     <div class="guild-item-actions">
-                        <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_planning" data-id="${escapeHtml(event.id)}" data-item-type="planning">🗑️ Supprimer</button>
+                        <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_planning" data-id="${escapeHtml(event.id)}" data-item-type="planning">Supprimer</button>
                     </div>
                 </div>
-                <div style="color: #ff6b35; margin: 5px 0;">📅 ${formatDate(event.date_event)} | ${escapeHtml(formatEventType(event.type_event))}</div>
+                <div style="color: #ff6b35; margin: 5px 0;">${formatDate(event.date_event)} | ${escapeHtml(formatEventType(event.type_event))}</div>
                 ${event.description ? `<div style="color: #ccc;">${escapeHtml(event.description)}</div>` : ''}
             </div>
         `).join('');
@@ -875,7 +945,7 @@ async function loadAdminObjectives() {
                 <div class="guild-item-header">
                     <div class="guild-item-title">${escapeHtml(obj.titre)}</div>
                     <div class="guild-item-actions">
-                        <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_objectives" data-id="${escapeHtml(obj.id)}" data-item-type="objectives">🗑️ Supprimer</button>
+                        <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_objectives" data-id="${escapeHtml(obj.id)}" data-item-type="objectives">Supprimer</button>
                     </div>
                 </div>
                 <div style="color: #ccc; margin: 10px 0;">${escapeHtml(obj.description || '')}</div>
@@ -901,7 +971,7 @@ async function loadAdminObjectives() {
 // Charger les présences (admin)
 async function loadAdminPresence() {
     try {
-        const today = new Date().toISOString().split('T')[0];
+        const today = window.NamelessGuildDates.dateKey();
         
         const { data, error } = await supabase
             .from('guild_presence')
@@ -931,7 +1001,7 @@ async function loadAdminPresence() {
                 <div class="guild-item-header">
                     <div class="guild-item-title"><span class="mc-user-cell">${headImg}${displayName}</span></div>
                     <div class="guild-item-actions">
-                        <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_presence" data-id="${escapeHtml(presence.id)}" data-item-type="presence">🗑️ Supprimer</button>
+                        <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_presence" data-id="${escapeHtml(presence.id)}" data-item-type="presence">Supprimer</button>
                     </div>
                 </div>
                 <div style="color: ${getStatusColor(presence.statut)}; font-weight: bold;">
@@ -988,20 +1058,27 @@ async function deleteGuildItem(table, id, type) {
         
         if (error) throw error;
         
-        alert('✅ Élément supprimé avec succès !');
+        alert('Élément supprimé avec succès !');
         
         // Recharger la liste appropriée
-        if (type === 'planning') loadAdminPlanning();
-        else if (type === 'objectives') loadAdminObjectives();
+        if (type === 'planning') { window.cacheManager?.invalidate('guild_planning'); loadAdminPlanning(); }
+        else if (type === 'objectives') { window.cacheManager?.invalidatePattern('^guild_objectives_'); loadAdminObjectives(); }
         else if (type === 'presence') loadAdminPresence();
         
     } catch (error) {
-        alert('❌ Erreur lors de la suppression');
+        alert('Erreur lors de la suppression');
     }
 }
 
 // Event listeners pour les formulaires de guilde
 function bindAdminGuildForms() {
+    const currentWeek = window.NamelessGuildDates.isoWeek();
+    const weekInput = document.getElementById('objective-semaine');
+    const yearInput = document.getElementById('objective-annee');
+    const presenceDate = document.getElementById('presence-date');
+    if (weekInput && !weekInput.value) weekInput.value = currentWeek.week;
+    if (yearInput && !yearInput.value) yearInput.value = currentWeek.year;
+    if (presenceDate && !presenceDate.value) presenceDate.value = window.NamelessGuildDates.dateKey();
     // Formulaire planning
     const planningForm = document.getElementById('add-planning-form');
     if (planningForm && planningForm.dataset.adminFormBound !== 'true') {
@@ -1010,24 +1087,26 @@ function bindAdminGuildForms() {
             e.preventDefault();
             
             try {
+                const dateEvent = window.NamelessGuildDates.dateInputToISOString(document.getElementById('planning-date').value);
                 const { error } = await supabase
                     .from('guild_planning')
                     .insert({
                         titre: document.getElementById('planning-titre').value,
                         description: document.getElementById('planning-description').value || null,
-                        date_event: document.getElementById('planning-date').value,
+                        date_event: dateEvent,
                         type_event: document.getElementById('planning-type').value,
                         created_by: window.currentUser.id
                     });
                 
                 if (error) throw error;
                 
-                alert('✅ Événement ajouté au planning !');
+                alert('Événement ajouté au planning !');
                 planningForm.reset();
+                window.cacheManager?.invalidate('guild_planning');
                 loadAdminPlanning();
                 
             } catch (error) {
-                alert('❌ Erreur lors de l\'ajout');
+                alert(error instanceof RangeError ? 'Choisissez une date et une heure valides en heure de Paris (attention au changement d’heure).' : 'Impossible d’ajouter cet événement. Réessayez.');
             }
         });
     }
@@ -1054,12 +1133,13 @@ function bindAdminGuildForms() {
                 
                 if (error) throw error;
                 
-                alert('✅ Objectif créé !');
+                alert('Objectif créé !');
                 objectiveForm.reset();
+                window.cacheManager?.invalidatePattern('^guild_objectives_');
                 loadAdminObjectives();
                 
             } catch (error) {
-                alert('❌ Erreur lors de la création');
+                alert('Erreur lors de la création');
             }
         });
     }
@@ -1094,7 +1174,7 @@ function bindAdminGuildForms() {
                         .eq('id', existing.id);
                     
                     if (error) throw error;
-                    alert('✅ Présence mise à jour !');
+                    alert('Présence mise à jour !');
                 } else {
                     // Insert
                     const { error } = await supabase
@@ -1107,14 +1187,14 @@ function bindAdminGuildForms() {
                         });
                     
                     if (error) throw error;
-                    alert('✅ Présence enregistrée !');
+                    alert('Présence enregistrée !');
                 }
                 
                 presenceForm.reset();
                 loadAdminPresence();
                 
             } catch (error) {
-                alert('❌ Erreur lors de l\'enregistrement');
+                alert('Erreur lors de l\'enregistrement');
             }
         });
     }
@@ -1125,30 +1205,30 @@ document.addEventListener('DOMContentLoaded', bindAdminGuildForms);
 // Fonctions utilitaires pour la guilde
 function formatEventType(type) {
     const types = {
-        'reunion': '🗣️ Réunion',
-        'raid': '⚔️ Raid',
-        'event': '🎉 Événement',
-        'pvp': '🗡️ PvP',
-        'construction': '🏗️ Construction',
-        'autre': '📌 Autre'
+        'reunion': 'Réunion',
+        'raid': 'Raid',
+        'event': 'Événement',
+        'pvp': 'PvP',
+        'construction': 'Construction',
+        'autre': 'Autre'
     };
     return types[type] || type;
 }
 
 function formatStatus(status) {
     const statuses = {
-        'en_cours': '⏳ En cours',
-        'termine': '✅ Terminé',
-        'abandonne': '❌ Abandonné'
+        'en_cours': 'En cours',
+        'termine': 'Terminé',
+        'abandonne': 'Abandonné'
     };
     return statuses[status] || status;
 }
 
 function formatPresenceStatus(status) {
     const statuses = {
-        'present': '✅ Présent',
-        'absent': '❌ Absent',
-        'en_mission': '🎯 En mission'
+        'present': 'Présent',
+        'absent': 'Absent',
+        'en_mission': 'En mission'
     };
     return statuses[status] || status;
 }
@@ -1170,7 +1250,8 @@ function formatDate(dateString) {
         month: 'long', 
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        timeZone: window.NamelessGuildDates.timeZone
     };
     return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
@@ -1189,7 +1270,7 @@ function escapeHtml(text) {
 
 async function loadPresences() {
     try {
-        const today = new Date().toISOString().split('T')[0];
+        const today = window.NamelessGuildDates.dateKey();
         
         // Récupérer tous les membres et admins
         const { data: members, error: membersError } = await supabase
@@ -1304,6 +1385,7 @@ function getPresenceLabel(statut) {
 // ========== GESTION DU MUR D'ACTIVITÉ ==========
 
 let editingActivityId = null;
+let editingActivityImage = null;
 
 // Charger les activités dans l'admin
 async function loadAdminActivities() {
@@ -1320,7 +1402,7 @@ async function loadAdminActivities() {
             return;
         }
         
-        displayAdminActivities(data || []);
+        await displayAdminActivities(data || []);
 
     } catch (error) {
         logSupabaseWarning('activities_load_failed', error);
@@ -1329,8 +1411,10 @@ async function loadAdminActivities() {
     }
 }
 
-function displayAdminActivities(activities) {
+async function displayAdminActivities(activities) {
+    const token = adminInitToken;
     const container = document.getElementById('admin-activities-list');
+    if (!container) return;
     
     if (!activities || activities.length === 0) {
         container.innerHTML = `
@@ -1341,10 +1425,10 @@ function displayAdminActivities(activities) {
         return;
     }
     
-    container.innerHTML = activities.map(activity => {
+    const posts = await Promise.all(activities.map(async (activity) => {
         // image_url validée (https, pas de javascript:/data:), sinon ignorée.
         const safeImg = (window.NamelessSecurity && activity.image_url)
-            ? window.NamelessSecurity.sanitizeImageUrl(activity.image_url)
+            ? await window.NamelessSecurity.resolveMediaUrl(activity.image_url, { client: supabase }).catch(() => '')
             : '';
         return `
         <div class="admin-activity-item" data-id="${escapeHtml(activity.id)}">
@@ -1352,23 +1436,24 @@ function displayAdminActivities(activities) {
                 <h4 class="admin-activity-title">${escapeHtml(activity.titre)}</h4>
                 <div class="admin-activity-actions">
                     <button class="btn-edit-activity" data-admin-action="edit-activity" data-id="${escapeHtml(activity.id)}">
-                        ✏️ Modifier
+                        Modifier
                     </button>
                     <button class="btn-delete-activity" data-admin-action="delete-activity" data-id="${escapeHtml(activity.id)}">
-                        🗑️ Supprimer
+                        Supprimer
                     </button>
                 </div>
             </div>
             <p class="admin-activity-content">${escapeHtml(activity.contenu)}</p>
-            ${safeImg ? `<img src="${escapeHtml(safeImg)}" alt="Image" class="admin-activity-image">` : ''}
+            ${safeImg ? `<img src="${escapeHtml(safeImg)}" alt="${escapeHtml(activity.titre)}" class="admin-activity-image" loading="lazy" decoding="async">` : ''}
             <div class="admin-activity-meta">
-                <span>📌 Type: ${escapeHtml(formatActivityTypeAdmin(activity.type))}</span>
-                <span>👤 Par: ${escapeHtml(activity.author_name || 'Admin')}</span>
-                <span>📅 ${escapeHtml(formatDateAdmin(activity.created_at))}</span>
+                <span>Type: ${escapeHtml(formatActivityTypeAdmin(activity.type))}</span>
+                <span>Par: ${escapeHtml(activity.author_name || 'Admin')}</span>
+                <span>${escapeHtml(formatDateAdmin(activity.created_at))}</span>
             </div>
         </div>
     `;
-    }).join('');
+    }));
+    if (token === adminInitToken && container.isConnected) container.innerHTML = posts.join('');
 }
 
 function formatActivityTypeAdmin(type) {
@@ -1388,7 +1473,8 @@ function formatDateAdmin(dateString) {
         month: 'long', 
         year: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        timeZone: window.NamelessGuildDates.timeZone
     };
     return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
@@ -1449,46 +1535,13 @@ window.submitActivity = async function() {
         submitBtn.disabled = true;
         submitBtn.querySelector('#submit-btn-text').textContent = 'Publication en cours...';
         
-        let imageUrl = null;
-        
-        // Upload de l'image si présente
+        let imageUrl = editingActivityImage;
         if (imageInput.files.length > 0) {
-            const file = imageInput.files[0];
-            const fileExt = String(file.name.split('.').pop() || '').toLowerCase();
-
-            if (['png', 'jpg', 'jpeg', 'webp'].indexOf(fileExt) === -1) {
-                alert('Formats d\'image acceptés : png, jpg, jpeg, webp. La publication sera créée sans image.');
-            } else {
-                const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-                // Chemin imposé par la policy storage : guild-activities/<user_id>/<fichier>.
-                const filePath = `guild-activities/${localCurrentUser.id}/${fileName}`;
-
-                const { error: uploadError } = await supabase.storage
-                    .from('iron-oath-storage')
-                    .upload(filePath, file);
-
-                if (uploadError) {
-                    logSupabaseWarning('activity_image_upload_failed', uploadError);
-                    alert('Erreur lors de l\'upload de l\'image. La publication sera créée sans image.');
-                } else {
-                    // Bucket privé : URL signée longue durée. Fallback URL
-                    // publique si le bucket est resté public.
-                    const { data: signed } = await supabase.storage
-                        .from('iron-oath-storage')
-                        .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 5);
-
-                    if (signed && signed.signedUrl) {
-                        imageUrl = signed.signedUrl;
-                    } else {
-                        const { data: urlData } = supabase.storage
-                            .from('iron-oath-storage')
-                            .getPublicUrl(filePath);
-                        imageUrl = urlData.publicUrl;
-                    }
-                }
-            }
+            imageUrl = await window.NamelessSecurity.uploadGuildMedia(imageInput.files[0], {
+                client: supabase, prefix: 'guild-activities', userId: localCurrentUser.id
+            });
         }
-        
+
         // Nom public de l'auteur : pseudo Minecraft prioritaire, jamais l'email.
         const authorName = currentUserProfile?.minecraft_username
             || currentUserProfile?.username
@@ -1512,7 +1565,7 @@ window.submitActivity = async function() {
                 .select();
             
             if (error) {
-                alert(`Erreur lors de la modification: ${error.message}`);
+                alert('Impossible de modifier la publication. Vérifiez le formulaire et réessayez.');
                 submitBtn.disabled = false;
                 submitBtn.querySelector('#submit-btn-text').textContent = 'Modifier';
                 return;
@@ -1527,7 +1580,7 @@ window.submitActivity = async function() {
                 .select();
             
             if (error) {
-                alert(`Erreur lors de la création: ${error.message}`);
+                alert('Impossible de créer la publication. Vérifiez le formulaire et réessayez.');
                 submitBtn.disabled = false;
                 submitBtn.querySelector('#submit-btn-text').textContent = 'Publier';
                 return;
@@ -1541,12 +1594,17 @@ window.submitActivity = async function() {
         resetActivityForm();
         
         // Recharger la liste
+        window.cacheManager?.invalidate('guild_activity_wall');
         await loadAdminActivities();
         
     } catch (error) {
-        alert('Une erreur est survenue.');
+        alert('Publication impossible. Vérifiez le formulaire et utilisez une image PNG, JPEG ou WebP de moins de 5 Mo.');
         const submitBtn = document.getElementById('submit-activity-btn');
-        submitBtn.disabled = false;
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            const label = submitBtn.querySelector('#submit-btn-text');
+            if (label) label.textContent = editingActivityId ? 'Modifier' : 'Publier';
+        }
     }
 }
 
@@ -1573,12 +1631,13 @@ async function editActivity(activityId) {
         if (data.image_url) {
             const preview = document.getElementById('image-preview');
             const container = document.getElementById('image-preview-container');
-            preview.src = data.image_url;
+            preview.src = await window.NamelessSecurity.resolveMediaUrl(data.image_url, { client: supabase });
             container.style.display = 'block';
         }
         
         // Passer en mode édition
         editingActivityId = activityId;
+        editingActivityImage = data.image_url || null;
         document.getElementById('form-mode-title').textContent = 'Modifier la Publication';
         document.getElementById('submit-btn-text').textContent = 'Modifier';
         document.getElementById('cancel-edit-btn').style.display = 'block';
@@ -1605,6 +1664,7 @@ function resetActivityForm() {
     document.getElementById('image-preview-container').style.display = 'none';
     
     editingActivityId = null;
+    editingActivityImage = null;
     document.getElementById('form-mode-title').textContent = 'Nouvelle Publication';
     document.getElementById('submit-btn-text').textContent = 'Publier';
     document.getElementById('cancel-edit-btn').style.display = 'none';
@@ -1615,52 +1675,23 @@ function resetActivityForm() {
 
 // Supprimer une activité
 async function deleteActivity(activityId) {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette publication ?')) {
-        return;
-    }
-    
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cette publication ?')) return;
     try {
-        // Récupérer l'activité pour supprimer l'image si elle existe
-        const { data: activity } = await supabase
-            .from('guild_activity_wall')
-            .select('image_url')
-            .eq('id', activityId)
-            .single();
-        
-        // Supprimer l'image du storage si elle existe. Le chemin objet est la
-        // partie après le nom du bucket, valable pour les URLs publiques
-        // (/object/public/iron-oath-storage/...) et signées (/object/sign/...).
-        if (activity?.image_url) {
-            const bucketMarker = '/iron-oath-storage/';
-            const markerIndex = activity.image_url.indexOf(bucketMarker);
-            if (markerIndex !== -1) {
-                const objectPath = activity.image_url
-                    .slice(markerIndex + bucketMarker.length)
-                    .split('?')[0];
-                if (objectPath) {
-                    await supabase.storage
-                        .from('iron-oath-storage')
-                        .remove([objectPath]);
-                }
-            }
+        const { data: activity, error: readError } = await supabase.from('guild_activity_wall')
+            .select('image_url').eq('id', activityId).single();
+        if (readError) throw readError;
+        const { error } = await supabase.from('guild_activity_wall').delete().eq('id', activityId);
+        if (error) throw error;
+        const objectPath = window.NamelessSecurity.getStorageMediaPath(activity?.image_url);
+        if (objectPath) {
+            const { error: cleanupError } = await supabase.storage.from('iron-oath-storage').remove([objectPath]);
+            if (cleanupError) logSupabaseWarning('activity_image_cleanup_failed', { code: cleanupError.code || 'cleanup_failed' });
         }
-        
-        // Supprimer l'activité
-        const { error } = await supabase
-            .from('guild_activity_wall')
-            .delete()
-            .eq('id', activityId);
-        
-        if (error) {
-            alert('Erreur lors de la suppression.');
-            return;
-        }
-        
+        window.cacheManager?.invalidate('guild_activity_wall');
         alert('Publication supprimée avec succès !');
         await loadAdminActivities();
-        
     } catch (error) {
-        alert('Une erreur est survenue.');
+        alert('Impossible de supprimer cette publication. Réessayez.');
     }
 }
 
@@ -1669,3 +1700,5 @@ window.editActivity = editActivity;
 window.deleteActivity = deleteActivity;
 
 
+
+})();

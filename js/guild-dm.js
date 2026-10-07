@@ -7,6 +7,11 @@ let currentRecipient = null;
 let selectedDmImage = null;
 let dmSubscription = null;
 let dmInitialized = false;
+let dmListeners = null;
+let dmLoadRevision = 0;
+function dmListen(target, event, handler) {
+    if (target && dmListeners) target.addEventListener(event, handler, { signal: dmListeners.signal });
+}
 
 // Nom public affiché dans les DM : minecraft_username prioritaire, puis
 // username personnalisé (jamais le fallback technique Joueur_xxxxxx), puis
@@ -35,6 +40,13 @@ async function initGuildDm() {
 
 function destroyGuildDm() {
     dmInitialized = false;
+    dmLoadRevision++;
+    if (dmListeners) dmListeners.abort();
+    dmListeners = null;
+    currentRecipient = null;
+    selectedDmImage = null;
+    document.getElementById('dm-messages')?.replaceChildren();
+    document.getElementById('dm-members-list')?.replaceChildren();
     if (dmSubscription && typeof supabase !== 'undefined' && supabase && typeof supabase.removeChannel === 'function') {
         supabase.removeChannel(dmSubscription);
     }
@@ -89,31 +101,32 @@ async function isGuildMemberForDm() {
 // Initialiser les DMs
 function initializeDM() {
     if (dmInitialized) return;
-    if (!document.getElementById('dm-back-btn')) return;
+    if (!document.getElementById('dm-back-btn') || !window.currentUser) return;
     dmInitialized = true;
+    dmListeners = new AbortController();
     // console.log('[DM] Initialisation des événements DM...');
     
     // Event listeners
-    document.getElementById('dm-back-btn').addEventListener('click', closeDMChat);
-    document.getElementById('dm-send-btn').addEventListener('click', sendDM);
-    document.getElementById('dm-input').addEventListener('keypress', function(e) {
+    dmListen(document.getElementById('dm-back-btn'), 'click', closeDMChat);
+    dmListen(document.getElementById('dm-send-btn'), 'click', sendDM);
+    dmListen(document.getElementById('dm-input'), 'keypress', function(e) {
         if (e.key === 'Enter') {
             sendDM();
         }
     });
     
     // Event listeners pour les images
-    document.getElementById('dm-image-btn').addEventListener('click', function() {
+    dmListen(document.getElementById('dm-image-btn'), 'click', function() {
         document.getElementById('dm-image-input').click();
     });
-    document.getElementById('dm-image-input').addEventListener('change', handleDmImageSelect);
+    dmListen(document.getElementById('dm-image-input'), 'change', handleDmImageSelect);
     
     // Event listener pour la recherche
-    document.getElementById('dm-search-input').addEventListener('input', filterDmMembers);
+    dmListen(document.getElementById('dm-search-input'), 'input', filterDmMembers);
 
     // Délégation: ouverture d'un DM depuis la liste des membres.
     // Remplace l'onclick inline; le conteneur persiste entre les rendus.
-    document.getElementById('dm-members-list').addEventListener('click', function(e) {
+    dmListen(document.getElementById('dm-members-list'), 'click', function(e) {
         const item = e.target.closest('.dm-member-item');
         if (item && item.dataset.memberId) {
             openDMChat(item.dataset.memberId, item.dataset.username || '');
@@ -121,7 +134,7 @@ function initializeDM() {
     });
 
     // Délégation: ouverture d'une image de message.
-    document.getElementById('dm-messages').addEventListener('click', function(e) {
+    dmListen(document.getElementById('dm-messages'), 'click', function(e) {
         const img = e.target.closest('[data-action="open-image"]');
         if (img && img.dataset.url) {
             window.open(img.dataset.url, '_blank', 'noopener');
@@ -156,6 +169,7 @@ window.filterDmMembers = filterDmMembers;
 
 // Fermer le chat actif
 function closeDMChat() {
+    dmLoadRevision++;
     currentRecipient = null;
     document.getElementById('dm-active-chat').style.display = 'none';
     document.getElementById('dm-placeholder').style.display = 'flex';
@@ -211,7 +225,8 @@ async function loadDmMembers() {
 
             const avatar = document.createElement('div');
             avatar.className = 'dm-member-avatar';
-            avatar.textContent = '👤';
+            avatar.textContent = Array.from(displayName.trim())[0]?.toUpperCase() || '?';
+            avatar.setAttribute('aria-hidden', 'true');
             item.appendChild(avatar);
 
             const info = document.createElement('div');
@@ -276,6 +291,9 @@ window.openDMChat = async function(recipientId, recipientName) {
 
 // Charger les messages privés
 async function loadDmMessages(recipientId) {
+    const revision = ++dmLoadRevision;
+    const viewerId = window.currentUser && window.currentUser.id;
+    if (!viewerId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(recipientId || '')) return;
     try {
         // console.log('[DM] Chargement messages avec:', recipientId);
         
@@ -284,8 +302,10 @@ async function loadDmMessages(recipientId) {
             .select('*')
             .eq('is_private', true)
             .or(`and(user_id.eq.${window.currentUser.id},recipient_id.eq.${recipientId}),and(user_id.eq.${recipientId},recipient_id.eq.${window.currentUser.id})`)
-            .order('created_at', { ascending: true })
+            .order('created_at', { ascending: false })
+            .order('id', { ascending: false })
             .limit(100);
+        if (revision !== dmLoadRevision || !window.currentUser || window.currentUser.id !== viewerId || currentRecipient !== recipientId) return;
         
         if (error) {
             // console.error('[DM] Erreur chargement messages:', error);
@@ -310,11 +330,14 @@ async function loadDmMessages(recipientId) {
             profileMap[p.id] = getDmDisplayName(p);
         });
         
+        if (revision !== dmLoadRevision || !window.currentUser || window.currentUser.id !== viewerId || currentRecipient !== recipientId) return;
+        messages.reverse();
         displayDmMessages(messages, profileMap);
         // console.log('[DM] Messages chargés:', messages.length);
         
     } catch (error) {
         // console.error('[DM] Erreur:', error);
+        if (revision !== dmLoadRevision) return;
         displayDmError();
     }
 }
@@ -336,7 +359,8 @@ function displayDmMessages(messages, profileMap) {
 
         const avatar = document.createElement('div');
         avatar.className = 'dm-message-avatar';
-        avatar.textContent = '👤';
+        avatar.textContent = Array.from(author.trim())[0]?.toUpperCase() || '?';
+        avatar.setAttribute('aria-hidden', 'true');
         messageEl.appendChild(avatar);
 
         const wrapper = document.createElement('div');
@@ -366,18 +390,19 @@ function displayDmMessages(messages, profileMap) {
 
         // Image validée (https + whitelist). URL rejetée => image ignorée.
         if (msg.image_url) {
-            const safeUrl = window.NamelessSecurity
-                ? window.NamelessSecurity.sanitizeImageUrl(msg.image_url)
-                : '';
-            if (safeUrl) {
+            const viewerId = window.currentUser.id;
+            window.NamelessSecurity?.resolveMediaUrl(msg.image_url, { client: supabase }).then(safeUrl => {
+                if (!safeUrl || !messageEl.isConnected || !window.currentUser || window.currentUser.id !== viewerId) return;
                 const img = document.createElement('img');
                 img.src = safeUrl;
                 img.alt = 'Image';
                 img.className = 'dm-message-image';
+                img.loading = 'lazy';
+                img.decoding = 'async';
                 img.dataset.action = 'open-image';
                 img.dataset.url = safeUrl;
                 wrapper.appendChild(img);
-            }
+            });
         }
 
         messageEl.appendChild(wrapper);
@@ -419,13 +444,16 @@ async function sendDM() {
         if (!content && !selectedDmImage) return;
         
         const sendBtn = document.getElementById('dm-send-btn');
+        if (!window.currentUser || sendBtn.disabled) return;
+        if (content.length > 4000) { alert('Votre message doit rester sous 4 000 caractères.'); return; }
+        const recipientId = currentRecipient;
         sendBtn.disabled = true;
         
         let imageUrl = null;
         
         // Upload de l'image
         if (selectedDmImage) {
-            imageUrl = await uploadChatImage(selectedDmImage);
+            imageUrl = await uploadDmImage(selectedDmImage);
             if (!imageUrl) {
                 alert('Erreur lors de l\'upload de l\'image.');
                 sendBtn.disabled = false;
@@ -438,7 +466,7 @@ async function sendDM() {
             content: content || '',
             image_url: imageUrl,
             is_private: true,
-            recipient_id: currentRecipient,
+            recipient_id: recipientId,
             reply_to_message_id: null
         };
         
@@ -448,7 +476,8 @@ async function sendDM() {
         
         if (error) {
             // console.error('[DM] Erreur envoi:', error);
-            alert(`Erreur: ${error.message}`);
+            alert(/rate_limited/.test(error.message || '') ? 'Trop de messages. Patientez quelques secondes.' : 'Envoi refusé. Vérifiez votre connexion et vos droits.');
+            if (imageUrl) await supabase.storage.from('iron-oath-storage').remove([imageUrl]);
             sendBtn.disabled = false;
             return;
         }
@@ -459,7 +488,7 @@ async function sendDM() {
         clearDmImagePreview();
         
         // Recharger les messages
-        await loadDmMessages(currentRecipient);
+        if (currentRecipient === recipientId) await loadDmMessages(recipientId);
         
         // console.log('[DM] Message envoyé');
         
@@ -523,48 +552,15 @@ function clearDmImagePreview() {
 }
 window.clearDmImagePreview = clearDmImagePreview;
 
-// Upload image (même convention que le chat général)
-async function uploadChatImage(file) {
+// Private messages use the same validated object paths as guild chat.
+// A distinct helper avoids collisions when both modules share the page.
+async function uploadDmImage(file) {
     try {
-        const fileExt = String(file.name.split('.').pop() || '').toLowerCase();
-        if (['png', 'jpg', 'jpeg', 'webp'].indexOf(fileExt) === -1) {
-            alert('Formats acceptés : png, jpg, jpeg, webp.');
-            return null;
-        }
-
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        // Chemin imposé par la policy storage : chat/<user_id>/<fichier>.
-        const filePath = `chat/${window.currentUser.id}/${fileName}`;
-
-        const { error } = await supabase.storage
-            .from('iron-oath-storage')
-            .upload(filePath, file);
-
-        if (error) {
-            console.warn('[Nameless dm] image_upload_failed', {
-                code: error.statusCode || error.code || null,
-                message: error.message || String(error)
-            });
-            return null;
-        }
-
-        // Bucket privé : URL signée longue durée. Fallback URL publique si le
-        // bucket est resté public (ancienne configuration).
-        const { data: signed } = await supabase.storage
-            .from('iron-oath-storage')
-            .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 5);
-
-        if (signed && signed.signedUrl) return signed.signedUrl;
-
-        const { data: urlData } = supabase.storage
-            .from('iron-oath-storage')
-            .getPublicUrl(filePath);
-
-        return urlData.publicUrl;
-    } catch (error) {
-        console.warn('[Nameless dm] image_upload_failed', {
-            message: error && error.message ? error.message : String(error)
+        return await window.NamelessSecurity.uploadGuildMedia(file, {
+            client: supabase, prefix: 'chat', userId: window.currentUser.id
         });
+    } catch (error) {
+        console.warn('[Nameless dm] image_upload_failed');
         return null;
     }
 }

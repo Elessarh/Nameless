@@ -1,103 +1,69 @@
-/* cache-manager.js - Système de cache pour optimiser les performances */
-
+/* In-memory cache. Private entries are cleared by the authentication lifecycle. */
 class CacheManager {
     constructor() {
         this.cache = new Map();
         this.cacheTimestamps = new Map();
-        this.cacheDuration = 5 * 60 * 1000; // 5 minutes par défaut
+        this.cacheDurations = new Map();
+        this.pending = new Map();
+        this.cacheDuration = 5 * 60 * 1000;
+        this.generation = 0;
+        this.revisions = new Map();
     }
-
-    /**
-     * Définir une durée de cache personnalisée pour une clé
-     */
     setCacheDuration(key, duration) {
-        this.cacheDuration = duration;
+        if (Number.isFinite(duration) && duration >= 0) this.cacheDurations.set(key, duration);
     }
-
-    /**
-     * Récupérer une valeur du cache si elle est encore valide
-     */
     get(key) {
-        const timestamp = this.cacheTimestamps.get(key);
-        if (!timestamp) return null;
-
-        const now = Date.now();
-        if (now - timestamp > this.cacheDuration) {
-            // Cache expiré
+        if (!this.cacheTimestamps.has(key)) return null;
+        const duration = this.cacheDurations.get(key) ?? this.cacheDuration;
+        if (Date.now() - this.cacheTimestamps.get(key) >= duration) {
             this.cache.delete(key);
             this.cacheTimestamps.delete(key);
             return null;
         }
-
         return this.cache.get(key);
     }
-
-    /**
-     * Stocker une valeur dans le cache
-     */
-    set(key, value) {
+    set(key, value, duration) {
+        if (duration !== undefined) this.setCacheDuration(key, duration);
         this.cache.set(key, value);
         this.cacheTimestamps.set(key, Date.now());
     }
-
-    /**
-     * Invalider une clé spécifique du cache
-     */
     invalidate(key) {
         this.cache.delete(key);
         this.cacheTimestamps.delete(key);
+        this.pending.delete(key);
+        this.revisions.set(key, (this.revisions.get(key) || 0) + 1);
     }
-
-    /**
-     * Invalider toutes les clés qui correspondent à un pattern
-     */
     invalidatePattern(pattern) {
         const regex = new RegExp(pattern);
-        for (const key of this.cache.keys()) {
-            if (regex.test(key)) {
-                this.cache.delete(key);
-                this.cacheTimestamps.delete(key);
-            }
+        for (const key of new Set([...this.cache.keys(), ...this.pending.keys()])) {
+            regex.lastIndex = 0;
+            if (regex.test(key)) this.invalidate(key);
         }
     }
-
-    /**
-     * Vider tout le cache
-     */
     clear() {
+        this.generation++;
         this.cache.clear();
         this.cacheTimestamps.clear();
+        this.cacheDurations.clear();
+        this.pending.clear();
+        this.revisions.clear();
     }
-
-    /**
-     * Wrapper pour les requêtes Supabase avec cache automatique
-     */
-    async fetchWithCache(key, fetchFunction, customDuration = null) {
-        // Vérifier le cache d'abord
+    async fetchWithCache(key, fetchFunction, duration) {
         const cached = this.get(key);
-        if (cached !== null) {
-            // console.log(`📦 Cache HIT pour: ${key}`);
-            return cached;
-        }
-
-        // console.log(`🔄 Cache MISS pour: ${key} - Fetching...`);
-        // Exécuter la requête
-        const result = await fetchFunction();
-        
-        // Stocker dans le cache
-        if (customDuration) {
-            const originalDuration = this.cacheDuration;
-            this.cacheDuration = customDuration;
-            this.set(key, result);
-            this.cacheDuration = originalDuration;
-        } else {
-            this.set(key, result);
-        }
-
-        return result;
+        if (cached !== null) return cached;
+        if (this.pending.has(key)) return this.pending.get(key);
+        const generation = this.generation;
+        const revision = this.revisions.get(key) || 0;
+        const request = Promise.resolve().then(fetchFunction).then(result => {
+            // An old account's in-flight request must never refill a cleared cache.
+            if (generation === this.generation && revision === (this.revisions.get(key) || 0)
+                && !(result && result.error)) this.set(key, result, duration);
+            return result;
+        }).finally(() => {
+            if (this.pending.get(key) === request) this.pending.delete(key);
+        });
+        this.pending.set(key, request);
+        return request;
     }
 }
-
-// Instance globale du cache
 window.cacheManager = new CacheManager();
-// console.log('✅ Cache Manager initialisé');

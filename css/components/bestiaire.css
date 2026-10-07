@@ -91,7 +91,7 @@
 .creature-card:hover, .creature-card:focus-visible {
     transform: translateY(-5px);
     border-color: var(--sao-border-hover);
-    box-shadow: var(--sao-shadow), var(--sao-glow-cyan);
+    box-shadow: none;
     outline: none;
 }
 /* Accent supérieur par catégorie */
@@ -344,6 +344,8 @@
 .drop-icon { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
 .drop-info { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
 .drop-name { color: var(--sao-text-bright); font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drop-item { text-decoration: none; }
+.creature-modal button:focus-visible, .creature-modal a:focus-visible { outline: 2px solid var(--sao-cyan); outline-offset: 3px; }
 .drop-rate { color: var(--sao-gold); font-size: 0.72rem; }
 
 /* --- Responsive --- */

@@ -18,6 +18,7 @@
 // renvoie action_disabled (410) pour les anciens clients.
 
 import { createClient } from 'npm:@supabase/supabase-js@2';
+import { corsForRequest, readJsonObject, RequestError, secureResponse } from '../_shared/request-security.ts';
 
 type AdminClient = ReturnType<typeof createClient>;
 
@@ -97,6 +98,9 @@ function adminClient(): AdminClient {
 
 async function getCaller(req: Request) {
   const authorization = req.headers.get('Authorization') || '';
+  if (authorization.length > 16384 || !/^Bearer\s+[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/i.test(authorization)) {
+    throw new ActionError('missing_user_session', 401);
+  }
   const token = authorization.replace(/^Bearer\s+/i, '').trim();
   if (!token) throw new ActionError('missing_user_session', 401);
 
@@ -137,7 +141,7 @@ async function requireAdmin(client: AdminClient, userId: string) {
 }
 
 function requireTargetId(payload: Record<string, unknown>) {
-  const targetId = String(payload.target_user_id || '');
+  const targetId = typeof payload.target_user_id === 'string' ? payload.target_user_id : '';
   if (!UUID_PATTERN.test(targetId)) throw new ActionError('invalid_target_user_id');
   return targetId;
 }
@@ -176,6 +180,7 @@ async function writeAdminLog(
   action: string,
   targetId: string,
   details: Record<string, unknown> = {},
+  required = false,
 ) {
   const { error } = await client.from('admin_logs').insert({
     actor_id: actorId,
@@ -188,6 +193,7 @@ async function writeAdminLog(
   if (error) {
     // Le log ne doit pas bloquer l'action : trace safe seulement.
     logSafe('admin_log_write_failed', { code: error.code || null });
+    if (required) throw new ActionError('admin_audit_unavailable', 503);
   }
 }
 
@@ -197,7 +203,7 @@ async function handleUpdateRole(
   payload: Record<string, unknown>,
 ) {
   const targetId = requireTargetId(payload);
-  const role = String(payload.role || '');
+  const role = typeof payload.role === 'string' ? payload.role : '';
   if (!VALID_ROLES.includes(role)) throw new ActionError('invalid_role');
 
   // Auto-rétrogradation : confirmation explicite exigée.
@@ -222,6 +228,8 @@ async function handleUpdateRole(
   if (profileError) throw new ActionError('profile_lookup_failed', 500);
   if (!profile) throw new ActionError('target_user_not_found', 404);
 
+  await writeAdminLog(client, caller.id, 'update_role_requested', targetId, { role }, true);
+
   const { error: updateError } = await client
     .from('user_profiles')
     .update({ role })
@@ -229,6 +237,7 @@ async function handleUpdateRole(
 
   if (updateError) {
     logSafe('role_update_failed', { step: 'user_profiles', code: updateError.code || null });
+    if (/cannot_remove_last_admin/.test(updateError.message || '')) throw new ActionError('cannot_remove_last_admin', 409);
     throw new ActionError('role_update_failed', 500);
   }
 
@@ -297,10 +306,7 @@ async function handleDeleteUser(
   }
 
   // Journaliser avant la suppression (l'acteur reste, la cible disparaît).
-  await writeAdminLog(client, caller.id, 'delete_user', targetId, { hard_delete: true });
-
-  // Purger les objets Storage du joueur pour ne pas bloquer la suppression Auth.
-  await removeUserStorageObjects(client, targetId);
+  await writeAdminLog(client, caller.id, 'delete_user_requested', targetId, { hard_delete: true }, true);
 
   // La suppression auth.users cascade sur user_profiles (FK on delete
   // cascade), qui cascade sur user_roles, guild_chat, guild_presence,
@@ -310,7 +316,9 @@ async function handleDeleteUser(
 
   if (error) {
     const message = String(error.message || '');
-    logSafe('auth_delete_failed', { target: maskId(targetId), message: message.slice(0, 200) });
+    logSafe('auth_delete_failed', { target: maskId(targetId), code: error.code || null });
+
+    if (/cannot_remove_last_admin/.test(message)) throw new ActionError('cannot_delete_last_admin', 409);
 
     if (/storage|object|foreign key/i.test(message)) {
       throw new ActionError('auth_delete_blocked_by_storage', 409);
@@ -320,6 +328,11 @@ async function handleDeleteUser(
     }
     throw new ActionError('auth_delete_failed', 500);
   }
+
+  // Only clean up after Auth confirms deletion. A concurrent last-admin
+  // guard or other Auth failure must never destroy the player's images.
+  // If Auth refuses Storage ownership, leave all data intact and report 409.
+  await removeUserStorageObjects(client, targetId);
 
   logSafe('user_deleted', { target: maskId(targetId) });
   return json({ success: true, deleted: true });
@@ -343,13 +356,22 @@ async function handleRequest(req: Request) {
     return json({ error: 'missing_env', missing: missingEnv.join(',') }, 500);
   }
 
-  const payload = await req.json().catch(() => ({})) as Record<string, unknown>;
-  const action = String(payload.action || '');
-  logSafe('admin_action_received', { action: action || 'missing' });
-
   const caller = await getCaller(req);
   const client = adminClient();
   await requireAdmin(client, caller.id);
+  const payload = await readJsonObject(req);
+  const action = typeof payload.action === 'string' ? payload.action : '';
+  if (!['update_role', 'delete_user', 'set_minecraft_verified'].includes(action)) throw new ActionError('unknown_action');
+  const allowedKeys = ['action', 'target_user_id', 'role', 'confirm_self_demote', 'confirm_self_delete'];
+  if (Object.keys(payload).some(key => !allowedKeys.includes(key))) throw new ActionError('unexpected_field');
+  for (const key of ['confirm_self_demote', 'confirm_self_delete']) {
+    if (payload[key] !== undefined && typeof payload[key] !== 'boolean') throw new ActionError('invalid_confirmation');
+  }
+  if (action !== 'set_minecraft_verified') {
+    const { data: permitted, error: rateError } = await client.rpc('consume_admin_action_limit', { subject_id: caller.id, action_name: action });
+    if (rateError) throw new ActionError('security_patch_required', 503);
+    if (permitted !== true) throw new ActionError('admin_action_rate_limited', 429);
+  }
 
   logSafe('admin_action_authorized', { action, caller: maskId(caller.id) });
 
@@ -369,16 +391,18 @@ async function handleRequest(req: Request) {
 Deno.serve(async (req) => {
   // Try/catch global : la fonction répond TOUJOURS un JSON avec CORS,
   // jamais un crash silencieux.
+  let cors: Record<string, string> = { Vary: 'Origin' };
   try {
-    return await handleRequest(req);
+    cors = corsForRequest(req);
+    return secureResponse(await handleRequest(req), cors);
   } catch (error) {
-    if (error instanceof ActionError) {
-      return json({ error: error.code }, error.status);
+    if (error instanceof ActionError || error instanceof RequestError) {
+      return secureResponse(json({ error: error.code }, error.status), cors);
     }
 
     logSafe('admin_action_unexpected_error', {
-      message: String(error instanceof Error ? error.message : error).slice(0, 200),
+      code: 'unexpected_error',
     });
-    return json({ error: 'internal_error' }, 500);
+    return secureResponse(json({ error: 'internal_error' }, 500), cors);
   }
 });

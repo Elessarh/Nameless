@@ -2,29 +2,42 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon profil — Nameless</title>
 
     <!-- Meta tags pour robots - Page privée -->
-    <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Votre profil Nameless — pseudo Minecraft, rôle, classe, niveau et progression.">
 
     <!-- Theme & Favicon -->
     <meta name="theme-color" content="#05070d">
     <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
-    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+    <link rel="mask-icon" href="../assets/brand/pinned-tab.svg" color="#c2a367">
     <!-- Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
     <!-- Fonts & Styles -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css?v=20260716d">
-    <link rel="stylesheet" href="../css/components/profil.css?v=nameless-1.5">
-    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.2">
+    <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
+    <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../css/style.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/profil.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="noindex, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nameless">
+    <meta property="og:url" content="https://nameless-sao.fr/profil">
+    <meta property="og:title" content="Mon profil — Nameless">
+    <meta property="og:description" content="Votre profil Nameless — pseudo Minecraft, rôle, classe, niveau et progression.">
+    <meta property="og:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nameless face à Illfang dans Aincrad">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mon profil — Nameless">
+    <meta name="twitter:description" content="Votre profil Nameless — pseudo Minecraft, rôle, classe, niveau et progression.">
+    <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261007a">
 </head>
 <body class="profil-page">
     <!-- Skip link pour l'accessibilité -->
@@ -38,13 +51,13 @@
                     <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
                 </a>
             </div>
-            <ul class="nav-menu" id="nav-menu" role="menubar">
-                <li role="none"><a href="/" class="nav-link" role="menuitem">Accueil</a></li>
-                <li role="none"><a href="/carte" class="nav-link" role="menuitem">Carte</a></li>
-                <li role="none"><a href="/bestiaire" class="nav-link" role="menuitem">Bestiaire</a></li>
-                <li role="none"><a href="/items" class="nav-link" role="menuitem">Items</a></li>
-                <li role="none"><a href="/quetes" class="nav-link" role="menuitem">Quêtes</a></li>
-                <li role="none"><a href="/wiki" class="nav-link" role="menuitem">Wiki</a></li>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/carte" class="nav-link">Carte</a></li>
+                <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
+                <li><a href="/items" class="nav-link">Items</a></li>
+                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
+                <li><a href="/wiki" class="nav-link">Wiki</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
@@ -95,6 +108,7 @@
             </div>
 
             <!-- Informations -->
+            <p id="profile-feedback" class="profile-feedback" role="status" aria-live="polite"></p>
             <section class="profil-info" aria-label="Informations du profil">
                 <h3 class="profil-section-title">Informations</h3>
                 <div class="info-grid">
@@ -129,7 +143,7 @@
                     <div class="info-row">
                         <label class="info-label" for="profile-niveau">Niveau</label>
                         <span class="info-value">
-                            <input type="number" id="profile-niveau" class="profile-input" min="1" max="100" value="1">
+                            <input type="number" id="profile-niveau" class="profile-input" step="1" required min="1" max="100" value="1">
                         </span>
                     </div>
                     <div class="info-row">
@@ -145,7 +159,7 @@
             <section id="minecraft-link-info" class="minecraft-link-info" aria-label="Liaison Minecraft" style="display: none;">
                 <div>
                     <h3 class="profil-section-title">Associer ton pseudo Minecraft</h3>
-                    <p id="minecraft-link-status" class="minecraft-link-status">Minecraft non lié</p>
+                    <p id="minecraft-link-status" class="minecraft-link-status" role="status" aria-live="polite">Minecraft non lié</p>
                     <p class="minecraft-link-copy">Entre ton pseudo exact pour afficher ton UUID et ton avatar Minecraft.</p>
                     <p class="minecraft-link-warning">Cette étape associe le profil public Minecraft (pseudo, UUID, avatar). Ce n'est pas une preuve de possession du compte.</p>
                     <form id="minecraft-link-form" class="minecraft-link-form" novalidate>
@@ -168,26 +182,31 @@
 
     <!-- Footer -->
     <footer class="site-footer" role="contentinfo">
-        <div class="container">
-            <p><span class="nm-foot-tag">◆</span> Nameless — Sans nom. Jamais seuls. <span class="nm-foot-tag">◆</span></p>
-        </div>
+        <p data-i18n-ignore>© 2026 Nameless</p>
+        <nav aria-label="Informations de Nameless">
+            <a href="/confidentialite">Confidentialité</a>
+            <a href="/conditions">Conditions d’utilisation</a>
+        </nav>
     </footer>
 
     <!-- Scripts - Chargement optimisé -->
-    <script src="../js/i18n-en.js?v=20260715" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-quests-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-game-en-reviewed.js?v=20260716e" defer></script>
-    <script src="../js/i18n.js?v=20260716d" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
-    <script src="../js/performance-monitor.js" defer></script>
-    <script src="../js/cache-manager.js" defer></script>
-    <script src="../js/navbar-mobile.js" defer></script>
-    <script src="../js/supabase-public-config.js?v=20260716" defer></script>
-    <script src="../js/db-guard.js" defer></script>
-    <script src="../js/security-utils.js?v=20260706" defer></script>
-    <script src="../js/auth-supabase.js?v=20260709e" defer></script>
-    <script src="../js/profil.js?v=nameless-2.2" defer></script>
-    <script src="../js/audio-controller.js?v=nameless-audio-1.2" defer></script>
+    <script src="../js/i18n-en.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n.js?v=20261007a" defer></script>
+    <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
+    <script src="../js/performance-monitor.js?v=20261007a" defer></script>
+    <script src="../js/guild-date-utils.js?v=20261007a" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
+    <script src="../js/supabase-public-config.js?v=20261007a" defer></script>
+    <script src="../js/db-guard.js?v=20261007a" defer></script>
+    <script src="../js/cache-manager.js?v=20261007a" defer></script>
+    <script src="../js/security-utils.js?v=20261007a" defer></script>
+    <script src="../js/auth-supabase.js?v=20261007a" defer></script>
+    <script src="../js/profil.js?v=20261007a" defer></script>
+    <script src="../js/audio-controller.js?v=20261007a" defer></script>
+    <script src="../js/global-search.js?v=20261007a" defer></script>
 </body>
 </html>

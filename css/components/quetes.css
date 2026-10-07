@@ -241,6 +241,11 @@
 }
 
 /* --- Pagination --- */
+.coordinates:focus-visible { outline: 2px solid var(--sao-cyan); outline-offset: 3px; }
+.quest-step { scroll-margin-top: 6rem; }
+.quest-step:focus { outline: 2px solid var(--sao-cyan); outline-offset: 3px; }
+
+/* --- Pagination --- */
 .quest-pagination {
     display: flex;
     flex-direction: column;

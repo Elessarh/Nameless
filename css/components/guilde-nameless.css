@@ -81,17 +81,21 @@
 
 /* --- Boutons appel --- */
 .appel-btn {
-    border-radius: 999px !important;
+    border-radius: 6px !important;
     font-size: 0.82rem !important; letter-spacing: 0.05em;
     padding: 0.6rem 1.1rem !important;
     border: 1px solid var(--sao-border-cyan) !important;
     background: transparent !important;
-    transition: color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
 }
 .appel-btn.present-btn { color: #86d3b1 !important; border-color: rgba(90,168,134,0.5) !important; }
-.appel-btn.present-btn:hover { box-shadow: 0 0 12px rgba(90,168,134,0.2) !important; }
+.appel-btn.present-btn:hover { box-shadow: none !important;
+    background: rgba(90,168,134,0.08) !important;
+}
 .appel-btn.absent-btn { color: #e59aa0 !important; border-color: rgba(193,88,95,0.5) !important; }
-.appel-btn.absent-btn:hover { box-shadow: 0 0 12px rgba(193,88,95,0.2) !important; }
+.appel-btn.absent-btn:hover { box-shadow: none !important;
+    background: rgba(193,88,95,0.08) !important;
+}
 
 /* Présences */
 .presence-card {
@@ -188,7 +192,7 @@
     background: var(--nm-navy) !important;
     border: 1px solid var(--sao-border-cyan) !important;
     color: var(--sao-text-bright) !important;
-    border-radius: 999px !important;
+    border-radius: 6px !important;
 }
 .chat-input::placeholder, .dm-input::placeholder { color: rgba(139,147,163,0.7) !important; }
 .chat-input:focus, .dm-input:focus { outline: none; border-color: var(--sao-cyan) !important; box-shadow: var(--focus-ring) !important; }
@@ -198,7 +202,7 @@
     color: var(--sao-gold-light) !important;
     border-radius: 50% !important;
 }
-.chat-send-btn:hover, .dm-send-btn:hover { border-color: var(--sao-gold) !important; box-shadow: var(--sao-glow-gold) !important; }
+.chat-send-btn:hover, .dm-send-btn:hover { border-color: var(--sao-gold) !important; box-shadow: none !important; }
 
 /* Autocomplétion mentions */
 .mention-autocomplete { background: var(--sao-bg-panel) !important; border: 1px solid var(--sao-border-hover) !important; border-radius: 10px !important; box-shadow: var(--sao-shadow) !important; }
@@ -228,7 +232,7 @@
 .dm-chat-header { background: transparent !important; border-bottom: 1px solid var(--nm-hairline) !important; }
 .dm-recipient-name { color: var(--sao-gold-light) !important; font-weight: 600; }
 .dm-recipient-status { color: #86d3b1 !important; }
-.dm-back-btn { background: transparent !important; border: 1px solid var(--sao-border-cyan) !important; color: var(--nm-steel) !important; border-radius: 999px !important; }
+.dm-back-btn { background: transparent !important; border: 1px solid var(--sao-border-cyan) !important; color: var(--nm-steel) !important; border-radius: 6px !important; }
 .dm-back-btn:hover { color: var(--sao-gold-light) !important; border-color: var(--sao-cyan) !important; }
 
 .dm-message-author { color: var(--sao-gold-light) !important; }

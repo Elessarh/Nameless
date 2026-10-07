@@ -1,5 +1,7 @@
 # SAO-Nameless Supabase Setup
 
+> Document historique pour l'installation initiale d'un projet vide. Pour le site existant, suivre [HARDENING_004_DEPLOYMENT.md](HARDENING_004_DEPLOYMENT.md) et le [README actuel](../../README.md). Ne pas recréer la base, réactiver Email/Password ou rendre le bucket public à partir des étapes anciennes ci-dessous. L'authentification actuelle utilise Microsoft ; le bucket durci est privé et les actions admin passent par l'Edge Function.
+
 Objectif: repartir d'un projet Supabase vide nomme `SAO-Nameless`, sans reutiliser les anciennes donnees.
 
 ## Ce que couvre le SQL

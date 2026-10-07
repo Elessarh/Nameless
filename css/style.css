@@ -17,11 +17,11 @@
     --sao-bg-deep: #05070d;
     --sao-bg: #0a0f1d;
     --sao-bg-panel: rgba(10, 14, 26, 0.92);
-    --sao-bg-card: linear-gradient(155deg, rgba(16, 22, 40, 0.85), rgba(8, 11, 20, 0.94));
+    --sao-bg-card: #0a0f1d;
 
     /* Text — steel greys, never pure white */
     --sao-text: #c3c8d2;
-    --sao-text-dim: rgba(195, 200, 210, 0.5);
+    --sao-text-dim: #a0a8b8;
     --sao-text-bright: #e8eaf0;
 
     /* Accents — muted, noble */
@@ -39,8 +39,8 @@
     --sao-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     --sao-shadow-gold: 0 0 18px rgba(194, 163, 103, 0.08);
     --sao-shadow-cyan: 0 0 18px rgba(111, 146, 179, 0.10);
-    --sao-glow-gold: 0 0 10px rgba(194, 163, 103, 0.14), 0 0 30px rgba(194, 163, 103, 0.05);
-    --sao-glow-cyan: 0 0 10px rgba(91, 127, 166, 0.18), 0 0 34px rgba(91, 127, 166, 0.06);
+    --sao-glow-gold: 0 0 0 transparent;
+    --sao-glow-cyan: 0 0 0 transparent;
 
     /* Legacy compatibility aliases */
     --color-bg: var(--sao-bg-deep);
@@ -52,14 +52,14 @@
     /* Nameless semantic tokens */
     --nm-black: #05070d;
     --nm-navy: #0a0f1d;
-    --nm-steel: #8b93a3;
+    --nm-steel: #a0a8b8;
     --nm-gold: var(--sao-gold);
     --nm-gold-grad: linear-gradient(180deg, #e4cd97 0%, #c2a367 45%, #8a6c3c 100%);
     --nm-blue-glow: rgba(91, 127, 166, 0.35);
     --nm-hairline: rgba(194, 163, 103, 0.22);
-    --nm-radius: 10px;
+    --nm-radius: 6px;
     /* Hero cinematic background (swap to .webp when disponible) */
-    --nm-hero-img: url('../assets/brand/nameless-hero-boss.png');
+    --nm-hero-img: url('../assets/brand/nameless-hero-boss.webp');
 
     /* Fonts — Cinzel for display, Inter for text */
     --font-title: 'Cinzel', 'Orbitron', serif;
@@ -106,6 +106,7 @@ body {
 
 @media (max-width: 768px) {
     body { padding-top: 55px !important; }
+    :root { --nm-hero-img: url('../assets/brand/nameless-hero-boss-mobile.webp'); }
 }
 
 /* === Accessibility === */
@@ -148,7 +149,7 @@ select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
 
 /* === Home Page Background === */
 body.home-page {
-    background-image: url('../assets/SAO-Font.png');
+    background-image: url('../assets/SAO-Font.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -203,8 +204,8 @@ button:hover::before, .btn:hover::before {
 }
 
 button:hover, .btn:hover, input[type="button"]:hover, input[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--sao-glow-gold);
+    transform: none;
+    box-shadow: none;
     border-color: var(--sao-gold);
     background: linear-gradient(135deg, rgba(196, 165, 90, 0.12), rgba(196, 165, 90, 0.05));
     color: var(--sao-gold-light);
@@ -256,8 +257,8 @@ select option {
     width: 100% !important;
     z-index: 100 !important;
     background: linear-gradient(180deg, rgba(10, 14, 26, 0.96), rgba(10, 14, 26, 0.88)) !important;
-    backdrop-filter: blur(20px) saturate(1.5) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     padding: 0 !important;
     margin: 0 !important;
     border-bottom: 1px solid var(--sao-border) !important;
@@ -1373,7 +1374,7 @@ body {
     background-attachment: fixed;
 }
 
-/* Neutralise le splash SAO de l'ancienne home (assets/SAO-Font.png) */
+/* Neutralise le splash SAO de l'ancienne home (assets/SAO-Font.webp) */
 body.home-page {
     background-image:
         radial-gradient(1200px 700px at 50% -10%, rgba(91,127,166,0.10), transparent 60%),
@@ -1655,7 +1656,7 @@ body.home-page::before { background: transparent; }
 .site-footer .nm-foot-tag { color: var(--sao-gold); }
 
 /* --- Reveal (works with the IntersectionObserver in index) --- */
-.nm-reveal { opacity: 0; transform: translateY(28px); }
+.nm-reveal { opacity: 1; transform: none; }
 
 @media (max-width: 768px) {
     .nm-section { padding: 3.5rem 0; }
@@ -1767,3 +1768,16 @@ select option:disabled {
         padding-inline: 0.4rem;
     }
 }
+
+/* Shared footer: utility links, without a second promotional section. */
+.site-footer { padding: 1.5rem 1.25rem; }
+.site-footer p { font-family: var(--font-text); letter-spacing: .02em; }
+.site-footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.5rem; }
+.site-footer a { display: inline-block; padding: .6rem 0; color: var(--sao-text); text-underline-offset: .2em; font-size: .85rem; }
+.site-footer a:hover { color: var(--sao-gold-light); }
+.site-footer a:focus-visible { outline: 2px solid var(--sao-gold-light); outline-offset: 4px; }
+
+.nm-ui-icon { width: 20px; height: 20px; vertical-align: middle; flex-shrink: 0; }
+body .nav-menu.active li { animation: none; }
+.auth-information-links { font-size: .8rem; margin: .75rem 0; }
+.auth-information-links a { color: var(--sao-text); text-underline-offset: .2em; }

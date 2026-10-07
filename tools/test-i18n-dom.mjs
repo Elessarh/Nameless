@@ -23,6 +23,7 @@ for (const script of [
     'js/i18n-en-reviewed.js',
     'js/i18n-quests-en-reviewed.js',
     'js/i18n-game-en-reviewed.js',
+    'js/i18n-information-en-reviewed.js',
     'js/i18n.js'
 ]) {
     window.eval(read(script));
@@ -92,7 +93,8 @@ assertEqual(liveStatus.textContent, 'Unknown Land', 'French to English dynamic s
 const entryPages = [
     'index.html', '404.html', 'pages/admin-dashboard.html', 'pages/bestiaire.html',
     'pages/connexion.html', 'pages/espace-guilde.html', 'pages/items.html',
-    'pages/map.html', 'pages/profil.html', 'pages/quetes.html', 'pages/wiki.html'
+    'pages/map.html', 'pages/profil.html', 'pages/quetes.html', 'pages/wiki.html',
+    'pages/confidentialite.html', 'pages/conditions.html'
 ];
 const frenchResidue = /\b(accueil|aucun|aucune|araignée|araignées|bientôt|bouleau|cerf|chêne|coordonnées|déconnexion|donjon|donjons|étape|guilde|joueur|lieu|marchand|métier|métiers|palier|paliers|parler|peaux|plumes|quête|quêtes|recherche|ressources|retournez|sanglier|tuer|vaincre|ville|votre|vous)\b/i;
 const knownBadEnglish = /Master Epistle|Contact details|\bDonjon\b|\bPalier\b|\bPlums?\b|\bSpices\b|\bArteon\b|\bVirlon\b|Scale \d selected|Frossed|Corrected Plums|Skin Thickness|Bouleau log|Scratch Scratch|Spider Poisoned|\bElementary\b|Copper dust|Giant culvert|From Spider|\bWin \d/i;
@@ -108,7 +110,8 @@ for (const page of entryPages) {
         'js/i18n-en.js',
         'js/i18n-en-reviewed.js',
         'js/i18n-quests-en-reviewed.js',
-        'js/i18n-game-en-reviewed.js'
+        'js/i18n-game-en-reviewed.js',
+        'js/i18n-information-en-reviewed.js'
     ];
     scripts.push('js/i18n.js');
     for (const script of scripts) pageWindow.eval(read(script));

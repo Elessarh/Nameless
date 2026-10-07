@@ -192,3 +192,70 @@
         "Majestueux et insaisissable, le Cerf des Montagnes habite les hauteurs glacées et les forêts enneigées. On raconte qu'il apparaît aux âmes pures, guidant les voyageurs égarés vers la sécurité.": 'Majestic and elusive, the Mountain Deer lives among icy peaks and snow-covered forests. It is said to appear before pure souls and guide lost travellers to safety.'
     });
 }(window));
+
+// Reviewed additions for the October maintenance release.
+Object.assign(window.NamelessTranslations.en, {
+    'Ce chemin ne mène plus à Aincrad.': 'This path no longer leads to Aincrad.',
+    'La page demandée est introuvable. Retrouve les archives ou retourne auprès de la guilde.': 'The requested page could not be found. Browse the archives or return to the guild.',
+    'Retour à l’accueil': 'Back to home',
+    'Explorer le wiki': 'Explore the wiki',
+    'Retrouve les archives et les aventuriers de Nameless.': 'Find the archives and adventurers of Nameless.',
+    'Nameless face à Illfang dans Aincrad': 'Nameless facing Illfang in Aincrad',
+    'Dans cet article': 'In this article',
+    'Sources connues': 'Known sources',
+    'Chargement des sources...': 'Loading sources...',
+    'Aucune source confirmée dans le bestiaire.': 'No confirmed source in the bestiary.',
+    'Sources temporairement indisponibles.': 'Sources temporarily unavailable.',
+    'La carte détaillée ne peut pas être chargée. L’aperçu reste disponible.': 'The detailed map could not be loaded. The overview remains available.',
+    'Voir cet emplacement sur la carte': 'View this location on the map',
+    'Ce palier est indisponible. Les paliers disponibles sont 1, 2 et 3.': 'This floor is unavailable. Available floors are 1, 2 and 3.',
+    'Ces coordonnées sont invalides. Utilisez les coordonnées X et Z affichées dans les quêtes.': 'These coordinates are invalid. Use the X and Z coordinates shown in quests.',
+    'Fil d’Ariane': 'Breadcrumb',
+    "Fil d'Ariane": 'Breadcrumb',
+    'Membre de la guilde': 'Guild member',
+    'Date et heure (Paris)': 'Date and time (Paris)',
+    'Filtrer par niveau': 'Filter by level',
+    'Non renseignée': 'Not specified'
+});
+
+// Reviewed concrete homepage copy.
+Object.assign(window.NamelessTranslations.en, {
+    "Nameless | Guilde Minecraft sur SAO France": "Nameless | Minecraft guild on SAO France",
+    "Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, fiches boss, objets, quêtes et wiki pour préparer les sorties de la guilde.": "Nameless, a Minecraft guild on SAO France. Aincrad map, boss pages, items, quests and wiki to prepare for guild runs.",
+    "Nameless est une guilde Minecraft sur SAO France. Nous préparons les boss et progressons ensemble dans Aincrad. Retrouvez ici la carte, les quêtes, le bestiaire et les objets du serveur.": "Nameless is a Minecraft guild on SAO France. We prepare for bosses and progress together through Aincrad. Find the server's map, quests, bestiary and items here.",
+    "Consulter le wiki": "Browse the wiki",
+    "Accès rapide": "Quick access",
+    "Trouver une information": "Find information",
+    "Ouvrez la recherche dans la navigation, ou utilisez Ctrl+K sur ordinateur. Cherchez un boss, un objet ou un PNJ et gardez les fiches utiles en favoris sur votre navigateur.": "Open search in the navigation, or press Ctrl+K on desktop. Search for a boss, item or NPC and save useful pages as favorites in this browser.",
+    "Les outils": "Tools",
+    "Préparer vos sorties": "Prepare your runs",
+    "Les outils de Nameless": "Nameless tools",
+    "600 PV, dans le donjon Kobold. Retrouvez les informations connues avant le combat.": "600 HP, in the Kobold Dungeon. Check the confirmed information before the fight.",
+    "Voir la fiche d'Illfang": "View Illfang's page",
+    "Repérez les quêtes, les villes, les donjons et les marchands.": "Find quests, towns, dungeons and merchants.",
+    "Points de vie, lieux et butins connus des boss, élites et créatures.": "Known health values, locations and drops for bosses, elites and creatures.",
+    "Objets, ressources et consommables : recherche par nom, catégorie et rareté.": "Items, resources and consumables: search by name, category and rarity.",
+    "Étapes, PNJ et coordonnées des quêtes principales et secondaires.": "Steps, NPCs and coordinates for main and side quests.",
+    "Classes, métiers et règles": "Classes, professions and rules",
+    "Consultez les règles du serveur, les classes, les métiers et les donjons.": "Read the server rules and find information on classes, professions and dungeons.",
+    "Organiser une sortie": "Plan a run",
+    "Membres connectés : planning, annonces, objectifs et messages de la guilde.": "Signed-in members: guild schedule, announcements, objectives and messages.",
+    "Accéder à l'espace guilde": "Open the guild area",
+    "Jouer avec Nameless": "Play with Nameless",
+    "Retrouvez la guilde sur Discord pour parler des prochaines sorties.": "Join the guild on Discord to discuss upcoming runs.",
+    "Rejoindre Discord": "Join Discord",
+    "Comment rejoindre Nameless": "How to join Nameless",
+    "Discuter sur Discord": "Talk on Discord",
+    "Présentez votre personnage et les sorties auxquelles vous souhaitez participer.": "Introduce your character and the runs you would like to join.",
+    "Renseigner votre profil": "Fill out your profile",
+    "Connectez-vous avec Microsoft, puis renseignez votre pseudo Minecraft et les informations de votre personnage.": "Sign in with Microsoft, then add your Minecraft name and character details.",
+    "Consulter le planning": "Check the schedule",
+    "Une fois membre, retrouvez les dates des sorties et les annonces dans l'espace guilde.": "Once you are a member, find run dates and announcements in the guild area.",
+    "Rejoindre Nameless": "Join Nameless",
+    "Pour rejoindre la guilde ou poser une question sur une sortie, retrouvez-nous sur Discord.": "To join the guild or ask about a run, find us on Discord.",
+    "Ouvrir la carte": "Open the map",
+    "Explorer le bestiaire": "Browse the bestiary",
+    "Parcourir les items": "Browse items",
+    "Voir les quêtes": "View quests",
+    "Ouvrir le wiki": "Open the wiki"
+});

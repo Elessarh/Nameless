@@ -9,6 +9,11 @@ let selectedImage = null; // Image sélectionnée pour upload
 let userRole = null; // Rôle de l'utilisateur (admin ou membre)
 let guildMembers = []; // Liste des membres de la guilde pour les mentions
 let chatInitialized = false;
+let chatListeners = null;
+let chatLoadRevision = 0;
+function chatListen(target, event, handler) {
+    if (target && chatListeners) target.addEventListener(event, handler, { signal: chatListeners.signal });
+}
 // Cache messageId -> { author, content } pour répondre sans injecter le
 // contenu brut dans le DOM/onclick (voir replyToMessage).
 let messageCache = {};
@@ -54,6 +59,19 @@ async function initGuildChat() {
 
 function destroyGuildChat() {
     chatInitialized = false;
+    chatLoadRevision++;
+    if (chatListeners) chatListeners.abort();
+    chatListeners = null;
+    chatOpen = false;
+    userRole = null;
+    selectedImage = null;
+    replyingToMessage = null;
+    messageCache = {};
+    guildMembers = [];
+    document.getElementById('chat-messages')?.replaceChildren();
+    document.getElementById('guild-chat')?.classList.remove('open');
+    const toggle = document.getElementById('chat-toggle-btn');
+    if (toggle) toggle.style.display = 'none';
     if (chatSubscription && typeof supabase !== 'undefined' && supabase && typeof supabase.removeChannel === 'function') {
         supabase.removeChannel(chatSubscription);
     }
@@ -113,35 +131,36 @@ function initializeChat() {
     
     // Afficher le bouton flottant
     const chatBtn = document.getElementById('chat-toggle-btn');
-    if (!chatBtn) return;
+    if (!chatBtn || !window.currentUser) return;
     chatInitialized = true;
+    chatListeners = new AbortController();
     chatBtn.style.display = 'flex';
     
     // Event listeners pour les onglets
-    document.getElementById('tab-general-btn').addEventListener('click', () => switchChatTab('general'));
-    document.getElementById('tab-private-btn').addEventListener('click', () => switchChatTab('private'));
+    chatListen(document.getElementById('tab-general-btn'), 'click', () => switchChatTab('general'));
+    chatListen(document.getElementById('tab-private-btn'), 'click', () => switchChatTab('private'));
     
     // Event listeners du chat général
-    document.getElementById('chat-toggle-btn').addEventListener('click', toggleChat);
-    document.getElementById('chat-close-btn').addEventListener('click', closeChat);
-    document.getElementById('chat-send-btn').addEventListener('click', sendMessage);
-    document.getElementById('chat-input').addEventListener('keypress', function(e) {
+    chatListen(document.getElementById('chat-toggle-btn'), 'click', toggleChat);
+    chatListen(document.getElementById('chat-close-btn'), 'click', closeChat);
+    chatListen(document.getElementById('chat-send-btn'), 'click', sendMessage);
+    chatListen(document.getElementById('chat-input'), 'keypress', function(e) {
         if (e.key === 'Enter') {
             sendMessage();
         }
     });
-    document.getElementById('cancel-reply-btn').addEventListener('click', cancelReply);
+    chatListen(document.getElementById('cancel-reply-btn'), 'click', cancelReply);
     
     // Event listeners pour les images
-    document.getElementById('chat-image-btn').addEventListener('click', function() {
+    chatListen(document.getElementById('chat-image-btn'), 'click', function() {
         document.getElementById('chat-image-input').click();
     });
-    document.getElementById('chat-image-input').addEventListener('change', handleImageSelect);
+    chatListen(document.getElementById('chat-image-input'), 'change', handleImageSelect);
 
     // Délégation d'événements pour les actions des messages (répondre,
     // supprimer, ouvrir image). Remplace les onclick inline: le conteneur
     // #chat-messages persiste entre les rendus, le listener reste valide.
-    document.getElementById('chat-messages').addEventListener('click', handleChatMessagesClick);
+    chatListen(document.getElementById('chat-messages'), 'click', handleChatMessagesClick);
 
     // Charger les messages initiaux
     loadMessages();
@@ -204,6 +223,9 @@ function closeChat() {
 
 // Charger les messages
 async function loadMessages() {
+    const revision = ++chatLoadRevision;
+    const viewerId = window.currentUser && window.currentUser.id;
+    if (!viewerId) return;
     try {
         // console.log('[CHAT] Chargement des messages...');
         
@@ -212,8 +234,10 @@ async function loadMessages() {
             .from('guild_chat')
             .select('*')
             .eq('is_private', false)
-            .order('created_at', { ascending: true })
+            .order('created_at', { ascending: false })
+            .order('id', { ascending: false })
             .limit(100);
+        if (revision !== chatLoadRevision || !window.currentUser || window.currentUser.id !== viewerId) return;
         
         if (error) {
             // console.error('[CHAT] Erreur chargement messages:', error);
@@ -238,6 +262,8 @@ async function loadMessages() {
             profileMap[p.id] = getChatDisplayName(p);
         });
         
+        if (revision !== chatLoadRevision || !window.currentUser || window.currentUser.id !== viewerId) return;
+        messages.reverse();
         displayMessages(messages, profileMap);
         // console.log('[CHAT] Messages chargés:', messages.length);
         
@@ -249,12 +275,31 @@ async function loadMessages() {
         
     } catch (error) {
         // console.error('[CHAT] Erreur:', error);
+        if (revision !== chatLoadRevision) return;
         displayError();
     }
 }
 
 // Afficher les messages — construction 100% DOM (aucune donnée utilisateur
 // injectée via innerHTML). Les actions passent par des data-* + délégation.
+function createChatTrashIcon() {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('width', '24');
+    svg.setAttribute('height', '24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.8');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M3 6h18M9 6V4h6v2M5 6l1 14h12l1-14M10 10v6M14 10v6');
+    svg.appendChild(path);
+    return svg;
+}
+
 function displayMessages(messages, profileMap) {
     const container = document.getElementById('chat-messages');
     const isAdmin = userRole && userRole.toLowerCase() === 'admin';
@@ -296,7 +341,8 @@ function displayMessages(messages, profileMap) {
             const delHeaderBtn = document.createElement('button');
             delHeaderBtn.className = 'delete-msg-btn';
             delHeaderBtn.title = 'Supprimer';
-            delHeaderBtn.textContent = '🗑️';
+            delHeaderBtn.setAttribute('aria-label', 'Supprimer ce message');
+            delHeaderBtn.appendChild(createChatTrashIcon());
             delHeaderBtn.dataset.action = 'delete';
             delHeaderBtn.dataset.messageId = msg.id;
             header.appendChild(delHeaderBtn);
@@ -337,18 +383,19 @@ function displayMessages(messages, profileMap) {
 
         // --- Image (URL validée: https + whitelist, sinon ignorée) ---
         if (msg.image_url) {
-            const safeUrl = window.NamelessSecurity
-                ? window.NamelessSecurity.sanitizeImageUrl(msg.image_url)
-                : '';
-            if (safeUrl) {
+            const viewerId = window.currentUser.id;
+            window.NamelessSecurity?.resolveMediaUrl(msg.image_url, { client: supabase }).then(safeUrl => {
+                if (!safeUrl || !messageEl.isConnected || !window.currentUser || window.currentUser.id !== viewerId) return;
                 const img = document.createElement('img');
                 img.src = safeUrl;
                 img.alt = 'Image';
                 img.className = 'message-image';
+                img.loading = 'lazy';
+                img.decoding = 'async';
                 img.dataset.action = 'open-image';
                 img.dataset.url = safeUrl;
                 messageEl.appendChild(img);
-            }
+            });
             // URL rejetée -> aucune image, le reste du message s'affiche
         }
 
@@ -371,7 +418,8 @@ function displayMessages(messages, profileMap) {
                 const delBtn = document.createElement('button');
                 delBtn.className = 'action-btn delete-btn admin-delete-btn';
                 delBtn.title = 'Supprimer ce message';
-                delBtn.textContent = '🗑️';
+                delBtn.setAttribute('aria-label', 'Supprimer ce message');
+                delBtn.appendChild(createChatTrashIcon());
                 delBtn.dataset.action = 'delete';
                 delBtn.dataset.messageId = msg.id;
                 actions.appendChild(delBtn);
@@ -406,7 +454,6 @@ function displayNoMessages() {
     const container = document.getElementById('chat-messages');
     container.innerHTML = `
         <div class="chat-no-messages">
-            <div class="chat-no-messages-icon">💬</div>
             <p class="chat-no-messages-text">Aucun message pour le moment.<br>Soyez le premier à écrire !</p>
         </div>
     `;
@@ -432,6 +479,8 @@ async function sendMessage() {
         if (!content && !selectedImage) return;
         
         const sendBtn = document.getElementById('chat-send-btn');
+        if (!window.currentUser || sendBtn.disabled) return;
+        if (content.length > 4000) { alert('Votre message doit rester sous 4 000 caractères.'); return; }
         sendBtn.disabled = true;
         
         let imageUrl = null;
@@ -461,7 +510,8 @@ async function sendMessage() {
         
         if (error) {
             // console.error('[CHAT] Erreur envoi message:', error);
-            alert('Erreur lors de l\'envoi du message.');
+            alert(/rate_limited/.test(error.message || '') ? 'Trop de messages. Patientez quelques secondes.' : 'Envoi refusé. Vérifiez votre connexion et vos droits.');
+            if (imageUrl) await supabase.storage.from('iron-oath-storage').remove([imageUrl]);
             sendBtn.disabled = false;
             return;
         }
@@ -471,6 +521,7 @@ async function sendMessage() {
         sendBtn.disabled = false;
         cancelReply();
         clearImagePreview();
+        await loadMessages();
         
         // console.log('[CHAT] Message envoyé');
         
@@ -524,9 +575,10 @@ function subscribeToMessages() {
     chatSubscription = supabase
         .channel('guild-chat')
         .on('postgres_changes', {
-            event: 'INSERT',
+            event: '*',
             schema: 'public',
-            table: 'guild_chat'
+            table: 'guild_chat',
+            filter: 'is_private=eq.false'
         }, (payload) => {
             // console.log('[CHAT] Nouveau message reçu:', payload.new);
             
@@ -661,45 +713,11 @@ window.clearImagePreview = clearImagePreview; // Rendre accessible globalement
 // Upload de l'image
 async function uploadChatImage(file) {
     try {
-        const fileExt = String(file.name.split('.').pop() || '').toLowerCase();
-        if (['png', 'jpg', 'jpeg', 'webp'].indexOf(fileExt) === -1) {
-            alert('Formats acceptés : png, jpg, jpeg, webp.');
-            return null;
-        }
-
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        // Chemin imposé par la policy storage : chat/<user_id>/<fichier>.
-        const filePath = `chat/${window.currentUser.id}/${fileName}`;
-
-        const { error } = await supabase.storage
-            .from('iron-oath-storage')
-            .upload(filePath, file);
-
-        if (error) {
-            console.warn('[Nameless chat] image_upload_failed', {
-                code: error.statusCode || error.code || null,
-                message: error.message || String(error)
-            });
-            return null;
-        }
-
-        // Bucket privé : URL signée longue durée. Fallback URL publique si le
-        // bucket est resté public (ancienne configuration).
-        const { data: signed } = await supabase.storage
-            .from('iron-oath-storage')
-            .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 5);
-
-        if (signed && signed.signedUrl) return signed.signedUrl;
-
-        const { data: urlData } = supabase.storage
-            .from('iron-oath-storage')
-            .getPublicUrl(filePath);
-
-        return urlData.publicUrl;
-    } catch (error) {
-        console.warn('[Nameless chat] image_upload_failed', {
-            message: error && error.message ? error.message : String(error)
+        return await window.NamelessSecurity.uploadGuildMedia(file, {
+            client: supabase, prefix: 'chat', userId: window.currentUser.id
         });
+    } catch (error) {
+        console.warn('[Nameless chat] image_upload_failed');
         return null;
     }
 }
@@ -741,14 +759,14 @@ function initializeMentions() {
     }
 
     // Sélection d'une mention par clic (remplace l'onclick inline).
-    autocompleteDiv.addEventListener('click', function(e) {
+    chatListen(autocompleteDiv, 'click', function(e) {
         const item = e.target.closest('.mention-item');
         if (item && typeof item.dataset.username === 'string') {
             insertMention(item.dataset.username);
         }
     });
     
-    input.addEventListener('input', function(e) {
+    chatListen(input, 'input', function(e) {
         const text = e.target.value;
         const cursorPos = e.target.selectionStart;
         
@@ -773,7 +791,7 @@ function initializeMentions() {
     });
     
     // Gérer les touches fléchées et entrée pour l'autocomplete
-    input.addEventListener('keydown', function(e) {
+    chatListen(input, 'keydown', function(e) {
         const autocomplete = document.getElementById('mention-autocomplete');
         if (!autocomplete || autocomplete.style.display === 'none') return;
         
@@ -819,7 +837,7 @@ function showMentionSuggestions(members, atPosition) {
         const item = document.createElement('div');
         item.className = 'mention-item' + (index === 0 ? ' selected' : '');
         item.dataset.username = member.username;
-        item.textContent = '👤 ' + member.username;
+        item.textContent = member.username;
         autocomplete.appendChild(item);
     });
 
@@ -885,7 +903,6 @@ window.deleteMessage = async function(messageId) {
     // Vérification souple du rôle admin
     const isAdmin = userRole && userRole.toLowerCase() === 'admin';
     
-    console.log('[CHAT] Tentative suppression message:', messageId, 'userRole:', userRole, 'isAdmin:', isAdmin);
     
     if (!isAdmin) {
         alert('Vous n\'avez pas les droits pour supprimer ce message.');
@@ -907,7 +924,6 @@ window.deleteMessage = async function(messageId) {
             throw error;
         }
         
-        console.log('[CHAT] Message supprimé avec succès:', messageId);
         
         // Recharger les messages
         loadMessages();

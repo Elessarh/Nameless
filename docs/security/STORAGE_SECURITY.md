@@ -1,107 +1,17 @@
-# Storage Security
+# Sécurité Storage — 7 octobre 2026
 
-## Decision
+Le bucket existant `iron-oath-storage` reste **privé**. La migration [004](../supabase/SAO_NAMELESS_HARDENING_004.sql) et sa [procédure](../supabase/HARDENING_004_DEPLOYMENT.md) sont la référence actuelle.
 
-Les uploads utilisateur doivent aller dans un bucket **prive**. La lecture doit passer par signed URLs courtes ou par un endpoint backend.
+Les nouveaux uploads utilisent `chat/<auth.uid()>/<uuid>.<extension>` ou `guild-activities/<auth.uid()>/<uuid>.<extension>`, avec PNG/JPEG/WebP et une limite serveur de 5 Mo. SVG, HTML, chemins étrangers et remplacement d'un fichier existant sont refusés. Les uploads de guilde nécessitent les droits correspondants ; les publications d'activité restent réservées aux admins. La déclaration MIME n'est pas une analyse antivirus ni une inspection complète des octets, mais les formats exécutables sont exclus et les fichiers sont affichés comme images.
 
-Le SQL strict garde le nom de bucket existant:
+Les chemins sont stockés en base. `NamelessSecurity.resolveMediaUrl` demande une signature de dix minutes pour le compte actuel ; le cache de signatures est en mémoire, dure neuf minutes, et est invalidé au changement de compte ou à la déconnexion. Les réponses anciennes contenant une URL signée sont interprétées comme chemins pour obtenir une nouvelle signature courte. Le jeton ancien n'est pas réutilisé par le frontend.
 
-```txt
-iron-oath-storage
-```
+Les policies autorisent les images des messages de guilde visibles et celles des DM aux participants autorisés. Un troisième membre ne peut pas signer l'objet d'un DM. L'auteur ne peut ni remplacer les participants ou la visibilité d'un message existant, ni référencer le fichier d'un autre auteur. Les fichiers orphelins restent lisibles par leur propriétaire autorisé. La révocation du rôle bloque les nouvelles lectures/signatures ; une signature déjà émise demeure utilisable jusqu'à son expiration.
 
-Mais il le configure avec:
+Les anciens jetons de cinq ans ne sont **pas révoqués rétroactivement**. La rotation de fichiers et de leurs références, si nécessaire, doit être sauvegardée et préparée séparément : cette intervention ne supprime aucun fichier utilisateur.
 
-```txt
-public = false
-file_size_limit = 5242880
-allowed_mime_types = image/png, image/jpeg, image/webp
-```
+Le serveur limite les uploads à 10 par minute et 60 par heure via un compteur privé persistant. Supprimer un fichier ne remet pas le budget à zéro. La limite est appliquée à la base et ne dépend pas du JavaScript du navigateur.
 
-## Regles bucket
+Les tests isolés couvrent les chemins, MIME, taille, signature courte, déconnexion, RLS des participants, référence forgée, budgets et révocation de rôle. La recette doit encore vérifier le comportement du vrai service Storage et des JWT du projet après migration, avec deux participants et un troisième compte.
 
-- Pas de bucket public pour uploads utilisateur.
-- Pas de SVG.
-- Pas de HTML.
-- Pas de JS.
-- Pas de XML.
-- Pas de `data:` URL.
-- Pas de `javascript:` URL.
-- Pas de fichier audio upload utilisateur pour le lecteur Nameless.
-- Images autorisees seulement: `png`, `jpg`, `jpeg`, `webp`.
-- Taille max recommandee: 5 MB.
-
-## Chemins autorises
-
-Le chemin doit inclure `auth.uid()`:
-
-```txt
-chat/<auth.uid()>/<uuid>.png
-chat/<auth.uid()>/<uuid>.jpg
-chat/<auth.uid()>/<uuid>.jpeg
-chat/<auth.uid()>/<uuid>.webp
-
-guild-activities/<auth.uid()>/<uuid>.png
-guild-activities/<auth.uid()>/<uuid>.jpg
-guild-activities/<auth.uid()>/<uuid>.jpeg
-guild-activities/<auth.uid()>/<uuid>.webp
-```
-
-Tout autre chemin doit etre refuse.
-
-## Policies Storage
-
-Le schema applique:
-
-- read: utilisateur proprietaire du prefixe `auth.uid()` ou admin;
-- insert: utilisateur authentifie dans son propre prefixe;
-- update: proprietaire du prefixe ou admin;
-- delete: proprietaire du prefixe ou admin;
-- bucket prive.
-
-## Signed URLs
-
-Recommandation:
-
-- Signed URL courte: 5 a 15 minutes.
-- Generation cote backend en Option B.
-- En Option A, generation directe possible mais moins forte; RLS Storage doit rester stricte.
-
-Ne jamais stocker une signed URL longue duree en base si elle donne acces a un objet prive.
-
-## Impact sur le code actuel
-
-Le code actuel utilise encore:
-
-- `supabase.storage.from('iron-oath-storage').upload('chat/<file>')`
-- `getPublicUrl(...)`
-
-Ce modele est moins strict. Avec le schema durci, il faut migrer vers:
-
-- chemin `chat/<auth.uid()>/<file>`;
-- signed URL au lieu de public URL;
-- validation extension/MIME avant upload;
-- refus SVG/HTML/JS/XML.
-
-Si cette migration n'est pas faite, l'upload peut etre bloque. C'est prefere a un bucket public dangereux.
-
-## Tests malveillants
-
-Tester que les uploads suivants echouent:
-
-- `payload.svg`
-- `payload.html`
-- `payload.js`
-- `payload.xml`
-- `payload.php`
-- `payload.png.svg`
-- `payload.jpg` avec MIME `image/svg+xml`
-- image > 5 MB
-- upload vers `chat/<uuid-autre-user>/x.png`
-- upload vers `guild-activities/x.png` sans prefixe user
-
-Tester que les lectures suivantes echouent:
-
-- objet d'un autre user;
-- objet sans session;
-- objet depuis URL publique non signee.
+La suppression d'un compte peut être refusée par Supabase tant qu'il possède des fichiers. L'Edge renvoie alors 409 et préserve les données. Ne pas purger les fichiers avant une suppression Auth acceptée ; résoudre la propriété et conserver une sauvegarde dans l'administration Supabase.

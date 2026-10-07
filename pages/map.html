@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carte d'Aincrad — Nameless</title>
 
@@ -12,33 +12,41 @@
     <link rel="canonical" href="https://nameless-sao.fr/carte">
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Carte d'Aincrad — Nameless">
-    <meta property="og:description" content="La carte interactive d'Aincrad et tous ses points d'intérêt.">
-    <meta property="og:image" content="https://iron-oath.github.io/assets/brand/nameless-logo.png">
-
     <!-- Theme & Favicon -->
     <meta name="theme-color" content="#05070d">
     <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
-    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+    <link rel="mask-icon" href="../assets/brand/pinned-tab.svg" color="#c2a367">
     <!-- Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
-
     <!-- Fonts & Styles -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css?v=20260716d">
-    <link rel="stylesheet" href="../css/components/map.css?v=20260716e">
-    <link rel="stylesheet" href="../css/components/page-hero.css?v=20260716d">
-    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.2">
+    <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
+    <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../css/style.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/map.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/page-hero.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
     
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    <link rel="stylesheet" href="../css/vendor/leaflet-1.9.4.css?v=20261007a"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""/>
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nameless">
+    <meta property="og:url" content="https://nameless-sao.fr/carte">
+    <meta property="og:title" content="Carte d'Aincrad — Nameless">
+    <meta property="og:description" content="La carte interactive d'Aincrad — zones, donjons, quêtes, villes, marchands et monstres. Le territoire de la guilde Nameless.">
+    <meta property="og:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nameless face à Illfang dans Aincrad">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Carte d'Aincrad — Nameless">
+    <meta name="twitter:description" content="La carte interactive d'Aincrad — zones, donjons, quêtes, villes, marchands et monstres. Le territoire de la guilde Nameless.">
+    <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261007a">
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -52,13 +60,13 @@
                     <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
                 </a>
             </div>
-            <ul class="nav-menu" id="nav-menu" role="menubar">
-                <li role="none"><a href="/" class="nav-link" role="menuitem">Accueil</a></li>
-                <li role="none"><a href="/carte" class="nav-link active" role="menuitem" aria-current="page">Carte</a></li>
-                <li role="none"><a href="/bestiaire" class="nav-link" role="menuitem">Bestiaire</a></li>
-                <li role="none"><a href="/items" class="nav-link" role="menuitem">Items</a></li>
-                <li role="none"><a href="/quetes" class="nav-link" role="menuitem">Quêtes</a></li>
-                <li role="none"><a href="/wiki" class="nav-link" role="menuitem">Wiki</a></li>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/carte" class="nav-link active" aria-current="page">Carte</a></li>
+                <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
+                <li><a href="/items" class="nav-link">Items</a></li>
+                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
+                <li><a href="/wiki" class="nav-link">Wiki</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
@@ -95,9 +103,7 @@
                         class="map-search-input" 
                         placeholder="Quête, PNJ, monstre, ville..."
                         autocomplete="off"
-                        aria-autocomplete="list"
                         aria-controls="map-search-results"
-                        aria-expanded="false"
                     >
                     <button id="map-search-clear" class="search-clear-btn" type="button" aria-label="Effacer la recherche" style="display: none;">×</button>
                 </div>
@@ -118,13 +124,13 @@
             
             <!-- Panneau de contrôle des éléments -->
             <div class="element-toggles" role="group" aria-labelledby="toggles-title">
-                <h3 class="toggles-title" id="toggles-title">Affichage des éléments</h3>
+                <h2 class="toggles-title" id="toggles-title">Affichage des éléments</h2>
                 <div class="toggles-grid">
                     <div class="toggle-item">
                         <input type="checkbox" id="toggle-quetes-principales" checked>
                         <label for="toggle-quetes-principales" class="toggle-label" title="Quêtes Principales">
                             <div class="toggle-icon">
-                                <img src="../assets/map_assets/Quetes-Principales.png" alt="Quêtes Principales" loading="lazy">
+                                <img src="../assets/map_assets/markers/Quetes-Principales.webp?v=20261007a" alt="" loading="lazy">
                             </div>
                             <span class="toggle-text">Quêtes Principales</span>
                         </label>
@@ -134,7 +140,7 @@
                         <input type="checkbox" id="toggle-quetes-secondaires" checked>
                         <label for="toggle-quetes-secondaires" class="toggle-label" title="Quêtes Secondaires">
                             <div class="toggle-icon">
-                                <img src="../assets/map_assets/Quetes-Secondaires.png" alt="Quêtes Secondaires" loading="lazy">
+                                <img src="../assets/map_assets/markers/Quetes-Secondaires.webp?v=20261007a" alt="" loading="lazy">
                             </div>
                             <span class="toggle-text">Quêtes Secondaires</span>
                         </label>
@@ -144,7 +150,7 @@
                         <input type="checkbox" id="toggle-donjons" checked>
                         <label for="toggle-donjons" class="toggle-label" title="Donjons">
                             <div class="toggle-icon">
-                                <img src="../assets/map_assets/Donjon.png" alt="Donjons" loading="lazy">
+                                <img src="../assets/map_assets/markers/Donjon.webp?v=20261007a" alt="" loading="lazy">
                             </div>
                             <span class="toggle-text">Donjons</span>
                         </label>
@@ -154,7 +160,7 @@
                         <input type="checkbox" id="toggle-villes" checked>
                         <label for="toggle-villes" class="toggle-label" title="Villes">
                             <div class="toggle-icon">
-                                <img src="../assets/map_assets/Ville.png" alt="Villes" loading="lazy">
+                                <img src="../assets/map_assets/markers/Ville.webp?v=20261007a" alt="" loading="lazy">
                             </div>
                             <span class="toggle-text">Villes</span>
                         </label>
@@ -164,7 +170,7 @@
                         <input type="checkbox" id="toggle-monstres" checked>
                         <label for="toggle-monstres" class="toggle-label" title="Monstres">
                             <div class="toggle-icon">
-                                <img src="../assets/map_assets/Monstre.png" alt="Monstres" loading="lazy">
+                                <img src="../assets/map_assets/markers/Monstre.webp?v=20261007a" alt="" loading="lazy">
                             </div>
                             <span class="toggle-text">Monstres</span>
                         </label>
@@ -174,7 +180,7 @@
                         <input type="checkbox" id="toggle-marchands" checked>
                         <label for="toggle-marchands" class="toggle-label" title="Marchands">
                             <div class="toggle-icon">
-                                <img src="../assets/map_assets/Marchand.png" alt="Marchands" loading="lazy">
+                                <img src="../assets/map_assets/markers/Marchand.webp?v=20261007a" alt="" loading="lazy">
                             </div>
                             <span class="toggle-text">Marchands</span>
                         </label>
@@ -191,44 +197,41 @@
             </div>
         </section>
 
-        <div class="map-wrapper" role="application" aria-label="Carte interactive d'Aincrad">
-            <div id="game-map" role="img" aria-label="Carte du monde d'Aincrad"></div>
+        <div class="map-wrapper" role="region" aria-label="Carte interactive d'Aincrad">
+            <div id="game-map" role="region" tabindex="0" aria-label="Carte du monde d'Aincrad"></div>
         </div>
     </main>
 
+    <footer class="site-footer" role="contentinfo">
+        <p data-i18n-ignore>© 2026 Nameless</p>
+        <nav aria-label="Informations de Nameless">
+            <a href="/confidentialite">Confidentialité</a>
+            <a href="/conditions">Conditions d’utilisation</a>
+        </nav>
+    </footer>
+
     <!-- Leaflet JS : defer garde l'ordre d'exécution (avant map.js) sans
          bloquer le parsing de la page. -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    <script src="../js/vendor/leaflet-1.9.4.js?v=20261007a"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin="" defer></script>
     
     <!-- Scripts - Chargement optimisé -->
-    <script src="../js/i18n-en.js?v=20260715" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-quests-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-game-en-reviewed.js?v=20260716e" defer></script>
-    <script src="../js/i18n.js?v=20260716d" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
-    <script src="../js/supabase-public-config.js?v=20260716" defer></script>
-    <script src="../js/db-guard.js" defer></script>
-    <script src="../js/security-utils.js?v=20260706" defer></script>
-    <script src="../js/auth-supabase.js?v=20260709e" defer></script>
-    <script src="../js/map.js?v=spa-public-1.4" defer></script>
-    <script src="../js/navbar-mobile.js" defer></script>
-    <script src="../js/audio-controller.js?v=nameless-audio-1.2" defer></script>
-    
-    <!-- Optimisation des performances sur mobile -->
-    <script>
-        // Recalcul de la taille de la carte au redimensionnement
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                if (typeof map !== 'undefined' && map) {
-                    map.invalidateSize();
-                }
-            }, 250);
-        });
-    </script>
+    <script src="../js/i18n-en.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n.js?v=20261007a" defer></script>
+    <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
+    <script src="../js/supabase-public-config.js?v=20261007a" defer></script>
+    <script src="../js/db-guard.js?v=20261007a" defer></script>
+    <script src="../js/cache-manager.js?v=20261007a" defer></script>
+    <script src="../js/security-utils.js?v=20261007a" defer></script>
+    <script src="../js/auth-supabase.js?v=20261007a" defer></script>
+    <script src="../js/map.js?v=20261007a" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
+    <script src="../js/audio-controller.js?v=20261007a" defer></script>
+    <script src="../js/global-search.js?v=20261007a" defer></script>
 </body>
 </html>

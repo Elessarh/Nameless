@@ -1,35 +1,48 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mc-heads.net https://*.supabase.co data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://playerdb.co https://cdn.jsdelivr.net https://unpkg.com; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espace guilde — Nameless</title>
 
     <!-- Meta tags pour robots - Page privée -->
-    <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Espace privé de la guilde Nameless — accès réservé aux membres.">
 
     <!-- Theme & Favicon -->
     <meta name="theme-color" content="#05070d">
     <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
-    <link rel="icon" type="image/png" href="../assets/brand/nameless-logo.png">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/brand/favicon-32.png">
+    <link rel="mask-icon" href="../assets/brand/pinned-tab.svg" color="#c2a367">
     <!-- Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
     <!-- Fonts & Styles -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css?v=20260716d">
-    <link rel="stylesheet" href="../css/components/guilde.css?v=20260129b">
-    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20260129b">
-    <link rel="stylesheet" href="../css/components/guild-chat.css?v=20260129b">
-    <link rel="stylesheet" href="../css/components/guild-dm.css?v=20260129b">
-    <link rel="stylesheet" href="../css/components/guilde-nameless.css?v=nameless-1.0">
-    <link rel="stylesheet" href="../css/components/audio-player.css?v=nameless-audio-1.2">
+    <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
+    <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../css/style.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/guilde.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/guild-chat.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/guild-dm.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/guilde-nameless.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
     
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="noindex, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nameless">
+    <meta property="og:url" content="https://nameless-sao.fr/espace-guilde">
+    <meta property="og:title" content="Espace guilde — Nameless">
+    <meta property="og:description" content="Espace privé de la guilde Nameless — accès réservé aux membres.">
+    <meta property="og:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nameless face à Illfang dans Aincrad">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Espace guilde — Nameless">
+    <meta name="twitter:description" content="Espace privé de la guilde Nameless — accès réservé aux membres.">
+    <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261007a">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
@@ -42,13 +55,13 @@
                     <img src="../assets/brand/nameless-mark.svg" alt="Nameless" class="nav-logo-safe" width="50" height="50" loading="eager">
                 </a>
             </div>
-            <ul class="nav-menu" id="nav-menu" role="menubar">
-                <li role="none"><a href="/" class="nav-link" role="menuitem">Accueil</a></li>
-                <li role="none"><a href="/carte" class="nav-link" role="menuitem">Carte</a></li>
-                <li role="none"><a href="/bestiaire" class="nav-link" role="menuitem">Bestiaire</a></li>
-                <li role="none"><a href="/items" class="nav-link" role="menuitem">Items</a></li>
-                <li role="none"><a href="/quetes" class="nav-link" role="menuitem">Quêtes</a></li>
-                <li role="none"><a href="/wiki" class="nav-link" role="menuitem">Wiki</a></li>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/carte" class="nav-link">Carte</a></li>
+                <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
+                <li><a href="/items" class="nav-link">Items</a></li>
+                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
+                <li><a href="/wiki" class="nav-link">Wiki</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
@@ -67,8 +80,8 @@
 
     <!-- Contenu principal -->
     <main id="main-content" class="guilde-container" role="main">
-        <div id="loading" class="loading">
-            <p>⏳ Chargement de l'espace guilde...</p>
+        <div id="loading" class="loading" role="status" aria-live="polite">
+            <p>Chargement de l'espace guilde...</p>
         </div>
         
         <div id="guilde-content" style="display: none;">
@@ -88,7 +101,7 @@
                         </div>
                         <div id="activity-wall-content" class="activity-wall-content">
                             <div class="no-activities">
-                                <div class="no-activities-icon">📋</div>
+
                                 <p class="no-activities-text">Aucune activité pour le moment</p>
                             </div>
                         </div>
@@ -99,22 +112,22 @@
                 <div class="guilde-right-column">
                     <!-- Système d'onglets pour les sections -->
                     <div class="guilde-tabs-container">
-                        <div class="guilde-tabs">
-                            <button class="guilde-tab-btn active" data-tab="planning">
+                        <div class="guilde-tabs" role="tablist" aria-label="Activités de la guilde">
+                            <button class="guilde-tab-btn active" data-tab="planning" id="guild-tab-planning" role="tab" aria-controls="guild-panel-planning">
                                 Planning
                             </button>
-                            <button class="guilde-tab-btn" data-tab="objectives">
+                            <button class="guilde-tab-btn" data-tab="objectives" id="guild-tab-objectives" role="tab" aria-controls="guild-panel-objectives">
                                 Objectifs
                             </button>
-                            <button class="guilde-tab-btn" data-tab="presence">
+                            <button class="guilde-tab-btn" data-tab="presence" id="guild-tab-presence" role="tab" aria-controls="guild-panel-presence">
                                 Appel
                             </button>
                         </div>
                         
                         <!-- TAB: Planning -->
-                        <div class="guilde-tab-content active" data-tab-content="planning">
+                        <div class="guilde-tab-content active" data-tab-content="planning" id="guild-panel-planning" role="tabpanel" aria-labelledby="guild-tab-planning">
                             <div class="guilde-section">
-                                <h2 class="section-title">Planning de la semaine</h2>
+                                <h2 class="section-title">Prochains événements</h2>
                                 <div id="planning-list">
                                     <div class="no-data">Aucun événement planifié</div>
                                 </div>
@@ -122,7 +135,7 @@
                         </div>
                         
                         <!-- TAB: Objectifs -->
-                        <div class="guilde-tab-content" data-tab-content="objectives" style="display: none;">
+                        <div class="guilde-tab-content" data-tab-content="objectives" id="guild-panel-objectives" role="tabpanel" aria-labelledby="guild-tab-objectives" style="display: none;">
                             <div class="guilde-section">
                                 <h2 class="section-title">Objectifs de la semaine</h2>
                                 <div id="objectives-list">
@@ -132,13 +145,14 @@
                         </div>
                         
                         <!-- TAB: Appel Quotidien -->
-                        <div class="guilde-tab-content" data-tab-content="presence" style="display: none;">
+                        <div class="guilde-tab-content" data-tab-content="presence" id="guild-panel-presence" role="tabpanel" aria-labelledby="guild-tab-presence" style="display: none;">
                             <div class="guilde-section">
                                 <h2 class="section-title">Appel quotidien</h2>
                                 <div class="appel-actions">
                                     <button id="mark-presence-btn" class="appel-btn present-btn">Marquer ma présence</button>
                                     <button id="mark-absence-btn" class="appel-btn absent-btn">Déclarer une absence</button>
                                 </div>
+                                <p id="presence-feedback" class="presence-feedback" role="status" aria-live="polite"></p>
                                 <div id="presence-list" class="presence-grid">
                                     <div class="no-data">Chargement des présences...</div>
                                 </div>
@@ -156,8 +170,8 @@
         </div>
 
     <!-- Bouton flottant pour le chat -->
-    <button class="chat-float-button" id="chat-toggle-btn" style="display: none;">
-        💬
+    <button class="chat-float-button" id="chat-toggle-btn" aria-label="Ouvrir le chat de la guilde" style="display: none;">
+        <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4V4Z"/></svg>
         <span class="chat-badge" id="chat-badge" style="display: none;">0</span>
     </button>
 
@@ -166,7 +180,7 @@
         <div class="chat-header">
             <h3 class="chat-title">Chat de la guilde</h3>
             <div class="chat-header-actions">
-                <button class="chat-close-btn" id="chat-close-btn">✕</button>
+                <button class="chat-close-btn" id="chat-close-btn" aria-label="Fermer le chat">✕</button>
             </div>
         </div>
         
@@ -188,7 +202,7 @@
                     <div class="replying-to-label">Répondre à <span id="reply-to-author"></span></div>
                     <div class="replying-to-preview" id="reply-to-preview"></div>
                 </div>
-                <button class="cancel-reply-btn" id="cancel-reply-btn">✕</button>
+                <button class="cancel-reply-btn" id="cancel-reply-btn" aria-label="Annuler la réponse">✕</button>
             </div>
             
             <div class="chat-messages" id="chat-messages">
@@ -206,21 +220,21 @@
                 <div class="chat-input-wrapper">
                     <input 
                         type="file" 
-                        id="chat-image-input" 
+                        id="chat-image-input" aria-label="Image du message"
                         accept="image/*" 
                         style="display: none;"
                     >
-                    <button class="chat-image-btn" id="chat-image-btn" title="Joindre une image">
-                        📷
+                    <button class="chat-image-btn" id="chat-image-btn" aria-label="Joindre une image" title="Joindre une image">
+                        <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3V3Zm0 13 5-5 4 4 3-3 6 6M8 7h.01"/></svg>
                     </button>
                     <input 
                         type="text" 
                         class="chat-input" 
-                        id="chat-input" 
+                        id="chat-input" aria-label="Message pour la guilde"
                         placeholder="Écrivez votre message..."
                         maxlength="500"
                     >
-                    <button class="chat-send-btn" id="chat-send-btn">
+                    <button class="chat-send-btn" id="chat-send-btn" aria-label="Envoyer le message">
                         ➤
                     </button>
                 </div>
@@ -234,9 +248,9 @@
                     <div class="dm-search-container">
                         <input 
                             type="text" 
-                            id="dm-search-input" 
+                            id="dm-search-input" aria-label="Rechercher un membre"
                             class="dm-search-input" 
-                            placeholder="🔍 Rechercher un membre..."
+                            placeholder="Rechercher un membre..."
                         >
                     </div>
                     <div class="dm-members-list" id="dm-members-list">
@@ -254,7 +268,7 @@
                         <div class="dm-chat-header">
                             <div class="dm-recipient-info">
                                 <span class="dm-recipient-name" id="dm-recipient-name"></span>
-                                <span class="dm-recipient-status">En ligne</span>
+                                <span class="dm-recipient-status">Membre de la guilde</span>
                             </div>
                             <button class="dm-back-btn" id="dm-back-btn">← Retour</button>
                         </div>
@@ -272,21 +286,21 @@
                             <div class="dm-input-wrapper">
                                 <input 
                                     type="file" 
-                                    id="dm-image-input" 
+                                    id="dm-image-input" aria-label="Image du message privé"
                                     accept="image/*" 
                                     style="display: none;"
                                 >
-                                <button class="dm-image-btn" id="dm-image-btn" title="Joindre une image">
-                                    📷
+                                <button class="dm-image-btn" id="dm-image-btn" aria-label="Joindre une image au message privé" title="Joindre une image">
+                                    <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3V3Zm0 13 5-5 4 4 3-3 6 6M8 7h.01"/></svg>
                                 </button>
                                 <input 
                                     type="text" 
                                     class="dm-input" 
-                                    id="dm-input" 
+                                    id="dm-input" aria-label="Message privé"
                                     placeholder="Écrivez votre message privé..."
                                     maxlength="500"
                                 >
-                                <button class="dm-send-btn" id="dm-send-btn">
+                                <button class="dm-send-btn" id="dm-send-btn" aria-label="Envoyer le message privé">
                                     ➤
                                 </button>
                             </div>
@@ -298,23 +312,34 @@
     </div>
     </main>
 
+    <footer class="site-footer" role="contentinfo">
+        <p data-i18n-ignore>© 2026 Nameless</p>
+        <nav aria-label="Informations de Nameless">
+            <a href="/confidentialite">Confidentialité</a>
+            <a href="/conditions">Conditions d’utilisation</a>
+        </nav>
+    </footer>
+
     <!-- Scripts - Chargement optimisé -->
-    <script src="../js/i18n-en.js?v=20260715" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-quests-en-reviewed.js?v=20260716d" defer></script>
-    <script src="../js/i18n-game-en-reviewed.js?v=20260716e" defer></script>
-    <script src="../js/i18n.js?v=20260716d" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
-    <script src="../js/performance-monitor.js" defer></script>
-    <script src="../js/cache-manager.js" defer></script>
-    <script src="../js/supabase-public-config.js?v=20260716" defer></script>
-    <script src="../js/db-guard.js" defer></script>
-    <script src="../js/security-utils.js?v=20260706" defer></script>
-    <script src="../js/auth-supabase.js?v=20260709e" defer></script>
-    <script src="../js/espace-guilde.js?v=20260709f" defer></script>
-    <script src="../js/guild-chat.js?v=20260709g" defer></script>
-    <script src="../js/guild-dm.js?v=20260709g" defer></script>
-    <script src="../js/navbar-mobile.js" defer></script>
-    <script src="../js/audio-controller.js?v=nameless-audio-1.2" defer></script>
+    <script src="../js/i18n-en.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n.js?v=20261007a" defer></script>
+    <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
+    <script src="../js/performance-monitor.js?v=20261007a" defer></script>
+    <script src="../js/guild-date-utils.js?v=20261007a" defer></script>
+    <script src="../js/supabase-public-config.js?v=20261007a" defer></script>
+    <script src="../js/db-guard.js?v=20261007a" defer></script>
+    <script src="../js/cache-manager.js?v=20261007a" defer></script>
+    <script src="../js/security-utils.js?v=20261007a" defer></script>
+    <script src="../js/auth-supabase.js?v=20261007a" defer></script>
+    <script src="../js/espace-guilde.js?v=20261007a" defer></script>
+    <script src="../js/guild-chat.js?v=20261007a" defer></script>
+    <script src="../js/guild-dm.js?v=20261007a" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
+    <script src="../js/audio-controller.js?v=20261007a" defer></script>
+    <script src="../js/global-search.js?v=20261007a" defer></script>
 </body>
 </html>

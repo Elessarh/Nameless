@@ -103,7 +103,7 @@
 .item-card:hover, .item-card:focus-visible {
     transform: translateY(-5px);
     border-color: var(--sao-border-hover);
-    box-shadow: var(--sao-shadow), var(--sao-glow-cyan);
+    box-shadow: none;
     outline: none;
 }
 /* Accent supérieur par rareté */
@@ -242,6 +242,8 @@
     box-shadow: var(--sao-shadow);
     padding: 1.8rem;
     text-align: center;
+    max-height: calc(100dvh - 3rem);
+    overflow-y: auto;
 }
 .item-modal .modal-close {
     position: absolute; top: 0.9rem; right: 1rem;
@@ -288,6 +290,13 @@
 .item-chip.r-rare { color: #9cc2e6; }
 .item-chip.r-epic { color: #c3a7e0; }
 .item-chip.r-legendary { color: var(--sao-gold-light); }
+
+.item-sources { margin-top: 1.25rem; text-align: left; }
+.item-sources h3 { font-family: var(--font-title); font-size: 1rem; color: var(--sao-gold-light); }
+.item-sources p, .item-sources li { color: var(--sao-text); font-size: 0.9rem; }
+.item-sources ul { margin: 0; padding-left: 1.2rem; }
+.item-sources a { display: inline-block; color: var(--sao-cyan); padding: 0.35rem 0; }
+.item-modal button:focus-visible, .item-modal a:focus-visible { outline: 2px solid var(--sao-cyan); outline-offset: 3px; }
 
 /* --- Responsive --- */
 @media (max-width: 600px) {

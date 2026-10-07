@@ -22,6 +22,29 @@
     var itemsPerPage = 12;
     var totalPages = 1;
     var controller = null;
+    var modalReturnFocus = null;
+    var previousOverflow = '';
+
+    function normalizeSearch(value) {
+        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+
+    function updateItemUrl(id) {
+        var url = new URL(window.location.href);
+        if (id) url.searchParams.set('item', id);
+        else url.searchParams.delete('item');
+        history.replaceState(history.state, '', url.href);
+    }
+
+    function applyItemUrl() {
+        var params = new URLSearchParams(window.location.search);
+        var query = params.get('q');
+        var search = document.getElementById('it-search');
+        if (query !== null && search) { search.value = query.slice(0, 200); applyFilters(); }
+        var id = params.get('item');
+        if (id && allItems.some(function (item) { return item.id === id; })) openItemModal(id, false);
+        else closeModal(false);
+    }
 
     function cleanCategory(name) {
         // "💍 Accessoires" -> "Accessoires"
@@ -39,13 +62,16 @@
         setupListeners();
         applyFromBestiaire();   // pré-remplit la recherche si venu d'un drop (validé)
         applyFilters();
+        applyItemUrl();
+        document.addEventListener('nameless:routechange', applyItemUrl, { signal: controller.signal });
     }
 
     function destroyItems() {
         if (controller) { controller.abort(); controller = null; }
         var modal = document.querySelector('.item-modal');
         if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
-        document.body.style.overflow = 'auto';
+        if (modal) document.body.style.overflow = previousOverflow;
+        modalReturnFocus = null;
         allItems = [];
         filtered = [];
         currentPage = 1;
@@ -90,6 +116,7 @@
     function populateCategoryFilter() {
         var select = document.getElementById('it-category');
         if (!select) return;
+        while (select.options.length > 1) select.remove(1);
         var seen = {};
         allItems.forEach(function (i) {
             if (!seen[i.category]) {
@@ -163,7 +190,18 @@
             if (!modal || modal.style.display === 'none') return;
             if (e.target.classList.contains('item-modal') || e.target.closest('.modal-close')) closeModal();
         }, opts);
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); }, opts);
+        document.addEventListener('keydown', function (e) {
+            if (e.target.closest && e.target.closest('dialog[open]')) return;
+            var modal = document.querySelector('.item-modal');
+            if (!modal || modal.style.display === 'none') return;
+            if (e.key === 'Escape') { e.preventDefault(); closeModal(); }
+            if (e.key === 'Tab') {
+                var controls = Array.from(modal.querySelectorAll('button, a[href], [tabindex="0"]'));
+                var first = controls[0], last = controls[controls.length - 1];
+                if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+            }
+        }, opts);
     }
 
     // localStorage NON fiable: on valide que l'item demandé existe dans le
@@ -184,12 +222,12 @@
     }
 
     function applyFilters() {
-        var q = (document.getElementById('it-search') && document.getElementById('it-search').value || '').toLowerCase().trim();
+        var q = normalizeSearch(document.getElementById('it-search') && document.getElementById('it-search').value || '');
         var cat = (document.getElementById('it-category') && document.getElementById('it-category').value) || '';
         var rar = (document.getElementById('it-rarity') && document.getElementById('it-rarity').value) || '';
 
         filtered = allItems.filter(function (i) {
-            var matchSearch = !q || i.name.toLowerCase().indexOf(q) !== -1 || i.categoryLabel.toLowerCase().indexOf(q) !== -1;
+            var matchSearch = !q || normalizeSearch(i.name).indexOf(q) !== -1 || normalizeSearch(i.categoryLabel).indexOf(q) !== -1;
             var matchCat = !cat || i.category === cat;
             var matchRar = !rar || i.rarity === rar;
             return matchSearch && matchCat && matchRar;
@@ -254,7 +292,7 @@
 
         var body = document.createElement('div');
         body.className = 'item-body';
-        var name = document.createElement('h3');
+        var name = document.createElement('h2');
         name.className = 'item-name';
         name.textContent = item.name;
         body.appendChild(name);
@@ -267,13 +305,18 @@
         return card;
     }
 
-    function openItemModal(id) {
+    function openItemModal(id, updateUrl) {
         var item = allItems.filter(function (i) { return i.id === id; })[0];
         if (!item) return;
         var meta = rarityMeta(item.rarity);
 
         var modal = document.querySelector('.item-modal');
         if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; document.body.appendChild(modal); }
+        if (modal.style.display !== 'flex') { modalReturnFocus = document.activeElement; previousOverflow = document.body.style.overflow; }
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'item-dialog-title');
+        modal.dataset.item = id;
         modal.innerHTML = '';
 
         var content = document.createElement('div');
@@ -299,6 +342,7 @@
         info.className = 'item-modal-info';
         var h2 = document.createElement('h2');
         h2.className = 'item-modal-name';
+        h2.id = 'item-dialog-title';
         h2.textContent = item.name;
         info.appendChild(h2);
 
@@ -314,15 +358,48 @@
         badges.appendChild(cb);
         info.appendChild(badges);
 
+        if (window.NamelessGlobalSearch && typeof window.NamelessGlobalSearch.getIndex === 'function') {
+            var sources = document.createElement('section'); sources.className = 'item-sources';
+            var sourcesTitle = document.createElement('h3'); sourcesTitle.textContent = 'Sources connues'; sources.appendChild(sourcesTitle);
+            var sourceStatus = document.createElement('p'); sourceStatus.textContent = 'Chargement des sources...'; sources.appendChild(sourceStatus);
+            info.appendChild(sources);
+            window.NamelessGlobalSearch.getIndex().then(function (entries) {
+                if (!sources.isConnected || modal.dataset.item !== id) return;
+                var entry = entries.find(function (candidate) { return candidate.kind === 'item' && candidate.id === id; });
+                var knownSources = entry && entry.sources || [];
+                sourceStatus.textContent = knownSources.length ? '' : 'Aucune source confirmée dans le bestiaire.';
+                if (!knownSources.length) return;
+                sourceStatus.remove();
+                var list = document.createElement('ul');
+                knownSources.forEach(function (source) {
+                    var url;
+                    try { url = new URL(source.url, window.location.origin); } catch (error) { return; }
+                    if (url.origin !== window.location.origin || !url.pathname.startsWith('/bestiaire')) return;
+                    var row = document.createElement('li'); var link = document.createElement('a');
+                    link.href = url.pathname + url.search;
+                    link.textContent = source.title + ' — Palier ' + source.floor;
+                    row.appendChild(link); list.appendChild(row);
+                });
+                sources.appendChild(list);
+            }).catch(function () { if (sources.isConnected) sourceStatus.textContent = 'Sources temporairement indisponibles.'; });
+        }
+
         content.appendChild(info);
         modal.appendChild(content);
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        if (updateUrl !== false) updateItemUrl(id);
+        close.focus();
     }
 
-    function closeModal() {
+    function closeModal(updateUrl) {
         var modal = document.querySelector('.item-modal');
-        if (modal) { modal.style.display = 'none'; document.body.style.overflow = 'auto'; }
+        if (modal && modal.style.display !== 'none') {
+            modal.style.display = 'none'; document.body.style.overflow = previousOverflow;
+            if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus();
+            modalReturnFocus = null;
+        }
+        if (updateUrl !== false) updateItemUrl(null);
     }
 
     function updatePagination() {
@@ -364,6 +441,8 @@
         b.className = 'pagination-number' + (n === currentPage ? ' active' : '');
         b.textContent = n;
         b.dataset.page = n;
+        b.setAttribute('aria-label', 'Page ' + n);
+        if (n === currentPage) b.setAttribute('aria-current', 'page');
         return b;
     }
     function ellipsis() {
@@ -374,6 +453,6 @@
     }
     function scrollTop() {
         var grid = document.getElementById('items-grid');
-        if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (grid) grid.scrollIntoView({ behavior: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     }
 })();

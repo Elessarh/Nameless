@@ -13,7 +13,7 @@ handles a public Minecraft identity ("Minecraft détecté"). The old
 | Action | Input | Effect |
 |---|---|---|
 | `update_role` | `target_user_id`, `role` (`joueur`\|`membre`\|`admin`), optional `confirm_self_demote` | Updates `user_profiles.role` AND upserts `user_roles`. Refuses removing the last admin; self-demotion requires `confirm_self_demote: true`. |
-| `delete_user` | `target_user_id`, optional `confirm_self_delete` | Removes the player's Storage objects, then deletes the Supabase Auth user. Public data is removed by `on delete cascade`. Refuses deleting the last admin; self-deletion requires `confirm_self_delete: true`. |
+| `delete_user` | `target_user_id`, optional `confirm_self_delete` | Deletes the Supabase Auth user, then cleans up Storage only after success. An Auth failure preserves all files. Public data is removed by `on delete cascade`. Refuses deleting the last admin; self-deletion requires `confirm_self_delete: true`. |
 
 Every action:
 
@@ -22,7 +22,7 @@ Every action:
 3. checks the caller's effective role server-side (`user_roles` first,
    `user_profiles.role` fallback — same rule as `current_user_role()`);
 4. refuses with `admin_required` if the caller is not admin;
-5. writes an `admin_logs` entry (a failed log insert never blocks the action);
+5. requires a preliminary `admin_logs` entry before a sensitive action;
 6. logs only safe fields (masked ids, error codes) — never tokens or keys.
 
 ## Error codes returned to the browser
@@ -34,6 +34,22 @@ Every action:
 `cannot_remove_last_admin`, `cannot_delete_last_admin`, `role_update_failed`,
 `auth_delete_blocked_by_storage`, `auth_delete_failed`, `action_disabled`,
 `unknown_action`, `internal_error`.
+
+Apply `docs/supabase/SAO_NAMELESS_HARDENING_004.sql` before deployment. It adds
+atomic server rate counters and the last-admin database invariant. Missing
+counters return `security_patch_required` (503); blocked budgets return
+`admin_action_rate_limited` (429). An unavailable preliminary audit returns
+`admin_audit_unavailable` (503).
+
+`ALLOWED_ORIGINS` optionally overrides the comma-separated site origins
+(default: `https://nameless-sao.fr,https://www.nameless-sao.fr`). JSON bodies
+must be objects, under 8 KiB; confirmations must be booleans. Responses are
+`no-store`. The service key, JWT and arbitrary error payloads are never logged.
+
+Supabase may refuse Auth deletion while the target owns Storage objects. This
+returns `auth_delete_blocked_by_storage` (409), retaining every file. Resolve
+ownership in the Supabase administration after backing up the data; the Edge
+Function intentionally does not purge files before an unconfirmed deletion.
 
 No request path returns a bare 500 without a JSON body: the whole handler is
 wrapped in a global try/catch and every response carries CORS +

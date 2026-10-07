@@ -851,6 +851,30 @@ let totalPages = 1;
 
 // Cycle de vie SPA (nettoyage des écouteurs)
 let besController = null;
+let besModalReturnFocus = null;
+let besPreviousOverflow = '';
+
+function besNormalize(value) {
+    return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+
+function updateCreatureUrl(id) {
+    const url = new URL(window.location.href);
+    if (id) url.searchParams.set('creature', String(id));
+    else url.searchParams.delete('creature');
+    history.replaceState(history.state, '', url.href);
+}
+
+function applyCreatureUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q');
+    const search = document.getElementById('bes-search');
+    if (query !== null && search) { search.value = query.slice(0, 200); filterCreatures(); }
+    const rawId = params.get('creature');
+    const id = rawId && /^\d+$/.test(rawId) ? Number(rawId) : null;
+    if (id && creaturesData.some(c => c.id === id)) openCreatureModal(id, false);
+    else closeModal(false);
+}
 
 // ============================================================
 // NAMELESS — Bestiaire (Codex des créatures)
@@ -868,13 +892,16 @@ function initBestiary(root) {
     setupImageFallback();
     setupEventListeners();
     filterCreatures();
+    applyCreatureUrl();
+    document.addEventListener('nameless:routechange', applyCreatureUrl, { signal: besController.signal });
 }
 
 function destroyBestiary() {
     if (besController) { besController.abort(); besController = null; }
     const modal = document.querySelector('.creature-modal');
     if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
-    document.body.style.overflow = 'auto';
+    if (modal) document.body.style.overflow = besPreviousOverflow;
+    besModalReturnFocus = null;
     selectedCreature = null;
     filteredCreatures = [...creaturesData];
     currentPage = 1;
@@ -903,6 +930,7 @@ function populateDynamicFilters() {
 }
 function fillSelect(select, values) {
     if (!select) return;
+    while (select.options.length > 1) select.remove(1);
     values.forEach(v => {
         const opt = document.createElement('option');
         opt.value = v;
@@ -968,17 +996,26 @@ function setupEventListeners() {
         const modal = document.querySelector('.creature-modal');
         if (!modal || modal.style.display === 'none') return;
         if (e.target.classList.contains('creature-modal') || e.target.closest('.modal-close')) { closeModal(); return; }
-        const drop = e.target.closest('.drop-item[data-item]');
-        if (drop) navigateToItem(drop.dataset.item);
     }, opts);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); }, opts);
+    document.addEventListener('keydown', (e) => {
+        if (e.target.closest && e.target.closest('dialog[open]')) return;
+        const modal = document.querySelector('.creature-modal');
+        if (!modal || modal.style.display === 'none') return;
+        if (e.key === 'Escape') { e.preventDefault(); closeModal(); }
+        if (e.key === 'Tab') {
+            const controls = Array.from(modal.querySelectorAll('button, a[href], [tabindex="0"]'));
+            const first = controls[0], last = controls[controls.length - 1];
+            if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+        }
+    }, opts);
 }
 
-function scrollTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function scrollTop() { window.scrollTo({ top: 0, behavior: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
 
 // --- Filtrage ---
 function filterCreatures() {
-    const q = (document.getElementById('bes-search')?.value || '').toLowerCase().trim();
+    const q = besNormalize(document.getElementById('bes-search')?.value);
     const palier = document.getElementById('bes-palier')?.value || '';
     const category = document.getElementById('bes-category')?.value || '';
     const type = document.getElementById('bes-type')?.value || '';
@@ -986,10 +1023,10 @@ function filterCreatures() {
 
     filteredCreatures = creaturesData.filter(c => {
         const matchesSearch = !q ||
-            c.name.toLowerCase().includes(q) ||
-            c.type.toLowerCase().includes(q) ||
-            c.location.toLowerCase().includes(q) ||
-            c.description.toLowerCase().includes(q);
+            besNormalize(c.name).includes(q) ||
+            besNormalize(c.type).includes(q) ||
+            besNormalize(c.location).includes(q) ||
+            besNormalize(c.description).includes(q);
         const matchesPalier = !palier || String(c.palier) === palier;
         const matchesCategory = !category || c.category === category;
         const matchesType = !type || c.type === type;
@@ -1062,7 +1099,7 @@ function buildCard(creature) {
     const body = document.createElement('div');
     body.className = 'creature-body';
 
-    const name = document.createElement('h3');
+    const name = document.createElement('h2');
     name.className = 'creature-name';
     name.textContent = creature.name;
     body.appendChild(name);
@@ -1103,7 +1140,7 @@ function buildCard(creature) {
 }
 
 // --- Modal détail (DOM) ---
-function openCreatureModal(id) {
+function openCreatureModal(id, updateUrl) {
     const creature = creaturesData.find(c => c.id === id);
     if (!creature) return;
     selectedCreature = creature;
@@ -1114,6 +1151,10 @@ function openCreatureModal(id) {
         modal.className = 'creature-modal';
         document.body.appendChild(modal);
     }
+    if (modal.style.display !== 'flex') { besModalReturnFocus = document.activeElement; besPreviousOverflow = document.body.style.overflow; }
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'creature-dialog-title');
     modal.innerHTML = '';
 
     const content = document.createElement('div');
@@ -1142,6 +1183,7 @@ function openCreatureModal(id) {
     info.className = 'modal-info';
     const h2 = document.createElement('h2');
     h2.className = 'modal-name';
+    h2.id = 'creature-dialog-title';
     h2.textContent = creature.name;
     info.appendChild(h2);
 
@@ -1186,6 +1228,8 @@ function openCreatureModal(id) {
     modal.appendChild(content);
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    if (updateUrl !== false) updateCreatureUrl(id);
+    close.focus();
 }
 
 function makeStat(label, value) {
@@ -1205,7 +1249,7 @@ function makeStat(label, value) {
 function makeSection(title, fill) {
     const sec = document.createElement('div');
     sec.className = 'modal-section';
-    const t = document.createElement('h4');
+    const t = document.createElement('h3');
     t.className = 'modal-section-title';
     t.textContent = title;
     sec.appendChild(t);
@@ -1214,8 +1258,9 @@ function makeSection(title, fill) {
 }
 
 function buildDrop(drop) {
-    const el = document.createElement('div');
+    const el = document.createElement('a');
     el.className = 'drop-item';
+    el.href = '/items?q=' + encodeURIComponent(drop.name);
     el.dataset.item = drop.name;
     el.title = 'Voir cet item';
     const img = document.createElement('img');
@@ -1240,13 +1285,16 @@ function buildDrop(drop) {
     return el;
 }
 
-function closeModal() {
+function closeModal(updateUrl) {
     const modal = document.querySelector('.creature-modal');
-    if (modal) {
+    if (modal && modal.style.display !== 'none') {
         modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = besPreviousOverflow;
+        if (besModalReturnFocus && besModalReturnFocus.isConnected) besModalReturnFocus.focus();
+        besModalReturnFocus = null;
     }
     selectedCreature = null;
+    if (updateUrl !== false) updateCreatureUrl(null);
 }
 
 // --- Pagination (DOM) ---
@@ -1290,6 +1338,8 @@ function pageBtn(n) {
     b.className = 'pagination-number' + (n === currentPage ? ' active' : '');
     b.textContent = n;
     b.dataset.page = n;
+    b.setAttribute('aria-label', 'Page ' + n);
+    if (n === currentPage) b.setAttribute('aria-current', 'page');
     return b;
 }
 function pageEllipsis() {
@@ -1306,11 +1356,11 @@ function getCategoryDisplay(category) {
 }
 
 function navigateToItem(itemName) {
-    localStorage.setItem('searchItemFromBestiaire', itemName);
+    const target = '/items?q=' + encodeURIComponent(itemName);
     if (window.NamelessSpaRouter && typeof window.NamelessSpaRouter.navigate === 'function') {
-        window.NamelessSpaRouter.navigate('/items');
+        window.NamelessSpaRouter.navigate('/items', { url: target });
     } else {
-        window.location.href = '/items';
+        window.location.href = target;
     }
 }
 // Fonction pour générer le chemin de l'image d'un drop

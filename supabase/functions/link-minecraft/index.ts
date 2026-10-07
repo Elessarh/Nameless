@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { corsForRequest, readJsonObject, RequestError, secureResponse } from '../_shared/request-security.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -111,17 +112,13 @@ async function responseSafeDetails(response: Response) {
     if (contentType.includes('application/json')) {
       const data = await response.clone().json();
       const code = getSafeErrorCode(data);
-      const message = getSafeErrorMessage(data);
-
-      details.body = sanitizeLogMessage(data);
-      if (code) details.code = sanitizeLogMessage(code);
-      if (message) details.message = sanitizeLogMessage(message);
+      // Status and machine codes are sufficient; upstream response bodies
+      // can contain credentials, identifiers or echoed authorization data.
+      if (code && /^[A-Za-z0-9_.-]{1,64}$/.test(String(code))) details.code = String(code);
       return details;
     }
 
-    const body = sanitizeLogMessage(await response.clone().text());
-    details.body = body;
-    details.message = body;
+    details.message = 'upstream_request_failed';
   } catch (_error) {
     details.message = '';
   }
@@ -277,6 +274,9 @@ function adminClient() {
 
 async function getAuthenticatedUser(req: Request) {
   const authorization = req.headers.get('Authorization') || '';
+  if (authorization.length > 16384 || !/^Bearer\s+[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/i.test(authorization)) {
+    throw new PublicLinkError('missing_user_session', 401);
+  }
   const token = authorization.replace(/^Bearer\s+/i, '').trim();
   if (!token) throw new PublicLinkError('missing_user_session', 401);
 
@@ -299,6 +299,7 @@ async function postJson(
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(15000),
     });
   } catch (error) {
     logSafe(failureEvent, {
@@ -327,6 +328,7 @@ async function postForm(url: string, form: URLSearchParams, reason: string, fail
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
       body: form,
+      signal: AbortSignal.timeout(15000),
     });
   } catch (error) {
     logSafe(failureEvent, {
@@ -355,6 +357,7 @@ async function getJson(
   try {
     response = await fetch(url, {
       headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
+      signal: AbortSignal.timeout(15000),
     });
   } catch (error) {
     logSafe(failureEvent, {
@@ -503,10 +506,7 @@ async function fetchMinecraftProfile(minecraftAccessToken: string) {
     throw new PublicLinkError('minecraft_profile_failed', 502);
   }
 
-  logSafe('minecraft_profile_received', {
-    uuid: profile.id,
-    username: profile.name,
-  });
+  logSafe('minecraft_profile_received');
 
   return profile as {
     id: string;
@@ -541,9 +541,13 @@ async function updateMinecraftProfile(userId: string, profile: { id: string; nam
   logSafe('user_profiles_update_ok');
 }
 
-async function handleStart(req: Request) {
-  const body = await req.json().catch(() => ({})) as { returnTo?: string };
+async function handleStart(req: Request, body: Record<string, unknown>) {
   const user = await getAuthenticatedUser(req);
+  if (Object.keys(body).some(key => !['action', 'returnTo'].includes(key))) throw new PublicLinkError('unexpected_field');
+  if (body.returnTo !== undefined && (typeof body.returnTo !== 'string' || body.returnTo.length > 2048)) throw new PublicLinkError('invalid_return_to');
+  const { data: permitted, error: rateError } = await adminClient().rpc('consume_admin_action_limit', { subject_id: user.id, action_name: 'minecraft_start' });
+  if (rateError) throw new PublicLinkError('security_patch_required', 503);
+  if (permitted !== true) throw new PublicLinkError('minecraft_start_rate_limited', 429);
   const returnTo = sanitizeReturnTo(body.returnTo);
   const state = await createSignedState({
     sub: user.id,
@@ -618,8 +622,6 @@ async function handleCallback(req: Request) {
   const rawState = url.searchParams.get('state');
   const hasCode = url.searchParams.has('code');
   const providerError = url.searchParams.get('error');
-  const providerErrorDescription = url.searchParams.get('error_description');
-  const providerErrorUri = url.searchParams.get('error_uri');
   let returnTo = `${getSiteOrigin()}/pages/profil.html`;
 
   logSafe('microsoft_callback_received', {
@@ -630,9 +632,7 @@ async function handleCallback(req: Request) {
   if (providerError) {
     returnTo = await getReturnToFromState(rawState);
     logSafe('microsoft_callback_error', {
-      error: providerError,
-      error_description: providerErrorDescription,
-      error_uri: providerErrorUri,
+      error: ['access_denied', 'temporarily_unavailable', 'server_error', 'invalid_request'].includes(providerError) ? providerError : 'oauth_error',
     });
 
     return redirect(withMinecraftLinkState(returnTo, 'error', 'microsoft_oauth_error'));
@@ -662,29 +662,30 @@ async function handleCallback(req: Request) {
 
     await updateMinecraftProfile(state.sub, profile);
 
-    return redirect(withMinecraftLinkState(state.returnTo, 'success'));
+    return redirect(withMinecraftLinkState(returnTo, 'success'));
   } catch (error) {
     return redirect(withMinecraftLinkState(returnTo, 'error', getRedirectReason(error)));
   }
 }
 
 Deno.serve(async (req) => {
-  if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
-
+  let cors: Record<string, string> = { Vary: 'Origin' };
   try {
+    cors = corsForRequest(req);
+    if (req.method === 'OPTIONS') return secureResponse(new Response(null, { headers: corsHeaders }), cors);
     const url = new URL(req.url);
     if (req.method === 'GET' && (url.searchParams.has('code') || url.searchParams.has('error'))) {
-      return await handleCallback(req);
+      return secureResponse(await handleCallback(req), cors);
     }
 
     if (req.method === 'POST') {
-      const body = await req.clone().json().catch(() => ({})) as { action?: string };
-      if (body.action === 'start') return await handleStart(req);
+      const body = await readJsonObject(req);
+      if (body.action === 'start') return secureResponse(await handleStart(req, body), cors);
     }
 
-    return json({ error: 'not_found' }, 404);
+    return secureResponse(json({ error: 'not_found' }, 404), cors);
   } catch (error) {
-    const publicError = error instanceof PublicLinkError ? error : new PublicLinkError('error', 500);
-    return json({ error: publicError.code }, publicError.status);
+    const publicError = error instanceof PublicLinkError || error instanceof RequestError ? error : new PublicLinkError('error', 500);
+    return secureResponse(json({ error: publicError.code }, publicError.status), cors);
   }
 });

@@ -117,13 +117,13 @@
             });
             if (exists) return Promise.resolve();
 
-            return new Promise(function (resolve) {
+            return new Promise(function (resolve, reject) {
                 var link = document.createElement('link');
                 link.rel = 'stylesheet';
                 link.href = url;
                 link.dataset.spaCss = route.id;
                 link.addEventListener('load', resolve, { once: true });
-                link.addEventListener('error', resolve, { once: true });
+                link.addEventListener('error', function () { link.remove(); reject(new Error('Styles unavailable')); }, { once: true });
                 document.head.appendChild(link);
             });
         }));
@@ -139,13 +139,13 @@
                 });
                 if (exists) return Promise.resolve();
 
-                return new Promise(function (resolve) {
+                return new Promise(function (resolve, reject) {
                     var script = document.createElement('script');
                     script.src = url;
                     script.defer = true;
                     script.dataset.spaScript = route.id;
                     script.addEventListener('load', resolve, { once: true });
-                    script.addEventListener('error', resolve, { once: true });
+                    script.addEventListener('error', function () { script.remove(); reject(new Error('Script unavailable')); }, { once: true });
                     document.body.appendChild(script);
                 });
             });
@@ -170,16 +170,41 @@
 
         if (currentRoute && currentRoute.destroy) currentRoute.destroy();
 
+        // Resolve source-relative assets before importing into the persistent shell.
+        nextMain.querySelectorAll('[href], [src]').forEach(function (element) {
+            ['href', 'src'].forEach(function (name) {
+                var value = element.getAttribute(name);
+                if (value && value.charAt(0) !== '#' && !/^[a-z][a-z\d+.-]*:/i.test(value)) {
+                    element.setAttribute(name, new URL(value, sourceUrlForRoute(route)).href);
+                }
+            });
+        });
+        nextMain.querySelectorAll('script').forEach(function (element) { element.remove(); });
+
         copyMainAttributes(nextMain);
         appView.replaceChildren.apply(appView, Array.prototype.map.call(nextMain.childNodes, function (node) {
             return document.importNode(node, true);
         }));
 
         document.title = doc.title || route.title || document.title;
+        syncMetadata(doc);
         document.body.className = doc.body ? doc.body.className : '';
         updateNavState(route);
         closeMobileNav();
         return true;
+    }
+
+    function syncMetadata(doc) {
+        var selector = 'meta[name="description"],meta[name="robots"],meta[property^="og:"],meta[name^="twitter:"],link[rel="canonical"]';
+        document.head.querySelectorAll(selector).forEach(function (element) { element.remove(); });
+        doc.head.querySelectorAll(selector).forEach(function (element) { document.head.appendChild(document.importNode(element, true)); });
+    }
+
+    function routeChanged(route) {
+        document.dispatchEvent(new CustomEvent('nameless:routechange', {
+            bubbles: true,
+            detail: {route: route.id, path: route.path, url: global.location.href}
+        }));
     }
 
     function updateNavState(route) {
@@ -219,30 +244,39 @@
     function activateRoute(route, root, options) {
         options = options || {};
         currentRoute = route;
+        if (options.scroll !== false) {
+            global.scrollTo({ top: 0, behavior: 'auto' });
+            appView.setAttribute('tabindex', '-1');
+            appView.focus({preventScroll: true});
+        }
         if (route.init) route.init(root);
-        if (options.scroll !== false) global.scrollTo({ top: 0, behavior: 'smooth' });
+        routeChanged(route);
     }
 
     function navigate(routePath, options) {
         options = options || {};
         var route = registry.get(routePath);
         if (!route || !appView) return Promise.resolve(false);
+        // Every choice supersedes an older fetch, including returning to the current page.
+        var token = ++navToken;
 
         var sameRoute = currentRoute && currentRoute.id === route.id;
         if (sameRoute && !options.force) {
+            appView.removeAttribute('aria-busy');
             updateNavState(route);
             if (options.push !== false) history.pushState({ route: route.path }, '', options.url || urlForRoute(route.path));
+            routeChanged(route);
             return Promise.resolve(true);
         }
 
-        var token = ++navToken;
+        appView.setAttribute('aria-busy', 'true');
         return fetchDocument(route)
             .then(function (doc) {
-                if (token !== navToken) return false;
+                if (token !== navToken) return true;
                 return ensureStyles(route).then(function () {
                     return ensureScripts(route);
                 }).then(function () {
-                    if (token !== navToken) return false;
+                    if (token !== navToken) return true;
                     if (options.push !== false) {
                         history.pushState({ route: route.path }, '', options.url || urlForRoute(route.path));
                     }
@@ -252,7 +286,9 @@
                 });
             })
             .catch(function () {
-                return false;
+                return token !== navToken;
+            }).finally(function () {
+                if (token === navToken) appView.removeAttribute('aria-busy');
             });
     }
 
@@ -267,7 +303,7 @@
         if (!route) return;
 
         event.preventDefault();
-        navigate(route.path).then(function (handled) {
+        navigate(route.path, {url: url.href}).then(function (handled) {
             if (!handled) global.location.href = url.href;
         });
     }
@@ -276,7 +312,9 @@
         var routePath = routePathFromUrl(new URL(global.location.href));
         var route = registry.get(routePath);
         if (!route) return;
-        navigate(routePath, { push: false, force: true, scroll: true });
+        navigate(routePath, { push: false, force: true, scroll: true }).then(function (handled) {
+            if (!handled) global.location.reload();
+        });
     }
 
     function boot() {

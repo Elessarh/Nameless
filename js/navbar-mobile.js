@@ -1,5 +1,4 @@
-/* navbar-mobile.js - Gestion améliorée de la navbar mobile */
-
+/* Persistent navigation controller shared by direct loads and SPA routes. */
 class MobileNavbar {
     constructor() {
         this.header = document.querySelector('.header');
@@ -8,151 +7,88 @@ class MobileNavbar {
         this.lastScrollY = window.scrollY;
         this.scrollThreshold = 10;
         this.isMenuOpen = false;
-        
+        this.savedOverflow = '';
+        this.inertElements = [];
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleResize = this.handleResize.bind(this);
         this.init();
     }
-    
     init() {
-        if (this.hamburger && this.navMenu) {
-            this.setupEventListeners();
-            this.createOverlay();
-        }
-    }
-    
-    setupEventListeners() {
-        // Gestion du hamburger
-        this.hamburger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleMenu();
+        if (!this.header || !this.hamburger || !this.navMenu) return;
+        this.hamburger.addEventListener('click', () => this.toggleMenu());
+        this.navMenu.addEventListener('click', (event) => {
+            if (event.target.closest('a') || event.target === this.navMenu) this.closeMenu();
         });
-        
-        // Gestion des liens du menu (fermeture automatique)
-        const navLinks = this.navMenu.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                this.closeMenu();
-            });
-        });
-        
-        // Fermeture en cliquant sur le fond du menu (pas sur les liens)
-        this.navMenu.addEventListener('click', (e) => {
-            // Si on clique directement sur le menu (pas sur un lien)
-            if (e.target === this.navMenu) {
-                this.closeMenu();
-            }
-        });
-        
-        // Auto-hide navbar on scroll (mobile only)
-        if (window.innerWidth <= 768) {
-            window.addEventListener('scroll', this.handleScroll.bind(this));
-        }
-        
-        // Gestion du redimensionnement
-        window.addEventListener('resize', this.handleResize.bind(this));
-        
-        // Fermeture par ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.isMenuOpen) {
-                this.closeMenu();
+        window.addEventListener('scroll', this.handleScroll, { passive: true });
+        window.addEventListener('resize', this.handleResize);
+        this.header.addEventListener('focusin', () => this.header.classList.remove('hidden'));
+        document.addEventListener('keydown', (event) => {
+            if (!this.isMenuOpen) return;
+            if (event.target.closest?.('dialog[open]')) return;
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                this.closeMenu(true);
+            } else if (event.key === 'Tab') {
+                const focusable = [...this.header.querySelectorAll('a[href], button:not([disabled])')]
+                    .filter((element) => element.getClientRects().length);
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last?.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first?.focus();
+                }
             }
         });
     }
-    
-    createOverlay() {
-        // OVERLAY DESACTIVE - Il bloquait les clics sur le menu
-        // Créer l'overlay s'il n'existe pas
-        /* 
-        let overlay = document.querySelector('.nav-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.className = 'nav-overlay';
-            document.body.appendChild(overlay);
-        }
-        
-        this.overlay = overlay;
-        
-        // Fermeture par clic sur l'overlay
-        this.overlay.addEventListener('click', () => {
-            this.closeMenu();
-        });
-        */
-        
-        // Créer un overlay factice pour éviter les erreurs
-        this.overlay = {
-            classList: {
-                add: () => {},
-                remove: () => {}
-            }
-        };
-    }
-    
     toggleMenu() {
-        if (this.isMenuOpen) {
-            this.closeMenu();
-        } else {
-            this.openMenu();
-        }
+        if (this.isMenuOpen) this.closeMenu(true);
+        else this.openMenu();
     }
-    
     openMenu() {
+        if (window.innerWidth > 768 || this.isMenuOpen) return;
         this.isMenuOpen = true;
+        this.header.classList.remove('hidden');
         this.navMenu.classList.add('active');
         this.hamburger.classList.add('active');
-        // this.overlay.classList.add('active'); // Désactivé
-        document.body.style.overflow = 'hidden'; // Empêcher le scroll du body
-        
-        // Pas besoin de transform, le CSS gère l'animation
+        this.hamburger.setAttribute('aria-expanded', 'true');
+        this.hamburger.setAttribute('aria-label', 'Fermer le menu');
+        this.savedOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        this.inertElements = [...document.querySelectorAll('main, footer')].map((element) => ({ element, inert: element.inert }));
+        this.inertElements.forEach(({ element }) => { element.inert = true; });
+        this.navMenu.querySelector('a[href], button:not([disabled])')?.focus();
     }
-    
-    closeMenu() {
+    closeMenu(restoreFocus = false) {
+        if (!this.isMenuOpen) return;
         this.isMenuOpen = false;
         this.navMenu.classList.remove('active');
         this.hamburger.classList.remove('active');
-        // this.overlay.classList.remove('active'); // Désactivé
-        document.body.style.overflow = ''; // Restaurer le scroll du body
-        
-        // Pas besoin de transform, le CSS gère l'animation
+        this.hamburger.setAttribute('aria-expanded', 'false');
+        this.hamburger.setAttribute('aria-label', 'Ouvrir le menu');
+        document.body.style.overflow = this.savedOverflow;
+        this.inertElements.forEach(({ element, inert }) => { element.inert = inert; });
+        this.inertElements = [];
+        if (restoreFocus) this.hamburger.focus();
     }
-    
     handleScroll() {
         const currentScrollY = window.scrollY;
-        
-        // Auto-hide navbar (seulement sur mobile)
-        if (window.innerWidth <= 768 && !this.isMenuOpen) {
-            if (currentScrollY > this.lastScrollY && currentScrollY > this.scrollThreshold) {
-                // Scroll vers le bas - cacher la navbar
-                this.header.classList.add('hidden');
-            } else if (currentScrollY < this.lastScrollY) {
-                // Scroll vers le haut - montrer la navbar
-                this.header.classList.remove('hidden');
-            }
+        if (window.innerWidth <= 768 && !this.isMenuOpen && !this.header.contains(document.activeElement)) {
+            this.header.classList.toggle('hidden', currentScrollY > this.lastScrollY && currentScrollY > this.scrollThreshold);
         }
-        
         this.lastScrollY = currentScrollY;
     }
-    
     handleResize() {
-        // Fermer le menu si on passe en desktop
-        if (window.innerWidth > 768 && this.isMenuOpen) {
-            this.closeMenu();
-        }
-        
-        // Réinitialiser l'auto-hide de la navbar
         if (window.innerWidth > 768) {
+            this.closeMenu();
             this.header.classList.remove('hidden');
-            window.removeEventListener('scroll', this.handleScroll);
-        } else {
-            window.addEventListener('scroll', this.handleScroll.bind(this));
         }
+        this.lastScrollY = window.scrollY;
     }
 }
-
-// Initialisation au chargement du DOM
 document.addEventListener('DOMContentLoaded', () => {
-    window.mobileNavbar = new MobileNavbar();
+    if (!window.mobileNavbar) window.mobileNavbar = new MobileNavbar();
 });
-
-// Export pour utilisation externe si nécessaire
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = MobileNavbar;
-}
+if (typeof module !== 'undefined' && module.exports) module.exports = MobileNavbar;

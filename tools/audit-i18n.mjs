@@ -10,6 +10,7 @@ vm.runInNewContext(fs.readFileSync(path.join(root, 'js/i18n-en.js'), 'utf8'), sa
 vm.runInNewContext(fs.readFileSync(path.join(root, 'js/i18n-en-reviewed.js'), 'utf8'), sandbox);
 vm.runInNewContext(fs.readFileSync(path.join(root, 'js/i18n-quests-en-reviewed.js'), 'utf8'), sandbox);
 vm.runInNewContext(fs.readFileSync(path.join(root, 'js/i18n-game-en-reviewed.js'), 'utf8'), sandbox);
+vm.runInNewContext(fs.readFileSync(path.join(root, 'js/i18n-information-en-reviewed.js'), 'utf8'), sandbox);
 
 const catalog = sandbox.window.NamelessTranslations?.en || {};
 const errors = [];
@@ -46,10 +47,11 @@ for (const relativeFile of htmlFiles) {
     const reviewedIndex = html.indexOf('i18n-en-reviewed.js');
     const questIndex = html.indexOf('i18n-quests-en-reviewed.js');
     const gameIndex = html.indexOf('i18n-game-en-reviewed.js');
+    const informationIndex = html.indexOf('i18n-information-en-reviewed.js');
     const engineIndex = html.indexOf('i18n.js');
     if (generatedIndex < 0 || reviewedIndex < 0 || questIndex < 0 || gameIndex < 0 || engineIndex < 0) {
         errors.push(`${relativeFile}: missing an i18n script.`);
-    } else if (!(generatedIndex < reviewedIndex && reviewedIndex < questIndex && questIndex < gameIndex && gameIndex < engineIndex)) {
+    } else if (!(generatedIndex < reviewedIndex && reviewedIndex < questIndex && questIndex < gameIndex && gameIndex < informationIndex && informationIndex < engineIndex)) {
         errors.push(`${relativeFile}: i18n scripts are not in generated/general/quest/game/engine order.`);
     }
 }

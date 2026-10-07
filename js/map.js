@@ -4,6 +4,13 @@
 let questLayers = null;
 let map = null; // Variable globale pour la carte
 let currentMapOverlay = null; // Overlay de la carte actuelle
+let currentDetailOverlay = null;
+let floorOneFullOverlay = null;
+let floorOneFullReady = false;
+let floorOneLoadFailed = false;
+let mapOverlayGeneration = 0;
+let floorOneOverviewWidth = 1600;
+let cancelMapDetailHandlers = null;
 let currentFloor = 1; // Palier actuel
 
 // A focused result must remain readable in its surroundings. Zoom level 4 was
@@ -18,18 +25,43 @@ function focusMapLocation(latLng) {
         ? SEARCH_FOCUS_ZOOM_MOBILE
         : SEARCH_FOCUS_ZOOM_DESKTOP;
     const targetZoom = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), preferredZoom));
-    map.setView(latLng, targetZoom, { animate: true });
+    map.setView(latLng, targetZoom, { animate: !mapReducedMotion() });
+}
+
+function mapReducedMotion() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+
+function mapNotice(message) {
+    let status = document.getElementById('map-route-status');
+    const container = document.getElementById('game-map');
+    if (!status && container) {
+        status = document.createElement('p'); status.id = 'map-route-status'; status.className = 'map-route-status';
+        status.setAttribute('role', 'status'); container.before(status);
+    }
+    if (status) { status.textContent = message; status.hidden = !message; }
 }
 
 // Cycle de vie SPA (nettoyage Leaflet + écouteurs)
 let mapController = null;
 let mapResizeTimer = null;
+const mapTimers = new Set();
+
+function scheduleMapTask(callback, delay) {
+    const controller = mapController;
+    const timer = window.setTimeout(() => {
+        mapTimers.delete(timer);
+        if (controller && controller === mapController && !controller.signal.aborted) callback();
+    }, delay);
+    mapTimers.add(timer);
+    return timer;
+}
 
 // Configuration des cartes par palier
 const floorMaps = {
-    1: '../assets/carte.png',
-    2: '../assets/Palier2-map.png',
-    3: '../assets/Palier3-map.png'
+    1: '../assets/carte.webp',
+    2: '../assets/Palier2-map.webp',
+    3: '../assets/Palier3-map.webp'
 };
 
 // Configuration des bounds par palier
@@ -58,6 +90,72 @@ const floorConfig = {
         center: [1000, 1000]
     }
 };
+
+function removeMapOverlays() {
+    mapOverlayGeneration++;
+    if (currentDetailOverlay) {
+        if (cancelMapDetailHandlers) { cancelMapDetailHandlers(); cancelMapDetailHandlers = null; }
+        if (map) map.removeLayer(currentDetailOverlay);
+        if (!floorOneFullReady) floorOneFullOverlay = null;
+        currentDetailOverlay = null;
+    }
+    if (currentMapOverlay && map) map.removeLayer(currentMapOverlay);
+    currentMapOverlay = null;
+}
+
+function mountMapOverlay(floor, bounds) {
+    floorOneLoadFailed = false;
+    if (floor === 1 && floorOneFullReady) {
+        currentMapOverlay = floorOneFullOverlay;
+    } else {
+        const mobile = window.innerWidth <= 768;
+        floorOneOverviewWidth = mobile ? 1024 : 1600;
+        const image = floor === 1
+            ? (mobile ? '../assets/carte-overview-mobile.webp' : '../assets/carte-overview.webp')
+            : floorMaps[floor];
+        currentMapOverlay = L.imageOverlay(image, bounds);
+    }
+    currentMapOverlay.addTo(map);
+    currentMapOverlay.bringToBack();
+}
+
+function upgradeMapDetail() {
+    if (!map || currentFloor !== 1 || floorOneFullReady || currentDetailOverlay || floorOneLoadFailed) return;
+    const bounds = floorConfig[1].bounds;
+    const gameWidth = bounds[1][1] - bounds[0][1];
+    if (map.getZoom() <= Math.log2(floorOneOverviewWidth / gameWidth)) return;
+    const controller = mapController;
+    const activeMap = map;
+    const generation = mapOverlayGeneration;
+    const preview = currentMapOverlay;
+    const full = L.imageOverlay(floorMaps[1], bounds, { opacity: 0 });
+    currentDetailOverlay = floorOneFullOverlay = full;
+    const active = () => controller === mapController && !controller.signal.aborted && activeMap === map
+        && generation === mapOverlayGeneration && currentFloor === 1 && currentDetailOverlay === full;
+    const onLoad = () => {
+        if (!active()) return;
+        cancelMapDetailHandlers(); cancelMapDetailHandlers = null;
+        floorOneFullReady = true;
+        full.setOpacity(1);
+        currentMapOverlay = full;
+        currentDetailOverlay = null;
+        activeMap.removeLayer(preview);
+        full.bringToBack();
+    };
+    const onError = () => {
+        if (!active()) return;
+        cancelMapDetailHandlers(); cancelMapDetailHandlers = null;
+        activeMap.removeLayer(full);
+        currentDetailOverlay = floorOneFullOverlay = null;
+        floorOneLoadFailed = true;
+        mapNotice("La carte détaillée ne peut pas être chargée. L’aperçu reste disponible.");
+    };
+    cancelMapDetailHandlers = () => { full.off('load', onLoad); full.off('error', onError); };
+    full.on('load', onLoad);
+    full.on('error', onError);
+    full.addTo(activeMap);
+    full.bringToBack();
+}
 
 // Groupes de couches pour organiser les marqueurs
 const layerGroups = {
@@ -366,6 +464,8 @@ function initMapView() {
     // Nettoyer une éventuelle instance précédente (navigation SPA)
     destroyMapView();
     mapController = new AbortController();
+    let savedMapState = null;
+    try { savedMapState = localStorage.getItem('ironOathMapState'); } catch (error) { /* The map also works when storage is disabled. */ }
     // Repartir de groupes de calques vides pour éviter les marqueurs dupliqués
     Object.values(layerGroups).forEach(g => g.clearLayers());
     Object.values(layerGroupsFloor2).forEach(g => g.clearLayers());
@@ -417,13 +517,12 @@ function initMapView() {
     });
     
     // Charger l'image de la carte
-    currentMapOverlay = L.imageOverlay(floorMaps[1], bounds);
-    currentMapOverlay.addTo(map);
+    mountMapOverlay(1, bounds);
     
     // Fonction de changement de palier (extraite pour réutilisation)
     function changeFloor(selectedFloor, showNotification = true) {
         // Vérifier si la carte existe pour ce palier
-        if (!floorMaps[selectedFloor]) {
+        if (!Number.isInteger(selectedFloor) || !Object.prototype.hasOwnProperty.call(floorMaps, selectedFloor)) {
             console.warn('❌ Floor', selectedFloor, 'does not exist');
             return false;
         }
@@ -431,9 +530,7 @@ function initMapView() {
         console.log('🔄 Changing floor to:', selectedFloor);
         
         // Retirer l'ancienne carte
-        if (currentMapOverlay) {
-            map.removeLayer(currentMapOverlay);
-        }
+        removeMapOverlays();
         
         // Obtenir la configuration pour ce palier
         const floorCfg = floorConfig[selectedFloor];
@@ -445,11 +542,7 @@ function initMapView() {
         map.setMaxBounds(newMaxBounds);
         
         // Charger la nouvelle carte avec les bounds appropriés
-        currentMapOverlay = L.imageOverlay(floorMaps[selectedFloor], newBounds);
-        currentMapOverlay.addTo(map);
-        
-        // Mettre l'overlay en arrière-plan (derrière les marqueurs)
-        currentMapOverlay.bringToBack();
+        mountMapOverlay(selectedFloor, newBounds);
         
         currentFloor = selectedFloor;
         console.log('✅ currentFloor set to:', currentFloor);
@@ -514,11 +607,11 @@ function initMapView() {
         }
         
         // Utiliser setTimeout pour s'assurer que l'image est chargée
-        setTimeout(() => {
+        scheduleMapTask(() => {
             if (!map) return;
             map.fitBounds(newBounds, {
                 padding: [50, 50],
-                animate: true,
+                animate: !mapReducedMotion(),
                 maxZoom: 2
             });
         }, 100);
@@ -540,7 +633,7 @@ function initMapView() {
             `)
             .openOn(map);
             
-            setTimeout(() => {
+            scheduleMapTask(() => {
                 if (map) map.closePopup(notification);
             }, 2000);
         }
@@ -555,9 +648,9 @@ function initMapView() {
     const floorSelect = document.getElementById('floor-select');
     if (floorSelect) {
         floorSelect.addEventListener('change', function() {
-            const selectedFloor = parseInt(this.value);
+            const selectedFloor = Number(this.value);
             changeFloor(selectedFloor, true);
-        });
+        }, { signal: mapController.signal });
     }
     
     // Fonction pour lire les paramètres URL et centrer la carte
@@ -567,15 +660,19 @@ function initMapView() {
         const y = urlParams.get('y');
         const floor = urlParams.get('floor');
         
-        console.log('🗺️ checkURLParams:', { x, y, floor, currentFloor });
+        mapNotice('');
         
         // Délai pour le changement de palier
         let floorChangeDelay = 0;
         
         // Si un paramètre floor est présent, changer de palier
-        if (floor) {
-            const floorNum = parseInt(floor);
-            if (floorMaps[floorNum] && floorNum !== currentFloor) {
+        if (floor !== null) {
+            const floorNum = Number(floor);
+            if (!Number.isInteger(floorNum) || !Object.prototype.hasOwnProperty.call(floorMaps, floorNum)) {
+                mapNotice('Ce palier est indisponible. Les paliers disponibles sont 1, 2 et 3.');
+                return;
+            }
+            if (floorNum !== currentFloor) {
                 console.log('🔄 Changing floor from', currentFloor, 'to', floorNum);
                 
                 // Mettre à jour le sélecteur visuellement
@@ -590,13 +687,18 @@ function initMapView() {
             }
         }
         
-        if (x && y) {
+        if (x !== null || y !== null) {
             // Convertir les coordonnées du jeu vers Leaflet
-            const gameX = parseInt(x);
-            const gameZ = parseInt(y);
+            const gameX = Number(x);
+            const gameZ = Number(y);
+            if (x === null || y === null || !/^-?\d+(?:\.\d+)?$/.test(x) || !/^-?\d+(?:\.\d+)?$/.test(y) ||
+                !Number.isFinite(gameX) || !Number.isFinite(gameZ) || Math.abs(gameX) > 1000000 || Math.abs(gameZ) > 1000000) {
+                mapNotice('Ces coordonnées sont invalides. Utilisez les coordonnées X et Z affichées dans les quêtes.');
+                return;
+            }
             
             // Attendre que le changement de palier soit effectué
-            setTimeout(() => {
+            scheduleMapTask(() => {
                 if (!map) return;
                 const leafletCoords = gameToLeafletCoords(gameX, gameZ, currentFloor);
                 
@@ -634,15 +736,16 @@ function initMapView() {
                     .openOn(map);
                 
                 // Retirer le marqueur temporaire après 5 secondes
-                setTimeout(() => {
+                scheduleMapTask(() => {
                     if (map) map.removeLayer(highlightMarker);
                 }, 5000);
             }, floorChangeDelay);
             
-            // Nettoyer l'URL après avoir traité les paramètres
-            const cleanURL = window.location.pathname;
-            window.history.replaceState({}, document.title, cleanURL);
+            // Keep the coordinates in the URL so the targeted position remains shareable.
         }
+        const query = urlParams.get('q');
+        const search = document.getElementById('map-search-input');
+        if (query !== null && search) { search.value = query.slice(0, 200); search.dispatchEvent(new Event('input', { bubbles: true })); }
     }
     
     // Persistance de la position et du palier avec localStorage
@@ -655,14 +758,18 @@ function initMapView() {
             zoom: zoom,
             floor: currentFloor
         };
-        localStorage.setItem('ironOathMapState', JSON.stringify(mapState));
+        try { localStorage.setItem('ironOathMapState', JSON.stringify(mapState)); } catch (error) { /* Optional preference storage. */ }
     }
     
     function restoreMapState() {
-        const savedState = localStorage.getItem('ironOathMapState');
+        const savedState = savedMapState;
         if (savedState) {
             try {
                 const state = JSON.parse(savedState);
+                if (!state || !Number.isFinite(state.lat) || !Number.isFinite(state.lng) || !Number.isFinite(state.zoom) ||
+                    !Number.isInteger(state.floor) || !Object.prototype.hasOwnProperty.call(floorMaps, state.floor)) return false;
+                const maxBounds = floorConfig[state.floor].maxBounds;
+                if (state.lat < maxBounds[0][0] || state.lat > maxBounds[1][0] || state.lng < maxBounds[0][1] || state.lng > maxBounds[1][1]) return false;
                 
                 // Restaurer le palier d'abord
                 if (state.floor && state.floor !== 1) {
@@ -674,11 +781,9 @@ function initMapView() {
                 }
                 
                 // Restaurer la position après un délai pour laisser le palier se charger
-                setTimeout(() => {
+                scheduleMapTask(() => {
                     if (!map) return;
-                    if (state.lat && state.lng) {
-                        map.setView([state.lat, state.lng], state.zoom || -3);
-                    }
+                    map.setView([state.lat, state.lng], Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), state.zoom)), { animate: false });
                 }, state.floor !== 1 ? 200 : 0);
                 
                 return true;
@@ -692,6 +797,7 @@ function initMapView() {
     // Sauvegarder l'état lors des mouvements/zoom
     map.on('moveend', saveMapState);
     map.on('zoomend', saveMapState);
+    map.on('zoomend', upgradeMapDetail);
     
     // Ajuster la vue pour montrer toute la carte
     map.fitBounds(bounds, {
@@ -881,7 +987,7 @@ function initMapView() {
     // Raccourcis clavier pour le zoom
     document.addEventListener('keydown', function(e) {
         // Seulement si la carte est focusée ou si aucun input n'est actif
-        if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        if (document.activeElement === map.getContainer() || map.getContainer().contains(document.activeElement)) {
             switch(e.key) {
                 case '+':
                 case '=':
@@ -895,21 +1001,7 @@ function initMapView() {
                     break;
                 case '0':
                     e.preventDefault();
-                    map.fitBounds(bounds, { padding: [20, 20] });
-                    break;
-                case 'c':
-                case 'C':
-                    if (e.ctrlKey) {
-                        e.preventDefault();
-                        map.setView([2560, 2560], 0);
-                    }
-                    break;
-                case 'm':
-                case 'M':
-                    if (e.ctrlKey) {
-                        e.preventDefault();
-                        map.setZoom(map.getMaxZoom());
-                    }
+                    map.fitBounds(floorConfig[currentFloor].bounds, { padding: [20, 20], animate: !mapReducedMotion() });
                     break;
             }
         }
@@ -931,10 +1023,10 @@ function initMapView() {
         }
         
         lastWheelTime = now;
-    });
+    }, { signal: mapController.signal });
     
     // Message d'aide au premier chargement
-    setTimeout(function() {
+    scheduleMapTask(function() {
         if (!map) return;
         if (map.getZoom() === -3) { // Si toujours au zoom initial
             const helpTooltip = L.popup({
@@ -956,7 +1048,7 @@ function initMapView() {
             .openOn(map);
             
             // Fermer automatiquement après 4 secondes
-            setTimeout(() => {
+            scheduleMapTask(() => {
                 if (map) map.closePopup(helpTooltip);
             }, 4000);
         }
@@ -1776,18 +1868,18 @@ function initMapView() {
     
     // Créer les icônes personnalisées pour les quêtes
     // Détecter si on est dans le dossier pages/ ou à la racine
-    const basePath = window.location.pathname.includes('/pages/') ? '../assets/map_assets/' : './assets/map_assets/';
-    const cacheBuster = '?v=20260128';
+    const basePath = '/assets/map_assets/markers/';
+    const cacheBuster = '?v=20261007a';
     
     const questSecondaryIcon = L.icon({
-        iconUrl: basePath + 'Quetes-Secondaires.png' + cacheBuster,
+        iconUrl: basePath + 'Quetes-Secondaires.webp' + cacheBuster,
         iconSize: [32, 32],
         iconAnchor: [16, 16],
         popupAnchor: [0, -16]
     });
     
     const questMainIcon = L.icon({
-        iconUrl: basePath + 'Quetes-Principales.png' + cacheBuster,
+        iconUrl: basePath + 'Quetes-Principales.webp' + cacheBuster,
         iconSize: [40, 40], // Plus grande pour les quêtes principales
         iconAnchor: [20, 20],
         popupAnchor: [0, -20]
@@ -1795,7 +1887,7 @@ function initMapView() {
 
     // Icônes pour les villes
     const villeIcon = L.icon({
-        iconUrl: basePath + 'Ville.png' + cacheBuster,
+        iconUrl: basePath + 'Ville.webp' + cacheBuster,
         iconSize: [36, 36],
         iconAnchor: [18, 18],
         popupAnchor: [0, -18]
@@ -1803,7 +1895,7 @@ function initMapView() {
 
     // Icônes pour les donjons
     const donjonIcon = L.icon({
-        iconUrl: basePath + 'Donjon.png' + cacheBuster,
+        iconUrl: basePath + 'Donjon.webp' + cacheBuster,
         iconSize: [38, 38],
         iconAnchor: [19, 19],
         popupAnchor: [0, -19]
@@ -1811,7 +1903,7 @@ function initMapView() {
 
     // Icônes pour les marchands
     const marchandIcon = L.icon({
-        iconUrl: basePath + 'Marchand.png' + cacheBuster,
+        iconUrl: basePath + 'Marchand.webp' + cacheBuster,
         iconSize: [34, 34],
         iconAnchor: [17, 17],
         popupAnchor: [0, -17]
@@ -1819,7 +1911,7 @@ function initMapView() {
 
     // Icônes pour les zones de monstres
     const monstreIcon = L.icon({
-        iconUrl: basePath + 'Monstre.png' + cacheBuster,
+        iconUrl: basePath + 'Monstre.webp' + cacheBuster,
         iconSize: [35, 35],
         iconAnchor: [17.5, 17.5],
         popupAnchor: [0, -17.5]
@@ -1864,7 +1956,8 @@ function initMapView() {
                 : questGroup.map(q => q.name).join(' / ');
             
             // Créer le marqueur avec les options de type pour le système de toggles
-            const marker = L.marker(leafletCoords, { 
+            const marker = L.marker(leafletCoords, {
+                title: questGroup.map(q => q.name).join(" / "), alt: questGroup.map(q => q.name).join(" / "),
                 icon: icon,
                 questType: quest.type, // Ajouter le type pour l'organisation des couches
                 questName: combinedName, // Compatibilité avec l'organisation des couches
@@ -1949,9 +2042,6 @@ function initMapView() {
         });
     }
     
-    // Créer les marqueurs de quêtes
-    createQuestMarkers();
-
     // Fonction pour créer les marqueurs de villes
     function createVilleMarkers() {
         // console.log(`🏰 Creating ${villesData.length} ville markers`);
@@ -1959,6 +2049,7 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(ville.coordinates[0], ville.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
+                title: ville.name, alt: ville.name,
                 icon: villeIcon,
                 locationName: ville.name,
                 locationType: 'Ville'
@@ -1999,6 +2090,7 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(donjon.coordinates[0], donjon.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
+                title: donjon.name, alt: donjon.name,
                 icon: donjonIcon,
                 locationName: donjon.name,
                 locationType: 'Donjon'
@@ -2039,6 +2131,7 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(marchand.coordinates[0], marchand.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
+                title: marchand.name, alt: marchand.name,
                 icon: marchandIcon,
                 locationName: marchand.name,
                 locationType: 'Marchand'
@@ -2079,6 +2172,7 @@ function initMapView() {
             const leafletCoords = gameToLeafletCoords(zone.coordinates[0], zone.coordinates[1]);
             
             const marker = L.marker(leafletCoords, { 
+                title: zone.name, alt: zone.name,
                 icon: monstreIcon,
                 locationName: zone.name,
                 locationType: 'Zone de Monstres'
@@ -2142,7 +2236,8 @@ function initMapView() {
                 ? quest.npc || ''
                 : questGroup.map(q => q.npc || '').filter(n => n).join(' / ');
             
-            const marker = L.marker(leafletCoords, { 
+            const marker = L.marker(leafletCoords, {
+                title: questGroup.map(q => q.name).join(" / "), alt: questGroup.map(q => q.name).join(" / "),
                 icon: icon,
                 questType: quest.type,
                 questName: combinedName,
@@ -2247,23 +2342,26 @@ function initMapView() {
     // Vérifier les paramètres URL pour centrer sur une quête spécifique
     // Si pas de paramètres URL, restaurer l'état sauvegardé
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('x') || urlParams.get('y') || urlParams.get('floor')) {
+    if (urlParams.has('x') || urlParams.has('y') || urlParams.has('floor') || urlParams.has('q')) {
         checkURLParams();
     } else {
         restoreMapState();
     }
+    document.addEventListener('nameless:routechange', checkURLParams, { signal: mapController.signal });
 
     // Recalcul de la taille après injection dans le DOM (utile en SPA)
-    setTimeout(function () { if (map) map.invalidateSize(); }, 60);
+    scheduleMapTask(function () { if (map) map.invalidateSize(); }, 60);
 
     // Recalcul au redimensionnement (équivaut au script inline de la page)
     window.addEventListener('resize', function () {
         clearTimeout(mapResizeTimer);
-        mapResizeTimer = setTimeout(function () { if (map) map.invalidateSize(); }, 250);
+        mapResizeTimer = scheduleMapTask(function () { if (map) map.invalidateSize(); }, 250);
     }, { signal: mapController.signal });
 }
 
 function destroyMapView() {
+    removeMapOverlays();
+    mapTimers.forEach(timer => clearTimeout(timer)); mapTimers.clear();
     if (mapController) { mapController.abort(); mapController = null; }
     if (mapResizeTimer) { clearTimeout(mapResizeTimer); mapResizeTimer = null; }
     if (map) {
@@ -2271,8 +2369,12 @@ function destroyMapView() {
         map = null;
     }
     currentMapOverlay = null;
+    floorOneFullOverlay = null;
+    floorOneFullReady = false;
+    floorOneLoadFailed = false;
     questLayers = null;
     currentFloor = 1;
+    document.getElementById('map-route-status')?.remove();
     Object.values(layerGroups).forEach(g => g.clearLayers());
     Object.values(layerGroupsFloor2).forEach(g => g.clearLayers());
 }
@@ -2349,7 +2451,7 @@ function initializeToggles() {
         
         if (toggle) {
             // S'assurer que tous les toggles sont cochés par défaut
-            toggle.checked = true;
+
             
             // Fonction pour gérer le toggle - utilise le palier actuel
             const handleToggle = function() {
@@ -2370,22 +2472,14 @@ function initializeToggles() {
             };
             
             // Écouter les événements sur la checkbox
-            toggle.addEventListener('change', handleToggle);
-            toggle.addEventListener('click', handleToggle);
-            
-            // Écouter aussi les clics sur le label
-            if (label) {
-                label.addEventListener('click', function(e) {
-                    setTimeout(handleToggle, 10);
-                });
-            }
+            toggle.addEventListener('change', handleToggle, { signal: mapController.signal });
         }
     });
     
     // Forcer l'affichage des layers du palier actuel
     Object.entries(toggleMappings).forEach(([name, floorLayers]) => {
         const layerGroup = floorLayers[currentFloor];
-        if (layerGroup && layerGroup.getLayers().length > 0 && !map.hasLayer(layerGroup)) {
+        if (document.getElementById(name)?.checked && layerGroup && layerGroup.getLayers().length > 0 && !map.hasLayer(layerGroup)) {
             layerGroup.addTo(map);
         }
     });
@@ -2395,7 +2489,7 @@ function initializeToggles() {
     if (adminBtn) {
         adminBtn.addEventListener('click', function() {
             alert('Fonctionnalité admin à venir...');
-        });
+        }, { signal: mapController.signal });
     }
     
     // ==========================================
@@ -2441,7 +2535,7 @@ function initializeMapSearch() {
         // Toujours utiliser la liste mise à jour
         const results = searchItems(currentSearchableItems, query);
         displaySearchResults(results, searchResults);
-    });
+    }, { signal: mapController.signal });
     
     // Bouton clear
     if (searchClear) {
@@ -2450,7 +2544,7 @@ function initializeMapSearch() {
             hideSearchResults(searchResults, searchInput, searchContainer);
             searchClear.style.display = 'none';
             searchInput.focus();
-        });
+        }, { signal: mapController.signal });
     }
     
     // Fermer les résultats si on clique ailleurs
@@ -2472,7 +2566,7 @@ function initializeMapSearch() {
                 firstResult.focus();
             }
         }
-    });
+    }, { signal: mapController.signal });
     
     // Réouvrir les résultats si on focus l'input
     searchInput.addEventListener('focus', function() {
@@ -2480,18 +2574,18 @@ function initializeMapSearch() {
             const results = searchItems(currentSearchableItems, searchInput.value.trim().toLowerCase());
             displaySearchResults(results, searchResults);
         }
-    });
+    }, { signal: mapController.signal });
 }
 
 function hideSearchResults(container, input, searchContainer) {
     container.style.display = 'none';
-    input?.setAttribute('aria-expanded', 'false');
     searchContainer?.classList.remove('has-results');
 }
 
 // Construire la liste des éléments recherchables
 function buildSearchableItems() {
     const items = [];
+    if (currentFloor === 3) return items;
     
     // Déterminer quel groupe utiliser selon le palier actuel
     const currentQuestGroups = currentFloor === 2 ? layerGroupsFloor2 : layerGroups;
@@ -2638,7 +2732,6 @@ function displaySearchResults(results, container) {
         empty.querySelector('small').textContent = 'Essayez un nom de quête, de PNJ, de monstre ou de ville.';
         container.appendChild(empty);
         container.style.display = 'block';
-        searchInput?.setAttribute('aria-expanded', 'true');
         searchContainer?.classList.add('has-results');
         return;
     }
@@ -2672,15 +2765,8 @@ function displaySearchResults(results, container) {
         items.forEach(item => {
             // Convertir les coordonnées Leaflet vers coordonnées du jeu selon le palier
             let gameX, gameZ;
-            if (item.floor === 2 || currentFloor === 2) {
-                // Palier 2: X = lng, Z = -lat
-                gameX = Math.round(item.coordinates.lng);
-                gameZ = Math.round(-item.coordinates.lat);
-            } else {
-                // Palier 1: X = lng, Z = 5121 - lat
-                gameX = Math.round(item.coordinates.lng);
-                gameZ = Math.round(5121 - item.coordinates.lat);
-            }
+            gameX = Math.round(item.coordinates.lng);
+            gameZ = Math.round(5121 - item.coordinates.lat);
             
             const resultButton = document.createElement('button');
             resultButton.type = 'button';
@@ -2713,7 +2799,6 @@ function displaySearchResults(results, container) {
         container.appendChild(category);
     }
     container.style.display = 'block';
-    searchInput?.setAttribute('aria-expanded', 'true');
     searchContainer?.classList.add('has-results');
     
     // Ajouter les événements de clic
@@ -2724,6 +2809,7 @@ function displaySearchResults(results, container) {
             
             // Centrer la carte sur l'élément
             focusMapLocation([lat, lng]);
+            results.find(result => result.coordinates.lat === lat && result.coordinates.lng === lng)?.marker?.openPopup?.();
             
             // Créer un effet de mise en surbrillance temporaire
             const highlightMarker = L.marker([lat, lng], {
@@ -2744,7 +2830,7 @@ function displaySearchResults(results, container) {
             }).addTo(map);
             
             // Retirer le marqueur après 3 secondes
-            setTimeout(() => {
+            scheduleMapTask(() => {
                 if (map) map.removeLayer(highlightMarker);
             }, 3000);
             

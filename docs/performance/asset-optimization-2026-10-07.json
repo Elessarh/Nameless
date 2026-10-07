@@ -1,0 +1,306 @@
+[
+  {
+    "source": "assets/carte.png",
+    "output": "assets/carte.webp",
+    "before": 9757890,
+    "after": 8383564,
+    "width": 4952,
+    "height": 4952,
+    "quality": "lossless",
+    "psnr": 99
+  },
+  {
+    "source": "assets/Palier2-map.png",
+    "output": "assets/Palier2-map.webp",
+    "before": 6739673,
+    "after": 2527368,
+    "width": 2119,
+    "height": 2340,
+    "quality": "lossless",
+    "psnr": 99
+  },
+  {
+    "source": "assets/Palier3-map.png",
+    "output": "assets/Palier3-map.webp",
+    "before": 2597767,
+    "after": 963572,
+    "width": 1274,
+    "height": 1513,
+    "quality": "lossless",
+    "psnr": 99
+  },
+  {
+    "source": "assets/SAO-Font.png",
+    "output": "assets/SAO-Font.webp",
+    "before": 152580,
+    "after": 41462,
+    "width": 1920,
+    "height": 1200,
+    "quality": 88,
+    "psnr": 54.65
+  },
+  {
+    "source": "assets/caroussel_ensemble.png",
+    "output": "assets/caroussel_ensemble.webp",
+    "before": 1674073,
+    "after": 122762,
+    "width": 2172,
+    "height": 724,
+    "quality": 88,
+    "psnr": 40.04
+  },
+  {
+    "source": "assets/caroussel_recrutement.png",
+    "output": "assets/caroussel_recrutement.webp",
+    "before": 1436403,
+    "after": 83164,
+    "width": 2172,
+    "height": 724,
+    "quality": 88,
+    "psnr": 40.71
+  },
+  {
+    "source": "assets/brand/nameless-hero-boss.png",
+    "output": "assets/brand/nameless-hero-boss.webp",
+    "before": 2322952,
+    "after": 279766,
+    "width": 1672,
+    "height": 941,
+    "quality": 88,
+    "psnr": 36.16
+  },
+  {
+    "source": "assets/brand/nameless-hero.png",
+    "output": "assets/brand/nameless-hero.webp",
+    "before": 1667502,
+    "after": 90154,
+    "width": 1672,
+    "height": 941,
+    "quality": 88,
+    "psnr": 42.59
+  },
+  {
+    "source": "assets/brand/nameless-logo.png",
+    "output": "assets/brand/nameless-logo.webp",
+    "before": 2196136,
+    "after": 144398,
+    "width": 1254,
+    "height": 1254,
+    "quality": 88,
+    "psnr": 39.73
+  },
+  {
+    "source": "assets/brand/page-font-bestiaire.png",
+    "output": "assets/brand/page-font-bestiaire.webp",
+    "before": 2170156,
+    "after": 238366,
+    "width": 1672,
+    "height": 941,
+    "quality": 88,
+    "psnr": 37.39
+  },
+  {
+    "source": "assets/brand/page-font-items.png",
+    "output": "assets/brand/page-font-items.webp",
+    "before": 2258533,
+    "after": 268256,
+    "width": 1672,
+    "height": 941,
+    "quality": 88,
+    "psnr": 36.4
+  },
+  {
+    "source": "assets/brand/page-font-map.png",
+    "output": "assets/brand/page-font-map.webp",
+    "before": 2607929,
+    "after": 570046,
+    "width": 1672,
+    "height": 941,
+    "quality": 94,
+    "psnr": 36.55
+  },
+  {
+    "source": "assets/brand/page-font-profil.png",
+    "output": "assets/brand/page-font-profil.webp",
+    "before": 2030611,
+    "after": 209430,
+    "width": 1672,
+    "height": 941,
+    "quality": 88,
+    "psnr": 37.71
+  },
+  {
+    "source": "assets/brand/page-font-quetes.png",
+    "output": "assets/brand/page-font-quetes.webp",
+    "before": 2242075,
+    "after": 277182,
+    "width": 1672,
+    "height": 941,
+    "quality": 88,
+    "psnr": 35.78
+  },
+  {
+    "source": "assets/brand/page-font-wiki.png",
+    "output": "assets/brand/page-font-wiki.webp",
+    "before": 2382995,
+    "after": 308986,
+    "width": 1672,
+    "height": 941,
+    "quality": 88,
+    "psnr": 36.16
+  },
+  {
+    "source": "assets/carte.png",
+    "output": "assets/carte-overview.webp",
+    "before": 9757890,
+    "after": 1251712,
+    "width": 1600,
+    "height": 1600,
+    "quality": 92,
+    "usage": "overview only; full lossless map loaded for detailed zoom"
+  },
+  {
+    "source": "assets/carte.png",
+    "output": "assets/carte-overview-mobile.webp",
+    "before": 9757890,
+    "after": 530752,
+    "width": 1024,
+    "height": 1024,
+    "quality": 92,
+    "usage": "overview only; full lossless map loaded for detailed zoom"
+  },
+  {
+    "source": "assets/map_assets/Quetes-Principales.png",
+    "output": "assets/map_assets/markers/Quetes-Principales.webp",
+    "before": 776491,
+    "after": 4170,
+    "width": 96,
+    "height": 96,
+    "quality": "lossless resized; fixed markers display at most 40 CSS pixels"
+  },
+  {
+    "source": "assets/map_assets/Quetes-Secondaires.png",
+    "output": "assets/map_assets/markers/Quetes-Secondaires.webp",
+    "before": 229584,
+    "after": 4250,
+    "width": 96,
+    "height": 96,
+    "quality": "lossless resized; fixed markers display at most 40 CSS pixels"
+  },
+  {
+    "source": "assets/map_assets/Ville.png",
+    "output": "assets/map_assets/markers/Ville.webp",
+    "before": 254467,
+    "after": 4998,
+    "width": 96,
+    "height": 96,
+    "quality": "lossless resized; fixed markers display at most 40 CSS pixels"
+  },
+  {
+    "source": "assets/map_assets/Donjon.png",
+    "output": "assets/map_assets/markers/Donjon.webp",
+    "before": 239814,
+    "after": 3730,
+    "width": 96,
+    "height": 96,
+    "quality": "lossless resized; fixed markers display at most 40 CSS pixels"
+  },
+  {
+    "source": "assets/map_assets/Marchand.png",
+    "output": "assets/map_assets/markers/Marchand.webp",
+    "before": 246230,
+    "after": 4756,
+    "width": 96,
+    "height": 96,
+    "quality": "lossless resized; fixed markers display at most 40 CSS pixels"
+  },
+  {
+    "source": "assets/map_assets/Monstre.png",
+    "output": "assets/map_assets/markers/Monstre.webp",
+    "before": 221534,
+    "after": 4428,
+    "width": 96,
+    "height": 85,
+    "quality": "lossless resized; fixed markers display at most 40 CSS pixels"
+  },
+  {
+    "source": "assets/brand/nameless-hero-boss.png",
+    "output": "assets/brand/nameless-hero-boss-mobile.webp",
+    "before": 2322952,
+    "after": 101294,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  },
+  {
+    "source": "assets/brand/nameless-hero.png",
+    "output": "assets/brand/nameless-hero-mobile.webp",
+    "before": 1667502,
+    "after": 30908,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  },
+  {
+    "source": "assets/brand/page-font-bestiaire.png",
+    "output": "assets/brand/page-font-bestiaire-mobile.webp",
+    "before": 2170156,
+    "after": 84914,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  },
+  {
+    "source": "assets/brand/page-font-items.png",
+    "output": "assets/brand/page-font-items-mobile.webp",
+    "before": 2258533,
+    "after": 102462,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  },
+  {
+    "source": "assets/brand/page-font-map.png",
+    "output": "assets/brand/page-font-map-mobile.webp",
+    "before": 2607929,
+    "after": 130470,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  },
+  {
+    "source": "assets/brand/page-font-profil.png",
+    "output": "assets/brand/page-font-profil-mobile.webp",
+    "before": 2030611,
+    "after": 74656,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  },
+  {
+    "source": "assets/brand/page-font-quetes.png",
+    "output": "assets/brand/page-font-quetes-mobile.webp",
+    "before": 2242075,
+    "after": 98346,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  },
+  {
+    "source": "assets/brand/page-font-wiki.png",
+    "output": "assets/brand/page-font-wiki-mobile.webp",
+    "before": 2382995,
+    "after": 111014,
+    "width": 900,
+    "height": 507,
+    "quality": 88,
+    "usage": "decorative background at viewport <=768px"
+  }
+]

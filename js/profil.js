@@ -1,34 +1,33 @@
+(function () {
+'use strict';
 /* profil.js - Gestion de la page profil utilisateur */
 
 // Variables locales (currentUser et userProfile sont globaux depuis auth-supabase.js)
 let localUserProfile = null;
 let profileInitToken = 0;
+let minecraftLookupController = null;
 const MINECRAFT_USERNAME_PATTERN = /^[A-Za-z0-9_]{3,16}$/;
 const MINECRAFT_UUID_PATTERN = /^[0-9a-f]{32}$/i;
+const PROFILE_CLASSES = ['Shaman', 'Mage', 'Assassin', 'Guerrier', 'Archer'];
 
 // Initialisation au chargement de la page
-document.addEventListener('DOMContentLoaded', async function() {
-    
-    // Attendre que auth-supabase.js soit chargé ET que l'utilisateur soit connecté
-    await waitForAuthAndUser();
-    
-    // Charger le profil
-    await loadProfilePage();
-});
+document.addEventListener('DOMContentLoaded', initProfilePage);
 
 // Attendre que l'authentification soit prête ET que l'utilisateur soit connecté
 async function initProfilePage() {
     const token = ++profileInitToken;
 
-    await waitForAuthAndUser();
+    if (!await waitForAuthAndUser(token)) return;
 
     if (token !== profileInitToken) return;
-    await loadProfilePage();
+    await loadProfilePage(token);
 }
 
 function destroyProfilePage() {
     profileInitToken++;
     localUserProfile = null;
+    if (minecraftLookupController) minecraftLookupController.abort();
+    minecraftLookupController = null;
 }
 
 function navigateToConnexion() {
@@ -45,25 +44,23 @@ window.NamelessProfilePage = {
     destroy: destroyProfilePage
 };
 
-function waitForAuthAndUser() {
+function waitForAuthAndUser(token) {
     return new Promise((resolve) => {
         let attempts = 0;
         const maxAttempts = 100; // 10 secondes max
         
         const checkAuth = setInterval(() => {
             attempts++;
+            if (token !== profileInitToken) { clearInterval(checkAuth); resolve(false); return; }
             
             // Vérifier que Supabase ET window.currentUser sont prêts
             if (typeof supabase !== 'undefined' && supabase !== null && window.currentUser !== null && window.currentUser !== undefined) {
                 clearInterval(checkAuth);
-                resolve();
+                resolve(true);
             } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 showError('Vous devez être connecté pour voir votre profil.');
-                setTimeout(() => {
-                    navigateToConnexion();
-                }, 2000);
-                resolve();
+                resolve(false);
             }
         }, 100);
     });
@@ -195,13 +192,20 @@ function getPlayerDbErrorCode(data) {
 async function fetchPublicMinecraftProfile(username) {
     var response;
     var data = null;
+    var controller = new AbortController();
+    minecraftLookupController = controller;
+    var timeout = setTimeout(() => controller.abort(), 8000);
 
     try {
         response = await fetch('https://playerdb.co/api/player/minecraft/' + encodeURIComponent(username), {
-            headers: { Accept: 'application/json' }
+            headers: { Accept: 'application/json' },
+            signal: controller.signal
         });
     } catch (error) {
         throw { code: 'public_api_unavailable' };
+    } finally {
+        clearTimeout(timeout);
+        if (minecraftLookupController === controller) minecraftLookupController = null;
     }
 
     try {
@@ -259,7 +263,7 @@ function getMinecraftPublicLinkErrorMessage(error) {
     if (code === 'public_api_invalid_response') return 'Réponse Minecraft publique invalide.';
     if (code === '23505') return 'Ce profil Minecraft est déjà associé à un autre compte.';
     if (code === 'P0001' || message.indexOf('minecraft link fields require backend verification') !== -1) {
-        return 'La base Supabase bloque encore l’association publique. Applique le patch Minecraft public avant de réessayer.';
+        return 'L’association Minecraft est momentanément indisponible. Contactez un administrateur.';
     }
 
     return 'Impossible d’associer ce pseudo Minecraft.';
@@ -273,6 +277,9 @@ function invalidateProfileCache() {
 
 async function submitMinecraftPublicLink(event) {
     if (event && typeof event.preventDefault === 'function') event.preventDefault();
+    const token = profileInitToken;
+    const button = document.getElementById('minecraft-link-btn');
+    if (!window.currentUser || !button || button.disabled) return;
 
     var input = document.getElementById('minecraft-username-input');
     var username = normalizeMinecraftUsername(input ? input.value : '');
@@ -287,18 +294,20 @@ async function submitMinecraftPublicLink(event) {
 
     try {
         var minecraftProfile = await fetchPublicMinecraftProfile(username);
+        if (token !== profileInitToken || !window.currentUser) return;
         setMinecraftLinkStatus('Profil public trouvé. Sauvegarde en cours...');
 
         var updatedProfile = await saveDetectedMinecraftProfile(minecraftProfile);
+        if (token !== profileInitToken) return;
         localUserProfile = updatedProfile;
         window.userProfile = updatedProfile;
         invalidateProfileCache();
         displayProfile(updatedProfile);
         showSuccess('Minecraft détecté : profil public associé à ton compte.');
     } catch (error) {
-        setMinecraftLinkStatus(getMinecraftPublicLinkErrorMessage(error));
+        if (token === profileInitToken) setMinecraftLinkStatus(getMinecraftPublicLinkErrorMessage(error));
     } finally {
-        setMinecraftLinkBusy(false);
+        if (token === profileInitToken) setMinecraftLinkBusy(false);
     }
 }
 
@@ -369,14 +378,12 @@ async function resolveOwnProfile() {
     throw result.error;
 }
 
-async function loadProfilePage() {
+async function loadProfilePage(token = profileInitToken) {
     try {
         // Double vérification
         if (!window.currentUser) {
             showError('Vous devez être connecté pour voir votre profil.');
-            setTimeout(() => {
-                navigateToConnexion();
-            }, 2000);
+
             return;
         }
         
@@ -400,8 +407,9 @@ async function loadProfilePage() {
         let profile = null;
         try {
             profile = await resolveOwnProfile();
+            if (token !== profileInitToken || !document.getElementById('profil-content')) return;
         } catch (error) {
-            showError('Impossible de charger votre profil. Veuillez reessayer.');
+            if (token === profileInitToken) showError('Impossible de charger votre profil. Veuillez reessayer.');
             return;
         }
         
@@ -422,7 +430,7 @@ async function loadProfilePage() {
         displayProfile(profile);
         
     } catch (error) {
-        showError('Une erreur technique est survenue.');
+        if (token === profileInitToken) showError('Une erreur technique est survenue.');
     }
 }
 
@@ -433,6 +441,8 @@ function displayProfile(profile) {
     
     // Afficher le contenu
     document.getElementById('profil-content').style.display = 'block';
+    const errorContent = document.getElementById('error-content');
+    if (errorContent) errorContent.style.display = 'none';
     
     // Afficher uniquement l'identite Minecraft publique.
     var mcUsername = getMinecraftDisplayName(profile);
@@ -473,7 +483,17 @@ function displayProfile(profile) {
     roleBadge.className = 'role-badge role-' + role;
     
     // Afficher classe et niveau
-    document.getElementById('profile-classe').value = profile.classe || 'Guerrier';
+    const classSelect = document.getElementById('profile-classe');
+    const currentClass = typeof profile.classe === 'string' ? profile.classe : 'Guerrier';
+    classSelect.querySelectorAll('option[data-profile-current-class]').forEach((option) => option.remove());
+    if (!PROFILE_CLASSES.includes(currentClass)) {
+        const option = document.createElement('option');
+        option.value = currentClass;
+        option.textContent = currentClass || 'Non renseignée';
+        option.dataset.profileCurrentClass = 'true';
+        classSelect.appendChild(option);
+    }
+    classSelect.value = currentClass;
     document.getElementById('profile-niveau').value = profile.niveau || 1;
     
     // Afficher le bouton Dashboard si admin
@@ -528,23 +548,30 @@ function getRoleLabel(role) {
 
 // Sauvegarder les modifications du profil
 async function saveProfileChanges() {
+    const token = profileInitToken;
+    const saveBtn = document.getElementById('save-profile-btn');
+    if (!saveBtn || saveBtn.disabled) return;
     try {
         const classe = document.getElementById('profile-classe').value;
-        const niveau = parseInt(document.getElementById('profile-niveau').value);
+        const niveau = Number(document.getElementById('profile-niveau').value);
         
         // Valider le niveau
-        if (niveau < 1 || niveau > 100) {
+        if (!Number.isInteger(niveau) || niveau < 1 || niveau > 100) {
             showError('Le niveau doit être entre 1 et 100.');
             return;
         }
         
+        const unchangedClass = localUserProfile && classe === localUserProfile.classe;
+        if (!unchangedClass && !PROFILE_CLASSES.includes(classe)) { showError('Choisissez une classe valide.'); return; }
+        if (!window.currentUser) { showError('Reconnectez-vous pour sauvegarder votre profil.'); return; }
+        saveBtn.disabled = true;
+        saveBtn.setAttribute('aria-busy', 'true');
+        const changes = { niveau: niveau };
+        if (!unchangedClass) changes.classe = classe;
         // Mettre à jour le profil
         const { error } = await supabase
             .from('user_profiles')
-            .update({ 
-                classe: classe,
-                niveau: niveau
-            })
+            .update(changes)
             .eq('id', window.currentUser.id);
         
         if (error) {
@@ -552,6 +579,7 @@ async function saveProfileChanges() {
             return;
         }
         
+        if (token !== profileInitToken) return;
         showSuccess('Modifications sauvegardées avec succès !');
         
         // Invalider le cache du profil
@@ -561,10 +589,13 @@ async function saveProfileChanges() {
         }
         
         // Recharger le profil
-        await loadProfilePage();
+        await loadProfilePage(token);
         
     } catch (error) {
-        showError('Une erreur technique est survenue.');
+        if (token === profileInitToken) showError('Une erreur technique est survenue.');
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.removeAttribute('aria-busy');
     }
 }
 
@@ -574,27 +605,21 @@ function showError(message) {
     const loading = document.getElementById('loading');
     if (loading) loading.style.display = 'none';
     
-    alert('❌ ' + message);
+    const feedback = document.getElementById('profile-feedback');
+    if (feedback) { feedback.textContent = message; feedback.className = 'profile-feedback error'; }
+    const content = document.getElementById('profil-content');
+    if (!content || content.style.display === 'none') {
+        const errorContent = document.getElementById('error-content');
+        const errorText = document.getElementById('error-text');
+        if (errorText) errorText.textContent = message;
+        if (errorContent) errorContent.style.display = 'block';
+    }
 }
 
 // Afficher un message de succès
 function showSuccess(message) {
-    alert('✅ ' + message);
+    const feedback = document.getElementById('profile-feedback');
+    if (feedback) { feedback.textContent = message; feedback.className = 'profile-feedback success'; }
 }
 
-// Fonction utilitaire pour formater les dates
-function formatDate(dateString) {
-    if (!dateString) return 'Inconnue';
-    
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays < 1) return 'Aujourd\'hui';
-    if (diffDays === 1) return 'Hier';
-    if (diffDays < 7) return `Il y a ${diffDays} jours`;
-    if (diffDays < 30) return `Il y a ${Math.floor(diffDays / 7)} semaines`;
-    if (diffDays < 365) return `Il y a ${Math.floor(diffDays / 30)} mois`;
-    return `Il y a ${Math.floor(diffDays / 365)} ans`;
-}
+})();

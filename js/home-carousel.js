@@ -1,24 +1,18 @@
 /* ============================================================
    NAMELESS - Home page lifecycle
    - Carousel for direct page loads and SPA navigations.
-   - Reveal effects can be re-run when the home view is injected.
+   - Page content is visible immediately, without scroll-triggered reveals.
    ============================================================ */
 (function () {
     'use strict';
 
     var activeControllers = [];
-    var activeRevealObserver = null;
 
     function cleanup() {
         activeControllers.forEach(function (controller) {
             if (controller && typeof controller.destroy === 'function') controller.destroy();
         });
         activeControllers = [];
-
-        if (activeRevealObserver && typeof activeRevealObserver.disconnect === 'function') {
-            activeRevealObserver.disconnect();
-        }
-        activeRevealObserver = null;
     }
 
     function initCarousel(root) {
@@ -61,6 +55,7 @@
             track.style.transform = 'translateX(-' + (index * 100) + '%)';
             slides.forEach(function (slide, i) {
                 slide.setAttribute('aria-hidden', i !== index ? 'true' : 'false');
+                slide.inert = i !== index;
             });
             dots.forEach(function (dot, i) {
                 var active = i === index;
@@ -78,7 +73,7 @@
         }
 
         function start() {
-            if (reduce || slides.length <= 1) return;
+            if (reduce || pausedByUser || slides.length <= 1) return;
             stop();
             timer = window.setInterval(function () { go(index + 1, false); }, autoplayMs);
         }
@@ -118,48 +113,37 @@
         }, { signal: signal });
 
         render();
+        var pause = document.createElement('button');
+        var pausedByUser = false;
+        pause.type = 'button';
+        pause.className = 'nm-carousel-pause';
+        pause.dataset.i18nIgnore = '';
+        function pauseLabel() {
+            var en = window.NamelessI18n && window.NamelessI18n.getLanguage() === 'en';
+            pause.textContent = pausedByUser ? (en ? 'Resume slides' : 'Reprendre le défilement') : (en ? 'Pause slides' : 'Suspendre le défilement');
+            pause.setAttribute('aria-pressed', String(pausedByUser));
+        }
+        pause.addEventListener('click', function () {pausedByUser = !pausedByUser; pausedByUser ? stop() : start(); pauseLabel();}, {signal:signal});
+        document.addEventListener('nameless:languagechange', pauseLabel, {signal:signal});
+        root.appendChild(pause);
+        pauseLabel();
         start();
 
         return {
             destroy: function () {
                 stop();
                 controller.abort();
+                pause.remove();
             }
         };
     }
 
-    function initReveal(root) {
-        var revealEls = Array.prototype.slice.call(root.querySelectorAll('.nm-reveal'));
-        if (!revealEls.length) return null;
-
-        var reduce = window.matchMedia &&
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        if (reduce || !('IntersectionObserver' in window)) {
-            revealEls.forEach(function (el) {
-                el.style.opacity = '1';
-                el.style.transform = 'none';
-            });
-            return null;
-        }
-
-        var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry, i) {
-                if (!entry.isIntersecting) return;
-                window.setTimeout(function () {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, i * 90);
-                observer.unobserve(entry.target);
-            });
-        }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-
-        revealEls.forEach(function (el) {
-            el.style.transition = 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
-            observer.observe(el);
+    function showContent(root) {
+        Array.prototype.forEach.call(root.querySelectorAll('.nm-reveal'), function (element) {
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+            element.style.transition = 'none';
         });
-
-        return observer;
     }
 
     function initHome(root) {
@@ -170,7 +154,7 @@
             var controller = initCarousel(carousel);
             if (controller) activeControllers.push(controller);
         });
-        activeRevealObserver = initReveal(scope);
+        showContent(scope);
     }
 
     window.NamelessHomePage = {

@@ -28,11 +28,12 @@ function captureReviewedKeys(relativeFile) {
 
 const reviewedKeys = new Set([
     ...captureReviewedKeys('js/i18n-en-reviewed.js'),
+    ...captureReviewedKeys('js/i18n-information-en-reviewed.js'),
     ...captureReviewedKeys('js/i18n-quests-en-reviewed.js')
 ]);
 
 const catalogueSandbox = { window: {} };
-for (const file of ['js/i18n-en.js', 'js/i18n-en-reviewed.js', 'js/i18n-quests-en-reviewed.js']) {
+for (const file of ['js/i18n-en.js', 'js/i18n-en-reviewed.js', 'js/i18n-quests-en-reviewed.js', 'js/i18n-information-en-reviewed.js']) {
     vm.runInNewContext(read(file), catalogueSandbox);
 }
 const catalogue = catalogueSandbox.window.NamelessTranslations.en;

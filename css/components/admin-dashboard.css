@@ -47,11 +47,13 @@ body {
 }
 
 .dashboard-header h1 {
-    color: #4ecdc4;
+    color: var(--sao-gold-light);
     font-family: 'Orbitron', sans-serif;
     font-size: 3rem;
     margin-bottom: 15px;
     text-shadow: 0 0 30px rgba(78, 205, 196, 0.4);
+
+    background: none;
 }
 
 .dashboard-header p {
@@ -78,9 +80,9 @@ body {
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
+    transform: none;
     border-color: #4ecdc4;
-    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.3);
+    box-shadow: none;
 }
 
 .stat-card h3 {
@@ -398,7 +400,7 @@ body {
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px);
+    backdrop-filter: none;
 }
 
 .modal.active {
@@ -412,14 +414,13 @@ body {
 }
 
 .modal-content {
-    background: linear-gradient(135deg, rgba(30, 30, 45, 0.98), rgba(20, 20, 35, 0.98));
+    background: var(--sao-bg-panel);
     padding: 40px;
-    border-radius: 20px;
+    border-radius: 6px;
     border: 2px solid rgba(78, 205, 196, 0.4);
     max-width: 500px;
     width: 90%;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(78, 205, 196, 0.2);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
     animation: slideIn 0.3s ease;
 }
 
@@ -864,7 +865,11 @@ body {
     
     .dashboard-header h1 {
         font-size: 1.8rem;
-    }
+
+    background: none;
+
+    color: var(--sao-gold-light);
+}
     
     .dashboard-header p {
         font-size: 0.9rem;
@@ -928,7 +933,13 @@ body {
         padding: 20px;
         max-height: 90vh;
         overflow-y: auto;
-    }
+
+    background: var(--sao-bg-panel);
+
+    border-radius: 6px;
+
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
     
     .modal-content h2 {
         font-size: 1.3rem;
@@ -993,7 +1004,11 @@ body {
     
     .dashboard-header h1 {
         font-size: 1.5rem;
-    }
+
+    background: none;
+
+    color: var(--sao-gold-light);
+}
     
     .users-table {
         font-size: 0.7rem;
@@ -1046,8 +1061,8 @@ body {
 }
 .dashboard-header h1 {
     font-family: var(--font-title) !important;
-    background: var(--nm-gold-grad); -webkit-background-clip: text; background-clip: text;
-    color: transparent !important; letter-spacing: 0.06em;
+    background: none; -webkit-background-clip: text; background-clip: text;
+    color: var(--sao-gold-light) !important; letter-spacing: 0.06em;
     text-shadow: none !important;
 }
 .dashboard-header p { color: var(--nm-steel) !important; }
@@ -1059,12 +1074,14 @@ body {
     border-radius: var(--nm-radius) !important;
     box-shadow: none !important;
 }
-.stat-card:hover { border-color: var(--sao-border-hover) !important; box-shadow: var(--sao-shadow) !important; }
+.stat-card:hover { border-color: var(--sao-border-hover) !important; box-shadow: none !important;
+    transform: none;
+}
 .stat-card h3 { color: var(--nm-steel) !important; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.72rem !important; }
 .stat-card .stat-number, .stat-number {
     font-family: var(--font-title) !important;
-    background: var(--nm-gold-grad); -webkit-background-clip: text; background-clip: text;
-    color: transparent !important; text-shadow: none !important;
+    background: none; -webkit-background-clip: text; background-clip: text;
+    color: var(--sao-text-bright) !important; text-shadow: none !important;
 }
 
 /* --- Onglets principaux --- */
@@ -1090,6 +1107,8 @@ body {
     background: var(--sao-bg-card) !important;
     border: 1px solid var(--sao-border) !important;
     border-radius: var(--nm-radius) !important;
+
+    box-shadow: none !important;
 }
 .users-header h2, .presence-header h2, .guild-section-heading,
 .activity-admin-title, .guild-form-container h3, .guild-list-container h3,
@@ -1154,16 +1173,20 @@ body {
 /* --- Boutons --- */
 .action-btn, .btn-edit, .btn-delete, .btn-submit, .btn-submit-activity, .btn-modal, .pagination-btn {
     font-family: var(--font-text) !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     letter-spacing: 0.03em;
 }
 .btn-submit, .btn-submit-activity, .btn-confirm {
-    background: linear-gradient(180deg, rgba(194,163,103,0.22), rgba(194,163,103,0.06)) !important;
+    background: rgba(194,163,103,0.12) !important;
     border: 1px solid var(--sao-border-hover) !important;
     color: var(--sao-gold-light) !important;
 }
 .btn-submit:hover, .btn-submit-activity:hover, .btn-confirm:hover {
-    border-color: var(--sao-gold) !important; box-shadow: var(--sao-glow-gold) !important;
+    border-color: var(--sao-gold) !important; box-shadow: none !important;
+
+    transform: none;
+
+    background: rgba(194,163,103,0.18) !important;
 }
 .btn-edit { background: rgba(111,146,179,0.14) !important; color: var(--sao-cyan) !important; border: 1px solid var(--sao-border-cyan) !important; }
 .btn-delete { background: rgba(193,88,95,0.14) !important; color: #e59aa0 !important; border: 1px solid rgba(193,88,95,0.4) !important; }
@@ -1191,7 +1214,9 @@ body {
 .error-message h2 { color: #e59aa0 !important; font-family: var(--font-title) !important; }
 
 /* --- Modal --- */
-.modal-content { background: linear-gradient(160deg, rgba(16,22,40,0.98), rgba(8,11,20,0.99)) !important; border: 1px solid var(--sao-border-hover) !important; border-radius: 14px !important; }
+.modal-content { background: var(--sao-bg-panel) !important; border: 1px solid var(--sao-border-hover) !important; border-radius: 6px !important;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
 .modal-header { color: var(--sao-gold-light) !important; font-family: var(--font-title) !important; }
 .modal-label { color: var(--nm-steel) !important; }
 
@@ -1199,3 +1224,17 @@ body {
 .mc-status { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3px; white-space: nowrap; }
 .mc-status-none { background: rgba(136, 136, 136, 0.15); color: #9aa3b2; border: 1px solid rgba(136, 136, 136, 0.35); }
 .mc-status-detected { background: rgba(255, 165, 0, 0.12); color: #f7b955; border: 1px solid rgba(247, 185, 85, 0.4); }
+/* Keep all administration sections reachable on small screens. */
+.admin-field-label { display: block; color: var(--sao-text-bright); font-size: .9rem; }
+.dashboard-tabs { overflow-x: auto; max-width: 100%; }
+.modal[aria-hidden="true"] { display: none !important; }
+@media (max-width: 768px) {
+    .guild-form-container input, .guild-form-container textarea, .guild-form-container select { min-width: 0; width: 100%; box-sizing: border-box; }
+    .modal-content { max-height: calc(100dvh - 2rem); overflow-y: auto;
+    background: var(--sao-bg-panel);
+
+    border-radius: 6px;
+
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
+}

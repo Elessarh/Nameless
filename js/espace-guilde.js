@@ -1,14 +1,19 @@
+(function () {
+'use strict';
 /* espace-guilde.js - Gestion de l'espace guilde pour les membres */
 
 let guildInitToken = 0;
 
 // Fonction pour changer d'onglet
-function switchGuildeTab(tabName) {
+function switchGuildeTab(tabName, persist = true) {
+    if (!['planning', 'objectives', 'presence'].includes(tabName)) tabName = 'planning';
     // console.log('[GUILDE] Changement d\'onglet vers:', tabName);
     
     // Retirer la classe active de tous les boutons et contenus
     document.querySelectorAll('.guilde-tab-btn').forEach(btn => {
         btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.tabIndex = -1;
     });
     document.querySelectorAll('.guilde-tab-content').forEach(content => {
         content.classList.remove('active');
@@ -19,14 +24,18 @@ function switchGuildeTab(tabName) {
     const activeButton = document.querySelector(`.guilde-tab-btn[data-tab="${tabName}"]`);
     const activeContent = document.querySelector(`.guilde-tab-content[data-tab-content="${tabName}"]`);
     
-    if (activeButton) activeButton.classList.add('active');
+    if (activeButton) {
+        activeButton.classList.add('active');
+        activeButton.setAttribute('aria-selected', 'true');
+        activeButton.tabIndex = 0;
+    }
     if (activeContent) {
         activeContent.classList.add('active');
         activeContent.style.display = 'block';
     }
     
     // Sauvegarder l'onglet actif dans localStorage
-    localStorage.setItem('guildeActiveTab', tabName);
+    if (persist) { try { localStorage.setItem('guildeActiveTab', tabName); } catch (_) {} }
 }
 
 // Attendre que l'auth soit prête
@@ -42,14 +51,26 @@ async function initGuildPage() {
         if (btn.dataset.guildTabBound === 'true') return;
         btn.dataset.guildTabBound = 'true';
         btn.addEventListener('click', () => switchGuildeTab(btn.dataset.tab));
+        btn.addEventListener('keydown', (event) => {
+            const tabs = [...document.querySelectorAll('.guilde-tab-btn')];
+            const index = tabs.indexOf(btn);
+            const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
+                : event.key === 'ArrowRight' ? (index + 1) % tabs.length
+                : event.key === 'ArrowLeft' ? (index + tabs.length - 1) % tabs.length : -1;
+            if (next < 0) return;
+            event.preventDefault();
+            switchGuildeTab(tabs[next].dataset.tab);
+            tabs[next].focus();
+        });
     });
 
+    switchGuildeTab('planning', false);
     // Attendre que Supabase et l'utilisateur soient prêts
-    await waitForGuildAuth();
+    if (!await waitForGuildAuth(token)) return;
     if (token !== guildInitToken) return;
     
     // Vérifier que l'utilisateur est membre ou admin
-    await checkMemberAccess();
+    await checkMemberAccess(token);
 }
 
 function destroyGuildPage() {
@@ -76,18 +97,19 @@ function hideGuildeLinkFromMenu() {
 }
 
 // Attendre que l'authentification soit prête
-function waitForGuildAuth() {
+function waitForGuildAuth(token) {
     return new Promise((resolve) => {
         let attempts = 0;
         const maxAttempts = 100;
         
         const checkAuth = setInterval(() => {
             attempts++;
+            if (token !== guildInitToken) { clearInterval(checkAuth); resolve(false); return; }
             
             if (typeof supabase !== 'undefined' && supabase !== null && window.currentUser !== null && window.currentUser !== undefined) {
                 clearInterval(checkAuth);
                 // console.log('[OK] Auth prete et utilisateur connecte');
-                resolve();
+                resolve(true);
             } else if ((window.namelessAuthReady && !window.currentUser) || attempts >= maxAttempts) {
                 clearInterval(checkAuth);
                 // console.error('[ERREUR] Timeout: utilisateur non connecte');
@@ -117,7 +139,7 @@ async function getCurrentUserRole() {
     return String(data || '').trim();
 }
 
-async function checkMemberAccess() {
+async function checkMemberAccess(token) {
     try {
         if (!window.currentUser) {
             // console.error('[ERREUR] Pas d utilisateur connecte');
@@ -126,25 +148,28 @@ async function checkMemberAccess() {
         }
         
         const role = await getCurrentUserRole();
+        if (token !== guildInitToken) return;
         
         if (role === 'membre' || role === 'admin') {
             // console.log('[OK] Acces autorise - Role:', role);
-            await loadGuildeData();
+            await loadGuildeData(token);
+            if (token !== guildInitToken) return;
             
             // Restaurer l'onglet actif depuis localStorage
-            const savedTab = localStorage.getItem('guildeActiveTab');
+            let savedTab = null;
+            try { savedTab = localStorage.getItem('guildeActiveTab'); } catch (_) {}
             if (savedTab) {
                 switchGuildeTab(savedTab);
             }
         } else {
             // console.warn('[ATTENTION] Acces refuse - Role:', role);
-            showAccessDenied('Accès réservé aux membres de la guilde. Rôle membre non détecté côté Supabase.');
+            showAccessDenied('Cet espace est réservé aux membres de Nameless. Contactez un administrateur si vous avez déjà rejoint la guilde.');
         }
         
     } catch (error) {
         // console.error('[ERREUR] Erreur verification acces:', error);
         logGuildWarning('member_access_failed', error);
-        showAccessDenied('Erreur Supabase : voir console.');
+        if (token === guildInitToken) showAccessDenied('Impossible de vérifier votre accès. Réessayez dans un instant.');
     }
 }
 
@@ -161,18 +186,20 @@ function showAccessDenied(message) {
 }
 
 // Charger toutes les données de la guilde
-async function loadGuildeData() {
+async function loadGuildeData(token) {
+    if (token !== guildInitToken || !document.getElementById('guilde-content')) return;
     document.getElementById('loading').style.display = 'none';
     document.getElementById('guilde-content').style.display = 'block';
     
     // Charger les trois sections en parallèle
     await Promise.all([
-        loadPlanning(),
-        loadObjectives(),
-        loadPresence(),
-        loadActivityWall()
+        loadPlanning(token),
+        loadObjectives(token),
+        loadPresence(token),
+        loadActivityWall(token)
     ]);
     
+    if (token !== guildInitToken) return;
     // Event listeners pour les boutons d'appel
     const presenceBtn = document.getElementById('mark-presence-btn');
     const absenceBtn = document.getElementById('mark-absence-btn');
@@ -187,7 +214,7 @@ async function loadGuildeData() {
 }
 
 // ========== PLANNING ==========
-async function loadPlanning() {
+async function loadPlanning(token = guildInitToken) {
     try {
         // Utiliser le cache
         const cacheKey = 'guild_planning';
@@ -211,7 +238,7 @@ async function loadPlanning() {
             // console.error('[ERREUR] Erreur chargement planning:', error);
             logGuildWarning('planning_load_failed', error);
             const container = document.getElementById('planning-list');
-            if (container) container.textContent = 'Erreur de chargement du planning.';
+            if (token === guildInitToken && container) container.textContent = 'Erreur de chargement du planning.';
             return;
         }
         
@@ -220,19 +247,20 @@ async function loadPlanning() {
             window.cacheManager.set(cacheKey, data || []);
         }
         
-        displayPlanning(data || []);
+        if (token === guildInitToken) displayPlanning(data || []);
         // console.log('[OK] Planning charge:', (data || []).length, 'evenements');
         
     } catch (error) {
         // console.error('[ERREUR]:', error);
         logGuildWarning('planning_load_failed', error);
         const container = document.getElementById('planning-list');
-        if (container) container.textContent = 'Erreur technique lors du chargement du planning.';
+        if (token === guildInitToken && container) container.textContent = 'Erreur technique lors du chargement du planning.';
     }
 }
 
 function displayPlanning(data) {
     const container = document.getElementById('planning-list');
+    if (!container) return;
     
     if (!data || data.length === 0) {
         container.innerHTML = '<div class="no-data">Aucun evenement planifie</div>';
@@ -247,12 +275,13 @@ function displayPlanning(data) {
         </div>
     `).join('');
 }// ========== OBJECTIFS ==========
-async function loadObjectives() {
+async function loadObjectives(token = guildInitToken) {
     try {
         // Obtenir le numéro de semaine actuel
         const now = new Date();
-        const weekNumber = getWeekNumber(now);
-        const year = now.getFullYear();
+        const week = window.NamelessGuildDates.isoWeek(now);
+        const weekNumber = week.week;
+        const year = week.year;
         
         // Utiliser le cache
         const cacheKey = `guild_objectives_${year}_${weekNumber}`;
@@ -276,7 +305,7 @@ async function loadObjectives() {
             // console.error('[ERREUR] Erreur chargement objectifs:', error);
             logGuildWarning('objectives_load_failed', error);
             const container = document.getElementById('objectives-list');
-            if (container) container.textContent = 'Erreur de chargement des objectifs.';
+            if (token === guildInitToken && container) container.textContent = 'Erreur de chargement des objectifs.';
             return;
         }
         
@@ -285,19 +314,20 @@ async function loadObjectives() {
             window.cacheManager.set(cacheKey, data || []);
         }
         
-        displayObjectives(data || []);
+        if (token === guildInitToken) displayObjectives(data || []);
         // console.log('[OK] Objectifs charges:', (data || []).length);
         
     } catch (error) {
         // console.error('[ERREUR]:', error);
         logGuildWarning('objectives_load_failed', error);
         const container = document.getElementById('objectives-list');
-        if (container) container.textContent = 'Erreur technique lors du chargement des objectifs.';
+        if (token === guildInitToken && container) container.textContent = 'Erreur technique lors du chargement des objectifs.';
     }
 }
 
 function displayObjectives(data) {
     const container = document.getElementById('objectives-list');
+    if (!container) return;
     
     if (!data || data.length === 0) {
         container.innerHTML = '<div class="no-data">Aucun objectif defini pour cette semaine</div>';
@@ -325,9 +355,9 @@ function displayObjectives(data) {
 }
 
 // ========== PRÉSENCE ==========
-async function loadPresence() {
+async function loadPresence(token = guildInitToken) {
     try {
-        const today = new Date().toISOString().split('T')[0];
+        const today = window.NamelessGuildDates.dateKey();
         
         // console.log('[DEBUG] Chargement presences pour:', today);
         
@@ -341,6 +371,7 @@ async function loadPresence() {
         if (presencesError) {
             // console.error('[ERREUR] Erreur chargement presences:', presencesError);
             const container = document.getElementById('presence-list');
+            if (token !== guildInitToken || !container) return;
             container.innerHTML = '<div class="no-data">Erreur de chargement des presences</div>';
             return;
         }
@@ -348,6 +379,10 @@ async function loadPresence() {
         // console.log('[DEBUG] Presences recues:', presences);
         
         const container = document.getElementById('presence-list');
+        if (token !== guildInitToken || !container) return;
+        const ownPresence = (presences || []).find((entry) => entry.user_id === window.currentUser?.id);
+        document.getElementById('mark-presence-btn')?.setAttribute('aria-pressed', ownPresence?.statut === 'present' ? 'true' : 'false');
+        document.getElementById('mark-absence-btn')?.setAttribute('aria-pressed', ownPresence?.statut === 'absent' ? 'true' : 'false');
         
         if (!presences || presences.length === 0) {
             container.innerHTML = '<div class="no-data">Aucune presence enregistree aujourd hui</div>';
@@ -368,6 +403,7 @@ async function loadPresence() {
             return;
         }
         
+        if (token !== guildInitToken) return;
         // Créer un map des profils par ID
         const profileMap = {};
         (profiles || []).forEach(p => {
@@ -412,67 +448,30 @@ async function loadPresence() {
 }
 
 // Marquer sa présence ou absence
+let markingPresence = false;
 async function markPresence(statut = 'present') {
+    if (markingPresence || !window.currentUser || !['present', 'absent'].includes(statut)) return;
+    markingPresence = true;
+    const token = guildInitToken;
+    const buttons = [...document.querySelectorAll('.appel-actions button')];
+    const feedback = document.getElementById('presence-feedback');
+    buttons.forEach((button) => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
+    if (feedback) feedback.textContent = 'Enregistrement…';
     try {
-        const today = new Date().toISOString().split('T')[0];
-        
-        // Vérifier si déjà marqué
-        const { data: existing } = await supabase
-            .from('guild_presence')
-            .select('id, statut')
-            .eq('user_id', window.currentUser.id)
-            .eq('date_presence', today)
-            .single();
-        
-        if (existing) {
-            // Mettre à jour le statut si différent
-            if (existing.statut !== statut) {
-                const { error: updateError } = await supabase
-                    .from('guild_presence')
-                    .update({ statut: statut })
-                    .eq('id', existing.id);
-                
-                if (updateError) {
-                    // console.error('[ERREUR] Erreur mise a jour statut:', updateError);
-                    alert('Impossible de mettre a jour votre statut.');
-                    return;
-                }
-                
-                const message = statut === 'present' ? 'Presence enregistree !' : 'Absence enregistree.';
-                alert(message);
-                await loadPresence();
-                return;
-            } else {
-                const message = statut === 'present' 
-                    ? 'Votre presence a deja ete enregistree !' 
-                    : 'Votre absence a deja ete enregistree.';
-                alert(message);
-                return;
-            }
-        }
-        
-        // Insérer la présence/absence
-        const { error } = await supabase
-            .from('guild_presence')
-            .insert({
-                user_id: window.currentUser.id,
-                date_presence: today,
-                statut: statut
-            });
-        
-        if (error) {
-            // console.error('[ERREUR] Erreur marquage presence:', error);
-            alert('Impossible de marquer votre statut. Reessayez.');
-            return;
-        }
-        
-        const message = statut === 'present' ? 'Presence enregistree avec succes !' : 'Absence enregistree.';
-        alert(message);
-        await loadPresence(); // Recharger la liste
-        
+        const { error } = await supabase.from('guild_presence').upsert({
+            user_id: window.currentUser.id,
+            date_presence: window.NamelessGuildDates.dateKey(),
+            statut: statut
+        }, { onConflict: 'user_id,date_presence' });
+        if (token !== guildInitToken) return;
+        if (error) throw error;
+        if (feedback) feedback.textContent = statut === 'present' ? 'Votre présence est enregistrée pour aujourd’hui.' : 'Votre absence est enregistrée pour aujourd’hui.';
+        await loadPresence(token);
     } catch (error) {
-        // console.error('[ERREUR]:', error);
-        alert('Une erreur est survenue.');
+        if (token === guildInitToken && feedback) feedback.textContent = 'Impossible d’enregistrer votre statut. Réessayez dans un instant.';
+    } finally {
+        markingPresence = false;
+        buttons.forEach((button) => { button.disabled = false; button.removeAttribute('aria-busy'); });
     }
 }
 
@@ -493,14 +492,6 @@ function getPresenceDisplayName(profile) {
     return 'Joueur inconnu';
 }
 
-function getWeekNumber(date) {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-}
-
 function formatDate(dateString) {
     const date = new Date(dateString);
     const options = { 
@@ -509,16 +500,17 @@ function formatDate(dateString) {
         month: 'long', 
         day: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        timeZone: window.NamelessGuildDates.timeZone
     };
     return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
 }
 
 function formatEventType(type) {
     const types = {
-        'reunion': 'Reunion',
+        'reunion': 'Réunion',
         'raid': 'Raid',
-        'event': 'Evenement',
+        'event': 'Événement',
         'pvp': 'PvP',
         'construction': 'Construction',
         'autre': 'Autre'
@@ -529,15 +521,15 @@ function formatEventType(type) {
 function formatStatus(status) {
     const statuses = {
         'en_cours': 'En cours',
-        'termine': 'Termine',
-        'abandonne': 'Abandonne'
+        'termine': 'Terminé',
+        'abandonne': 'Abandonné'
     };
     return statuses[status] || status;
 }
 
 function formatPresenceStatus(status) {
     const statuses = {
-        'present': 'Present',
+        'present': 'Présent',
         'absent': 'Absent',
         'en_mission': 'En mission'
     };
@@ -554,7 +546,7 @@ function escapeHtml(text) {
 }
 
 // ========== MUR D'ACTIVITÉ ==========
-async function loadActivityWall() {
+async function loadActivityWall(token = guildInitToken) {
     try {
         // console.log('[GUILDE] Chargement du mur d\'activité...');
         
@@ -563,7 +555,7 @@ async function loadActivityWall() {
         const cached = window.cacheManager?.get(cacheKey);
         
         if (cached) {
-            displayActivityWall(cached);
+            await displayActivityWall(cached, token);
             // console.log('[OK] Mur d\'activité chargé depuis cache');
             return;
         }
@@ -579,7 +571,7 @@ async function loadActivityWall() {
             // console.error('[ERREUR] Erreur chargement activités:', error);
             logGuildWarning('activity_wall_load_failed', error);
             const container = document.getElementById('activity-wall-content');
-            if (container) container.textContent = 'Erreur de chargement du mur d’activité.';
+            if (token === guildInitToken && container) container.textContent = 'Erreur de chargement du mur d’activité.';
             return;
         }
         
@@ -588,34 +580,34 @@ async function loadActivityWall() {
             window.cacheManager.set(cacheKey, data || [], 60000);
         }
         
-        displayActivityWall(data || []);
+        if (token === guildInitToken) await displayActivityWall(data || [], token);
         // console.log('[OK] Mur d\'activité chargé:', (data || []).length, 'publications');
         
     } catch (error) {
         // console.error('[ERREUR] Erreur mur d\'activité:', error);
         logGuildWarning('activity_wall_load_failed', error);
         const container = document.getElementById('activity-wall-content');
-        if (container) container.textContent = 'Erreur technique lors du chargement du mur d’activité.';
+        if (token === guildInitToken && container) container.textContent = 'Erreur technique lors du chargement du mur d’activité.';
     }
 }
 
-function displayActivityWall(activities) {
+async function displayActivityWall(activities, token = guildInitToken) {
     const container = document.getElementById('activity-wall-content');
+    if (!container || token !== guildInitToken) return;
     
     if (!activities || activities.length === 0) {
         container.innerHTML = `
             <div class="no-activities">
-                <div class="no-activities-icon">📋</div>
                 <p class="no-activities-text">Aucune activité pour le moment</p>
             </div>
         `;
         return;
     }
     
-    container.innerHTML = activities.map(activity => {
+    const posts = await Promise.all(activities.map(async (activity) => {
         // URL image validée (https, pas de javascript:/data:). Rejetée => pas d'image.
         const safeImg = (window.NamelessSecurity && activity.image_url)
-            ? window.NamelessSecurity.sanitizeImageUrl(activity.image_url)
+            ? await window.NamelessSecurity.resolveMediaUrl(activity.image_url, { client: supabase }).catch(() => '')
             : '';
         // Type limité à un mot alphanumérique pour l'usage dans une classe CSS.
         const safeType = String(activity.type || 'annonce').replace(/[^a-z0-9_-]/gi, '');
@@ -628,14 +620,15 @@ function displayActivityWall(activities) {
                 </div>
             </div>
             <div class="activity-post-content">${escapeHtml(activity.contenu)}</div>
-            ${safeImg ? `<img src="${escapeHtml(safeImg)}" alt="Image" class="activity-post-image">` : ''}
+            ${safeImg ? `<img src="${escapeHtml(safeImg)}" alt="${escapeHtml(activity.titre)}" class="activity-post-image" loading="lazy" decoding="async">` : ''}
             <div class="activity-post-footer">
                 <span class="activity-post-author">Par ${escapeHtml(activity.author_name || 'Admin')}</span>
                 <span class="activity-post-type type-${safeType}">${escapeHtml(formatActivityType(activity.type))}</span>
             </div>
         </div>
     `;
-    }).join('');
+    }));
+    if (token === guildInitToken && container.isConnected) container.innerHTML = posts.join('');
 }
 
 function formatActivityDate(dateString) {
@@ -657,10 +650,12 @@ function formatActivityDate(dateString) {
 
 function formatActivityType(type) {
     const types = {
-        'annonce': '📢 Annonce',
-        'evenement': '📅 Événement',
-        'info': 'ℹ️ Info',
-        'victoire': '🏆 Victoire'
+        'annonce': 'Annonce',
+        'evenement': 'Événement',
+        'info': 'Information',
+        'victoire': 'Victoire'
     };
-    return types[type] || '📢 Annonce';
+    return types[type] || 'Annonce';
 }
+
+})();

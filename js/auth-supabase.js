@@ -1,3 +1,4 @@
+var namelessSupabaseLibrary = window.supabase || (window.supabasejs && window.supabasejs.supabase);
 var supabase = null;
 
 function _escHtml(t){if(window.NamelessSecurity&&window.NamelessSecurity.escapeHtml)return window.NamelessSecurity.escapeHtml(t);if(!t)return'';var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
@@ -13,27 +14,21 @@ async function initSupabase() {
             throw new Error('Init error');
         }
         
-        const supabaseLib = window.supabase || (window.supabasejs && window.supabasejs.supabase);
+        const supabaseLib = namelessSupabaseLibrary || window.supabase || (window.supabasejs && window.supabasejs.supabase);
         
         if (!supabaseLib || typeof supabaseLib.createClient !== 'function') {
             // console.log('⏳ Chargement de la bibliothèque Supabase...');
             await new Promise((resolve, reject) => {
                 const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';
+                const authScript = document.querySelector('script[src*="auth-supabase.js"]');
+                const scriptBase = authScript ? authScript.src : new URL('/js/auth-supabase.js', window.location.origin).href;
+                script.src = new URL('vendor/supabase-2.117.2.min.js?v=20261007a', scriptBase).href;
                 script.onload = () => {
                     // console.log('✅ Script Supabase chargé depuis jsdelivr');
                     resolve();
                 };
                 script.onerror = () => {
-                    // console.warn('⚠️ Échec jsdelivr, essai avec unpkg...');
-                    const altScript = document.createElement('script');
-                    altScript.src = 'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js';
-                    altScript.onload = () => {
-                        // console.log('✅ Script Supabase chargé depuis unpkg');
-                        resolve();
-                    };
-                    altScript.onerror = () => reject(new Error('Impossible de charger Supabase depuis aucun CDN'));
-                    document.head.appendChild(altScript);
+                    reject(new Error('Impossible de charger le client Supabase local'));
                 };
                 document.head.appendChild(script);
             });
@@ -43,7 +38,7 @@ async function initSupabase() {
         }
         
         // Récupérer la fonction createClient
-        const createClient = window.supabase?.createClient || window.supabasejs?.supabase?.createClient;
+        const createClient = supabaseLib?.createClient || window.supabase?.createClient || window.supabasejs?.supabase?.createClient;
         
         if (!createClient || typeof createClient !== 'function') {
             throw new Error('createClient non disponible après chargement');
@@ -417,18 +412,33 @@ async function logoutUser() {
     try {
         const { error } = await supabase.auth.signOut();
         if (error) {
-            // console.error('Erreur lors de la déconnexion:', error);
+            showMessage('Déconnexion impossible. Veuillez réessayer.', 'error');
+            return false;
         }
         
-        currentUser = null;
-        userProfile = null;
+        clearAuthenticatedState();
         
         // Rediriger vers l'accueil
         navigateHome();
         
     } catch (error) {
-        // console.error('Erreur technique lors de la déconnexion:', error);
+        showMessage('Déconnexion impossible. Veuillez réessayer.', 'error');
+        return false;
     }
+}
+
+function clearAuthenticatedState() {
+    currentUser = null;
+    userProfile = null;
+    window.currentUser = null;
+    window.userProfile = null;
+    usernamePendingMap.clear();
+    if (window.cacheManager && window.cacheManager.clear) window.cacheManager.clear();
+    if (window.NamelessSecurity && window.NamelessSecurity.clearPrivateMediaCache) window.NamelessSecurity.clearPrivateMediaCache();
+    if (window.NamelessGuildChat && window.NamelessGuildChat.destroy) window.NamelessGuildChat.destroy();
+    if (window.NamelessGuildDm && window.NamelessGuildDm.destroy) window.NamelessGuildDm.destroy();
+    document.dispatchEvent(new CustomEvent('nameless:auth-changed', { detail: { user: null } }));
+    checkAuthState();
 }
 
 // ========== CONNEXION MICROSOFT OAUTH ==========
@@ -490,20 +500,23 @@ function handleConnexionPageAuth() {
 
 async function loadUserProfile() {
     if (!currentUser) return null;
+    const profileUserId = currentUser.id;
     
     try {
         const { data, error } = await supabase
             .from('user_profiles')
             .select('*')
-            .eq('id', currentUser.id)
+            .eq('id', profileUserId)
             .single();
+        if (!currentUser || currentUser.id !== profileUserId) return null;
             
         if (error) {
             if (error.code === 'PGRST116' || error.message.includes('406')) {
                 return await createMissingProfile();
             } else {
-                // console.error('Erreur chargement profil:', error);
-                return await createMissingProfile();
+                userProfile = null;
+                window.userProfile = null;
+                return null;
             }
         }
         
@@ -518,20 +531,15 @@ async function loadUserProfile() {
         return userProfile;
         
     } catch (error) {
-        // console.error('Erreur technique chargement profil:', error);
-        
-        try {
-            return await createMissingProfile();
-        } catch (recoveryError) {
-            // console.error('Échec de la récupération automatique:', recoveryError);
-            showMessage('Erreur de synchronisation. Rechargez la page.', 'error');
-            return null;
-        }
+        userProfile = null;
+        window.userProfile = null;
+        return null;
     }
 }
 
 async function createMissingProfile() {
     if (!currentUser) return null;
+    const profileUserId = currentUser.id;
     
     try {
         let username = usernamePendingMap.get(currentUser.email);
@@ -549,13 +557,14 @@ async function createMissingProfile() {
             .from('user_profiles')
             .insert([
                 {
-                    id: currentUser.id,
+                    id: profileUserId,
                     username: username,
                     role: 'joueur'
                 }
             ])
             .select()
             .single();
+        if (!currentUser || currentUser.id !== profileUserId) return null;
             
         if (error) {
             // console.error('Erreur création profil:', error);
@@ -756,41 +765,29 @@ document.addEventListener('DOMContentLoaded', async function() {
     window.namelessAuthReady = true;
 
     // Écouter les changements d'authentification
-    supabase.auth.onAuthStateChange(async (event, session) => {
-        try {
-            if ((event === 'INITIAL_SESSION' || event === 'SIGNED_IN') && session?.user) {
-                currentUser = session.user;
-                window.currentUser = currentUser;
-                try {
-                    await loadUserProfile();
-                } catch (profileErr) {
-                    // Profil échoué, UI mise à jour quand même
-                }
-                checkAuthState();
-                
-                // Redirection propre apres connexion.
-                if (event === 'SIGNED_IN') {
-                    handleConnexionPageAuth();
-                }
-            } else if (event === 'INITIAL_SESSION' && !session) {
-                currentUser = null;
-                userProfile = null;
-                window.currentUser = null;
-                window.userProfile = null;
-                checkAuthState();
-            } else if (event === 'SIGNED_OUT') {
-                currentUser = null;
-                userProfile = null;
-                window.currentUser = null;
-                window.userProfile = null;
-                checkAuthState();
-            } else if (event === 'TOKEN_REFRESHED' && session?.user) {
-                currentUser = session.user;
-                window.currentUser = currentUser;
-            }
-        } catch (err) {
-            checkAuthState();
+    // The SDK dispatches this callback while holding its auth lock. Defer
+    // database work until it releases the lock; never await SDK calls here.
+    let authRevision = 0;
+    supabase.auth.onAuthStateChange((event, session) => {
+        const revision = ++authRevision;
+        if (event === 'SIGNED_OUT' || (event === 'INITIAL_SESSION' && !session)) {
+            clearAuthenticatedState();
+            return;
         }
+        if (!session || !session.user) return;
+        if (currentUser && currentUser.id !== session.user.id) clearAuthenticatedState();
+        currentUser = session.user;
+        window.currentUser = currentUser;
+        if (event === 'TOKEN_REFRESHED') return;
+        if (event !== 'INITIAL_SESSION' && event !== 'SIGNED_IN' && event !== 'USER_UPDATED') return;
+        setTimeout(async () => {
+            if (revision !== authRevision || !currentUser || currentUser.id !== session.user.id) return;
+            await loadUserProfile();
+            if (revision !== authRevision || !currentUser || currentUser.id !== session.user.id) return;
+            checkAuthState();
+            document.dispatchEvent(new CustomEvent('nameless:auth-changed', { detail: { user: currentUser } }));
+            if (event === 'SIGNED_IN') handleConnexionPageAuth();
+        }, 0);
     });
     
     // === MICROSOFT OAUTH ===

@@ -5,6 +5,10 @@
 
     var activeInstance = null;
 
+    function normalizeSearch(value) {
+        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+
     class QuestSystem {
         constructor(root) {
             this.root = root && root.querySelector ? root : document;
@@ -50,6 +54,8 @@
             this.wireControls();
             this.applyFilters();
             this.render();
+            this.applyUrl();
+            this.on(document, 'nameless:routechange', this.applyUrl.bind(this));
         }
 
         destroy() {
@@ -71,9 +77,10 @@
                     el: step,
                     section: section,
                     group: group,
+                    id: step.id,
                     tier: section ? section.getAttribute('data-tier') : '1',
                     category: section ? section.getAttribute('data-category') : '',
-                    text: (step.textContent || '').toLowerCase()
+                    text: normalizeSearch(step.textContent)
                 });
             }, this);
         }
@@ -81,9 +88,11 @@
         wireControls() {
             var filterBtns = this.$all('.quest-filter-btn');
             filterBtns.forEach(function (btn) {
+                btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
                 this.on(btn, 'click', function () {
-                    filterBtns.forEach(function (b) { b.classList.remove('active'); });
+                    filterBtns.forEach(function (b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
                     btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
                     this.currentFilter = btn.getAttribute('data-filter') || 'all';
                     this.currentPage = 1;
                     this.applyFilters();
@@ -101,7 +110,7 @@
 
             var searchInput = this.$('#quest-search-input');
             this.on(searchInput, 'input', function () {
-                this.search = searchInput.value.trim().toLowerCase();
+                this.search = normalizeSearch(searchInput.value);
                 this.currentPage = 1;
                 this.applyFilters();
                 this.render();
@@ -117,6 +126,7 @@
             this.on(this.container, 'click', function (event) {
                 var coord = event.target.closest('.coordinates');
                 if (!coord) return;
+                if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button > 0) return;
                 event.preventDefault();
                 var x = coord.getAttribute('data-x');
                 var y = coord.getAttribute('data-y');
@@ -132,6 +142,31 @@
                     }
                 }
             }.bind(this));
+        }
+
+        applyUrl() {
+            var id = new URLSearchParams(window.location.search).get('quest');
+            if (!id) return;
+            var quest = this.allQuests.find(function (entry) { return entry.id === id; });
+            if (!quest) return;
+            this.currentTier = quest.tier;
+            this.currentFilter = 'all';
+            this.search = '';
+            var tier = this.$('#tier-select');
+            var search = this.$('#quest-search-input');
+            if (tier) tier.value = quest.tier;
+            if (search) search.value = '';
+            this.$all('.quest-filter-btn').forEach(function (button) {
+                var active = button.dataset.filter === 'all';
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+            this.applyFilters();
+            this.currentPage = Math.floor(this.filtered.indexOf(quest) / this.questsPerPage) + 1;
+            this.render();
+            quest.el.tabIndex = -1;
+            quest.el.focus({ preventScroll: true });
+            quest.el.scrollIntoView({ block: 'center', behavior: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
         }
 
         applyFilters() {
@@ -221,7 +256,10 @@
             opts = opts || {};
             var button = document.createElement('button');
             button.className = 'pagination-btn' + (opts.active ? ' active' : '');
+            button.type = 'button';
             button.textContent = label;
+            button.setAttribute('aria-label', label === '‹' ? 'Page précédente' : label === '›' ? 'Page suivante' : 'Page ' + label);
+            if (opts.active) button.setAttribute('aria-current', 'page');
             if (opts.disabled) button.disabled = true;
             else button.dataset.page = String(page);
             return button;
@@ -239,7 +277,7 @@
             if (page < 1 || page > total) return;
             this.currentPage = page;
             this.render();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
         }
 
         updateTierIndicator() {

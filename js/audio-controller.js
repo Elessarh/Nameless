@@ -293,17 +293,18 @@
             prevBtn.setAttribute('aria-label', previousPrefix + (previous === -1 ? unavailable : previousLabel));
             prevBtn.title = prevBtn.getAttribute('aria-label');
             btn.title = TRACKS[current].label;
+            updateToggleCopy();
         }
 
         function updateToggleCopy() {
             if (btn.classList.contains('needs-resume')) {
-                btn.setAttribute('aria-label', isEnglish() ? 'Resume background music' : "Reprendre l'ambiance sonore");
+                btn.setAttribute('aria-label', TRACKS[current].label + ' — ' + (isEnglish() ? 'Resume background music' : "Reprendre l'ambiance sonore"));
                 return;
             }
             var on = btn.classList.contains('is-on');
-            btn.setAttribute('aria-label', on
+            btn.setAttribute('aria-label', TRACKS[current].label + ' — ' + (on
                 ? (isEnglish() ? 'Mute background music' : "Couper l'ambiance sonore")
-                : (isEnglish() ? 'Play background music' : "Activer l'ambiance sonore"));
+                : (isEnglish() ? 'Play background music' : "Activer l'ambiance sonore")));
         }
 
         function setOn(on) {

@@ -525,7 +525,7 @@
 
 .planning-item:hover, .objective-item:hover {
     background: rgba(78, 205, 196, 0.1);
-    transform: translateX(5px);
+    transform: none;
 }
 
 .item-title {

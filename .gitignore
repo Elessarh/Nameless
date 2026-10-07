@@ -39,6 +39,8 @@ pnpm-debug.log*
 .cache/
 .npm/
 coverage/
+_site/
+docs/performance/lighthouse/*.json
 
 # Temporary and backup files
 *.tmp

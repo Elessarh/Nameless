@@ -1,0 +1,24 @@
+.nm-search-trigger { flex: 0 0 40px; min-width: 40px; height: 40px; padding: 0; font-size: 1.8rem; color: var(--sao-gold-light); background: #0a0f1d; border: 1px solid var(--nm-hairline); border-radius: 4px; margin-left: 6px; }
+.nm-search-dialog { position: fixed; inset: 0; margin: auto; width: min(640px, calc(100vw - 24px)); max-height: min(760px, calc(100dvh - 24px)); padding: 24px; color: #c3c8d2; background: #0a0f1d; border: 1px solid #8a6c3c; border-radius: 6px; box-shadow: 0 24px 80px #0009; overflow-y: auto; }
+.nm-search-dialog::backdrop { background: #02040dcc; }
+.nm-search-dialog h2 { color: var(--sao-gold-light); padding-right: 36px; font-size: 1.25rem; margin-bottom: 18px; }
+.nm-search-close { position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; padding: 0; font-size: 1.6rem; }
+.nm-search-dialog label { display: block; margin-bottom: 8px; font-size: .9rem; }
+.nm-search-dialog input { display: block; width: 100%; min-height: 44px; font-size: 16px; padding: 10px 12px; margin-bottom: 12px; color: #e8eaf0; background: #05070d; border: 1px solid #6f92b3; }
+.nm-search-dialog button[aria-pressed="true"] { color: #e4cd97; border-color: #c2a367; }
+.nm-search-note, .nm-search-status { color: #aeb6c7; font-size: .8rem; margin-top: 8px; }
+.nm-search-results h3 { color: #e4cd97; font-size: .85rem; margin: 18px 0 6px; }
+.nm-search-result { display: flex; align-items: stretch; border-bottom: 1px solid #c2a36725; }
+.nm-search-result a { flex: 1; min-width: 0; display: flex; flex-direction: column; color: #e8eaf0; text-decoration: none; padding: 10px 8px; }
+.nm-search-result a:hover { background: #6f92b31a; }
+.nm-search-result span { color: #aeb6c7; font-size: .8rem; }
+.nm-search-star { flex: 0 0 44px; font-size: 1.4rem; background: transparent; padding: 0; border: 0; color: #e4cd97; }
+.nm-search-trigger svg, .nm-search-close svg, .nm-search-star svg { display: block; width: 20px; height: 20px; margin: auto; }
+@media (min-width: 769px) { .nm-search-trigger { order: 2; } }
+@media (min-width: 769px) and (max-width: 1023px) {
+    body .nav-container { gap: 8px; padding-inline: 12px !important; }
+    body .nav-menu { gap: 2px; }
+    body .nav-menu a, body .nav-menu a:hover { padding-inline: 8px; }
+    body .nav-connexion { min-width: 0; gap: 8px; }
+}
+@media (max-width: 480px) { .nm-search-dialog {padding: 18px;} .nm-search-dialog h2 {font-size: 1.1rem;} .nm-search-trigger {margin-left: auto;} }

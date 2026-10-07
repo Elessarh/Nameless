@@ -1,0 +1,20 @@
+{
+  "name": "nameless-guild",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.19"
+  },
+  "scripts": {
+    "build": "node tools/build-site.mjs",
+    "start": "node tools/serve.mjs",
+    "test": "node tools/run-tests.mjs",
+    "audit:performance": "node tools/lighthouse.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "jsdom": "26.1.0",
+    "lighthouse": "13.5.0",
+    "typescript": "5.9.3"
+  }
+}
