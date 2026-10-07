@@ -30,7 +30,7 @@ Object.assign(window.NamelessTranslations.en, {
     "L’association d’un pseudo Minecraft identifie un compte public. Elle ne prouve pas que vous en êtes propriétaire et ne vous accorde pas automatiquement un rôle dans la guilde.": "Linking a Minecraft username identifies a public account. It does not prove that you own it and does not automatically grant a guild role.",
     "Connexion et accès": "Sign-in and access",
     "Publiez uniquement des contenus que vous pouvez partager. Ne diffusez pas les données personnelles ou les échanges privés d’un autre joueur sans son accord.": "Only post content you are entitled to share. Do not disclose another player’s personal data or private conversations without their permission.",
-    "Les fichiers joints sont limités aux images PNG, JPEG et WebP de 5 Mo maximum. Le spam et les tentatives de contournement des permissions sont refusés.": "Attachments are limited to PNG, JPEG and WebP images of up to 5 MB. Spam and attempts to bypass permissions are refused.",
+    "Les fichiers joints sont limités aux images PNG, JPEG et WebP de 5 Mo maximum. Les envois sont soumis à des limites et aux permissions de votre compte.": "Attachments are limited to PNG, JPEG and WebP images of up to 5 MB. Uploads and messages are subject to limits and your account permissions.",
     "Le règlement du serveur et de la communauté reste accessible dans le wiki.": "Server and community rules remain available in the wiki.",
     "Lire le règlement": "Read the rules",
     "Messages et fichiers": "Messages and files",

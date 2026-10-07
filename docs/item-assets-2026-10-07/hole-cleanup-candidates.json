@@ -1,0 +1,1955 @@
+{
+  "schemaVersion": 1,
+  "status": "proposals only; no production or prior candidates modified",
+  "scope": "Four explicitly selected enclosed RGB139 head cavities plus the authorized side ring of Cle des Dechus. Alpha-only mutation; every RGB and dimensions retained. No global RGB139 removal or unrelated rings processed.",
+  "summary": {
+    "candidateFiles": 4,
+    "componentsChanged": 5,
+    "pixelsChanged": 280,
+    "cumulativeRetouchedFilesIncludingPrior17": 21,
+    "cumulativeChangedPixelsIncludingPrior1460": 1740,
+    "visuallyApprovedFiles": 4,
+    "allRgbAndDimensionsPreserved": true,
+    "onlyExactRgb139Alpha255To0": true,
+    "sourcesUnmodified": true
+  },
+  "candidates": [
+    {
+      "itemId": "collier_aragorn",
+      "itemName": "Collier de Aragorn",
+      "targetPath": "assets/items/Accessoires/CollierdeAragorn.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Collier_de_Aragorn.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Accessoires\\Collier_de_Aragorn.png",
+      "sourceSha256": "02b0616e418d571fcf4d230bd2713c20b29a3f38362604a5e26c87ea221624a9",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\hole-cleaned-candidates\\item_use_cleaned\\Accessoires\\Collier_de_Aragorn.png",
+      "candidateSha256": "28001d58dda67143dd428728d21dca522f267507dee548ba54496f88565cee25",
+      "width": 46,
+      "height": 44,
+      "previousPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\previous\\Accessoires\\CollierdeAragorn.png",
+      "previousSha256": "4c0300e7d6ad41da4862fa643f44a9d0676fb8f0976d57dccf60760ed647ff55",
+      "pixelsChanged": 72,
+      "changes": [
+        {
+          "x": 11,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: compared previous, source, and candidate on Nameless and checker at NEAREST; only explicitly proven cavities restored",
+      "selections": [
+        {
+          "seedXY": [
+            11,
+            11
+          ],
+          "rgbExact": [
+            139,
+            139,
+            139
+          ],
+          "connectivity": 4,
+          "bbox": [
+            8,
+            11,
+            20,
+            20
+          ],
+          "pixels": 72,
+          "touchesCanvas": false,
+          "touchesExistingTransparency": false,
+          "proof": "Source gray component exactly fills an enclosed head cavity. Same cavity is transparent in the preserved previous PNG; visually checked on dark and checker backgrounds."
+        }
+      ],
+      "previousMatchingTransparentHoles": [
+        {
+          "bbox": [
+            16,
+            21,
+            39,
+            40
+          ],
+          "pixelCount": 284
+        }
+      ]
+    },
+    {
+      "itemId": "cle_foret",
+      "itemName": "Clé de la Forêt",
+      "targetPath": "assets/items/Consommables/Clédelaforêt.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_de_la_for#U00eat.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Consommables\\Cl#U00e9_de_la_for#U00eat.png",
+      "sourceSha256": "f27e13655bd4327766577516a6b535a3235baeb0ad25fc60eccb67cb55c83610",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\hole-cleaned-candidates\\item_use_cleaned\\Consommables\\Cl#U00e9_de_la_for#U00eat.png",
+      "candidateSha256": "1dc3f7f3db7eafbd494582d4f7f643cb359f07161edfb325f382fb9765ed2a73",
+      "width": 47,
+      "height": 46,
+      "previousPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\previous\\Consommables\\Clédelaforêt.png",
+      "previousSha256": "4bfac4741e610e0528e9c7b5e15b038c8dc3e880285bf0724b85fba8e756a832",
+      "pixelsChanged": 81,
+      "changes": [
+        {
+          "x": 19,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: compared previous, source, and candidate on Nameless and checker at NEAREST; only explicitly proven cavities restored",
+      "selections": [
+        {
+          "seedXY": [
+            19,
+            10
+          ],
+          "rgbExact": [
+            139,
+            139,
+            139
+          ],
+          "connectivity": 4,
+          "bbox": [
+            19,
+            10,
+            28,
+            19
+          ],
+          "pixels": 81,
+          "touchesCanvas": false,
+          "touchesExistingTransparency": false,
+          "proof": "Source gray component exactly fills an enclosed head cavity. Same cavity is transparent in the preserved previous PNG; visually checked on dark and checker backgrounds."
+        }
+      ],
+      "previousMatchingTransparentHoles": [
+        {
+          "bbox": [
+            39,
+            18,
+            57,
+            37
+          ],
+          "pixelCount": 320
+        }
+      ]
+    },
+    {
+      "itemId": "cle_dechus",
+      "itemName": "Clé des Déchus",
+      "targetPath": "assets/items/Consommables/ClédesDechus.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_des_Dechus.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Consommables\\Cl#U00e9_des_Dechus.png",
+      "sourceSha256": "feee170230c6b91532a916177bbd2f273ccb42e70c48e480ea57935b1c34f984",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\hole-cleaned-candidates\\item_use_cleaned\\Consommables\\Cl#U00e9_des_Dechus.png",
+      "candidateSha256": "b7703aac121386627093b872b11c8375ccc3c62bbe46ce6b20d11dbfd1878c48",
+      "width": 43,
+      "height": 45,
+      "previousPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\previous\\Consommables\\ClédesDechus.png",
+      "previousSha256": "18faa33ce1bb443cbe5e61d6cefe1b03e35d300f336841c873ae035770c85732",
+      "pixelsChanged": 99,
+      "changes": [
+        {
+          "x": 17,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 23,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 23,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 23,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 24,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 24,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 24,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 25,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 25,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 25,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 26,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 26,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 26,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 27,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 27,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 27,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 28,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 28,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 28,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: compared previous, source, and candidate on Nameless and checker at NEAREST; only explicitly proven cavities restored",
+      "selections": [
+        {
+          "seedXY": [
+            17,
+            9
+          ],
+          "rgbExact": [
+            139,
+            139,
+            139
+          ],
+          "connectivity": 4,
+          "bbox": [
+            17,
+            9,
+            26,
+            18
+          ],
+          "pixels": 81,
+          "touchesCanvas": false,
+          "touchesExistingTransparency": false,
+          "proof": "Source gray component exactly fills an enclosed head cavity. Same cavity is transparent in the preserved previous PNG; visually checked on dark and checker backgrounds."
+        },
+        {
+          "seedXY": [
+            14,
+            23
+          ],
+          "rgbExact": [
+            139,
+            139,
+            139
+          ],
+          "connectivity": 4,
+          "bbox": [
+            14,
+            23,
+            17,
+            29
+          ],
+          "pixels": 18,
+          "touchesCanvas": false,
+          "touchesExistingTransparency": false,
+          "proof": "Explicitly authorized second enclosed side cavity; preserved previous PNG shows transparency in the same side ring."
+        }
+      ],
+      "previousMatchingTransparentHoles": [
+        {
+          "bbox": [
+            33,
+            18,
+            53,
+            37
+          ],
+          "pixelCount": 355
+        },
+        {
+          "bbox": [
+            26,
+            46,
+            35,
+            57
+          ],
+          "pixelCount": 73
+        }
+      ]
+    },
+    {
+      "itemId": "cle_xal_zirith",
+      "itemName": "Clé de Xal'Zirith",
+      "targetPath": "assets/items/Consommables/ClédeXalZirith.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_de_Xal_Zirith.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Consommables\\Cl#U00e9_de_Xal_Zirith.png",
+      "sourceSha256": "82251c2bbcf6ad05828dcf24b7db306eba67d7e1a0d3d7f8bcbea9a0ba649c9d",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\hole-cleaned-candidates\\item_use_cleaned\\Consommables\\Cl#U00e9_de_Xal_Zirith.png",
+      "candidateSha256": "9608fba9ebb7f756c99e627c9a8377110318caea5c2594d7bbbf96f7fef6cef9",
+      "width": 42,
+      "height": 45,
+      "previousPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\previous\\Consommables\\ClédeXalZirith.png",
+      "previousSha256": "70df2da4aa49be4ecd2850842a4cd4db150d2dc3d15928188b1ca70e53f47fd3",
+      "pixelsChanged": 28,
+      "changes": [
+        {
+          "x": 22,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 20,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 20,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: compared previous, source, and candidate on Nameless and checker at NEAREST; only explicitly proven cavities restored",
+      "selections": [
+        {
+          "seedXY": [
+            22,
+            11
+          ],
+          "rgbExact": [
+            139,
+            139,
+            139
+          ],
+          "connectivity": 4,
+          "bbox": [
+            21,
+            11,
+            24,
+            21
+          ],
+          "pixels": 28,
+          "touchesCanvas": false,
+          "touchesExistingTransparency": false,
+          "proof": "Source gray component exactly fills an enclosed head cavity. Same cavity is transparent in the preserved previous PNG; visually checked on dark and checker backgrounds."
+        }
+      ],
+      "previousMatchingTransparentHoles": [
+        {
+          "bbox": [
+            41,
+            23,
+            49,
+            43
+          ],
+          "pixelCount": 128
+        }
+      ]
+    }
+  ],
+  "additionalFindings": [],
+  "contactSheetPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\contact-sheets-hole-before-after.png"
+}

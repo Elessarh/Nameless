@@ -86,6 +86,34 @@ function paletteIsolation(w, selector) {
 }
 
 {
+    const dom = surface('pages/items.html', '/items', ['js/items-catalog-hdv.js', 'js/items.js']);
+    const w = dom.window, d = w.document;
+    w.NamelessItemsPage.init(d);
+    const image = d.querySelector('.item-image'), media = image.parentElement;
+    let frame = 160;
+    Object.defineProperty(media, 'clientWidth', { get: () => frame });
+    Object.defineProperty(media, 'clientHeight', { get: () => frame });
+    Object.defineProperty(image, 'naturalWidth', { value: 47 });
+    Object.defineProperty(image, 'naturalHeight', { value: 48 });
+    image.dispatchEvent(new w.Event('load'));
+    check(image.classList.contains('is-pixel-art') && image.style.getPropertyValue('--item-image-width') === '94px' && image.style.getPropertyValue('--item-image-height') === '96px', 'Small item sprites use a whole 2x enlargement that preserves their ratio');
+    check(image.src.endsWith('?v=items-cleaned-20261007'), 'Replacement PNG requests have a cache version without changing the path');
+    frame = 100; w.dispatchEvent(new w.Event('resize'));
+    check(image.style.getPropertyValue('--item-image-width') === '47px', 'A narrow sprite frame uses native pixels rather than a fractional scale');
+    frame = 500; w.dispatchEvent(new w.Event('resize'));
+    check(image.style.getPropertyValue('--item-image-width') === '94px', 'Wide frames never enlarge sprites beyond 2x');
+    image.dispatchEvent(new w.Event('error'));
+    check(!image.classList.contains('is-pixel-art') && !image.hasAttribute('width') && image.style.getPropertyValue('--item-image-width') === '' && image.classList.contains('is-fallback'), 'Image failure clears all sprite sizing before displaying the fallback');
+    const remaining = d.querySelectorAll('.item-image')[1];
+    Object.defineProperty(remaining, 'naturalWidth', { value: 47 }); Object.defineProperty(remaining, 'naturalHeight', { value: 48 });
+    remaining.dispatchEvent(new w.Event('load'));
+    w.NamelessItemsPage.destroy(); remaining.style.setProperty('--item-image-width', '19px');
+    w.dispatchEvent(new w.Event('resize'));
+    check(remaining.style.getPropertyValue('--item-image-width') === '19px', 'Unmounted catalogue removes the sprite resize listener');
+    dom.window.close();
+}
+
+{
     const dom = surface('pages/quetes.html', '/quetes?quest=p2-principale-1', ['js/quetes.js']);
     const w = dom.window, d = w.document; w.NamelessQuestPage.init(d);
     check(d.querySelector('#tier-select').value === '2', 'Quest deep link selects its floor');

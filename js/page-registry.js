@@ -121,12 +121,12 @@
             source: 'pages/items.html',
             title: "Catalogue d'Items - Nameless",
             css: [
-                'css/components/items.css?v=20261007a',
+                'css/components/items.css?v=items-cleaned-20261007',
                 'css/components/page-hero.css?v=20261007a'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261007a'
+                'js/items.js?v=items-cleaned-20261007'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {

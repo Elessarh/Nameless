@@ -1,0 +1,72 @@
+
+> nameless-guild@1.0.0 test
+> node tools/run-tests.mjs
+
+Bestiary-location audit passed: 60 creatures, 32 requested assignments and 17 approved named zones.
+Game-content i18n audit passed: 194 Bestiary values and 112 Item values explicitly reviewed (275 unique).
+i18n audit passed: 2126 translated strings, 13 entry pages, reviewed glossary intact.
+Item-asset audit passed: 104 immutable catalogue targets; PNG CRC, RGBA pixels and alpha counts match the manifest (2 item(s) touch a corner).
+Quest/map i18n audit passed: 430 quest-page strings, 31 map-page strings and 283 map data values explicitly reviewed.
+Audio player DOM test passed: title, track count, progress, previous/next controls, auto-advance and bilingual labels.
+Boss page build: 18 generated pages, 186 checks passed.
+PASS: publication build, 42 HTML documents, 2094 local references, CSP/head placement, legacy URLs, public sitemap, robots exclusions and artifact allowlist.
+Cache tests passed: per-key TTL, boundary, deduplication, failure, account isolation.
+🔄 Changing floor from 1 to 2
+🔄 Changing floor to: 2
+✅ currentFloor set to: 2
+🔄 Changing floor from 2 to 3
+🔄 Changing floor to: 3
+✅ currentFloor set to: 3
+🔄 Changing floor to: 2
+✅ currentFloor set to: 2
+🔄 Changing floor from 1 to 2
+🔄 Changing floor to: 2
+✅ currentFloor set to: 2
+🔄 Changing floor from 2 to 1
+🔄 Changing floor to: 1
+✅ currentFloor set to: 1
+🔄 Changing floor from 1 to 2
+🔄 Changing floor to: 2
+✅ currentFloor set to: 2
+🔄 Changing floor from 2 to 1
+🔄 Changing floor to: 1
+✅ currentFloor set to: 1
+🔄 Changing floor from 1 to 2
+🔄 Changing floor to: 2
+✅ currentFloor set to: 2
+🔄 Changing floor from 2 to 1
+🔄 Changing floor to: 1
+✅ currentFloor set to: 1
+Catalogue DOM regressions: 78 checks passed.
+PASS: Paris calendar, ISO week/year, event timezone and daylight-saving validation (10 checks).
+DOM i18n test passed: dynamic popups, coordinates, FR/EN/FR switching and 13 English entry pages.
+PASS: mobile navigation, SPA namespaces/modal, keyboard tabs, profile validation, Paris event date, activity image preservation and stale lifecycle.
+Search/router tests passed: accent/case search, deep links, keyboard, favorites, focus, query preservation, metadata, network failure.
+PASS media path validates own project, bucket and traversal
+PASS legacy bearer URL gets short signature, cache is cleared on logout
+PASS uploads validate MIME, size and current account
+PASS SDK query builders remain intact beyond former throttle and depth
+PASS Edge rejects unknown origins, non-object JSON and oversized bodies
+PASS auth callback returns synchronously and logout purges private caches
+PASS chat shows the latest 100 and remounting does not duplicate controls
+PASS chat and DM uploads share validated paths without global helper collision
+PASS admin Edge verifies JWT and role before body/actions and enforces rate limit
+PASS migration is parseable and idempotent
+PASS player cannot escalate role; browser admin cannot bypass Edge
+PASS server rejects invalid profile classes and levels; permits all five game classes
+PASS unchanged legacy class survives migration and unrelated profile edits
+PASS new profile insert validates class on the server
+PASS private guild messages remain hidden from third parties
+PASS author cannot redirect or publish an existing DM
+PASS private message recipient can update read_at, never sender or content
+PASS Storage permits public guild images and DM recipient, excludes third parties
+PASS forged references to another author media are refused
+PASS database enforces send bursts despite spoofed timestamps
+PASS deleting messages cannot reset the server send budget
+PASS deleting uploads cannot reset the server upload budget
+PASS editing an existing guild message cannot evade the send budget
+PASS last administrator cannot be demoted or deleted through Auth cascade
+PASS Edge rate counters enforce atomic limit and deny browser RPC
+PASS revoking guild membership denies both messages and media
+26 security checks passed (isolated database; production RLS not exercised).
+All JavaScript syntax, DOM regressions and content audits passed.

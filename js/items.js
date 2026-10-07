@@ -58,7 +58,7 @@
         controller = new AbortController();
         loadItems();
         populateCategoryFilter();
-        setupImageFallback();
+        setupItemImages();
         setupListeners();
         applyFromBestiaire();   // pré-remplit la recherche si venu d'un drop (validé)
         applyFilters();
@@ -106,7 +106,7 @@
                     rarity: item.rarity || 'common',
                     category: group.name,
                     categoryLabel: cleanCategory(group.name),
-                    image: '../assets/items/' + item.image
+                    image: '../assets/items/' + item.image + '?v=items-cleaned-20261007'
                 });
             });
         });
@@ -129,15 +129,47 @@
         });
     }
 
-    function setupImageFallback() {
+    function sizePixelArtImage(img) {
+        var media = img.parentElement;
+        if (!media) return;
+        // Uniquement 1x ou 2x : chaque pixel source reste un carré net.
+        var scale = Math.max(1, Math.min(2, Math.floor(Math.min(
+            (media.clientWidth - 32) / img.naturalWidth,
+            (media.clientHeight - 32) / img.naturalHeight
+        ))));
+        img.style.setProperty('--item-image-width', img.naturalWidth * scale + 'px');
+        img.style.setProperty('--item-image-height', img.naturalHeight * scale + 'px');
+    }
+
+    function setupItemImages() {
+        // Les petits sprites gardent leur silhouette et des pixels entiers.
+        // Les autres illustrations conservent le cadrage contain de la carte.
+        document.addEventListener('load', function (e) {
+            var t = e.target;
+            if (!t || t.tagName !== 'IMG' || !t.dataset || t.dataset.fallback !== 'item' || t.dataset.fbApplied) return;
+            if (t.naturalWidth > 0 && t.naturalWidth <= 128 && t.naturalHeight > 0 && t.naturalHeight <= 128) {
+                t.classList.add('is-pixel-art');
+                t.width = t.naturalWidth;
+                t.height = t.naturalHeight;
+                sizePixelArtImage(t);
+            }
+        }, { capture: true, signal: controller.signal });
         document.addEventListener('error', function (e) {
             var t = e.target;
             if (t && t.tagName === 'IMG' && t.dataset && t.dataset.fallback === 'item' && !t.dataset.fbApplied) {
                 t.dataset.fbApplied = '1';
+                t.classList.remove('is-pixel-art');
+                t.removeAttribute('width');
+                t.removeAttribute('height');
+                t.style.removeProperty('--item-image-width');
+                t.style.removeProperty('--item-image-height');
                 t.src = FALLBACK_IMG;
                 t.classList.add('is-fallback');
             }
         }, { capture: true, signal: controller.signal });
+        window.addEventListener('resize', function () {
+            document.querySelectorAll('.item-image.is-pixel-art, .item-modal-media img.is-pixel-art').forEach(sizePixelArtImage);
+        }, { signal: controller.signal });
     }
 
     function setupListeners() {

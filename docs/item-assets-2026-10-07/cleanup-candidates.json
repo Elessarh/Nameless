@@ -1,0 +1,4471 @@
+{
+  "schemaVersion": 1,
+  "status": "isolated candidates; no production assets changed",
+  "mappingPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\mapping-proposed.json",
+  "mappingSha256": "c80f2d7973f475ea6bf5c70e5ef31831e4918fed7888fa1ffc7de71f9bfda7d5",
+  "mappedSourceCount": 104,
+  "algorithm": {
+    "connectivity": 4,
+    "visiblePredicate": "alpha > 0",
+    "entireComponentNeutral": "max(R,G,B)-min(R,G,B) <= 1 for every component pixel",
+    "thinPixelsMaximum": 2,
+    "lengthCanvasFractionMinimum": 0.35,
+    "distanceToCanvasBorderMaximum": 1,
+    "mutation": "set alpha=0 for accepted component only; preserve all RGB and dimensions",
+    "globalThreshold": false
+  },
+  "summary": {
+    "candidateCount": 12,
+    "removedComponents": 12,
+    "changedPixels": 603,
+    "manualConnectedObjectCases": 5,
+    "lateCompared": 9,
+    "lateAlternativesProposed": 1,
+    "visuallyApprovedCandidateCount": 12,
+    "allCandidateRgbAndDimensionsVerified": true,
+    "allChangedAlpha255To0": true,
+    "allCandidateSourcesUnmodified": true
+  },
+  "candidates": [
+    {
+      "itemId": "anneau_pacte",
+      "itemName": "Anneau de Pacte",
+      "targetPath": "assets/items/Accessoires/Anneaudepacte.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Anneau_de_pacte.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Accessoires\\Anneau_de_pacte.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Accessoires\\Anneau_de_pacte.png",
+      "sourceSha256": "16eef83e61758ffcbed5d2c5cc34e6f4bc826dd974014d96f37f61a8f98a323e",
+      "candidateSha256": "11c0ca98732354d7e95128fc9cbe6b05b120633ebb91c7f0664141dcd0e5d8d0",
+      "rgbPixelSha256": "f4f8855e5bc7ee73674cf3d9aee479a0127b4347d19ae0eadd7fa6e93b4177ea",
+      "width": 47,
+      "height": 48,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            47,
+            1
+          ],
+          "pixel_count": 47,
+          "width": 47,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 47,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "baton_sorcier_shaman",
+      "itemName": "Bâton du Sorcier du Shaman",
+      "targetPath": "assets/items/Armes/BatonduSorcierduShaman.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Armes/Baton_du_Sorcier_du_Shaman.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Armes\\Baton_du_Sorcier_du_Shaman.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Armes\\Baton_du_Sorcier_du_Shaman.png",
+      "sourceSha256": "163d1bf64ba3de75f671d2907a60dc4120c61d76564c22a443ec8c9aec8ad6a6",
+      "candidateSha256": "25e1467df72504a208b8b9931356d23f480e36690e5fcfc27bfb0556d409643b",
+      "rgbPixelSha256": "4f51b41e05ebcf235428d5f9ed7fba98d07c20a1c93a88b7e5855b48eb602f23",
+      "width": 48,
+      "height": 48,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            48,
+            1
+          ],
+          "pixel_count": 48,
+          "width": 48,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 48,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 47,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "parchemin_reallocation",
+      "itemName": "Parchemin de Réallocation",
+      "targetPath": "assets/items/Consommables/ParchemindeRéallocation.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Parchemin_de_R#U00e9allocation.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Consommables\\Parchemin_de_R#U00e9allocation.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Consommables\\Parchemin_de_R#U00e9allocation.png",
+      "sourceSha256": "d36387a5e6d66421a5b30d861cba1bd8bb11cbb94b57a244d8a8d7b55454dcbc",
+      "candidateSha256": "da7fcd2280daff9ace0d6ec1f0739d4f863d81556f6efc5d0a94a26d58fdf67c",
+      "rgbPixelSha256": "30a3eb9c3c90860dcc80043d39e305eacef2af48b7a455862366a07888c5e7c9",
+      "width": 47,
+      "height": 49,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            47,
+            2
+          ],
+          "pixel_count": 94,
+          "width": 47,
+          "height": 2,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 94,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "potion_mana_superieur",
+      "itemName": "Potion de Mana Supérieur",
+      "targetPath": "assets/items/Consommables/Potion de Mana Supérieur.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion de Mana Sup#U00e9rieur.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Consommables\\Potion de Mana Sup#U00e9rieur.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Consommables\\Potion de Mana Sup#U00e9rieur.png",
+      "sourceSha256": "3e0f745172e0d3586d7f66744ac690d6a575dd16e318a850809a6d79f6e78513",
+      "candidateSha256": "a7510a90735b7b6a68b26ad4e2b8d2ef6ea588ffe52f7ab9a7e983e0084f0acf",
+      "rgbPixelSha256": "c4c8f8c90b8d1e769d7bfd84a99fdfe60b5e1de36d38d5be25e8ccbb10317736",
+      "width": 48,
+      "height": 48,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            48,
+            1
+          ],
+          "pixel_count": 48,
+          "width": 48,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 48,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 47,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "potion_vie_i",
+      "itemName": "Potion de Vie I",
+      "targetPath": "assets/items/Consommables/PotiondeVieI.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Vie_I.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Consommables\\Potion_de_Vie_I.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Consommables\\Potion_de_Vie_I.png",
+      "sourceSha256": "5924622528382d3d11e53fd991792c178358681a5f155ba15eb6cba3a8202987",
+      "candidateSha256": "c7475f228501066750d7de91758c041e5bfee2355909a655a0834597bd59592d",
+      "rgbPixelSha256": "dfc06ad1abbb211a1bff2c694210925bec8b7e617a04efee65613ba9feeec3b3",
+      "width": 47,
+      "height": 49,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            47,
+            1
+          ],
+          "pixel_count": 47,
+          "width": 47,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 47,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "brindille_enchantees",
+      "itemName": "Brindille Enchantées",
+      "targetPath": "assets/items/Ressources/BrindilleEnchantées.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Brindille_Enchant#U00e9es.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Brindille_Enchant#U00e9es.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Ressources\\Brindille_Enchant#U00e9es.png",
+      "sourceSha256": "18510a959ec3509091748039c3f1f0821c9801449f45f3a861f3304d7dc02b4a",
+      "candidateSha256": "856019af7953b24284274f4ebfffb266e82ec5829cfde7b7bcf25960d58acdae",
+      "rgbPixelSha256": "8ca12c74898bec870da08924a13fab9147495d3c3534a61f9b9bf2c3a403050e",
+      "width": 46,
+      "height": 47,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            46,
+            1
+          ],
+          "pixel_count": 46,
+          "width": 46,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 46,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "buche_chene",
+      "itemName": "Bûche de Chêne",
+      "targetPath": "assets/items/Ressources/BuchedeChêne.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Buche_de_Ch#U00eane.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Buche_de_Ch#U00eane.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Ressources\\Buche_de_Ch#U00eane.png",
+      "sourceSha256": "36468cab7d9a3e23158a71aaafdc7eb64db8ab010077767ead62c09599a40d87",
+      "candidateSha256": "4c8481a73386fd53a1385364679093df53fe93dc7d7ce2143a7f9441a3f12bef",
+      "rgbPixelSha256": "9ba9d7e541dd24f4b9072194aa26c00569fb7403ab549d37b4fa3d2bf4243653",
+      "width": 48,
+      "height": 49,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            48,
+            1
+          ],
+          "pixel_count": 48,
+          "width": 48,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 48,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 47,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "coeur_flammes",
+      "itemName": "Coeur de Flammes",
+      "targetPath": "assets/items/Ressources/CoeurdeFlammes.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_de_Flammes.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Coeur_de_Flammes.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Ressources\\Coeur_de_Flammes.png",
+      "sourceSha256": "b252041475e22a269830da8604cbd68556e077dd1079597f9ae9cc629c04195d",
+      "candidateSha256": "d61888688dc79d42779c19af7be818433ec5076bc950353c5773746d1b9f2aca",
+      "rgbPixelSha256": "7cc95a80f497e27df2f2799912386c669c7ccb538b0351dad1221ad26c6bd185",
+      "width": 47,
+      "height": 42,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            46,
+            0,
+            47,
+            42
+          ],
+          "pixel_count": 42,
+          "width": 1,
+          "height": 42,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              255,
+              255,
+              255
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 42,
+      "changes": [
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 2,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 3,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 4,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 5,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 6,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 7,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 8,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 20,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 21,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 22,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 23,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 24,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 25,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 26,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 27,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 28,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 29,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 30,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 31,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 32,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 33,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 34,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 35,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 36,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 37,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 38,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 39,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 40,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 41,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "cristal_corrompu",
+      "itemName": "Cristal Corrompu",
+      "targetPath": "assets/items/Ressources/CristalCorrompu.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Cristal_Corrompu.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Cristal_Corrompu.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Ressources\\Cristal_Corrompu.png",
+      "sourceSha256": "5d0700fc32d730f79d54274858d275207226ef98a24f6dc51a25b7620055b970",
+      "candidateSha256": "2d466f82e8dc6fe404ff4436f646676f5cfae0d7ca28cd34d4fae2e627d6c80a",
+      "rgbPixelSha256": "5c7f3d35c5572eb015cdf0e69be5dafa3cb86e230947805aea35e26eab228a60",
+      "width": 45,
+      "height": 48,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            45,
+            1
+          ],
+          "pixel_count": 45,
+          "width": 45,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 45,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "minerai_cuivre",
+      "itemName": "Minerai de Cuivre",
+      "targetPath": "assets/items/Ressources/MineraideCuivre.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_de_Cuivre.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Minerai_de_Cuivre.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Ressources\\Minerai_de_Cuivre.png",
+      "sourceSha256": "175f8ce0fe36525248e1cdad136688b7d24ef5f5f3c29e2b17c94e0b8ce808bc",
+      "candidateSha256": "87ace0d729104742b65fa6765c29cbdcb6bb96742fb50d162af61bd7970eed49",
+      "rgbPixelSha256": "adeb2cc6099c278c0de30960cf4e11315e47370f9cb8d9d5fbb39953333da661",
+      "width": 46,
+      "height": 48,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            46,
+            1
+          ],
+          "pixel_count": 46,
+          "width": 46,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 46,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "pousse_sylve",
+      "itemName": "Pousse de Sylve",
+      "targetPath": "assets/items/Ressources/PoussedeSylve.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Pousse_de_Sylve.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Pousse_de_Sylve.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Ressources\\Pousse_de_Sylve.png",
+      "sourceSha256": "f3c54e420b2e7aabbf079e121614c190e54afa8fdd2fc4bd34254d1ba766c8ad",
+      "candidateSha256": "550d7fab9570bbe7fa4eb196d566a616c06f238dedb904ab80600d87544fd9e5",
+      "rgbPixelSha256": "ded3f48e1e5a6bcc311dcdc70cf83973ec3407dc6b6724101d2c0e8800e24917",
+      "width": 47,
+      "height": 48,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            47,
+            1
+          ],
+          "pixel_count": 47,
+          "width": 47,
+          "height": 1,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 47,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 3,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 6,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 7,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 8,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 9,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 10,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 11,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 13,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 14,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 15,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 16,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 17,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 18,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 19,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 20,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 21,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 22,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 23,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 24,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 25,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 26,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 27,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 28,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 29,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 30,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 31,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 32,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 33,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 34,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 35,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 36,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 37,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 38,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 39,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 40,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 41,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 42,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 43,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 44,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 45,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 46,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    },
+    {
+      "itemId": "canne_peche",
+      "itemName": "Canne à Pêche",
+      "targetPath": "assets/items/Outils/Canneàpêche.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Canne_#U00e0_p#U00eache.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Outils\\Canne_#U00e0_p#U00eache.png",
+      "candidatePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\frame-cleaned-candidates\\item_use_cleaned\\Outils\\Canne_#U00e0_p#U00eache.png",
+      "sourceSha256": "a8d990a04252240bf231528691629abfbc925a47d092e79908af9bc6e1dbc253",
+      "candidateSha256": "69e27be8b9ccdc82e9e9f1e0adef2d52fd85c279bda8df7f8210500a81fdb7f3",
+      "rgbPixelSha256": "04f0583bb083231e4ff0204e2caa8514df68bec6fca3e43f11762eeb241c49c8",
+      "width": 48,
+      "height": 45,
+      "removedComponentCount": 1,
+      "componentsRemoved": [
+        {
+          "bbox": [
+            0,
+            0,
+            1,
+            45
+          ],
+          "pixel_count": 45,
+          "width": 1,
+          "height": 45,
+          "edge_distance": 0,
+          "neutral_colors": [
+            [
+              55,
+              55,
+              55
+            ]
+          ]
+        }
+      ],
+      "changedPixelCount": 45,
+      "changes": [
+        {
+          "x": 0,
+          "y": 0,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 1,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 2,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 3,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 4,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 5,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 6,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 7,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 8,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 9,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 10,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 11,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 12,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 13,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 14,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 15,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 16,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 17,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 18,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 19,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 20,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 21,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 22,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 23,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 24,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 25,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 26,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 27,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 28,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 29,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 30,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 31,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 32,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 33,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 34,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 35,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 36,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 37,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 38,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 39,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 40,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 41,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 42,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 43,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        },
+        {
+          "x": 0,
+          "y": 44,
+          "beforeAlpha": 255,
+          "afterAlpha": 0
+        }
+      ],
+      "rgbPreserved": true,
+      "dimensionsPreserved": true,
+      "sourceUnmodified": true,
+      "visualReview": "approved: inspected NEAREST before/after on Nameless background; only detached border line disappeared, object unchanged"
+    }
+  ],
+  "manualReview": [
+    {
+      "itemId": "carapace_requin",
+      "itemName": "Carapace de Requin",
+      "targetPath": "assets/items/Ressources/CarapcedeRequin.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Carapce_de_Requin.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Carapce_de_Requin.png",
+      "contactSheetIndex": 46,
+      "reason": "Cadre/fond visuellement confirme mais connecte a une composante coloree de l objet; veto automatique. Aucun pixel modifie.",
+      "notes": [
+        "Ligne UI grise en haut et blanche a droite."
+      ]
+    },
+    {
+      "itemId": "fourrure_loup",
+      "itemName": "Fourrure de Loup",
+      "targetPath": "assets/items/Ressources/FourruredeLoup.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Fourrure_de_Loup.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fourrure_de_Loup.png",
+      "contactSheetIndex": 67,
+      "reason": "Cadre/fond visuellement confirme mais connecte a une composante coloree de l objet; veto automatique. Aucun pixel modifie.",
+      "notes": [
+        "Ligne UI grise en haut."
+      ]
+    },
+    {
+      "itemId": "lingot_ame_metal",
+      "itemName": "Lingot d'Âme de Métal",
+      "targetPath": "assets/items/Ressources/LingotdÂmedeMétal.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Lingot_d_#U00c2me_de_M#U00e9tal.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_d_#U00c2me_de_M#U00e9tal.png",
+      "contactSheetIndex": 78,
+      "reason": "Cadre/fond visuellement confirme mais connecte a une composante coloree de l objet; veto automatique. Aucun pixel modifie.",
+      "notes": [
+        "Ligne UI grise a gauche."
+      ]
+    },
+    {
+      "itemId": "mycelium_magique",
+      "itemName": "Mycélium Magique",
+      "targetPath": "assets/items/Ressources/MycéliumMagique.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Myc#U00e9lium_Magique.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Myc#U00e9lium_Magique.png",
+      "contactSheetIndex": 86,
+      "reason": "Cadre/fond visuellement confirme mais connecte a une composante coloree de l objet; veto automatique. Aucun pixel modifie.",
+      "notes": [
+        "Ligne UI grise en haut."
+      ]
+    },
+    {
+      "itemId": "peau_sanglier",
+      "itemName": "Peau de Sanglier",
+      "targetPath": "assets/items/Ressources/Peau de Sanglier.png",
+      "sourcePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Peau de Sanglier.png",
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Peau de Sanglier.png",
+      "contactSheetIndex": 90,
+      "reason": "Cadre/fond visuellement confirme mais connecte a une composante coloree de l objet; veto automatique. Aucun pixel modifie.",
+      "notes": [
+        "Fond gris RGB139 conserve sur bord droit et bas."
+      ]
+    }
+  ],
+  "lateComparisons": [
+    {
+      "itemId": "buche_bouleau",
+      "itemName": "Bûche de Bouleau",
+      "targetPath": "assets/items/Ressources/BuchedeBouleau.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Buche_de_Bouleau.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Buche de Bouleau.png",
+      "preferredSha256": "e85f5a2db199974aef2b623bec0903822f6edeb8ab3bfe1d2a4e827492241942",
+      "alternativeSha256": "f96ac61ee7f2c21d0b6c93c4282ea02513b4736964af53e751a83526bd74b2d8",
+      "preferredDimensions": [
+        47,
+        47
+      ],
+      "alternativeDimensions": [
+        47,
+        47
+      ],
+      "preferredPartialAlphaPixels": 97,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 1015,
+      "preferredOpaquePixelsRemoved": 0,
+      "commonVisibleRgbChangedPixelCount": 1075,
+      "commonOpaqueRgbChangedPixelCount": 1012,
+      "commonOpaqueMaxRgbDifference": 22,
+      "newVisiblePixelCount": 2,
+      "removedVisiblePixelCount": 34,
+      "alphaChangedPixelCount": 99,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    },
+    {
+      "itemId": "coeur_putrifie",
+      "itemName": "Coeur Putrifié",
+      "targetPath": "assets/items/Ressources/CoeurPutrifié.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Coeur_Putrifi#U00e9.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Coeur Putrifi#U00e9.png",
+      "preferredSha256": "e2395a2fc0f52578950b88c8b858c9fe8f23dc49e79d49dfed862440026175e0",
+      "alternativeSha256": "affc3bb3192340a9e94c5b9344b92493d497066efc536968c829608ba73f9e14",
+      "preferredDimensions": [
+        78,
+        79
+      ],
+      "alternativeDimensions": [
+        78,
+        79
+      ],
+      "preferredPartialAlphaPixels": 140,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 1035,
+      "preferredOpaquePixelsRemoved": 0,
+      "commonVisibleRgbChangedPixelCount": 1164,
+      "commonOpaqueRgbChangedPixelCount": 1035,
+      "commonOpaqueMaxRgbDifference": 63,
+      "newVisiblePixelCount": 25,
+      "removedVisiblePixelCount": 11,
+      "alphaChangedPixelCount": 165,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    },
+    {
+      "itemId": "lingot_cramoisi",
+      "itemName": "Lingot Cramoisi",
+      "targetPath": "assets/items/Ressources/Lingot cramoisi.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Lingot cramoisi.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Lingot cramoisi.png",
+      "preferredSha256": "042b6443a18ee9f7d60b904a4ea7a651cf60acbe5ccec83c51d2f3203fb6fbb2",
+      "alternativeSha256": "537cd7d6d82585d60131a55b9b694e173c9ab734e617cf061e3dfd1ad9ebacb7",
+      "preferredDimensions": [
+        1080,
+        1080
+      ],
+      "alternativeDimensions": [
+        79,
+        79
+      ],
+      "preferredPartialAlphaPixels": 75333,
+      "alternativePartialAlphaPixels": 0,
+      "recommendation": "propose_alternative",
+      "reason": "Lingot cramoisi: source79x79 lisible et pixelisee sur fond sombre; preferred1080x1080 adoucie avec75333alphapartiels etpoids369367octets. Ameliorationclaire sans redimensionnementde lavariantelate."
+    },
+    {
+      "itemId": "lingot_fer",
+      "itemName": "Lingot de Fer",
+      "targetPath": "assets/items/Ressources/LingotdeFer.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Lingot_de_Fer.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Lingot de Fer.png",
+      "preferredSha256": "a8d37a884b1621d13a2cddca80697d08c7b35f4f97a9ae4818d187815f6ff929",
+      "alternativeSha256": "ccaf9b74ea38a00c59165e9f8b156f2625313e524a9010842261c131192d70a1",
+      "preferredDimensions": [
+        45,
+        45
+      ],
+      "alternativeDimensions": [
+        45,
+        45
+      ],
+      "preferredPartialAlphaPixels": 95,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 672,
+      "preferredOpaquePixelsRemoved": 11,
+      "commonVisibleRgbChangedPixelCount": 683,
+      "commonOpaqueRgbChangedPixelCount": 661,
+      "commonOpaqueMaxRgbDifference": 16,
+      "newVisiblePixelCount": 3,
+      "removedVisiblePixelCount": 84,
+      "alphaChangedPixelCount": 109,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    },
+    {
+      "itemId": "minerai_cramoisi",
+      "itemName": "Minerai Cramoisi",
+      "targetPath": "assets/items/Ressources/Mineraicramoisi.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Minerai_cramoisi.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Minerai cramoisi.png",
+      "preferredSha256": "79363e938a26b7431498bccc1cde7a0af4abc842b2c836b8e879dafd1ca61b39",
+      "alternativeSha256": "594c08799c641f041ad5cfa1aa1032f330353762e1ccbf8f4d1e452fce03f800",
+      "preferredDimensions": [
+        80,
+        79
+      ],
+      "alternativeDimensions": [
+        80,
+        79
+      ],
+      "preferredPartialAlphaPixels": 396,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 3006,
+      "preferredOpaquePixelsRemoved": 0,
+      "commonVisibleRgbChangedPixelCount": 3188,
+      "commonOpaqueRgbChangedPixelCount": 3006,
+      "commonOpaqueMaxRgbDifference": 104,
+      "newVisiblePixelCount": 0,
+      "removedVisiblePixelCount": 214,
+      "alphaChangedPixelCount": 396,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    },
+    {
+      "itemId": "os_squelette",
+      "itemName": "Os de Squelette",
+      "targetPath": "assets/items/Ressources/OsdeSquelette.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Os_de_Squelette.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Os de Squelette.png",
+      "preferredSha256": "be61c077867879728230e885d07d8de92e4bd7f251760cb4329e81fec8740009",
+      "alternativeSha256": "a8751c16e2307f58cc9b093fce877fed5402265a466cd245c472048221baf14e",
+      "preferredDimensions": [
+        79,
+        79
+      ],
+      "alternativeDimensions": [
+        79,
+        79
+      ],
+      "preferredPartialAlphaPixels": 450,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 1490,
+      "preferredOpaquePixelsRemoved": 0,
+      "commonVisibleRgbChangedPixelCount": 1680,
+      "commonOpaqueRgbChangedPixelCount": 1480,
+      "commonOpaqueMaxRgbDifference": 25,
+      "newVisiblePixelCount": 0,
+      "removedVisiblePixelCount": 250,
+      "alphaChangedPixelCount": 450,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    },
+    {
+      "itemId": "os_squelette_renforce",
+      "itemName": "Os de Squelette Renforcé",
+      "targetPath": "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Os_de_Squelette_Renforc#U00e9.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Os de Squelette Renforc#U00e9.png",
+      "preferredSha256": "0d1c3c5d6dd72ec5bd8f0e4a06898cddf7ee5f3d3c2a1733c4a075a0b8594ab7",
+      "alternativeSha256": "f6ec9031220023d9f67ff1f11fec98afdac21f5aad8e89302e79950a4d855b7c",
+      "preferredDimensions": [
+        78,
+        78
+      ],
+      "alternativeDimensions": [
+        78,
+        78
+      ],
+      "preferredPartialAlphaPixels": 310,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 1344,
+      "preferredOpaquePixelsRemoved": 1,
+      "commonVisibleRgbChangedPixelCount": 1443,
+      "commonOpaqueRgbChangedPixelCount": 1336,
+      "commonOpaqueMaxRgbDifference": 20,
+      "newVisiblePixelCount": 0,
+      "removedVisiblePixelCount": 204,
+      "alphaChangedPixelCount": 311,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    },
+    {
+      "itemId": "poussiere_os",
+      "itemName": "Poussière d'Os",
+      "targetPath": "assets/items/Ressources/PoussièredOs.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Poussi#U00e8re_d_Os.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Poussi#U00e8re d'Os.png",
+      "preferredSha256": "7ad6cb609a7f6a5b87f6dd242430f4fa667c724bc444d05aff996652ebc329d4",
+      "alternativeSha256": "3aa0347ce8aa1441e7ae4ba60a8fd6d000ad064bb2ab0e56c6284e163dc06a0c",
+      "preferredDimensions": [
+        80,
+        77
+      ],
+      "alternativeDimensions": [
+        80,
+        77
+      ],
+      "preferredPartialAlphaPixels": 511,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 2456,
+      "preferredOpaquePixelsRemoved": 0,
+      "commonVisibleRgbChangedPixelCount": 2684,
+      "commonOpaqueRgbChangedPixelCount": 2407,
+      "commonOpaqueMaxRgbDifference": 18,
+      "newVisiblePixelCount": 40,
+      "removedVisiblePixelCount": 232,
+      "alphaChangedPixelCount": 551,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    },
+    {
+      "itemId": "venin_araignee",
+      "itemName": "Venin d'Araignée",
+      "targetPath": "assets/items/Ressources/VenindAraignée.png",
+      "preferredPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\item_use_cleaned\\Ressources\\Venin_d_Araign#U00e9e.png",
+      "alternativePath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\source-archive\\Items_Cleaned_FirstPass\\late_cleaned\\Venin d'Araign#U00e9e.png",
+      "preferredSha256": "24daff2f367a47bba922c357cf601e19d44f4858335c586627ece3a733688ca8",
+      "alternativeSha256": "c3589ea6ea135be743669d7bb1e916f9f5f200f2ade6fb0a4c6d05938b7133d4",
+      "preferredDimensions": [
+        78,
+        79
+      ],
+      "alternativeDimensions": [
+        78,
+        79
+      ],
+      "preferredPartialAlphaPixels": 160,
+      "alternativePartialAlphaPixels": 0,
+      "preferredOpaquePixelCount": 1791,
+      "preferredOpaquePixelsRemoved": 0,
+      "commonVisibleRgbChangedPixelCount": 1877,
+      "commonOpaqueRgbChangedPixelCount": 1778,
+      "commonOpaqueMaxRgbDifference": 29,
+      "newVisiblePixelCount": 6,
+      "removedVisiblePixelCount": 60,
+      "alphaChangedPixelCount": 166,
+      "recommendation": "keep_preferred",
+      "reason": "RGB/formes differentes; pas de substitution automatique dans ce lot conservatoire."
+    }
+  ],
+  "contactSheetPath": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless\\docs\\item-assets-2026-10-07\\contact-sheets-frame-before-after-01.png"
+}

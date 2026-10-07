@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-07",
+  "phase": "coherence-and-site-information",
+  "environment": "HTTP localhost with gzip; Lighthouse 13.5.0 default mobile simulated throttling, one sample per route. Not production.",
+  "pages": {
+    "home": {
+      "url": "http://127.0.0.1:4173/",
+      "time": "2026-10-07T04:16:22.967Z",
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3609.98685,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 646852
+    },
+    "wiki": {
+      "url": "http://127.0.0.1:4173/wiki/",
+      "time": "2026-10-07T04:12:37.290Z",
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3834.6564,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 395581
+    },
+    "map": {
+      "url": "http://127.0.0.1:4173/carte/",
+      "time": "2026-10-07T04:12:49.503Z",
+      "scores": {
+        "performance": 77,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 6772.8633,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 16.99999999999909,
+      "transfer_bytes": 1031924
+    },
+    "bestiary": {
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "time": "2026-10-07T04:13:05.147Z",
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3647.5719750000007,
+      "cls": 0.008630153050255066,
+      "tbt_ms": 6.5,
+      "transfer_bytes": 1646388
+    },
+    "items": {
+      "url": "http://127.0.0.1:4173/items/",
+      "time": "2026-10-07T04:13:17.464Z",
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3913.422600000001,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 1.5,
+      "transfer_bytes": 492568
+    },
+    "quests": {
+      "url": "http://127.0.0.1:4173/quetes/",
+      "time": "2026-10-07T04:13:29.867Z",
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp_ms": 3551.8590000000004,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 376004
+    },
+    "login": {
+      "url": "http://127.0.0.1:4173/connexion/",
+      "time": "2026-10-07T04:13:42.332Z",
+      "scores": {
+        "performance": 93,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69
+      },
+      "lcp_ms": 3251.3463,
+      "cls": 0.005774735890778408,
+      "tbt_ms": 0,
+      "transfer_bytes": 338033
+    }
+  }
+}

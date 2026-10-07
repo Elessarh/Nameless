@@ -1770,7 +1770,7 @@ select option:disabled {
 }
 
 /* Shared footer: utility links, without a second promotional section. */
-.site-footer { padding: 1.5rem 1.25rem; }
+.site-footer { padding: 1.5rem 1.25rem 6rem; }
 .site-footer p { font-family: var(--font-text); letter-spacing: .02em; }
 .site-footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.5rem; }
 .site-footer a { display: inline-block; padding: .6rem 0; color: var(--sao-text); text-underline-offset: .2em; font-size: .85rem; }

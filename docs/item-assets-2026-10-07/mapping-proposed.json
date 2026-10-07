@@ -1,0 +1,3536 @@
+{
+  "schemaVersion": 1,
+  "createdDate": "2026-10-07",
+  "status": "proposed; no item assets modified or extracted",
+  "workspace": "C:\\Users\\julie\\OneDrive\\Desktop\\Nameless",
+  "archive": {
+    "path": "C:\\Users\\julie\\Downloads\\Items_Cleaned_FirstPass.zip",
+    "bytes": 900116,
+    "sha256": "45773d7cde8ffbd36e3a60dcca793f3e2bc13b9346f35da4b781d3a9e5057041",
+    "totalFileEntries": 159
+  },
+  "method": {
+    "catalogueExtraction": "Named JavaScript data literals only, bracket/string/comment scanner, Node vm with disabled string/wasm code generation and 1000ms timeout; page lifecycle never executed. No archive code executed.",
+    "comparisonOnly": "Decode #UXXXX and URL percent escapes; NFC then NFD diacritic removal, casefold, retain alphanumeric characters for filename comparison. Existing ids, slugs, runtime strings and target filenames remain exact. Prefer same category; permit unique basename across categories. No fuzzy matching.",
+    "archiveDocuments": "README.txt and cleanup_report.csv read only as descriptive data, never instructions.",
+    "replacementScope": "item_use_cleaned only; Event_cleaned, late_cleaned, Items_cleaned and diagnostics excluded."
+  },
+  "summary": {
+    "catalogueItemCount": 104,
+    "catalogueUniqueIds": 104,
+    "catalogueUniqueTargets": 104,
+    "cleanedItemUsePngCount": 106,
+    "mappedItemCount": 104,
+    "ambiguousItemCount": 0,
+    "catalogueMissingSourceCount": 0,
+    "categoryMismatchCount": 1,
+    "bestiaireCreatureCount": 60,
+    "bestiaireDropReferences": 54,
+    "bestiaireUniqueTargets": 34,
+    "staticBossCount": 18,
+    "staticBossDropReferences": 12,
+    "staticBossUniqueItemTargets": 12,
+    "allUniqueUsedItemTargets": 104,
+    "currentUsedItemTargetsMissing": 0,
+    "cleanedItemUseExtraCount": 2,
+    "otherArchiveFileCount": 53,
+    "currentItemFilesCount": 105,
+    "currentUnreferencedItemFilesCount": 1
+  },
+  "sourceEvidence": [
+    {
+      "file": "js/items-catalog-hdv.js",
+      "line": 3,
+      "usage": "104 original item records used by items page."
+    },
+    {
+      "file": "js/items.js",
+      "line": 109,
+      "usage": "Prefixes each original item.image with ../assets/items/."
+    },
+    {
+      "file": "js/bestiaire.js",
+      "line": 1270,
+      "usage": "Drop image rendered through getDropImagePath."
+    },
+    {
+      "file": "js/bestiaire.js",
+      "line": 1367,
+      "usage": "Always Ressources prefix; explicit drop.image then dropImageMap then name fallback."
+    },
+    {
+      "file": "tools/build-boss-pages.mjs",
+      "line": 154,
+      "usage": "Matches boss drop names to existing catalogue; original item id used in target URL."
+    },
+    {
+      "file": "tools/build-boss-pages.mjs",
+      "line": 161,
+      "usage": "Uses same catalogue image path, existence checked by assetPath."
+    },
+    {
+      "file": "pages/items.html",
+      "line": 158,
+      "usage": "Loads items-catalog-hdv.js."
+    },
+    {
+      "file": "js/page-registry.js",
+      "line": 128,
+      "usage": "SPA items route loads same catalogue."
+    },
+    {
+      "file": "docs/supabase/SAO_NAMELESS_SCHEMA.sql",
+      "line": 522,
+      "usage": "market_orders.item_image and purchase_history.item_image are historical backend text URLs, no concrete image values seeded here."
+    }
+  ],
+  "mapping": [
+    {
+      "itemId": "anneau_faucheuse",
+      "itemName": "Anneau de la Faucheuse",
+      "catalogueCategory": "accessoires",
+      "catalogueImageOriginal": "Accessoires/AnneaudelaFaucheuse.png",
+      "runtimeImagePath": "../assets/items/Accessoires/AnneaudelaFaucheuse.png",
+      "targetPath": "assets/items/Accessoires/AnneaudelaFaucheuse.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14689,
+        "sha256": "194fbd4c7b2e34d59432e863fae7a9bce8833e032865c40790ca5f4c7e9b5311"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Anneau_de_la_Faucheuse.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Anneau_de_la_Faucheuse.png",
+      "sourceBytes": 562,
+      "sourceSha256": "e6a290cfc5fb4cd75d725e6b638b1cbf3a99617630a3bdcb50f9f3b0ba7fdd91",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "anneau_leviathan",
+      "itemName": "Anneau de Léviathan",
+      "catalogueCategory": "accessoires",
+      "catalogueImageOriginal": "Accessoires/AnneaudeLéviathan.png",
+      "runtimeImagePath": "../assets/items/Accessoires/AnneaudeLéviathan.png",
+      "targetPath": "assets/items/Accessoires/AnneaudeLéviathan.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16120,
+        "sha256": "6d40f84a6ff8f72c03e74f3530914bc9bafb241b2fbf90edf405ce1a49974290"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Anneau_de_L#U00e9viathan.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Anneau_de_Léviathan.png",
+      "sourceBytes": 557,
+      "sourceSha256": "6da92030153f1d348476d43b8b97457d0136b63f90442c0d581464f3b840ad14",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "anneau_pacte",
+      "itemName": "Anneau de Pacte",
+      "catalogueCategory": "accessoires",
+      "catalogueImageOriginal": "Accessoires/Anneaudepacte.png",
+      "runtimeImagePath": "../assets/items/Accessoires/Anneaudepacte.png",
+      "targetPath": "assets/items/Accessoires/Anneaudepacte.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14164,
+        "sha256": "8f7e8da8af05fc925016c2e05d8abee394a3f54d353bc3fbeb029223ad7ec02a"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Anneau_de_pacte.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Anneau_de_pacte.png",
+      "sourceBytes": 584,
+      "sourceSha256": "16eef83e61758ffcbed5d2c5cc34e6f4bc826dd974014d96f37f61a8f98a323e",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "collier_aragorn",
+      "itemName": "Collier de Aragorn",
+      "catalogueCategory": "accessoires",
+      "catalogueImageOriginal": "Accessoires/CollierdeAragorn.png",
+      "runtimeImagePath": "../assets/items/Accessoires/CollierdeAragorn.png",
+      "targetPath": "assets/items/Accessoires/CollierdeAragorn.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13741,
+        "sha256": "4c0300e7d6ad41da4862fa643f44a9d0676fb8f0976d57dccf60760ed647ff55"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Collier_de_Aragorn.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Accessoires/Collier_de_Aragorn.png",
+      "sourceBytes": 534,
+      "sourceSha256": "02b0616e418d571fcf4d230bd2713c20b29a3f38362604a5e26c87ea221624a9",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "baton_sorcier_shaman",
+      "itemName": "Bâton du Sorcier du Shaman",
+      "catalogueCategory": "armes",
+      "catalogueImageOriginal": "Armes/BatonduSorcierduShaman.png",
+      "runtimeImagePath": "../assets/items/Armes/BatonduSorcierduShaman.png",
+      "targetPath": "assets/items/Armes/BatonduSorcierduShaman.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 5113,
+        "sha256": "8dfc1c8d224d5033e0777f562eee098074325329700a9d5a772717362fe2a442"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Armes/Baton_du_Sorcier_du_Shaman.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Armes/Baton_du_Sorcier_du_Shaman.png",
+      "sourceBytes": 907,
+      "sourceSha256": "163d1bf64ba3de75f671d2907a60dc4120c61d76564c22a443ec8c9aec8ad6a6",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cle_foret",
+      "itemName": "Clé de la Forêt",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/Clédelaforêt.png",
+      "runtimeImagePath": "../assets/items/Consommables/Clédelaforêt.png",
+      "targetPath": "assets/items/Consommables/Clédelaforêt.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 5408,
+        "sha256": "4bfac4741e610e0528e9c7b5e15b038c8dc3e880285bf0724b85fba8e756a832"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_de_la_for#U00eat.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Clé_de_la_forêt.png",
+      "sourceBytes": 341,
+      "sourceSha256": "f27e13655bd4327766577516a6b535a3235baeb0ad25fc60eccb67cb55c83610",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cle_dechus",
+      "itemName": "Clé des Déchus",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/ClédesDechus.png",
+      "runtimeImagePath": "../assets/items/Consommables/ClédesDechus.png",
+      "targetPath": "assets/items/Consommables/ClédesDechus.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 5585,
+        "sha256": "18faa33ce1bb443cbe5e61d6cefe1b03e35d300f336841c873ae035770c85732"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_des_Dechus.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Clé_des_Dechus.png",
+      "sourceBytes": 348,
+      "sourceSha256": "feee170230c6b91532a916177bbd2f273ccb42e70c48e480ea57935b1c34f984",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cle_xal_zirith",
+      "itemName": "Clé de Xal'Zirith",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/ClédeXalZirith.png",
+      "runtimeImagePath": "../assets/items/Consommables/ClédeXalZirith.png",
+      "targetPath": "assets/items/Consommables/ClédeXalZirith.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 5619,
+        "sha256": "70df2da4aa49be4ecd2850842a4cd4db150d2dc3d15928188b1ca70e53f47fd3"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_de_Xal_Zirith.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Clé_de_Xal_Zirith.png",
+      "sourceBytes": 431,
+      "sourceSha256": "82251c2bbcf6ad05828dcf24b7db306eba67d7e1a0d3d7f8bcbea9a0ba649c9d",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cle_halloween",
+      "itemName": "Clé Halloween",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/CléHalloween.png",
+      "runtimeImagePath": "../assets/items/Consommables/CléHalloween.png",
+      "targetPath": "assets/items/Consommables/CléHalloween.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10571,
+        "sha256": "7429f0746fa6d0199aa366ab6fbdc23eaea772480edc4b619dcff83d537d2dee"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_Halloween.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Clé_Halloween.png",
+      "sourceBytes": 1150,
+      "sourceSha256": "f21c6b9eb702aa51f95c54f8f0c08f50a7c559baa9afe99049d7f4f662bb8dd9",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cle_overall",
+      "itemName": "Clé Overall",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/CléOverall.png",
+      "runtimeImagePath": "../assets/items/Consommables/CléOverall.png",
+      "targetPath": "assets/items/Consommables/CléOverall.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 8696,
+        "sha256": "b4c7eec259fa19ae44262bd5ce355d7f00ceba15afaf62ba3b2a0b3467651d68"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cl#U00e9_Overall.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Clé_Overall.png",
+      "sourceBytes": 2460,
+      "sourceSha256": "df296dd743ffb44db5aea34c79b46650eecff411fffab7076c9e94819da7a299",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cristal_potion",
+      "itemName": "Cristal de Potion",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/CristaldePotion.png",
+      "runtimeImagePath": "../assets/items/Consommables/CristaldePotion.png",
+      "targetPath": "assets/items/Consommables/CristaldePotion.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9212,
+        "sha256": "06ecb230eb46c5446ce374257076ab533d6fa535c60c0565c4df4f6780704264"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cristal_de_Potion.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cristal_de_Potion.png",
+      "sourceBytes": 786,
+      "sourceSha256": "a7cf64398aa4a25400907c9516c5b7626b63b2c1a3c0c68b907447a23d4eace3",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cristal_halloween",
+      "itemName": "Cristal d'Halloween",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/CristalDHalloween.png",
+      "runtimeImagePath": "../assets/items/Consommables/CristalDHalloween.png",
+      "targetPath": "assets/items/Consommables/CristalDHalloween.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9225,
+        "sha256": "6a791bd975450f09c640f629e59089d3cd37e40d4dd7ac688011b801d7adc21b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cristal_D_Halloween.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cristal_D_Halloween.png",
+      "sourceBytes": 773,
+      "sourceSha256": "ce545a157800e7d5e833848b3bb67050063fed829093b65359e0b3e45772a709",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cristal_soutien",
+      "itemName": "Cristal du Soutien I",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/CristalduSoutienI.png",
+      "runtimeImagePath": "../assets/items/Consommables/CristalduSoutienI.png",
+      "targetPath": "assets/items/Consommables/CristalduSoutienI.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9093,
+        "sha256": "754e1f03da8e6c7c329bbaded7ee40fdf82e63d859e555f158dbe18f17b86944"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cristal_du_Soutien_I.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Cristal_du_Soutien_I.png",
+      "sourceBytes": 772,
+      "sourceSha256": "188b1249e07f5318b6be4bde9d4b1f749f96be1247f590086cd054d056b46758",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "parchemin_maitrise",
+      "itemName": "Parchemin de Maîtrise",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/ParchemindeMaîtrise.png",
+      "runtimeImagePath": "../assets/items/Consommables/ParchemindeMaîtrise.png",
+      "targetPath": "assets/items/Consommables/ParchemindeMaîtrise.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15492,
+        "sha256": "40b3ecaca9c1b42fa9b35f355ec8d2d521eca81cea1428641b0a6ca3685ed1a3"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Parchemin_de_Ma#U00eetrise.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Parchemin_de_Maîtrise.png",
+      "sourceBytes": 4165,
+      "sourceSha256": "7766df4a9bc33cfd47e766b90f0de889c09a852e5f4fabc2ea68c2753e946de3",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "parchemin_reallocation",
+      "itemName": "Parchemin de Réallocation",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/ParchemindeRéallocation.png",
+      "runtimeImagePath": "../assets/items/Consommables/ParchemindeRéallocation.png",
+      "targetPath": "assets/items/Consommables/ParchemindeRéallocation.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15936,
+        "sha256": "555c864759c8069b9bdeb2e324e4b91029cb111e5a4a98eea80004bf0a308e6c"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Parchemin_de_R#U00e9allocation.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Parchemin_de_Réallocation.png",
+      "sourceBytes": 4095,
+      "sourceSha256": "d36387a5e6d66421a5b30d861cba1bd8bb11cbb94b57a244d8a8d7b55454dcbc",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_mana",
+      "itemName": "Potion de Mana",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/PotiondeMana.png",
+      "runtimeImagePath": "../assets/items/Consommables/PotiondeMana.png",
+      "targetPath": "assets/items/Consommables/PotiondeMana.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9667,
+        "sha256": "54e04222dcb52e031b417d80ebe993e3a3c0f1bf1fa6695703dd31fa70b0d5cc"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Mana.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Mana.png",
+      "sourceBytes": 2623,
+      "sourceSha256": "42c251ae9a6edbd73e83b1011593ece82d09835b45705b7a85f2f87aeda52012",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_mana_moyenne",
+      "itemName": "Potion de Mana Moyenne",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/Potion%20de%20Mana%20Moyenne.png",
+      "runtimeImagePath": "../assets/items/Consommables/Potion%20de%20Mana%20Moyenne.png",
+      "targetPath": "assets/items/Consommables/Potion de Mana Moyenne.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6046,
+        "sha256": "f593df88e3a9028c5c862689bbb592623c31c992727f182655b6476dc5e8bf16"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion de Mana Moyenne.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion de Mana Moyenne.png",
+      "sourceBytes": 785,
+      "sourceSha256": "9a14f3c83c3e9644e03bd3f1e7756ba2e0e18f0b0c4b7629338682f512c4be49",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_mana_superieur",
+      "itemName": "Potion de Mana Supérieur",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/Potion%20de%20Mana%20Supérieur.png",
+      "runtimeImagePath": "../assets/items/Consommables/Potion%20de%20Mana%20Supérieur.png",
+      "targetPath": "assets/items/Consommables/Potion de Mana Supérieur.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 8521,
+        "sha256": "b6eda464f2d80fa4348e7314997efd8e825e62ed4bb514459996c2f45d54ec50"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion de Mana Sup#U00e9rieur.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion de Mana Supérieur.png",
+      "sourceBytes": 1005,
+      "sourceSha256": "3e0f745172e0d3586d7f66744ac690d6a575dd16e318a850809a6d79f6e78513",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_albal",
+      "itemName": "Potion d'Albal",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/PotiondAlbal.png",
+      "runtimeImagePath": "../assets/items/Consommables/PotiondAlbal.png",
+      "targetPath": "assets/items/Consommables/PotiondAlbal.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12553,
+        "sha256": "57f573743c161e890ecfba9df2164ccb4de768e3cd8907c917f4d37694179065"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_d_Albal.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_d_Albal.png",
+      "sourceBytes": 1667,
+      "sourceSha256": "a6136f0760583dc8ec6b4cb8dac442649cd5798621315cfb69b47ff6558bc8cc",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_vie_i",
+      "itemName": "Potion de Vie I",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/PotiondeVieI.png",
+      "runtimeImagePath": "../assets/items/Consommables/PotiondeVieI.png",
+      "targetPath": "assets/items/Consommables/PotiondeVieI.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10065,
+        "sha256": "b77e5249d9a192afffc55f1c5e5c9439dcddece5482c888dbb8b5edd71058ad5"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Vie_I.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Vie_I.png",
+      "sourceBytes": 421,
+      "sourceSha256": "5924622528382d3d11e53fd991792c178358681a5f155ba15eb6cba3a8202987",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_vie_ii",
+      "itemName": "Potion de Vie II",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/PotiondeVieII.png",
+      "runtimeImagePath": "../assets/items/Consommables/PotiondeVieII.png",
+      "targetPath": "assets/items/Consommables/PotiondeVieII.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9455,
+        "sha256": "3779dbb5a295bfda76075b4172b833f1dec0ebdc6f3ebe9331adee97bbc4739b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Vie_II.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Vie_II.png",
+      "sourceBytes": 788,
+      "sourceSha256": "0cf66670c71e3c9aee57bf547df5eb65c7653a11fdfea08aebb9d14c15cf5e06",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_vie_iii",
+      "itemName": "Potion de Vie III",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/PotiondeVieIII.png",
+      "runtimeImagePath": "../assets/items/Consommables/PotiondeVieIII.png",
+      "targetPath": "assets/items/Consommables/PotiondeVieIII.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13769,
+        "sha256": "391e96c2835d8ea545c09fce22ac281546c0f063ae5c07914889f8e64d77ad9b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Vie_III.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_de_Vie_III.png",
+      "sourceBytes": 1000,
+      "sourceSha256": "1801daadcb4803a85b717ac7e4b40cd76bd5e629f1b962f87de0c8fe7202c73a",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "potion_martyr",
+      "itemName": "Potion du Martyr",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/PotionduMartyr.png",
+      "runtimeImagePath": "../assets/items/Consommables/PotionduMartyr.png",
+      "targetPath": "assets/items/Consommables/PotionduMartyr.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13964,
+        "sha256": "46f31ff497e60a019c1d8e1d5576401f7ad1c402b440d6db35f0c73f1032b8cc"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_du_Martyr.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Potion_du_Martyr.png",
+      "sourceBytes": 3596,
+      "sourceSha256": "9b2ef38fd258682a6b369f9a59170fd4f8f2f971f54cce9442fb0d41267110c6",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "sandwich_nephantes",
+      "itemName": "Sandwich de Nephantes",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/SandwichdeNephantes.png",
+      "runtimeImagePath": "../assets/items/Consommables/SandwichdeNephantes.png",
+      "targetPath": "assets/items/Consommables/SandwichdeNephantes.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11948,
+        "sha256": "f2443b2ce46222972995292bda94967ce9bd1442d17c237e827f7e0adbb724dc"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Sandwich_de_Nephantes.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Sandwich_de_Nephantes.png",
+      "sourceBytes": 3588,
+      "sourceSha256": "95801b851e69a8979c2cbb0d8447830fde23134b0b7f75f5272f648b84228bce",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "viande_sanglier",
+      "itemName": "Viande de Sanglier",
+      "catalogueCategory": "consommables",
+      "catalogueImageOriginal": "Consommables/ViandedeSanglier.png",
+      "runtimeImagePath": "../assets/items/Consommables/ViandedeSanglier.png",
+      "targetPath": "assets/items/Consommables/ViandedeSanglier.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10673,
+        "sha256": "2de901be6d0a25b9ef929741574f21e999ca3db5ab9a687e7fbd89a4b18905c3"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Viande_de_Sanglier.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Consommables/Viande_de_Sanglier.png",
+      "sourceBytes": 3031,
+      "sourceSha256": "26c73a7926f13a557a4d96e6e6b3eed20ff797b7bb2961c3f4e0ff1e9e51624e",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "aile_tenebreuse",
+      "itemName": "Aile Ténébreuse",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/AileTénébreuse.png",
+      "runtimeImagePath": "../assets/items/Ressources/AileTénébreuse.png",
+      "targetPath": "assets/items/Ressources/AileTénébreuse.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9089,
+        "sha256": "aa05858d28a88300d573f5a10348acb70248e6dc3ec550ac19a0be58782bd2a4"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Aile_T#U00e9n#U00e9breuse.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Aile_Ténébreuse.png",
+      "sourceBytes": 2215,
+      "sourceSha256": "102cba52d482843b09806ac5a6b44fdb4df546b7127b433b061a0bddda0c96f7",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "bonbon_sucre",
+      "itemName": "Bonbon Sucrée au Sucre",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/BonbonSucréeauSucre.png",
+      "runtimeImagePath": "../assets/items/Ressources/BonbonSucréeauSucre.png",
+      "targetPath": "assets/items/Ressources/BonbonSucréeauSucre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15113,
+        "sha256": "50b6877374014ee408186d8135a2e4d7a37cd31be03db5b1649f1de00762736b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Bonbon_Sucr#U00e9e_au_Sucre.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Bonbon_Sucrée_au_Sucre.png",
+      "sourceBytes": 3778,
+      "sourceSha256": "ea5063905e5ada646d9fed5f84e571e8dcbd95b48ea2bd276855b336a8497bfc",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "brindille_enchantees",
+      "itemName": "Brindille Enchantées",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/BrindilleEnchantées.png",
+      "runtimeImagePath": "../assets/items/Ressources/BrindilleEnchantées.png",
+      "targetPath": "assets/items/Ressources/BrindilleEnchantées.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6870,
+        "sha256": "0936ee7d787320a3e5cde28d62eb28e247b6f7ba3d72353826b08d547d535cae"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Brindille_Enchant#U00e9es.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Brindille_Enchantées.png",
+      "sourceBytes": 708,
+      "sourceSha256": "18510a959ec3509091748039c3f1f0821c9801449f45f3a861f3304d7dc02b4a",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "buche_bouleau",
+      "itemName": "Bûche de Bouleau",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/BuchedeBouleau.png",
+      "runtimeImagePath": "../assets/items/Ressources/BuchedeBouleau.png",
+      "targetPath": "assets/items/Ressources/BuchedeBouleau.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12699,
+        "sha256": "1f4d00cbb07b9b4dcf44eaccfcdbc4fd0989e1a3d4e0b71cb72509b39b941e4e"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Buche_de_Bouleau.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Buche_de_Bouleau.png",
+      "sourceBytes": 3483,
+      "sourceSha256": "e85f5a2db199974aef2b623bec0903822f6edeb8ab3bfe1d2a4e827492241942",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "buche_chene",
+      "itemName": "Bûche de Chêne",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/BuchedeChêne.png",
+      "runtimeImagePath": "../assets/items/Ressources/BuchedeChêne.png",
+      "targetPath": "assets/items/Ressources/BuchedeChêne.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13486,
+        "sha256": "9a7e11611e31970798190a9971899f87f5d030433d8a8509e0b1241804f13667"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Buche_de_Ch#U00eane.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Buche_de_Chêne.png",
+      "sourceBytes": 3207,
+      "sourceSha256": "36468cab7d9a3e23158a71aaafdc7eb64db8ab010077767ead62c09599a40d87",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "carapace_ika",
+      "itemName": "Carapace d'Ika",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CarapacedIka.png",
+      "runtimeImagePath": "../assets/items/Ressources/CarapacedIka.png",
+      "targetPath": "assets/items/Ressources/CarapacedIka.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12470,
+        "sha256": "a6087320a828041607a37986019575c81363487283182924fb9c5041972da6b9"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Carapace_d_Ika.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Carapace_d_Ika.png",
+      "sourceBytes": 424,
+      "sourceSha256": "effa432590f7ccc9599f6663b01ac252d953ef71ef441c19c0bf0b8f941ea252",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "carapace_requin",
+      "itemName": "Carapace de Requin",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CarapcedeRequin.png",
+      "runtimeImagePath": "../assets/items/Ressources/CarapcedeRequin.png",
+      "targetPath": "assets/items/Ressources/CarapcedeRequin.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13057,
+        "sha256": "55b3173aeb1a9ae48c703a905816b855c41332ae02697e64292581457495ee44"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Carapce_de_Requin.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Carapce_de_Requin.png",
+      "sourceBytes": 506,
+      "sourceSha256": "5e18d13760c0ad45f6c2b91cdd936ac0f9a495405d990d442aa9767f31804d4a",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cendre_sarcophage",
+      "itemName": "Cendre de Sarcophage",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CendredeSarcophage.png",
+      "runtimeImagePath": "../assets/items/Ressources/CendredeSarcophage.png",
+      "targetPath": "assets/items/Ressources/CendredeSarcophage.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16883,
+        "sha256": "34270f591bd2fc9da3bbaf4206a4f6170cf5ef1073206db7631cb2972a3c4e91"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Cendre_de_Sarcophage.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Cendre_de_Sarcophage.png",
+      "sourceBytes": 4448,
+      "sourceSha256": "d46ef270d5cc8f29511f868637ea331100d12503d1942a5a6968cca3e9a2073a",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "coeur_arcanique",
+      "itemName": "Coeur Arcanique",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CoeurArcanique.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurArcanique.png",
+      "targetPath": "assets/items/Ressources/CoeurArcanique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16431,
+        "sha256": "3a3bdb6f8c0844a0c8895ce7b9de6cccf3901e99f19a9f90e9d7bd5044fa72bf"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_Arcanique.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_Arcanique.png",
+      "sourceBytes": 4167,
+      "sourceSha256": "7e398b34cf14906b3912b263ecebb922692c3f440919411aacd693256006f32b",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "coeur_bois",
+      "itemName": "Coeur de Bois",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CoeurdeBois.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurdeBois.png",
+      "targetPath": "assets/items/Ressources/CoeurdeBois.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16532,
+        "sha256": "37a859bd615b2469a5df0835e0b1f75028f552158dbf66082c74d96156130e81"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_de_Bois.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_de_Bois.png",
+      "sourceBytes": 4152,
+      "sourceSha256": "7c3764ae8768077655b733588300a5f59c559eefde520e3627230953796e3790",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "coeur_flammes",
+      "itemName": "Coeur de Flammes",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CoeurdeFlammes.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurdeFlammes.png",
+      "targetPath": "assets/items/Ressources/CoeurdeFlammes.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 8675,
+        "sha256": "8b7c72f524c79745a6bd5b05cf299089fb585d41e94bc87de3222c9acb665a6a"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_de_Flammes.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_de_Flammes.png",
+      "sourceBytes": 1780,
+      "sourceSha256": "b252041475e22a269830da8604cbd68556e077dd1079597f9ae9cc629c04195d",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "coeur_nautherion",
+      "itemName": "Coeur de Nautherion",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CoeurdeNautherion.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurdeNautherion.png",
+      "targetPath": "assets/items/Ressources/CoeurdeNautherion.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19314,
+        "sha256": "a4bff42210d1af47ab8929efe41437a6948b03f696411fbf31f5878c498d1bcf"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_de_Nautherion.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_de_Nautherion.png",
+      "sourceBytes": 811,
+      "sourceSha256": "b4ac082097c616055a79f0c1cd130d945afe2f8a2426d4f8c15fbd9cfc43c446",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "coeur_necrotique",
+      "itemName": "Coeur Nécrotique",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CoeurNécrotique.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurNécrotique.png",
+      "targetPath": "assets/items/Ressources/CoeurNécrotique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12422,
+        "sha256": "9ebfc9a586d6761ed4bcc918eec658fe5485182cc08b0100ba0eb033ed6ed79d"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_N#U00e9crotique.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_Nécrotique.png",
+      "sourceBytes": 3489,
+      "sourceSha256": "02700a153a97273ae901eb8f70533dccc744edef48915044ed28c6abc7c2ff21",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "coeur_putrifie",
+      "itemName": "Coeur Putrifié",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CoeurPutrifié.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurPutrifié.png",
+      "targetPath": "assets/items/Ressources/CoeurPutrifié.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13551,
+        "sha256": "6a697283247a98321529b379de4486c5ed6cd10c9000cd327758ebc877e29a65"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_Putrifi#U00e9.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Coeur_Putrifié.png",
+      "sourceBytes": 3536,
+      "sourceSha256": "e2395a2fc0f52578950b88c8b858c9fe8f23dc49e79d49dfed862440026175e0",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "corde_arc_sylvestre",
+      "itemName": "Corde d'arc Sylvestre",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CordedarcSylvestre.png",
+      "runtimeImagePath": "../assets/items/Ressources/CordedarcSylvestre.png",
+      "targetPath": "assets/items/Ressources/CordedarcSylvestre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9595,
+        "sha256": "c02c757097a34923c571e97aad54fa7d9146ccb69573de218611e31fd5695483"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Corde_d_arc_Sylvestre.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Corde_d_arc_Sylvestre.png",
+      "sourceBytes": 2793,
+      "sourceSha256": "d3512ac218a54e4f4bd9d6d4557e3c983e279f79f506bf943f9671485a35cc32",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "corne_ebrechee",
+      "itemName": "Corne Ébrechée",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CorneEbrechée.png",
+      "runtimeImagePath": "../assets/items/Ressources/CorneEbrechée.png",
+      "targetPath": "assets/items/Ressources/CorneEbrechée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10995,
+        "sha256": "c8667c19108994c1e1512b124a15bd004ed23f5f1b30cc70c7643de3a25446d2"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Corne_Ebrech#U00e9e.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Corne_Ebrechée.png",
+      "sourceBytes": 2948,
+      "sourceSha256": "9668592ad8bc3e1870f046596084a9f154b42b5f25de46eaae5e49f2a308938e",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "criniere",
+      "itemName": "Crinière",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/Crinière.png",
+      "runtimeImagePath": "../assets/items/Ressources/Crinière.png",
+      "targetPath": "assets/items/Ressources/Crinière.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15349,
+        "sha256": "d3cae45c86093299702c9b762f8553d013669a5f00d6055c9c6dbad9ed55fa6c"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Crini#U00e8re.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Crinière.png",
+      "sourceBytes": 482,
+      "sourceSha256": "5cfecb9d1c6c55e742b647c63db59a6ef4331ff88ecdf2bfc8a0f196cb2dab15",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "cristal_corrompu",
+      "itemName": "Cristal Corrompu",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CristalCorrompu.png",
+      "runtimeImagePath": "../assets/items/Ressources/CristalCorrompu.png",
+      "targetPath": "assets/items/Ressources/CristalCorrompu.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9948,
+        "sha256": "b7d99be446d7f6dfffe10c95ca1b8923895496cea82377cc6899c44d6b1b0434"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Cristal_Corrompu.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Cristal_Corrompu.png",
+      "sourceBytes": 1940,
+      "sourceSha256": "5d0700fc32d730f79d54274858d275207226ef98a24f6dc51a25b7620055b970",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "crocs_loup",
+      "itemName": "Crocs de Loup",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/CrocsdeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/CrocsdeLoup.png",
+      "targetPath": "assets/items/Ressources/CrocsdeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12458,
+        "sha256": "fbf00294cb507e385313f4e0ded08b2573d1eea1847209096c6d63368bf262f2"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Crocs_de_Loup.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Crocs_de_Loup.png",
+      "sourceBytes": 464,
+      "sourceSha256": "c5a7f6697b242c15e3890ccf8d48dc38fe5389befcaf374c39a6742d5439fa50",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "debris_chair",
+      "itemName": "Débris Putride de Chair",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/DébrisPutridedeChair.png",
+      "runtimeImagePath": "../assets/items/Ressources/DébrisPutridedeChair.png",
+      "targetPath": "assets/items/Ressources/DébrisPutridedeChair.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16515,
+        "sha256": "710cb75bc9ebcc3721cac29fe570927255abc0319e53365a89c2cff8503325e3"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/D#U00e9bris_Putride_de_Chair.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Débris_Putride_de_Chair.png",
+      "sourceBytes": 4111,
+      "sourceSha256": "b3fb1fa9efea98d5fd4fa2b603173593e528dd0e369ddafb958db3c5213f9cfc",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "eclat_bois_magique",
+      "itemName": "Éclat de Bois Magique",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/EclatdeBoisMagique.png",
+      "runtimeImagePath": "../assets/items/Ressources/EclatdeBoisMagique.png",
+      "targetPath": "assets/items/Ressources/EclatdeBoisMagique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13812,
+        "sha256": "2204b0a2bc15a2519f1f0d16d7f181ada840236eeddb113b8fc9915ea34b57fd"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Eclat_de_Bois_Magique.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Eclat_de_Bois_Magique.png",
+      "sourceBytes": 483,
+      "sourceSha256": "f082aa8b1e87c98bc6726f1ce6e329d09d3afdbea32b30959abf4417515569aa",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "ecorce_titan",
+      "itemName": "Écorce de Titan",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/EcorcedeTitan.png",
+      "runtimeImagePath": "../assets/items/Ressources/EcorcedeTitan.png",
+      "targetPath": "assets/items/Ressources/EcorcedeTitan.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7058,
+        "sha256": "1591a44f1a3693fa40ecd2f277e6ed4143d809d0074a7862d665418f7614591c"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Ecorce_de_Titan.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Ecorce_de_Titan.png",
+      "sourceBytes": 1727,
+      "sourceSha256": "a7b48236d005eb400b104144e26ee1c3b8d69bed1fe9c247e6b6166c0f379ab6",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "ecorce_sylvestre",
+      "itemName": "Écorce Sylvestre",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/EcorceSylvestre.png",
+      "runtimeImagePath": "../assets/items/Ressources/EcorceSylvestre.png",
+      "targetPath": "assets/items/Ressources/EcorceSylvestre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 8117,
+        "sha256": "ad5c8f399bca2fd7f96188fa7e4a5e07147464b3cbb6d4380999253ceee21090"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Ecorce_Sylvestre.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Ecorce_Sylvestre.png",
+      "sourceBytes": 361,
+      "sourceSha256": "4b0992371ad9c655db97350db08a0451b5f83719abcf47d383b597a20f142aa3",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "essence_gorbel",
+      "itemName": "Essence de Gorbel",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/EssencedeGorbel.png",
+      "runtimeImagePath": "../assets/items/Ressources/EssencedeGorbel.png",
+      "targetPath": "assets/items/Ressources/EssencedeGorbel.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12573,
+        "sha256": "775030d259e792fd8f2f90671b392b6616a276d3df59c8d33576423ede64c1e9"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Essence_de_Gorbel.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Essence_de_Gorbel.png",
+      "sourceBytes": 3031,
+      "sourceSha256": "63e3d1903a4332af4ebdb3d83e70aacedbb006821bd41de39c4ebc4d1a9d9b93",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "essence_miasme",
+      "itemName": "Essence de Miasme",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/EssencedeMiasme.png",
+      "runtimeImagePath": "../assets/items/Ressources/EssencedeMiasme.png",
+      "targetPath": "assets/items/Ressources/EssencedeMiasme.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7204,
+        "sha256": "d70065c23cbc8db5e57a526ef159b5d3e099546932ede395362617be865a8087"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Essence_de_Miasme.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Essence_de_Miasme.png",
+      "sourceBytes": 2290,
+      "sourceSha256": "532bc4aeb7a5df759f8434ccf9d676cbfba3dbb55244e126414840492f6a9656",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fil_araignee",
+      "itemName": "Fil d'Araignée",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FildAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/FildAraignée.png",
+      "targetPath": "assets/items/Ressources/FildAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11081,
+        "sha256": "4c91a3d2fb077d3d2a4ea1eb2c550716e22ba202738568ed4e05ccd5d1254130"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fil_d_Araign#U00e9e.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fil_d_Araignée.png",
+      "sourceBytes": 392,
+      "sourceSha256": "3862a1fdf9de90b342b74544e344968792802b5850e6f411f4507b1d4468832c",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fil_araignee_renforce",
+      "itemName": "Fil d'Araignée Renforcé",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FildAraignéeRenforcé.png",
+      "runtimeImagePath": "../assets/items/Ressources/FildAraignéeRenforcé.png",
+      "targetPath": "assets/items/Ressources/FildAraignéeRenforcé.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11291,
+        "sha256": "1ca53c19cb28cb89d3a6dd726efaf43e4436e89a5d35c9cdc3ccf2e1472ad11b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fil_d_Araign#U00e9e_Renforc#U00e9.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fil_d_Araignée_Renforcé.png",
+      "sourceBytes": 392,
+      "sourceSha256": "338f673a24933f1a221d29c7fdbc659b64314451ea4623cf1e2a8daf7ade09c6",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fourrure_loup",
+      "itemName": "Fourrure de Loup",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FourruredeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/FourruredeLoup.png",
+      "targetPath": "assets/items/Ressources/FourruredeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16438,
+        "sha256": "1c9cb700666b36be927d0be066d46bb112c990d2c183c4aaf770411545bbd502"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fourrure_de_Loup.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fourrure_de_Loup.png",
+      "sourceBytes": 598,
+      "sourceSha256": "14c3b877e9455dbe4c7f8e7a4f312f94de3f95e8f68da75011bce68b06456f79",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fourrure_vide",
+      "itemName": "Fourrure du Vide",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FourrureduVide.png",
+      "runtimeImagePath": "../assets/items/Ressources/FourrureduVide.png",
+      "targetPath": "assets/items/Ressources/FourrureduVide.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12233,
+        "sha256": "5146475d67e2d35b6cf0d81b1584d6928ce3716ac8e948f1e7933d00f2e25170"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fourrure_du_Vide.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fourrure_du_Vide.png",
+      "sourceBytes": 3588,
+      "sourceSha256": "9cb0eadf1aa8e2e9af4d2fd4cb544178ecb5f0e4aee8009e1917abd3aa0bde37",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fragment_jaune",
+      "itemName": "Fragment Cassé Jaune",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FragmentCasséJaune.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentCasséJaune.png",
+      "targetPath": "assets/items/Ressources/FragmentCasséJaune.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18465,
+        "sha256": "f303525484a1acb5018773b2ece1f3788237bf0a541148e146c3d3b7ae76d436"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_Cass#U00e9_Jaune.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_Cassé_Jaune.png",
+      "sourceBytes": 510,
+      "sourceSha256": "56c7db4194764b324c7de028127183f2d6676b89e8a79bcd3007c0f8f20bd966",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fragment_rouge",
+      "itemName": "Fragment Cassé Rouge",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FragmentCasséRouge.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentCasséRouge.png",
+      "targetPath": "assets/items/Ressources/FragmentCasséRouge.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18689,
+        "sha256": "2a3bc87a391ed75f3c44699340b97e3365c268d2ef0ad1b7747d5588d5825b65"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_Cass#U00e9_Rouge.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_Cassé_Rouge.png",
+      "sourceBytes": 515,
+      "sourceSha256": "5c4ee955e05068fb3ed1bbdacd254795f4d30c8038ee9619eda55dbb2ceea2fd",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fragment_violet",
+      "itemName": "Fragments Cassé Violet",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FragmentsCasséViolet.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentsCasséViolet.png",
+      "targetPath": "assets/items/Ressources/FragmentsCasséViolet.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7943,
+        "sha256": "c959f8df33fd0ea4fa389408c991603c434b46c0beb85c25e6ca710ec67dab99"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragments_Cass#U00e9_Violet.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragments_Cassé_Violet.png",
+      "sourceBytes": 394,
+      "sourceSha256": "b22442adca7997e03ab3448c9f4da1a06aca61ab834435de8581901d56c29d70",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fragment_citrouille",
+      "itemName": "Fragment de Citrouille",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FragmentdeCitrouille.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentdeCitrouille.png",
+      "targetPath": "assets/items/Ressources/FragmentdeCitrouille.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 17005,
+        "sha256": "88f6d99119d15e68aae8f203a0c578d5c319196f4d3152162fc77a9f4fb4cb71"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_de_Citrouille.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_de_Citrouille.png",
+      "sourceBytes": 4472,
+      "sourceSha256": "832cb7a673ed78e566d8cbc69d83311cb5ecea35c1c8c4328acc6871a0ddc749",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fragment_ame_ours",
+      "itemName": "Fragment de l'Âme de l'Ours",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FragmentdelÂmedelOurs.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentdelÂmedelOurs.png",
+      "targetPath": "assets/items/Ressources/FragmentdelÂmedelOurs.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9141,
+        "sha256": "c813422689f8a764e8ada0290494ae561c35c0799c9c4ee99a2123a8cfd911a5"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_de_l_#U00c2me_de_l_Ours.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragment_de_l_Âme_de_l_Ours.png",
+      "sourceBytes": 393,
+      "sourceSha256": "f1930d43c83f25ca298578cd3155660a8b5277e814a2d9949fee69c7b71392f8",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "fragments_feuilles",
+      "itemName": "Fragments de Feuilles",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/FragmentsdeFeuilles.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentsdeFeuilles.png",
+      "targetPath": "assets/items/Ressources/FragmentsdeFeuilles.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7066,
+        "sha256": "26cefb334d80fa49e8453056b8d9425c13cd96f7057f4c834d5551b6b7d4bedb"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragments_de_Feuilles.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Fragments_de_Feuilles.png",
+      "sourceBytes": 588,
+      "sourceSha256": "adc97f9b45543ec14257c08d70b11084c8cca61f9370fcb907b1492c737a5c56",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "gelee_slime",
+      "itemName": "Gelée de Slime",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/GeléedeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/GeléedeSlime.png",
+      "targetPath": "assets/items/Ressources/GeléedeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13436,
+        "sha256": "89eaeef39f2cef4bf18fe53845f4857d74340006166a8a12282036cc2bd192d3"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Gel#U00e9e_de_Slime.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Gelée_de_Slime.png",
+      "sourceBytes": 449,
+      "sourceSha256": "e23df8f4d5e0ef34ec34b8d3334bb778b4fb2e7f83f89c1d3d4367f65335d004",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "griffe_nocturne",
+      "itemName": "Griffe Nocturne",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/GriffeNocturne.png",
+      "runtimeImagePath": "../assets/items/Ressources/GriffeNocturne.png",
+      "targetPath": "assets/items/Ressources/GriffeNocturne.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6411,
+        "sha256": "303c561291eff58be3414f33b0f2a413d0f3d3bbcfc02661a0e65da435109057"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Griffe_Nocturne.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Griffe_Nocturne.png",
+      "sourceBytes": 1674,
+      "sourceSha256": "f27c196e4568233491946ec13de7bde1a8ea30090e85eaf46a0fa5c90f16f8e3",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "lingot_cramoisi",
+      "itemName": "Lingot Cramoisi",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/Lingot%20cramoisi.png",
+      "runtimeImagePath": "../assets/items/Ressources/Lingot%20cramoisi.png",
+      "targetPath": "assets/items/Ressources/Lingot cramoisi.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12882,
+        "sha256": "2cd7ea84d2d6016c25eef879dc85a4d2916064f72c71b71d62d2776f851df9d3"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot cramoisi.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot cramoisi.png",
+      "sourceBytes": 369367,
+      "sourceSha256": "042b6443a18ee9f7d60b904a4ea7a651cf60acbe5ccec83c51d2f3203fb6fbb2",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "lingot_cuivre",
+      "itemName": "Lingot de Cuivre",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/LingotdeCuivre.png",
+      "runtimeImagePath": "../assets/items/Ressources/LingotdeCuivre.png",
+      "targetPath": "assets/items/Ressources/LingotdeCuivre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 8878,
+        "sha256": "02387d948a7a99e018b77f71f09a917e3604f38218eb9b26703c5fd5ffd1ed8e"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_de_Cuivre.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_de_Cuivre.png",
+      "sourceBytes": 618,
+      "sourceSha256": "300b7af0f1cfbc1c45c67c2043666a5ae11446be5cfee390f23ec62be645a356",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "lingot_fer",
+      "itemName": "Lingot de Fer",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/LingotdeFer.png",
+      "runtimeImagePath": "../assets/items/Ressources/LingotdeFer.png",
+      "targetPath": "assets/items/Ressources/LingotdeFer.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9202,
+        "sha256": "4271fe53c1f3c97c494d5afd4914bcba9cc9e69b267f7105892c2b5b087f6daf"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_de_Fer.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_de_Fer.png",
+      "sourceBytes": 2483,
+      "sourceSha256": "a8d37a884b1621d13a2cddca80697d08c7b35f4f97a9ae4818d187815f6ff929",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "lingot_metal_enchante",
+      "itemName": "Lingot de métal enchanté",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/Lingotdemétalenchanté.png",
+      "runtimeImagePath": "../assets/items/Ressources/Lingotdemétalenchanté.png",
+      "targetPath": "assets/items/Ressources/Lingotdemétalenchanté.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 26498,
+        "sha256": "58700b773b3f5b832d594ae24304337eb16802feb5b816df05ea526cf801735d"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_de_m#U00e9tal_enchant#U00e9.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_de_métal_enchanté.png",
+      "sourceBytes": 540,
+      "sourceSha256": "ebc96a29051491fa35edeebf6737a82c6891dc3559e05f0ae3b11ec412220062",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "lingot_ame_metal",
+      "itemName": "Lingot d'Âme de Métal",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/LingotdÂmedeMétal.png",
+      "runtimeImagePath": "../assets/items/Ressources/LingotdÂmedeMétal.png",
+      "targetPath": "assets/items/Ressources/LingotdÂmedeMétal.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12194,
+        "sha256": "9adcb51e2fc5477498744bbfdf7e9e20d410bc3d70fc10de1ddad34b6ff53a49"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_d_#U00c2me_de_M#U00e9tal.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Lingot_d_Âme_de_Métal.png",
+      "sourceBytes": 444,
+      "sourceSha256": "ac1bdaeed92b937c5425ed232f8278c1b1daec671df95f361de73dfbbc65e087",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "minerai_cramoisi",
+      "itemName": "Minerai Cramoisi",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/Mineraicramoisi.png",
+      "runtimeImagePath": "../assets/items/Ressources/Mineraicramoisi.png",
+      "targetPath": "assets/items/Ressources/Mineraicramoisi.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 37982,
+        "sha256": "8ed7de91521381b22be6e61d667ac538cea8cfd8370d3b48864942c9f9c2edad"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_cramoisi.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_cramoisi.png",
+      "sourceBytes": 10002,
+      "sourceSha256": "79363e938a26b7431498bccc1cde7a0af4abc842b2c836b8e879dafd1ca61b39",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "minerai_charbon",
+      "itemName": "Minerai de Charbon",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/MineraideCharbon.png",
+      "runtimeImagePath": "../assets/items/Ressources/MineraideCharbon.png",
+      "targetPath": "assets/items/Ressources/MineraideCharbon.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9620,
+        "sha256": "fdb9ea0fdfa09d373be125f418f5443fbf258dce35e4ee3171e05a70c3361cec"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_de_Charbon.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_de_Charbon.png",
+      "sourceBytes": 386,
+      "sourceSha256": "61eb426d7420c17ab74641947f8b192e0036bf888640b40f9a7d47565b7605d9",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "minerai_cuivre",
+      "itemName": "Minerai de Cuivre",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/MineraideCuivre.png",
+      "runtimeImagePath": "../assets/items/Ressources/MineraideCuivre.png",
+      "targetPath": "assets/items/Ressources/MineraideCuivre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14833,
+        "sha256": "c342b33a964ab64e6bf924b2e5f5f1de3d423e6f77686e0a3acae3375d980baf"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_de_Cuivre.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_de_Cuivre.png",
+      "sourceBytes": 641,
+      "sourceSha256": "175f8ce0fe36525248e1cdad136688b7d24ef5f5f3c29e2b17c94e0b8ce808bc",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "minerai_fer",
+      "itemName": "Minerai de Fer",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/MineraideFer.png",
+      "runtimeImagePath": "../assets/items/Ressources/MineraideFer.png",
+      "targetPath": "assets/items/Ressources/MineraideFer.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14237,
+        "sha256": "abeb94a701a8cc84b2bf92fbe4857222303007846cf275c2228fede3f0bffbb8"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_de_Fer.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Minerai_de_Fer.png",
+      "sourceBytes": 487,
+      "sourceSha256": "facc9a2a97ab873fa8890e66aa883b837bee64212d2cde056288ee0f1607dfde",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "mycelium_magique",
+      "itemName": "Mycélium Magique",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/MycéliumMagique.png",
+      "runtimeImagePath": "../assets/items/Ressources/MycéliumMagique.png",
+      "targetPath": "assets/items/Ressources/MycéliumMagique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15316,
+        "sha256": "8728e468f23ad2d83e72ca1f7f5aa79f7c5638a927ae7e62dae7f91faa063444"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Myc#U00e9lium_Magique.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Mycélium_Magique.png",
+      "sourceBytes": 528,
+      "sourceSha256": "ec6eadd17a4ca69704bab5079d27d1b7abb75ee09aa2967f0c385bd903284a7b",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "noyau_slime",
+      "itemName": "Noyau de Slime",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/NoyaudeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/NoyaudeSlime.png",
+      "targetPath": "assets/items/Ressources/NoyaudeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19597,
+        "sha256": "5b8a9ae5ae68e317b6ba4f5dfd871579d2fcab72bee41321c7b1ad3f1fe697e3"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Noyau_de_Slime.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Noyau_de_Slime.png",
+      "sourceBytes": 4954,
+      "sourceSha256": "28f7288d17db5ded739b9b5dc297b21a68fc9454b293cb225fc241c08c34f4c0",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "os_squelette",
+      "itemName": "Os de Squelette",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/OsdeSquelette.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSquelette.png",
+      "targetPath": "assets/items/Ressources/OsdeSquelette.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18867,
+        "sha256": "1de491f44b1ad0a23b5c8624ac829dd8b1d69bc4a6e313a3b23513ba63f56fdc"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Os_de_Squelette.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Os_de_Squelette.png",
+      "sourceBytes": 4888,
+      "sourceSha256": "be61c077867879728230e885d07d8de92e4bd7f251760cb4329e81fec8740009",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "os_squelette_renforce",
+      "itemName": "Os de Squelette Renforcé",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/OsdeSqueletteRenforcé.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "targetPath": "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15054,
+        "sha256": "193d70ba544c8357413484904ca57ce2e1c982593d5b692a852869fa5cad485b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Os_de_Squelette_Renforc#U00e9.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Os_de_Squelette_Renforcé.png",
+      "sourceBytes": 4081,
+      "sourceSha256": "0d1c3c5d6dd72ec5bd8f0e4a06898cddf7ee5f3d3c2a1733c4a075a0b8594ab7",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "peau_sanglier",
+      "itemName": "Peau de Sanglier",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/Peau%20de%20Sanglier.png",
+      "runtimeImagePath": "../assets/items/Ressources/Peau%20de%20Sanglier.png",
+      "targetPath": "assets/items/Ressources/Peau de Sanglier.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15763,
+        "sha256": "0ccec0a3c92c54422aeaaa1190f68455823c3c17fd17c9c9dc10213528e13bd8"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Peau de Sanglier.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Peau de Sanglier.png",
+      "sourceBytes": 708,
+      "sourceSha256": "656b9cb7bc14c798b4a06af676beeb7c3a0390807d24358ad1e37ae4579193ed",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "peau_glacial",
+      "itemName": "Peau d'ur Glacial",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/PeaudurGlacial.png",
+      "runtimeImagePath": "../assets/items/Ressources/PeaudurGlacial.png",
+      "targetPath": "assets/items/Ressources/PeaudurGlacial.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14971,
+        "sha256": "5deacce591c179880950ccf709c197b7c1dc3d4a690900e2bd6c1e56750b466f"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Peau_dur_Glacial.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Peau_dur_Glacial.png",
+      "sourceBytes": 573,
+      "sourceSha256": "ec7536d19f55ee0d5ec76b2d4d793deb046f2bbe13f101735f2710f4112ef91f",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "petite_bourse",
+      "itemName": "Petite Bourse",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/PetiteBourse.png",
+      "runtimeImagePath": "../assets/items/Ressources/PetiteBourse.png",
+      "targetPath": "assets/items/Ressources/PetiteBourse.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11216,
+        "sha256": "14fcd1d4b72e8ceadd9471c815b7b00f1ecf98e2ca48f825bc64527043184429"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Petite_Bourse.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Petite_Bourse.png",
+      "sourceBytes": 385,
+      "sourceSha256": "953012c25060997fa0a8a1bbc00c0e803fd46757c4a1a3fbf296f6ebd3b7cac7",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "piece_metal_enchante",
+      "itemName": "Pièce de métal enchanté",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/Piècedemétalenchanté.png",
+      "runtimeImagePath": "../assets/items/Ressources/Piècedemétalenchanté.png",
+      "targetPath": "assets/items/Ressources/Piècedemétalenchanté.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 26288,
+        "sha256": "d7754d75f5d7b325e400bd097fb05bca08a351f7c9a1898e5c69f01fb368c2a5"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Pi#U00e8ce_de_m#U00e9tal_enchant#U00e9.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Pièce_de_métal_enchanté.png",
+      "sourceBytes": 565,
+      "sourceSha256": "73e66fff95597c1744e858824a1d5495200d13f81f1e8d64220fa65bb23af4c8",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "piece_ame_metal",
+      "itemName": "Pièce d'Âme de Métal",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/PiècedÂmedeMétal.png",
+      "runtimeImagePath": "../assets/items/Ressources/PiècedÂmedeMétal.png",
+      "targetPath": "assets/items/Ressources/PiècedÂmedeMétal.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7391,
+        "sha256": "a34be53ac16eb48d27edfa4bcbea3a4cf323b33c89bfb47c72f6e7c7bfca36cc"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Pi#U00e8ce_d_#U00c2me_de_M#U00e9tal.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Pièce_d_Âme_de_Métal.png",
+      "sourceBytes": 394,
+      "sourceSha256": "79c956d763d6fd3081ac2c88e6813ee8a541714a9da5fdf891b5e6ed248fc052",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "pousse_sylve",
+      "itemName": "Pousse de Sylve",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/PoussedeSylve.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussedeSylve.png",
+      "targetPath": "assets/items/Ressources/PoussedeSylve.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14023,
+        "sha256": "89864e05ea369471a24ff3ee4c74ffb86f975b8f982597ebbdf69b007744a36d"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Pousse_de_Sylve.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Pousse_de_Sylve.png",
+      "sourceBytes": 560,
+      "sourceSha256": "f3c54e420b2e7aabbf079e121614c190e54afa8fdd2fc4bd34254d1ba766c8ad",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "poussiere_echo",
+      "itemName": "Poussière d'Echo Spectrale",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/PoussièredEchoSpectrale.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussièredEchoSpectrale.png",
+      "targetPath": "assets/items/Ressources/PoussièredEchoSpectrale.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15833,
+        "sha256": "d0cf97490fffd5252ee3a58839487f64278ea0847630eb5bedd2320ed076d887"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Poussi#U00e8re_d_Echo_Spectrale.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Poussière_d_Echo_Spectrale.png",
+      "sourceBytes": 3992,
+      "sourceSha256": "5eb2e03100c0d066f11b30a1f4144240d506e66f89d823adadbcbf2e1947216f",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "poussiere_givre",
+      "itemName": "Poussière de Givre",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/PoussièredeGivre.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussièredeGivre.png",
+      "targetPath": "assets/items/Ressources/PoussièredeGivre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6982,
+        "sha256": "feb50f4b7a19332c291128d3e20f71ee6ab23d192b5176afe61de31cd95427ce"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Poussi#U00e8re_de_Givre.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Poussière_de_Givre.png",
+      "sourceBytes": 1116,
+      "sourceSha256": "35415e82b6302ded85708cad2ea1ac144232f06382ae5c969f79cfef238f1c89",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "poussiere_os",
+      "itemName": "Poussière d'Os",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/PoussièredOs.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussièredOs.png",
+      "targetPath": "assets/items/Ressources/PoussièredOs.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 24945,
+        "sha256": "60f806230f9f8a60ecc3ba39f417a9731957fa3d6c999f98e2aa9d908f60919a"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Poussi#U00e8re_d_Os.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Poussière_d_Os.png",
+      "sourceBytes": 6232,
+      "sourceSha256": "7ad6cb609a7f6a5b87f6dd242430f4fa667c724bc444d05aff996652ebc329d4",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "racine_ancestrale",
+      "itemName": "Racine Ancestrale",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/RacineAncestrale.png",
+      "runtimeImagePath": "../assets/items/Ressources/RacineAncestrale.png",
+      "targetPath": "assets/items/Ressources/RacineAncestrale.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10876,
+        "sha256": "428efe8ac22800dbc4bf21fda42b5cd03fedad1a68a70ab5341174ff76fa31c2"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Racine_Ancestrale.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Racine_Ancestrale.png",
+      "sourceBytes": 538,
+      "sourceSha256": "a1a67fbc3a7923e6b6b39489aff22db6dbaddd2446652103abba7e7f7ea405ad",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "spore_corrompu",
+      "itemName": "Spore Corrompu",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/SporeCorrompu.png",
+      "runtimeImagePath": "../assets/items/Ressources/SporeCorrompu.png",
+      "targetPath": "assets/items/Ressources/SporeCorrompu.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6291,
+        "sha256": "06fa6ba3b6a790bdcbb18fa396e0b6eccd436d5731954004bafa41f87eb9a898"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Spore_Corrompu.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Spore_Corrompu.png",
+      "sourceBytes": 876,
+      "sourceSha256": "827451a6ec8a2179cb96e9109116f52ee0659aa7e8a8c639264fd30c9cf90b82",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "tissu_araignee",
+      "itemName": "Tissu d'Araignée",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/TissudAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/TissudAraignée.png",
+      "targetPath": "assets/items/Ressources/TissudAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14320,
+        "sha256": "6f138bb95e7f885093db6f7486305280759dc353eca3a8f10915698647b19a5b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Tissu_d_Araign#U00e9e.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Tissu_d_Araignée.png",
+      "sourceBytes": 3752,
+      "sourceSha256": "431d5aee1879be2c57b79e9dadb82fb08813bf21208231abd02f52a2f40323e8",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "tissu_maudit",
+      "itemName": "Tissu Maudit",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/TissuMaudit.png",
+      "runtimeImagePath": "../assets/items/Ressources/TissuMaudit.png",
+      "targetPath": "assets/items/Ressources/TissuMaudit.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13585,
+        "sha256": "177a4f55a76693b852d47b3c343eeeaa7d33d306755a8aa9c49b1f842f1a829e"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Tissu_Maudit.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Tissu_Maudit.png",
+      "sourceBytes": 2571,
+      "sourceSha256": "fd1ccef8733e313400ca140558ddf823207b0775cb78cdb57dc0e69e51b0c5c5",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "tissu_spectral",
+      "itemName": "Tissu Spectral",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/TissuSpectral.png",
+      "runtimeImagePath": "../assets/items/Ressources/TissuSpectral.png",
+      "targetPath": "assets/items/Ressources/TissuSpectral.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11044,
+        "sha256": "69d361a3857e7f5e2b3173b3a0359dca78dd0d6cd3bba6c6c8841d4520eaede1"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Tissu_Spectral.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Tissu_Spectral.png",
+      "sourceBytes": 388,
+      "sourceSha256": "7567d5429113032bd9eceeef491c70ce6b0df72c58aaa774f9efc92dc7767cc3",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "venin_araignee",
+      "itemName": "Venin d'Araignée",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/VenindAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/VenindAraignée.png",
+      "targetPath": "assets/items/Ressources/VenindAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18880,
+        "sha256": "6f1d90bb82641a797c4d27c3ce0f057afd62a6c47863b99b61d6b09343beb9c6"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Venin_d_Araign#U00e9e.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Venin_d_Araignée.png",
+      "sourceBytes": 4755,
+      "sourceSha256": "24daff2f367a47bba922c357cf601e19d44f4858335c586627ece3a733688ca8",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "voile_banshee",
+      "itemName": "Voile de la Banshee",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/VoiledelaBanshee.png",
+      "runtimeImagePath": "../assets/items/Ressources/VoiledelaBanshee.png",
+      "targetPath": "assets/items/Ressources/VoiledelaBanshee.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14384,
+        "sha256": "3646d458c5b4a985396f1ebf89ac4ded2b43b85156768b6c46d74151f78021e9"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Voile_de_la_Banshee.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Voile_de_la_Banshee.png",
+      "sourceBytes": 3552,
+      "sourceSha256": "bbf6e3b8a7a1ac84924f355963702986d5ab4352b21ccced8044c69755392686",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "ame_herald",
+      "itemName": "Âme de l'Herald",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/ÂmedelHerald.png",
+      "runtimeImagePath": "../assets/items/Ressources/ÂmedelHerald.png",
+      "targetPath": "assets/items/Ressources/ÂmedelHerald.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 23188,
+        "sha256": "c729148d31c5cf15eebbfa143e5beef9d402bf3b576a0d635ca299fb22d22348"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/#U00c2me_de_l_Herald.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Âme_de_l_Herald.png",
+      "sourceBytes": 499,
+      "sourceSha256": "de9a4732cfb252086b73c6d52664fabf5f397a6fa628435b2f3dae400488abe3",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "ame_ruines",
+      "itemName": "Âme des ruines",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/Âmedesruines.png",
+      "runtimeImagePath": "../assets/items/Ressources/Âmedesruines.png",
+      "targetPath": "assets/items/Ressources/Âmedesruines.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16407,
+        "sha256": "cee1f51b9735988691c95bd034c1c8dd8c6be873bd4eb63a724a09f10e90fa79"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/#U00c2me_des_ruines.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Âme_des_ruines.png",
+      "sourceBytes": 439,
+      "sourceSha256": "c81563b06f24e4b4e5f0260a31e4d5a968d314b78571eb270e511fbc3b9bedfe",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "ame_reaper",
+      "itemName": "Âme du Reaper",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/ÂmeduReaper.png",
+      "runtimeImagePath": "../assets/items/Ressources/ÂmeduReaper.png",
+      "targetPath": "assets/items/Ressources/ÂmeduReaper.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10659,
+        "sha256": "253c6f8a5e3d0a28e2ed941f6f5a8533e0b90c04f3840d64225220eedde66194"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/#U00c2me_du_Reaper.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Âme_du_Reaper.png",
+      "sourceBytes": 449,
+      "sourceSha256": "c0aa0d6cd78eeeea94b2df96ec573bde7067d963cccc15679d7326843ff1e45b",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "ame_warden",
+      "itemName": "Âme du Warden",
+      "catalogueCategory": "ressources",
+      "catalogueImageOriginal": "Ressources/ÂmeduWarden.png",
+      "runtimeImagePath": "../assets/items/Ressources/ÂmeduWarden.png",
+      "targetPath": "assets/items/Ressources/ÂmeduWarden.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 23655,
+        "sha256": "4aaf754ee023e92a02ea5c7f0077f0c52689bd0ead4d2f351b4328a15594f89f"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/#U00c2me_du_Warden.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Ressources/Âme_du_Warden.png",
+      "sourceBytes": 502,
+      "sourceSha256": "fa1584d6bb14d784e2f91e4fbb630ce2a6eabd2123748cd142fc85eb1d4c3491",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "canne_peche",
+      "itemName": "Canne à Pêche",
+      "catalogueCategory": "outils",
+      "catalogueImageOriginal": "Outils/Canneàpêche.png",
+      "runtimeImagePath": "../assets/items/Outils/Canneàpêche.png",
+      "targetPath": "assets/items/Outils/Canneàpêche.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 8607,
+        "sha256": "46184ae1030a950bdbcc8318ac8b163ae3742c27e563cead5f1242c6a0cfaeae"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Canne_#U00e0_p#U00eache.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Canne_à_pêche.png",
+      "sourceBytes": 391,
+      "sourceSha256": "a8d990a04252240bf231528691629abfbc925a47d092e79908af9bc6e1dbc253",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "hache_ebrechee",
+      "itemName": "Hache Ébréchée",
+      "catalogueCategory": "outils",
+      "catalogueImageOriginal": "Outils/Hacheébréchée.png",
+      "runtimeImagePath": "../assets/items/Outils/Hacheébréchée.png",
+      "targetPath": "assets/items/Outils/Hacheébréchée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 5257,
+        "sha256": "1904b6851b8a4e0f7551501e63588df167a6eb389108084ccf6e82ec8707116b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Hache_#U00e9br#U00e9ch#U00e9e.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Hache_ébréchée.png",
+      "sourceBytes": 866,
+      "sourceSha256": "7975dde795eeb406a60ea7ea53f03a256934c1e968ee38d31f15a0e45de83858",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "pinceau_magique",
+      "itemName": "Pinceau Magique",
+      "catalogueCategory": "outils",
+      "catalogueImageOriginal": "Outils/PinceauMagique.png",
+      "runtimeImagePath": "../assets/items/Outils/PinceauMagique.png",
+      "targetPath": "assets/items/Outils/PinceauMagique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9793,
+        "sha256": "ca5424c57deea06136b897fb946f4be13fd11ceba38d7ad2802362244ff1bb23"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Pinceau_Magique.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Pinceau_Magique.png",
+      "sourceBytes": 431,
+      "sourceSha256": "18cbfb18e7757e078981f2620130abc742ce8038b9206211357739cad76372ca",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "pioche_felee",
+      "itemName": "Pioche Fêlée",
+      "catalogueCategory": "outils",
+      "catalogueImageOriginal": "Outils/PiocheFêlée.png",
+      "runtimeImagePath": "../assets/items/Outils/PiocheFêlée.png",
+      "targetPath": "assets/items/Outils/PiocheFêlée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 5378,
+        "sha256": "90cd162477d7a535c723a9adaae4f0df6eb05ea061a8b3d6ec05a76010f8c1cd"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Pioche_F#U00eal#U00e9e.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Pioche_Fêlée.png",
+      "sourceBytes": 877,
+      "sourceSha256": "99cfac2b5f0933dd7f645f34ead16b4ad3a61f886cdd58a26770bb94b145fcf3",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "serpe_tordue",
+      "itemName": "Serpe Tordue",
+      "catalogueCategory": "outils",
+      "catalogueImageOriginal": "Outils/SerpeTordue.png",
+      "runtimeImagePath": "../assets/items/Outils/SerpeTordue.png",
+      "targetPath": "assets/items/Outils/SerpeTordue.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 4884,
+        "sha256": "a65c9c23ce11dd78c27e855128b70add3c8d6a7f6180fb043a32e096b08e130b"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Serpe_Tordue.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Outils/Serpe_Tordue.png",
+      "sourceBytes": 881,
+      "sourceSha256": "40e7307f5ffdaa3a222f36bddaa23a417c42cb1a10856865e4e04bce6fcd3a58",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "krynn_fleau",
+      "itemName": "Krynn Le Fléau Multicolore",
+      "catalogueCategory": "familiers",
+      "catalogueImageOriginal": "Familiers/KrynnLeFléauMuticolore.png",
+      "runtimeImagePath": "../assets/items/Familiers/KrynnLeFléauMuticolore.png",
+      "targetPath": "assets/items/Familiers/KrynnLeFléauMuticolore.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 20963,
+        "sha256": "ef701ebe658811f1e87de1bf2266540a55d837411713b4aea7f9669918da3088"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Familiers/Krynn__Le_Fl#U00e9au_Muticolore.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Familiers/Krynn__Le_Fléau_Muticolore.png",
+      "sourceBytes": 5455,
+      "sourceSha256": "58b25838ccdfc317c1f9d47b16096b1fbc0a8afb3a6c9de8d4cf26cf3cf83ce2",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "pet_frankenstein",
+      "itemName": "Pet Frankenstein",
+      "catalogueCategory": "familiers",
+      "catalogueImageOriginal": "Familiers/PetFrankenstein.png",
+      "runtimeImagePath": "../assets/items/Familiers/PetFrankenstein.png",
+      "targetPath": "assets/items/Familiers/PetFrankenstein.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14904,
+        "sha256": "95a84a0bf2b20cb287fcfab0ca1af625a5035c8d7e1a442de04cb8ad5281e5ec"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Montures/Pet_Frankenstein.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Montures/Pet_Frankenstein.png",
+      "sourceBytes": 3576,
+      "sourceSha256": "6ce23825561f92adc49f3771c78fd47a87da28fff00b16ac7d4e18262d6c3fc4",
+      "matchMethod": "unique normalized basename across categories",
+      "categoryDifference": true
+    },
+    {
+      "itemId": "balais_volant",
+      "itemName": "Monture Balais Volant",
+      "catalogueCategory": "montures",
+      "catalogueImageOriginal": "Montures/MontureBalaisVolant.png",
+      "runtimeImagePath": "../assets/items/Montures/MontureBalaisVolant.png",
+      "targetPath": "assets/items/Montures/MontureBalaisVolant.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10639,
+        "sha256": "560914794c3886671c40a81fc60b661b34e977f7b6d5274f9bbe749ccc5126c7"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Montures/Monture_Balais_Volant.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Montures/Monture_Balais_Volant.png",
+      "sourceBytes": 2654,
+      "sourceSha256": "d53b6e68204f8471ff7a17688855eaf773a65a46a3cc5db37f94aeed9276e0c1",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    },
+    {
+      "itemId": "rune_halloween",
+      "itemName": "Rune d'Halloween",
+      "catalogueCategory": "runes",
+      "catalogueImageOriginal": "Runes/RunedHalloween.png",
+      "runtimeImagePath": "../assets/items/Runes/RunedHalloween.png",
+      "targetPath": "assets/items/Runes/RunedHalloween.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19944,
+        "sha256": "24df08914bf397f28375069f4ee1ce5a59da8d68c190877d95d12dd1a127fbb4"
+      },
+      "sourceArchiveEntry": "Items_Cleaned_FirstPass/item_use_cleaned/Runes/Rune_d_Halloween.png",
+      "sourceDecodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Runes/Rune_d_Halloween.png",
+      "sourceBytes": 4920,
+      "sourceSha256": "1dd04949b27686b16009a8c69643517a28e270cbd96f6d5a390e4b756e45c22c",
+      "matchMethod": "normalized basename within same category",
+      "categoryDifference": false
+    }
+  ],
+  "ambiguousMappings": [],
+  "catalogueMissingSources": [],
+  "sourceComparisonCollisions": [],
+  "bestiaireDropReferences": [
+    {
+      "creatureId": 1,
+      "creature": "Gorbel",
+      "creatureCategory": "boss",
+      "name": "Gelée de Slime",
+      "rate": 30,
+      "image": "GeléedeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/GeléedeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/GeléedeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13436,
+        "sha256": "89eaeef39f2cef4bf18fe53845f4857d74340006166a8a12282036cc2bd192d3"
+      }
+    },
+    {
+      "creatureId": 1,
+      "creature": "Gorbel",
+      "creatureCategory": "boss",
+      "name": "Noyau de Slime",
+      "rate": 5,
+      "image": "NoyaudeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/NoyaudeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/NoyaudeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19597,
+        "sha256": "5b8a9ae5ae68e317b6ba4f5dfd871579d2fcab72bee41321c7b1ad3f1fe697e3"
+      }
+    },
+    {
+      "creatureId": 1,
+      "creature": "Gorbel",
+      "creatureCategory": "boss",
+      "name": "Essence de Gorbel",
+      "rate": 1,
+      "image": "EssencedeGorbel.png",
+      "runtimeImagePath": "../assets/items/Ressources/EssencedeGorbel.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/EssencedeGorbel.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12573,
+        "sha256": "775030d259e792fd8f2f90671b392b6616a276d3df59c8d33576423ede64c1e9"
+      }
+    },
+    {
+      "creatureId": 2,
+      "creature": "Petit Slime",
+      "creatureCategory": "creature",
+      "name": "Gelée de Slime",
+      "rate": 30,
+      "image": "GeléedeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/GeléedeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/GeléedeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13436,
+        "sha256": "89eaeef39f2cef4bf18fe53845f4857d74340006166a8a12282036cc2bd192d3"
+      }
+    },
+    {
+      "creatureId": 3,
+      "creature": "Slime Guerrier",
+      "creatureCategory": "creature",
+      "name": "Gelée de Slime",
+      "rate": 30,
+      "image": "GeléedeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/GeléedeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/GeléedeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13436,
+        "sha256": "89eaeef39f2cef4bf18fe53845f4857d74340006166a8a12282036cc2bd192d3"
+      }
+    },
+    {
+      "creatureId": 4,
+      "creature": "Slime Soigneur",
+      "creatureCategory": "creature",
+      "name": "Gelée de Slime",
+      "rate": 30,
+      "image": "GeléedeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/GeléedeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/GeléedeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13436,
+        "sha256": "89eaeef39f2cef4bf18fe53845f4857d74340006166a8a12282036cc2bd192d3"
+      }
+    },
+    {
+      "creatureId": 4,
+      "creature": "Slime Soigneur",
+      "creatureCategory": "creature",
+      "name": "Noyau de Slime",
+      "rate": 5,
+      "image": "NoyaudeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/NoyaudeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/NoyaudeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19597,
+        "sha256": "5b8a9ae5ae68e317b6ba4f5dfd871579d2fcab72bee41321c7b1ad3f1fe697e3"
+      }
+    },
+    {
+      "creatureId": 5,
+      "creature": "Slime Magicien",
+      "creatureCategory": "elite",
+      "name": "Gelée de Slime",
+      "rate": 30,
+      "image": "GeléedeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/GeléedeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/GeléedeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13436,
+        "sha256": "89eaeef39f2cef4bf18fe53845f4857d74340006166a8a12282036cc2bd192d3"
+      }
+    },
+    {
+      "creatureId": 5,
+      "creature": "Slime Magicien",
+      "creatureCategory": "elite",
+      "name": "Noyau de Slime",
+      "rate": 5,
+      "image": "NoyaudeSlime.png",
+      "runtimeImagePath": "../assets/items/Ressources/NoyaudeSlime.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/NoyaudeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19597,
+        "sha256": "5b8a9ae5ae68e317b6ba4f5dfd871579d2fcab72bee41321c7b1ad3f1fe697e3"
+      }
+    },
+    {
+      "creatureId": 6,
+      "creature": "Sanglier",
+      "creatureCategory": "creature",
+      "name": "Peau de Sanglier",
+      "rate": 65,
+      "image": "Peau de Sanglier.png",
+      "runtimeImagePath": "../assets/items/Ressources/Peau de Sanglier.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/Peau de Sanglier.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15763,
+        "sha256": "0ccec0a3c92c54422aeaaa1190f68455823c3c17fd17c9c9dc10213528e13bd8"
+      }
+    },
+    {
+      "creatureId": 7,
+      "creature": "Mage Sylvestre",
+      "creatureCategory": "elite",
+      "name": "Brindille Enchantée",
+      "rate": 30,
+      "image": "BrindilleEnchantées.png",
+      "runtimeImagePath": "../assets/items/Ressources/BrindilleEnchantées.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/BrindilleEnchantées.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6870,
+        "sha256": "0936ee7d787320a3e5cde28d62eb28e247b6f7ba3d72353826b08d547d535cae"
+      }
+    },
+    {
+      "creatureId": 7,
+      "creature": "Mage Sylvestre",
+      "creatureCategory": "elite",
+      "name": "Coeur de Bois",
+      "rate": 20,
+      "image": "CoeurdeBois.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurdeBois.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CoeurdeBois.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16532,
+        "sha256": "37a859bd615b2469a5df0835e0b1f75028f552158dbf66082c74d96156130e81"
+      }
+    },
+    {
+      "creatureId": 7,
+      "creature": "Mage Sylvestre",
+      "creatureCategory": "elite",
+      "name": "Tissu Spectral",
+      "rate": 30,
+      "image": "TissuSpectral.png",
+      "runtimeImagePath": "../assets/items/Ressources/TissuSpectral.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/TissuSpectral.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11044,
+        "sha256": "69d361a3857e7f5e2b3173b3a0359dca78dd0d6cd3bba6c6c8841d4520eaede1"
+      }
+    },
+    {
+      "creatureId": 8,
+      "creature": "Mini Tréant",
+      "creatureCategory": "creature",
+      "name": "Pousse de Sylve",
+      "rate": 40,
+      "image": "PoussedeSylve.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussedeSylve.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/PoussedeSylve.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14023,
+        "sha256": "89864e05ea369471a24ff3ee4c74ffb86f975b8f982597ebbdf69b007744a36d"
+      }
+    },
+    {
+      "creatureId": 8,
+      "creature": "Mini Tréant",
+      "creatureCategory": "creature",
+      "name": "Éclat de Bois Magique",
+      "rate": 30,
+      "image": "EclatdeBoisMagique.png",
+      "runtimeImagePath": "../assets/items/Ressources/EclatdeBoisMagique.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/EclatdeBoisMagique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13812,
+        "sha256": "2204b0a2bc15a2519f1f0d16d7f181ada840236eeddb113b8fc9915ea34b57fd"
+      }
+    },
+    {
+      "creatureId": 9,
+      "creature": "Tréant Elite",
+      "creatureCategory": "elite",
+      "name": "Écorce Sylvestre",
+      "rate": 40,
+      "image": "EcorceSylvestre.png",
+      "runtimeImagePath": "../assets/items/Ressources/EcorceSylvestre.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/EcorceSylvestre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 8117,
+        "sha256": "ad5c8f399bca2fd7f96188fa7e4a5e07147464b3cbb6d4380999253ceee21090"
+      }
+    },
+    {
+      "creatureId": 9,
+      "creature": "Tréant Elite",
+      "creatureCategory": "elite",
+      "name": "Corde d'arc Sylvestre",
+      "rate": 25,
+      "image": "CordedarcSylvestre.png",
+      "runtimeImagePath": "../assets/items/Ressources/CordedarcSylvestre.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CordedarcSylvestre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9595,
+        "sha256": "c02c757097a34923c571e97aad54fa7d9146ccb69573de218611e31fd5695483"
+      }
+    },
+    {
+      "creatureId": 10,
+      "creature": "Guerrier Tréant",
+      "creatureCategory": "elite",
+      "name": "Écorce de Titan",
+      "rate": 35,
+      "image": "EcorcedeTitan.png",
+      "runtimeImagePath": "../assets/items/Ressources/EcorcedeTitan.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/EcorcedeTitan.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7058,
+        "sha256": "1591a44f1a3693fa40ecd2f277e6ed4143d809d0074a7862d665418f7614591c"
+      }
+    },
+    {
+      "creatureId": 10,
+      "creature": "Guerrier Tréant",
+      "creatureCategory": "elite",
+      "name": "Racine Ancestrale",
+      "rate": 10,
+      "image": "RacineAncestrale.png",
+      "runtimeImagePath": "../assets/items/Ressources/RacineAncestrale.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/RacineAncestrale.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10876,
+        "sha256": "428efe8ac22800dbc4bf21fda42b5cd03fedad1a68a70ab5341174ff76fa31c2"
+      }
+    },
+    {
+      "creatureId": 11,
+      "creature": "Gardien Colossal",
+      "creatureCategory": "boss",
+      "name": "Mycélium Magique",
+      "rate": 5,
+      "image": "MycéliumMagique.png",
+      "runtimeImagePath": "../assets/items/Ressources/MycéliumMagique.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/MycéliumMagique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15316,
+        "sha256": "8728e468f23ad2d83e72ca1f7f5aa79f7c5638a927ae7e62dae7f91faa063444"
+      }
+    },
+    {
+      "creatureId": 12,
+      "creature": "Loup Blanc",
+      "creatureCategory": "creature",
+      "name": "Fourrure de Loup",
+      "rate": 60,
+      "image": "FourruredeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/FourruredeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FourruredeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16438,
+        "sha256": "1c9cb700666b36be927d0be066d46bb112c990d2c183c4aaf770411545bbd502"
+      }
+    },
+    {
+      "creatureId": 12,
+      "creature": "Loup Blanc",
+      "creatureCategory": "creature",
+      "name": "Crocs de Loup",
+      "rate": 30,
+      "image": "CrocsdeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/CrocsdeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CrocsdeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12458,
+        "sha256": "fbf00294cb507e385313f4e0ded08b2573d1eea1847209096c6d63368bf262f2"
+      }
+    },
+    {
+      "creatureId": 13,
+      "creature": "Loup Brun",
+      "creatureCategory": "creature",
+      "name": "Fourrure de Loup",
+      "rate": 60,
+      "image": "FourruredeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/FourruredeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FourruredeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16438,
+        "sha256": "1c9cb700666b36be927d0be066d46bb112c990d2c183c4aaf770411545bbd502"
+      }
+    },
+    {
+      "creatureId": 13,
+      "creature": "Loup Brun",
+      "creatureCategory": "creature",
+      "name": "Crocs de Loup",
+      "rate": 30,
+      "image": "CrocsdeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/CrocsdeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CrocsdeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12458,
+        "sha256": "fbf00294cb507e385313f4e0ded08b2573d1eea1847209096c6d63368bf262f2"
+      }
+    },
+    {
+      "creatureId": 14,
+      "creature": "Loup Noir",
+      "creatureCategory": "creature",
+      "name": "Fourrure de Loup",
+      "rate": 60,
+      "image": "FourruredeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/FourruredeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FourruredeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16438,
+        "sha256": "1c9cb700666b36be927d0be066d46bb112c990d2c183c4aaf770411545bbd502"
+      }
+    },
+    {
+      "creatureId": 14,
+      "creature": "Loup Noir",
+      "creatureCategory": "creature",
+      "name": "Crocs de Loup",
+      "rate": 30,
+      "image": "CrocsdeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/CrocsdeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CrocsdeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12458,
+        "sha256": "fbf00294cb507e385313f4e0ded08b2573d1eea1847209096c6d63368bf262f2"
+      }
+    },
+    {
+      "creatureId": 15,
+      "creature": "Albal",
+      "creatureCategory": "boss",
+      "name": "Fourrure de Loup",
+      "rate": 100,
+      "image": "FourruredeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/FourruredeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FourruredeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16438,
+        "sha256": "1c9cb700666b36be927d0be066d46bb112c990d2c183c4aaf770411545bbd502"
+      }
+    },
+    {
+      "creatureId": 15,
+      "creature": "Albal",
+      "creatureCategory": "boss",
+      "name": "Crocs de Loup",
+      "rate": 70,
+      "image": "CrocsdeLoup.png",
+      "runtimeImagePath": "../assets/items/Ressources/CrocsdeLoup.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CrocsdeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12458,
+        "sha256": "fbf00294cb507e385313f4e0ded08b2573d1eea1847209096c6d63368bf262f2"
+      }
+    },
+    {
+      "creatureId": 16,
+      "creature": "Ika",
+      "creatureCategory": "boss",
+      "name": "Carapace d'Ika",
+      "rate": 80,
+      "image": "CarapacedIka.png",
+      "runtimeImagePath": "../assets/items/Ressources/CarapacedIka.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CarapacedIka.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12470,
+        "sha256": "a6087320a828041607a37986019575c81363487283182924fb9c5041972da6b9"
+      }
+    },
+    {
+      "creatureId": 18,
+      "creature": "Néphantes",
+      "creatureCategory": "boss",
+      "name": "Spore Corrompu",
+      "rate": 50,
+      "image": "SporeCorrompu.png",
+      "runtimeImagePath": "../assets/items/Ressources/SporeCorrompu.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/SporeCorrompu.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6291,
+        "sha256": "06fa6ba3b6a790bdcbb18fa396e0b6eccd436d5731954004bafa41f87eb9a898"
+      }
+    },
+    {
+      "creatureId": 18,
+      "creature": "Néphantes",
+      "creatureCategory": "boss",
+      "name": "Fragments de Feuilles",
+      "rate": 45,
+      "image": "FragmentsdeFeuilles.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentsdeFeuilles.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FragmentsdeFeuilles.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7066,
+        "sha256": "26cefb334d80fa49e8453056b8d9425c13cd96f7057f4c834d5551b6b7d4bedb"
+      }
+    },
+    {
+      "creatureId": 22,
+      "creature": "Spirite de Glace",
+      "creatureCategory": "elite",
+      "name": "Peau Dur Glacial",
+      "rate": 30,
+      "image": "PeaudurGlacial.png",
+      "runtimeImagePath": "../assets/items/Ressources/PeaudurGlacial.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/PeaudurGlacial.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14971,
+        "sha256": "5deacce591c179880950ccf709c197b7c1dc3d4a690900e2bd6c1e56750b466f"
+      }
+    },
+    {
+      "creatureId": 22,
+      "creature": "Spirite de Glace",
+      "creatureCategory": "elite",
+      "name": "Poussière de givre",
+      "rate": 35,
+      "image": "PoussièredeGivre.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussièredeGivre.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/PoussièredeGivre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6982,
+        "sha256": "feb50f4b7a19332c291128d3e20f71ee6ab23d192b5176afe61de31cd95427ce"
+      }
+    },
+    {
+      "creatureId": 23,
+      "creature": "Araignée Chasseuse",
+      "creatureCategory": "creature",
+      "name": "Fil d'Araignée",
+      "rate": 50,
+      "image": "FildAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/FildAraignée.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FildAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11081,
+        "sha256": "4c91a3d2fb077d3d2a4ea1eb2c550716e22ba202738568ed4e05ccd5d1254130"
+      }
+    },
+    {
+      "creatureId": 23,
+      "creature": "Araignée Chasseuse",
+      "creatureCategory": "creature",
+      "name": "Venin d'Araignée",
+      "rate": 25,
+      "image": "VenindAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/VenindAraignée.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/VenindAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18880,
+        "sha256": "6f1d90bb82641a797c4d27c3ce0f057afd62a6c47863b99b61d6b09343beb9c6"
+      }
+    },
+    {
+      "creatureId": 24,
+      "creature": "Araignée Empoisonnée",
+      "creatureCategory": "elite",
+      "name": "Fil d'Araignée",
+      "rate": 60,
+      "image": "FildAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/FildAraignée.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FildAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11081,
+        "sha256": "4c91a3d2fb077d3d2a4ea1eb2c550716e22ba202738568ed4e05ccd5d1254130"
+      }
+    },
+    {
+      "creatureId": 24,
+      "creature": "Araignée Empoisonnée",
+      "creatureCategory": "elite",
+      "name": "Venin d'Araignée",
+      "rate": 40,
+      "image": "VenindAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/VenindAraignée.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/VenindAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18880,
+        "sha256": "6f1d90bb82641a797c4d27c3ce0f057afd62a6c47863b99b61d6b09343beb9c6"
+      }
+    },
+    {
+      "creatureId": 25,
+      "creature": "Araignée Étrangleuse",
+      "creatureCategory": "elite",
+      "name": "Fil d'Araignée Renforcé",
+      "rate": 55,
+      "image": "FildAraignéeRenforcé.png",
+      "runtimeImagePath": "../assets/items/Ressources/FildAraignéeRenforcé.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FildAraignéeRenforcé.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11291,
+        "sha256": "1ca53c19cb28cb89d3a6dd726efaf43e4436e89a5d35c9cdc3ccf2e1472ad11b"
+      }
+    },
+    {
+      "creatureId": 25,
+      "creature": "Araignée Étrangleuse",
+      "creatureCategory": "elite",
+      "name": "Tissu d'Araignée",
+      "rate": 30,
+      "image": "TissudAraignée.png",
+      "runtimeImagePath": "../assets/items/Ressources/TissudAraignée.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/TissudAraignée.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14320,
+        "sha256": "6f138bb95e7f885093db6f7486305280759dc353eca3a8f10915698647b19a5b"
+      }
+    },
+    {
+      "creatureId": 33,
+      "creature": "Squelette",
+      "creatureCategory": "creature",
+      "name": "Os de Squelette",
+      "rate": 60,
+      "image": "OsdeSquelette.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSquelette.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/OsdeSquelette.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18867,
+        "sha256": "1de491f44b1ad0a23b5c8624ac829dd8b1d69bc4a6e313a3b23513ba63f56fdc"
+      }
+    },
+    {
+      "creatureId": 33,
+      "creature": "Squelette",
+      "creatureCategory": "creature",
+      "name": "Poussière d'Os",
+      "rate": 40,
+      "image": "PoussièredOs.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussièredOs.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/PoussièredOs.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 24945,
+        "sha256": "60f806230f9f8a60ecc3ba39f417a9731957fa3d6c999f98e2aa9d908f60919a"
+      }
+    },
+    {
+      "creatureId": 34,
+      "creature": "Archer Squelette",
+      "creatureCategory": "creature",
+      "name": "Os de Squelette",
+      "rate": 55,
+      "image": "OsdeSquelette.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSquelette.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/OsdeSquelette.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 18867,
+        "sha256": "1de491f44b1ad0a23b5c8624ac829dd8b1d69bc4a6e313a3b23513ba63f56fdc"
+      }
+    },
+    {
+      "creatureId": 35,
+      "creature": "Épéiste Squelette",
+      "creatureCategory": "elite",
+      "name": "Os de Squelette Renforcé",
+      "rate": 50,
+      "image": "OsdeSqueletteRenforcé.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15054,
+        "sha256": "193d70ba544c8357413484904ca57ce2e1c982593d5b692a852869fa5cad485b"
+      }
+    },
+    {
+      "creatureId": 36,
+      "creature": "Guerrier Squelette",
+      "creatureCategory": "elite",
+      "name": "Os de Squelette Renforcé",
+      "rate": 50,
+      "image": "OsdeSqueletteRenforcé.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15054,
+        "sha256": "193d70ba544c8357413484904ca57ce2e1c982593d5b692a852869fa5cad485b"
+      }
+    },
+    {
+      "creatureId": 37,
+      "creature": "Hallebardier Squelette",
+      "creatureCategory": "elite",
+      "name": "Os de Squelette Renforcé",
+      "rate": 55,
+      "image": "OsdeSqueletteRenforcé.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15054,
+        "sha256": "193d70ba544c8357413484904ca57ce2e1c982593d5b692a852869fa5cad485b"
+      }
+    },
+    {
+      "creatureId": 38,
+      "creature": "Tank Squelette",
+      "creatureCategory": "elite",
+      "name": "Os de Squelette Renforcé",
+      "rate": 40,
+      "image": "OsdeSqueletteRenforcé.png",
+      "runtimeImagePath": "../assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15054,
+        "sha256": "193d70ba544c8357413484904ca57ce2e1c982593d5b692a852869fa5cad485b"
+      }
+    },
+    {
+      "creatureId": 43,
+      "creature": "Héraut Déchu",
+      "creatureCategory": "boss",
+      "name": "Âme de l'Herald",
+      "rate": 25,
+      "image": "ÂmedelHerald.png",
+      "runtimeImagePath": "../assets/items/Ressources/ÂmedelHerald.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/ÂmedelHerald.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 23188,
+        "sha256": "c729148d31c5cf15eebbfa143e5beef9d402bf3b576a0d635ca299fb22d22348"
+      }
+    },
+    {
+      "creatureId": 44,
+      "creature": "Faucheuse Déchu",
+      "creatureCategory": "boss",
+      "name": "Âme du Reaper",
+      "rate": 10,
+      "image": "ÂmeduReaper.png",
+      "runtimeImagePath": "../assets/items/Ressources/ÂmeduReaper.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/ÂmeduReaper.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10659,
+        "sha256": "253c6f8a5e3d0a28e2ed941f6f5a8533e0b90c04f3840d64225220eedde66194"
+      }
+    },
+    {
+      "creatureId": 45,
+      "creature": "Golem de Glace",
+      "creatureCategory": "elite",
+      "name": "Peau Dur Glacial",
+      "rate": 30,
+      "image": "PeaudurGlacial.png",
+      "runtimeImagePath": "../assets/items/Ressources/PeaudurGlacial.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/PeaudurGlacial.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 14971,
+        "sha256": "5deacce591c179880950ccf709c197b7c1dc3d4a690900e2bd6c1e56750b466f"
+      }
+    },
+    {
+      "creatureId": 45,
+      "creature": "Golem de Glace",
+      "creatureCategory": "elite",
+      "name": "Poussière de givre",
+      "rate": 40,
+      "image": "PoussièredeGivre.png",
+      "runtimeImagePath": "../assets/items/Ressources/PoussièredeGivre.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/PoussièredeGivre.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6982,
+        "sha256": "feb50f4b7a19332c291128d3e20f71ee6ab23d192b5176afe61de31cd95427ce"
+      }
+    },
+    {
+      "creatureId": 46,
+      "creature": "Ours Glacial",
+      "creatureCategory": "elite",
+      "name": "Fragment de l'Âme de l'Ours",
+      "rate": 5,
+      "image": "FragmentdelÂmedelOurs.png",
+      "runtimeImagePath": "../assets/items/Ressources/FragmentdelÂmedelOurs.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/FragmentdelÂmedelOurs.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 9141,
+        "sha256": "c813422689f8a764e8ada0290494ae561c35c0799c9c4ee99a2123a8cfd911a5"
+      }
+    },
+    {
+      "creatureId": 51,
+      "creature": "Bandit Assassin",
+      "creatureCategory": "elite",
+      "name": "Petite Bourse",
+      "rate": 35,
+      "image": "PetiteBourse.png",
+      "runtimeImagePath": "../assets/items/Ressources/PetiteBourse.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/PetiteBourse.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 11216,
+        "sha256": "14fcd1d4b72e8ceadd9471c815b7b00f1ecf98e2ca48f825bc64527043184429"
+      }
+    },
+    {
+      "creatureId": 52,
+      "creature": "Poisson Requin",
+      "creatureCategory": "elite",
+      "name": "Carapace de Requin",
+      "rate": 40,
+      "image": "CarapcedeRequin.png",
+      "runtimeImagePath": "../assets/items/Ressources/CarapcedeRequin.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CarapcedeRequin.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13057,
+        "sha256": "55b3173aeb1a9ae48c703a905816b855c41332ae02697e64292581457495ee44"
+      }
+    },
+    {
+      "creatureId": 56,
+      "creature": "Léviathan",
+      "creatureCategory": "boss",
+      "name": "Coeur de Nautherion",
+      "rate": 10,
+      "image": "CoeurdeNautherion.png",
+      "runtimeImagePath": "../assets/items/Ressources/CoeurdeNautherion.png",
+      "pathMethod": "explicit",
+      "targetPath": "assets/items/Ressources/CoeurdeNautherion.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19314,
+        "sha256": "a4bff42210d1af47ab8929efe41437a6948b03f696411fbf31f5878c498d1bcf"
+      }
+    }
+  ],
+  "bestiaireUniqueTargets": [
+    "assets/items/Ressources/BrindilleEnchantées.png",
+    "assets/items/Ressources/CarapacedIka.png",
+    "assets/items/Ressources/CarapcedeRequin.png",
+    "assets/items/Ressources/CoeurdeBois.png",
+    "assets/items/Ressources/CoeurdeNautherion.png",
+    "assets/items/Ressources/CordedarcSylvestre.png",
+    "assets/items/Ressources/CrocsdeLoup.png",
+    "assets/items/Ressources/EclatdeBoisMagique.png",
+    "assets/items/Ressources/EcorceSylvestre.png",
+    "assets/items/Ressources/EcorcedeTitan.png",
+    "assets/items/Ressources/EssencedeGorbel.png",
+    "assets/items/Ressources/FildAraignée.png",
+    "assets/items/Ressources/FildAraignéeRenforcé.png",
+    "assets/items/Ressources/FourruredeLoup.png",
+    "assets/items/Ressources/FragmentdelÂmedelOurs.png",
+    "assets/items/Ressources/FragmentsdeFeuilles.png",
+    "assets/items/Ressources/GeléedeSlime.png",
+    "assets/items/Ressources/MycéliumMagique.png",
+    "assets/items/Ressources/NoyaudeSlime.png",
+    "assets/items/Ressources/OsdeSquelette.png",
+    "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+    "assets/items/Ressources/Peau de Sanglier.png",
+    "assets/items/Ressources/PeaudurGlacial.png",
+    "assets/items/Ressources/PetiteBourse.png",
+    "assets/items/Ressources/PoussedeSylve.png",
+    "assets/items/Ressources/PoussièredOs.png",
+    "assets/items/Ressources/PoussièredeGivre.png",
+    "assets/items/Ressources/RacineAncestrale.png",
+    "assets/items/Ressources/SporeCorrompu.png",
+    "assets/items/Ressources/TissuSpectral.png",
+    "assets/items/Ressources/TissudAraignée.png",
+    "assets/items/Ressources/VenindAraignée.png",
+    "assets/items/Ressources/ÂmedelHerald.png",
+    "assets/items/Ressources/ÂmeduReaper.png"
+  ],
+  "bestiaireMissingCurrentTargets": [],
+  "bestiaireUsedTargetsOutsideCatalogue": [],
+  "staticBossDropReferences": [
+    {
+      "creatureId": 1,
+      "creature": "Gorbel",
+      "route": "/boss/gorbel",
+      "dropName": "Gelée de Slime",
+      "itemId": "gelee_slime",
+      "imagePath": "/assets/items/Ressources/GeléedeSlime.png",
+      "targetPath": "assets/items/Ressources/GeléedeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 13436,
+        "sha256": "89eaeef39f2cef4bf18fe53845f4857d74340006166a8a12282036cc2bd192d3"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/GeléedeSlime.png"
+    },
+    {
+      "creatureId": 1,
+      "creature": "Gorbel",
+      "route": "/boss/gorbel",
+      "dropName": "Noyau de Slime",
+      "itemId": "noyau_slime",
+      "imagePath": "/assets/items/Ressources/NoyaudeSlime.png",
+      "targetPath": "assets/items/Ressources/NoyaudeSlime.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19597,
+        "sha256": "5b8a9ae5ae68e317b6ba4f5dfd871579d2fcab72bee41321c7b1ad3f1fe697e3"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/NoyaudeSlime.png"
+    },
+    {
+      "creatureId": 1,
+      "creature": "Gorbel",
+      "route": "/boss/gorbel",
+      "dropName": "Essence de Gorbel",
+      "itemId": "essence_gorbel",
+      "imagePath": "/assets/items/Ressources/EssencedeGorbel.png",
+      "targetPath": "assets/items/Ressources/EssencedeGorbel.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12573,
+        "sha256": "775030d259e792fd8f2f90671b392b6616a276d3df59c8d33576423ede64c1e9"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/EssencedeGorbel.png"
+    },
+    {
+      "creatureId": 11,
+      "creature": "Gardien Colossal",
+      "route": "/boss/gardien-colossal",
+      "dropName": "Mycélium Magique",
+      "itemId": "mycelium_magique",
+      "imagePath": "/assets/items/Ressources/MycéliumMagique.png",
+      "targetPath": "assets/items/Ressources/MycéliumMagique.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 15316,
+        "sha256": "8728e468f23ad2d83e72ca1f7f5aa79f7c5638a927ae7e62dae7f91faa063444"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/MycéliumMagique.png"
+    },
+    {
+      "creatureId": 15,
+      "creature": "Albal",
+      "route": "/boss/albal",
+      "dropName": "Fourrure de Loup",
+      "itemId": "fourrure_loup",
+      "imagePath": "/assets/items/Ressources/FourruredeLoup.png",
+      "targetPath": "assets/items/Ressources/FourruredeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 16438,
+        "sha256": "1c9cb700666b36be927d0be066d46bb112c990d2c183c4aaf770411545bbd502"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/FourruredeLoup.png"
+    },
+    {
+      "creatureId": 15,
+      "creature": "Albal",
+      "route": "/boss/albal",
+      "dropName": "Crocs de Loup",
+      "itemId": "crocs_loup",
+      "imagePath": "/assets/items/Ressources/CrocsdeLoup.png",
+      "targetPath": "assets/items/Ressources/CrocsdeLoup.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12458,
+        "sha256": "fbf00294cb507e385313f4e0ded08b2573d1eea1847209096c6d63368bf262f2"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/CrocsdeLoup.png"
+    },
+    {
+      "creatureId": 16,
+      "creature": "Ika",
+      "route": "/boss/ika",
+      "dropName": "Carapace d'Ika",
+      "itemId": "carapace_ika",
+      "imagePath": "/assets/items/Ressources/CarapacedIka.png",
+      "targetPath": "assets/items/Ressources/CarapacedIka.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 12470,
+        "sha256": "a6087320a828041607a37986019575c81363487283182924fb9c5041972da6b9"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/CarapacedIka.png"
+    },
+    {
+      "creatureId": 18,
+      "creature": "Néphantes",
+      "route": "/boss/nephantes",
+      "dropName": "Spore Corrompu",
+      "itemId": "spore_corrompu",
+      "imagePath": "/assets/items/Ressources/SporeCorrompu.png",
+      "targetPath": "assets/items/Ressources/SporeCorrompu.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 6291,
+        "sha256": "06fa6ba3b6a790bdcbb18fa396e0b6eccd436d5731954004bafa41f87eb9a898"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/SporeCorrompu.png"
+    },
+    {
+      "creatureId": 18,
+      "creature": "Néphantes",
+      "route": "/boss/nephantes",
+      "dropName": "Fragments de Feuilles",
+      "itemId": "fragments_feuilles",
+      "imagePath": "/assets/items/Ressources/FragmentsdeFeuilles.png",
+      "targetPath": "assets/items/Ressources/FragmentsdeFeuilles.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 7066,
+        "sha256": "26cefb334d80fa49e8453056b8d9425c13cd96f7057f4c834d5551b6b7d4bedb"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/FragmentsdeFeuilles.png"
+    },
+    {
+      "creatureId": 43,
+      "creature": "Héraut Déchu",
+      "route": "/boss/heraut-dechu",
+      "dropName": "Âme de l'Herald",
+      "itemId": "ame_herald",
+      "imagePath": "/assets/items/Ressources/ÂmedelHerald.png",
+      "targetPath": "assets/items/Ressources/ÂmedelHerald.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 23188,
+        "sha256": "c729148d31c5cf15eebbfa143e5beef9d402bf3b576a0d635ca299fb22d22348"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/ÂmedelHerald.png"
+    },
+    {
+      "creatureId": 44,
+      "creature": "Faucheuse Déchu",
+      "route": "/boss/faucheuse-dechu",
+      "dropName": "Âme du Reaper",
+      "itemId": "ame_reaper",
+      "imagePath": "/assets/items/Ressources/ÂmeduReaper.png",
+      "targetPath": "assets/items/Ressources/ÂmeduReaper.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 10659,
+        "sha256": "253c6f8a5e3d0a28e2ed941f6f5a8533e0b90c04f3840d64225220eedde66194"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/ÂmeduReaper.png"
+    },
+    {
+      "creatureId": 56,
+      "creature": "Léviathan",
+      "route": "/boss/leviathan",
+      "dropName": "Coeur de Nautherion",
+      "itemId": "coeur_nautherion",
+      "imagePath": "/assets/items/Ressources/CoeurdeNautherion.png",
+      "targetPath": "assets/items/Ressources/CoeurdeNautherion.png",
+      "currentFile": {
+        "exists": true,
+        "bytes": 19314,
+        "sha256": "a4bff42210d1af47ab8929efe41437a6948b03f696411fbf31f5878c498d1bcf"
+      },
+      "effectiveBuildImagePath": "/assets/items/Ressources/CoeurdeNautherion.png"
+    }
+  ],
+  "staticBossUniqueItemTargets": [
+    "assets/items/Ressources/CarapacedIka.png",
+    "assets/items/Ressources/CoeurdeNautherion.png",
+    "assets/items/Ressources/CrocsdeLoup.png",
+    "assets/items/Ressources/EssencedeGorbel.png",
+    "assets/items/Ressources/FourruredeLoup.png",
+    "assets/items/Ressources/FragmentsdeFeuilles.png",
+    "assets/items/Ressources/GeléedeSlime.png",
+    "assets/items/Ressources/MycéliumMagique.png",
+    "assets/items/Ressources/NoyaudeSlime.png",
+    "assets/items/Ressources/SporeCorrompu.png",
+    "assets/items/Ressources/ÂmedelHerald.png",
+    "assets/items/Ressources/ÂmeduReaper.png"
+  ],
+  "staticBossDropsWithoutCatalogueImage": [],
+  "cleanedItemUseExtras": [
+    {
+      "path": "Items_Cleaned_FirstPass/item_use_cleaned/Cosm#U00e9tiques/Chapeau_de_Sorci#U00e8re.png",
+      "decodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Cosmétiques/Chapeau_de_Sorcière.png",
+      "bytes": 1320,
+      "crc32": "bba54db2",
+      "cleanedRelativePath": "Cosmétiques/Chapeau_de_Sorcière.png",
+      "basenameComparisonKey": "chapeaudesorcierepng",
+      "categoryComparisonKey": "cosmetiques"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/item_use_cleaned/Cosm#U00e9tiques/Chapeau_du_Corbeau.png",
+      "decodedPath": "Items_Cleaned_FirstPass/item_use_cleaned/Cosmétiques/Chapeau_du_Corbeau.png",
+      "bytes": 1724,
+      "crc32": "4c9a4917",
+      "cleanedRelativePath": "Cosmétiques/Chapeau_du_Corbeau.png",
+      "basenameComparisonKey": "chapeauducorbeaupng",
+      "categoryComparisonKey": "cosmetiques"
+    }
+  ],
+  "otherArchiveFilesExcluded": [
+    {
+      "path": "Items_Cleaned_FirstPass/README.txt",
+      "decodedPath": "Items_Cleaned_FirstPass/README.txt",
+      "bytes": 1178,
+      "crc32": "480f57e6"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/cleanup_report.csv",
+      "decodedPath": "Items_Cleaned_FirstPass/cleanup_report.csv",
+      "bytes": 16346,
+      "crc32": "4e14230e"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/comparison_before_after.png",
+      "decodedPath": "Items_Cleaned_FirstPass/comparison_before_after.png",
+      "bytes": 198092,
+      "crc32": "f33cf4e0"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Dague Terrifiante.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Dague Terrifiante.png",
+      "bytes": 1782,
+      "crc32": "36868e5e"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Arbal#U00e8te de Cendre.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Arbalète de Cendre.png",
+      "bytes": 1276,
+      "crc32": "245208c5"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Arbal#U00e8te Hurlante.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Arbalète Hurlante.png",
+      "bytes": 1228,
+      "crc32": "c8b5ce32"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Marteau Cr#U00e9pusculaire.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Marteau Crépusculaire.png",
+      "bytes": 1508,
+      "crc32": "941899b0"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Bouclier Putride.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Bouclier Putride.png",
+      "bytes": 1909,
+      "crc32": "e04d946c"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Claymore Cr#U00e9pusculaire.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Claymore Crépusculaire.png",
+      "bytes": 1417,
+      "crc32": "85b0bac0"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Spectre Maudit.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Halloween/Armes/Spectre Maudit.png",
+      "bytes": 1386,
+      "crc32": "bbf2c379"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Accessoire/Mouffles de Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Accessoire/Mouffles de Noel.png",
+      "bytes": 838,
+      "crc32": "10cf40e9"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Consommable/Crystal de noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Consommable/Crystal de noel.png",
+      "bytes": 860,
+      "crc32": "ea07e430"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Cosm#U00e9tique/Bois de Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Cosmétique/Bois de Noel.png",
+      "bytes": 1208,
+      "crc32": "9d4008db"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Cosm#U00e9tique/Ailes de Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Cosmétique/Ailes de Noel.png",
+      "bytes": 3473,
+      "crc32": "2df648bd"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Cosm#U00e9tique/Bonnet de Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Cosmétique/Bonnet de Noel.png",
+      "bytes": 1275,
+      "crc32": "b429b5c2"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Rune/Rune de Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Rune/Rune de Noel.png",
+      "bytes": 2947,
+      "crc32": "9b810af1"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Lingot Glacial.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Lingot Glacial.png",
+      "bytes": 2479,
+      "crc32": "959d5d68"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Fourrure Blanche.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Fourrure Blanche.png",
+      "bytes": 3503,
+      "crc32": "5b3d22af"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Minerais Glacial.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Minerais Glacial.png",
+      "bytes": 3872,
+      "crc32": "f2f86a37"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Tas d'os.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Tas d'os.png",
+      "bytes": 4849,
+      "crc32": "82013c37"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Joyau de Glace.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Joyau de Glace.png",
+      "bytes": 455,
+      "crc32": "9c1807d9"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Corne Blanche.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Corne Blanche.png",
+      "bytes": 3068,
+      "crc32": "fc827f0b"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Souffle de M#U00e9moire.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Souffle de Mémoire.png",
+      "bytes": 3541,
+      "crc32": "b5e15bac"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Plume Gel#U00e9e.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Plume Gelée.png",
+      "bytes": 3024,
+      "crc32": "cfa31061"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/AIles Cristalis#U00e9es.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/AIles Cristalisées.png",
+      "bytes": 558,
+      "crc32": "2ef1d7a7"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Poussi#U00e8re d'os cristalis#U00e9.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Poussière d'os cristalisé.png",
+      "bytes": 3331,
+      "crc32": "eec5aa46"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Sucre d'orge.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Sucre d'orge.png",
+      "bytes": 413,
+      "crc32": "e7128c3c"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Poudre de Glace.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Poudre de Glace.png",
+      "bytes": 558,
+      "crc32": "c8000d68"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Coeur Refroidi.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Coeur Refroidi.png",
+      "bytes": 4196,
+      "crc32": "72a82401"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Cloche de Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Cloche de Noel.png",
+      "bytes": 1144,
+      "crc32": "09ae0e1b"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Serres de Glace.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Serres de Glace.png",
+      "bytes": 3200,
+      "crc32": "57e2e544"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Potion Givr#U00e9e.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Ressources/Potion Givrée.png",
+      "bytes": 3141,
+      "crc32": "7227a700"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Familiers/Pet Hivernale.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Familiers/Pet Hivernale.png",
+      "bytes": 616,
+      "crc32": "a37742de"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Claymore Hivernale.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Claymore Hivernale.png",
+      "bytes": 2226,
+      "crc32": "201fc8b9"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Catalyseur Hivernale.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Catalyseur Hivernale.png",
+      "bytes": 2346,
+      "crc32": "665b3a5d"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Serpe Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Serpe Noel.png",
+      "bytes": 2338,
+      "crc32": "02ff6f1c"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Bouclier Hivernale.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Bouclier Hivernale.png",
+      "bytes": 3131,
+      "crc32": "96178bae"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Spectre Hivernale.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Spectre Hivernale.png",
+      "bytes": 1540,
+      "crc32": "ef1328d0"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Arbal#U00e8te Hurlante.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Arbalète Hurlante.png",
+      "bytes": 2577,
+      "crc32": "cae056f7"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Arc Hivernale.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Arc Hivernale.png",
+      "bytes": 2193,
+      "crc32": "6db4b5a0"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Marteau Hivernale.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Marteau Hivernale.png",
+      "bytes": 1612,
+      "crc32": "412d23d5"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Faux Noel.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Event_cleaned/Noel/Arme/Faux Noel.png",
+      "bytes": 1800,
+      "crc32": "3af1dd7f"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/Items_cleaned/#U00c9p#U00e9e_Osseuse.png",
+      "decodedPath": "Items_Cleaned_FirstPass/Items_cleaned/Épée_Osseuse.png",
+      "bytes": 5028,
+      "crc32": "4dd9ab68"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Coeur Putrifi#U00e9.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Coeur Putrifié.png",
+      "bytes": 2252,
+      "crc32": "84df9fc8"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/#U00c9p#U00e9e Osseuse.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Épée Osseuse.png",
+      "bytes": 1602,
+      "crc32": "eacd8aa3"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Buche de Bouleau.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Buche de Bouleau.png",
+      "bytes": 3125,
+      "crc32": "17385313"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Lingot de Fer.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Lingot de Fer.png",
+      "bytes": 605,
+      "crc32": "b6401762"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Lingot cramoisi.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Lingot cramoisi.png",
+      "bytes": 4561,
+      "crc32": "b5fdc25e"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Os de Squelette.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Os de Squelette.png",
+      "bytes": 426,
+      "crc32": "c4a681f0"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Venin d'Araign#U00e9e.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Venin d'Araignée.png",
+      "bytes": 977,
+      "crc32": "411565ee"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Poussi#U00e8re d'Os.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Poussière d'Os.png",
+      "bytes": 431,
+      "crc32": "645f0668"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Os de Squelette Renforc#U00e9.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Os de Squelette Renforcé.png",
+      "bytes": 397,
+      "crc32": "0f91a149"
+    },
+    {
+      "path": "Items_Cleaned_FirstPass/late_cleaned/Minerai cramoisi.png",
+      "decodedPath": "Items_Cleaned_FirstPass/late_cleaned/Minerai cramoisi.png",
+      "bytes": 6685,
+      "crc32": "daba933a"
+    }
+  ],
+  "currentItemFilesUnreferenced": [
+    "assets/items/default.png"
+  ],
+  "legacyAndBackend": {
+    "legacySourceFilesPresent": false,
+    "inspected": "Current tracked and untracked checkout including ignored generated _site; no pages/hdv.html, js/hdv.js, js/hdv-supabase.js, js/item-selector.js or legacy directory. Historical docs mention them but provide no live image path values. _site js is generated copy; generated boss images use catalogue targets.",
+    "backendTables": [
+      {
+        "table": "public.market_orders",
+        "field": "item_image",
+        "kind": "text URL persisted historically"
+      },
+      {
+        "table": "public.purchase_history",
+        "field": "item_image",
+        "kind": "text URL persisted historically"
+      }
+    ],
+    "liveBackendRowsInspected": false,
+    "limitation": "No live backend data read; cannot enumerate concrete historic persisted URLs beyond checked-in code and SQL. Preserving all current asset target names retains URL compatibility for existing rows that use these paths."
+  },
+  "notes": [
+    "The only category mismatch is Pet_Frankenstein: archive item_use_cleaned/Montures -> existing assets/items/Familiers/PetFrankenstein.png.",
+    "Two catalogue mana potion image strings contain %20; target filesystem names contain ordinary spaces.",
+    "Typos in current image names (CarapcedeRequin, Muticolore, etc.) are deliberately preserved.",
+    "assets/items/default.png is present but has no reference in current active code; active item fallback is ../assets/Logo_3.png, static boss fallback is /assets/brand/nameless-logo.png."
+  ]
+}

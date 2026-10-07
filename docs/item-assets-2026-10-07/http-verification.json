@@ -1,0 +1,522 @@
+[
+  {
+    "itemId": "anneau_faucheuse",
+    "status": 200,
+    "bytes": 562
+  },
+  {
+    "itemId": "anneau_leviathan",
+    "status": 200,
+    "bytes": 557
+  },
+  {
+    "itemId": "anneau_pacte",
+    "status": 200,
+    "bytes": 638
+  },
+  {
+    "itemId": "collier_aragorn",
+    "status": 200,
+    "bytes": 585
+  },
+  {
+    "itemId": "baton_sorcier_shaman",
+    "status": 200,
+    "bytes": 908
+  },
+  {
+    "itemId": "cle_foret",
+    "status": 200,
+    "bytes": 405
+  },
+  {
+    "itemId": "cle_dechus",
+    "status": 200,
+    "bytes": 393
+  },
+  {
+    "itemId": "cle_xal_zirith",
+    "status": 200,
+    "bytes": 441
+  },
+  {
+    "itemId": "cle_halloween",
+    "status": 200,
+    "bytes": 1150
+  },
+  {
+    "itemId": "cle_overall",
+    "status": 200,
+    "bytes": 2460
+  },
+  {
+    "itemId": "cristal_potion",
+    "status": 200,
+    "bytes": 786
+  },
+  {
+    "itemId": "cristal_halloween",
+    "status": 200,
+    "bytes": 773
+  },
+  {
+    "itemId": "cristal_soutien",
+    "status": 200,
+    "bytes": 772
+  },
+  {
+    "itemId": "parchemin_maitrise",
+    "status": 200,
+    "bytes": 4165
+  },
+  {
+    "itemId": "parchemin_reallocation",
+    "status": 200,
+    "bytes": 4124
+  },
+  {
+    "itemId": "potion_mana",
+    "status": 200,
+    "bytes": 2623
+  },
+  {
+    "itemId": "potion_mana_moyenne",
+    "status": 200,
+    "bytes": 785
+  },
+  {
+    "itemId": "potion_mana_superieur",
+    "status": 200,
+    "bytes": 992
+  },
+  {
+    "itemId": "potion_albal",
+    "status": 200,
+    "bytes": 1667
+  },
+  {
+    "itemId": "potion_vie_i",
+    "status": 200,
+    "bytes": 477
+  },
+  {
+    "itemId": "potion_vie_ii",
+    "status": 200,
+    "bytes": 788
+  },
+  {
+    "itemId": "potion_vie_iii",
+    "status": 200,
+    "bytes": 1000
+  },
+  {
+    "itemId": "potion_martyr",
+    "status": 200,
+    "bytes": 3596
+  },
+  {
+    "itemId": "sandwich_nephantes",
+    "status": 200,
+    "bytes": 3588
+  },
+  {
+    "itemId": "viande_sanglier",
+    "status": 200,
+    "bytes": 3031
+  },
+  {
+    "itemId": "aile_tenebreuse",
+    "status": 200,
+    "bytes": 2215
+  },
+  {
+    "itemId": "bonbon_sucre",
+    "status": 200,
+    "bytes": 3778
+  },
+  {
+    "itemId": "brindille_enchantees",
+    "status": 200,
+    "bytes": 706
+  },
+  {
+    "itemId": "buche_bouleau",
+    "status": 200,
+    "bytes": 3483
+  },
+  {
+    "itemId": "buche_chene",
+    "status": 200,
+    "bytes": 3224
+  },
+  {
+    "itemId": "carapace_ika",
+    "status": 200,
+    "bytes": 424
+  },
+  {
+    "itemId": "carapace_requin",
+    "status": 200,
+    "bytes": 548
+  },
+  {
+    "itemId": "cendre_sarcophage",
+    "status": 200,
+    "bytes": 4448
+  },
+  {
+    "itemId": "coeur_arcanique",
+    "status": 200,
+    "bytes": 4167
+  },
+  {
+    "itemId": "coeur_bois",
+    "status": 200,
+    "bytes": 4152
+  },
+  {
+    "itemId": "coeur_flammes",
+    "status": 200,
+    "bytes": 1846
+  },
+  {
+    "itemId": "coeur_nautherion",
+    "status": 200,
+    "bytes": 811
+  },
+  {
+    "itemId": "coeur_necrotique",
+    "status": 200,
+    "bytes": 3489
+  },
+  {
+    "itemId": "coeur_putrifie",
+    "status": 200,
+    "bytes": 3536
+  },
+  {
+    "itemId": "corde_arc_sylvestre",
+    "status": 200,
+    "bytes": 2793
+  },
+  {
+    "itemId": "corne_ebrechee",
+    "status": 200,
+    "bytes": 2948
+  },
+  {
+    "itemId": "criniere",
+    "status": 200,
+    "bytes": 482
+  },
+  {
+    "itemId": "cristal_corrompu",
+    "status": 200,
+    "bytes": 2035
+  },
+  {
+    "itemId": "crocs_loup",
+    "status": 200,
+    "bytes": 464
+  },
+  {
+    "itemId": "debris_chair",
+    "status": 200,
+    "bytes": 4111
+  },
+  {
+    "itemId": "eclat_bois_magique",
+    "status": 200,
+    "bytes": 483
+  },
+  {
+    "itemId": "ecorce_titan",
+    "status": 200,
+    "bytes": 1727
+  },
+  {
+    "itemId": "ecorce_sylvestre",
+    "status": 200,
+    "bytes": 361
+  },
+  {
+    "itemId": "essence_gorbel",
+    "status": 200,
+    "bytes": 3031
+  },
+  {
+    "itemId": "essence_miasme",
+    "status": 200,
+    "bytes": 2290
+  },
+  {
+    "itemId": "fil_araignee",
+    "status": 200,
+    "bytes": 392
+  },
+  {
+    "itemId": "fil_araignee_renforce",
+    "status": 200,
+    "bytes": 392
+  },
+  {
+    "itemId": "fourrure_loup",
+    "status": 200,
+    "bytes": 628
+  },
+  {
+    "itemId": "fourrure_vide",
+    "status": 200,
+    "bytes": 3588
+  },
+  {
+    "itemId": "fragment_jaune",
+    "status": 200,
+    "bytes": 510
+  },
+  {
+    "itemId": "fragment_rouge",
+    "status": 200,
+    "bytes": 515
+  },
+  {
+    "itemId": "fragment_violet",
+    "status": 200,
+    "bytes": 394
+  },
+  {
+    "itemId": "fragment_citrouille",
+    "status": 200,
+    "bytes": 4472
+  },
+  {
+    "itemId": "fragment_ame_ours",
+    "status": 200,
+    "bytes": 393
+  },
+  {
+    "itemId": "fragments_feuilles",
+    "status": 200,
+    "bytes": 588
+  },
+  {
+    "itemId": "gelee_slime",
+    "status": 200,
+    "bytes": 449
+  },
+  {
+    "itemId": "griffe_nocturne",
+    "status": 200,
+    "bytes": 1674
+  },
+  {
+    "itemId": "lingot_cramoisi",
+    "status": 200,
+    "bytes": 4561
+  },
+  {
+    "itemId": "lingot_cuivre",
+    "status": 200,
+    "bytes": 618
+  },
+  {
+    "itemId": "lingot_fer",
+    "status": 200,
+    "bytes": 2483
+  },
+  {
+    "itemId": "lingot_metal_enchante",
+    "status": 200,
+    "bytes": 540
+  },
+  {
+    "itemId": "lingot_ame_metal",
+    "status": 200,
+    "bytes": 502
+  },
+  {
+    "itemId": "minerai_cramoisi",
+    "status": 200,
+    "bytes": 10002
+  },
+  {
+    "itemId": "minerai_charbon",
+    "status": 200,
+    "bytes": 386
+  },
+  {
+    "itemId": "minerai_cuivre",
+    "status": 200,
+    "bytes": 676
+  },
+  {
+    "itemId": "minerai_fer",
+    "status": 200,
+    "bytes": 487
+  },
+  {
+    "itemId": "mycelium_magique",
+    "status": 200,
+    "bytes": 569
+  },
+  {
+    "itemId": "noyau_slime",
+    "status": 200,
+    "bytes": 4954
+  },
+  {
+    "itemId": "os_squelette",
+    "status": 200,
+    "bytes": 4888
+  },
+  {
+    "itemId": "os_squelette_renforce",
+    "status": 200,
+    "bytes": 4081
+  },
+  {
+    "itemId": "peau_sanglier",
+    "status": 200,
+    "bytes": 744
+  },
+  {
+    "itemId": "peau_glacial",
+    "status": 200,
+    "bytes": 573
+  },
+  {
+    "itemId": "petite_bourse",
+    "status": 200,
+    "bytes": 385
+  },
+  {
+    "itemId": "piece_metal_enchante",
+    "status": 200,
+    "bytes": 565
+  },
+  {
+    "itemId": "piece_ame_metal",
+    "status": 200,
+    "bytes": 394
+  },
+  {
+    "itemId": "pousse_sylve",
+    "status": 200,
+    "bytes": 592
+  },
+  {
+    "itemId": "poussiere_echo",
+    "status": 200,
+    "bytes": 3992
+  },
+  {
+    "itemId": "poussiere_givre",
+    "status": 200,
+    "bytes": 1116
+  },
+  {
+    "itemId": "poussiere_os",
+    "status": 200,
+    "bytes": 6232
+  },
+  {
+    "itemId": "racine_ancestrale",
+    "status": 200,
+    "bytes": 538
+  },
+  {
+    "itemId": "spore_corrompu",
+    "status": 200,
+    "bytes": 876
+  },
+  {
+    "itemId": "tissu_araignee",
+    "status": 200,
+    "bytes": 3752
+  },
+  {
+    "itemId": "tissu_maudit",
+    "status": 200,
+    "bytes": 2571
+  },
+  {
+    "itemId": "tissu_spectral",
+    "status": 200,
+    "bytes": 388
+  },
+  {
+    "itemId": "venin_araignee",
+    "status": 200,
+    "bytes": 4755
+  },
+  {
+    "itemId": "voile_banshee",
+    "status": 200,
+    "bytes": 3552
+  },
+  {
+    "itemId": "ame_herald",
+    "status": 200,
+    "bytes": 499
+  },
+  {
+    "itemId": "ame_ruines",
+    "status": 200,
+    "bytes": 439
+  },
+  {
+    "itemId": "ame_reaper",
+    "status": 200,
+    "bytes": 449
+  },
+  {
+    "itemId": "ame_warden",
+    "status": 200,
+    "bytes": 502
+  },
+  {
+    "itemId": "canne_peche",
+    "status": 200,
+    "bytes": 429
+  },
+  {
+    "itemId": "hache_ebrechee",
+    "status": 200,
+    "bytes": 866
+  },
+  {
+    "itemId": "pinceau_magique",
+    "status": 200,
+    "bytes": 431
+  },
+  {
+    "itemId": "pioche_felee",
+    "status": 200,
+    "bytes": 877
+  },
+  {
+    "itemId": "serpe_tordue",
+    "status": 200,
+    "bytes": 881
+  },
+  {
+    "itemId": "krynn_fleau",
+    "status": 200,
+    "bytes": 5455
+  },
+  {
+    "itemId": "pet_frankenstein",
+    "status": 200,
+    "bytes": 3576
+  },
+  {
+    "itemId": "balais_volant",
+    "status": 200,
+    "bytes": 2654
+  },
+  {
+    "itemId": "rune_halloween",
+    "status": 200,
+    "bytes": 4920
+  }
+]
