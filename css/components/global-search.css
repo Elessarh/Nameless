@@ -11,6 +11,8 @@
 .nm-search-result { display: flex; align-items: stretch; border-bottom: 1px solid #c2a36725; }
 .nm-search-result a { flex: 1; min-width: 0; display: flex; flex-direction: column; color: #e8eaf0; text-decoration: none; padding: 10px 8px; }
 .nm-search-result a:hover { background: #6f92b31a; }
+.nm-search-result a.nm-search-map-link { flex: 0 0 auto; justify-content: center; max-width: 8rem; color: #c7b58d; font-size: .78rem; }
+@media(max-width:480px) { .nm-search-result a.nm-search-map-link { max-width: 5.5rem; padding-inline: 4px; } }
 .nm-search-result span { color: #aeb6c7; font-size: .8rem; }
 .nm-search-star { flex: 0 0 44px; font-size: 1.4rem; background: transparent; padding: 0; border: 0; color: #e4cd97; }
 .nm-search-trigger svg, .nm-search-close svg, .nm-search-star svg { display: block; width: 20px; height: 20px; margin: auto; }

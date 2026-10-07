@@ -10,6 +10,21 @@
     global.NamelessTranslations.en = global.NamelessTranslations.en || {};
 
     Object.assign(global.NamelessTranslations.en, {
+        /* Map workspace and links */
+        "Explorez les lieux et leurs quêtes, créatures et ressources.": "Explore places and their quests, creatures and resources.",
+        "Flèches pour déplacer la carte, plus et moins pour zoomer, zéro pour recentrer.": "Arrow keys to pan, plus and minus to zoom, zero to recenter.",
+        "Repères affichés": "Visible markers",
+        "Détails de la sélection": "Selection details",
+        "Recentrer": "Recenter",
+        "Plein écran": "Fullscreen",
+        "Partager": "Share",
+        "Voir plus": "Show more",
+        "Fermer les détails": "Close details",
+        "Repère de zone ; position exacte inconnue.": "Zone reference; exact position unknown.",
+        "Position non renseignée.": "Position has not been recorded.",
+        "Voir sur la carte": "View on map",
+        "Administrer les repères de la carte": "Edit map markers",
+        "Édition de la carte": "Map editor",
         /* Global navigation and actions */
         'Accueil': 'Home',
         'Carte': 'Map',

@@ -3,6 +3,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import {createRequire} from 'node:module';
 import {bossSlug} from './build-boss-pages.mjs';
+import {createMapGraph} from './build-map-graph.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
@@ -28,7 +29,14 @@ function literalArray(source, name) {
     throw new Error('Unclosed data array: ' + name);
 }
 
-export function createSearchIndex() {
+export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
+    const mapSource = JSON.parse(read('data/map-source.json'));
+    const mapEntries = new Map(mapGraph.catalog.index.map(entry => [entry.key, entry]));
+    const mapEntities = Object.assign({}, ...Object.values(mapGraph.floors).map(floor => floor.entities));
+    const mapMetadata = key => {
+        const entry = mapEntries.get(key);
+        return entry ? {mapUrl: entry.mapUrl, positionKnown: Boolean(entry.positionRef)} : {};
+    };
     const translations = {window: {}};
     for (const file of ['i18n-en.js', 'i18n-en-reviewed.js', 'i18n-quests-en-reviewed.js', 'i18n-game-en-reviewed.js']) {
         vm.runInNewContext(read('js/' + file), translations);
@@ -38,17 +46,18 @@ export function createSearchIndex() {
     const add = entry => entries.push({...entry, titleEn: en[entry.title] || entry.title, summaryEn: en[entry.summary] || entry.summary});
     const creatures = literalArray(read('js/bestiaire.js'), 'creaturesData');
     creatures.forEach(c => add({kind: c.category === 'boss' ? 'boss' : 'creature', id: String(c.id), title: c.name,
-        url: c.category === 'boss' ? '/boss/' + bossSlug(c.name) : '/bestiaire?creature=' + c.id, summary: c.location + ' · Palier ' + c.palier, keywords: c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')}));
+        url: c.category === 'boss' ? '/boss/' + bossSlug(c.name) : '/bestiaire?creature=' + c.id, summary: c.location + ' · Palier ' + c.palier, location: c.location, ...mapMetadata('creature:' + c.id), keywords: c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')}));
     const sandbox = {};
     vm.runInNewContext(read('js/items-catalog-hdv.js') + ';this.catalog = itemsCatalog;', sandbox);
     for (const group of Object.values(sandbox.catalog)) {
         for (const item of group.items) {
-            const itemName = normalize(item.name);
-            const sources = creatures.filter(c => c.drops.some(d => normalize(d.name) === itemName
-                || (item.id === 'brindille_enchantees' && normalize(d.name) === 'brindille enchantee')))
-                .map(c => ({title: c.name, url: '/bestiaire?creature=' + c.id, floor: c.palier}));
+            const graphItem = mapEntities['item:' + item.id];
+            const sources = creatures.filter(c => graphItem?.creatureKeys.includes('creature:' + c.id))
+                .map(c => ({title: c.name, url: '/bestiaire?creature=' + c.id, floor: c.palier, location: c.location,
+                    ...(mapEntries.get('creature:' + c.id)?.positionRef ? {mapUrl: mapEntries.get('creature:' + c.id).mapUrl} : {})}));
             add({kind: 'item', id: item.id, title: item.name, url: '/items?item=' + encodeURIComponent(item.id),
-                summary: clean(group.name).replace(/^\S+\s+/, ''), keywords: item.rarity + ' ' + sources.map(s => s.title).join(' '), sources});
+                summary: clean(group.name).replace(/^\S+\s+/, ''), keywords: item.rarity + ' ' + sources.map(s => s.title).join(' '), sources,
+                dropNames: [...new Set((graphItem?.sources || []).filter(source => source.creatureKey).map(source => source.name))]});
         }
     }
     const quests = new JSDOM(read('pages/quetes.html')).window.document;
@@ -56,7 +65,7 @@ export function createSearchIndex() {
         if (!step.id) throw new Error('Quest is missing a permanent ID');
         const section = step.closest('.quest-section');
         add({kind: 'quest', id: step.id, title: clean(step.querySelector('h4')?.textContent), url: '/quetes?quest=' + encodeURIComponent(step.id),
-            summary: 'Palier ' + section.dataset.tier + ' · ' + section.dataset.category, keywords: clean(step.textContent).slice(0, 450)});
+            summary: 'Palier ' + section.dataset.tier + ' · ' + section.dataset.category, ...mapMetadata('guide:' + step.id), keywords: clean(step.textContent).slice(0, 450)});
     });
     const wiki = new JSDOM(read('pages/wiki.html')).window.document;
     wiki.querySelectorAll('.wiki-page').forEach(article => {
@@ -65,20 +74,20 @@ export function createSearchIndex() {
         add({kind: 'wiki', id, title, url: '/wiki#' + id, summary: clean(article.querySelector('p')?.textContent).slice(0, 160),
             keywords: clean(Array.from(article.querySelectorAll('h2,h3')).map(h => h.textContent).join(' '))});
     });
-    const mapSource = read('js/map.js');
     for (const [name, kind] of [['villesData', 'location'], ['donjonsData', 'location'], ['marchandsData', 'npc'], ['monstresData', 'location']]) {
-        literalArray(mapSource, name).forEach((point, i) => add({kind, id: name + '-' + i, title: point.name,
-            summary: 'Carte · Palier 1', keywords: point.description || '', url: '/carte?floor=1&x=' + point.coordinates[0] + '&y=' + point.coordinates[1]}));
+        mapSource[name].forEach((point, i) => add({kind, id: name + '-' + i, title: point.name,
+            summary: 'Carte · Palier 1', keywords: point.description || '', ...mapMetadata('location:1:' + point.id), url: mapEntries.get('location:1:' + point.id).mapUrl}));
     }
     const npcKeys = new Set();
     for (const [name, floor] of [['questData', 1], ['questDataFloor2', 2]]) {
-        literalArray(mapSource, name).forEach(point => {
+        mapSource[name].forEach(point => {
             if (!point.npc) return;
             const key = floor + '-' + normalize(point.npc);
             if (npcKeys.has(key)) return;
             npcKeys.add(key);
+            const target = mapGraph.catalog.index.find(entry => entry.kind === 'npc' && entry.floor === floor && normalize(entry.title) === normalize(point.npc));
             add({kind: 'npc', id: key, title: point.npc, summary: 'Carte · Palier ' + floor, keywords: point.name,
-                url: '/carte?floor=' + floor + '&x=' + point.coordinates[0] + '&y=' + point.coordinates[1]});
+                ...(target ? mapMetadata(target.key) : {}), url: target?.mapUrl || '/carte?floor=' + floor + '&q=' + encodeURIComponent(point.npc)});
         });
     }
     const seen = new Set();

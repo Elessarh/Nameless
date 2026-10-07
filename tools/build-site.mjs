@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import {createRequire} from 'node:module';
 import {createSearchIndex} from './build-search-index.mjs';
 import {buildBossPages} from './build-boss-pages.mjs';
+import {writeMapGraph} from './build-map-graph.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
@@ -12,6 +13,7 @@ const output = path.resolve(root, '_site');
 if (output !== path.join(root, '_site') || path.dirname(output) !== root) throw new Error('Unsafe build output');
 fs.rmSync(output, {recursive: true, force: true});
 fs.mkdirSync(output, {recursive: true});
+const mapGraph = writeMapGraph({root});
 for (const name of ['assets', 'css', 'js', 'pages']) fs.cpSync(path.join(root, name), path.join(output, name), {recursive: true});
 for (const name of ['index.html', '404.html', 'CNAME', '.nojekyll']) fs.copyFileSync(path.join(root, name), path.join(output, name));
 const registry = {window:{}};
@@ -36,8 +38,8 @@ for (const route of routes) {
     fs.writeFileSync(path.join(dir,'index.html'), dom.serialize());
     dom.window.close();
 }
-const index = createSearchIndex();
-const bossPages = buildBossPages({root, output});
+const index = createSearchIndex({mapGraph});
+const bossPages = buildBossPages({root, output, mapGraph});
 fs.writeFileSync(path.join(output,'assets/search-index.json'), JSON.stringify(index));
 // Keep the committed preview index aligned with the same source of truth.
 fs.writeFileSync(path.join(root,'assets/search-index.json'), JSON.stringify(index));

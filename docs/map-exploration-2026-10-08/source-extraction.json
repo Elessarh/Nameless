@@ -1,0 +1,15 @@
+{
+  "method": "TypeScript AST, named literals only; exact fields, IDs, values and array order retained",
+  "source": "js/map.js",
+  "sourceSha256": "050c671bdd44e53074ac7b411f63cf679e1c4111aec92db31dd1bbd8f4cf6697",
+  "tables": {
+    "floorMaps": 3,
+    "floorConfig": 3,
+    "questDataFloor2": 30,
+    "questData": 69,
+    "villesData": 6,
+    "donjonsData": 5,
+    "marchandsData": 10,
+    "monstresData": 12
+  }
+}

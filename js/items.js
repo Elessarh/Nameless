@@ -391,29 +391,52 @@
         info.appendChild(badges);
 
         if (window.NamelessGlobalSearch && typeof window.NamelessGlobalSearch.getIndex === 'function') {
+            var sourceSignal = controller && controller.signal;
             var sources = document.createElement('section'); sources.className = 'item-sources';
             var sourcesTitle = document.createElement('h3'); sourcesTitle.textContent = 'Sources connues'; sources.appendChild(sourcesTitle);
             var sourceStatus = document.createElement('p'); sourceStatus.textContent = 'Chargement des sources...'; sources.appendChild(sourceStatus);
             info.appendChild(sources);
+            var currentSources = function () {
+                return !(sourceSignal && sourceSignal.aborted) && sources.isConnected && modal.isConnected
+                    && modal.dataset.item === id && modal.style.display === 'flex';
+            };
             window.NamelessGlobalSearch.getIndex().then(function (entries) {
-                if (!sources.isConnected || modal.dataset.item !== id) return;
+                if (!currentSources()) return;
                 var entry = entries.find(function (candidate) { return candidate.kind === 'item' && candidate.id === id; });
-                var knownSources = entry && entry.sources || [];
+                var knownSources = entry && Array.isArray(entry.sources) ? entry.sources : [];
                 sourceStatus.textContent = knownSources.length ? '' : 'Aucune source confirmée dans le bestiaire.';
                 if (!knownSources.length) return;
-                sourceStatus.remove();
                 var list = document.createElement('ul');
                 knownSources.forEach(function (source) {
+                    if (!source || typeof source.url !== 'string' || typeof source.title !== 'string') return;
                     var url;
                     try { url = new URL(source.url, window.location.origin); } catch (error) { return; }
-                    if (url.origin !== window.location.origin || !url.pathname.startsWith('/bestiaire')) return;
+                    if (url.origin !== window.location.origin || url.pathname !== '/bestiaire' || !/^\d+$/.test(url.searchParams.get('creature') || '')) return;
                     var row = document.createElement('li'); var link = document.createElement('a');
                     link.href = url.pathname + url.search;
                     link.textContent = source.title + ' — Palier ' + source.floor;
-                    row.appendChild(link); list.appendChild(row);
+                    row.appendChild(link);
+                    if (typeof source.location === 'string' && source.location.trim()) {
+                        var zone = document.createElement('span'); zone.className = 'item-source-zone';
+                        zone.textContent = ' — ' + source.location;
+                        row.appendChild(zone);
+                    }
+                    if (typeof source.mapUrl === 'string') {
+                        var mapUrl;
+                        try { mapUrl = new URL(source.mapUrl, window.location.origin); } catch (error) { mapUrl = null; }
+                        if (mapUrl && mapUrl.origin === window.location.origin && mapUrl.pathname === '/carte'
+                            && mapUrl.searchParams.get('entity') === 'creature:' + url.searchParams.get('creature')
+                            && /^[1-3]$/.test(String(source.floor)) && mapUrl.searchParams.get('floor') === String(source.floor)) {
+                            var mapLink = document.createElement('a'); mapLink.className = 'item-source-map-link';
+                            mapLink.href = mapUrl.pathname + mapUrl.search; mapLink.textContent = 'Voir sur la carte';
+                            row.appendChild(document.createTextNode(' · ')); row.appendChild(mapLink);
+                        }
+                    }
+                    list.appendChild(row);
                 });
-                sources.appendChild(list);
-            }).catch(function () { if (sources.isConnected) sourceStatus.textContent = 'Sources temporairement indisponibles.'; });
+                if (list.children.length) { sourceStatus.remove(); sources.appendChild(list); }
+                else sourceStatus.textContent = 'Aucune source confirmée dans le bestiaire.';
+            }).catch(function () { if (currentSources()) sourceStatus.textContent = 'Sources temporairement indisponibles.'; });
         }
 
         content.appendChild(info);
@@ -428,6 +451,7 @@
         var modal = document.querySelector('.item-modal');
         if (modal && modal.style.display !== 'none') {
             modal.style.display = 'none'; document.body.style.overflow = previousOverflow;
+            delete modal.dataset.item;
             if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus();
             modalReturnFocus = null;
         }

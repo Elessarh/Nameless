@@ -20,6 +20,11 @@ const trigger = window.document.querySelector('.nm-search-trigger'); trigger.foc
 await Promise.resolve();await Promise.resolve();
 const input = window.document.getElementById('nm-global-query');input.value='Illfang';input.dispatchEvent(new window.Event('input'));
 assert.ok(window.document.querySelector('.nm-search-result a').href.includes('/boss/illfang'));
+const mapLink = window.document.querySelector('.nm-search-map-link');
+assert.ok(mapLink && new URL(mapLink.href).searchParams.get('entity') === 'creature:53', 'Global search links to the creature panel on its known map floor');
+const legacyPlace = index.find(entry => entry.id === 'villesData-0');
+assert.ok(legacyPlace && legacyPlace.url.includes('entity='), 'Legacy favorite identities keep the new map destination');
+assert.ok(index.filter(entry => entry.kind === 'item').some(entry => entry.sources.some(source => source.mapUrl && source.location)), 'Item sources include their known zone and map destination');
 input.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));
 assert.equal(window.document.activeElement.tagName,'A');
 window.document.querySelector('.nm-search-star').click();

@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "tool": "tools/optimize-map-previews.py",
+  "process": {
+    "library": "Pillow",
+    "pillowVersion": "12.3.0",
+    "webpVersion": "1.6.0",
+    "format": "WebP",
+    "lossless": false,
+    "resize": "LANCZOS",
+    "method": 6,
+    "desktopQuality": 82,
+    "mobileQuality": 80,
+    "detailQuality": 88,
+    "description": "Resize and encode the existing map artwork only; no drawing or generated imagery."
+  },
+  "floors": [
+    {
+      "floor": 1,
+      "source": {
+        "path": "assets/carte.webp",
+        "sha256": "e1cc3d07e5b6d199972b4cd1e53887d4d43abf2b724624e07acba6ea1b070098",
+        "bytes": 8383564,
+        "width": 4952,
+        "height": 4952
+      },
+      "outputs": [
+        {
+          "variant": "desktop",
+          "path": "assets/map-preview/floor-1-desktop.webp",
+          "sha256": "ee175e318f403d95fac2a331eb45f4d5e9104d681509bfe6c647a4d832810499",
+          "bytes": 624658,
+          "width": 1600,
+          "height": 1600,
+          "quality": 82,
+          "method": 6,
+          "lossless": false
+        },
+        {
+          "variant": "mobile",
+          "path": "assets/map-preview/floor-1-mobile.webp",
+          "sha256": "dbf93b33fd660666e6629ebd805c4474f0be78814cde63d6e75b344e54126e8c",
+          "bytes": 141166,
+          "width": 768,
+          "height": 768,
+          "quality": 80,
+          "method": 6,
+          "lossless": false
+        },
+        {
+          "variant": "detail",
+          "path": "assets/map-preview/floor-1-detail.webp",
+          "sha256": "c23cf04a8a442811db9f2a2d7d57e09dcfa5e503f12ca9b4a46e569630f0cea9",
+          "bytes": 8839188,
+          "width": 4952,
+          "height": 4952,
+          "quality": 88,
+          "method": 6,
+          "lossless": false
+        }
+      ]
+    },
+    {
+      "floor": 2,
+      "source": {
+        "path": "assets/Palier2-map.webp",
+        "sha256": "f960e1d6f13fbaf48666962edefd872cfadb1e9697cd353fd7ba3685813d373a",
+        "bytes": 2527368,
+        "width": 2119,
+        "height": 2340
+      },
+      "outputs": [
+        {
+          "variant": "desktop",
+          "path": "assets/map-preview/floor-2-desktop.webp",
+          "sha256": "9f5a3dfb2dc752ea847b44f04f178a90ddd9a46cf7a469e4645723a8eeea7854",
+          "bytes": 548218,
+          "width": 1400,
+          "height": 1546,
+          "quality": 82,
+          "method": 6,
+          "lossless": false
+        },
+        {
+          "variant": "mobile",
+          "path": "assets/map-preview/floor-2-mobile.webp",
+          "sha256": "b8792f5cea8843b0566734b51660f182dd8aa12d1fdc472e237354fe8eb8ddae",
+          "bytes": 148116,
+          "width": 768,
+          "height": 848,
+          "quality": 80,
+          "method": 6,
+          "lossless": false
+        },
+        {
+          "variant": "detail",
+          "path": "assets/map-preview/floor-2-detail.webp",
+          "sha256": "309cefcb8456f81d1529f0b1a8e39fe746e72b708c7cb55dff21746b052acdb1",
+          "bytes": 1672588,
+          "width": 2119,
+          "height": 2340,
+          "quality": 88,
+          "method": 6,
+          "lossless": false
+        }
+      ]
+    },
+    {
+      "floor": 3,
+      "source": {
+        "path": "assets/Palier3-map.webp",
+        "sha256": "f32479eb066dd57413bec92c19092ecf4c22be1435ebc82159ec1c2f6b80f8bf",
+        "bytes": 963572,
+        "width": 1274,
+        "height": 1513
+      },
+      "outputs": [
+        {
+          "variant": "desktop",
+          "path": "assets/map-preview/floor-3-desktop.webp",
+          "sha256": "69763e78a81fafe315149388dc46ecb4ff4b031d26a637724aefa8f99cd71f76",
+          "bytes": 628652,
+          "width": 1274,
+          "height": 1513,
+          "quality": 82,
+          "method": 6,
+          "lossless": false
+        },
+        {
+          "variant": "mobile",
+          "path": "assets/map-preview/floor-3-mobile.webp",
+          "sha256": "b1330a54e1d2e7b0bec6d99e290eec34c492f094a4185df81798fcc17ff63f37",
+          "bytes": 189240,
+          "width": 768,
+          "height": 912,
+          "quality": 80,
+          "method": 6,
+          "lossless": false
+        },
+        {
+          "variant": "detail",
+          "path": "assets/map-preview/floor-3-detail.webp",
+          "sha256": "6b1b739ac20d5396075302cec4aa8860458f7ca7c5361993a4a4a567c2a95740",
+          "bytes": 766180,
+          "width": 1274,
+          "height": 1513,
+          "quality": 88,
+          "method": 6,
+          "lossless": false
+        }
+      ]
+    }
+  ]
+}

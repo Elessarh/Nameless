@@ -1,2871 +1,560 @@
-/* map.js - Gestion de la carte du monde */
-
-// Variables globales
-let questLayers = null;
-let map = null; // Variable globale pour la carte
-let currentMapOverlay = null; // Overlay de la carte actuelle
-let currentDetailOverlay = null;
-let floorOneFullOverlay = null;
-let floorOneFullReady = false;
-let floorOneLoadFailed = false;
-let mapOverlayGeneration = 0;
-let floorOneOverviewWidth = 1600;
-let cancelMapDetailHandlers = null;
-let currentFloor = 1; // Palier actuel
-
-// A focused result must remain readable in its surroundings. Zoom level 4 was
-// effectively a pixel-level view on CRS.Simple and made search navigation
-// disorienting, especially on mobile.
-const SEARCH_FOCUS_ZOOM_DESKTOP = 1;
-const SEARCH_FOCUS_ZOOM_MOBILE = 0;
-
-function focusMapLocation(latLng) {
-    if (!map) return;
-    const preferredZoom = window.innerWidth <= 768
-        ? SEARCH_FOCUS_ZOOM_MOBILE
-        : SEARCH_FOCUS_ZOOM_DESKTOP;
-    const targetZoom = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), preferredZoom));
-    map.setView(latLng, targetZoom, { animate: !mapReducedMotion() });
-}
-
-function mapReducedMotion() {
-    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-}
-
-function mapNotice(message) {
-    let status = document.getElementById('map-route-status');
-    const container = document.getElementById('game-map');
-    if (!status && container) {
-        status = document.createElement('p'); status.id = 'map-route-status'; status.className = 'map-route-status';
-        status.setAttribute('role', 'status'); container.before(status);
-    }
-    if (status) { status.textContent = message; status.hidden = !message; }
-}
-
-// Cycle de vie SPA (nettoyage Leaflet + écouteurs)
-let mapController = null;
-let mapResizeTimer = null;
-const mapTimers = new Set();
-
-function scheduleMapTask(callback, delay) {
-    const controller = mapController;
-    const timer = window.setTimeout(() => {
-        mapTimers.delete(timer);
-        if (controller && controller === mapController && !controller.signal.aborted) callback();
-    }, delay);
-    mapTimers.add(timer);
-    return timer;
-}
-
-// Configuration des cartes par palier
-const floorMaps = {
-    1: '../assets/carte.webp',
-    2: '../assets/Palier2-map.webp',
-    3: '../assets/Palier3-map.webp'
-};
-
-// Configuration des bounds par palier
-// Palier 1: Nord: X=2560, Z=85 | Sud: X=2560, Z=5036 | Ouest: X=85, Z=2560 | Est: X=5036, Z=2560
-// Palier 2: Sud: x=0, z=1059 | Ouest: x=-1059, z=0 | Nord: x=0, z=-1059 | Est: x=1059, z=0
-const floorConfig = {
-    1: {
-        bounds: [[85, 85], [5036, 5036]],
-        maxBounds: [[-1000, -1000], [6120, 6120]],
-        coordOffset: { x: 0, z: 5121 },
-        center: [2560, 2560]
-    },
-    2: {
-        // Palier 2: bounds corrigés pour compenser la marge sud de l'image
-        // L'image a une marge en bas, le terrain visible ne va pas jusqu'au bord
-        // Calcul: étirement de l'image pour que les coordonnées correspondent
-        bounds: [[3842, -1059], [6180, 1059]],
-        maxBounds: [[3300, -1500], [6700, 1500]],
-        coordOffset: { x: 0, z: 5121 },
-        center: [5121, 0]
-    },
-    3: {
-        bounds: [[0, 0], [2000, 2000]], // À configurer plus tard
-        maxBounds: [[-500, -500], [2500, 2500]],
-        coordOffset: { x: 0, z: 0 },
-        center: [1000, 1000]
-    }
-};
-
-function removeMapOverlays() {
-    mapOverlayGeneration++;
-    if (currentDetailOverlay) {
-        if (cancelMapDetailHandlers) { cancelMapDetailHandlers(); cancelMapDetailHandlers = null; }
-        if (map) map.removeLayer(currentDetailOverlay);
-        if (!floorOneFullReady) floorOneFullOverlay = null;
-        currentDetailOverlay = null;
-    }
-    if (currentMapOverlay && map) map.removeLayer(currentMapOverlay);
-    currentMapOverlay = null;
-}
-
-function mountMapOverlay(floor, bounds) {
-    floorOneLoadFailed = false;
-    if (floor === 1 && floorOneFullReady) {
-        currentMapOverlay = floorOneFullOverlay;
-    } else {
-        const mobile = window.innerWidth <= 768;
-        floorOneOverviewWidth = mobile ? 1024 : 1600;
-        const image = floor === 1
-            ? (mobile ? '../assets/carte-overview-mobile.webp' : '../assets/carte-overview.webp')
-            : floorMaps[floor];
-        currentMapOverlay = L.imageOverlay(image, bounds);
-    }
-    currentMapOverlay.addTo(map);
-    currentMapOverlay.bringToBack();
-}
-
-function upgradeMapDetail() {
-    if (!map || currentFloor !== 1 || floorOneFullReady || currentDetailOverlay || floorOneLoadFailed) return;
-    const bounds = floorConfig[1].bounds;
-    const gameWidth = bounds[1][1] - bounds[0][1];
-    if (map.getZoom() <= Math.log2(floorOneOverviewWidth / gameWidth)) return;
-    const controller = mapController;
-    const activeMap = map;
-    const generation = mapOverlayGeneration;
-    const preview = currentMapOverlay;
-    const full = L.imageOverlay(floorMaps[1], bounds, { opacity: 0 });
-    currentDetailOverlay = floorOneFullOverlay = full;
-    const active = () => controller === mapController && !controller.signal.aborted && activeMap === map
-        && generation === mapOverlayGeneration && currentFloor === 1 && currentDetailOverlay === full;
-    const onLoad = () => {
-        if (!active()) return;
-        cancelMapDetailHandlers(); cancelMapDetailHandlers = null;
-        floorOneFullReady = true;
-        full.setOpacity(1);
-        currentMapOverlay = full;
-        currentDetailOverlay = null;
-        activeMap.removeLayer(preview);
-        full.bringToBack();
+/* Aincrad map: the generated graph is the only public entity catalogue. */
+(function (global) {
+    'use strict';
+    const FLOOR_CACHE = new Map();
+    let catalogPromise = null;
+    let active = null;
+    let adminScriptPromise = null;
+    let lastGoodOverrides = null;
+    const TYPE_LABELS = {
+        town: ['Villes', 'Towns'], dungeon: ['Donjons', 'Dungeons'], zone: ['Zones', 'Zones'],
+        merchant: ['Marchands', 'Merchants'], 'quest-primary': ['Quêtes principales', 'Main quests'],
+        'quest-secondary': ['Quêtes secondaires', 'Side quests'], npc: ['PNJ', 'NPCs'],
+        teleporter: ['Téléporteurs', 'Teleporters'], boss: ['Boss', 'Bosses'], creature: ['Créatures', 'Creatures']
     };
-    const onError = () => {
-        if (!active()) return;
-        cancelMapDetailHandlers(); cancelMapDetailHandlers = null;
-        activeMap.removeLayer(full);
-        currentDetailOverlay = floorOneFullOverlay = null;
-        floorOneLoadFailed = true;
-        mapNotice("La carte détaillée ne peut pas être chargée. L’aperçu reste disponible.");
+    const KIND_LABELS = { location: ['Lieu', 'Location'], quest: ['Quête', 'Quest'], guide: ['Guide', 'Guide'], npc: ['PNJ', 'NPC'], creature: ['Créature', 'Creature'], item: ['Ressource', 'Resource'] };
+    const GLYPHS = {
+        town: '<path d="M3 19V9l4-4 4 4v10M13 19V5h6v14M6 19v-5h3M15 9h2M15 13h2M2 19h20"/>',
+        dungeon: '<path d="M4 20V9l8-5 8 5v11M9 20v-7a3 3 0 0 1 6 0v7M3 20h18"/>',
+        zone: '<path d="m3 17 5-9 4 6 4-10 5 13H3ZM7 20h10"/>',
+        merchant: '<path d="M4 8h16l-2 5H6L4 8ZM7 13v7h10v-7M7 8V5h10v3M10 17h4"/>',
+        'quest-primary': '<path d="M7 3h10v18l-5-3-5 3V3ZM12 7v5M12 15h.01"/>',
+        'quest-secondary': '<path d="M7 3h10v18l-5-3-5 3V3ZM10 8h4M10 12h4"/>',
+        npc: '<circle cx="12" cy="7" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3"/>',
+        teleporter: '<circle cx="12" cy="12" r="8"/><path d="m9 7 6 5-6 5M6 12h9"/>',
+        boss: '<path d="m4 6 4 3 4-5 4 5 4-3-2 13H6L4 6ZM9 14h.01M15 14h.01M9 17h6"/>',
+        creature: '<path d="m5 5 5 4h4l5-4v11l-7 5-7-5V5ZM9 13h.01M15 13h.01M10 17h4"/>'
     };
-    cancelMapDetailHandlers = () => { full.off('load', onLoad); full.off('error', onError); };
-    full.on('load', onLoad);
-    full.on('error', onError);
-    full.addTo(activeMap);
-    full.bringToBack();
-}
-
-// Groupes de couches pour organiser les marqueurs
-const layerGroups = {
-    questesSecondaires: L.layerGroup(),
-    questesPrincipales: L.layerGroup(),
-    donjons: L.layerGroup(),
-    villes: L.layerGroup(),
-    monstres: L.layerGroup(),
-    marchands: L.layerGroup()
-};
-
-// Groupes de couches pour le Palier 2
-const layerGroupsFloor2 = {
-    questesSecondaires: L.layerGroup(),
-    questesPrincipales: L.layerGroup(),
-    donjons: L.layerGroup(),
-    villes: L.layerGroup(),
-    monstres: L.layerGroup(),
-    marchands: L.layerGroup()
-};
-
-// Données des quêtes pour le Palier 2
-const questDataFloor2 = [
-    // QUÊTES PRINCIPALES - Palier 2
-    {
-        id: 'floor2-quest-1',
-        name: 'Parler au Maître Épéiste',
-        type: 'principale',
-        step: 1,
-        coordinates: [-40, -888],
-        npc: 'Maître Épéiste',
-        description: 'Commencez votre aventure au Palier 2'
-    },
-    {
-        id: 'floor2-quest-2',
-        name: 'Trouver Artheon à Urbus',
-        type: 'principale',
-        step: 2,
-        coordinates: [10, -666],
-        npc: 'Elyra',
-        description: 'Coordonnées d\'Artheon : X: 133, Z: -375, Y: 140'
-    },
-    {
-        id: 'floor2-quest-3',
-        name: 'Tuer 20 Taureaux',
-        type: 'principale',
-        step: 3,
-        coordinates: [133, -375],
-        npc: 'Artheon',
-        description: 'Éliminez 20 taureaux dans la zone'
-    },
-    {
-        id: 'floor2-quest-4',
-        name: 'Parler à Bantu',
-        type: 'principale',
-        step: 4,
-        coordinates: [133, -375],
-        npc: 'Artheon',
-        description: 'Rendez-vous auprès de Bantu'
-    },
-    {
-        id: 'floor2-quest-5',
-        name: 'Tuer 25 Loups',
-        type: 'principale',
-        step: 5,
-        coordinates: [-586, -255],
-        npc: 'Bantu',
-        description: 'Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146'
-    },
-    {
-        id: 'floor2-quest-6',
-        name: 'Obtenir 10 Planches d\'Acacia et 1 Lingot d\'Onyx Pur',
-        type: 'principale',
-        step: 6,
-        coordinates: [-437, -441],
-        npc: 'Kwabena',
-        description: 'Rassemblez les matériaux demandés'
-    },
-    {
-        id: 'floor2-quest-7',
-        name: 'Parler à Kwabeno',
-        type: 'principale',
-        step: 7,
-        coordinates: [-427, -427],
-        npc: 'Kwabeno',
-        description: 'Discutez avec Kwabeno'
-    },
-    {
-        id: 'floor2-quest-8',
-        name: 'Obtenir 10 Écailles Fulgurantes et 10 Cornes de Taureaux',
-        type: 'principale',
-        step: 8,
-        coordinates: [-427, -427],
-        npc: 'Kwabeno',
-        description: 'Collectez les matériaux rares'
-    },
-    {
-        id: 'floor2-quest-9',
-        name: 'Contacter Yaa',
-        type: 'principale',
-        step: 9,
-        coordinates: [743, -259],
-        npc: 'Fanny',
-        description: 'Établissez le contact avec Yaa'
-    },
-    
-    // QUÊTES SECONDAIRES - Palier 2
-    {
-        id: 'floor2-secondary-1',
-        name: 'Obtenir 15 Peaux de Sangliers et 15 Peau Épaisse',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [695, -277],
-        npc: 'Minutiare',
-        description: 'Collectez les peaux demandées pour Minutiare'
-    },
-    {
-        id: 'floor2-secondary-2',
-        name: 'Obtenir 10 Minerais d\'Onyx Impur',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [725, -302],
-        npc: 'Shii',
-        description: 'Récupérez les minerais d\'onyx impur pour Shii'
-    },
-    {
-        id: 'floor2-secondary-3',
-        name: 'Obtenir 30 Minerais de Bauxite',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [116, -307],
-        npc: 'Charles',
-        description: 'Collectez 30 minerais de bauxite pour Charles'
-    },
-    {
-        id: 'floor2-secondary-4',
-        name: 'Obtenir 4 Plumes Enflammées, 4 Plumes Ondoyantes, 4 Plumes Terreuses',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [111, -391],
-        npc: 'Ifa',
-        description: 'Collectez les différentes plumes élémentaires pour Ifa'
-    },
-    // Quêtes de Bronn
-    {
-        id: 'floor2-quest-10',
-        name: 'Obtenir 20 Bûches d\'Acacia et 20 Bûches de Chêne',
-        type: 'principale',
-        step: 10,
-        coordinates: [638, -267],
-        npc: 'Bronn',
-        description: 'Collectez les bûches pour Bronn'
-    },
-    {
-        id: 'floor2-quest-11',
-        name: 'Obtenir 20 Planches d\'Acacia et 20 Planches de Chêne',
-        type: 'principale',
-        step: 11,
-        coordinates: [638, -267],
-        npc: 'Bronn',
-        description: 'Fabriquez les planches pour Bronn'
-    },
-    {
-        id: 'floor2-quest-12',
-        name: 'Obtenir 20 Planches de Chêne, 20 Planches d\'Acacia et 10 Bûches de Bouleau',
-        type: 'principale',
-        step: 12,
-        coordinates: [638, -267],
-        npc: 'Bronn',
-        description: 'Dernière livraison pour Bronn'
-    },
-    {
-        id: 'floor2-quest-13',
-        name: 'Parler à la Statue de Yaa',
-        type: 'principale',
-        step: 13,
-        coordinates: [740, -255],
-        npc: 'Statue',
-        description: 'Parlez à la Statue de Yaa'
-    },
-    
-    // QUÊTES SECONDAIRES SUPPLÉMENTAIRES - Palier 2
-    {
-        id: 'floor2-secondary-5',
-        name: 'Obtenir 6 Fourrures de Loup et 6 Peaux d\'Ours',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [106, -383],
-        npc: 'Ife',
-        description: 'Collectez les fourrures et peaux pour Ife'
-    },
-    {
-        id: 'floor2-secondary-6',
-        name: 'Vaincre 30 Harpies de Feu / Foudre',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-434, 271],
-        npc: 'Sissou',
-        description: 'Éliminez les harpies pour Sissou'
-    },
-    {
-        id: 'floor2-secondary-7',
-        name: 'Vaincre 5 Harpie de Feu, 5 Harpie de Foudre, 5 Harpie de Terre',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-486, 268],
-        npc: 'Frank',
-        description: 'Éliminez les différentes harpies pour Frank'
-    },
-    {
-        id: 'floor2-secondary-8',
-        name: 'Vaincre 50 Harpies de Terre',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-431, 280],
-        npc: 'Poris',
-        description: 'Éliminez 50 harpies de terre pour Poris'
-    },
-    {
-        id: 'floor2-secondary-9',
-        name: 'Vaincre les 4 Boss: Gardien du Sanctuaire, Rugiboeuf, Velindra, Magnus Colosse',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-204, -688],
-        npc: 'Chasseur de Dragon',
-        description: 'Vaincre dans l\'ordre: 1 Gardien du Sanctuaire, 1 Rugiboeuf le Gardien, 1 Velindra la Tisseuse, 1 Magnus Colosse de Veines'
-    },
-    {
-        id: 'floor2-secondary-10',
-        name: 'Retrouver Relax le chat',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-554, -263],
-        npc: 'Itamii',
-        description: 'Retrouvez Relax le chat pour Itamii'
-    },
-    {
-        id: 'floor2-secondary-11',
-        name: 'Obtenir 10 Miel',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-576, -256],
-        npc: 'Baraka',
-        description: 'Collectez du miel pour Baraka'
-    },
-    {
-        id: 'floor2-secondary-12',
-        name: 'Obtenir 15 Oeufs d\'Harpie d\'Eau et 10 Graisse d\'Ours',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-564, -255],
-        npc: 'Mansa',
-        description: 'Collectez les ingrédients pour Mansa'
-    },
-    {
-        id: 'floor2-secondary-13',
-        name: 'Obtenir 3 Plumes Corrompues',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-587, -245],
-        npc: 'Nora',
-        description: 'Collectez les plumes corrompues pour Nora'
-    },
-    {
-        id: 'floor2-secondary-14',
-        name: 'Vaincre 30 Squelettes dans le Sanctuaire de Keshûn',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-42, 205],
-        npc: 'SamaelTVS',
-        description: 'Éliminez les squelettes pour SamaelTVS'
-    },
-    {
-        id: 'floor2-secondary-15',
-        name: 'Obtenir 1 Sac de Toile, 1 Anneau sans nom, 1 Carnet Froissé',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [620, -566],
-        npc: 'Elyen',
-        description: 'Collectez les objets mystérieux pour Elyen'
-    },
-    {
-        id: 'floor2-secondary-16',
-        name: 'Obtenir Champignogno et 2 Herbes Parfumées',
-        type: 'secondaire',
-        step: 'S',
-        coordinates: [-160, 10],
-        npc: 'Havca',
-        description: 'Collectez les ingrédients pour Havca'
-    },
-    // Quête principale Yuko
-    {
-        id: 'floor2-quest-16',
-        name: 'Obtenir 30 Bûches de Chêne, 10 Fourrures de Loup, 20 Minerais de Charbon',
-        type: 'principale',
-        step: 16,
-        coordinates: [-611, -247],
-        npc: 'Yuko',
-        description: 'Collectez les ressources pour Yuko'
+    function english() { return global.NamelessI18n?.getLanguage?.() === 'en'; }
+    function text(fr, en) { return english() ? en : fr; }
+    function label(entity) { return english() && entity.titleEn ? entity.titleEn : entity.title || entity.id || entity.key; }
+    function typeLabel(type) { const value = TYPE_LABELS[type] || ['Repères', 'Markers']; return text(...value); }
+    function kindLabel(kind) { return text(...(KIND_LABELS[kind] || ['Lieu', 'Location'])); }
+    function entryKind(entity) { return entity.markerType === 'boss' ? text('Boss', 'Boss') : kindLabel(entity.kind); }
+    function node(tag, className, content) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (content != null) element.textContent = String(content);
+        return element;
     }
-];
-
-function initMapView() {
-    // N'initialiser que si le conteneur de carte est présent
-    if (!document.getElementById('game-map')) return;
-    // Nettoyer une éventuelle instance précédente (navigation SPA)
-    destroyMapView();
-    mapController = new AbortController();
-    let savedMapState = null;
-    try { savedMapState = localStorage.getItem('ironOathMapState'); } catch (error) { /* The map also works when storage is disabled. */ }
-    // Repartir de groupes de calques vides pour éviter les marqueurs dupliqués
-    Object.values(layerGroups).forEach(g => g.clearLayers());
-    Object.values(layerGroupsFloor2).forEach(g => g.clearLayers());
-
-    // Système de coordonnées basé sur les points de référence fournis
-    // Nord: X=2560, Z=85  |  Sud: X=2560, Z=5036  |  Ouest: X=85, Z=2560  |  Est: X=5036, Z=2560
-    // 
-    // Conversion pour Leaflet CRS.Simple:
-    // X du jeu = lng dans Leaflet (85 à 5036)
-    // Z du jeu = inversé dans Leaflet (Z=85 -> lat=5036, Z=5036 -> lat=85)
-    // 
-    // Bounds Leaflet: [[lat_min, lng_min], [lat_max, lng_max]]
-    // lat_min = 85 (correspond à Z=5036 du jeu - Sud)
-    // lat_max = 5036 (correspond à Z=85 du jeu - Nord)  
-    // lng_min = 85 (correspond à X=85 du jeu - Ouest)
-    // lng_max = 5036 (correspond à X=5036 du jeu - Est)
-    const bounds = [[85, 85], [5036, 5036]];
-    
-    // Centre de la carte: X=2560, Z=2560 du jeu
-    // En Leaflet: lat = 5121-2560 = 2561, lng = 2560
-    const centerLat = 5121 - 2560; // 2561 dans Leaflet pour Z=2560 du jeu
-    const centerLng = 2560;        // X=2560 du jeu
-    
-    // Initialisation de la carte Leaflet avec zoom ultra-précis
-    map = L.map('game-map', {
-        crs: L.CRS.Simple,
-        minZoom: -6,    // Zoom out très éloigné pour vue d'ensemble complète
-        maxZoom: 10,    // Zoom ULTRA rapproché pour voir les pixels individuels
-        zoom: -3,       // Zoom initial (vue d'ensemble)
-        center: [centerLat, centerLng], // Centre de la carte [lat_leaflet, lng_leaflet]
-        zoomControl: true,
-        attributionControl: false,
-        // Limiter le déplacement aux bounds de la carte avec une marge élargie
-        maxBounds: [[-1000, -1000], [6120, 6120]], // Marge très élargie pour le zoom extrême
-        maxBoundsViscosity: 0.5, // Résistance réduite pour plus de liberté
-        // Améliorer les performances pour le zoom extrême
-        preferCanvas: false, // Désactiver canvas pour zoom pixel-parfait
-        // Contrôle ultra-fin du déplacement et zoom
-        zoomSnap: 0.05, // Incréments de zoom ultra-fins
-        zoomDelta: 0.3, // Sensibilité molette plus fine
-        wheelPxPerZoomLevel: 120, // Contrôle précis de la molette
-        // Options avancées pour zoom élevé
-        bounceAtZoomLimits: false,
-        doubleClickZoom: 'center', // Double-clic pour centrer et zoomer
-        boxZoom: true,  // Zoom par sélection rectangulaire
-        keyboard: true, // Contrôles clavier
-        scrollWheelZoom: true,
-        touchZoom: true // Support tactile amélioré
-    });
-    
-    // Charger l'image de la carte
-    mountMapOverlay(1, bounds);
-    
-    // Fonction de changement de palier (extraite pour réutilisation)
-    function changeFloor(selectedFloor, showNotification = true) {
-        // Vérifier si la carte existe pour ce palier
-        if (!Number.isInteger(selectedFloor) || !Object.prototype.hasOwnProperty.call(floorMaps, selectedFloor)) {
-            console.warn('❌ Floor', selectedFloor, 'does not exist');
+    function finite(value, limit = 1000000) { return typeof value === 'number' && Number.isFinite(value) && Math.abs(value) <= limit; }
+    function numberParam(params, name, limit = 1000000) {
+        if (!params.has(name) || !params.get(name)?.trim()) return null;
+        const value = Number(params.get(name)); return finite(value, limit) ? value : null;
+    }
+    function localUrl(value) {
+        if (!value) return null;
+        try { const url = new URL(value, global.location.href); return url.origin === global.location.origin && /^(https?:)$/.test(url.protocol) ? url.href : null; }
+        catch (_) { return null; }
+    }
+    function normalize(value) { return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+    function client() { return global.supabase && typeof global.supabase.rpc === 'function' ? global.supabase : null; }
+    async function fetchJson(url) {
+        const response = await global.fetch(url, { credentials: 'same-origin', cache: 'no-cache' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+    }
+    function getCatalog() {
+        if (!catalogPromise) catalogPromise = fetchJson('/assets/map/catalog.json').catch(error => { catalogPromise = null; throw error; });
+        return catalogPromise;
+    }
+    function floorData(config) {
+        const id = Number(config.id);
+        if (!FLOOR_CACHE.has(id)) FLOOR_CACHE.set(id, fetchJson(config.dataUrl || '/assets/map/floor-' + id + '.json').catch(error => { FLOOR_CACHE.delete(id); throw error; }));
+        return FLOOR_CACHE.get(id);
+    }
+    function valid(state) { return active === state && !state.controller.signal.aborted; }
+    function listen(state, target, event, fn) { target?.addEventListener(event, fn, { signal: state.controller.signal }); }
+    function emit(state, event, value) { for (const fn of state.events.get(event) || []) fn(value); }
+    function notice(state, message) {
+        if (!valid(state)) return;
+        state.ui.status.textContent = message || ''; state.ui.status.hidden = !message;
+    }
+    function configOf(state, id = state.floor) { return state.catalog?.floors.find(floor => Number(floor.id) === Number(id)); }
+    function relative(state, latlng, id = state.floor) {
+        const config = configOf(state, id); if (!config) return null;
+        const [[south, west], [north, east]] = config.bounds;
+        const lat = Number(latlng.lat ?? latlng[0]), lng = Number(latlng.lng ?? latlng[1]);
+        if (!finite(lat) || !finite(lng)) return null;
+        const offset = typeof config.gameOffset === 'object' ? config.gameOffset?.z : config.gameOffset;
+        return { u: (lng - west) / (east - west), v: (north - lat) / (north - south), x: offset == null ? null : lng, z: offset == null ? null : offset - lat };
+    }
+    function latlng(state, position, id = state.floor) {
+        const config = configOf(state, id); if (!config || !position) return null;
+        const [[south, west], [north, east]] = config.bounds;
+        if (finite(position.u, 2) && finite(position.v, 2)) return [north - position.v * (north - south), west + position.u * (east - west)];
+        const offset = typeof config.gameOffset === 'object' ? config.gameOffset?.z : config.gameOffset;
+        if (offset != null && finite(position.x) && finite(position.z)) return [offset - position.z, position.x];
+        return null;
+    }
+    function clearOverlays(state) {
+        state.overlayGeneration++;
+        const cached = new Set([...state.fullImages.values()].map(record => record.overlay));
+        for (const layer of state.overlays) { if (!cached.has(layer)) layer.off?.(); state.map.removeLayer(layer); }
+        state.overlays = []; state.detail = null;
+    }
+    function mountImage(state, config) {
+        clearOverlays(state);
+        const generation = state.overlayGeneration;
+        const floorId = Number(config.id);
+        const mobile = global.innerWidth <= 700;
+        const image = (mobile ? config.overviewMobile : config.overview) || config.image;
+        const overview = global.L.imageOverlay(image, config.bounds).addTo(state.map);
+        const imageElement = overview.getElement?.();
+        imageElement?.setAttribute('fetchpriority', 'high'); imageElement?.setAttribute('loading', 'eager'); imageElement?.setAttribute('decoding', 'async');
+        state.overlays.push(overview);
+        overview.on?.('error', () => { if (valid(state) && generation === state.overlayGeneration) notice(state, text('L’image de ce palier ne peut pas être chargée.', 'This floor image could not be loaded.')); });
+        function detailWhenNeeded() {
+            if (!valid(state) || generation !== state.overlayGeneration || state.floor !== floorId || image === config.image || state.detail || state.fullImages.get(floorId)?.failed) return;
+            const width = mobile ? config.overviewMobileWidth || 1024 : config.overviewWidth || 1600;
+            const displayWidth = Math.abs(config.bounds[1][1] - config.bounds[0][1]) * Math.pow(2, state.map.getZoom());
+            if (displayWidth <= width * 1.08) return;
+            let record = state.fullImages.get(floorId);
+            let detail = record?.overlay;
+            if (!detail) {
+                detail = global.L.imageOverlay(config.image, config.bounds, { opacity: 0 });
+                record = { overlay: detail, ready: false, failed: false, mountedGeneration: generation };
+                state.fullImages.set(floorId, record);
+                detail.on('load', () => {
+                    record.ready = true;
+                    if (valid(state) && state.floor === floorId && record.mountedGeneration === state.overlayGeneration && state.detail === detail && state.overlays.includes(detail)) { detail.setOpacity(1); state.overview?.setOpacity(0); }
+                });
+                detail.on('error', () => {
+                    record.failed = true;
+                    if (valid(state) && state.floor === floorId && record.mountedGeneration === state.overlayGeneration && state.detail === detail) notice(state, text('L’aperçu reste disponible ; les détails n’ont pas pu être chargés.', 'The overview is available; the detailed image could not be loaded.'));
+                });
+            }
+            record.mountedGeneration = generation;
+            state.detail = detail; state.overlays.push(detail);
+            if (record.ready) { detail.setOpacity(1); overview.setOpacity(0); }
+            else detail.setOpacity(0);
+            detail.addTo(state.map);
+        }
+        state.overview = overview;
+        state.detailCheck = detailWhenNeeded;
+        detailWhenNeeded();
+    }
+    function icon(type, count = 1, selected = false) {
+        const safeType = Object.hasOwn(GLYPHS, type) ? type : 'zone';
+        return global.L.divIcon({ className: 'map-marker type-' + safeType + (selected ? ' is-selected' : ''),
+            html: '<span class="map-marker-symbol"><svg viewBox="0 0 24 24" aria-hidden="true">' + GLYPHS[safeType] + '</svg>' + (count > 1 ? '<small aria-hidden="true">' + count + '</small>' : '') + '</span>', iconSize: [30, 30], iconAnchor: [15, 15] });
+    }
+    function applyOverrides(state) {
+        if (!state.rawData) return;
+        const entities = Object.fromEntries(Object.entries(state.rawData.entities || {}).map(([key, entity]) => [key, { ...entity }]));
+        const points = new Set(state.rawData.points || []);
+        if (state.overridesStatus === 'pending' || (state.overridesStatus === 'error' && !lastGoodOverrides)) {
+            for (const entity of Object.values(entities)) { entity.position = null; entity.positionRef = null; entity.overrideState = 'unavailable'; }
+            state.data = { ...state.rawData, entities, points: [] }; return;
+        }
+        for (const record of state.overrides || []) {
+            const key = record.entity_key; const entity = entities[key];
+            if (!entity) continue;
+            points.delete(key);
+            if (Number(record.floor) !== state.floor || record.state !== 'visible' || !finite(record.u, 1) || !finite(record.v, 1) || record.u < 0 || record.v < 0) {
+                entity.position = null; entity.overrideState = record.state || 'hidden'; continue;
+            }
+            const coord = latlng(state, { u: record.u, v: record.v });
+            entity.position = { ...relative(state, coord), source: 'override' };
+            entity.markerType = Object.hasOwn(TYPE_LABELS, record.marker_type) ? record.marker_type : entity.markerType;
+            entity.overrideState = 'visible'; entity.overrideId = record.id; points.add(key);
+        }
+        state.data = { ...state.rawData, entities, points: [...points] };
+    }
+    function renderFilters(state) {
+        state.ui.filters.classList.toggle('is-ready', !!state.data && state.overridesStatus !== 'pending');
+        const available = new Set((state.data?.points || []).map(key => state.data.entities[key]?.markerType).filter(Boolean));
+        state.ui.filters.replaceChildren();
+        const groups = [ [['Lieux', 'Places'], ['town', 'dungeon', 'zone', 'merchant', 'teleporter']], [['Quêtes', 'Quests'], ['quest-primary', 'quest-secondary']], [['Personnages', 'Characters'], ['npc', 'boss', 'creature']] ];
+        for (const [name, types] of groups) {
+            const present = types.filter(type => available.has(type)); if (!present.length) continue;
+            const fieldset = node('fieldset', 'map-filter-group'); fieldset.append(node('legend', '', text(...name)));
+            for (const type of present) {
+                if (!state.filters.has(type)) state.filters.set(type, !type.startsWith('quest-'));
+                const control = node('label', 'map-filter'); const input = node('input'); input.type = 'checkbox'; input.checked = state.filters.get(type); input.dataset.markerType = type;
+                control.append(input, node('span', '', typeLabel(type))); fieldset.append(control);
+                listen(state, input, 'change', () => { state.filters.set(type, input.checked); renderMarkers(state); });
+            }
+            state.ui.filters.append(fieldset);
+        }
+    }
+    function targetPosition(state, entity) {
+        if (!entity || ['hidden', 'deleted'].includes(entity.overrideState)) return { position: null, reference: null };
+        if (entity.position) return { position: latlng(state, entity.position), reference: null };
+        const reference = state.data?.entities?.[entity.positionRef];
+        return { position: reference && !['hidden', 'deleted'].includes(reference.overrideState) ? latlng(state, reference.position) : null, reference: reference || null };
+    }
+    function renderMarkers(state) {
+        state.markerLayer.eachLayer?.(marker => marker.off?.()); state.markerLayer.clearLayers(); state.markers.clear();
+        if (!state.data) return;
+        const selectedEntity = state.data.entities[state.selected];
+        const selectedTarget = targetPosition(state, selectedEntity);
+        const groups = new Map();
+        const keys = new Set(state.data.points);
+        if (selectedEntity?.position && !['hidden', 'deleted'].includes(selectedEntity.overrideState)) keys.add(selectedEntity.key);
+        for (const key of keys) {
+            const entity = state.data.entities[key]; if (!entity?.position) continue;
+            const selected = key === state.selected || key === selectedTarget.reference?.key;
+            if (!state.editorMode && !state.filters.get(entity.markerType) && !selected) continue;
+            const coord = latlng(state, entity.position); if (!coord) continue;
+            const groupKey = coord.join('|'); const group = groups.get(groupKey) || { coord, entities: [] };
+            group.entities.push(entity); groups.set(groupKey, group);
+        }
+        const clusters = [];
+        const selectedKey = selectedTarget.reference?.key || state.selected;
+        const sorted = [...groups.values()].sort((a, b) => Number(b.entities.some(entity => entity.key === selectedKey)) - Number(a.entities.some(entity => entity.key === selectedKey)));
+        for (const group of sorted) {
+            const point = state.map.latLngToLayerPoint?.(group.coord);
+            const cluster = !state.editorMode && point && clusters.find(other => other.point && Math.hypot(point.x - other.point.x, point.y - other.point.y) <= 36);
+            if (cluster) { cluster.entities.push(...group.entities); cluster.coordinates.push(group.coord); }
+            else clusters.push({ ...group, entities: [...group.entities], coordinates: [group.coord], point });
+        }
+        for (const group of clusters) {
+            const selected = group.entities.some(entity => entity.key === state.selected || entity.key === selectedTarget.reference?.key);
+            const marker = global.L.marker(group.coord, { icon: icon(group.entities[0].markerType, group.entities.length, selected), keyboard: true, title: group.entities.map(label).join(' · '), riseOnHover: true });
+            const tooltip = node('span', '', group.entities.map(label).join(' · '));
+            marker.bindTooltip?.(tooltip, { className: 'map-hover-tooltip', direction: 'top', offset: [0, -14], opacity: 1 });
+            marker.on('click', () => {
+                if (state.editorMode) { emit(state, 'marker', { entities: group.entities, marker, latlng: { lat: group.coord[0], lng: group.coord[1] } }); return; }
+                if (group.entities.length === 1) selectEntity(state, group.entities[0].key);
+                else {
+                    showChoices(state, group.entities);
+                    if (group.coordinates.length > 1) state.map.fitBounds(group.coordinates, { padding: [48, 48], maxZoom: 0, animate: false });
+                }
+            });
+            marker.addTo(state.markerLayer);
+            marker.getElement?.()?.setAttribute('aria-label', group.entities.map(label).join(' · '));
+            for (const entity of group.entities) state.markers.set(entity.key, marker);
+        }
+        emit(state, 'markers', { markers: state.markers, data: state.data });
+    }
+    function showPanel(state) {
+        state.ui.panel.hidden = false; state.ui.workspace.classList.add('has-selection');
+        state.map.invalidateSize?.({ pan: false });
+    }
+    function closePanel(state, update = true) {
+        state.selected = null; state.pendingSelection = null; state.choiceKeys = null; state.ui.panel.hidden = true; state.ui.panel.classList.remove('is-expanded'); state.ui.expand.setAttribute('aria-expanded', 'false'); state.ui.workspace.classList.remove('has-selection');
+        renderMarkers(state); state.map.invalidateSize?.({ pan: false });
+        if (update) updateUrl(state, null);
+        emit(state, 'selection', null);
+    }
+    function showChoices(state, entities) {
+        state.choiceKeys = entities.map(entity => entity.key); state.ui.content.replaceChildren(node('h2', '', text('Plusieurs repères à cet endroit', 'Several markers at this location')));
+        for (const entity of entities) {
+            const button = node('button', 'map-choice', label(entity)); button.type = 'button'; listen(state, button, 'click', () => selectEntity(state, entity.key));
+            listen(state, button, 'keydown', event => {
+                if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                    event.preventDefault(); const choices = [...state.ui.content.querySelectorAll('.map-choice')]; const index = choices.indexOf(button);
+                    choices[(index + (event.key === 'ArrowDown' ? 1 : -1) + choices.length) % choices.length]?.focus();
+                }
+            }); state.ui.content.append(button);
+        }
+        showPanel(state);
+    }
+    function relation(state, heading, keys, suffixes = null) {
+        const unique = [...new Set((keys || []).filter(key => key && key !== state.selected))]; if (!unique.length) return;
+        const list = node('ul', 'map-relations');
+        for (const key of unique) {
+            const entity = state.data.entities[key] || state.catalog.index.find(entry => entry.key === key); if (!entity) continue;
+            const item = node('li'); const button = node('button', '', label(entity)); button.type = 'button'; button.dataset.entityKey = key;
+            if (suffixes?.[key]) button.append(node('small', '', suffixes[key]));
+            listen(state, button, 'click', () => selectEntity(state, key)); item.append(button); list.append(item);
+        }
+        if (list.childElementCount) state.ui.content.append(node('h3', '', heading), list);
+    }
+    function renderPanel(state, entity) {
+        state.choiceKeys = null; state.ui.content.replaceChildren();
+        state.ui.content.append(node('span', 'map-kind', entryKind(entity) + ' · ' + text('Palier ', 'Floor ') + state.floor), node('h2', '', label(entity)));
+        if (entity.description) state.ui.content.append(node('p', '', english() && entity.descriptionEn ? entity.descriptionEn : global.NamelessI18n?.translate?.(entity.description) || entity.description));
+        const target = targetPosition(state, entity);
+        if (target.reference) {
+            const prefix = entity.kind === 'creature' ? text('Zone associée : ', 'Associated zone: ')
+                : target.reference.kind === 'guide' ? text('Repère du guide : ', 'Guide marker: ')
+                : target.reference.kind === 'quest' ? text('Repère de la quête : ', 'Quest marker: ') : text('Repère associé : ', 'Associated marker: ');
+            const explanation = entity.kind === 'creature' ? text('. La position exacte de cette créature est inconnue.', '. The exact position of this creature is unknown.')
+                : text('. La position propre de cette entrée n’est pas renseignée.', '. This entry’s own position has not been recorded.');
+            state.ui.content.append(node('p', 'map-position-note', prefix + label(target.reference) + explanation));
+        }
+        else if (!target.position) state.ui.content.append(node('p', 'map-position-note', ['hidden', 'deleted'].includes(entity.overrideState) ? text('Ce repère est masqué sur la carte.', 'This marker is hidden on the map.') : text('Position exacte non renseignée.', 'Exact position has not been recorded.')));
+        if (entity.position && target.position) {
+            const coords = relative(state, target.position);
+            if (coords.x != null) state.ui.content.append(node('p', 'map-coordinates', 'X ' + Math.round(coords.x) + ' · Z ' + Math.round(coords.z)));
+            else state.ui.content.append(node('p', 'map-position-note', text('Coordonnées du jeu non calibrées pour ce palier.', 'Game coordinates are not calibrated for this floor.')));
+        }
+        const href = localUrl(entity.url);
+        if (href && !new URL(href).pathname.match(/^\/(carte|pages\/map\.html)$/)) { const link = node('a', 'map-page-link', text('Ouvrir la fiche', 'Open details')); link.href = href; state.ui.content.append(link); }
+        if (entity.image) { const src = localUrl(entity.image); if (src) { const image = node('img', 'map-entity-image'); image.src = src; image.alt = ''; image.loading = 'lazy'; state.ui.content.append(image); } }
+        const reverse = Object.values(state.data.entities).filter(other => other.key !== entity.key);
+        relation(state, text('Lieu associé', 'Associated place'), [entity.placeKey, entity.positionRef]);
+        if (entity.kind !== 'item') relation(state, text('Créatures', 'Creatures'), [...(entity.creatureKeys || []), ...reverse.filter(other => other.kind === 'creature' && (other.placeKey === entity.key || other.positionRef === entity.key)).map(other => other.key)]);
+        const guides = new Set([...(entity.guideKeys || []), ...reverse.filter(other => other.kind === 'guide' && (other.placeKey === entity.key || other.positionRef === entity.key)).map(other => other.key)]);
+        const archivedQuests = reverse.filter(other => other.kind === 'quest' && (other.placeKey === entity.key || other.positionRef === entity.key) && !other.guideKeys?.some(key => guides.has(key)));
+        relation(state, text('Quêtes et guides', 'Quests and guides'), [...guides, ...archivedQuests.map(other => other.key)], Object.fromEntries(archivedQuests.map(other => [other.key, text('repère de quête archivé', 'archived quest marker')])));
+        const areaCreatures = entity.kind === 'location' ? reverse.filter(other => other.kind === 'creature' && (other.placeKey === entity.key || other.positionRef === entity.key || entity.creatureKeys?.includes(other.key))) : [];
+        const drops = [...(entity.drops || []), ...areaCreatures.flatMap(creature => creature.drops || [])];
+        const rates = Object.fromEntries(drops.filter(drop => drop.itemKey).map(drop => [drop.itemKey, drop.rate != null && entity.kind === 'creature' ? String(drop.rate) + ' %' : '']));
+        relation(state, text('Butin et ressources', 'Loot and resources'), drops.map(drop => drop.itemKey), rates);
+        const unlinked = drops.filter(drop => !drop.itemKey); if (unlinked.length) { state.ui.content.append(node('h3', '', text('Autres ressources connues', 'Other known resources'))); for (const drop of unlinked) state.ui.content.append(node('p', '', drop.name + (drop.rate != null ? ' · ' + drop.rate : ''))); }
+        if (entity.kind === 'item') relation(state, text('Créatures et sources', 'Creatures and sources'), [...(entity.creatureKeys || []), ...reverse.filter(other => other.drops?.some(drop => drop.itemKey === entity.key)).map(other => other.key)]);
+        const alreadyShown = new Set([entity.placeKey, entity.positionRef, ...(entity.creatureKeys || []), ...(entity.guideKeys || []), ...drops.map(drop => drop.itemKey),
+            ...reverse.filter(other => (other.placeKey === entity.key || other.positionRef === entity.key) && ['creature', 'guide', 'quest'].includes(other.kind)).map(other => other.key),
+            ...(entity.kind === 'item' ? reverse.filter(other => other.drops?.some(drop => drop.itemKey === entity.key)).map(other => other.key) : [])]);
+        relation(state, text('Relations', 'Related entries'), (entity.relatedKeys || []).filter(key => !alreadyShown.has(key)));
+        showPanel(state);
+    }
+    function hideSearch(state) { state.ui.results.hidden = true; state.ui.results.style.display = 'none'; }
+    function renderSearch(state) {
+        const query = normalize(state.ui.search.value).trim(); state.ui.clear.style.display = query ? '' : 'none'; state.ui.results.replaceChildren();
+        if (!query || !state.catalog) { hideSearch(state); return; }
+        const tokens = query.split(/\s+/);
+        const results = state.catalog.index.filter(entity => tokens.every(token => normalize([entity.title, entity.titleEn, entity.id, ...(Array.isArray(entity.keywords) ? entity.keywords : [entity.keywords])].join(' ')).includes(token)))
+            .sort((a, b) => (Number(b.floor) === state.floor) - (Number(a.floor) === state.floor) || Number(a.floor || 99) - Number(b.floor || 99) || label(a).localeCompare(label(b))).slice(0, 60);
+        state.ui.results.append(node('div', 'map-search-summary', results.length ? results.length + ' ' + text('résultat(s)', 'result(s)') : text('Aucun résultat trouvé', 'No results found')));
+        for (const entity of results) {
+            const button = node('button', 'search-result-item'); button.type = 'button'; button.dataset.entityKey = entity.key;
+            const info = node('span', '', label(entity)); info.append(node('small', '', entryKind(entity))); button.append(info, node('span', 'search-result-floor', entity.floor ? text('Palier ', 'Floor ') + entity.floor : ''));
+            listen(state, button, 'click', () => { hideSearch(state); selectEntity(state, entity.key); }); state.ui.results.append(button);
+        }
+        state.ui.results.hidden = false; state.ui.results.style.display = 'block';
+    }
+    function clearTargets(params) { ['entity', 'location', 'creature', 'boss', 'guide', 'quest', 'x', 'y', 'u', 'v', 'zoom', 'q'].forEach(key => params.delete(key)); }
+    function updateUrl(state, key, precise = false, replace = false) {
+        const url = new URL(global.location.href); clearTargets(url.searchParams); url.searchParams.set('floor', String(state.floor)); if (key) url.searchParams.set('entity', key);
+        if (precise) { const coord = relative(state, state.map.getCenter()); if (coord) { url.searchParams.set('u', coord.u.toFixed(6)); url.searchParams.set('v', coord.v.toFixed(6)); url.searchParams.set('zoom', String(state.map.getZoom())); } }
+        if (url.href !== global.location.href) global.history[replace ? 'replaceState' : 'pushState'](null, '', url.pathname + url.search + url.hash);
+        state.lastRoute = url.href;
+    }
+    function recenter(state) { const config = configOf(state); if (config) state.map.fitBounds(config.bounds, { padding: [15, 15], animate: false }); }
+    function saveState(state) {
+        if (!valid(state) || !state.catalog) return;
+        const center = state.map.getCenter();
+        try { global.localStorage.setItem('ironOathMapState', JSON.stringify({ lat: center.lat, lng: center.lng, zoom: state.map.getZoom(), floor: state.floor })); } catch (_) { /* Optional preferences. */ }
+    }
+    async function changeFloor(state, id, options = {}) {
+        const config = configOf(state, id); if (!config || !valid(state)) return false;
+        const generation = ++state.floorGeneration;
+        state.floor = Number(id); state.rawData = null; state.data = null; state.ui.floor.value = String(id); state.markerLayer.clearLayers(); state.markers.clear(); renderFilters(state);
+        state.map.setMaxBounds?.(config.maxBounds || config.bounds); recenter(state); mountImage(state, config);
+        state.ui.map.setAttribute('aria-busy', 'true');
+        if (Number(config.id) === 3) notice(state, text('Palier 3 : image disponible, repères et coordonnées du jeu non calibrés.', 'Floor 3: image available; markers and game coordinates are not calibrated.'));
+        else if (state.overridesStatus !== 'error') notice(state, '');
+        try {
+            const data = await floorData(config); if (!valid(state) || generation !== state.floorGeneration) return false;
+            state.rawData = data; applyOverrides(state); renderFilters(state); renderMarkers(state); state.ui.map.setAttribute('aria-busy', 'false');
+            emit(state, 'floor', { floor: state.floor, data: state.data }); return true;
+        } catch (_) {
+            if (valid(state) && generation === state.floorGeneration) { state.ui.map.setAttribute('aria-busy', 'false'); notice(state, text('Les repères de ce palier ne peuvent pas être chargés.', 'Markers for this floor could not be loaded.')); }
             return false;
         }
-        
-        console.log('🔄 Changing floor to:', selectedFloor);
-        
-        // Retirer l'ancienne carte
-        removeMapOverlays();
-        
-        // Obtenir la configuration pour ce palier
-        const floorCfg = floorConfig[selectedFloor];
-        const newBounds = floorCfg?.bounds || bounds;
-        const newMaxBounds = floorCfg?.maxBounds || [[-1000, -1000], [6120, 6120]];
-        const newCenter = floorCfg?.center || [2560, 2560];
-        
-        // Mettre à jour les maxBounds pour ce palier
-        map.setMaxBounds(newMaxBounds);
-        
-        // Charger la nouvelle carte avec les bounds appropriés
-        mountMapOverlay(selectedFloor, newBounds);
-        
-        currentFloor = selectedFloor;
-        console.log('✅ currentFloor set to:', currentFloor);
-        
-        // Gestion des marqueurs selon le palier
-        if (selectedFloor === 1) {
-            // Masquer les marqueurs du palier 2
-            Object.values(layerGroupsFloor2).forEach(group => {
-                map.removeLayer(group);
-            });
-            
-            // Réafficher les marqueurs du palier 1 selon les toggles
-            const toggles = [
-                { id: 'toggle-quetes-principales', layer: layerGroups.questesPrincipales },
-                { id: 'toggle-quetes-secondaires', layer: layerGroups.questesSecondaires },
-                { id: 'toggle-donjons', layer: layerGroups.donjons },
-                { id: 'toggle-villes', layer: layerGroups.villes },
-                { id: 'toggle-monstres', layer: layerGroups.monstres },
-                { id: 'toggle-marchands', layer: layerGroups.marchands }
-            ];
-            
-            toggles.forEach(toggle => {
-                const checkbox = document.getElementById(toggle.id);
-                if (checkbox && checkbox.checked) {
-                    map.addLayer(toggle.layer);
-                }
-            });
-        } else if (selectedFloor === 2) {
-            // Masquer tous les marqueurs du palier 1
-            Object.values(layerGroups).forEach(group => {
-                map.removeLayer(group);
-            });
-            
-            // Afficher les marqueurs du palier 2 selon les toggles
-            const toggles = [
-                { id: 'toggle-quetes-principales', layer: layerGroupsFloor2.questesPrincipales },
-                { id: 'toggle-quetes-secondaires', layer: layerGroupsFloor2.questesSecondaires }
-            ];
-            
-            toggles.forEach(toggle => {
-                const checkbox = document.getElementById(toggle.id);
-                if (checkbox && checkbox.checked) {
-                    map.addLayer(toggle.layer);
-                }
-            });
-        } else {
-            // Palier 3 ou autre : masquer tous les marqueurs
-            Object.values(layerGroups).forEach(group => {
-                map.removeLayer(group);
-            });
-            Object.values(layerGroupsFloor2).forEach(group => {
-                map.removeLayer(group);
-            });
-        }
-        
-        // Ajuster la vue pour le nouveau palier
-        map.invalidateSize();
-        
-        // Reconstruire les éléments recherchables pour le nouveau palier
-        if (typeof rebuildSearchableItems === 'function') {
-            rebuildSearchableItems();
-        }
-        
-        // Utiliser setTimeout pour s'assurer que l'image est chargée
-        scheduleMapTask(() => {
-            if (!map) return;
-            map.fitBounds(newBounds, {
-                padding: [50, 50],
-                animate: !mapReducedMotion(),
-                maxZoom: 2
-            });
-        }, 100);
-        
-        if (showNotification) {
-            // Notification du changement
-            const notification = L.popup({
-                closeButton: false,
-                autoClose: true,
-                autoPan: false,
-                className: 'floor-change-popup'
-            })
-            .setLatLng(newCenter)
-            .setContent(`
-                <div style="font-family: 'Orbitron', sans-serif; text-align: center; padding: 5px;">
-                    <strong style="color: #00ffaa;"><span class="map-popup-symbol town" aria-hidden="true"></span><span>Palier ${selectedFloor}</span></strong><br>
-                    <small style="color: #888;">Carte chargée avec succès</small>
-                </div>
-            `)
-            .openOn(map);
-            
-            scheduleMapTask(() => {
-                if (map) map.closePopup(notification);
-            }, 2000);
-        }
-        
-        // Sauvegarder l'état avec le nouveau palier
-        saveMapState();
-        
-        return true;
     }
-
-    // Gestionnaire de changement de palier
-    const floorSelect = document.getElementById('floor-select');
-    if (floorSelect) {
-        floorSelect.addEventListener('change', function() {
-            const selectedFloor = Number(this.value);
-            changeFloor(selectedFloor, true);
-        }, { signal: mapController.signal });
+    async function selectEntity(state, key, options = {}) {
+        if (!valid(state) || !state.catalog) return false;
+        const entry = state.catalog.index.find(entity => entity.key === key); if (!entry) { notice(state, text('Ce repère est introuvable.', 'This marker could not be found.')); return false; }
+        const intent = options.intent ?? ++state.intent;
+        const targetFloor = Number(entry.floor) || state.floor;
+        if (state.floor !== targetFloor || !state.data) { if (!(await changeFloor(state, targetFloor))) return false; }
+        if (!valid(state) || intent !== state.intent || state.floor !== targetFloor) return false;
+        const entity = state.data.entities[key];
+        if (!entity) { notice(state, text('La fiche de ce repère n’est pas disponible sur ce palier.', 'This marker entry is not available on this floor.')); return false; }
+        state.selected = key; hideSearch(state); renderMarkers(state); renderPanel(state, entity);
+        const target = targetPosition(state, entity);
+        if (target.position && options.center !== false) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: false });
+        else if (state.overridesStatus === 'pending' && options.center !== false) state.pendingSelection = { key, intent };
+        if (options.url !== false) updateUrl(state, key);
+        emit(state, 'selection', entity); return true;
     }
-    
-    // Fonction pour lire les paramètres URL et centrer la carte
-    function checkURLParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const x = urlParams.get('x');
-        const y = urlParams.get('y');
-        const floor = urlParams.get('floor');
-        
-        mapNotice('');
-        
-        // Délai pour le changement de palier
-        let floorChangeDelay = 0;
-        
-        // Si un paramètre floor est présent, changer de palier
-        if (floor !== null) {
-            const floorNum = Number(floor);
-            if (!Number.isInteger(floorNum) || !Object.prototype.hasOwnProperty.call(floorMaps, floorNum)) {
-                mapNotice('Ce palier est indisponible. Les paliers disponibles sont 1, 2 et 3.');
-                return;
+    function findAlias(state, params) {
+        const floor = Number(params.get('floor'));
+        if (params.has('entity')) return state.catalog.index.find(entity => entity.key === params.get('entity'))?.key || null;
+        const aliases = [['location', 'location'], ['creature', 'creature'], ['boss', 'creature'], ['guide', 'guide'], ['quest', 'quest']];
+        for (const [param, kind] of aliases) {
+            if (!params.has(param)) continue;
+            const id = params.get(param); const candidates = state.catalog.index.filter(entity => entity.kind === kind && (String(entity.id) === id || entity.key === id || entity.key === kind + ':' + id || (param === 'boss' && entity.url === '/boss/' + id)));
+            return (candidates.find(entity => Number(entity.floor) === floor) || candidates[0])?.key || null;
+        }
+        return null;
+    }
+    async function applyRoute(state, initial = false) {
+        if (!valid(state) || !state.catalog) return;
+        const href = global.location.href; if (!initial && href === state.lastRoute) return;
+        state.lastRoute = href; const intent = ++state.intent;
+        const params = new URL(href).searchParams; const key = findAlias(state, params);
+        const requestedFloor = Number(params.get('floor'));
+        const entry = key && state.catalog.index.find(entity => entity.key === key);
+        let floor = Number(entry?.floor) || (configOf(state, requestedFloor) ? requestedFloor : 1);
+        let saved = null;
+        if (initial && !['floor', 'entity', 'location', 'creature', 'boss', 'guide', 'quest', 'x', 'y', 'q', 'u', 'v', 'zoom'].some(name => params.has(name))) {
+            try { saved = JSON.parse(global.localStorage.getItem('ironOathMapState')); } catch (_) { /* Optional preferences. */ }
+            if (saved && configOf(state, saved.floor) && finite(saved.lat) && finite(saved.lng) && finite(saved.zoom, 20)) {
+                const bounds = configOf(state, saved.floor).maxBounds || configOf(state, saved.floor).bounds;
+                if (saved.lat >= bounds[0][0] && saved.lat <= bounds[1][0] && saved.lng >= bounds[0][1] && saved.lng <= bounds[1][1]) floor = Number(saved.floor); else saved = null;
+            } else saved = null;
+        }
+        closePanel(state, false);
+        if (state.floor !== floor || !state.data) { if (!(await changeFloor(state, floor))) return; }
+        if (!valid(state) || intent !== state.intent || state.floor !== floor) return;
+        if (key) await selectEntity(state, key, { intent, url: false });
+        else if (['entity', 'location', 'creature', 'boss', 'guide', 'quest'].some(name => params.has(name))) notice(state, text('Ce repère est introuvable.', 'This marker could not be found.'));
+        if (!valid(state) || intent !== state.intent) return;
+        const u = numberParam(params, 'u', 2), v = numberParam(params, 'v', 2), zoom = numberParam(params, 'zoom', 20);
+        const x = numberParam(params, 'x'), z = numberParam(params, 'y');
+        const relativeCenter = u != null && v != null ? latlng(state, { u, v }) : null;
+        const allowedBounds = configOf(state).maxBounds || configOf(state).bounds;
+        const relativeCenterAllowed = relativeCenter && relativeCenter[0] >= allowedBounds[0][0] && relativeCenter[0] <= allowedBounds[1][0] && relativeCenter[1] >= allowedBounds[0][1] && relativeCenter[1] <= allowedBounds[1][1];
+        if (relativeCenterAllowed && zoom != null) { state.pendingSelection = null; state.map.setView(relativeCenter, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), zoom)), { animate: false }); }
+        else if (x != null && z != null) {
+            const coord = latlng(state, { x, z });
+            if (coord) { state.pendingSelection = null; state.map.setView(coord, global.innerWidth <= 700 ? -1 : 0, { animate: false }); }
+            else notice(state, text('Les coordonnées X/Z ne sont pas calibrées pour ce palier.', 'X/Z coordinates are not calibrated for this floor.'));
+        } else if (params.has('x') || params.has('y')) notice(state, text('Les coordonnées de ce lien sont invalides.', 'The coordinates in this link are invalid.'));
+        else if (saved) state.map.setView([saved.lat, saved.lng], Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), saved.zoom)), { animate: false });
+        if (params.has('q')) { state.ui.search.value = params.get('q').slice(0, 200); renderSearch(state); }
+    }
+    async function reloadOverrides(state) {
+        const generation = ++state.overrideGeneration; const db = client();
+        if (!db) { state.overridesStatus = 'archive'; state.overrides = []; applyOverrides(state); renderFilters(state); renderMarkers(state); return { status: 'archive', records: [] }; }
+        try {
+            const response = await db.rpc('read_map_marker_overrides');
+            if (!valid(state) || generation !== state.overrideGeneration) return { status: 'stale' };
+            if (response.error) throw response.error;
+            const records = Array.isArray(response.data) ? response.data : response.data?.records || [];
+            if (state.overridesStatus === 'error' && state.floor !== 3) notice(state, '');
+            state.overridesStatus = 'ready'; state.overrides = records; lastGoodOverrides = records;
+        } catch (error) {
+            if (!valid(state) || generation !== state.overrideGeneration) return { status: 'stale' };
+            const missing = error?.code === 'PGRST202' || /could not find.*function|function.*does not exist/i.test(error?.message || '');
+            state.overridesStatus = missing ? 'archive' : 'error'; state.overrides = missing ? [] : lastGoodOverrides || [];
+            if (!missing) notice(state, text('Les modifications de repères sont indisponibles. Réessayez dans quelques instants.', 'Marker updates are unavailable. Please try again shortly.'));
+        }
+        applyOverrides(state); renderFilters(state); renderMarkers(state);
+        if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
+        if (state.pendingSelection && state.pendingSelection.intent === state.intent && state.pendingSelection.key === state.selected) {
+            const target = targetPosition(state, state.data?.entities[state.selected]);
+            if (target.position) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: false });
+            state.pendingSelection = null;
+        }
+        emit(state, 'overrides', { status: state.overridesStatus, records: state.overrides });
+        return { status: state.overridesStatus, records: state.overrides };
+    }
+    async function adminCheck(state) {
+        const generation = ++state.authGeneration; const db = client();
+        global.NamelessMapAdmin?.destroy?.(); state.bridge?.setEditorMode(false);
+        if (state.ui.admin) { state.ui.admin.hidden = true; state.ui.admin.open = false; }
+        if (!db?.auth?.getUser) return;
+        try {
+            const user = await db.auth.getUser(); if (!valid(state) || generation !== state.authGeneration || user.error || !user.data?.user) return;
+            const role = await db.rpc('current_user_role'); if (!valid(state) || generation !== state.authGeneration || role.error || role.data !== 'admin') return;
+            if (!global.NamelessMapAdmin) {
+                if (!adminScriptPromise) adminScriptPromise = new Promise((resolve, reject) => {
+                    const existing = document.querySelector('script[data-map-admin]');
+                    if (existing) { existing.addEventListener('load', resolve, { once: true }); existing.addEventListener('error', reject, { once: true }); return; }
+                    const script = node('script'); script.src = '/js/map-admin.js?v=20261008map'; script.dataset.mapAdmin = 'true'; script.onload = resolve; script.onerror = () => { script.remove(); adminScriptPromise = null; reject(new Error('admin module')); }; document.head.append(script);
+                });
+                await adminScriptPromise;
             }
-            if (floorNum !== currentFloor) {
-                console.log('🔄 Changing floor from', currentFloor, 'to', floorNum);
-                
-                // Mettre à jour le sélecteur visuellement
-                const floorSelect = document.getElementById('floor-select');
-                if (floorSelect) {
-                    floorSelect.value = floorNum;
-                }
-                
-                // Appeler directement changeFloor (pas via dispatchEvent)
-                changeFloor(floorNum, false); // false = pas de notification
-                floorChangeDelay = 300; // Petit délai pour laisser la carte se charger
-            }
-        }
-        
-        if (x !== null || y !== null) {
-            // Convertir les coordonnées du jeu vers Leaflet
-            const gameX = Number(x);
-            const gameZ = Number(y);
-            if (x === null || y === null || !/^-?\d+(?:\.\d+)?$/.test(x) || !/^-?\d+(?:\.\d+)?$/.test(y) ||
-                !Number.isFinite(gameX) || !Number.isFinite(gameZ) || Math.abs(gameX) > 1000000 || Math.abs(gameZ) > 1000000) {
-                mapNotice('Ces coordonnées sont invalides. Utilisez les coordonnées X et Z affichées dans les quêtes.');
-                return;
-            }
-            
-            // Attendre que le changement de palier soit effectué
-            scheduleMapTask(() => {
-                if (!map) return;
-                const leafletCoords = gameToLeafletCoords(gameX, gameZ, currentFloor);
-                
-                // Centrer la carte sur ces coordonnées avec un zoom approprié
-                focusMapLocation(leafletCoords);
-                
-                // Créer un marqueur temporaire pour mettre en évidence la position
-                const highlightMarker = L.marker(leafletCoords, {
-                    icon: L.divIcon({
-                        className: 'quest-highlight-marker',
-                        html: `<div style="
-                            background: #ff0080;
-                            border: 3px solid #ffffff;
-                            border-radius: 50%;
-                            width: 20px;
-                            height: 20px;
-                            box-shadow: 0 0 20px #ff0080;
-                            animation: pulse 2s infinite;
-                        "></div>`,
-                        iconSize: [20, 20],
-                        iconAnchor: [10, 10]
-                    })
-                }).addTo(map);
-                
-                // Ajouter une popup pour indiquer les coordonnées
-                const popup = L.popup()
-                    .setLatLng(leafletCoords)
-                    .setContent(`
-                        <div style="text-align: center; color: #00a8ff; font-family: 'Orbitron', monospace;">
-                            <strong><span class="map-popup-pin" aria-hidden="true"></span><span>Quête ciblée</span></strong><br>
-                            <span style="color: #00ffff;">X: ${gameX}, Z: ${gameZ}</span><br>
-                            <small style="color: #888;">Cliquez ailleurs pour fermer</small>
-                        </div>
-                    `)
-                    .openOn(map);
-                
-                // Retirer le marqueur temporaire après 5 secondes
-                scheduleMapTask(() => {
-                    if (map) map.removeLayer(highlightMarker);
-                }, 5000);
-            }, floorChangeDelay);
-            
-            // Keep the coordinates in the URL so the targeted position remains shareable.
-        }
-        const query = urlParams.get('q');
-        const search = document.getElementById('map-search-input');
-        if (query !== null && search) { search.value = query.slice(0, 200); search.dispatchEvent(new Event('input', { bubbles: true })); }
+            if (!valid(state) || generation !== state.authGeneration) return;
+            if (state.ui.admin) state.ui.admin.hidden = false;
+            await global.NamelessMapAdmin?.init?.(state.bridge);
+        } catch (_) { if (valid(state) && generation === state.authGeneration) notice(state, text('L’éditeur de carte ne peut pas être chargé.', 'The map editor could not be loaded.')); }
     }
-    
-    // Persistance de la position et du palier avec localStorage
-    function saveMapState() {
-        const center = map.getCenter();
-        const zoom = map.getZoom();
-        const mapState = {
-            lat: center.lat,
-            lng: center.lng,
-            zoom: zoom,
-            floor: currentFloor
-        };
-        try { localStorage.setItem('ironOathMapState', JSON.stringify(mapState)); } catch (error) { /* Optional preference storage. */ }
+    function setEditorMode(state, enabled) {
+        state.editorMode = !!enabled; state.ui.workspace.classList.toggle('map-editor-active', state.editorMode); renderMarkers(state);
+        emit(state, 'editor', state.editorMode);
     }
-    
-    function restoreMapState() {
-        const savedState = savedMapState;
-        if (savedState) {
+    async function fullscreen(state) {
+        if (document.fullscreenElement === state.ui.workspace) { await document.exitFullscreen?.(); return; }
+        if (state.ui.workspace.classList.contains('is-fullscreen')) { state.ui.workspace.classList.remove('is-fullscreen'); syncFullscreen(state); return; }
+        try { if (state.ui.workspace.requestFullscreen) { await state.ui.workspace.requestFullscreen(); syncFullscreen(state); return; } } catch (_) { /* Fixed workspace fallback. */ }
+        state.ui.workspace.classList.add('is-fullscreen'); syncFullscreen(state);
+    }
+    function syncFullscreen(state) {
+        const enabled = document.fullscreenElement === state.ui.workspace || state.ui.workspace.classList.contains('is-fullscreen'); state.ui.fullscreen.setAttribute('aria-pressed', String(enabled));
+        state.ui.fullscreen.textContent = enabled ? text('Quitter le plein écran', 'Exit fullscreen') : text('Plein écran', 'Fullscreen'); state.map.invalidateSize?.({ pan: false });
+    }
+    function translateUi(state) {
+        const pairs = [[state.ui.recenter, 'Recentrer', 'Recenter'], [state.ui.share, 'Partager', 'Share'], [state.ui.close, 'Fermer', 'Close']]; pairs.forEach(([element, fr, en]) => { element.textContent = text(fr, en); });
+        state.ui.search.placeholder = text('Quête, PNJ, créature, lieu…', 'Quest, NPC, creature, place…'); state.ui.search.setAttribute('aria-label', text('Rechercher dans tous les paliers', 'Search all floors'));
+        state.ui.expand.textContent = state.ui.panel.classList.contains('is-expanded') ? text('Voir moins', 'Show less') : text('Voir plus', 'Show more');
+        state.ui.clear.setAttribute('aria-label', text('Effacer la recherche', 'Clear search')); state.ui.close.setAttribute('aria-label', text('Fermer les détails', 'Close details'));
+        if (state.ui.admin) state.ui.admin.querySelector('summary').textContent = text('Édition de la carte', 'Map editor');
+        for (const option of state.ui.floor.options) option.textContent = text('Palier ', 'Floor ') + option.value;
+        syncFullscreen(state); renderFilters(state); renderMarkers(state); renderSearch(state);
+        if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
+        else if (state.choiceKeys) showChoices(state, state.choiceKeys.map(key => state.data.entities[key]).filter(Boolean));
+    }
+    function wire(state) {
+        const ui = state.ui;
+        listen(state, ui.search, 'input', () => renderSearch(state));
+        listen(state, ui.search, 'keydown', event => { if (event.key === 'ArrowDown' && !ui.results.hidden) { event.preventDefault(); ui.results.querySelector('button')?.focus(); } });
+        listen(state, ui.results, 'keydown', event => {
+            const buttons = [...ui.results.querySelectorAll('button')]; const index = buttons.indexOf(document.activeElement);
+            if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); buttons[(index + (event.key === 'ArrowDown' ? 1 : -1) + buttons.length) % buttons.length]?.focus(); }
+        });
+        listen(state, ui.clear, 'click', () => { ui.search.value = ''; renderSearch(state); ui.search.focus(); });
+        listen(state, document, 'pointerdown', event => { if (!ui.search.closest('.map-search-container').contains(event.target)) hideSearch(state); });
+        listen(state, ui.floor, 'change', async () => {
+            ++state.intent; hideSearch(state); ui.search.value = ''; closePanel(state, false); updateUrlForFloor(state, Number(ui.floor.value)); await changeFloor(state, Number(ui.floor.value));
+        });
+        listen(state, ui.recenter, 'click', () => recenter(state)); listen(state, ui.fullscreen, 'click', () => fullscreen(state));
+        listen(state, ui.close, 'click', () => closePanel(state));
+        listen(state, ui.expand, 'click', () => { const enabled = ui.panel.classList.toggle('is-expanded'); ui.expand.setAttribute('aria-expanded', String(enabled)); ui.expand.textContent = enabled ? text('Voir moins', 'Show less') : text('Voir plus', 'Show more'); });
+        listen(state, ui.share, 'click', async () => {
+            updateUrl(state, state.selected, true, true);
+            try { await global.navigator.clipboard.writeText(global.location.href); notice(state, text('Lien de la carte copié.', 'Map link copied.')); }
+            catch (_) { notice(state, text('Le lien à partager est dans la barre d’adresse.', 'The share link is in the address bar.')); }
+        });
+        listen(state, ui.map, 'keydown', event => { if (event.key === '0' && !event.ctrlKey && !event.metaKey && !event.altKey && !document.querySelector('[role="dialog"][aria-modal="true"]') && !event.target.matches('input, textarea, select')) { event.preventDefault(); recenter(state); } });
+        listen(state, document, 'keydown', event => {
+            if (event.key !== 'Escape' || document.querySelector('[role="dialog"][aria-modal="true"]')) return;
+            if (!ui.results.hidden) { hideSearch(state); ui.search.focus(); }
+            else if (ui.workspace.classList.contains('is-fullscreen')) { ui.workspace.classList.remove('is-fullscreen'); syncFullscreen(state); }
+            else if (ui.panel.classList.contains('is-expanded')) { ui.panel.classList.remove('is-expanded'); ui.expand.setAttribute('aria-expanded', 'false'); ui.expand.textContent = text('Voir plus', 'Show more'); }
+            else if (!ui.panel.hidden && ui.workspace.contains(event.target)) { closePanel(state); ui.map.focus(); }
+        });
+        listen(state, document, 'fullscreenchange', () => syncFullscreen(state));
+        listen(state, global, 'resize', () => state.map.invalidateSize?.({ pan: false }));
+        listen(state, global, 'popstate', () => applyRoute(state)); listen(state, document, 'nameless:routechange', () => applyRoute(state));
+        listen(state, document, 'nameless:languagechange', () => translateUi(state));
+        listen(state, document, 'nameless:auth-changed', () => { reloadOverrides(state); adminCheck(state); });
+        state.map.on('moveend', () => saveState(state)); state.map.on('zoomend', () => { state.detailCheck?.(); renderMarkers(state); saveState(state); });
+        state.map.on('click', event => { if (state.editorMode) emit(state, 'click', { latlng: event.latlng, relative: relative(state, event.latlng) }); });
+    }
+    function updateUrlForFloor(state, id) { const previous = state.floor; state.floor = id; updateUrl(state, null); state.floor = previous; }
+    async function init(root) {
+        const container = (root?.querySelector ? root : document).querySelector('#game-map') || (root?.id === 'game-map' ? root : null);
+        if (!container || !global.L) return null;
+        if (active?.ui.map === container && valid(active)) return active.ready;
+        destroy();
+        const main = container.closest('main') || root || document;
+        const query = id => main.querySelector('#' + id);
+        const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), admin: query('map-admin-tools') },
+            root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', editorMode: false, events: new Map(), lastRoute: null };
+        active = state;
+        state.map = global.L.map(container, { crs: global.L.CRS.Simple, minZoom: -5, maxZoom: 3, zoom: -3, center: [2560, 2560], zoomControl: true, attributionControl: false, keyboard: true, zoomSnap: .25, zoomDelta: .5, maxBoundsViscosity: .5 });
+        state.markerLayer = global.L.layerGroup().addTo(state.map);
+        state.bridge = { map: state.map, root: main, signal: state.controller.signal, catalog: null,
+            getFloor: () => state.floor, getData: () => state.data, getOverridesStatus: () => state.overridesStatus, selectEntity: key => selectEntity(state, key), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
+            getLatLng: value => value && finite(value.u, 1) && finite(value.v, 1) && value.u >= 0 && value.v >= 0 ? latlng(state, value) : null,
+            on: (event, fn) => { if (!state.events.has(event)) state.events.set(event, new Set()); state.events.get(event).add(fn); return () => state.events.get(event)?.delete(fn); } };
+        api.active = state.bridge; wire(state); translateUi(state);
+        state.ready = (async () => {
             try {
-                const state = JSON.parse(savedState);
-                if (!state || !Number.isFinite(state.lat) || !Number.isFinite(state.lng) || !Number.isFinite(state.zoom) ||
-                    !Number.isInteger(state.floor) || !Object.prototype.hasOwnProperty.call(floorMaps, state.floor)) return false;
-                const maxBounds = floorConfig[state.floor].maxBounds;
-                if (state.lat < maxBounds[0][0] || state.lat > maxBounds[1][0] || state.lng < maxBounds[0][1] || state.lng > maxBounds[1][1]) return false;
-                
-                // Restaurer le palier d'abord
-                if (state.floor && state.floor !== 1) {
-                    const floorSelect = document.getElementById('floor-select');
-                    if (floorSelect && floorMaps[state.floor]) {
-                        floorSelect.value = state.floor;
-                        floorSelect.dispatchEvent(new Event('change'));
-                    }
-                }
-                
-                // Restaurer la position après un délai pour laisser le palier se charger
-                scheduleMapTask(() => {
-                    if (!map) return;
-                    map.setView([state.lat, state.lng], Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), state.zoom)), { animate: false });
-                }, state.floor !== 1 ? 200 : 0);
-                
-                return true;
-            } catch (e) {
-                console.warn('Erreur lors de la restauration de l\'état de la carte:', e);
-            }
-        }
-        return false;
+                const catalog = await getCatalog(); if (!valid(state)) return null;
+                state.catalog = catalog; state.bridge.catalog = catalog;
+                await Promise.all([applyRoute(state, true), reloadOverrides(state)]); if (!valid(state)) return null;
+                adminCheck(state); return state.bridge;
+            } catch (_) { if (valid(state)) notice(state, text('La carte ne peut pas être chargée. Réessayez.', 'The map could not be loaded. Please try again.')); return null; }
+        })();
+        return state.ready;
     }
-    
-    // Sauvegarder l'état lors des mouvements/zoom
-    map.on('moveend', saveMapState);
-    map.on('zoomend', saveMapState);
-    map.on('zoomend', upgradeMapDetail);
-    
-    // Ajuster la vue pour montrer toute la carte
-    map.fitBounds(bounds, {
-        padding: [20, 20] // Padding pour éviter que les bords touchent
-    });
-
-    // Affichage des coordonnées en temps réel avec précision pixel (responsive)
-    const coordController = L.control({position: 'bottomleft'});
-    coordController.onAdd = function(map) {
-        const div = L.DomUtil.create('div', 'coord-display-live');
-        // Vérifier si on est sur mobile
-        const isMobile = window.innerWidth <= 480;
-        const isTablet = window.innerWidth <= 768 && window.innerWidth > 480;
-        
-        if (isMobile) {
-            // Version ultra-compacte pour mobile
-            div.innerHTML = `
-                <div style="background: rgba(0,0,0,0.85); color: #00a8ff; padding: 4px 6px; border-radius: 4px; font-family: 'Orbitron', monospace; font-size: 9px; max-width: 120px;">
-                    <div style="font-size: 8px;"><span class="map-popup-pin" aria-hidden="true"></span><span id="mouse-x" style="color: #0ff;">-</span>, <span id="mouse-y" style="color: #0ff;">-</span></div>
-                    <div id="precision-indicator" style="display: none;"></div>
-                    <div id="zone-info" style="display: none;"></div>
-                </div>
-            `;
-        } else if (isTablet) {
-            // Version compacte pour tablette
-            div.innerHTML = `
-                <div style="background: rgba(0,0,0,0.9); color: #00a8ff; padding: 6px 8px; border-radius: 5px; font-family: 'Orbitron', monospace; font-size: 10px; max-width: 150px;">
-                    <div style="font-size: 9px;"><span class="map-popup-pin" aria-hidden="true"></span>X: <span id="mouse-x" style="color: #0ff;">-</span></div>
-                    <div style="font-size: 9px;">Z: <span id="mouse-y" style="color: #0ff;">-</span></div>
-                    <div id="precision-indicator" style="display: none;"></div>
-                    <div id="zone-info" style="display: none;"></div>
-                </div>
-            `;
-        } else {
-            // Version complète pour desktop
-            div.innerHTML = `
-                <div style="background: rgba(0,0,0,0.9); color: #00a8ff; padding: 10px; border-radius: 6px; font-family: 'Orbitron', monospace; font-size: 12px; min-width: 200px;">
-                    <div><strong><span class="map-popup-pin" aria-hidden="true"></span><span>Coordonnées pixel:</span></strong></div>
-                    <div style="margin: 4px 0;">X: <span id="mouse-x" style="color: #00ffff; font-weight: bold;">-</span>, Z: <span id="mouse-y" style="color: #00ffff; font-weight: bold;">-</span></div>
-                    <div id="precision-indicator" style="font-size: 9px; color: #ff6b00; margin-bottom: 4px;">Précision: Standard</div>
-                    <div style="font-size: 10px; color: #888; margin-top: 4px;">
-                        Zone: <span id="zone-info">Exploration</span>
-                    </div>
-                </div>
-            `;
-        }
-        return div;
-    };
-    coordController.addTo(map);
-    
-    // Tracker le mouvement de la souris avec précision pixel
-    map.on('mousemove', function(e) {
-        const mouseX = document.getElementById('mouse-x');
-        const mouseY = document.getElementById('mouse-y');
-        const zoneInfo = document.getElementById('zone-info');
-        
-        if (mouseX && mouseY) {
-            // Précision adaptée au niveau de zoom
-            const currentZoom = map.getZoom();
-            let precision = 0;
-            
-            if (currentZoom >= 6) {
-                precision = 3; // Précision au millième de pixel pour zoom extrême
-            } else if (currentZoom >= 3) {
-                precision = 2; // Précision au centième pour zoom fort
-            } else if (currentZoom >= 0) {
-                precision = 1; // Précision au dixième pour zoom moyen
-            }
-            
-            let coordX, coordZ;
-            
-            // Système de coordonnées unifié pour tous les paliers
-            // X = lng directement, Z = 5121 - lat (inversé)
-            const gameX = e.latlng.lng;
-            const gameZ = 5121 - e.latlng.lat;
-            coordX = precision > 0 ? gameX.toFixed(precision) : Math.round(gameX);
-            coordZ = precision > 0 ? gameZ.toFixed(precision) : Math.round(gameZ);
-            
-            mouseX.textContent = coordX;
-            mouseY.textContent = coordZ;
-            
-            // Mettre à jour l'indicateur de précision
-            const precisionIndicator = document.getElementById('precision-indicator');
-            if (precisionIndicator) {
-                let precisionText = "";
-                let precisionColor = "";
-                
-                if (currentZoom >= 8) {
-                    precisionText = "ULTRA-PRÉCISION (Pixel parfait)";
-                    precisionColor = "#ff0080";
-                } else if (currentZoom >= 6) {
-                    precisionText = "HAUTE PRÉCISION (Millième)";
-                    precisionColor = "#ff6b00";
-                } else if (currentZoom >= 3) {
-                    precisionText = "PRÉCISION FINE (Centième)";
-                    precisionColor = "#ffaa00";
-                } else if (currentZoom >= 0) {
-                    precisionText = "PRÉCISION NORMALE (Dixième)";
-                    precisionColor = "#00ffff";
-                } else {
-                    precisionText = "PRÉCISION STANDARD";
-                    precisionColor = "#888888";
-                }
-                
-                precisionIndicator.textContent = precisionText;
-                precisionIndicator.style.color = precisionColor;
-            }
-            
-            // Déterminer la zone basée sur les coordonnées corrigées
-            if (zoneInfo) {
-                let zone = "Terre Inconnue";
-                
-                // Utiliser les valeurs numériques pour la comparaison de zone
-                const numX = parseFloat(coordX);
-                const numZ = parseFloat(coordZ);
-                
-                if (currentFloor === 2) {
-                    // Zones pour le Palier 2 (coordonnées de -1059 à 1059)
-                    if (numX >= -1059 && numX <= -353) {
-                        if (numZ >= -1059 && numZ <= -353) {
-                            zone = "Quadrant Nord-Ouest";
-                        } else if (numZ >= -352 && numZ <= 352) {
-                            zone = "Secteur Ouest";
-                        } else if (numZ >= 353 && numZ <= 1059) {
-                            zone = "Quadrant Sud-Ouest";
-                        }
-                    } else if (numX >= -352 && numX <= 352) {
-                        if (numZ >= -1059 && numZ <= -353) {
-                            zone = "Secteur Nord";
-                        } else if (numZ >= -352 && numZ <= 352) {
-                            zone = "Centre - Palier 2";
-                        } else if (numZ >= 353 && numZ <= 1059) {
-                            zone = "Secteur Sud";
-                        }
-                    } else if (numX >= 353 && numX <= 1059) {
-                        if (numZ >= -1059 && numZ <= -353) {
-                            zone = "Quadrant Nord-Est";
-                        } else if (numZ >= -352 && numZ <= 352) {
-                            zone = "Secteur Est";
-                        } else if (numZ >= 353 && numZ <= 1059) {
-                            zone = "Quadrant Sud-Est";
-                        }
-                    }
-                } else {
-                    // Zones pour le Palier 1 (système original)
-                    // Centre approximatif : X=2560, Z=2560
-                    if (numX >= 85 && numX <= 1700) {
-                        if (numZ >= 85 && numZ <= 1700) {
-                            zone = "Terres du Nord-Ouest";
-                        } else if (numZ >= 1701 && numZ <= 3400) {
-                            zone = "Plaines Centrales Ouest";
-                        } else if (numZ >= 3401 && numZ <= 5036) {
-                            zone = "Terres du Sud-Ouest";
-                        }
-                    } else if (numX >= 1701 && numX <= 3400) {
-                        if (numZ >= 85 && numZ <= 1700) {
-                            zone = "Territoires du Nord";
-                        } else if (numZ >= 1701 && numZ <= 3400) {
-                            zone = "Cœur du Royaume";
-                        } else if (numZ >= 3401 && numZ <= 5036) {
-                            zone = "Terres du Sud";
-                        }
-                    } else if (numX >= 3401 && numX <= 5036) {
-                        if (numZ >= 85 && numZ <= 1700) {
-                            zone = "Terres du Nord-Est";
-                        } else if (numZ >= 1701 && numZ <= 3400) {
-                            zone = "Plaines Centrales Est";
-                        } else if (numZ >= 3401 && numZ <= 5036) {
-                            zone = "Terres du Sud-Est";
-                        }
-                    }
-                }
-                
-                zoneInfo.textContent = zone;
-            }
-        }
-    });
-    
-    // Tracker de zoom simple pour les événements
-    function updateZoomDisplay() {
-        // Fonction vide - plus de contrôles visuels de zoom
+    function destroy() {
+        const state = active; if (!state) return;
+        active = null; api.active = null; state.controller.abort(); state.intent++; state.floorGeneration++; state.authGeneration++;
+        global.NamelessMapAdmin?.destroy?.(); state.fullImages.forEach(record => record.overlay.off?.());
+        if (document.fullscreenElement === state.ui.workspace) document.exitFullscreen?.().catch?.(() => {});
+        state.ui.workspace?.classList.remove('is-fullscreen'); clearOverlays(state); state.map.off?.(); state.markerLayer.eachLayer?.(marker => marker.off?.()); state.markerLayer.clearLayers(); state.map.remove(); state.events.clear();
     }
-    
-    // Événements de zoom pour mettre à jour l'affichage
-    map.on('zoomend', updateZoomDisplay);
-    
-    // Raccourcis clavier pour le zoom
-    document.addEventListener('keydown', function(e) {
-        // Seulement si la carte est focusée ou si aucun input n'est actif
-        if (document.activeElement === map.getContainer() || map.getContainer().contains(document.activeElement)) {
-            switch(e.key) {
-                case '+':
-                case '=':
-                    e.preventDefault();
-                    map.zoomIn(0.5);
-                    break;
-                case '-':
-                case '_':
-                    e.preventDefault();
-                    map.zoomOut(0.5);
-                    break;
-                case '0':
-                    e.preventDefault();
-                    map.fitBounds(floorConfig[currentFloor].bounds, { padding: [20, 20], animate: !mapReducedMotion() });
-                    break;
-            }
-        }
-    }, { signal: mapController.signal });
-    
-    // Amélioration du zoom par molette avec accélération
-    let zoomAcceleration = 1;
-    let lastWheelTime = 0;
-    
-    map.getContainer().addEventListener('wheel', function(e) {
-        const now = Date.now();
-        const timeDelta = now - lastWheelTime;
-        
-        // Accélération du zoom si rotation rapide
-        if (timeDelta < 100) {
-            zoomAcceleration = Math.min(zoomAcceleration + 0.1, 2);
-        } else {
-            zoomAcceleration = 1;
-        }
-        
-        lastWheelTime = now;
-    }, { signal: mapController.signal });
-    
-    // Message d'aide au premier chargement
-    scheduleMapTask(function() {
-        if (!map) return;
-        if (map.getZoom() === -3) { // Si toujours au zoom initial
-            const helpTooltip = L.popup({
-                closeButton: false,
-                autoClose: true,
-                autoPan: false,
-                className: 'zoom-help-popup'
-            })
-            .setLatLng([2560, 2560])
-            .setContent(`
-                <div style="font-family: 'Orbitron', sans-serif; text-align: center;">
-                    <strong style="color: #00a8ff;"><span class="map-popup-action-icon" aria-hidden="true"></span><span>Zoom amélioré !</span></strong><br>
-                    <small style="color: #888;">
-                        Utilisez la molette pour zoomer<br>
-                        ou les contrôles en haut à droite
-                    </small>
-                </div>
-            `)
-            .openOn(map);
-            
-            // Fermer automatiquement après 4 secondes
-            scheduleMapTask(() => {
-                if (map) map.closePopup(helpTooltip);
-            }, 4000);
-        }
-    }, 1500);
-    
-    // Initialiser l'affichage du zoom
-    updateZoomDisplay();
-    
-    // ========================================
-    // SYSTÈME DE QUÊTES SUR LA CARTE
-    // ========================================
-    
-    // Définition des quêtes avec leurs coordonnées
-    const questData = [
-        // QUÊTE PRINCIPALE - Introduction (1-7)
-        {
-            id: 'quest-1',
-            name: 'Parler au Maître Épéiste',
-            type: 'principale',
-            step: 1,
-            coordinates: [1805, 4294],
-            description: 'Commencez votre aventure - Point de spawn'
-        },
-        {
-            id: 'quest-2', 
-            name: 'Tuer 10 Sangliers',
-            type: 'principale',
-            step: 2,
-            coordinates: [1797, 3633],
-            description: 'Zone de chasse aux sangliers'
-        },
-        {
-            id: 'quest-3',
-            name: 'Parler à Abraham',
-            type: 'principale', 
-            step: 3,
-            coordinates: [1808, 3649],
-            description: 'Abraham vous attend'
-        },
-        {
-            id: 'quest-4',
-            name: 'Parler à la Vieille Mara',
-            type: 'principale',
-            step: 4,
-            coordinates: [1560, 3411],
-            description: 'Informations importantes'
-        },
-        {
-            id: 'quest-5',
-            name: 'Prendre la Rune',
-            type: 'principale',
-            step: 5,
-            coordinates: [1421, 3092],
-            description: 'Rune mystérieuse'
-        },
-        
-        // BRANCHE 8.1 - Elma (Mizunari)
-        {
-            id: 'quest-8-1',
-            name: 'Parler à Elma',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [3136, 3667],
-            description: 'Quête d\'Elma - Mizunari'
-        },
-        {
-            id: 'quest-8-1-2',
-            name: 'Trouver Harrold',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [3326, 3787],
-            description: 'Harrold vous attend'
-        },
-        {
-            id: 'quest-8-1-5',
-            name: 'Maître Épéiste (Cathédrale)',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [1839, 4530],
-            description: 'Cathédrale'
-        },
-        {
-            id: 'quest-8-1-6',
-            name: 'Trouver Velka',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [2844, 2993],
-            description: 'CastelBrume'
-        },
-        {
-            id: 'quest-8-1-7',
-            name: 'Parler à Eric',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [2864, 4491],
-            description: 'Ruine Squelettique'
-        },
-        {
-            id: 'quest-8-1-9',
-            name: 'Téléporteur',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [2783, 4427],
-            description: 'Utilisez le téléporteur'
-        },
-        {
-            id: 'quest-8-1-10',
-            name: 'Spectre Archiviste',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [2940, 4476],
-            description: 'Saut requis'
-        },
-        {
-            id: 'quest-8-1-13',
-            name: 'Tuer Nasgul (Boss)',
-            type: 'principale',
-            step: 8.1,
-            coordinates: [2821, 4439],
-            description: 'Boss de fin de branche'
-        },
-        
-        // BRANCHE 8.2 - Mine de Geldorak
-        {
-            id: 'quest-8-2-2',
-            name: 'Parler à Neko',
-            type: 'principale',
-            step: 8.2,
-            coordinates: [4297, 3890],
-            description: 'Mine de Geldorak'
-        },
-        
-        // SUITE PRINCIPALE (9-19)
-        {
-            id: 'quest-13',
-            name: 'Homme Cagoulé',
-            type: 'principale',
-            step: 13,
-            coordinates: [325, 3196],
-            description: 'Homme mystérieux'
-        },
-        {
-            id: 'quest-15',
-            name: 'Parler à Catherine',
-            type: 'principale',
-            step: 15,
-            coordinates: [2380, 2417],
-            description: 'Labyrinthe'
-        },
-        {
-            id: 'quest-16',
-            name: 'Réparer le Sceau',
-            type: 'principale',
-            step: 16,
-            coordinates: [3188, 4011],
-            description: 'Archipel d\'Ika'
-        },
-        {
-            id: 'quest-17',
-            name: 'Ombre Mystérieuse',
-            type: 'principale',
-            step: 17,
-            coordinates: [3188, 4011],
-            description: 'Entité mystérieuse'
-        },
-        
-        // TOLBANA (20-26)
-        {
-            id: 'quest-21',
-            name: 'Parler à Mephisto',
-            type: 'principale',
-            step: 21,
-            coordinates: [3200, 1458],
-            description: 'Tolbana'
-        },
-        {
-            id: 'quest-22',
-            name: 'Rapport à Wali',
-            type: 'principale',
-            step: 22,
-            coordinates: [3198, 1501],
-            description: 'Retour à Wali'
-        },
-        {
-            id: 'quest-23',
-            name: 'Parler à Emy',
-            type: 'principale',
-            step: 23,
-            coordinates: [3233, 1484],
-            description: 'Livraison de ressources'
-        },
-        
-        // VIRELUNE (26.1-28)
-        {
-            id: 'quest-26-1',
-            name: 'Parler à Ramoon',
-            type: 'principale',
-            step: 26.1,
-            coordinates: [1590, 1972],
-            description: 'Virelune - Nouveau chapitre'
-        },
-        {
-            id: 'quest-26-2',
-            name: 'Parler à Malrik',
-            type: 'principale',
-            step: 26.2,
-            coordinates: [3327, 1641],
-            description: 'Tolbana'
-        },
-        {
-            id: 'quest-27-1',
-            name: 'Parler à Virel',
-            type: 'principale',
-            step: 27.1,
-            coordinates: [1539, 1995],
-            description: 'Virelune'
-        },
-        {
-            id: 'quest-28',
-            name: 'Suite avec Ramoon',
-            type: 'principale',
-            step: 28,
-            coordinates: [1590, 1972],
-            description: 'Après Léviathan'
-        },
-        
-        // DONJON FINAL (29)
-        {
-            id: 'quest-29-1',
-            name: 'Parler à Silrix',
-            type: 'principale',
-            step: 29.1,
-            coordinates: [1015, 1185],
-            description: 'Donjon Araignée Xal\'Zirith'
-        },
-        
-        // QUÊTES SECONDAIRES - Ville de Départ
-        {
-            id: 'secondary-varn',
-            name: 'Varn',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [2067, 4291],
-            description: '4 Fourrures Loup, 2 Éclats Bois, 1 Os Squelette'
-        },
-        {
-            id: 'secondary-nacht',
-            name: 'Nacht',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1635, 4040],
-            description: '1 Coeur de Bois, 10 Pousses de Sylves → 1 Pinceau Magique'
-        },
-        {
-            id: 'secondary-milla',
-            name: 'Milla',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [2207, 4187],
-            description: '15 Fragments Feuilles, 2 Mycélium'
-        },
-        {
-            id: 'secondary-inari',
-            name: 'Inari',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1760, 4736],
-            description: 'Full armure Ika'
-        },
-        {
-            id: 'secondary-orin',
-            name: 'Orin',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1745, 4724],
-            description: '5 Minerais Fer, 5 Corde Arc'
-        },
-        {
-            id: 'secondary-rikyu',
-            name: 'Rikyu',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1500, 4315],
-            description: '25 Fragments Feuilles, 8 Fleur Allium'
-        },
-        {
-            id: 'secondary-bunta',
-            name: 'Bunta',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1500, 4328],
-            description: '5 Éclats Bois, 5 Poussière Os, 3 Noyau Silme'
-        },
-        {
-            id: 'secondary-meiko',
-            name: 'Meiko',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1273, 4308],
-            description: '5 Tissus Araignée, 3 Cuir Usé'
-        },
-        {
-            id: 'secondary-saria',
-            name: 'Saria',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1274, 4317],
-            description: '50 Gelées Silme, 10 Minerais Fer'
-        },
-        {
-            id: 'secondary-tilda',
-            name: 'Tilda',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1883, 4010],
-            description: '1 Arc Courbé'
-        },
-        {
-            id: 'secondary-lila',
-            name: 'Lila',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1878, 3992],
-            description: '1 Cœur de Bois'
-        },
-        
-        // QUÊTES SECONDAIRES - Hanaka
-        {
-            id: 'secondary-genzo',
-            name: 'Genzo',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1532, 3376],
-            description: '6 Crocs Loup, 2 Éclats Bois - Hanaka'
-        },
-        {
-            id: 'secondary-bartok',
-            name: 'Bartok',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1526, 3377],
-            description: '25 Peaux Sanglier, 25 Crocs Loup - Hanaka'
-        },
-        {
-            id: 'secondary-greta',
-            name: 'Greta',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1438, 3407],
-            description: '15 Fleurs Allium, 5 Fils Araignée - Hanaka'
-        },
-        {
-            id: 'secondary-therra',
-            name: 'Sœur Therra',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1406, 3435],
-            description: '20 Gelées Silme, 1 Essence Corbel - Hanaka'
-        },
-        {
-            id: 'secondary-toban',
-            name: 'Toban',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1356, 3441],
-            description: '5 Écorces Titan, 2 Mycélium - Hanaka'
-        },
-        {
-            id: 'secondary-rina',
-            name: 'Rina',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1502, 3533],
-            description: '4 Fleurs Allium, 2 Gelées Silme - Hanaka'
-        },
-        {
-            id: 'secondary-maya',
-            name: 'Maya',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1500, 3560],
-            description: '8 Brindilles Enchantées, 2 Gelée Silme - Hanaka'
-        },
-        
-        // QUÊTES SECONDAIRES - Mizunari
-        {
-            id: 'secondary-michelle',
-            name: 'Michelle',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3131, 3666],
-            description: '10 Fragments Feuilles - Mizunari'
-        },
-        {
-            id: 'secondary-martine',
-            name: 'Martine',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3150, 3672],
-            description: '16 Épis Sauvages - Mizunari'
-        },
-        {
-            id: 'secondary-elwyn',
-            name: 'Elwyn',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3111, 3703],
-            description: '10 Écorces, 10 Brindilles, 3 Racines - Mizunari'
-        },
-        {
-            id: 'secondary-louise',
-            name: 'Louise',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3147, 3704],
-            description: '10 Lingots Cuivre - Mizunari'
-        },
-        {
-            id: 'secondary-phares',
-            name: 'Phares',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3149, 3714],
-            description: '20 Bloches Bois - Mizunari'
-        },
-        
-        // QUÊTES SECONDAIRES - Jardin des Géants
-        {
-            id: 'secondary-zebulgarath',
-            name: 'Zebulgarath',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [372, 2477],
-            description: '3 Racines Ancestrales - Jardin des Géants'
-        },
-        
-        // QUÊTES SECONDAIRES - Valhatt
-        {
-            id: 'secondary-saya',
-            name: 'Saya',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [492, 3028],
-            description: '4 Tissus Spectral, 3 Brindilles - Valhatt'
-        },
-        {
-            id: 'secondary-ayaka',
-            name: 'Ayaka',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [479, 3013],
-            description: '25 Pousses Sylves, 5 Mycélium - Valhatt'
-        },
-        {
-            id: 'secondary-daiki',
-            name: 'Daiki',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [430, 3046],
-            description: '4 Peaux Sanglier, 2 Crocs Albal - Valhatt'
-        },
-        
-        // QUÊTES SECONDAIRES - Camp Militaire
-        {
-            id: 'secondary-jean',
-            name: 'Jean',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3225, 2891],
-            description: '40 Bloches Chêne, 20 Minerais Fer - Camp Militaire'
-        },
-        {
-            id: 'secondary-corentin',
-            name: 'Corentin',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3291, 2905],
-            description: '64 Bloches Chêne - Camp Militaire'
-        },
-        {
-            id: 'secondary-fira',
-            name: 'Fira',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3396, 2947],
-            description: '1 Éclat Glacial, 3 Poussières Os - Camp Militaire'
-        },
-        
-        // QUÊTES SECONDAIRES - Candelia
-        {
-            id: 'secondary-yannis',
-            name: 'Yannis',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [2014, 834],
-            description: '32 Bûches bois - Candelia'
-        },
-        {
-            id: 'secondary-gilmar',
-            name: 'Gilmar',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1959, 791],
-            description: '10 Éclats Glacial, 5 Fragments Violet - Candelia'
-        },
-        {
-            id: 'secondary-tomoko',
-            name: 'Tomoko',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1955, 814],
-            description: '20 Écorce Sylvestre, 5 Racines - Candelia'
-        },
-        {
-            id: 'secondary-pierre',
-            name: 'Pierre',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [2018, 877],
-            description: '20 Buches Bois - Candelia'
-        },
-        {
-            id: 'secondary-romeo',
-            name: 'Roméo',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1991, 832],
-            description: '16 Peaux Cerf Montagnes - Candelia'
-        },
-        {
-            id: 'secondary-emilie',
-            name: 'Émilie',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1984, 753],
-            description: '20 Épis Blé - Candelia'
-        },
-        
-        // QUÊTES SECONDAIRES - Virelune
-        {
-            id: 'secondary-juliette',
-            name: 'Juliette',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1565, 1968],
-            description: '16 Bûches Chêne, 16 Bûches Bouleau - Virelune'
-        },
-        {
-            id: 'secondary-luc',
-            name: 'Luc',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1624, 1852],
-            description: '3 Pioches Félés - Virelune'
-        },
-        {
-            id: 'secondary-sam',
-            name: 'Sam',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1600, 2006],
-            description: 'Tuer 20 Araignées - Virelune'
-        },
-        {
-            id: 'secondary-monique',
-            name: 'Monique',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1563, 2000],
-            description: 'Tuer 10 Requins - Virelune'
-        },
-        
-        // QUÊTES SECONDAIRES - SVF (Sans Village Fixe)
-        {
-            id: 'secondary-gilbert',
-            name: 'Gilbert',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1700, 1018],
-            description: '15 Tissus Spectral - SVF'
-        },
-        {
-            id: 'secondary-horace',
-            name: 'Horace',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [3084, 1913],
-            description: '12 Cuirs Usé, 8 Peaux Cerf - SVF'
-        },
-        {
-            id: 'secondary-haruto',
-            name: 'Haruto',
-            type: 'secondaire',
-            step: 'S',
-            coordinates: [1868, 2112],
-            description: '30 Gelées Silme, 25 Carapaces Requin - SVF'
-        }
-    ];
-
-    // Données des villes
-    const villesData = [
-        {
-            id: 'ville-depart',
-            name: 'Ville de départ',
-            coordinates: [1800, 4297],
-            description: 'Point de départ de votre aventure'
-        },
-        {
-            id: 'hanaka',
-            name: 'Hanaka',
-            coordinates: [1531, 3423],
-            description: 'Ville prospère au cœur du royaume'
-        },
-        {
-            id: 'mizunari',
-            name: 'Mizunari',
-            coordinates: [3138, 3684],
-            description: 'Cité portuaire animée'
-        },
-        {
-            id: 'tolbana',
-            name: 'Tolbana',
-            coordinates: [3306, 1603],
-            description: 'Ville fortifiée du nord'
-        },
-        {
-            id: 'virelune',
-            name: 'Virelune',
-            coordinates: [1617, 1958],
-            description: 'Village mystique sous la lune'
-        },
-        {
-            id: 'valhat',
-            name: 'Valhat',
-            coordinates: [500, 3059],
-            description: 'Avant-poste de l\'ouest'
-        }
-    ];
-
-    // Données des donjons
-    const donjonsData = [
-        {
-            id: 'donjon-geldorak',
-            name: 'Donjon de Geldorak',
-            coordinates: [4270, 3891],
-            description: 'Donjon redoutable gardé par Geldorak'
-        },
-        {
-            id: 'donjon-ruine',
-            name: 'Donjon Ruine',
-            coordinates: [2783, 4427],
-            description: 'Ruines anciennes pleines de mystères'
-        },
-        {
-            id: 'donjon-labyrinthe',
-            name: 'Donjon Le Labyrinthe',
-            coordinates: [2384, 2417],
-            description: 'Labyrinthe complexe et dangereux'
-        },
-        {
-            id: 'donjon-xalzirith',
-            name: 'Donjon de Xal\'Zirith',
-            coordinates: [1015, 1185],
-            description: 'Donjon sombre de Xal\'Zirith'
-        },
-        {
-            id: 'donjon-kobold',
-            name: 'Donjon Kobold',
-            coordinates: [3412, 1080],
-            description: 'Territoire des Kobolds agressifs'
-        }
-    ];
-
-    // Données des marchands
-    const marchandsData = [
-        {
-            id: 'marchand-depart',
-            name: 'Marchand de départ',
-            coordinates: [1788, 4162],
-            description: 'Marchand général pour les débutants'
-        },
-        {
-            id: 'marchand-outils',
-            name: 'Marchand d\'outils',
-            coordinates: [1812, 4162],
-            description: 'Spécialisé dans les outils et équipements'
-        },
-        {
-            id: 'forgeron-armure-depart',
-            name: 'Forgeron d\'armure',
-            coordinates: [1764, 4126],
-            description: 'Forge des armures de qualité'
-        },
-        {
-            id: 'forgeron-arme-depart',
-            name: 'Forgeron d\'arme',
-            coordinates: [1775, 4134],
-            description: 'Maître forgeron d\'armes'
-        },
-        {
-            id: 'marchand-mizunari',
-            name: 'Marchand de Mizunari',
-            coordinates: [3130, 3703],
-            description: 'Marchand de la cité portuaire'
-        },
-        {
-            id: 'marchand-tolbana',
-            name: 'Marchand de Tolbana',
-            coordinates: [3317, 1640],
-            description: 'Marchand de la ville fortifiée'
-        },
-        {
-            id: 'marchand-donjon-ruine',
-            name: 'Marchand Donjon Ruine',
-            coordinates: [2833, 4707],
-            description: 'Marchand près des ruines'
-        },
-        {
-            id: 'forgeron-arme-tolbana',
-            name: 'Forgeron d\'arme',
-            coordinates: [3236, 1483],
-            description: 'Forgeron d\'armes de Tolbana'
-        },
-        {
-            id: 'forgeron-armure-tolbana',
-            name: 'Forgeron d\'armure',
-            coordinates: [3236, 1483],
-            description: 'Forgeron d\'armures de Tolbana'
-        },
-        {
-            id: 'forgeron-donjon',
-            name: 'Forgeron Donjon',
-            coordinates: [2413, 2375],
-            description: 'Forgeron spécialisé près du donjon'
-        }
-    ];
-
-    // Données des zones de monstres
-    const monstresData = [
-        {
-            id: 'zone-sanglier',
-            name: 'Zone Sanglier',
-            coordinates: [1866, 3575],
-            description: 'Territoire des sangliers sauvages'
-        },
-        {
-            id: 'vallee-loups',
-            name: 'Vallée des Loups',
-            coordinates: [2504, 3815],
-            description: 'Vallée hantée par les loups'
-        },
-        {
-            id: 'ruines-maudites',
-            name: 'Ruines Maudites',
-            coordinates: [2825, 4450],
-            description: 'Ruines peuplées de créatures maudites'
-        },
-        {
-            id: 'archipel-ika',
-            name: 'Archipel d\'Ika',
-            coordinates: [3304, 4105],
-            description: 'Îles mystérieuses d\'Ika'
-        },
-        {
-            id: 'montagnes-bandits',
-            name: 'Montagnes des Bandits',
-            coordinates: [4152, 3910],
-            description: 'Repaire des bandits de montagne'
-        },
-        {
-            id: 'bois-sacree',
-            name: 'Bois Sacrée',
-            coordinates: [1287, 3155],
-            description: 'Forêt sacrée où apparaissent les Tréants'
-        },
-        {
-            id: 'marecage-putride',
-            name: 'Marécage putride',
-            coordinates: [299, 3200],
-            description: 'Marécage infecté et dangereux'
-        },
-        {
-            id: 'champ-nephantes',
-            name: 'Champ de Néphantes',
-            coordinates: [3374, 3763],
-            description: 'Champs hantés par les Néphantes'
-        },
-        {
-            id: 'foret-noir',
-            name: 'Forêt Noir',
-            coordinates: [1314, 1343],
-            description: 'Forêt sombre et menaçante'
-        },
-        {
-            id: 'atlantide',
-            name: 'Atlantide',
-            coordinates: [1369, 1940],
-            description: 'Cité engloutie d\'Atlantide'
-        },
-        {
-            id: 'montagne-cerfs',
-            name: 'Montagne des Cerfs',
-            coordinates: [4109, 1133],
-            description: 'Montagnes paisibles des cerfs'
-        },
-        {
-            id: 'citadelle-glace',
-            name: 'Citadelle de Glace',
-            coordinates: [3995, 2012],
-            description: 'Forteresse de glace éternelle'
-        }
-    ];
-    
-    // Groupe de couches pour les quêtes
-    questLayers = L.layerGroup();
-    questLayers.addTo(map);
-    
-    // Créer les icônes personnalisées pour les quêtes
-    // Détecter si on est dans le dossier pages/ ou à la racine
-    const basePath = '/assets/map_assets/markers/';
-    const cacheBuster = '?v=20261007a';
-    
-    const questSecondaryIcon = L.icon({
-        iconUrl: basePath + 'Quetes-Secondaires.webp' + cacheBuster,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16],
-        popupAnchor: [0, -16]
-    });
-    
-    const questMainIcon = L.icon({
-        iconUrl: basePath + 'Quetes-Principales.webp' + cacheBuster,
-        iconSize: [40, 40], // Plus grande pour les quêtes principales
-        iconAnchor: [20, 20],
-        popupAnchor: [0, -20]
-    });
-
-    // Icônes pour les villes
-    const villeIcon = L.icon({
-        iconUrl: basePath + 'Ville.webp' + cacheBuster,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-        popupAnchor: [0, -18]
-    });
-
-    // Icônes pour les donjons
-    const donjonIcon = L.icon({
-        iconUrl: basePath + 'Donjon.webp' + cacheBuster,
-        iconSize: [38, 38],
-        iconAnchor: [19, 19],
-        popupAnchor: [0, -19]
-    });
-
-    // Icônes pour les marchands
-    const marchandIcon = L.icon({
-        iconUrl: basePath + 'Marchand.webp' + cacheBuster,
-        iconSize: [34, 34],
-        iconAnchor: [17, 17],
-        popupAnchor: [0, -17]
-    });
-
-    // Icônes pour les zones de monstres
-    const monstreIcon = L.icon({
-        iconUrl: basePath + 'Monstre.webp' + cacheBuster,
-        iconSize: [35, 35],
-        iconAnchor: [17.5, 17.5],
-        popupAnchor: [0, -17.5]
-    });
-    
-    // Fonction pour convertir les coordonnées du jeu vers Leaflet
-    // Même formule pour tous les paliers: Z inversé (5121 - Z), X identique
-    function gameToLeafletCoords(gameX, gameZ, floor = 1) {
-        // Formule universelle pour tous les paliers
-        return [5121 - gameZ, gameX];
-    }
-    
-    // Fonction pour regrouper les quêtes par coordonnées identiques
-    function groupQuestsByCoordinates(quests) {
-        const grouped = {};
-        
-        quests.forEach(quest => {
-            const key = `${quest.coordinates[0]}_${quest.coordinates[1]}`;
-            if (!grouped[key]) {
-                grouped[key] = [];
-            }
-            grouped[key].push(quest);
-        });
-        
-        return grouped;
-    }
-    
-    // Créer les marqueurs de quêtes
-    function createQuestMarkers() {
-        const groupedQuests = groupQuestsByCoordinates(questData);
-        
-        Object.values(groupedQuests).forEach(questGroup => {
-            const quest = questGroup[0]; // Prendre la première quête du groupe
-            const leafletCoords = gameToLeafletCoords(quest.coordinates[0], quest.coordinates[1]);
-            
-            // Choisir l'icône selon le type de quête
-            const icon = quest.type === 'principale' ? questMainIcon : questSecondaryIcon;
-            
-            // Créer le nom combiné pour les groupes de quêtes
-            const combinedName = questGroup.length === 1 
-                ? quest.name 
-                : questGroup.map(q => q.name).join(' / ');
-            
-            // Créer le marqueur avec les options de type pour le système de toggles
-            const marker = L.marker(leafletCoords, {
-                title: questGroup.map(q => q.name).join(" / "), alt: questGroup.map(q => q.name).join(" / "),
-                icon: icon,
-                questType: quest.type, // Ajouter le type pour l'organisation des couches
-                questName: combinedName, // Compatibilité avec l'organisation des couches
-                questEntries: questGroup.map(q => ({
-                    name: q.name,
-                    type: q.type,
-                    npc: q.npc || '',
-                    description: q.description
-                }))
-            });
-            
-            // Créer le contenu du popup
-            let popupContent = '';
-            
-            if (questGroup.length === 1) {
-                // Une seule quête à cette position
-                const q = questGroup[0];
-                popupContent = `
-                    <div class="quest-popup">
-                        <div class="quest-header ${q.type}">
-                            <strong><span class="map-popup-symbol ${q.type}" aria-hidden="true"></span><span>${q.name}</span></strong>
-                        </div>
-                        <div class="quest-details">
-                            <p><strong>Type:</strong> ${q.type === 'principale' ? 'Quête Principale' : 'Quête Secondaire'}</p>
-                            <p><strong>Étape:</strong> ${q.step}</p>
-                            <p><strong>Position:</strong> X:${q.coordinates[0]}, Z:${q.coordinates[1]}</p>
-                            <p class="quest-description">${q.description}</p>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Plusieurs quêtes à la même position
-                popupContent = `
-                    <div class="quest-popup multi-quest" style="min-width: 280px;">
-                        <div class="quest-header" style="background: linear-gradient(135deg, #4a90d9, #357abd); padding: 12px; border-radius: 8px 8px 0 0;">
-                            <strong style="font-size: 1.1em;"><span class="map-popup-symbol grouped" aria-hidden="true"></span><span>${questGroup.length}</span> <span>Quêtes à cet emplacement</span></strong>
-                        </div>
-                        <div class="quest-list" style="max-height: 300px; overflow-y: auto; padding: 10px;">
-                `;
-                
-                questGroup.forEach(q => {
-                    popupContent += `
-                        <div class="quest-item ${q.type}" style="background: ${q.type === 'principale' ? 'rgba(255,215,0,0.15)' : 'rgba(100,149,237,0.15)'}; border-left: 3px solid ${q.type === 'principale' ? '#ffd700' : '#6495ed'}; padding: 10px; margin-bottom: 8px; border-radius: 4px;">
-                            <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                                <span class="map-popup-symbol ${q.type}" aria-hidden="true"></span>
-                                <strong style="color: ${q.type === 'principale' ? '#ffd700' : '#87ceeb'};">${q.name}</strong>
-                            </div>
-                            <div style="font-size: 0.9em; color: #ccc;">
-                                <p style="margin: 3px 0;"><strong>Étape:</strong> ${q.step}</p>
-                                <p style="margin: 3px 0; font-style: italic; color: #aaa;">${q.description}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                popupContent += `
-                        </div>
-                        <div class="quest-details" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 0 0 8px 8px;">
-                            <p style="margin: 0;"><strong><span class="map-popup-pin" aria-hidden="true"></span><span>Position:</span></strong> X:${quest.coordinates[0]}, Z:${quest.coordinates[1]}</p>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Options responsive pour les popups
-            const isMobile = window.innerWidth <= 480;
-            const isTablet = window.innerWidth <= 768 && window.innerWidth > 480;
-            
-            const popupOptions = {
-                className: 'quest-marker-popup',
-                maxWidth: isMobile ? 220 : (isTablet ? 280 : 400),
-                minWidth: isMobile ? 180 : (isTablet ? 220 : 300),
-                autoPan: true,
-                autoPanPadding: [10, 10],
-                closeButton: true
-            };
-            
-            marker.bindPopup(popupContent, popupOptions);
-            
-            // Ajouter le marqueur au groupe de quêtes
-            questLayers.addLayer(marker);
-        });
-    }
-    
-    // Fonction pour créer les marqueurs de villes
-    function createVilleMarkers() {
-        // console.log(`🏰 Creating ${villesData.length} ville markers`);
-        villesData.forEach(ville => {
-            const leafletCoords = gameToLeafletCoords(ville.coordinates[0], ville.coordinates[1]);
-            
-            const marker = L.marker(leafletCoords, { 
-                title: ville.name, alt: ville.name,
-                icon: villeIcon,
-                locationName: ville.name,
-                locationType: 'Ville'
-            });
-
-            const popupContent = `
-                <div class="location-popup ville">
-                    <div class="location-header">
-                        <strong><span class="map-popup-symbol town" aria-hidden="true"></span><span>${ville.name}</span></strong>
-                    </div>
-                    <div class="location-details">
-                        <p><strong>Type:</strong> Ville</p>
-                        <p><strong>Position:</strong> X:${ville.coordinates[0]}, Z:${ville.coordinates[1]}</p>
-                        <p class="location-description">${ville.description}</p>
-                    </div>
-                </div>
-            `;
-
-            // Options responsive pour les popups
-            const isMobile = window.innerWidth <= 480;
-            const isTablet = window.innerWidth <= 768 && window.innerWidth > 480;
-            
-            const popupOptions = {
-                maxWidth: isMobile ? 220 : (isTablet ? 280 : 350),
-                autoPan: true,
-                autoPanPadding: [10, 10]
-            };
-            
-            marker.bindPopup(popupContent, popupOptions);
-            layerGroups.villes.addLayer(marker);
-        });
-    }
-
-    // Fonction pour créer les marqueurs de donjons
-    function createDonjonMarkers() {
-        // console.log(`⚔️ Creating ${donjonsData.length} donjon markers`);
-        donjonsData.forEach(donjon => {
-            const leafletCoords = gameToLeafletCoords(donjon.coordinates[0], donjon.coordinates[1]);
-            
-            const marker = L.marker(leafletCoords, { 
-                title: donjon.name, alt: donjon.name,
-                icon: donjonIcon,
-                locationName: donjon.name,
-                locationType: 'Donjon'
-            });
-
-            const popupContent = `
-                <div class="location-popup donjon">
-                    <div class="location-header">
-                        <strong><span class="map-popup-symbol dungeon" aria-hidden="true"></span><span>${donjon.name}</span></strong>
-                    </div>
-                    <div class="location-details">
-                        <p><strong>Type:</strong> Donjon</p>
-                        <p><strong>Position:</strong> X:${donjon.coordinates[0]}, Z:${donjon.coordinates[1]}</p>
-                        <p class="location-description">${donjon.description}</p>
-                    </div>
-                </div>
-            `;
-
-            // Options responsive pour les popups
-            const isMobile = window.innerWidth <= 480;
-            const isTablet = window.innerWidth <= 768 && window.innerWidth > 480;
-            
-            const popupOptions = {
-                maxWidth: isMobile ? 220 : (isTablet ? 280 : 350),
-                autoPan: true,
-                autoPanPadding: [10, 10]
-            };
-            
-            marker.bindPopup(popupContent, popupOptions);
-            layerGroups.donjons.addLayer(marker);
-        });
-    }
-
-    // Fonction pour créer les marqueurs de marchands
-    function createMarchandMarkers() {
-        // console.log(`🛒 Creating ${marchandsData.length} marchand markers`);
-        marchandsData.forEach(marchand => {
-            const leafletCoords = gameToLeafletCoords(marchand.coordinates[0], marchand.coordinates[1]);
-            
-            const marker = L.marker(leafletCoords, { 
-                title: marchand.name, alt: marchand.name,
-                icon: marchandIcon,
-                locationName: marchand.name,
-                locationType: 'Marchand'
-            });
-
-            const popupContent = `
-                <div class="location-popup marchand">
-                    <div class="location-header">
-                        <strong><span class="map-popup-symbol merchant" aria-hidden="true"></span><span>${marchand.name}</span></strong>
-                    </div>
-                    <div class="location-details">
-                        <p><strong>Type:</strong> Marchand</p>
-                        <p><strong>Position:</strong> X:${marchand.coordinates[0]}, Z:${marchand.coordinates[1]}</p>
-                        <p class="location-description">${marchand.description}</p>
-                    </div>
-                </div>
-            `;
-
-            // Options responsive pour les popups
-            const isMobile = window.innerWidth <= 480;
-            const isTablet = window.innerWidth <= 768 && window.innerWidth > 480;
-            
-            const popupOptions = {
-                maxWidth: isMobile ? 220 : (isTablet ? 280 : 350),
-                autoPan: true,
-                autoPanPadding: [10, 10]
-            };
-            
-            marker.bindPopup(popupContent, popupOptions);
-            layerGroups.marchands.addLayer(marker);
-        });
-    }
-
-    // Fonction pour créer les marqueurs de zones de monstres
-    function createMonstreMarkers() {
-        // console.log(`👹 Creating ${monstresData.length} monstre markers`);
-        monstresData.forEach(zone => {
-            const leafletCoords = gameToLeafletCoords(zone.coordinates[0], zone.coordinates[1]);
-            
-            const marker = L.marker(leafletCoords, { 
-                title: zone.name, alt: zone.name,
-                icon: monstreIcon,
-                locationName: zone.name,
-                locationType: 'Zone de Monstres'
-            });
-
-            const popupContent = `
-                <div class="location-popup monstre">
-                    <div class="location-header">
-                        <strong><span class="map-popup-symbol monster" aria-hidden="true"></span><span>${zone.name}</span></strong>
-                    </div>
-                    <div class="location-details">
-                        <p><strong>Type:</strong> Zone de Monstres</p>
-                        <p><strong>Position:</strong> X:${zone.coordinates[0]}, Z:${zone.coordinates[1]}</p>
-                        <p class="location-description">${zone.description}</p>
-                    </div>
-                </div>
-            `;
-
-            // Options responsive pour les popups
-            const isMobile = window.innerWidth <= 480;
-            const isTablet = window.innerWidth <= 768 && window.innerWidth > 480;
-            
-            const popupOptions = {
-                maxWidth: isMobile ? 220 : (isTablet ? 280 : 350),
-                autoPan: true,
-                autoPanPadding: [10, 10]
-            };
-            
-            marker.bindPopup(popupContent, popupOptions);
-            layerGroups.monstres.addLayer(marker);
-        });
-    }
-
-    // Fonction pour créer les marqueurs de quêtes du Palier 2
-    function createFloor2QuestMarkers() {
-        const groupedQuests = {};
-        
-        // Grouper les quêtes par coordonnées
-        questDataFloor2.forEach(quest => {
-            const key = `${quest.coordinates[0]}_${quest.coordinates[1]}`;
-            if (!groupedQuests[key]) {
-                groupedQuests[key] = [];
-            }
-            groupedQuests[key].push(quest);
-        });
-        
-        Object.values(groupedQuests).forEach(questGroup => {
-            const quest = questGroup[0];
-            const leafletCoords = gameToLeafletCoords(quest.coordinates[0], quest.coordinates[1], 2);
-            
-            // Choisir l'icône selon le type
-            const icon = quest.type === 'principale' ? questMainIcon : questSecondaryIcon;
-            
-            // Créer le nom combiné pour les groupes
-            const combinedName = questGroup.length === 1 
-                ? quest.name 
-                : questGroup.map(q => q.name).join(' / ');
-            
-            // Combiner les noms de PNJ
-            const combinedNpc = questGroup.length === 1
-                ? quest.npc || ''
-                : questGroup.map(q => q.npc || '').filter(n => n).join(' / ');
-            
-            const marker = L.marker(leafletCoords, {
-                title: questGroup.map(q => q.name).join(" / "), alt: questGroup.map(q => q.name).join(" / "),
-                icon: icon,
-                questType: quest.type,
-                questName: combinedName,
-                npcName: combinedNpc,
-                questEntries: questGroup.map(q => ({
-                    name: q.name,
-                    type: q.type,
-                    npc: q.npc || '',
-                    description: q.description
-                }))
-            });
-            
-            // Créer le contenu du popup
-            let popupContent = '';
-            
-            if (questGroup.length === 1) {
-                const q = questGroup[0];
-                popupContent = `
-                    <div class="quest-popup">
-                        <div class="quest-header ${q.type}">
-                            <strong><span class="map-popup-symbol ${q.type}" aria-hidden="true"></span><span>${q.name}</span></strong>
-                        </div>
-                        <div class="quest-details">
-                            <p><strong>Type:</strong> ${q.type === 'principale' ? 'Quête Principale' : 'Quête Secondaire'}</p>
-                            <p><strong>PNJ:</strong> ${q.npc || 'N/A'}</p>
-                            <p><strong>Étape:</strong> ${q.step}</p>
-                            <p><strong>Position:</strong> X:${q.coordinates[0]}, Z:${q.coordinates[1]}</p>
-                            <p class="quest-description">${q.description}</p>
-                        </div>
-                    </div>
-                `;
-            } else {
-                popupContent = `
-                    <div class="quest-popup multi-quest" style="min-width: 280px;">
-                        <div class="quest-header" style="background: linear-gradient(135deg, #4a90d9, #357abd); padding: 12px; border-radius: 8px 8px 0 0;">
-                            <strong style="font-size: 1.1em;"><span class="map-popup-symbol grouped" aria-hidden="true"></span><span>${questGroup.length}</span> <span>Quêtes à cet emplacement</span></strong>
-                        </div>
-                        <div class="quest-list" style="max-height: 300px; overflow-y: auto; padding: 10px;">
-                            ${questGroup.map((q, index) => `
-                                <div class="quest-item ${q.type}" style="background: ${q.type === 'principale' ? 'rgba(255,215,0,0.15)' : 'rgba(100,149,237,0.15)'}; border-left: 3px solid ${q.type === 'principale' ? '#ffd700' : '#6495ed'}; padding: 10px; margin-bottom: 8px; border-radius: 4px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                                        <span class="map-popup-symbol ${q.type}" aria-hidden="true"></span>
-                                        <strong style="color: ${q.type === 'principale' ? '#ffd700' : '#87ceeb'};">${q.name}</strong>
-                                    </div>
-                                    <div style="font-size: 0.9em; color: #ccc;">
-                                        <p style="margin: 3px 0;"><strong>PNJ:</strong> ${q.npc || 'N/A'}</p>
-                                        <p style="margin: 3px 0;"><strong>Étape:</strong> ${q.step}</p>
-                                        <p style="margin: 3px 0; font-style: italic; color: #aaa;">${q.description}</p>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="quest-details" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 0 0 8px 8px;">
-                            <p style="margin: 0;"><strong><span class="map-popup-pin" aria-hidden="true"></span><span>Position:</span></strong> X:${quest.coordinates[0]}, Z:${quest.coordinates[1]}</p>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Options responsive
-            const isMobile = window.innerWidth <= 480;
-            const isTablet = window.innerWidth <= 768 && window.innerWidth > 480;
-            
-            const popupOptions = {
-                maxWidth: isMobile ? 250 : (isTablet ? 300 : 400),
-                autoPan: true,
-                autoPanPadding: [10, 10]
-            };
-            
-            marker.bindPopup(popupContent, popupOptions);
-            
-            // Ajouter au groupe approprié
-            if (quest.type === 'principale') {
-                layerGroupsFloor2.questesPrincipales.addLayer(marker);
-            } else {
-                layerGroupsFloor2.questesSecondaires.addLayer(marker);
-            }
-        });
-    }
-
-    // Créer tous les marqueurs
-    // console.log('🚀 Creating all markers...');
-    createQuestMarkers();
-    // console.log('✅ Quest markers created');
-    createVilleMarkers();
-    // console.log('✅ Ville markers created');
-    createDonjonMarkers();
-    // console.log('✅ Donjon markers created');
-    createMarchandMarkers();
-    // console.log('✅ Marchand markers created');
-    createMonstreMarkers();
-    // console.log('✅ Monstre markers created');
-    createFloor2QuestMarkers();
-    // console.log('✅ Floor 2 Quest markers created');
-    
-    // Organiser les marqueurs de quêtes par type et initialiser les toggles
-    // console.log('📋 Organizing markers into groups...');
-    organizeMarkersIntoGroups();
-    // console.log('🎛️ Initializing toggles...');
-    initializeToggles();
-    
-    // Vérifier les paramètres URL pour centrer sur une quête spécifique
-    // Si pas de paramètres URL, restaurer l'état sauvegardé
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('x') || urlParams.has('y') || urlParams.has('floor') || urlParams.has('q')) {
-        checkURLParams();
-    } else {
-        restoreMapState();
-    }
-    document.addEventListener('nameless:routechange', checkURLParams, { signal: mapController.signal });
-
-    // Recalcul de la taille après injection dans le DOM (utile en SPA)
-    scheduleMapTask(function () { if (map) map.invalidateSize(); }, 60);
-
-    // Recalcul au redimensionnement (équivaut au script inline de la page)
-    window.addEventListener('resize', function () {
-        clearTimeout(mapResizeTimer);
-        mapResizeTimer = scheduleMapTask(function () { if (map) map.invalidateSize(); }, 250);
-    }, { signal: mapController.signal });
-}
-
-function destroyMapView() {
-    removeMapOverlays();
-    mapTimers.forEach(timer => clearTimeout(timer)); mapTimers.clear();
-    if (mapController) { mapController.abort(); mapController = null; }
-    if (mapResizeTimer) { clearTimeout(mapResizeTimer); mapResizeTimer = null; }
-    if (map) {
-        try { map.remove(); } catch (e) { /* instance déjà détruite */ }
-        map = null;
-    }
-    currentMapOverlay = null;
-    floorOneFullOverlay = null;
-    floorOneFullReady = false;
-    floorOneLoadFailed = false;
-    questLayers = null;
-    currentFloor = 1;
-    document.getElementById('map-route-status')?.remove();
-    Object.values(layerGroups).forEach(g => g.clearLayers());
-    Object.values(layerGroupsFloor2).forEach(g => g.clearLayers());
-}
-
-window.NamelessMapPage = { init: initMapView, destroy: destroyMapView };
-
-function mapAutoStart() {
-    if (window.NamelessSpaRouter && window.NamelessSpaRouter.controlsLifecycle) return;
-    initMapView();
-}
-
-// ==========================================
-// SYSTÈME DE TOGGLES POUR VISIBILITÉ
-// ==========================================
-
-// Variables pour stocker les marqueurs
-let questesMarkers = [];
-let questesSecondairesMarkers = [];
-
-// Fonction pour réorganiser les marqueurs existants dans les groupes
-function organizeMarkersIntoGroups() {
-    // Les marqueurs de quêtes sont déjà dans questLayers
-    // On va réorganiser par type
-    questLayers.eachLayer(function(marker) {
-        if (marker.options && marker.options.questType) {
-            if (marker.options.questType === 'principale') {
-                layerGroups.questesPrincipales.addLayer(marker);
-            } else {
-                layerGroups.questesSecondaires.addLayer(marker);
-            }
-        }
-    });
-    
-    // Retirer le questLayers original puisqu'on utilise maintenant les groupes séparés
-    if (map.hasLayer(questLayers)) {
-        map.removeLayer(questLayers);
-    }
-    
-    // Ajouter tous les layerGroups à la carte (ils seront visibles par défaut)
-    Object.values(layerGroups).forEach(layerGroup => {
-        if (layerGroup.getLayers().length > 0) {
-            layerGroup.addTo(map);
-        }
-    });
-    
-    // Logs de débogage
-    // console.log('=== Debug LayerGroups ===');
-    Object.entries(layerGroups).forEach(([name, layerGroup]) => {
-        // console.log(`${name}: ${layerGroup.getLayers().length} marqueurs`);
-    });
-}
-
-// Fonction de gestion des toggles
-function initializeToggles() {
-    // Définir les mappings pour chaque palier
-    const toggleMappings = {
-        'toggle-quetes-secondaires': {
-            1: layerGroups.questesSecondaires,
-            2: layerGroupsFloor2.questesSecondaires
-        },
-        'toggle-quetes-principales': {
-            1: layerGroups.questesPrincipales,
-            2: layerGroupsFloor2.questesPrincipales
-        },
-        'toggle-donjons': { 1: layerGroups.donjons },
-        'toggle-villes': { 1: layerGroups.villes },
-        'toggle-monstres': { 1: layerGroups.monstres },
-        'toggle-marchands': { 1: layerGroups.marchands }
-    };
-    
-    Object.entries(toggleMappings).forEach(([toggleId, floorLayers]) => {
-        const toggle = document.getElementById(toggleId);
-        const label = document.querySelector(`label[for="${toggleId}"]`);
-        
-        if (toggle) {
-            // S'assurer que tous les toggles sont cochés par défaut
-
-            
-            // Fonction pour gérer le toggle - utilise le palier actuel
-            const handleToggle = function() {
-                const isChecked = toggle.checked;
-                const layerGroup = floorLayers[currentFloor];
-                
-                if (!layerGroup) return; // Pas de layer pour ce palier
-                
-                if (isChecked) {
-                    if (!map.hasLayer(layerGroup)) {
-                        layerGroup.addTo(map);
-                    }
-                } else {
-                    if (map.hasLayer(layerGroup)) {
-                        map.removeLayer(layerGroup);
-                    }
-                }
-            };
-            
-            // Écouter les événements sur la checkbox
-            toggle.addEventListener('change', handleToggle, { signal: mapController.signal });
-        }
-    });
-    
-    // Forcer l'affichage des layers du palier actuel
-    Object.entries(toggleMappings).forEach(([name, floorLayers]) => {
-        const layerGroup = floorLayers[currentFloor];
-        if (document.getElementById(name)?.checked && layerGroup && layerGroup.getLayers().length > 0 && !map.hasLayer(layerGroup)) {
-            layerGroup.addTo(map);
-        }
-    });
-    
-    // Gestion du bouton admin (exemple - peut être étendu)
-    const adminBtn = document.querySelector('.admin-toggle-btn');
-    if (adminBtn) {
-        adminBtn.addEventListener('click', function() {
-            alert('Fonctionnalité admin à venir...');
-        }, { signal: mapController.signal });
-    }
-    
-    // ==========================================
-    // SYSTÈME DE RECHERCHE SUR LA CARTE
-    // ==========================================
-    initializeMapSearch();
-}
-
-// Variable globale pour les éléments recherchables
-let currentSearchableItems = [];
-
-// Fonction pour reconstruire les éléments recherchables (appelée lors du changement de palier)
-function rebuildSearchableItems() {
-    currentSearchableItems = buildSearchableItems();
-}
-
-// Fonction d'initialisation de la recherche sur la carte
-function initializeMapSearch() {
-    const searchInput = document.getElementById('map-search-input');
-    const searchResults = document.getElementById('map-search-results');
-    const searchClear = document.getElementById('map-search-clear');
-    const searchContainer = searchInput?.closest('.map-search-container');
-    
-    if (!searchInput || !searchResults) return;
-    
-    // Construire la liste des éléments recherchables initiale
-    currentSearchableItems = buildSearchableItems();
-    
-    // Événement de saisie
-    searchInput.addEventListener('input', function(e) {
-        const query = e.target.value.trim().toLowerCase();
-        
-        // Afficher/masquer le bouton clear
-        if (searchClear) {
-            searchClear.style.display = query.length > 0 ? 'flex' : 'none';
-        }
-        
-        if (query.length < 2) {
-            hideSearchResults(searchResults, searchInput, searchContainer);
-            return;
-        }
-        
-        // Toujours utiliser la liste mise à jour
-        const results = searchItems(currentSearchableItems, query);
-        displaySearchResults(results, searchResults);
-    }, { signal: mapController.signal });
-    
-    // Bouton clear
-    if (searchClear) {
-        searchClear.addEventListener('click', function() {
-            searchInput.value = '';
-            hideSearchResults(searchResults, searchInput, searchContainer);
-            searchClear.style.display = 'none';
-            searchInput.focus();
-        }, { signal: mapController.signal });
-    }
-    
-    // Fermer les résultats si on clique ailleurs
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.map-search-container')) {
-            hideSearchResults(searchResults, searchInput, searchContainer);
-        }
-    }, { signal: mapController.signal });
-
-    searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            hideSearchResults(searchResults, searchInput, searchContainer);
-            return;
-        }
-        if (e.key === 'ArrowDown') {
-            const firstResult = searchResults.querySelector('.search-result-item');
-            if (firstResult) {
-                e.preventDefault();
-                firstResult.focus();
-            }
-        }
-    }, { signal: mapController.signal });
-    
-    // Réouvrir les résultats si on focus l'input
-    searchInput.addEventListener('focus', function() {
-        if (searchInput.value.trim().length >= 2) {
-            const results = searchItems(currentSearchableItems, searchInput.value.trim().toLowerCase());
-            displaySearchResults(results, searchResults);
-        }
-    }, { signal: mapController.signal });
-}
-
-function hideSearchResults(container, input, searchContainer) {
-    container.style.display = 'none';
-    searchContainer?.classList.remove('has-results');
-}
-
-// Construire la liste des éléments recherchables
-function buildSearchableItems() {
-    const items = [];
-    if (currentFloor === 3) return items;
-    
-    // Déterminer quel groupe utiliser selon le palier actuel
-    const currentQuestGroups = currentFloor === 2 ? layerGroupsFloor2 : layerGroups;
-    
-    function appendQuestSearchItems(group, fallbackType) {
-        group.eachLayer(function(marker) {
-            const entries = marker.options?.questEntries || (marker.options?.questName ? [{
-                name: marker.options.questName,
-                type: fallbackType,
-                npc: marker.options.npcName || ''
-            }] : []);
-
-            entries.forEach(entry => {
-                const translatedType = entry.type === 'principale' ? 'Quête Principale' : 'Quête Secondaire';
-                items.push({
-                    name: entry.name,
-                    type: translatedType,
-                    coordinates: marker.getLatLng(),
-                    marker: marker,
-                    floor: currentFloor
-                });
-
-                if (entry.npc) {
-                    items.push({
-                        name: entry.npc,
-                        type: 'PNJ',
-                        coordinates: marker.getLatLng(),
-                        marker: marker,
-                        floor: currentFloor,
-                        questName: entry.name
-                    });
-                }
-            });
-        });
-    }
-
-    appendQuestSearchItems(currentQuestGroups.questesPrincipales, 'principale');
-    appendQuestSearchItems(currentQuestGroups.questesSecondaires, 'secondaire');
-    
-    // Les éléments suivants ne sont disponibles que sur le Palier 1
-    if (currentFloor === 1) {
-        // Ajouter les villes
-        layerGroups.villes.eachLayer(function(marker) {
-            if (marker.options?.locationName) {
-                items.push({
-                    name: marker.options.locationName,
-                    type: marker.options.locationType || 'Ville',
-                    coordinates: marker.getLatLng(),
-                    marker: marker,
-                    floor: 1
-                });
-            }
-        });
-        
-        // Ajouter les donjons
-        layerGroups.donjons.eachLayer(function(marker) {
-            if (marker.options?.locationName) {
-                items.push({
-                    name: marker.options.locationName,
-                    type: marker.options.locationType || 'Donjon',
-                    coordinates: marker.getLatLng(),
-                    marker: marker,
-                    floor: 1
-                });
-            }
-        });
-        
-        // Ajouter les monstres
-        layerGroups.monstres.eachLayer(function(marker) {
-            if (marker.options?.locationName) {
-                items.push({
-                    name: marker.options.locationName,
-                    type: marker.options.locationType || 'Zone de Monstres',
-                    coordinates: marker.getLatLng(),
-                    marker: marker,
-                    floor: 1
-                });
-            }
-        });
-        
-        // Ajouter les marchands
-        layerGroups.marchands.eachLayer(function(marker) {
-            if (marker.options?.locationName) {
-                items.push({
-                    name: marker.options.locationName,
-                    type: marker.options.locationType || 'Marchand',
-                    coordinates: marker.getLatLng(),
-                    marker: marker,
-                    floor: 1
-                });
-            }
-        });
-    }
-    
-    return items;
-}
-
-// Rechercher dans les éléments
-function searchItems(items, query) {
-    const normalizedQuery = normalizeSearchText(query);
-    return items.filter(item => {
-        const searchableName = `${item.name} ${translateSearchText(item.name)}`;
-        const searchableType = `${item.type} ${translateSearchText(item.type)}`;
-        const nameMatch = normalizeSearchText(searchableName).includes(normalizedQuery);
-        const typeMatch = normalizeSearchText(searchableType).includes(normalizedQuery);
-        return nameMatch || typeMatch;
-    }).slice(0, 15); // Limiter à 15 résultats
-}
-
-function normalizeSearchText(value) {
-    return String(value || '')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase();
-}
-
-function getSearchTypeClass(type) {
-    const normalized = normalizeSearchText(type);
-    if (normalized.includes('principale')) return 'main-quest';
-    if (normalized.includes('secondaire')) return 'side-quest';
-    if (normalized.includes('ville')) return 'town';
-    if (normalized.includes('donjon')) return 'dungeon';
-    if (normalized.includes('monstre')) return 'monster';
-    if (normalized.includes('marchand')) return 'merchant';
-    if (normalized.includes('pnj') || normalized.includes('npc')) return 'npc';
-    return 'location';
-}
-
-function translateSearchText(value) {
-    return window.NamelessI18n ? window.NamelessI18n.translate(value) : value;
-}
-
-// Afficher les résultats de recherche
-function displaySearchResults(results, container) {
-    const searchInput = document.getElementById('map-search-input');
-    const searchContainer = searchInput?.closest('.map-search-container');
-    container.replaceChildren();
-
-    if (results.length === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'search-no-results';
-        empty.innerHTML = '<span class="search-empty-mark" aria-hidden="true"></span><strong></strong><small></small>';
-        empty.querySelector('strong').textContent = 'Aucun résultat trouvé';
-        empty.querySelector('small').textContent = 'Essayez un nom de quête, de PNJ, de monstre ou de ville.';
-        container.appendChild(empty);
-        container.style.display = 'block';
-        searchContainer?.classList.add('has-results');
-        return;
-    }
-    
-    // Grouper par type
-    const grouped = {};
-    results.forEach(item => {
-        if (!grouped[item.type]) {
-            grouped[item.type] = [];
-        }
-        grouped[item.type].push(item);
-    });
-    
-    const summary = document.createElement('div');
-    summary.className = 'search-results-summary';
-    const resultLabel = results.length === 1 ? 'résultat' : 'résultats';
-    summary.innerHTML = '<span></span><kbd>Esc</kbd>';
-    summary.querySelector('span').textContent = `${results.length} ${resultLabel}`;
-    container.appendChild(summary);
-    
-    for (const [type, items] of Object.entries(grouped)) {
-        const category = document.createElement('section');
-        category.className = 'search-category';
-        const categoryHeader = document.createElement('div');
-        categoryHeader.className = `search-category-header type-${getSearchTypeClass(type)}`;
-        categoryHeader.innerHTML = '<span class="search-type-icon" aria-hidden="true"></span><span class="search-category-name"></span><span class="search-category-count"></span>';
-        categoryHeader.querySelector('.search-category-name').textContent = type;
-        categoryHeader.querySelector('.search-category-count').textContent = String(items.length);
-        category.appendChild(categoryHeader);
-        
-        items.forEach(item => {
-            // Convertir les coordonnées Leaflet vers coordonnées du jeu selon le palier
-            let gameX, gameZ;
-            gameX = Math.round(item.coordinates.lng);
-            gameZ = Math.round(5121 - item.coordinates.lat);
-            
-            const resultButton = document.createElement('button');
-            resultButton.type = 'button';
-            resultButton.className = `search-result-item type-${getSearchTypeClass(item.type)}`;
-            resultButton.dataset.lat = item.coordinates.lat;
-            resultButton.dataset.lng = item.coordinates.lng;
-            resultButton.setAttribute('aria-label', `${translateSearchText('Aller à cet emplacement')} : ${item.name}, X ${gameX}, Z ${gameZ}`);
-
-            const icon = document.createElement('span');
-            icon.className = 'search-result-icon';
-            icon.setAttribute('aria-hidden', 'true');
-
-            const info = document.createElement('span');
-            info.className = 'search-result-info';
-            const name = document.createElement('span');
-            name.className = 'search-result-name';
-            name.textContent = item.name;
-            const coords = document.createElement('span');
-            coords.className = 'search-result-coords';
-            coords.textContent = `X ${gameX}  ·  Z ${gameZ}`;
-            info.append(name, coords);
-
-            const arrow = document.createElement('span');
-            arrow.className = 'search-result-arrow';
-            arrow.setAttribute('aria-hidden', 'true');
-            resultButton.append(icon, info, arrow);
-            category.appendChild(resultButton);
-        });
-
-        container.appendChild(category);
-    }
-    container.style.display = 'block';
-    searchContainer?.classList.add('has-results');
-    
-    // Ajouter les événements de clic
-    container.querySelectorAll('.search-result-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const lat = parseFloat(this.dataset.lat);
-            const lng = parseFloat(this.dataset.lng);
-            
-            // Centrer la carte sur l'élément
-            focusMapLocation([lat, lng]);
-            results.find(result => result.coordinates.lat === lat && result.coordinates.lng === lng)?.marker?.openPopup?.();
-            
-            // Créer un effet de mise en surbrillance temporaire
-            const highlightMarker = L.marker([lat, lng], {
-                icon: L.divIcon({
-                    className: 'search-highlight-marker',
-                    html: `<div style="
-                        background: #00ffff;
-                        border: 3px solid #ffffff;
-                        border-radius: 50%;
-                        width: 24px;
-                        height: 24px;
-                        box-shadow: 0 0 25px #00ffff, 0 0 50px #00ffff;
-                        animation: pulse 1s infinite;
-                    "></div>`,
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 12]
-                })
-            }).addTo(map);
-            
-            // Retirer le marqueur après 3 secondes
-            scheduleMapTask(() => {
-                if (map) map.removeLayer(highlightMarker);
-            }, 3000);
-            
-            // Fermer les résultats et vider la recherche
-            const activeInput = document.getElementById('map-search-input');
-            hideSearchResults(container, activeInput, activeInput?.closest('.map-search-container'));
-            activeInput.value = '';
-            document.getElementById('map-search-clear').style.display = 'none';
-        });
-
-        item.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                (this.nextElementSibling?.matches('.search-result-item')
-                    ? this.nextElementSibling
-                    : this.closest('.search-category')?.nextElementSibling?.querySelector('.search-result-item'))?.focus();
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                (this.previousElementSibling?.matches('.search-result-item')
-                    ? this.previousElementSibling
-                    : this.closest('.search-category')?.previousElementSibling?.querySelector('.search-result-item:last-child'))?.focus();
-            } else if (e.key === 'Escape') {
-                hideSearchResults(container, searchInput, searchContainer);
-                searchInput?.focus();
-            }
-        });
-    });
-}
-
-// Démarrage autonome (hors SPA) — placé en fin de module pour que toutes les
-// déclarations (dont currentSearchableItems) soient initialisées avant l'init.
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', mapAutoStart);
-} else {
-    mapAutoStart();
-}
-
-// Fin du DOMContentLoaded principal
+    const api = global.NamelessMapPage = { init, destroy, active: null };
+    function autoStart() { if (!global.NamelessSpaRouter?.controlsLifecycle) init(); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autoStart, { once: true }); else autoStart();
+})(window);

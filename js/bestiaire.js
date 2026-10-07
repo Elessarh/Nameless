@@ -1155,6 +1155,7 @@ function openCreatureModal(id, updateUrl) {
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('aria-labelledby', 'creature-dialog-title');
+    modal.dataset.creature = String(id);
     modal.innerHTML = '';
 
     const content = document.createElement('div');
@@ -1199,6 +1200,46 @@ function openCreatureModal(id, updateUrl) {
     statRow.appendChild(makeStat('Points de vie', creature.hp));
     statRow.appendChild(makeStat('Zone', creature.location));
     info.appendChild(statRow);
+    const mapSection = document.createElement('div');
+    mapSection.className = 'creature-map-location';
+    const mapStatus = document.createElement('p');
+    mapStatus.textContent = 'Position non renseignée.';
+    mapSection.appendChild(mapStatus);
+    info.appendChild(mapSection);
+    if (window.NamelessGlobalSearch && typeof window.NamelessGlobalSearch.getIndex === 'function') {
+        const signal = besController && besController.signal;
+        const current = () => !signal?.aborted && mapSection.isConnected && modal.isConnected
+            && modal.dataset.creature === String(id) && modal.style.display === 'flex' && selectedCreature?.id === id;
+        window.NamelessGlobalSearch.getIndex().then(entries => {
+            if (!current()) return;
+            for (const drop of content.querySelectorAll('.drop-item[data-item]')) {
+                const name = besNormalize(drop.dataset.item);
+                const item = entries.find(candidate => candidate.kind === 'item' && typeof candidate.id === 'string' && /^[a-z0-9_-]+$/i.test(candidate.id)
+                    && [candidate.title, ...(Array.isArray(candidate.dropNames) ? candidate.dropNames : [])].some(value => typeof value === 'string' && besNormalize(value) === name)
+                    && Array.isArray(candidate.sources) && candidate.sources.some(source => {
+                        if (!source || typeof source.url !== 'string') return false;
+                        try { const url = new URL(source.url, window.location.origin); return url.origin === window.location.origin && url.pathname === '/bestiaire' && url.searchParams.get('creature') === String(id); }
+                        catch { return false; }
+                    }));
+                if (!item || typeof item.url !== 'string') continue;
+                let itemUrl;
+                try { itemUrl = new URL(item.url, window.location.origin); } catch { continue; }
+                if (itemUrl.origin === window.location.origin && itemUrl.pathname === '/items' && itemUrl.searchParams.get('item') === item.id) drop.href = '/items?item=' + encodeURIComponent(item.id);
+            }
+            const entry = entries.find(candidate => (candidate.kind === 'boss' || candidate.kind === 'creature') && String(candidate.id) === String(id));
+            if (!entry || entry.positionKnown !== true || typeof entry.mapUrl !== 'string') return;
+            let url;
+            try { url = new URL(entry.mapUrl, window.location.origin); } catch { return; }
+            if (url.origin !== window.location.origin || url.pathname !== '/carte'
+                || url.searchParams.get('entity') !== 'creature:' + id || url.searchParams.get('floor') !== String(creature.palier)) return;
+            mapStatus.textContent = 'Repère de zone ; position exacte inconnue.';
+            const link = document.createElement('a');
+            link.className = 'creature-map-link';
+            link.href = url.pathname + url.search;
+            link.textContent = 'Voir sur la carte';
+            mapSection.appendChild(link);
+        }).catch(() => { /* The coordinate-free status remains visible when the shared index is unavailable. */ });
+    }
     header.appendChild(info);
     content.appendChild(header);
 
@@ -1289,6 +1330,7 @@ function closeModal(updateUrl) {
     const modal = document.querySelector('.creature-modal');
     if (modal && modal.style.display !== 'none') {
         modal.style.display = 'none';
+        delete modal.dataset.creature;
         document.body.style.overflow = besPreviousOverflow;
         if (besModalReturnFocus && besModalReturnFocus.isConnected) besModalReturnFocus.focus();
         besModalReturnFocus = null;

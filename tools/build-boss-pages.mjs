@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
+import {createMapGraph} from './build-map-graph.mjs';
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const origin = 'https://nameless-sao.fr';
@@ -67,16 +68,13 @@ function pngSize(root, image) {
     return null;
 }
 
-export function buildBossPages({ root, output }) {
+export function buildBossPages({ root, output, mapGraph }) {
     root = path.resolve(root); output = path.resolve(output);
     const read = file => fs.readFileSync(path.join(root, file), 'utf8');
     const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData');
     const catalog = readLiteral(read('js/items-catalog-hdv.js'), 'itemsCatalog');
     const items = Object.values(catalog).flatMap(group => group.items);
-    const map = read('js/map.js');
-    const locations = ['villesData', 'donjonsData', 'monstresData', 'marchandsData']
-        .flatMap(name => readLiteral(map, name).map(point => ({ ...point, floor: 1 })));
-    const normalize = value => bossSlug(value);
+    mapGraph ||= createMapGraph({root});
     const template = read('pages/bestiaire.html').replace(/^\uFEFF/, '');
     const used = new Set();
     const generated = [];
@@ -142,9 +140,11 @@ export function buildBossPages({ root, output }) {
             const stat = element('div', 'modal-stat'); stat.append(element('dt', 'modal-stat-label', label), element('dd', 'modal-stat-value', value)); stats.appendChild(stat);
         }
         info.appendChild(stats);
-        const location = locations.find(point => point.floor === boss.palier && normalize(point.name) === normalize(boss.location)
-            && Array.isArray(point.coordinates) && point.coordinates.length === 2 && point.coordinates.every(Number.isFinite));
-        if (location) info.append(link('/carte?floor=' + boss.palier + '&x=' + location.coordinates[0] + '&y=' + location.coordinates[1], 'Voir cette zone sur la carte', 'boss-related-link'));
+        const mappedBoss = mapGraph.catalog.index.find(entry => entry.key === 'creature:' + boss.id);
+        if (mappedBoss?.positionRef) {
+            info.append(link(mappedBoss.mapUrl, 'Voir cette zone sur la carte', 'boss-related-link'));
+            info.append(element('p', 'modal-desc', 'Repère de zone ; position exacte inconnue.'));
+        }
         header.appendChild(info); article.appendChild(header);
         const section = (heading, content) => {
             const node = element('section', 'modal-section'); node.append(element('h2', 'modal-section-title', heading), content); article.appendChild(node);
@@ -153,8 +153,9 @@ export function buildBossPages({ root, output }) {
         if (boss.drops.length) {
             const grid = element('div', 'drops-grid');
             for (const drop of boss.drops) {
-                const item = items.find(candidate => normalize(candidate.name) === normalize(drop.name)
-                    || (candidate.id === 'brindille_enchantees' && normalize(drop.name) === 'brindille-enchantee'));
+                const graphBoss = mapGraph.floors[boss.palier]?.entities['creature:' + boss.id];
+                const itemKey = graphBoss?.drops.find(candidate => candidate.name === drop.name)?.itemKey;
+                const item = items.find(candidate => itemKey === 'item:' + candidate.id);
                 const target = item ? '/items?item=' + encodeURIComponent(item.id) : '/items?q=' + encodeURIComponent(drop.name);
                 const row = link(target, undefined, 'drop-item');
                 if (item) {

@@ -101,6 +101,11 @@
                 link.addEventListener('click', function () {dialog.close();});
                 if (entry.id === 'discord' && entry.kind === 'action') {link.target = '_blank'; link.rel = 'noopener noreferrer';}
                 row.appendChild(link);
+                if (typeof entry.mapUrl === 'string' && /^\/carte\?floor=[123]&entity=[A-Za-z0-9%._:-]+$/.test(entry.mapUrl) && entry.mapUrl !== entry.url) {
+                    var mapLink = document.createElement('a'); mapLink.className = 'nm-search-map-link'; mapLink.href = entry.mapUrl;
+                    mapLink.textContent = label('Voir sur la carte','View on map');
+                    mapLink.addEventListener('click', function () {dialog.close();}); row.appendChild(mapLink);
+                }
                 if (kind !== 'action') {var star = document.createElement('button'); star.type = 'button'; star.className = 'nm-search-star'; updateStar(entry, star); star.addEventListener('click', function () {saveFavorite(entry, star);}); row.appendChild(star);}
                 list.appendChild(row);
             });

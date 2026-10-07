@@ -1,0 +1,1770 @@
+{
+  "version": 1,
+  "source": "data/map-source.json",
+  "locationAliases": [
+    [
+      "Zone Sanglier",
+      "Zone des Sangliers"
+    ],
+    [
+      "Bois Sacrée",
+      "Bois Sacré"
+    ],
+    [
+      "Archipel d'Ika",
+      "Archipel Ika"
+    ],
+    [
+      "Montagnes des Bandits",
+      "Montagne des bandits"
+    ],
+    [
+      "Donjon de Geldorak",
+      "Donjon Geldorak"
+    ],
+    [
+      "Donjon Le Labyrinthe",
+      "Donjon Labyrinthe"
+    ]
+  ],
+  "cityAliases": [
+    [
+      "Valhat",
+      "Valhatt"
+    ]
+  ],
+  "forbiddenAliases": [
+    [
+      "Champ de Néphantes",
+      "Champ de Mizunari"
+    ],
+    [
+      "Atlantide",
+      "Virelune"
+    ],
+    [
+      "Forêt Noir",
+      "Forêt Enchantée"
+    ],
+    [
+      "Montagne des Cerfs",
+      "Tolbana"
+    ]
+  ],
+  "itemAliases": [
+    [
+      "Brindille Enchantée",
+      "Brindille Enchantées"
+    ],
+    [
+      "Peau Dur Glacial",
+      "Peau d'ur Glacial"
+    ]
+  ],
+  "itemAliasEvidence": [
+    {
+      "itemKey": "item:peau_glacial",
+      "catalogId": "peau_glacial",
+      "catalogName": "Peau d'ur Glacial",
+      "catalogImage": "Ressources/PeaudurGlacial.png",
+      "dropName": "Peau Dur Glacial",
+      "dropImage": "PeaudurGlacial.png",
+      "rule": "Explicit reviewed name alias; catalogue ID and identical image filename are both required",
+      "matches": [
+        {
+          "creatureKey": "creature:22",
+          "dropIndex": 0,
+          "file": "js/bestiaire.js",
+          "name": "Peau Dur Glacial",
+          "image": "PeaudurGlacial.png"
+        },
+        {
+          "creatureKey": "creature:45",
+          "dropIndex": 0,
+          "file": "js/bestiaire.js",
+          "name": "Peau Dur Glacial",
+          "image": "PeaudurGlacial.png"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "entities": 510,
+    "byKind": {
+      "location": 33,
+      "quest": 99,
+      "guide": 125,
+      "npc": 89,
+      "creature": 60,
+      "item": 104
+    },
+    "floors": {
+      "1": {
+        "entities": 422,
+        "defaultPoints": 102
+      },
+      "2": {
+        "entities": 88,
+        "defaultPoints": 30
+      },
+      "3": {
+        "entities": 0,
+        "defaultPoints": 0
+      }
+    },
+    "registry": 406,
+    "guidesByCategory": {
+      "1:principale": 51,
+      "1:secondaire": 42,
+      "2:principale": 16,
+      "2:secondaire": 16
+    }
+  },
+  "coordinateConflicts": [
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-8-1-9",
+      "title": "Téléporteur",
+      "evidence": [
+        {
+          "key": "quest:1:quest-8-1-9",
+          "coordinates": [
+            2783,
+            4427
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 10,
+            "id": "quest-8-1-9",
+            "coordinates": [
+              2783,
+              4427
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-8-1-9",
+          "coordinates": [
+            2752,
+            4620
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-8-1-9",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              2752,
+              4620
+            ],
+            "npc": null,
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-8-2-2",
+      "title": "Parler à Neko",
+      "evidence": [
+        {
+          "key": "quest:1:quest-8-2-2",
+          "coordinates": [
+            4297,
+            3890
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 13,
+            "id": "quest-8-2-2",
+            "coordinates": [
+              4297,
+              3890
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-8-2-2",
+          "coordinates": [
+            4270,
+            4082
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-8-2-2",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              4270,
+              4082
+            ],
+            "npc": "Neko",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-16",
+      "title": "Réparer le Sceau",
+      "evidence": [
+        {
+          "key": "quest:1:quest-16",
+          "coordinates": [
+            3188,
+            4011
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 16,
+            "id": "quest-16",
+            "coordinates": [
+              3188,
+              4011
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-16",
+          "coordinates": [
+            3249,
+            4295
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-16",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3249,
+              4295
+            ],
+            "npc": null,
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-21",
+      "title": "Parler à Mephisto",
+      "evidence": [
+        {
+          "key": "quest:1:quest-21",
+          "coordinates": [
+            3200,
+            1458
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 18,
+            "id": "quest-21",
+            "coordinates": [
+              3200,
+              1458
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-21",
+          "coordinates": [
+            3173,
+            1648
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-21",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3173,
+              1648
+            ],
+            "npc": "Mephisto",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-22",
+      "title": "Rapport à Wali",
+      "evidence": [
+        {
+          "key": "quest:1:quest-22",
+          "coordinates": [
+            3198,
+            1501
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 19,
+            "id": "quest-22",
+            "coordinates": [
+              3198,
+              1501
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-22",
+          "coordinates": [
+            3166,
+            1689
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-22",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3166,
+              1689
+            ],
+            "npc": "Wali",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-23",
+      "title": "Parler à Emy",
+      "evidence": [
+        {
+          "key": "quest:1:quest-23",
+          "coordinates": [
+            3233,
+            1484
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 20,
+            "id": "quest-23",
+            "coordinates": [
+              3233,
+              1484
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-23",
+          "coordinates": [
+            3205,
+            1677
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-23",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3205,
+              1677
+            ],
+            "npc": "Emy",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-26-1",
+      "title": "Parler à Ramoon",
+      "evidence": [
+        {
+          "key": "quest:1:quest-26-1",
+          "coordinates": [
+            1590,
+            1972
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 21,
+            "id": "quest-26-1",
+            "coordinates": [
+              1590,
+              1972
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-26-1",
+          "coordinates": [
+            1544,
+            2178
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-26-1",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1544,
+              2178
+            ],
+            "npc": "Ramoon",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-26-2",
+      "title": "Parler à Malrik",
+      "evidence": [
+        {
+          "key": "quest:1:quest-26-2",
+          "coordinates": [
+            3327,
+            1641
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 22,
+            "id": "quest-26-2",
+            "coordinates": [
+              3327,
+              1641
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-26-2",
+          "coordinates": [
+            3297,
+            1833
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-26-2",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3297,
+              1833
+            ],
+            "npc": "Malrik",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-27-1",
+      "title": "Parler à Virel",
+      "evidence": [
+        {
+          "key": "quest:1:quest-27-1",
+          "coordinates": [
+            1539,
+            1995
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 23,
+            "id": "quest-27-1",
+            "coordinates": [
+              1539,
+              1995
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-27-1",
+          "coordinates": [
+            1511,
+            2188
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-27-1",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1511,
+              2188
+            ],
+            "npc": "Virel",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-28",
+      "title": "Suite avec Ramoon",
+      "evidence": [
+        {
+          "key": "quest:1:quest-28",
+          "coordinates": [
+            1590,
+            1972
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 24,
+            "id": "quest-28",
+            "coordinates": [
+              1590,
+              1972
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-28",
+          "coordinates": [
+            1544,
+            2178
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-28",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1544,
+              2178
+            ],
+            "npc": "Ramoon",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:quest-29-1",
+      "title": "Parler à Silrix",
+      "evidence": [
+        {
+          "key": "quest:1:quest-29-1",
+          "coordinates": [
+            1015,
+            1185
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 25,
+            "id": "quest-29-1",
+            "coordinates": [
+              1015,
+              1185
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-29-1",
+          "coordinates": [
+            979,
+            1372
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-29-1",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              979,
+              1372
+            ],
+            "npc": "Silrix",
+            "city": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "quest-guide",
+      "key": "quest:1:secondary-varn",
+      "title": "Varn",
+      "evidence": [
+        {
+          "key": "quest:1:secondary-varn",
+          "coordinates": [
+            2067,
+            4291
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 26,
+            "id": "secondary-varn",
+            "coordinates": [
+              2067,
+              4291
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "guide:p1-secondaire-varn",
+          "coordinates": [
+            2800,
+            4297
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-secondaire-varn",
+            "category": "secondaire",
+            "floor": 1,
+            "coordinates": [
+              2800,
+              4297
+            ],
+            "npc": "Varn",
+            "city": "Ville de Départ"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:maitre-epeiste",
+      "title": "Maître Épéiste",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-1",
+          "coordinates": [
+            1805,
+            4294
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-1",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1805,
+              4294
+            ],
+            "npc": "Maître Épéiste",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-8-1-5",
+          "coordinates": [
+            1839,
+            4530
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-8-1-5",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1839,
+              4530
+            ],
+            "npc": "Maître Épéiste",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-9",
+          "coordinates": [
+            1839,
+            4530
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-9",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1839,
+              4530
+            ],
+            "npc": "Maître Épéiste",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-14",
+          "coordinates": [
+            1839,
+            4530
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-14",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1839,
+              4530
+            ],
+            "npc": "Maître Épéiste",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-1",
+          "coordinates": [
+            1805,
+            4294
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 0,
+            "id": "quest-1",
+            "coordinates": [
+              1805,
+              4294
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "quest:1:quest-8-1-5",
+          "coordinates": [
+            1839,
+            4530
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 7,
+            "id": "quest-8-1-5",
+            "coordinates": [
+              1839,
+              4530
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:neko",
+      "title": "Neko",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-8-2-2",
+          "coordinates": [
+            4270,
+            4082
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-8-2-2",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              4270,
+              4082
+            ],
+            "npc": "Neko",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-8-2-2",
+          "coordinates": [
+            4297,
+            3890
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 13,
+            "id": "quest-8-2-2",
+            "coordinates": [
+              4297,
+              3890
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:wali",
+      "title": "Wali",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-22",
+          "coordinates": [
+            3166,
+            1689
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-22",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3166,
+              1689
+            ],
+            "npc": "Wali",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-25",
+          "coordinates": [
+            3166,
+            1689
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-25",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3166,
+              1689
+            ],
+            "npc": "Wali",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-22",
+          "coordinates": [
+            3198,
+            1501
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 19,
+            "id": "quest-22",
+            "coordinates": [
+              3198,
+              1501
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:mephisto",
+      "title": "Mephisto",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-21",
+          "coordinates": [
+            3173,
+            1648
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-21",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3173,
+              1648
+            ],
+            "npc": "Mephisto",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-26",
+          "coordinates": [
+            3173,
+            1648
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-26",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3173,
+              1648
+            ],
+            "npc": "Mephisto",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-21",
+          "coordinates": [
+            3200,
+            1458
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 18,
+            "id": "quest-21",
+            "coordinates": [
+              3200,
+              1458
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:emy",
+      "title": "Emy",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-23",
+          "coordinates": [
+            3205,
+            1677
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-23",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3205,
+              1677
+            ],
+            "npc": "Emy",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-23",
+          "coordinates": [
+            3233,
+            1484
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 20,
+            "id": "quest-23",
+            "coordinates": [
+              3233,
+              1484
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:ramoon",
+      "title": "Ramoon",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-26-1",
+          "coordinates": [
+            1544,
+            2178
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-26-1",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1544,
+              2178
+            ],
+            "npc": "Ramoon",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-28",
+          "coordinates": [
+            1544,
+            2178
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-28",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1544,
+              2178
+            ],
+            "npc": "Ramoon",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-26-1",
+          "coordinates": [
+            1590,
+            1972
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 21,
+            "id": "quest-26-1",
+            "coordinates": [
+              1590,
+              1972
+            ],
+            "npc": null
+          }
+        },
+        {
+          "key": "quest:1:quest-28",
+          "coordinates": [
+            1590,
+            1972
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 24,
+            "id": "quest-28",
+            "coordinates": [
+              1590,
+              1972
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:malrik",
+      "title": "Malrik",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-26-2",
+          "coordinates": [
+            3297,
+            1833
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-26-2",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3297,
+              1833
+            ],
+            "npc": "Malrik",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-26-4",
+          "coordinates": [
+            3297,
+            1833
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-26-4",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              3297,
+              1833
+            ],
+            "npc": "Malrik",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-26-2",
+          "coordinates": [
+            3327,
+            1641
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 22,
+            "id": "quest-26-2",
+            "coordinates": [
+              3327,
+              1641
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:virel",
+      "title": "Virel",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-27-1",
+          "coordinates": [
+            1511,
+            2188
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-27-1",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1511,
+              2188
+            ],
+            "npc": "Virel",
+            "city": null
+          }
+        },
+        {
+          "key": "guide:p1-principale-27-3",
+          "coordinates": [
+            1511,
+            2188
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-27-3",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              1511,
+              2188
+            ],
+            "npc": "Virel",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-27-1",
+          "coordinates": [
+            1539,
+            1995
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 23,
+            "id": "quest-27-1",
+            "coordinates": [
+              1539,
+              1995
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:silrix",
+      "title": "Silrix",
+      "evidence": [
+        {
+          "key": "guide:p1-principale-29-1",
+          "coordinates": [
+            979,
+            1372
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-principale-29-1",
+            "category": "principale",
+            "floor": 1,
+            "coordinates": [
+              979,
+              1372
+            ],
+            "npc": "Silrix",
+            "city": null
+          }
+        },
+        {
+          "key": "quest:1:quest-29-1",
+          "coordinates": [
+            1015,
+            1185
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 25,
+            "id": "quest-29-1",
+            "coordinates": [
+              1015,
+              1185
+            ],
+            "npc": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "npc",
+      "key": "npc:1:varn",
+      "title": "Varn",
+      "evidence": [
+        {
+          "key": "guide:p1-secondaire-varn",
+          "coordinates": [
+            2800,
+            4297
+          ],
+          "source": {
+            "file": "pages/quetes.html",
+            "id": "p1-secondaire-varn",
+            "category": "secondaire",
+            "floor": 1,
+            "coordinates": [
+              2800,
+              4297
+            ],
+            "npc": "Varn",
+            "city": "Ville de Départ"
+          }
+        },
+        {
+          "key": "quest:1:secondary-varn",
+          "coordinates": [
+            2067,
+            4291
+          ],
+          "source": {
+            "file": "data/map-source.json",
+            "table": "questData",
+            "index": 26,
+            "id": "secondary-varn",
+            "coordinates": [
+              2067,
+              4291
+            ],
+            "npc": null
+          }
+        }
+      ]
+    }
+  ],
+  "unmatchedCreatureLocations": [
+    {
+      "key": "creature:18",
+      "title": "Néphantes",
+      "location": "Champ de Mizunari",
+      "reason": "no-exact-or-approved-alias"
+    },
+    {
+      "key": "creature:48",
+      "title": "Essaim d'Insectes",
+      "location": "Marais Toxique",
+      "reason": "no-exact-or-approved-alias"
+    },
+    {
+      "key": "creature:49",
+      "title": "Farfadet",
+      "location": "Forêt Enchantée",
+      "reason": "no-exact-or-approved-alias"
+    }
+  ],
+  "unmatchedDrops": [],
+  "unmatchedLegacyGuides": [
+    {
+      "key": "quest:1:secondary-nacht",
+      "expectedGuideId": "p1-secondaire-nacht"
+    }
+  ],
+  "legacyFavorites": [
+    {
+      "key": "location:1:ville-depart",
+      "globalIds": [
+        "location:villesData-0"
+      ],
+      "table": "villesData",
+      "index": 0,
+      "originalId": "ville-depart"
+    },
+    {
+      "key": "location:1:hanaka",
+      "globalIds": [
+        "location:villesData-1"
+      ],
+      "table": "villesData",
+      "index": 1,
+      "originalId": "hanaka"
+    },
+    {
+      "key": "location:1:mizunari",
+      "globalIds": [
+        "location:villesData-2"
+      ],
+      "table": "villesData",
+      "index": 2,
+      "originalId": "mizunari"
+    },
+    {
+      "key": "location:1:tolbana",
+      "globalIds": [
+        "location:villesData-3"
+      ],
+      "table": "villesData",
+      "index": 3,
+      "originalId": "tolbana"
+    },
+    {
+      "key": "location:1:virelune",
+      "globalIds": [
+        "location:villesData-4"
+      ],
+      "table": "villesData",
+      "index": 4,
+      "originalId": "virelune"
+    },
+    {
+      "key": "location:1:valhat",
+      "globalIds": [
+        "location:villesData-5"
+      ],
+      "table": "villesData",
+      "index": 5,
+      "originalId": "valhat"
+    },
+    {
+      "key": "location:1:donjon-geldorak",
+      "globalIds": [
+        "location:donjonsData-0"
+      ],
+      "table": "donjonsData",
+      "index": 0,
+      "originalId": "donjon-geldorak"
+    },
+    {
+      "key": "location:1:donjon-ruine",
+      "globalIds": [
+        "location:donjonsData-1"
+      ],
+      "table": "donjonsData",
+      "index": 1,
+      "originalId": "donjon-ruine"
+    },
+    {
+      "key": "location:1:donjon-labyrinthe",
+      "globalIds": [
+        "location:donjonsData-2"
+      ],
+      "table": "donjonsData",
+      "index": 2,
+      "originalId": "donjon-labyrinthe"
+    },
+    {
+      "key": "location:1:donjon-xalzirith",
+      "globalIds": [
+        "location:donjonsData-3"
+      ],
+      "table": "donjonsData",
+      "index": 3,
+      "originalId": "donjon-xalzirith"
+    },
+    {
+      "key": "location:1:donjon-kobold",
+      "globalIds": [
+        "location:donjonsData-4"
+      ],
+      "table": "donjonsData",
+      "index": 4,
+      "originalId": "donjon-kobold"
+    },
+    {
+      "key": "location:1:marchand-depart",
+      "globalIds": [
+        "npc:marchandsData-0"
+      ],
+      "table": "marchandsData",
+      "index": 0,
+      "originalId": "marchand-depart"
+    },
+    {
+      "key": "location:1:marchand-outils",
+      "globalIds": [
+        "npc:marchandsData-1"
+      ],
+      "table": "marchandsData",
+      "index": 1,
+      "originalId": "marchand-outils"
+    },
+    {
+      "key": "location:1:forgeron-armure-depart",
+      "globalIds": [
+        "npc:marchandsData-2"
+      ],
+      "table": "marchandsData",
+      "index": 2,
+      "originalId": "forgeron-armure-depart"
+    },
+    {
+      "key": "location:1:forgeron-arme-depart",
+      "globalIds": [
+        "npc:marchandsData-3"
+      ],
+      "table": "marchandsData",
+      "index": 3,
+      "originalId": "forgeron-arme-depart"
+    },
+    {
+      "key": "location:1:marchand-mizunari",
+      "globalIds": [
+        "npc:marchandsData-4"
+      ],
+      "table": "marchandsData",
+      "index": 4,
+      "originalId": "marchand-mizunari"
+    },
+    {
+      "key": "location:1:marchand-tolbana",
+      "globalIds": [
+        "npc:marchandsData-5"
+      ],
+      "table": "marchandsData",
+      "index": 5,
+      "originalId": "marchand-tolbana"
+    },
+    {
+      "key": "location:1:marchand-donjon-ruine",
+      "globalIds": [
+        "npc:marchandsData-6"
+      ],
+      "table": "marchandsData",
+      "index": 6,
+      "originalId": "marchand-donjon-ruine"
+    },
+    {
+      "key": "location:1:forgeron-arme-tolbana",
+      "globalIds": [
+        "npc:marchandsData-7"
+      ],
+      "table": "marchandsData",
+      "index": 7,
+      "originalId": "forgeron-arme-tolbana"
+    },
+    {
+      "key": "location:1:forgeron-armure-tolbana",
+      "globalIds": [
+        "npc:marchandsData-8"
+      ],
+      "table": "marchandsData",
+      "index": 8,
+      "originalId": "forgeron-armure-tolbana"
+    },
+    {
+      "key": "location:1:forgeron-donjon",
+      "globalIds": [
+        "npc:marchandsData-9"
+      ],
+      "table": "marchandsData",
+      "index": 9,
+      "originalId": "forgeron-donjon"
+    },
+    {
+      "key": "location:1:zone-sanglier",
+      "globalIds": [
+        "location:monstresData-0"
+      ],
+      "table": "monstresData",
+      "index": 0,
+      "originalId": "zone-sanglier"
+    },
+    {
+      "key": "location:1:vallee-loups",
+      "globalIds": [
+        "location:monstresData-1"
+      ],
+      "table": "monstresData",
+      "index": 1,
+      "originalId": "vallee-loups"
+    },
+    {
+      "key": "location:1:ruines-maudites",
+      "globalIds": [
+        "location:monstresData-2"
+      ],
+      "table": "monstresData",
+      "index": 2,
+      "originalId": "ruines-maudites"
+    },
+    {
+      "key": "location:1:archipel-ika",
+      "globalIds": [
+        "location:monstresData-3"
+      ],
+      "table": "monstresData",
+      "index": 3,
+      "originalId": "archipel-ika"
+    },
+    {
+      "key": "location:1:montagnes-bandits",
+      "globalIds": [
+        "location:monstresData-4"
+      ],
+      "table": "monstresData",
+      "index": 4,
+      "originalId": "montagnes-bandits"
+    },
+    {
+      "key": "location:1:bois-sacree",
+      "globalIds": [
+        "location:monstresData-5"
+      ],
+      "table": "monstresData",
+      "index": 5,
+      "originalId": "bois-sacree"
+    },
+    {
+      "key": "location:1:marecage-putride",
+      "globalIds": [
+        "location:monstresData-6"
+      ],
+      "table": "monstresData",
+      "index": 6,
+      "originalId": "marecage-putride"
+    },
+    {
+      "key": "location:1:champ-nephantes",
+      "globalIds": [
+        "location:monstresData-7"
+      ],
+      "table": "monstresData",
+      "index": 7,
+      "originalId": "champ-nephantes"
+    },
+    {
+      "key": "location:1:foret-noir",
+      "globalIds": [
+        "location:monstresData-8"
+      ],
+      "table": "monstresData",
+      "index": 8,
+      "originalId": "foret-noir"
+    },
+    {
+      "key": "location:1:atlantide",
+      "globalIds": [
+        "location:monstresData-9"
+      ],
+      "table": "monstresData",
+      "index": 9,
+      "originalId": "atlantide"
+    },
+    {
+      "key": "location:1:montagne-cerfs",
+      "globalIds": [
+        "location:monstresData-10"
+      ],
+      "table": "monstresData",
+      "index": 10,
+      "originalId": "montagne-cerfs"
+    },
+    {
+      "key": "location:1:citadelle-glace",
+      "globalIds": [
+        "location:monstresData-11"
+      ],
+      "table": "monstresData",
+      "index": 11,
+      "originalId": "citadelle-glace"
+    },
+    {
+      "key": "npc:2:maitre-epeiste",
+      "globalIds": [
+        "npc:2-maitre epeiste"
+      ]
+    },
+    {
+      "key": "npc:2:elyra",
+      "globalIds": [
+        "npc:2-elyra"
+      ]
+    },
+    {
+      "key": "npc:2:artheon",
+      "globalIds": [
+        "npc:2-artheon"
+      ]
+    },
+    {
+      "key": "npc:2:bantu",
+      "globalIds": [
+        "npc:2-bantu"
+      ]
+    },
+    {
+      "key": "npc:2:kwabena",
+      "globalIds": [
+        "npc:2-kwabena"
+      ]
+    },
+    {
+      "key": "npc:2:kwabeno",
+      "globalIds": [
+        "npc:2-kwabeno"
+      ]
+    },
+    {
+      "key": "npc:2:fanny",
+      "globalIds": [
+        "npc:2-fanny"
+      ]
+    },
+    {
+      "key": "npc:2:minutiare",
+      "globalIds": [
+        "npc:2-minutiare"
+      ]
+    },
+    {
+      "key": "npc:2:shii",
+      "globalIds": [
+        "npc:2-shii"
+      ]
+    },
+    {
+      "key": "npc:2:charles",
+      "globalIds": [
+        "npc:2-charles"
+      ]
+    },
+    {
+      "key": "npc:2:ifa",
+      "globalIds": [
+        "npc:2-ifa"
+      ]
+    },
+    {
+      "key": "npc:2:bronn",
+      "globalIds": [
+        "npc:2-bronn"
+      ]
+    },
+    {
+      "key": "npc:2:statue",
+      "globalIds": [
+        "npc:2-statue"
+      ]
+    },
+    {
+      "key": "npc:2:ife",
+      "globalIds": [
+        "npc:2-ife"
+      ]
+    },
+    {
+      "key": "npc:2:sissou",
+      "globalIds": [
+        "npc:2-sissou"
+      ]
+    },
+    {
+      "key": "npc:2:frank",
+      "globalIds": [
+        "npc:2-frank"
+      ]
+    },
+    {
+      "key": "npc:2:poris",
+      "globalIds": [
+        "npc:2-poris"
+      ]
+    },
+    {
+      "key": "npc:2:chasseur-de-dragon",
+      "globalIds": [
+        "npc:2-chasseur de dragon"
+      ]
+    },
+    {
+      "key": "npc:2:itamii",
+      "globalIds": [
+        "npc:2-itamii"
+      ]
+    },
+    {
+      "key": "npc:2:baraka",
+      "globalIds": [
+        "npc:2-baraka"
+      ]
+    },
+    {
+      "key": "npc:2:mansa",
+      "globalIds": [
+        "npc:2-mansa"
+      ]
+    },
+    {
+      "key": "npc:2:nora",
+      "globalIds": [
+        "npc:2-nora"
+      ]
+    },
+    {
+      "key": "npc:2:samaeltvs",
+      "globalIds": [
+        "npc:2-samaeltvs"
+      ]
+    },
+    {
+      "key": "npc:2:elyen",
+      "globalIds": [
+        "npc:2-elyen"
+      ]
+    },
+    {
+      "key": "npc:2:havca",
+      "globalIds": [
+        "npc:2-havca"
+      ]
+    },
+    {
+      "key": "npc:2:yuko",
+      "globalIds": [
+        "npc:2-yuko"
+      ]
+    }
+  ],
+  "coordinateNotes": [
+    "P1 and P2 preserve game X/Z and use Leaflet [5121-Z,X].",
+    "Creature position is always null; a positionRef only indicates the documented zone, never a spawn.",
+    "HTML guide coordinates are retained independently of legacy quest coordinates. Evidence is recorded in sources.",
+    "NPC coordinates are references to existing guides/quests. Conflicting evidence has no unique positionRef.",
+    "P3 uses the actual 1274×1513 image extent and has no game coordinate reference or entity."
+  ]
+}

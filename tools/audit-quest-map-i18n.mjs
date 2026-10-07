@@ -7,6 +7,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+import {createRequire} from 'node:module';
+const require = createRequire(import.meta.url);
+const ts = require('typescript');
 
 const root = path.resolve(import.meta.dirname, '..');
 const read = (relative) => fs.readFileSync(path.join(root, relative), 'utf8');
@@ -103,34 +106,30 @@ for (const source of reviewedAttributes) assertReviewed(source, 'HTML attribute'
 
 const mapSource = read('js/map.js');
 const mapDataValues = new Set();
-for (const field of ['name', 'description', 'npc']) {
-    const expression = new RegExp(`\\b${field}\\s*:\\s*(['"])((?:\\\\.|(?!\\1).)*)\\1`, 'g');
-    let match;
-    while ((match = expression.exec(mapSource))) {
-        try {
-            mapDataValues.add(vm.runInNewContext(match[1] + match[2] + match[1]));
-        } catch { /* Invalid/non-literal values are outside this data audit. */ }
+for (const table of Object.values(JSON.parse(read('data/map-source.json')))) {
+    if (!Array.isArray(table)) continue;
+    for (const point of table) for (const field of ['name', 'description', 'npc']) {
+        if (point[field]) mapDataValues.add(point[field]);
     }
 }
-for (const source of mapDataValues) assertReviewed(source, 'js/map.js data');
+for (const source of mapDataValues) assertReviewed(source, 'data/map-source.json');
 
-const mapRuntimeText = [
-    'Quête ciblée', 'Cliquez ailleurs pour fermer', 'Carte chargée avec succès',
-    'Coordonnées pixel:', 'Précision: Standard', 'ULTRA-PRÉCISION (Pixel parfait)',
-    'HAUTE PRÉCISION (Millième)', 'PRÉCISION FINE (Centième)',
-    'PRÉCISION NORMALE (Dixième)', 'PRÉCISION STANDARD', 'Terre Inconnue',
-    'Quadrant Nord-Ouest', 'Secteur Ouest', 'Quadrant Sud-Ouest', 'Secteur Nord',
-    'Centre - Palier 2', 'Secteur Sud', 'Quadrant Nord-Est', 'Secteur Est',
-    'Quadrant Sud-Est', 'Terres du Nord-Ouest', 'Plaines Centrales Ouest',
-    'Terres du Sud-Ouest', 'Territoires du Nord', 'Cœur du Royaume',
-    'Terres du Sud', 'Terres du Nord-Est', 'Plaines Centrales Est',
-    'Terres du Sud-Est', 'Zone:', 'Zoom amélioré !',
-    'Utilisez la molette pour zoomer', 'ou les contrôles en haut à droite',
-    'Type:', 'Étape:', 'Position:', 'PNJ:', 'Quête Principale',
-    'Quête Secondaire', 'Quêtes à cet emplacement',
-    'Ville', 'Donjon', 'Marchand', 'Zone de Monstres'
-];
-for (const source of mapRuntimeText) assertReviewed(source, 'js/map.js runtime');
+// Runtime labels carry a reviewed FR/EN pair beside their use; do not require
+// the retired popup prose to remain in the new contextual panel.
+let runtimePairs = 0;
+for (const file of ['js/map.js', 'js/map-admin.js']) {
+    const ast = ts.createSourceFile(file, read(file), ts.ScriptTarget.Latest, true);
+    const visit = node => {
+        if (ts.isCallExpression(node) && node.expression.getText(ast) === 'text'
+            && node.arguments.length === 2 && node.arguments.every(ts.isStringLiteral)) {
+            runtimePairs++;
+            if (!node.arguments[0].text.trim() || !node.arguments[1].text.trim()) errors.push(file + ': empty bilingual runtime label');
+        }
+        ts.forEachChild(node, visit);
+    };
+    visit(ast);
+}
+if (runtimePairs < 45) errors.push('Map bilingual runtime labels are missing.');
 
 const forbiddenEnglish = /Master Epistle|Contact details|\bDonjon\b|\bPalier\b|\bPlums?\b|\bSpices\b|\bArteon\b|\bVirlon\b|Scale \d selected|Frossed|Corrected Plums|Skin Thickness|\bWin \d/i;
 for (const source of new Set([...reviewedKeys, ...mapDataValues])) {
@@ -143,9 +142,6 @@ for (const source of new Set([...reviewedKeys, ...mapDataValues])) {
 if (/setView\([^;]+,\s*4\s*\)/s.test(mapSource)) {
     errors.push('js/map.js still contains a forced search/quest zoom level of 4.');
 }
-if (!mapSource.includes('focusMapLocation([lat, lng])') || !mapSource.includes('focusMapLocation(leafletCoords)')) {
-    errors.push('Both map focus paths must use focusMapLocation().');
-}
 if (/<(?:strong|button)[^>]*>[⭐📜📋📍🏹🏰⚔️💰👹]/u.test(mapSource)) {
     errors.push('An emoji is still fused to translatable popup text.');
 }
@@ -155,5 +151,5 @@ if (errors.length) {
     errors.forEach((error) => console.error(`- ${error}`));
     process.exitCode = 1;
 } else {
-    console.log(`Quest/map i18n audit passed: ${extractVisibleHtml('pages/quetes.html').size} quest-page strings, ${extractVisibleHtml('pages/map.html').size} map-page strings and ${mapDataValues.size} map data values explicitly reviewed.`);
+    console.log(`Quest/map i18n audit passed: ${extractVisibleHtml('pages/quetes.html').size} quest-page strings, ${extractVisibleHtml('pages/map.html').size} map-page strings, ${mapDataValues.size} source data values and ${runtimePairs} bilingual runtime labels reviewed.`);
 }

@@ -1,0 +1,1527 @@
+{
+  "floorMaps": {
+    "1": "../assets/carte.webp",
+    "2": "../assets/Palier2-map.webp",
+    "3": "../assets/Palier3-map.webp"
+  },
+  "floorConfig": {
+    "1": {
+      "bounds": [
+        [
+          85,
+          85
+        ],
+        [
+          5036,
+          5036
+        ]
+      ],
+      "maxBounds": [
+        [
+          -1000,
+          -1000
+        ],
+        [
+          6120,
+          6120
+        ]
+      ],
+      "coordOffset": {
+        "x": 0,
+        "z": 5121
+      },
+      "center": [
+        2560,
+        2560
+      ]
+    },
+    "2": {
+      "bounds": [
+        [
+          3842,
+          -1059
+        ],
+        [
+          6180,
+          1059
+        ]
+      ],
+      "maxBounds": [
+        [
+          3300,
+          -1500
+        ],
+        [
+          6700,
+          1500
+        ]
+      ],
+      "coordOffset": {
+        "x": 0,
+        "z": 5121
+      },
+      "center": [
+        5121,
+        0
+      ]
+    },
+    "3": {
+      "bounds": [
+        [
+          0,
+          0
+        ],
+        [
+          2000,
+          2000
+        ]
+      ],
+      "maxBounds": [
+        [
+          -500,
+          -500
+        ],
+        [
+          2500,
+          2500
+        ]
+      ],
+      "coordOffset": {
+        "x": 0,
+        "z": 0
+      },
+      "center": [
+        1000,
+        1000
+      ]
+    }
+  },
+  "questDataFloor2": [
+    {
+      "id": "floor2-quest-1",
+      "name": "Parler au Maître Épéiste",
+      "type": "principale",
+      "step": 1,
+      "coordinates": [
+        -40,
+        -888
+      ],
+      "npc": "Maître Épéiste",
+      "description": "Commencez votre aventure au Palier 2"
+    },
+    {
+      "id": "floor2-quest-2",
+      "name": "Trouver Artheon à Urbus",
+      "type": "principale",
+      "step": 2,
+      "coordinates": [
+        10,
+        -666
+      ],
+      "npc": "Elyra",
+      "description": "Coordonnées d'Artheon : X: 133, Z: -375, Y: 140"
+    },
+    {
+      "id": "floor2-quest-3",
+      "name": "Tuer 20 Taureaux",
+      "type": "principale",
+      "step": 3,
+      "coordinates": [
+        133,
+        -375
+      ],
+      "npc": "Artheon",
+      "description": "Éliminez 20 taureaux dans la zone"
+    },
+    {
+      "id": "floor2-quest-4",
+      "name": "Parler à Bantu",
+      "type": "principale",
+      "step": 4,
+      "coordinates": [
+        133,
+        -375
+      ],
+      "npc": "Artheon",
+      "description": "Rendez-vous auprès de Bantu"
+    },
+    {
+      "id": "floor2-quest-5",
+      "name": "Tuer 25 Loups",
+      "type": "principale",
+      "step": 5,
+      "coordinates": [
+        -586,
+        -255
+      ],
+      "npc": "Bantu",
+      "description": "Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146"
+    },
+    {
+      "id": "floor2-quest-6",
+      "name": "Obtenir 10 Planches d'Acacia et 1 Lingot d'Onyx Pur",
+      "type": "principale",
+      "step": 6,
+      "coordinates": [
+        -437,
+        -441
+      ],
+      "npc": "Kwabena",
+      "description": "Rassemblez les matériaux demandés"
+    },
+    {
+      "id": "floor2-quest-7",
+      "name": "Parler à Kwabeno",
+      "type": "principale",
+      "step": 7,
+      "coordinates": [
+        -427,
+        -427
+      ],
+      "npc": "Kwabeno",
+      "description": "Discutez avec Kwabeno"
+    },
+    {
+      "id": "floor2-quest-8",
+      "name": "Obtenir 10 Écailles Fulgurantes et 10 Cornes de Taureaux",
+      "type": "principale",
+      "step": 8,
+      "coordinates": [
+        -427,
+        -427
+      ],
+      "npc": "Kwabeno",
+      "description": "Collectez les matériaux rares"
+    },
+    {
+      "id": "floor2-quest-9",
+      "name": "Contacter Yaa",
+      "type": "principale",
+      "step": 9,
+      "coordinates": [
+        743,
+        -259
+      ],
+      "npc": "Fanny",
+      "description": "Établissez le contact avec Yaa"
+    },
+    {
+      "id": "floor2-secondary-1",
+      "name": "Obtenir 15 Peaux de Sangliers et 15 Peau Épaisse",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        695,
+        -277
+      ],
+      "npc": "Minutiare",
+      "description": "Collectez les peaux demandées pour Minutiare"
+    },
+    {
+      "id": "floor2-secondary-2",
+      "name": "Obtenir 10 Minerais d'Onyx Impur",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        725,
+        -302
+      ],
+      "npc": "Shii",
+      "description": "Récupérez les minerais d'onyx impur pour Shii"
+    },
+    {
+      "id": "floor2-secondary-3",
+      "name": "Obtenir 30 Minerais de Bauxite",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        116,
+        -307
+      ],
+      "npc": "Charles",
+      "description": "Collectez 30 minerais de bauxite pour Charles"
+    },
+    {
+      "id": "floor2-secondary-4",
+      "name": "Obtenir 4 Plumes Enflammées, 4 Plumes Ondoyantes, 4 Plumes Terreuses",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        111,
+        -391
+      ],
+      "npc": "Ifa",
+      "description": "Collectez les différentes plumes élémentaires pour Ifa"
+    },
+    {
+      "id": "floor2-quest-10",
+      "name": "Obtenir 20 Bûches d'Acacia et 20 Bûches de Chêne",
+      "type": "principale",
+      "step": 10,
+      "coordinates": [
+        638,
+        -267
+      ],
+      "npc": "Bronn",
+      "description": "Collectez les bûches pour Bronn"
+    },
+    {
+      "id": "floor2-quest-11",
+      "name": "Obtenir 20 Planches d'Acacia et 20 Planches de Chêne",
+      "type": "principale",
+      "step": 11,
+      "coordinates": [
+        638,
+        -267
+      ],
+      "npc": "Bronn",
+      "description": "Fabriquez les planches pour Bronn"
+    },
+    {
+      "id": "floor2-quest-12",
+      "name": "Obtenir 20 Planches de Chêne, 20 Planches d'Acacia et 10 Bûches de Bouleau",
+      "type": "principale",
+      "step": 12,
+      "coordinates": [
+        638,
+        -267
+      ],
+      "npc": "Bronn",
+      "description": "Dernière livraison pour Bronn"
+    },
+    {
+      "id": "floor2-quest-13",
+      "name": "Parler à la Statue de Yaa",
+      "type": "principale",
+      "step": 13,
+      "coordinates": [
+        740,
+        -255
+      ],
+      "npc": "Statue",
+      "description": "Parlez à la Statue de Yaa"
+    },
+    {
+      "id": "floor2-secondary-5",
+      "name": "Obtenir 6 Fourrures de Loup et 6 Peaux d'Ours",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        106,
+        -383
+      ],
+      "npc": "Ife",
+      "description": "Collectez les fourrures et peaux pour Ife"
+    },
+    {
+      "id": "floor2-secondary-6",
+      "name": "Vaincre 30 Harpies de Feu / Foudre",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -434,
+        271
+      ],
+      "npc": "Sissou",
+      "description": "Éliminez les harpies pour Sissou"
+    },
+    {
+      "id": "floor2-secondary-7",
+      "name": "Vaincre 5 Harpie de Feu, 5 Harpie de Foudre, 5 Harpie de Terre",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -486,
+        268
+      ],
+      "npc": "Frank",
+      "description": "Éliminez les différentes harpies pour Frank"
+    },
+    {
+      "id": "floor2-secondary-8",
+      "name": "Vaincre 50 Harpies de Terre",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -431,
+        280
+      ],
+      "npc": "Poris",
+      "description": "Éliminez 50 harpies de terre pour Poris"
+    },
+    {
+      "id": "floor2-secondary-9",
+      "name": "Vaincre les 4 Boss: Gardien du Sanctuaire, Rugiboeuf, Velindra, Magnus Colosse",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -204,
+        -688
+      ],
+      "npc": "Chasseur de Dragon",
+      "description": "Vaincre dans l'ordre: 1 Gardien du Sanctuaire, 1 Rugiboeuf le Gardien, 1 Velindra la Tisseuse, 1 Magnus Colosse de Veines"
+    },
+    {
+      "id": "floor2-secondary-10",
+      "name": "Retrouver Relax le chat",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -554,
+        -263
+      ],
+      "npc": "Itamii",
+      "description": "Retrouvez Relax le chat pour Itamii"
+    },
+    {
+      "id": "floor2-secondary-11",
+      "name": "Obtenir 10 Miel",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -576,
+        -256
+      ],
+      "npc": "Baraka",
+      "description": "Collectez du miel pour Baraka"
+    },
+    {
+      "id": "floor2-secondary-12",
+      "name": "Obtenir 15 Oeufs d'Harpie d'Eau et 10 Graisse d'Ours",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -564,
+        -255
+      ],
+      "npc": "Mansa",
+      "description": "Collectez les ingrédients pour Mansa"
+    },
+    {
+      "id": "floor2-secondary-13",
+      "name": "Obtenir 3 Plumes Corrompues",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -587,
+        -245
+      ],
+      "npc": "Nora",
+      "description": "Collectez les plumes corrompues pour Nora"
+    },
+    {
+      "id": "floor2-secondary-14",
+      "name": "Vaincre 30 Squelettes dans le Sanctuaire de Keshûn",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -42,
+        205
+      ],
+      "npc": "SamaelTVS",
+      "description": "Éliminez les squelettes pour SamaelTVS"
+    },
+    {
+      "id": "floor2-secondary-15",
+      "name": "Obtenir 1 Sac de Toile, 1 Anneau sans nom, 1 Carnet Froissé",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        620,
+        -566
+      ],
+      "npc": "Elyen",
+      "description": "Collectez les objets mystérieux pour Elyen"
+    },
+    {
+      "id": "floor2-secondary-16",
+      "name": "Obtenir Champignogno et 2 Herbes Parfumées",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        -160,
+        10
+      ],
+      "npc": "Havca",
+      "description": "Collectez les ingrédients pour Havca"
+    },
+    {
+      "id": "floor2-quest-16",
+      "name": "Obtenir 30 Bûches de Chêne, 10 Fourrures de Loup, 20 Minerais de Charbon",
+      "type": "principale",
+      "step": 16,
+      "coordinates": [
+        -611,
+        -247
+      ],
+      "npc": "Yuko",
+      "description": "Collectez les ressources pour Yuko"
+    }
+  ],
+  "questData": [
+    {
+      "id": "quest-1",
+      "name": "Parler au Maître Épéiste",
+      "type": "principale",
+      "step": 1,
+      "coordinates": [
+        1805,
+        4294
+      ],
+      "description": "Commencez votre aventure - Point de spawn"
+    },
+    {
+      "id": "quest-2",
+      "name": "Tuer 10 Sangliers",
+      "type": "principale",
+      "step": 2,
+      "coordinates": [
+        1797,
+        3633
+      ],
+      "description": "Zone de chasse aux sangliers"
+    },
+    {
+      "id": "quest-3",
+      "name": "Parler à Abraham",
+      "type": "principale",
+      "step": 3,
+      "coordinates": [
+        1808,
+        3649
+      ],
+      "description": "Abraham vous attend"
+    },
+    {
+      "id": "quest-4",
+      "name": "Parler à la Vieille Mara",
+      "type": "principale",
+      "step": 4,
+      "coordinates": [
+        1560,
+        3411
+      ],
+      "description": "Informations importantes"
+    },
+    {
+      "id": "quest-5",
+      "name": "Prendre la Rune",
+      "type": "principale",
+      "step": 5,
+      "coordinates": [
+        1421,
+        3092
+      ],
+      "description": "Rune mystérieuse"
+    },
+    {
+      "id": "quest-8-1",
+      "name": "Parler à Elma",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        3136,
+        3667
+      ],
+      "description": "Quête d'Elma - Mizunari"
+    },
+    {
+      "id": "quest-8-1-2",
+      "name": "Trouver Harrold",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        3326,
+        3787
+      ],
+      "description": "Harrold vous attend"
+    },
+    {
+      "id": "quest-8-1-5",
+      "name": "Maître Épéiste (Cathédrale)",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        1839,
+        4530
+      ],
+      "description": "Cathédrale"
+    },
+    {
+      "id": "quest-8-1-6",
+      "name": "Trouver Velka",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        2844,
+        2993
+      ],
+      "description": "CastelBrume"
+    },
+    {
+      "id": "quest-8-1-7",
+      "name": "Parler à Eric",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        2864,
+        4491
+      ],
+      "description": "Ruine Squelettique"
+    },
+    {
+      "id": "quest-8-1-9",
+      "name": "Téléporteur",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        2783,
+        4427
+      ],
+      "description": "Utilisez le téléporteur"
+    },
+    {
+      "id": "quest-8-1-10",
+      "name": "Spectre Archiviste",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        2940,
+        4476
+      ],
+      "description": "Saut requis"
+    },
+    {
+      "id": "quest-8-1-13",
+      "name": "Tuer Nasgul (Boss)",
+      "type": "principale",
+      "step": 8.1,
+      "coordinates": [
+        2821,
+        4439
+      ],
+      "description": "Boss de fin de branche"
+    },
+    {
+      "id": "quest-8-2-2",
+      "name": "Parler à Neko",
+      "type": "principale",
+      "step": 8.2,
+      "coordinates": [
+        4297,
+        3890
+      ],
+      "description": "Mine de Geldorak"
+    },
+    {
+      "id": "quest-13",
+      "name": "Homme Cagoulé",
+      "type": "principale",
+      "step": 13,
+      "coordinates": [
+        325,
+        3196
+      ],
+      "description": "Homme mystérieux"
+    },
+    {
+      "id": "quest-15",
+      "name": "Parler à Catherine",
+      "type": "principale",
+      "step": 15,
+      "coordinates": [
+        2380,
+        2417
+      ],
+      "description": "Labyrinthe"
+    },
+    {
+      "id": "quest-16",
+      "name": "Réparer le Sceau",
+      "type": "principale",
+      "step": 16,
+      "coordinates": [
+        3188,
+        4011
+      ],
+      "description": "Archipel d'Ika"
+    },
+    {
+      "id": "quest-17",
+      "name": "Ombre Mystérieuse",
+      "type": "principale",
+      "step": 17,
+      "coordinates": [
+        3188,
+        4011
+      ],
+      "description": "Entité mystérieuse"
+    },
+    {
+      "id": "quest-21",
+      "name": "Parler à Mephisto",
+      "type": "principale",
+      "step": 21,
+      "coordinates": [
+        3200,
+        1458
+      ],
+      "description": "Tolbana"
+    },
+    {
+      "id": "quest-22",
+      "name": "Rapport à Wali",
+      "type": "principale",
+      "step": 22,
+      "coordinates": [
+        3198,
+        1501
+      ],
+      "description": "Retour à Wali"
+    },
+    {
+      "id": "quest-23",
+      "name": "Parler à Emy",
+      "type": "principale",
+      "step": 23,
+      "coordinates": [
+        3233,
+        1484
+      ],
+      "description": "Livraison de ressources"
+    },
+    {
+      "id": "quest-26-1",
+      "name": "Parler à Ramoon",
+      "type": "principale",
+      "step": 26.1,
+      "coordinates": [
+        1590,
+        1972
+      ],
+      "description": "Virelune - Nouveau chapitre"
+    },
+    {
+      "id": "quest-26-2",
+      "name": "Parler à Malrik",
+      "type": "principale",
+      "step": 26.2,
+      "coordinates": [
+        3327,
+        1641
+      ],
+      "description": "Tolbana"
+    },
+    {
+      "id": "quest-27-1",
+      "name": "Parler à Virel",
+      "type": "principale",
+      "step": 27.1,
+      "coordinates": [
+        1539,
+        1995
+      ],
+      "description": "Virelune"
+    },
+    {
+      "id": "quest-28",
+      "name": "Suite avec Ramoon",
+      "type": "principale",
+      "step": 28,
+      "coordinates": [
+        1590,
+        1972
+      ],
+      "description": "Après Léviathan"
+    },
+    {
+      "id": "quest-29-1",
+      "name": "Parler à Silrix",
+      "type": "principale",
+      "step": 29.1,
+      "coordinates": [
+        1015,
+        1185
+      ],
+      "description": "Donjon Araignée Xal'Zirith"
+    },
+    {
+      "id": "secondary-varn",
+      "name": "Varn",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        2067,
+        4291
+      ],
+      "description": "4 Fourrures Loup, 2 Éclats Bois, 1 Os Squelette"
+    },
+    {
+      "id": "secondary-nacht",
+      "name": "Nacht",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1635,
+        4040
+      ],
+      "description": "1 Coeur de Bois, 10 Pousses de Sylves → 1 Pinceau Magique"
+    },
+    {
+      "id": "secondary-milla",
+      "name": "Milla",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        2207,
+        4187
+      ],
+      "description": "15 Fragments Feuilles, 2 Mycélium"
+    },
+    {
+      "id": "secondary-inari",
+      "name": "Inari",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1760,
+        4736
+      ],
+      "description": "Full armure Ika"
+    },
+    {
+      "id": "secondary-orin",
+      "name": "Orin",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1745,
+        4724
+      ],
+      "description": "5 Minerais Fer, 5 Corde Arc"
+    },
+    {
+      "id": "secondary-rikyu",
+      "name": "Rikyu",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1500,
+        4315
+      ],
+      "description": "25 Fragments Feuilles, 8 Fleur Allium"
+    },
+    {
+      "id": "secondary-bunta",
+      "name": "Bunta",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1500,
+        4328
+      ],
+      "description": "5 Éclats Bois, 5 Poussière Os, 3 Noyau Silme"
+    },
+    {
+      "id": "secondary-meiko",
+      "name": "Meiko",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1273,
+        4308
+      ],
+      "description": "5 Tissus Araignée, 3 Cuir Usé"
+    },
+    {
+      "id": "secondary-saria",
+      "name": "Saria",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1274,
+        4317
+      ],
+      "description": "50 Gelées Silme, 10 Minerais Fer"
+    },
+    {
+      "id": "secondary-tilda",
+      "name": "Tilda",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1883,
+        4010
+      ],
+      "description": "1 Arc Courbé"
+    },
+    {
+      "id": "secondary-lila",
+      "name": "Lila",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1878,
+        3992
+      ],
+      "description": "1 Cœur de Bois"
+    },
+    {
+      "id": "secondary-genzo",
+      "name": "Genzo",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1532,
+        3376
+      ],
+      "description": "6 Crocs Loup, 2 Éclats Bois - Hanaka"
+    },
+    {
+      "id": "secondary-bartok",
+      "name": "Bartok",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1526,
+        3377
+      ],
+      "description": "25 Peaux Sanglier, 25 Crocs Loup - Hanaka"
+    },
+    {
+      "id": "secondary-greta",
+      "name": "Greta",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1438,
+        3407
+      ],
+      "description": "15 Fleurs Allium, 5 Fils Araignée - Hanaka"
+    },
+    {
+      "id": "secondary-therra",
+      "name": "Sœur Therra",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1406,
+        3435
+      ],
+      "description": "20 Gelées Silme, 1 Essence Corbel - Hanaka"
+    },
+    {
+      "id": "secondary-toban",
+      "name": "Toban",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1356,
+        3441
+      ],
+      "description": "5 Écorces Titan, 2 Mycélium - Hanaka"
+    },
+    {
+      "id": "secondary-rina",
+      "name": "Rina",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1502,
+        3533
+      ],
+      "description": "4 Fleurs Allium, 2 Gelées Silme - Hanaka"
+    },
+    {
+      "id": "secondary-maya",
+      "name": "Maya",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1500,
+        3560
+      ],
+      "description": "8 Brindilles Enchantées, 2 Gelée Silme - Hanaka"
+    },
+    {
+      "id": "secondary-michelle",
+      "name": "Michelle",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3131,
+        3666
+      ],
+      "description": "10 Fragments Feuilles - Mizunari"
+    },
+    {
+      "id": "secondary-martine",
+      "name": "Martine",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3150,
+        3672
+      ],
+      "description": "16 Épis Sauvages - Mizunari"
+    },
+    {
+      "id": "secondary-elwyn",
+      "name": "Elwyn",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3111,
+        3703
+      ],
+      "description": "10 Écorces, 10 Brindilles, 3 Racines - Mizunari"
+    },
+    {
+      "id": "secondary-louise",
+      "name": "Louise",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3147,
+        3704
+      ],
+      "description": "10 Lingots Cuivre - Mizunari"
+    },
+    {
+      "id": "secondary-phares",
+      "name": "Phares",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3149,
+        3714
+      ],
+      "description": "20 Bloches Bois - Mizunari"
+    },
+    {
+      "id": "secondary-zebulgarath",
+      "name": "Zebulgarath",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        372,
+        2477
+      ],
+      "description": "3 Racines Ancestrales - Jardin des Géants"
+    },
+    {
+      "id": "secondary-saya",
+      "name": "Saya",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        492,
+        3028
+      ],
+      "description": "4 Tissus Spectral, 3 Brindilles - Valhatt"
+    },
+    {
+      "id": "secondary-ayaka",
+      "name": "Ayaka",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        479,
+        3013
+      ],
+      "description": "25 Pousses Sylves, 5 Mycélium - Valhatt"
+    },
+    {
+      "id": "secondary-daiki",
+      "name": "Daiki",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        430,
+        3046
+      ],
+      "description": "4 Peaux Sanglier, 2 Crocs Albal - Valhatt"
+    },
+    {
+      "id": "secondary-jean",
+      "name": "Jean",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3225,
+        2891
+      ],
+      "description": "40 Bloches Chêne, 20 Minerais Fer - Camp Militaire"
+    },
+    {
+      "id": "secondary-corentin",
+      "name": "Corentin",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3291,
+        2905
+      ],
+      "description": "64 Bloches Chêne - Camp Militaire"
+    },
+    {
+      "id": "secondary-fira",
+      "name": "Fira",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3396,
+        2947
+      ],
+      "description": "1 Éclat Glacial, 3 Poussières Os - Camp Militaire"
+    },
+    {
+      "id": "secondary-yannis",
+      "name": "Yannis",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        2014,
+        834
+      ],
+      "description": "32 Bûches bois - Candelia"
+    },
+    {
+      "id": "secondary-gilmar",
+      "name": "Gilmar",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1959,
+        791
+      ],
+      "description": "10 Éclats Glacial, 5 Fragments Violet - Candelia"
+    },
+    {
+      "id": "secondary-tomoko",
+      "name": "Tomoko",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1955,
+        814
+      ],
+      "description": "20 Écorce Sylvestre, 5 Racines - Candelia"
+    },
+    {
+      "id": "secondary-pierre",
+      "name": "Pierre",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        2018,
+        877
+      ],
+      "description": "20 Buches Bois - Candelia"
+    },
+    {
+      "id": "secondary-romeo",
+      "name": "Roméo",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1991,
+        832
+      ],
+      "description": "16 Peaux Cerf Montagnes - Candelia"
+    },
+    {
+      "id": "secondary-emilie",
+      "name": "Émilie",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1984,
+        753
+      ],
+      "description": "20 Épis Blé - Candelia"
+    },
+    {
+      "id": "secondary-juliette",
+      "name": "Juliette",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1565,
+        1968
+      ],
+      "description": "16 Bûches Chêne, 16 Bûches Bouleau - Virelune"
+    },
+    {
+      "id": "secondary-luc",
+      "name": "Luc",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1624,
+        1852
+      ],
+      "description": "3 Pioches Félés - Virelune"
+    },
+    {
+      "id": "secondary-sam",
+      "name": "Sam",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1600,
+        2006
+      ],
+      "description": "Tuer 20 Araignées - Virelune"
+    },
+    {
+      "id": "secondary-monique",
+      "name": "Monique",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1563,
+        2000
+      ],
+      "description": "Tuer 10 Requins - Virelune"
+    },
+    {
+      "id": "secondary-gilbert",
+      "name": "Gilbert",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1700,
+        1018
+      ],
+      "description": "15 Tissus Spectral - SVF"
+    },
+    {
+      "id": "secondary-horace",
+      "name": "Horace",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        3084,
+        1913
+      ],
+      "description": "12 Cuirs Usé, 8 Peaux Cerf - SVF"
+    },
+    {
+      "id": "secondary-haruto",
+      "name": "Haruto",
+      "type": "secondaire",
+      "step": "S",
+      "coordinates": [
+        1868,
+        2112
+      ],
+      "description": "30 Gelées Silme, 25 Carapaces Requin - SVF"
+    }
+  ],
+  "villesData": [
+    {
+      "id": "ville-depart",
+      "name": "Ville de départ",
+      "coordinates": [
+        1800,
+        4297
+      ],
+      "description": "Point de départ de votre aventure"
+    },
+    {
+      "id": "hanaka",
+      "name": "Hanaka",
+      "coordinates": [
+        1531,
+        3423
+      ],
+      "description": "Ville prospère au cœur du royaume"
+    },
+    {
+      "id": "mizunari",
+      "name": "Mizunari",
+      "coordinates": [
+        3138,
+        3684
+      ],
+      "description": "Cité portuaire animée"
+    },
+    {
+      "id": "tolbana",
+      "name": "Tolbana",
+      "coordinates": [
+        3306,
+        1603
+      ],
+      "description": "Ville fortifiée du nord"
+    },
+    {
+      "id": "virelune",
+      "name": "Virelune",
+      "coordinates": [
+        1617,
+        1958
+      ],
+      "description": "Village mystique sous la lune"
+    },
+    {
+      "id": "valhat",
+      "name": "Valhat",
+      "coordinates": [
+        500,
+        3059
+      ],
+      "description": "Avant-poste de l'ouest"
+    }
+  ],
+  "donjonsData": [
+    {
+      "id": "donjon-geldorak",
+      "name": "Donjon de Geldorak",
+      "coordinates": [
+        4270,
+        3891
+      ],
+      "description": "Donjon redoutable gardé par Geldorak"
+    },
+    {
+      "id": "donjon-ruine",
+      "name": "Donjon Ruine",
+      "coordinates": [
+        2783,
+        4427
+      ],
+      "description": "Ruines anciennes pleines de mystères"
+    },
+    {
+      "id": "donjon-labyrinthe",
+      "name": "Donjon Le Labyrinthe",
+      "coordinates": [
+        2384,
+        2417
+      ],
+      "description": "Labyrinthe complexe et dangereux"
+    },
+    {
+      "id": "donjon-xalzirith",
+      "name": "Donjon de Xal'Zirith",
+      "coordinates": [
+        1015,
+        1185
+      ],
+      "description": "Donjon sombre de Xal'Zirith"
+    },
+    {
+      "id": "donjon-kobold",
+      "name": "Donjon Kobold",
+      "coordinates": [
+        3412,
+        1080
+      ],
+      "description": "Territoire des Kobolds agressifs"
+    }
+  ],
+  "marchandsData": [
+    {
+      "id": "marchand-depart",
+      "name": "Marchand de départ",
+      "coordinates": [
+        1788,
+        4162
+      ],
+      "description": "Marchand général pour les débutants"
+    },
+    {
+      "id": "marchand-outils",
+      "name": "Marchand d'outils",
+      "coordinates": [
+        1812,
+        4162
+      ],
+      "description": "Spécialisé dans les outils et équipements"
+    },
+    {
+      "id": "forgeron-armure-depart",
+      "name": "Forgeron d'armure",
+      "coordinates": [
+        1764,
+        4126
+      ],
+      "description": "Forge des armures de qualité"
+    },
+    {
+      "id": "forgeron-arme-depart",
+      "name": "Forgeron d'arme",
+      "coordinates": [
+        1775,
+        4134
+      ],
+      "description": "Maître forgeron d'armes"
+    },
+    {
+      "id": "marchand-mizunari",
+      "name": "Marchand de Mizunari",
+      "coordinates": [
+        3130,
+        3703
+      ],
+      "description": "Marchand de la cité portuaire"
+    },
+    {
+      "id": "marchand-tolbana",
+      "name": "Marchand de Tolbana",
+      "coordinates": [
+        3317,
+        1640
+      ],
+      "description": "Marchand de la ville fortifiée"
+    },
+    {
+      "id": "marchand-donjon-ruine",
+      "name": "Marchand Donjon Ruine",
+      "coordinates": [
+        2833,
+        4707
+      ],
+      "description": "Marchand près des ruines"
+    },
+    {
+      "id": "forgeron-arme-tolbana",
+      "name": "Forgeron d'arme",
+      "coordinates": [
+        3236,
+        1483
+      ],
+      "description": "Forgeron d'armes de Tolbana"
+    },
+    {
+      "id": "forgeron-armure-tolbana",
+      "name": "Forgeron d'armure",
+      "coordinates": [
+        3236,
+        1483
+      ],
+      "description": "Forgeron d'armures de Tolbana"
+    },
+    {
+      "id": "forgeron-donjon",
+      "name": "Forgeron Donjon",
+      "coordinates": [
+        2413,
+        2375
+      ],
+      "description": "Forgeron spécialisé près du donjon"
+    }
+  ],
+  "monstresData": [
+    {
+      "id": "zone-sanglier",
+      "name": "Zone Sanglier",
+      "coordinates": [
+        1866,
+        3575
+      ],
+      "description": "Territoire des sangliers sauvages"
+    },
+    {
+      "id": "vallee-loups",
+      "name": "Vallée des Loups",
+      "coordinates": [
+        2504,
+        3815
+      ],
+      "description": "Vallée hantée par les loups"
+    },
+    {
+      "id": "ruines-maudites",
+      "name": "Ruines Maudites",
+      "coordinates": [
+        2825,
+        4450
+      ],
+      "description": "Ruines peuplées de créatures maudites"
+    },
+    {
+      "id": "archipel-ika",
+      "name": "Archipel d'Ika",
+      "coordinates": [
+        3304,
+        4105
+      ],
+      "description": "Îles mystérieuses d'Ika"
+    },
+    {
+      "id": "montagnes-bandits",
+      "name": "Montagnes des Bandits",
+      "coordinates": [
+        4152,
+        3910
+      ],
+      "description": "Repaire des bandits de montagne"
+    },
+    {
+      "id": "bois-sacree",
+      "name": "Bois Sacrée",
+      "coordinates": [
+        1287,
+        3155
+      ],
+      "description": "Forêt sacrée où apparaissent les Tréants"
+    },
+    {
+      "id": "marecage-putride",
+      "name": "Marécage putride",
+      "coordinates": [
+        299,
+        3200
+      ],
+      "description": "Marécage infecté et dangereux"
+    },
+    {
+      "id": "champ-nephantes",
+      "name": "Champ de Néphantes",
+      "coordinates": [
+        3374,
+        3763
+      ],
+      "description": "Champs hantés par les Néphantes"
+    },
+    {
+      "id": "foret-noir",
+      "name": "Forêt Noir",
+      "coordinates": [
+        1314,
+        1343
+      ],
+      "description": "Forêt sombre et menaçante"
+    },
+    {
+      "id": "atlantide",
+      "name": "Atlantide",
+      "coordinates": [
+        1369,
+        1940
+      ],
+      "description": "Cité engloutie d'Atlantide"
+    },
+    {
+      "id": "montagne-cerfs",
+      "name": "Montagne des Cerfs",
+      "coordinates": [
+        4109,
+        1133
+      ],
+      "description": "Montagnes paisibles des cerfs"
+    },
+    {
+      "id": "citadelle-glace",
+      "name": "Citadelle de Glace",
+      "coordinates": [
+        3995,
+        2012
+      ],
+      "description": "Forteresse de glace éternelle"
+    }
+  ]
+}

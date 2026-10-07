@@ -23,7 +23,7 @@
     <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../css/style.css?v=20261007a">
-    <link rel="stylesheet" href="../css/components/map.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/map.css?v=20261008map">
     <link rel="stylesheet" href="../css/components/page-hero.css?v=20261007a">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
     
@@ -46,7 +46,7 @@
     <meta name="twitter:title" content="Carte d'Aincrad — Nameless">
     <meta name="twitter:description" content="La carte interactive d'Aincrad — zones, donjons, quêtes, villes, marchands et monstres. Le territoire de la guilde Nameless.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/social-cover.jpg">
-    <link rel="stylesheet" href="../css/components/global-search.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261008map">
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -84,14 +84,14 @@
     </header>
 
     <!-- Contenu principal -->
-    <main id="main-content" class="map-container page-visual-shell map-visual-shell" role="main">
+    <main id="main-content" class="map-container" role="main">
         <div class="map-header">
-            <span class="nm-eyebrow">Territoire de la guilde</span>
             <h1 class="map-title">Carte d'Aincrad</h1>
-            <p class="map-subtitle">Zones, donjons, quêtes, villes, marchands et monstres — palier par palier.</p>
+            <p class="map-subtitle">Explorez les lieux et leurs quêtes, créatures et ressources.</p>
         </div>
         
-        <!-- Contrôles de la carte modernisés -->
+        <section id="map-workspace" class="map-workspace" aria-label="Carte interactive d'Aincrad">
+        <!-- La recherche et les filtres restent accessibles en plein écran. -->
         <section class="map-controls-container" aria-label="Contrôles de la carte">
             <!-- Barre de recherche -->
             <div class="map-search-container">
@@ -117,89 +117,35 @@
                     <option value="1">Palier 1</option>
                     <option value="2">Palier 2</option>
                     <option value="3">Palier 3</option>
-                    <option value="4" disabled>Palier 4 (Bientôt)</option>
-                    <option value="5" disabled>Palier 5 (Bientôt)</option>
                 </select>
             </div>
             
-            <!-- Panneau de contrôle des éléments -->
-            <div class="element-toggles" role="group" aria-labelledby="toggles-title">
-                <h2 class="toggles-title" id="toggles-title">Affichage des éléments</h2>
-                <div class="toggles-grid">
-                    <div class="toggle-item">
-                        <input type="checkbox" id="toggle-quetes-principales" checked>
-                        <label for="toggle-quetes-principales" class="toggle-label" title="Quêtes Principales">
-                            <div class="toggle-icon">
-                                <img src="../assets/map_assets/markers/Quetes-Principales.webp?v=20261007a" alt="" loading="lazy">
-                            </div>
-                            <span class="toggle-text">Quêtes Principales</span>
-                        </label>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <input type="checkbox" id="toggle-quetes-secondaires" checked>
-                        <label for="toggle-quetes-secondaires" class="toggle-label" title="Quêtes Secondaires">
-                            <div class="toggle-icon">
-                                <img src="../assets/map_assets/markers/Quetes-Secondaires.webp?v=20261007a" alt="" loading="lazy">
-                            </div>
-                            <span class="toggle-text">Quêtes Secondaires</span>
-                        </label>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <input type="checkbox" id="toggle-donjons" checked>
-                        <label for="toggle-donjons" class="toggle-label" title="Donjons">
-                            <div class="toggle-icon">
-                                <img src="../assets/map_assets/markers/Donjon.webp?v=20261007a" alt="" loading="lazy">
-                            </div>
-                            <span class="toggle-text">Donjons</span>
-                        </label>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <input type="checkbox" id="toggle-villes" checked>
-                        <label for="toggle-villes" class="toggle-label" title="Villes">
-                            <div class="toggle-icon">
-                                <img src="../assets/map_assets/markers/Ville.webp?v=20261007a" alt="" loading="lazy">
-                            </div>
-                            <span class="toggle-text">Villes</span>
-                        </label>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <input type="checkbox" id="toggle-monstres" checked>
-                        <label for="toggle-monstres" class="toggle-label" title="Monstres">
-                            <div class="toggle-icon">
-                                <img src="../assets/map_assets/markers/Monstre.webp?v=20261007a" alt="" loading="lazy">
-                            </div>
-                            <span class="toggle-text">Monstres</span>
-                        </label>
-                    </div>
-                    
-                    <div class="toggle-item">
-                        <input type="checkbox" id="toggle-marchands" checked>
-                        <label for="toggle-marchands" class="toggle-label" title="Marchands">
-                            <div class="toggle-icon">
-                                <img src="../assets/map_assets/markers/Marchand.webp?v=20261007a" alt="" loading="lazy">
-                            </div>
-                            <span class="toggle-text">Marchands</span>
-                        </label>
-                    </div>
-                    
-                    <!-- Mode édition (admin) -->
-                    <div class="toggle-item admin-only" style="display: none;">
-                        <button id="place-mode-btn" class="admin-toggle-btn" aria-label="Activer le mode édition">
-                            <div class="toggle-icon">✏️</div>
-                            <span class="toggle-text">Mode Édition</span>
-                        </button>
-                    </div>
-                </div>
+            <div class="map-actions">
+                <button id="map-recenter" type="button">Recentrer</button>
+                <button id="map-fullscreen" type="button" aria-pressed="false">Plein écran</button>
+                <button id="map-share" type="button">Partager</button>
             </div>
         </section>
-
-        <div class="map-wrapper" role="region" aria-label="Carte interactive d'Aincrad">
-            <div id="game-map" role="region" tabindex="0" aria-label="Carte du monde d'Aincrad"></div>
+        <div id="map-filters" class="map-filters" aria-label="Repères affichés"></div>
+        <details id="map-admin-tools" class="map-admin-container" hidden>
+            <summary>Édition de la carte</summary>
+            <div id="map-admin-host"></div>
+        </details>
+        <p id="map-route-status" class="map-route-status" role="status" hidden></p>
+        <div class="map-body">
+            <div class="map-wrapper">
+                <div id="game-map" role="region" tabindex="0" aria-label="Carte du monde d'Aincrad" aria-describedby="map-keyboard-help"></div>
+                <p id="map-keyboard-help" class="sr-only">Flèches pour déplacer la carte, plus et moins pour zoomer, zéro pour recentrer.</p>
+            </div>
+            <aside id="map-panel" class="map-panel" aria-label="Détails de la sélection" hidden>
+                <div class="map-panel-actions">
+                    <button id="map-panel-expand" type="button" aria-expanded="false">Voir plus</button>
+                    <button id="map-panel-close" type="button" aria-label="Fermer les détails">Fermer</button>
+                </div>
+                <div id="map-panel-content" class="map-panel-content"></div>
+            </aside>
         </div>
+        </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
@@ -218,7 +164,7 @@
     
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261007a" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261008map" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -229,9 +175,9 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/map.js?v=20261007a" defer></script>
+    <script src="../js/map.js?v=20261008map" defer></script>
     <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
     <script src="../js/audio-controller.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261007a" defer></script>
+    <script src="../js/global-search.js?v=20261008map" defer></script>
 </body>
 </html>
