@@ -7,23 +7,23 @@
     <title>Nameless | Guilde Minecraft sur SAO France</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, fiches boss, objets, quêtes et wiki pour préparer les sorties de la guilde.">
-    <meta name="keywords" content="Nameless, guilde, Minecraft, Aincrad, carte interactive, bestiaire, items, quêtes, wiki">
+    <meta name="description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, bestiaire, objets et wiki pour préparer les sorties de la guilde.">
+    <meta name="keywords" content="Nameless, guilde, Minecraft, Aincrad, carte interactive, bestiaire, items, wiki">
     <meta name="author" content="Nameless">
     <link rel="canonical" href="https://nameless-sao.fr/">
 
     <!-- Open Graph / Facebook -->
     <!-- Twitter -->
     <!-- Theme & Favicon -->
-    <meta name="theme-color" content="#05070d">
+    <meta name="theme-color" content="#030B12">
     <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg?v=20261008logo">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=20261008logo">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=20261008logo">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=20261008logo">
-    <meta name="msapplication-TileColor" content="#05070d">
+    <meta name="msapplication-TileColor" content="#030B12">
     <!-- Preconnect pour les performances -->
     <!-- Preload des ressources critiques -->
-    <link rel="preload" href="css/style.css?v=20261008logo" as="style">
+    <link rel="preload" href="css/style.css?v=20261008sao" as="style">
 
     <!-- Fonts : Cinzel (titres) + Inter (texte) -->
     <link rel="stylesheet" href="css/fonts.css?v=20261007a">
@@ -31,28 +31,30 @@
     <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css?v=20261008logo">
-    <link rel="stylesheet" href="css/nameless-effects.css?v=20261007a">
-    <link rel="stylesheet" href="css/components/audio-player.css?v=20261007a">
-    <link rel="stylesheet" href="css/components/home.css?v=20261007a">
+    <link rel="stylesheet" href="css/tokens.css?v=20261008sao">
+    <link rel="stylesheet" href="css/style.css?v=20261008sao">
+    <link rel="stylesheet" href="css/components/audio-player.css?v=20261008sao">
+    <link rel="stylesheet" href="css/components/mmorpg-kit.css?v=20261008sao">
+    <link rel="stylesheet" href="css/components/home.css?v=20261008sao">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Nameless">
     <meta property="og:url" content="https://nameless-sao.fr/">
     <meta property="og:title" content="Nameless | Guilde Minecraft sur SAO France">
-    <meta property="og:description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, fiches boss, objets, quêtes et wiki pour préparer les sorties de la guilde.">
+    <meta property="og:description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, bestiaire, objets et wiki pour préparer les sorties de la guilde.">
     <meta property="og:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <meta property="og:image:width" content="512">
     <meta property="og:image:height" content="512">
     <meta property="og:image:alt" content="Emblème Nameless : corbeau, croissant de lune et cercle doré">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Nameless | Guilde Minecraft sur SAO France">
-    <meta name="twitter:description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, fiches boss, objets, quêtes et wiki pour préparer les sorties de la guilde.">
+    <meta name="twitter:description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, bestiaire, objets et wiki pour préparer les sorties de la guilde.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="css/components/global-search.css?v=20261008map">
-    <link rel="preload" href="assets/brand/nameless-hero-boss.webp" as="image" fetchpriority="high" media="(min-width: 769px)">
-    <link rel="preload" href="assets/brand/nameless-hero-boss-mobile.webp" as="image" fetchpriority="high" media="(max-width: 768px)">
+    <link rel="stylesheet" href="css/components/global-search.css?v=20261008sao">
+    <link rel="preload" href="/assets/home/sao-city-1920.webp" imagesrcset="/assets/home/sao-city-1600.webp 1600w, /assets/home/sao-city-1920.webp 1920w" imagesizes="100vw" as="image" fetchpriority="high" media="(min-width: 769px)">
+    <link rel="preload" href="/assets/home/sao-city-mobile.webp" as="image" fetchpriority="high" media="(max-width: 480px)">
+    <link rel="preload" href="/assets/home/sao-city-960.webp" as="image" fetchpriority="high" media="(min-width: 481px) and (max-width: 768px)">
 </head>
 <body class="home-page">
     <!-- Effets d'ambiance sobres (Nameless) -->
@@ -70,21 +72,21 @@
         <nav class="nav-container" role="navigation" aria-label="Navigation principale">
             <div class="nav-logo-container">
                 <a href="/" aria-label="Nameless - Accueil">
-                    <img src="/assets/brand/nameless-emblem-128.webp?v=20261008logo" srcset="/assets/brand/nameless-emblem-128.webp?v=20261008logo 1x, /assets/brand/nameless-emblem-256.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="52" height="52" loading="eager" decoding="async">
+                    <img src="/assets/brand/nameless-emblem-64.webp?v=20261008sao" srcset="/assets/brand/nameless-emblem-64.webp?v=20261008sao 1x, /assets/brand/nameless-emblem-128.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="44" height="44" loading="eager" decoding="async">
+                    <span class="nav-wordmark">Nameless</span>
                 </a>
             </div>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="/" class="nav-link active" aria-current="page">Accueil</a></li>
+                <li><a href="/wiki" class="nav-link">Explorer</a></li>
                 <li><a href="/carte" class="nav-link">Carte</a></li>
                 <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
-                <li><a href="/items" class="nav-link">Items</a></li>
-                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
-                <li><a href="/wiki" class="nav-link">Wiki</a></li>
+                <li><a href="/items" class="nav-link">Objets</a></li>
+                <li><a href="/espace-guilde" class="nav-link">Guilde</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
                     <a href="/profil" id="username" class="username-link"></a>
-                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter"><svg class="logout-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H4v16h6M9 12h12m-5-5 5 5-5 5"></path></svg><span class="logout-label">Déconnexion</span></button>
                 </span>
                 <a href="/connexion" class="connexion-link" id="login-link">Connexion</a>
             </div>
@@ -97,140 +99,124 @@
     </header>
 
     <!-- Contenu principal -->
-    <main id="main-content" role="main">
-        <!-- Hero -->
-        <section class="hero hero--cinematic" aria-labelledby="hero-title">
-            <div class="hero-content">
-                <img src="/assets/brand/nameless-emblem-512.webp?v=20261008logo" srcset="/assets/brand/nameless-emblem-256.webp?v=20261008logo 256w, /assets/brand/nameless-emblem-512.webp?v=20261008logo 512w, /assets/brand/nameless-emblem-768.webp?v=20261008logo 768w" sizes="(max-width: 768px) 132px, 176px" class="brand-emblem brand-emblem--hero" width="176" height="176" alt="" loading="eager" decoding="async">
-                <h1 class="hero-title" id="hero-title">NAMELESS</h1>
-                <p class="hero-subtitle">Sans nom. Jamais seuls.</p>
-                <p class="hero-description">Nameless est une guilde Minecraft sur SAO France. Nous préparons les boss et progressons ensemble dans Aincrad. Retrouvez ici la carte, les quêtes, le bestiaire et les objets du serveur.</p>
-                <div class="hero-buttons">
-                    <a href="/wiki" class="hero-button primary">Consulter le wiki</a>
-                    <a href="/carte" class="hero-button secondary">Voir la carte</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Présentation courte -->
-        <section class="nm-section" aria-labelledby="intro-title">
-            <div class="container">
-                <span class="nm-eyebrow">Accès rapide</span>
-                <h2 class="section-title" id="intro-title">Trouver une information</h2>
-                <div class="nm-hairline" aria-hidden="true"></div>
-                <p class="nm-intro-inner">Ouvrez la recherche dans la navigation, ou utilisez Ctrl+K sur ordinateur. Cherchez un boss, un objet ou un PNJ et gardez les fiches utiles en favoris sur votre navigateur.</p>
-            </div>
-        </section>
-
-        <!-- Carrousel : découvrir le domaine -->
-        <section class="nm-section" aria-labelledby="showcase-title">
-            <div class="container">
-                <span class="nm-eyebrow">Les outils</span>
-                <h2 class="section-title" id="showcase-title">Préparer vos sorties</h2>
-                <div class="nm-hairline" aria-hidden="true"></div>
-
-                <div class="nm-carousel" data-carousel role="region" tabindex="0"
-                     aria-roledescription="carrousel" aria-label="Les outils de Nameless">
-                    <div class="nm-carousel-viewport">
-                        <ul class="nm-carousel-track" data-carousel-track>
-                            <li class="nm-slide" aria-label="1 sur 8" aria-hidden="false">
-                                <article class="nm-slide-card slide-boss">
-                                    <span class="nm-slide-tag">Boss de palier</span>
-                                    <h3 class="nm-slide-title">Illfang, seigneur des Kobolds</h3>
-                                    <p class="nm-slide-desc">600 PV, dans le donjon Kobold. Retrouvez les informations connues avant le combat.</p>
-                                    <a class="nm-slide-cta" href="/boss/illfang">Voir la fiche d'Illfang</a>
-                                </article>
-                            </li>
-                            <li class="nm-slide" aria-label="2 sur 8" aria-hidden="true" inert>
-                                <article class="nm-slide-card slide-map">
-                                    <span class="nm-slide-tag">Territoire</span>
-                                    <h3 class="nm-slide-title">La carte d'Aincrad</h3>
-                                    <p class="nm-slide-desc">Repérez les quêtes, les villes, les donjons et les marchands.</p>
-                                    <a class="nm-slide-cta" href="/carte">Ouvrir la carte</a>
-                                </article>
-                            </li>
-                            <li class="nm-slide" aria-label="3 sur 8" aria-hidden="true" inert>
-                                <article class="nm-slide-card slide-bestiaire">
-                                    <span class="nm-slide-tag">Codex</span>
-                                    <h3 class="nm-slide-title">Le bestiaire</h3>
-                                    <p class="nm-slide-desc">Points de vie, lieux et butins connus des boss, élites et créatures.</p>
-                                    <a class="nm-slide-cta" href="/bestiaire">Explorer le bestiaire</a>
-                                </article>
-                            </li>
-                            <li class="nm-slide" aria-label="4 sur 8" aria-hidden="true" inert>
-                                <article class="nm-slide-card slide-items">
-                                    <span class="nm-slide-tag">Objets</span>
-                                    <h3 class="nm-slide-title">Le catalogue d'items</h3>
-                                    <p class="nm-slide-desc">Objets, ressources et consommables : recherche par nom, catégorie et rareté.</p>
-                                    <a class="nm-slide-cta" href="/items">Parcourir les items</a>
-                                </article>
-                            </li>
-                            <li class="nm-slide" aria-label="5 sur 8" aria-hidden="true" inert>
-                                <article class="nm-slide-card slide-quetes">
-                                    <span class="nm-slide-tag">Progression</span>
-                                    <h3 class="nm-slide-title">Les quêtes</h3>
-                                    <p class="nm-slide-desc">Étapes, PNJ et coordonnées des quêtes principales et secondaires.</p>
-                                    <a class="nm-slide-cta" href="/quetes">Voir les quêtes</a>
-                                </article>
-                            </li>
-                            <li class="nm-slide" aria-label="6 sur 8" aria-hidden="true" inert>
-                                <article class="nm-slide-card slide-wiki">
-                                    <span class="nm-slide-tag">Archives</span>
-                                    <h3 class="nm-slide-title">Classes, métiers et règles</h3>
-                                    <p class="nm-slide-desc">Consultez les règles du serveur, les classes, les métiers et les donjons.</p>
-                                    <a class="nm-slide-cta" href="/wiki">Ouvrir le wiki</a>
-                                </article>
-                            </li>
-                            <li class="nm-slide" aria-label="7 sur 8" aria-hidden="true" inert>
-                                <article class="nm-slide-card slide-ensemble">
-                                    <span class="nm-slide-tag">Ensemble</span>
-                                    <h3 class="nm-slide-title">Organiser une sortie</h3>
-                                    <p class="nm-slide-desc">Membres connectés : planning, annonces, objectifs et messages de la guilde.</p>
-                                    <a class="nm-slide-cta" href="/espace-guilde">Accéder à l'espace guilde</a>
-                                </article>
-                            </li>
-                            <li class="nm-slide" aria-label="8 sur 8" aria-hidden="true" inert>
-                                <article class="nm-slide-card slide-recrutement">
-                                    <span class="nm-slide-tag">Recrutement</span>
-                                    <h3 class="nm-slide-title">Jouer avec Nameless</h3>
-                                    <p class="nm-slide-desc">Retrouvez la guilde sur Discord pour parler des prochaines sorties.</p>
-                                    <a class="nm-slide-cta" href="https://discord.gg/BwxjRmh6qK" target="_blank" rel="noopener noreferrer">Rejoindre Discord</a>
-                                </article>
-                            </li>
-                        </ul>
+    <main id="main-content" role="main" data-home>
+        <div class="home-shell">
+            <div class="home-arrival">
+                <section class="home-hero" aria-labelledby="hero-title">
+                    <picture class="home-hero-scene" aria-hidden="true">
+                        <source media="(max-width: 480px)" srcset="/assets/home/sao-city-mobile.webp">
+                        <source media="(max-width: 768px)" srcset="/assets/home/sao-city-960.webp">
+                        <img src="/assets/home/sao-city-1920.webp" srcset="/assets/home/sao-city-1600.webp 1600w, /assets/home/sao-city-1920.webp 1920w" sizes="100vw" width="1920" height="1009" alt="" fetchpriority="high" decoding="async">
+                    </picture>
+                    <button type="button" class="nm-game-button home-motion" data-home-motion aria-pressed="false" aria-label="Pause du décor">
+                        <svg class="home-icon home-motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
+                        <svg class="home-icon home-motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"></path></svg>
+                        <span data-home-motion-label>Pause du décor</span>
+                    </button>
+                    <div class="home-hero-inner">
+                    <div class="home-hero-copy">
+                        <p class="home-signature">
+                            <span>Nameless · Guilde sur SAO France</span>
+                        </p>
+                        <h1 class="home-title" id="hero-title">Explorez Aincrad, ensemble</h1>
+                        <p class="home-description">Repérez les lieux d’Aincrad, découvrez ses créatures et retrouvez les sources de vos objets. Les fiches de Nameless vous accompagnent dans vos sorties.</p>
+                        <div class="home-actions">
+                            <a href="/carte" class="nm-game-button nm-game-button--primary nm-game-frame home-action">
+                                <svg class="home-icon nm-game-icon" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-map"></use></svg>
+                                <span>Ouvrir la carte</span>
+                                <svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg>
+                            </a>
+                            <button type="button" class="nm-game-button nm-game-frame home-action" data-home-search aria-haspopup="dialog">
+                                <svg class="home-icon nm-game-icon" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-search"></use></svg>
+                                <span>Rechercher une fiche</span>
+                            </button>
+                        </div>
+                        <p class="home-search-status" data-home-search-status role="status" aria-live="polite"></p>
                     </div>
-                    <button class="nm-carousel-btn prev" type="button" data-carousel-prev aria-label="Diapositive précédente">‹</button>
-                    <button class="nm-carousel-btn next" type="button" data-carousel-next aria-label="Diapositive suivante">›</button>
-                    <div class="nm-carousel-dots" role="tablist" aria-label="Choisir une diapositive" data-carousel-dots></div>
-                </div>
-            </div>
-        </section>
+                    </div>
+                </section>
 
-        <!-- Rejoindre la guilde -->
-        <section class="nm-section" aria-labelledby="join-title">
-            <div class="container">
-                <span class="nm-eyebrow">La guilde</span>
-                <h2 class="section-title" id="join-title">Comment rejoindre Nameless</h2>
-                <div class="nm-hairline" aria-hidden="true"></div>
-                <ol class="nm-join-steps">
-                    <li><h3>Discuter sur Discord</h3><p>Présentez votre personnage et les sorties auxquelles vous souhaitez participer.</p></li>
-                    <li><h3>Renseigner votre profil</h3><p>Connectez-vous avec Microsoft, puis renseignez votre pseudo Minecraft et les informations de votre personnage.</p></li>
-                    <li><h3>Consulter le planning</h3><p>Une fois membre, retrouvez les dates des sorties et les annonces dans l'espace guilde.</p></li>
-                </ol>
+                <nav class="home-destinations" aria-label="Explorer Nameless">
+                    <h2 class="visually-hidden">Explorer Nameless</h2>
+                    <ul class="home-access">
+                        <li>
+                            <a class="home-entry nm-game-frame" href="/carte">
+                                <picture><img class="home-entry-art" src="/assets/home/sao-map-512.webp" srcset="/assets/home/sao-map-256.webp 256w, /assets/home/sao-map-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 80px) / 2), (max-width: 1640px) calc((100vw - 112px) / 4), 382px" alt="" width="512" height="288" loading="lazy" decoding="async"></picture>
+                                <div class="home-entry-copy"><h3>Carte d’Aincrad</h3><p>Explorez les paliers et leurs lieux connus.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="home-entry nm-game-frame" href="/bestiaire">
+                                <picture class="home-native-creature" data-home-creature-source="boss:53"><img class="home-entry-creature" src="/assets/home/illfang-256.webp" alt="" width="256" height="231" loading="lazy" decoding="async"></picture>
+                                <div class="home-entry-copy"><h3>Bestiaire</h3><p>Découvrez les créatures et leurs butins.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="home-entry nm-game-frame" href="/items">
+                                <div class="home-item-sprites" aria-hidden="true">
+                                    <span data-home-item-source="potion_mana"><img src="/assets/items/Consommables/PotiondeMana.png" alt="" width="46" height="46" loading="lazy" decoding="async"></span>
+                                    <span data-home-item-source="gelee_slime"><img src="/assets/items/Ressources/Gel%C3%A9edeSlime.png" alt="" width="47" height="48" loading="lazy" decoding="async"></span>
+                                    <span class="home-item-sprite--extra" data-home-item-source="baton_sorcier_shaman"><img src="/assets/items/Armes/BatonduSorcierduShaman.png" alt="" width="48" height="48" loading="lazy" decoding="async"></span>
+                                </div>
+                                <div class="home-entry-copy"><h3>Objets</h3><p>Consultez les ressources et consommables.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="home-entry nm-game-frame" href="/espace-guilde">
+                                <picture><img class="home-entry-art" src="/assets/home/sao-guild-512.webp" srcset="/assets/home/sao-guild-256.webp 256w, /assets/home/sao-guild-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 80px) / 2), (max-width: 1640px) calc((100vw - 112px) / 4), 382px" alt="" width="512" height="291" loading="lazy" decoding="async"></picture>
+                                <div class="home-entry-copy"><h3>Guilde</h3><p>Retrouvez le planning et les annonces des membres.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-        </section>
 
-        <!-- Recrutement -->
-        <section class="nm-section" aria-labelledby="recruit-title">
-            <div class="container">
-                <div class="nm-recruit-panel">
-                    <span class="nm-eyebrow">Recrutement</span>
-                    <h2 id="recruit-title">Rejoindre Nameless</h2>
-                    <p>Pour rejoindre la guilde ou poser une question sur une sortie, retrouvez-nous sur Discord.</p>
-                    <a href="https://discord.gg/BwxjRmh6qK" class="cta-button" target="_blank" rel="noopener noreferrer">Rejoindre Discord</a>
+            <div class="home-lower">
+            <section class="home-section home-discoveries" aria-labelledby="explore-title">
+                <header class="home-section-head nm-game-divider">
+                    <h2 id="explore-title">À explorer</h2>
+                    <a class="home-text-link" href="/bestiaire"><span>Voir le bestiaire</span><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a>
+                </header>
+                <ul class="home-selection">
+                    <li>
+                        <a class="home-record nm-game-frame" href="/boss/illfang" data-home-record="boss:53">
+                            <div class="home-record-art"><img src="/assets/home/illfang-256.webp" alt="" width="256" height="231" loading="lazy" decoding="async"></div>
+                            <div class="home-record-copy"><h3>Illfang</h3><p>Boss · Palier 1</p><p>Donjon Kobold</p></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="home-record nm-game-frame" href="/boss/gorbel" data-home-record="boss:1">
+                            <div class="home-record-art"><img src="/assets/home/gorbel-256.webp" alt="" width="256" height="282" loading="lazy" decoding="async"></div>
+                            <div class="home-record-copy"><h3>Gorbel</h3><p>Boss · Palier 1</p><p>Marécage putride</p></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="home-record nm-game-frame" href="/items?item=gelee_slime" data-home-record="item:gelee_slime">
+                            <div class="home-record-art home-record-art--item"><img src="/assets/items/Ressources/Gel%C3%A9edeSlime.png" alt="" width="47" height="48" loading="lazy" decoding="async"></div>
+                            <div class="home-record-copy"><h3>Gelée de Slime</h3><p>Ressource</p><p>Butin des slimes</p></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="home-record nm-game-frame" href="/items?item=potion_mana" data-home-record="item:potion_mana">
+                            <div class="home-record-art home-record-art--item home-record-art--potion"><img src="/assets/items/Consommables/PotiondeMana.png" alt="" width="46" height="46" loading="lazy" decoding="async"></div>
+                            <div class="home-record-copy"><h3>Potion de Mana</h3><p>Consommable</p></div>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="home-section home-guild" aria-labelledby="join-title">
+                <div>
+                    <h2 id="join-title">Jouer avec Nameless</h2>
+                    <p>Présentez votre personnage sur Discord. Une fois membre, connectez-vous pour consulter le planning, les objectifs et les messages de la guilde.</p>
                 </div>
+                <div class="home-guild-actions">
+                    <a href="https://discord.gg/BwxjRmh6qK" class="nm-game-button home-action" target="_blank" rel="noopener noreferrer">Rejoindre Discord</a>
+                    <a href="/espace-guilde" class="home-text-link">Accéder à l’espace guilde</a>
+                </div>
+            </section>
             </div>
-        </section>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -243,23 +229,23 @@
     </footer>
 
     <!-- Scripts - ordre sécurité conservé -->
-    <script src="js/i18n-en.js?v=20261007a" defer></script>
-    <script src="js/i18n-en-reviewed.js?v=20261008map" defer></script>
-    <script src="js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
-    <script src="js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="js/i18n-en.js?v=20261008sao" defer></script>
+    <script src="js/i18n-en-reviewed.js?v=20261008sao" defer></script>
+    <script src="js/i18n-quests-en-reviewed.js?v=20261008sao" defer></script>
+    <script src="js/i18n-game-en-reviewed.js?v=20261008sao" defer></script>
     <script src="js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
-    <script src="js/i18n.js?v=20261007a" defer></script>
+    <script src="js/i18n.js?v=20261008sao" defer></script>
     <script src="js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
     <script src="js/supabase-public-config.js?v=20261007a" defer></script>
     <script src="js/db-guard.js?v=20261007a" defer></script>
     <script src="js/cache-manager.js?v=20261007a" defer></script>
     <script src="js/security-utils.js?v=20261007a" defer></script>
     <script src="js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="js/navbar-mobile.js?v=20261007a" defer></script>
-    <script src="js/audio-controller.js?v=20261007a" defer></script>
-    <script src="js/home-carousel.js?v=20261007a" defer></script>
-    <script src="js/page-registry.js?v=20261008map" defer></script>
+    <script src="js/navbar-mobile.js?v=20261008sao" defer></script>
+    <script src="js/audio-controller.js?v=20261008sao" defer></script>
+    <script src="js/home-carousel.js?v=20261008sao" defer></script>
+    <script src="js/page-registry.js?v=20261008sao" defer></script>
     <script src="js/app-router.js?v=20261007a" defer></script>
-    <script src="js/global-search.js?v=20261008map" defer></script>
+    <script src="js/global-search.js?v=20261008sao" defer></script>
 </body>
 </html>

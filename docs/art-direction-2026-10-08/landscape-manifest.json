@@ -1,0 +1,59 @@
+{
+  "source": "docs/art-direction-2026-10-08/sources/aincrad-panorama-v2.png",
+  "production": "Original illustration generated with the built-in image_gen tool; see HERO_PROMPT.md and ART_BIBLE.md.",
+  "sourceDimensions": [
+    2172,
+    724
+  ],
+  "sourceBytes": 2672960,
+  "sourceSha256": "5f6c31f791431eaa7a010b1f9919dae6ae25ce74eeb41ac9f17dbf5748ca4749",
+  "processing": "Aspect-preserving resize and WebP compression. Mobile uses the recorded crop of the original monument. No generated or repainted details.",
+  "outputs": [
+    {
+      "path": "assets/illustrations/aincrad-panorama-v2-2172.webp",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "bytes": 252078,
+      "sha256": "7253cdb6922731427e875e60a6629fa03b3a1cacfe973ae86c54f43a90e20b70",
+      "quality": 83
+    },
+    {
+      "path": "assets/illustrations/aincrad-panorama-v2-1600.webp",
+      "dimensions": [
+        1600,
+        533
+      ],
+      "bytes": 156324,
+      "sha256": "b067cbe703e4a67a205afb531e40e0ee9023b0966e3fa6d4b78bfdfa407dde48",
+      "quality": 82
+    },
+    {
+      "path": "assets/illustrations/aincrad-panorama-v2-960.webp",
+      "dimensions": [
+        960,
+        320
+      ],
+      "bytes": 69988,
+      "sha256": "b7c2bf93845397001abfc2b79246f0e255754141bec99709f38f528ea888b6aa",
+      "quality": 82
+    },
+    {
+      "path": "assets/illustrations/aincrad-panorama-v2-mobile.webp",
+      "dimensions": [
+        640,
+        541
+      ],
+      "bytes": 52090,
+      "sha256": "74725a8bef0e7f90d97120b5598120c4ed9a3a726246784595493192d769a342",
+      "quality": 78,
+      "crop": [
+        980,
+        0,
+        1836,
+        724
+      ]
+    }
+  ]
+}

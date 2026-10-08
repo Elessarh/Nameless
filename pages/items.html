@@ -13,7 +13,7 @@
 
     <!-- Open Graph -->
     <!-- Theme & Favicon -->
-    <meta name="theme-color" content="#05070d">
+    <meta name="theme-color" content="#030B12">
     <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg?v=20261008logo">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=20261008logo">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=20261008logo">
@@ -22,10 +22,11 @@
     <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
     <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="../css/style.css?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/items.css?v=items-cleaned-20261007">
-    <link rel="stylesheet" href="../css/components/page-hero.css?v=20261007a">
-    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
+    <link rel="stylesheet" href="../css/tokens.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/style.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/items.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/page-hero.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261008hybrid">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
@@ -41,7 +42,8 @@
     <meta name="twitter:title" content="Catalogue d'Items — Nameless">
     <meta name="twitter:description" content="Le catalogue des items d'Aincrad — armes, armures, accessoires, consommables, ressources et runes. Le trésor de la guilde Nameless.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/global-search.css?v=20261008map">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -52,21 +54,21 @@
         <nav class="nav-container" role="navigation" aria-label="Navigation principale">
             <div class="nav-logo-container">
                 <a href="/" aria-label="Nameless - Accueil">
-                    <img src="/assets/brand/nameless-emblem-128.webp?v=20261008logo" srcset="/assets/brand/nameless-emblem-128.webp?v=20261008logo 1x, /assets/brand/nameless-emblem-256.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="52" height="52" loading="eager" decoding="async">
+                    <img src="/assets/brand/nameless-emblem-64.webp?v=20261008sao" srcset="/assets/brand/nameless-emblem-64.webp?v=20261008sao 1x, /assets/brand/nameless-emblem-128.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="44" height="44" loading="eager" decoding="async">
+                    <span class="nav-wordmark">Nameless</span>
                 </a>
             </div>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/wiki" class="nav-link">Explorer</a></li>
                 <li><a href="/carte" class="nav-link">Carte</a></li>
                 <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
-                <li><a href="/items" class="nav-link active" aria-current="page">Items</a></li>
-                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
-                <li><a href="/wiki" class="nav-link">Wiki</a></li>
+                <li><a href="/items" class="nav-link active" aria-current="page">Objets</a></li>
+                <li><a href="/espace-guilde" class="nav-link">Guilde</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
                     <a href="/profil" id="username" class="username-link"></a>
-                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter"><svg class="logout-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H4v16h6M9 12h12m-5-5 5 5-5 5"></path></svg><span class="logout-label">Déconnexion</span></button>
                 </span>
                 <a href="/connexion" class="connexion-link" id="login-link">Connexion</a>
             </div>
@@ -82,23 +84,25 @@
     <main id="main-content" class="items-container page-visual-shell items-visual-shell" role="main">
         <!-- Hero compact -->
         <section class="items-hero nm-scene-hero nm-scene-hero--bleed scene-items">
-            <span class="nm-eyebrow">Catalogue des reliques</span>
-            <h1>Catalogue d'Items</h1>
+            <span class="nm-eyebrow">Inventaire d'Aincrad</span>
+            <h1>Catalogue d'objets</h1>
             <p class="items-subtitle">Les objets d'Aincrad — armes, armures, accessoires, consommables, ressources et runes.</p>
         </section>
 
-        <!-- Filtres -->
-        <section class="items-filters" aria-label="Filtres de recherche">
+        <div class="catalogue-layout">
+        <aside class="items-filters" aria-label="Recherche et filtres des objets">
             <div class="items-search">
-                <label for="it-search" class="visually-hidden">Rechercher un item</label>
-                <input type="text" id="it-search" placeholder="Rechercher un item..." autocomplete="off">
+                <label for="it-search">Rechercher un objet</label>
+                <input type="search" id="it-search" placeholder="Nom ou catégorie…" autocomplete="off" maxlength="200">
             </div>
+            <details class="catalogue-filters" id="it-filter-details" open>
+            <summary>Filtres des objets</summary>
             <div class="items-filter-group">
-                <label for="it-category" class="visually-hidden">Catégorie</label>
+                <label for="it-category">Catégorie</label>
                 <select id="it-category" aria-label="Filtrer par catégorie">
                     <option value="">Toutes les catégories</option>
                 </select>
-                <label for="it-rarity" class="visually-hidden">Rareté</label>
+                <label for="it-rarity">Rareté</label>
                 <select id="it-rarity" aria-label="Filtrer par rareté">
                     <option value="">Toutes les raretés</option>
                     <option value="common">Commun</option>
@@ -107,11 +111,23 @@
                     <option value="epic">Épique</option>
                     <option value="legendary">Légendaire</option>
                 </select>
-                <button type="button" class="items-reset" id="it-reset">Réinitialiser</button>
             </div>
-            <div class="items-count" id="it-count" aria-live="polite"></div>
-        </section>
+            </details>
+            <button type="button" class="items-reset catalogue-reset" id="it-reset">Réinitialiser les filtres</button>
+        </aside>
 
+        <div class="catalogue-results">
+        <div class="catalogue-toolbar">
+            <p class="items-count catalogue-count" id="it-count" role="status"></p>
+            <div class="catalogue-sort"><label for="it-sort">Trier par</label><select id="it-sort">
+                <option value="catalogue">Ordre du catalogue</option>
+                <option value="name-asc">Nom : A à Z</option>
+                <option value="name-desc">Nom : Z à A</option>
+                <option value="rarity-desc">Rareté : décroissante</option>
+                <option value="rarity-asc">Rareté : croissante</option>
+                <option value="category">Catégorie</option>
+            </select></div>
+        </div>
         <section class="items-grid" id="items-grid" aria-label="Liste des items" aria-live="polite"></section>
 
         <!-- Pagination -->
@@ -132,6 +148,8 @@
                 </select>
             </div>
         </nav>
+        </div>
+        </div>
     </main>
 
     <footer class="site-footer" role="contentinfo">
@@ -143,12 +161,12 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="../js/i18n-en.js?v=20261007a" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261008map" defer></script>
-    <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
-    <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261008sao" defer></script>
+    <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
+    <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
-    <script src="../js/i18n.js?v=20261007a" defer></script>
+    <script src="../js/i18n.js?v=20261008hybrid" defer></script>
     <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
     <script src="../js/supabase-public-config.js?v=20261007a" defer></script>
     <script src="../js/db-guard.js?v=20261007a" defer></script>
@@ -156,9 +174,9 @@
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
     <script src="../js/items-catalog-hdv.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261008map" defer></script>
-    <script src="../js/items.js?v=20261008logo" defer></script>
-    <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
-    <script src="../js/audio-controller.js?v=20261007a" defer></script>
+    <script src="../js/global-search.js?v=20261008sao" defer></script>
+    <script src="../js/items.js?v=20261008hybrid" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
+    <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
 </body>
 </html>

@@ -1,0 +1,120 @@
+/* Nameless: optional, shared game components. No route-wide selectors. */
+.nm-game-frame {
+    position: relative;
+    border: 1px solid var(--nm-border);
+    border-radius: var(--nm-radius-sm);
+}
+.nm-game-frame::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: 1;
+    border: 16px solid transparent;
+    border-image: url('../../assets/ui/nameless-frame.svg') 16 / 16px / 0 stretch;
+    pointer-events: none;
+}
+.nm-game-frame:where(a, button) {
+    transition: border-color var(--nm-duration-select) var(--nm-ease);
+}
+.nm-game-frame:where(a, button):is(:hover, :focus-visible) {
+    border-color: var(--nm-gold);
+}
+.nm-game-panel {
+    padding: clamp(16px, 2vw, 24px);
+    background: var(--nm-bg-secondary);
+    color: var(--nm-text);
+}
+.nm-game-button {
+    min-width: 44px;
+    min-height: var(--nm-control-height);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 1px solid var(--nm-border-control);
+    border-radius: var(--nm-radius-sm);
+    background: var(--nm-bg-secondary);
+    color: var(--nm-text-bright);
+    font: 500 .875rem/1.4 var(--font-text);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--nm-duration-hover) var(--nm-ease),
+        background-color var(--nm-duration-hover) var(--nm-ease),
+        border-color var(--nm-duration-hover) var(--nm-ease);
+}
+.nm-game-button:is(:hover, :focus-visible) {
+    border-color: var(--nm-gold-light);
+    background: var(--nm-surface);
+    color: var(--nm-text-bright);
+}
+.nm-game-button--primary {
+    border-color: var(--nm-gold);
+    background: var(--nm-gold);
+    color: var(--nm-bg);
+}
+.nm-game-button--primary:is(:hover, :focus-visible) {
+    background: var(--nm-gold-light);
+    color: var(--nm-bg);
+}
+.nm-game-button--quiet {
+    background: transparent;
+}
+.nm-game-button:disabled,
+.nm-game-button[aria-disabled='true'] {
+    opacity: .55;
+    cursor: not-allowed;
+}
+.nm-game-frame:where(a, button):focus-visible,
+.nm-game-button:focus-visible {
+    outline: 2px solid var(--nm-focus);
+    outline-offset: 3px;
+}
+.nm-game-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--nm-text-bright);
+}
+.nm-game-divider > :first-child { order: 0; }
+.nm-game-divider > :not(:first-child) { order: 2; }
+.nm-game-divider::after {
+    content: '';
+    order: 1;
+    flex: 1 1 48px;
+    min-width: 32px;
+    height: 12px;
+    background: url('../../assets/ui/nameless-divider.svg') center / 48px 12px no-repeat,
+        linear-gradient(var(--nm-border), var(--nm-border)) center / 100% 1px no-repeat;
+    pointer-events: none;
+}
+.nm-game-divider > :is(h2, h3) {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: 500;
+}
+.nm-game-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.nm-game-icon--small { width: 18px; height: 18px; }
+@media (max-width: 480px) {
+    .nm-game-divider { gap: 10px; }
+    .nm-game-divider::after { background-size: 28px 7px, 100% 1px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .nm-game-frame:where(a, button), .nm-game-button { transition: none; }
+}
+@media (forced-colors: active) {
+    .nm-game-frame::before, .nm-game-divider::after { display: none; }
+    .nm-game-frame, .nm-game-button { border-color: ButtonText; }
+    .nm-game-button--primary { background: ButtonFace; color: ButtonText; }
+}

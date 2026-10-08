@@ -1,0 +1,400 @@
+{
+  "home": [
+    {
+      "clipped": [],
+      "height": 866,
+      "image": "http://127.0.0.1:4173/assets/illustrations/aincrad-panorama-v2-mobile.webp",
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "clipped": [],
+      "header": [
+        {
+          "class": "nav-logo-container",
+          "left": 10,
+          "right": 54
+        },
+        {
+          "class": "nav-connexion",
+          "left": 157.171875,
+          "right": 302
+        },
+        {
+          "class": "nm-search-trigger",
+          "left": 109.171875,
+          "right": 153.171875
+        },
+        {
+          "class": "hamburger",
+          "left": 306,
+          "right": 350
+        }
+      ],
+      "height": 868,
+      "overflow": false,
+      "width": 360
+    },
+    {
+      "cards": [
+        {
+          "height": 188,
+          "width": 352
+        },
+        {
+          "height": 188,
+          "width": 352
+        },
+        {
+          "height": 188,
+          "width": 352
+        },
+        {
+          "height": 188,
+          "width": 352
+        }
+      ],
+      "clipped": [],
+      "height": 1040,
+      "heroImage": "http://127.0.0.1:4173/assets/illustrations/aincrad-panorama-v2-1600.webp",
+      "overflow": false,
+      "titleY": [
+        482.640625,
+        482.640625,
+        686.640625,
+        686.640625
+      ],
+      "width": 768
+    },
+    {
+      "cards": [
+        {
+          "height": 196,
+          "width": 228
+        },
+        {
+          "height": 196,
+          "width": 228
+        },
+        {
+          "height": 196,
+          "width": 228
+        },
+        {
+          "height": 196,
+          "width": 228
+        }
+      ],
+      "clipped": [],
+      "height": 1040,
+      "heroImage": "http://127.0.0.1:4173/assets/illustrations/aincrad-panorama-v2-1600.webp",
+      "overflow": false,
+      "titleY": [
+        467.75,
+        467.75,
+        467.75,
+        467.75
+      ],
+      "width": 1024
+    },
+    {
+      "cards": [
+        {
+          "height": 196,
+          "width": 292
+        },
+        {
+          "height": 196,
+          "width": 292
+        },
+        {
+          "height": 196,
+          "width": 292
+        },
+        {
+          "height": 196,
+          "width": 292
+        }
+      ],
+      "clipped": [],
+      "height": 1040,
+      "heroImage": "http://127.0.0.1:4173/assets/illustrations/aincrad-panorama-v2-1600.webp",
+      "overflow": false,
+      "titleY": [
+        487.640625,
+        487.640625,
+        487.640625,
+        487.640625
+      ],
+      "width": 1280
+    },
+    {
+      "clipped": [],
+      "height": 1040,
+      "overflow": false,
+      "titleY": [
+        545.171875,
+        545.171875,
+        765.171875,
+        765.171875
+      ],
+      "width": 481
+    },
+    {
+      "clipped": [],
+      "height": 1040,
+      "overflow": false,
+      "titleY": [
+        545.171875,
+        545.171875,
+        765.171875,
+        765.171875
+      ],
+      "width": 600
+    },
+    {
+      "clipped": [],
+      "cssViewport": 768,
+      "hamburgerVisible": true,
+      "image": "http://127.0.0.1:4173/assets/illustrations/aincrad-panorama-v2-960.webp",
+      "width": 758
+    },
+    {
+      "height": 1086,
+      "heroHeight": 559.6875,
+      "overflow": false,
+      "recordWidth": 204,
+      "titleY": [
+        527.328125,
+        527.328125,
+        527.328125,
+        527.328125
+      ],
+      "width": 1920
+    },
+    {
+      "height": 1446,
+      "heroHeight": 620,
+      "overflow": false,
+      "recordWidth": 204,
+      "titleY": [
+        740.640625,
+        740.640625,
+        740.640625,
+        740.640625
+      ],
+      "width": 2560
+    }
+  ],
+  "memberNavigation": [
+    {
+      "children": [
+        {
+          "class": "nav-logo-container",
+          "left": 10,
+          "right": 54
+        },
+        {
+          "class": "nav-connexion",
+          "left": 130.40625,
+          "right": 302
+        },
+        {
+          "class": "nm-search-trigger",
+          "left": 82.40625,
+          "right": 126.40625
+        },
+        {
+          "class": "hamburger",
+          "left": 306,
+          "right": 350
+        }
+      ],
+      "headerOverflow": false,
+      "logout": {
+        "bottom": 52,
+        "height": 44,
+        "left": 258,
+        "right": 302,
+        "top": 8,
+        "width": 44,
+        "x": 258,
+        "y": 8
+      },
+      "width": 360
+    },
+    {
+      "children": [
+        {
+          "class": "nav-logo-container",
+          "left": 10,
+          "right": 54
+        },
+        {
+          "class": "nav-connexion",
+          "left": 141.40625,
+          "right": 328
+        },
+        {
+          "class": "nm-search-trigger",
+          "left": 89.40625,
+          "right": 133.40625
+        },
+        {
+          "class": "hamburger",
+          "left": 336,
+          "right": 380
+        }
+      ],
+      "headerOverflow": false,
+      "logout": {
+        "bottom": 52,
+        "height": 44,
+        "left": 284,
+        "right": 328,
+        "top": 8,
+        "width": 44,
+        "x": 284,
+        "y": 8
+      },
+      "width": 390
+    },
+    {
+      "children": [
+        {
+          "class": "nav-logo-container",
+          "left": 12,
+          "right": 56
+        },
+        {
+          "class": "nav-menu",
+          "left": 68,
+          "right": 494.8125
+        },
+        {
+          "class": "nav-connexion",
+          "left": 554.8125,
+          "right": 757
+        },
+        {
+          "class": "nm-search-trigger",
+          "left": 502.8125,
+          "right": 546.8125
+        }
+      ],
+      "headerOverflow": false,
+      "logout": {
+        "bottom": 54,
+        "height": 44,
+        "left": 713,
+        "right": 757,
+        "top": 10,
+        "width": 44,
+        "x": 713,
+        "y": 10
+      },
+      "width": 769
+    },
+    {
+      "children": [
+        {
+          "class": "nav-logo-container",
+          "left": 12,
+          "right": 56
+        },
+        {
+          "class": "nav-menu",
+          "left": 68,
+          "right": 619.40625
+        },
+        {
+          "class": "nav-connexion",
+          "left": 679.40625,
+          "right": 888
+        },
+        {
+          "class": "nm-search-trigger",
+          "left": 627.40625,
+          "right": 671.40625
+        }
+      ],
+      "headerOverflow": false,
+      "logout": {
+        "bottom": 54,
+        "height": 44,
+        "left": 844,
+        "right": 888,
+        "top": 10,
+        "width": 44,
+        "x": 844,
+        "y": 10
+      },
+      "width": 900
+    },
+    {
+      "children": [
+        {
+          "class": "nav-logo-container",
+          "left": 12,
+          "right": 56
+        },
+        {
+          "class": "nav-menu",
+          "left": 68,
+          "right": 743.40625
+        },
+        {
+          "class": "nav-connexion",
+          "left": 803.40625,
+          "right": 1012
+        },
+        {
+          "class": "nm-search-trigger",
+          "left": 751.40625,
+          "right": 795.40625
+        }
+      ],
+      "headerOverflow": false,
+      "logout": {
+        "bottom": 54,
+        "height": 44,
+        "left": 968,
+        "right": 1012,
+        "top": 10,
+        "width": 44,
+        "x": 968,
+        "y": 10
+      },
+      "width": 1024
+    }
+  ],
+  "keyboard": {
+    "searchResult": "Illfang",
+    "arrowDownFocus": true,
+    "escapeReturnsToHomeAction": true,
+    "mobileMenuEscapeReturnsToToggle": true
+  },
+  "motion": {
+    "pauseChangesAnimationPlayState": true,
+    "reducedMotionVerifiedInRegression": true
+  },
+  "finalCaptures": {
+    "premium-1920.jpg": [
+      1920,
+      1080
+    ],
+    "premium-2560.jpg": [
+      2560,
+      1440
+    ],
+    "premium-390.jpg": [
+      390,
+      844
+    ],
+    "premium-360.jpg": [
+      360,
+      844
+    ]
+  },
+  "finalCapturesScrollTop": 0
+}

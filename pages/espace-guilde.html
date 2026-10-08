@@ -10,7 +10,7 @@
     <meta name="description" content="Espace privé de la guilde Nameless — accès réservé aux membres.">
 
     <!-- Theme & Favicon -->
-    <meta name="theme-color" content="#05070d">
+    <meta name="theme-color" content="#030B12">
     <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg?v=20261008logo">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=20261008logo">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=20261008logo">
@@ -19,14 +19,15 @@
     <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
     <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="../css/style.css?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/guilde.css?v=20261007a">
-    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20261007a">
-    <link rel="stylesheet" href="../css/components/guild-chat.css?v=20261007a">
-    <link rel="stylesheet" href="../css/components/guild-dm.css?v=20261007a">
-    <link rel="stylesheet" href="../css/components/guilde-nameless.css?v=20261007a">
-    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
-    
+    <link rel="stylesheet" href="../css/tokens.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/style.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/guilde.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/activity-wall.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/guild-chat.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/guild-dm.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/guilde-nameless.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261008hybrid">
+
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="noindex, follow">
     <meta property="og:type" content="website">
@@ -42,31 +43,32 @@
     <meta name="twitter:title" content="Espace guilde — Nameless">
     <meta name="twitter:description" content="Espace privé de la guilde Nameless — accès réservé aux membres.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/global-search.css?v=20261008map">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-    
+
     <!-- Header et Navigation -->
     <header class="header" role="banner">
         <nav class="nav-container" role="navigation" aria-label="Navigation principale">
             <div class="nav-logo-container">
                 <a href="/" aria-label="Nameless - Accueil">
-                    <img src="/assets/brand/nameless-emblem-128.webp?v=20261008logo" srcset="/assets/brand/nameless-emblem-128.webp?v=20261008logo 1x, /assets/brand/nameless-emblem-256.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="52" height="52" loading="eager" decoding="async">
+                    <img src="/assets/brand/nameless-emblem-64.webp?v=20261008sao" srcset="/assets/brand/nameless-emblem-64.webp?v=20261008sao 1x, /assets/brand/nameless-emblem-128.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="44" height="44" loading="eager" decoding="async">
+                    <span class="nav-wordmark">Nameless</span>
                 </a>
             </div>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/wiki" class="nav-link">Explorer</a></li>
                 <li><a href="/carte" class="nav-link">Carte</a></li>
                 <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
-                <li><a href="/items" class="nav-link">Items</a></li>
-                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
-                <li><a href="/wiki" class="nav-link">Wiki</a></li>
+                <li><a href="/items" class="nav-link">Objets</a></li>
+                <li><a href="/espace-guilde" class="nav-link">Guilde</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
                     <a href="/profil" id="username" class="username-link"></a>
-                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter"><svg class="logout-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H4v16h6M9 12h12m-5-5 5 5-5 5"></path></svg><span class="logout-label">Déconnexion</span></button>
                 </span>
                 <a href="/connexion" class="connexion-link" id="login-link">Connexion</a>
             </div>
@@ -79,37 +81,16 @@
     </header>
 
     <!-- Contenu principal -->
-    <main id="main-content" class="guilde-container" role="main">
+    <main id="main-content" class="guilde-container" role="main"><div class="guilde-header"><div><span class="nm-eyebrow">Guilde Nameless</span><h1>Quartier général</h1><p class="guilde-subtitle">Planning, objectifs et échanges de la guilde.</p></div><nav class="guild-header-links" aria-label="Liens du quartier général"><a class="guild-header-link" href="/profil"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM4 21v-2a8 8 0 0 1 16 0v2"></path></svg>Mon profil</a></nav></div>
         <div id="loading" class="loading" role="status" aria-live="polite">
             <p>Chargement de l'espace guilde...</p>
         </div>
-        
-        <div id="guilde-content" style="display: none;">
-            <div class="guilde-header">
-                <span class="nm-eyebrow">Quartier général</span>
-                <h1>Espace guilde</h1>
-                <p class="guilde-subtitle">Espace réservé aux membres de Nameless.</p>
-            </div>
-            
-            <!-- Layout en deux colonnes -->
-            <div class="guilde-two-columns">
-                <!-- Colonne gauche: Mur d'Activité -->
-                <div class="guilde-left-column">
-                    <div class="activity-wall-container">
-                        <div class="activity-wall-header">
-                            <h2 class="activity-wall-title">Mur d'activité</h2>
-                        </div>
-                        <div id="activity-wall-content" class="activity-wall-content">
-                            <div class="no-activities">
 
-                                <p class="no-activities-text">Aucune activité pour le moment</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Colonne droite: Onglets (Planning, Objectifs, Appel) -->
-                <div class="guilde-right-column">
+        <div id="guilde-content" style="display: none;">
+
+
+            <!-- Layout en deux colonnes -->
+            <div class="guilde-two-columns"><div class="guilde-right-column">
                     <!-- Système d'onglets pour les sections -->
                     <div class="guilde-tabs-container">
                         <div class="guilde-tabs" role="tablist" aria-label="Activités de la guilde">
@@ -119,35 +100,33 @@
                             <button class="guilde-tab-btn" data-tab="objectives" id="guild-tab-objectives" role="tab" aria-controls="guild-panel-objectives">
                                 Objectifs
                             </button>
-                            <button class="guilde-tab-btn" data-tab="presence" id="guild-tab-presence" role="tab" aria-controls="guild-panel-presence">
-                                Appel
-                            </button>
+                            <button class="guilde-tab-btn" data-tab="presence" id="guild-tab-presence" role="tab" aria-controls="guild-panel-presence">Présences</button>
                         </div>
-                        
+
                         <!-- TAB: Planning -->
                         <div class="guilde-tab-content active" data-tab-content="planning" id="guild-panel-planning" role="tabpanel" aria-labelledby="guild-tab-planning">
                             <div class="guilde-section">
-                                <h2 class="section-title">Prochains événements</h2>
+                                <h2 class="section-title">Prochains événements</h2><p class="guild-section-copy">Les événements publiés par les administrateurs. Les horaires sont affichés dans le fuseau de Paris.</p>
                                 <div id="planning-list">
                                     <div class="no-data">Aucun événement planifié</div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- TAB: Objectifs -->
                         <div class="guilde-tab-content" data-tab-content="objectives" id="guild-panel-objectives" role="tabpanel" aria-labelledby="guild-tab-objectives" style="display: none;">
                             <div class="guilde-section">
-                                <h2 class="section-title">Objectifs de la semaine</h2>
+                                <h2 class="section-title">Objectifs de la semaine</h2><p class="guild-section-copy">Les objectifs de la semaine et leur progression renseignée par la guilde.</p>
                                 <div id="objectives-list">
                                     <div class="no-data">Aucun objectif défini</div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- TAB: Appel Quotidien -->
                         <div class="guilde-tab-content" data-tab-content="presence" id="guild-panel-presence" role="tabpanel" aria-labelledby="guild-tab-presence" style="display: none;">
                             <div class="guilde-section">
-                                <h2 class="section-title">Appel quotidien</h2>
+                                <h2 class="section-title">Appel quotidien</h2><p class="guild-section-copy">Renseignez votre statut pour l’appel du jour.</p>
                                 <div class="appel-actions">
                                     <button id="mark-presence-btn" class="appel-btn present-btn">Marquer ma présence</button>
                                     <button id="mark-absence-btn" class="appel-btn absent-btn">Déclarer une absence</button>
@@ -160,9 +139,26 @@
                         </div>
                     </div>
                 </div>
+                <!-- Colonne gauche: Mur d'Activité -->
+                <div class="guilde-left-column">
+                    <div class="activity-wall-container">
+                        <div class="activity-wall-header">
+                            <h2 class="activity-wall-title">Annonces de la guilde</h2>
+                        </div>
+                        <div id="activity-wall-content" class="activity-wall-content">
+                            <div class="no-activities">
+
+                                <p class="no-activities-text">Aucune activité pour le moment</p>
+                            </div>
+                        </div>
+                    </div>
+                <section class="guild-resources" aria-labelledby="guild-resources-title"><h2 id="guild-resources-title">Ressources utiles</h2><nav class="guild-resource-links" aria-label="Ressources de la guilde"><a href="/carte"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5 9 3l6 2 6-2v16l-6 2-6-2-6 2V5ZM9 3v16M15 5v16"></path></svg>Carte d’Aincrad</a><a href="/wiki"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v16M3 3h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5v16h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3V3Z"></path></svg>Guides et informations</a><a href="/items"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v14H4V7ZM8 7V3h8v4"></path></svg>Catalogue d’objets</a></nav></section></div>
+
+                <!-- Colonne droite: Onglets (Planning, Objectifs, Appel) -->
+
             </div>
         </div>
-        
+
         <div id="access-denied" class="guilde-denied" style="display: none;">
             <h2>Accès refusé</h2>
             <p id="access-denied-text">Cet espace est réservé aux membres de la guilde Nameless.</p>
@@ -170,20 +166,20 @@
         </div>
 
     <!-- Bouton flottant pour le chat -->
-    <button class="chat-float-button" id="chat-toggle-btn" aria-label="Ouvrir le chat de la guilde" style="display: none;">
-        <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4V4Z"/></svg>
+    <button class="chat-float-button" id="chat-toggle-btn" aria-label="Ouvrir le chat de la guilde" style="display: none;" aria-controls="guild-chat">
+        <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H9l-5 4V4Z"></path></svg>
         <span class="chat-badge" id="chat-badge" style="display: none;">0</span>
-    </button>
+    <span>Messages</span></button>
 
     <!-- Chat unifié de la guilde -->
     <div class="chat-container" id="guild-chat">
         <div class="chat-header">
             <h3 class="chat-title">Chat de la guilde</h3>
             <div class="chat-header-actions">
-                <button class="chat-close-btn" id="chat-close-btn" aria-label="Fermer le chat">✕</button>
+                <button class="chat-close-btn" id="chat-close-btn" aria-label="Fermer le chat"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
             </div>
         </div>
-        
+
         <!-- Onglets Chat -->
         <div class="chat-tabs">
             <button class="chat-tab-btn active" data-tab="general" id="tab-general-btn">
@@ -194,7 +190,7 @@
                 <span class="tab-badge" id="tab-private-badge" style="display: none;">0</span>
             </button>
         </div>
-        
+
         <!-- Contenu Chat Général -->
         <div class="chat-tab-content active" id="chat-general-content">
             <div class="chat-replying-to" id="chat-replying-to">
@@ -202,68 +198,50 @@
                     <div class="replying-to-label">Répondre à <span id="reply-to-author"></span></div>
                     <div class="replying-to-preview" id="reply-to-preview"></div>
                 </div>
-                <button class="cancel-reply-btn" id="cancel-reply-btn" aria-label="Annuler la réponse">✕</button>
+                <button class="cancel-reply-btn" id="cancel-reply-btn" aria-label="Annuler la réponse"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
             </div>
-            
+
             <div class="chat-messages" id="chat-messages">
                 <div class="chat-loading">
                     <div class="spinner"></div>
                     <p>Chargement des messages...</p>
                 </div>
             </div>
-            
+
             <div class="chat-image-preview" id="chat-image-preview" style="display: none;"></div>
-            
+
             <div class="mention-autocomplete" id="mention-autocomplete" style="display: none;"></div>
-            
+
             <div class="chat-input-container">
                 <div class="chat-input-wrapper">
-                    <input 
-                        type="file" 
-                        id="chat-image-input" aria-label="Image du message"
-                        accept="image/*" 
-                        style="display: none;"
-                    >
+                    <input type="file" id="chat-image-input" aria-label="Image du message" accept="image/*" style="display: none;">
                     <button class="chat-image-btn" id="chat-image-btn" aria-label="Joindre une image" title="Joindre une image">
-                        <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3V3Zm0 13 5-5 4 4 3-3 6 6M8 7h.01"/></svg>
+                        <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3V3Zm0 13 5-5 4 4 3-3 6 6M8 7h.01"></path></svg>
                     </button>
-                    <input 
-                        type="text" 
-                        class="chat-input" 
-                        id="chat-input" aria-label="Message pour la guilde"
-                        placeholder="Écrivez votre message..."
-                        maxlength="500"
-                    >
-                    <button class="chat-send-btn" id="chat-send-btn" aria-label="Envoyer le message">
-                        ➤
-                    </button>
+                    <input type="text" class="chat-input" id="chat-input" aria-label="Message pour la guilde" placeholder="Écrivez votre message..." maxlength="500">
+                    <button class="chat-send-btn" id="chat-send-btn" aria-label="Envoyer le message"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 18 9-18 9 4-9-4-9Zm4 9h14"></path></svg></button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Contenu Messages Privés -->
         <div class="chat-tab-content" id="chat-private-content">
             <div class="dm-layout">
                 <div class="dm-sidebar">
                     <div class="dm-search-container">
-                        <input 
-                            type="text" 
-                            id="dm-search-input" aria-label="Rechercher un membre"
-                            class="dm-search-input" 
-                            placeholder="Rechercher un membre..."
-                        >
+                        <input type="text" id="dm-search-input" aria-label="Rechercher un membre" class="dm-search-input" placeholder="Rechercher un membre...">
                     </div>
                     <div class="dm-members-list" id="dm-members-list">
                         <div class="dm-loading">Chargement...</div>
                     </div>
                 </div>
-                
+
                 <div class="dm-chat-area" id="dm-chat-area">
                     <div class="dm-placeholder" id="dm-placeholder">
-                        <div class="dm-placeholder-icon">✉️</div>
+                        <div class="dm-placeholder-icon"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3V5Zm0 0 9 7 9-7"></path></svg></div>
                         <p>Sélectionnez un membre pour commencer une conversation privée</p>
                     </div>
-                    
+
                     <div class="dm-active-chat" id="dm-active-chat" style="display: none;">
                         <div class="dm-chat-header">
                             <div class="dm-recipient-info">
@@ -272,37 +250,24 @@
                             </div>
                             <button class="dm-back-btn" id="dm-back-btn">← Retour</button>
                         </div>
-                        
+
                         <div class="dm-messages" id="dm-messages">
                             <div class="dm-messages-loading">
                                 <div class="spinner"></div>
                                 <p>Chargement des messages...</p>
                             </div>
                         </div>
-                        
+
                         <div class="dm-image-preview" id="dm-image-preview" style="display: none;"></div>
-                        
+
                         <div class="dm-input-container">
                             <div class="dm-input-wrapper">
-                                <input 
-                                    type="file" 
-                                    id="dm-image-input" aria-label="Image du message privé"
-                                    accept="image/*" 
-                                    style="display: none;"
-                                >
+                                <input type="file" id="dm-image-input" aria-label="Image du message privé" accept="image/*" style="display: none;">
                                 <button class="dm-image-btn" id="dm-image-btn" aria-label="Joindre une image au message privé" title="Joindre une image">
-                                    <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3V3Zm0 13 5-5 4 4 3-3 6 6M8 7h.01"/></svg>
+                                    <svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3V3Zm0 13 5-5 4 4 3-3 6 6M8 7h.01"></path></svg>
                                 </button>
-                                <input 
-                                    type="text" 
-                                    class="dm-input" 
-                                    id="dm-input" aria-label="Message privé"
-                                    placeholder="Écrivez votre message privé..."
-                                    maxlength="500"
-                                >
-                                <button class="dm-send-btn" id="dm-send-btn" aria-label="Envoyer le message privé">
-                                    ➤
-                                </button>
+                                <input type="text" class="dm-input" id="dm-input" aria-label="Message privé" placeholder="Écrivez votre message privé..." maxlength="500">
+                                <button class="dm-send-btn" id="dm-send-btn" aria-label="Envoyer le message privé"><svg class="nm-ui-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 18 9-18 9 4-9-4-9Zm4 9h14"></path></svg></button>
                             </div>
                         </div>
                     </div>
@@ -321,12 +286,12 @@
     </footer>
 
     <!-- Scripts - Chargement optimisé -->
-    <script src="../js/i18n-en.js?v=20261007a" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261008map" defer></script>
-    <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
-    <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261008sao" defer></script>
+    <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
+    <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
-    <script src="../js/i18n.js?v=20261007a" defer></script>
+    <script src="../js/i18n.js?v=20261008hybrid" defer></script>
     <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
     <script src="../js/performance-monitor.js?v=20261007a" defer></script>
     <script src="../js/guild-date-utils.js?v=20261007a" defer></script>
@@ -335,11 +300,11 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/espace-guilde.js?v=20261007a" defer></script>
-    <script src="../js/guild-chat.js?v=20261007a" defer></script>
+    <script src="../js/espace-guilde.js?v=20261008hybrid" defer></script>
+    <script src="../js/guild-chat.js?v=20261008hybrid" defer></script>
     <script src="../js/guild-dm.js?v=20261007a" defer></script>
-    <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
-    <script src="../js/audio-controller.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261008map" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
+    <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
+    <script src="../js/global-search.js?v=20261008sao" defer></script>
 </body>
 </html>

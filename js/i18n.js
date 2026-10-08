@@ -132,6 +132,10 @@
 
     function translateDynamic(source) {
         var match;
+        if ((match = source.match(/^(\d+) (créature|item|résultat)s?$/))) {
+            var unit = { 'créature': 'creature', 'item': 'item', 'résultat': 'result' }[match[2]];
+            return match[1] + ' ' + unit + (Number(match[1]) === 1 ? '' : 's');
+        }
         var rules = [
             [/^Page (\d+) \/ (\d+) \((\d+) utilisateurs?\)$/, 'Page {1} / {2} ({3} users)'],
             [/^Page (\d+) sur (\d+) \((\d+) quêtes?\)$/, 'Page {1} of {2} ({3} quests)'],

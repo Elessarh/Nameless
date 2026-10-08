@@ -1,0 +1,12 @@
+{
+  "source": "assets/brand/nameless-logo.png",
+  "sourceSha256": "8afaaa6a804362e36a7a5a20ebbb6bb3a81307c71e6f8515a4cf9b575202cb9b",
+  "path": "assets/brand/nameless-emblem-64.webp",
+  "dimensions": [
+    64,
+    64
+  ],
+  "sha256": "a143b3724fabf1cf2c25a170ae0025058c43862e21c03fd16b69e03ea2f854d4",
+  "bytes": 3320,
+  "alphaPreserved": true
+}

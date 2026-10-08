@@ -39,11 +39,11 @@
         // a démarré sur une route propre servie par 404.html (fallback SPA),
         // dont le <head> ne contient pas les styles/scripts de l'accueil.
         css: [
-            'css/nameless-effects.css?v=20261007a',
-            'css/components/home.css?v=20261007a'
+            'css/components/mmorpg-kit.css?v=20261008sao',
+            'css/components/home.css?v=20261008sao'
         ],
         scripts: [
-            'js/home-carousel.js?v=20261007a'
+            'js/home-carousel.js?v=20261008sao'
         ],
         init: function (root) {
             if (global.NamelessHomePage && typeof global.NamelessHomePage.init === 'function') {
@@ -74,12 +74,12 @@
             title: "Carte d'Aincrad - Nameless",
             css: [
                 'css/vendor/leaflet-1.9.4.css?v=20261007a',
-                'css/components/map.css?v=20261008map2',
-                'css/components/page-hero.css?v=20261007a'
+                'css/components/map.css?v=20261008hybrid',
+                'css/components/page-hero.css?v=20261008hybrid'
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
-                'js/map.js?v=20261008map2'
+                'js/map.js?v=20261008hybrid'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -98,11 +98,11 @@
             source: 'pages/bestiaire.html',
             title: 'Bestiaire - Nameless',
             css: [
-                'css/components/bestiaire.css?v=20261007a',
-                'css/components/page-hero.css?v=20261007a'
+                'css/components/bestiaire.css?v=20261008hybrid',
+                'css/components/page-hero.css?v=20261008hybrid'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261008logo'
+                'js/bestiaire.js?v=20261008hybrid'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -121,12 +121,12 @@
             source: 'pages/items.html',
             title: "Catalogue d'Items - Nameless",
             css: [
-                'css/components/items.css?v=items-cleaned-20261007',
-                'css/components/page-hero.css?v=20261007a'
+                'css/components/items.css?v=20261008hybrid',
+                'css/components/page-hero.css?v=20261008hybrid'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261008logo'
+                'js/items.js?v=20261008hybrid'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
@@ -146,11 +146,11 @@
             title: "Quetes d'Aincrad - Nameless",
             css: [
                 'css/components/pixel-icons.css?v=20261007a',
-                'css/components/quetes.css?v=20261007a',
-                'css/components/page-hero.css?v=20261007a'
+                'css/components/quetes.css?v=20261008hybrid',
+                'css/components/page-hero.css?v=20261008hybrid'
             ],
             scripts: [
-                'js/quetes.js?v=20261007a'
+                'js/quetes.js?v=20261008hybrid'
             ],
             init: function (root) {
                 if (global.NamelessQuestPage && typeof global.NamelessQuestPage.init === 'function') {
@@ -170,8 +170,8 @@
             title: 'Wiki - Nameless',
             css: [
                 'css/components/pixel-icons.css?v=20261007a',
-                'css/components/wiki.css?v=20261007a',
-                'css/components/page-hero.css?v=20261007a'
+                'css/components/wiki.css?v=20261008hybrid',
+                'css/components/page-hero.css?v=20261008hybrid'
             ],
             scripts: [
                 'js/wiki.js?v=20261007a'
@@ -193,7 +193,7 @@
             source: 'pages/connexion.html',
             title: 'Connexion - Nameless',
             css: [
-                'css/components/connexion.css?v=20261007a'
+                'css/components/connexion.css?v=20261008hybrid'
             ],
             scripts: [],
             init: function (root) {
@@ -213,12 +213,12 @@
             source: 'pages/profil.html',
             title: 'Mon profil - Nameless',
             css: [
-                'css/components/profil.css?v=20261007a'
+                'css/components/profil.css?v=20261008hybrid'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/profil.js?v=20261007a'
+                'js/profil.js?v=20261008hybrid'
             ],
             init: function (root) {
                 if (global.NamelessProfilePage && typeof global.NamelessProfilePage.init === 'function') {
@@ -238,13 +238,13 @@
             aliases: ['/admin-dashboard.html'],
             title: 'Dashboard admin - Nameless',
             css: [
-                'css/components/activity-wall.css?v=20261007a',
-                'css/components/admin-dashboard.css?v=20261007a'
+                'css/components/activity-wall.css?v=20261008hybrid',
+                'css/components/admin-dashboard.css?v=20261008hybrid'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/admin-dashboard.js?v=20261007a'
+                'js/admin-dashboard.js?v=20261008hybrid'
             ],
             init: function (root) {
                 if (global.NamelessAdminDashboardPage && typeof global.NamelessAdminDashboardPage.init === 'function') {
@@ -264,17 +264,17 @@
             aliases: ['/espace-guilde.html'],
             title: 'Espace guilde - Nameless',
             css: [
-                'css/components/guilde.css?v=20261007a',
-                'css/components/activity-wall.css?v=20261007a',
-                'css/components/guild-chat.css?v=20261007a',
-                'css/components/guild-dm.css?v=20261007a',
-                'css/components/guilde-nameless.css?v=20261007a'
+                'css/components/guilde.css?v=20261008hybrid',
+                'css/components/activity-wall.css?v=20261008hybrid',
+                'css/components/guild-chat.css?v=20261008hybrid',
+                'css/components/guild-dm.css?v=20261008hybrid',
+                'css/components/guilde-nameless.css?v=20261008hybrid'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/espace-guilde.js?v=20261007a',
-                'js/guild-chat.js?v=20261007a',
+                'js/espace-guilde.js?v=20261008hybrid',
+                'js/guild-chat.js?v=20261008hybrid',
                 'js/guild-dm.js?v=20261007a'
             ],
             init: function (root) {

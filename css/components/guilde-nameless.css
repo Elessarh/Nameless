@@ -1,252 +1,77 @@
-/* ============================================================
-   NAMELESS — Espace guilde (overrides premium)
-   Chargé EN DERNIER. Ne restyle que couleurs/bordures/typo/
-   espacements: ne touche PAS au positionnement/mécanique du
-   widget chat (position:fixed, .open) ni au grid deux colonnes.
-   Aucun JS modifié; contenu utilisateur rendu par les scripts
-   sécurisés (createElement/textContent/NamelessSecurity).
-   ============================================================ */
-
-.guilde-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1.75rem 1.25rem 4rem !important;
-}
-
-/* --- Hero / header --- */
-.guilde-header { text-align: center; margin-bottom: 1.6rem !important; }
-.guilde-header .nm-eyebrow {
-    display: block; color: var(--sao-gold);
-    text-transform: uppercase; letter-spacing: 0.4em; font-size: 0.7rem; margin-bottom: 0.6rem;
-}
-.guilde-header h1 {
-    font-family: var(--font-title) !important;
-    font-size: clamp(1.8rem, 4.5vw, 2.6rem) !important;
-    letter-spacing: 0.12em;
-    background: var(--nm-gold-grad);
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent !important; -webkit-text-fill-color: transparent;
-    padding: 0.04em 0.04em; margin: 0;
-}
-.guilde-subtitle { color: var(--nm-steel) !important; font-size: 0.95rem; margin: 0.6rem auto 0 !important; }
-
-.guilde-denied { text-align: center; padding: 4rem 1.25rem; }
-.guilde-denied h2 { color: #e59aa0; font-family: var(--font-title); letter-spacing: 0.06em; font-size: 1.6rem; margin-bottom: 0.8rem; }
-.guilde-denied p { color: var(--sao-text); }
-.guilde-denied .guilde-denied-hint { color: var(--nm-steel); margin-top: 0.8rem; font-size: 0.9rem; }
-
-/* --- Loading --- */
-.loading { text-align: center; padding: 3rem 1rem; color: var(--nm-steel) !important; }
-
-/* --- Panneaux (mur d'activité, onglets) --- */
-.activity-wall-container,
-.guilde-tabs-container {
-    background: var(--sao-bg-card) !important;
-    border: 1px solid var(--sao-border) !important;
-    border-radius: var(--nm-radius) !important;
-    box-shadow: none !important;
-}
-.activity-wall-header { border-bottom: 1px solid var(--nm-hairline) !important; }
-/* La section interne ne double plus la bordure (l'ancien cadre cyan disparaît) */
-.guilde-section { background: transparent !important; border: none !important; box-shadow: none !important; }
-.guilde-tab-content, .guilde-tab-content.active { background: transparent !important; border: none !important; box-shadow: none !important; }
-.activity-wall-title,
-.guilde-section .section-title {
-    font-family: var(--font-text) !important;
-    color: var(--sao-gold-light) !important;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    font-size: 0.85rem !important;
-}
-
-/* Onglets guilde */
-.guilde-tabs { border-bottom: 1px solid var(--nm-hairline) !important; gap: 0.4rem; }
-.guilde-tab-btn {
-    background: transparent !important;
-    border: none !important;
-    border-bottom: 2px solid transparent !important;
-    color: var(--nm-steel) !important;
-    font-size: 0.82rem !important;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 0.7rem 1rem !important;
-    transition: color 0.3s ease, border-color 0.3s ease;
-}
-.guilde-tab-btn:hover { color: var(--sao-text-bright) !important; }
-.guilde-tab-btn.active {
-    color: var(--sao-gold-light) !important;
-    border-bottom-color: var(--sao-gold) !important;
-    background: transparent !important;
-}
-.no-data, .no-activities-text { color: var(--nm-steel) !important; }
-.no-activities-icon { filter: saturate(0.6) opacity(0.6); }
-
-/* --- Boutons appel --- */
-.appel-btn {
-    border-radius: 6px !important;
-    font-size: 0.82rem !important; letter-spacing: 0.05em;
-    padding: 0.6rem 1.1rem !important;
-    border: 1px solid var(--sao-border-cyan) !important;
-    background: transparent !important;
-    transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
-}
-.appel-btn.present-btn { color: #86d3b1 !important; border-color: rgba(90,168,134,0.5) !important; }
-.appel-btn.present-btn:hover { box-shadow: none !important;
-    background: rgba(90,168,134,0.08) !important;
-}
-.appel-btn.absent-btn { color: #e59aa0 !important; border-color: rgba(193,88,95,0.5) !important; }
-.appel-btn.absent-btn:hover { box-shadow: none !important;
-    background: rgba(193,88,95,0.08) !important;
-}
-
-/* Présences */
-.presence-card {
-    background: var(--sao-bg-card) !important;
-    border: 1px solid var(--sao-border) !important;
-    border-radius: 9px !important;
-}
-.presence-username { color: var(--sao-text-bright) !important; }
-.presence-status { border-radius: 999px !important; font-size: 0.7rem !important; letter-spacing: 0.06em; }
-.presence-status.status-present { color: #86d3b1 !important; }
-.presence-status.status-absent { color: #e59aa0 !important; }
-.presence-status.status-en_mission { color: var(--sao-orange) !important; }
-
-/* Planning / objectifs (items rendus par espace-guilde.js) */
-.planning-item, .objective-item {
-    background: var(--sao-bg-panel) !important;
-    border: 1px solid var(--sao-border) !important;
-    border-radius: 9px !important;
-    border-left: 2px solid var(--sao-gold) !important;
-}
-.planning-item .item-title, .objective-item .item-title { color: var(--sao-text-bright) !important; font-weight: 600; }
-.item-date { color: var(--sao-gold) !important; font-size: 0.78rem !important; }
-.item-description { color: var(--sao-text) !important; }
-.progress-bar { background: rgba(0,0,0,0.35) !important; border-radius: 999px !important; }
-.progress-fill { background: var(--nm-gold-grad) !important; color: var(--nm-black) !important; font-weight: 600; }
-
-/* --- Mur d'activité (posts rendus par espace-guilde.js) --- */
-.activity-post {
-    background: var(--sao-bg-panel) !important;
-    border: 1px solid var(--sao-border) !important;
-    border-radius: var(--nm-radius) !important;
-}
-.activity-post-title { color: var(--sao-gold-light) !important; font-family: var(--font-text) !important; font-weight: 600; }
-.activity-post-date { color: var(--nm-steel) !important; }
-.activity-post-content { color: var(--sao-text) !important; }
-.activity-post-image { border-radius: 10px !important; border: 1px solid var(--sao-border) !important; }
-.activity-post-author { color: var(--sao-gold) !important; }
-.activity-post-type { border-radius: 999px !important; font-size: 0.68rem !important; letter-spacing: 0.06em; }
-
-/* ================================================================
-   Widget CHAT (couleurs/bordures uniquement; positionnement conservé)
-   ================================================================ */
-.chat-float-button {
-    background: linear-gradient(180deg, rgba(194,163,103,0.22), rgba(10,14,26,0.95)) !important;
-    border: 1px solid var(--sao-border-hover) !important;
-    color: var(--sao-gold-light) !important;
-    box-shadow: var(--sao-shadow) !important;
-}
-.chat-badge, .tab-badge {
-    background: var(--sao-red) !important;
-    color: #fff !important;
-    border: 1px solid rgba(0,0,0,0.3) !important;
-}
-.chat-container {
-    background: linear-gradient(160deg, rgba(12,16,28,0.99), rgba(6,9,16,0.99)) !important;
-    border: 1px solid var(--sao-border-hover) !important;
-    border-radius: 16px !important;
-    box-shadow: var(--sao-shadow) !important;
-}
-.chat-header { background: transparent !important; border-bottom: 1px solid var(--nm-hairline) !important; }
-.chat-title { color: var(--sao-gold-light) !important; font-family: var(--font-title) !important; letter-spacing: 0.05em; font-size: 1rem !important; }
-.chat-close-btn { background: transparent !important; border: 1px solid var(--sao-border) !important; color: var(--nm-steel) !important; }
-.chat-close-btn:hover { color: var(--sao-gold-light) !important; border-color: var(--sao-gold) !important; }
-
-.chat-tabs { border-bottom: 1px solid var(--nm-hairline) !important; }
-.chat-tab-btn { background: transparent !important; color: var(--nm-steel) !important; border: none !important; border-bottom: 2px solid transparent !important; letter-spacing: 0.05em; }
-.chat-tab-btn.active { color: var(--sao-gold-light) !important; border-bottom-color: var(--sao-gold) !important; }
-
-.chat-messages, .dm-messages { background: transparent !important; }
-.chat-loading, .dm-messages-loading { color: var(--nm-steel) !important; }
-
-/* Messages (rendus par guild-chat.js en DOM/textContent) */
-.chat-message { background: var(--sao-bg-card) !important; border: 1px solid var(--sao-border) !important; border-radius: 10px !important; }
-.chat-message.own-message { border-color: var(--sao-border-hover) !important; }
-.message-author { color: var(--sao-gold-light) !important; }
-.message-time { color: var(--nm-steel) !important; }
-.message-content { color: var(--sao-text) !important; }
-.message-reply-to { background: rgba(0,0,0,0.25) !important; border-left: 2px solid var(--sao-gold) !important; border-radius: 6px; }
-.reply-to-author { color: var(--sao-gold) !important; }
-.reply-to-content { color: var(--nm-steel) !important; }
-.action-btn, .delete-msg-btn, .admin-delete-btn { background: transparent !important; border: 1px solid var(--sao-border-cyan) !important; color: var(--nm-steel) !important; border-radius: 7px !important; }
-.action-btn:hover, .delete-msg-btn:hover { color: var(--sao-gold-light) !important; border-color: var(--sao-cyan) !important; }
-.mention { color: var(--sao-cyan) !important; background: rgba(111,146,179,0.10) !important; border-radius: 4px; padding: 0 3px; }
-.message-image { border-radius: 8px !important; border: 1px solid var(--sao-border) !important; }
-
-/* Réponse en cours */
-.chat-replying-to { background: rgba(0,0,0,0.3) !important; border-top: 1px solid var(--nm-hairline) !important; }
-.replying-to-label { color: var(--sao-gold) !important; }
-.replying-to-preview { color: var(--nm-steel) !important; }
-
-/* Saisie */
-.chat-input-container, .dm-input-container { background: transparent !important; border-top: 1px solid var(--nm-hairline) !important; }
-.chat-input, .dm-input {
-    background: var(--nm-navy) !important;
-    border: 1px solid var(--sao-border-cyan) !important;
-    color: var(--sao-text-bright) !important;
-    border-radius: 6px !important;
-}
-.chat-input::placeholder, .dm-input::placeholder { color: rgba(139,147,163,0.7) !important; }
-.chat-input:focus, .dm-input:focus { outline: none; border-color: var(--sao-cyan) !important; box-shadow: var(--focus-ring) !important; }
-.chat-image-btn, .dm-image-btn, .chat-send-btn, .dm-send-btn {
-    background: transparent !important;
-    border: 1px solid var(--sao-border-cyan) !important;
-    color: var(--sao-gold-light) !important;
-    border-radius: 50% !important;
-}
-.chat-send-btn:hover, .dm-send-btn:hover { border-color: var(--sao-gold) !important; box-shadow: none !important; }
-
-/* Autocomplétion mentions */
-.mention-autocomplete { background: var(--sao-bg-panel) !important; border: 1px solid var(--sao-border-hover) !important; border-radius: 10px !important; box-shadow: var(--sao-shadow) !important; }
-.mention-item { color: var(--sao-text) !important; }
-.mention-item.selected, .mention-item:hover { background: rgba(111,146,179,0.10) !important; color: var(--sao-text-bright) !important; }
-
-/* ================================================================
-   Messages privés (DM)
-   ================================================================ */
-.dm-sidebar { border-right: 1px solid var(--nm-hairline) !important; background: transparent !important; }
-.dm-search-input {
-    background: var(--nm-navy) !important;
-    border: 1px solid var(--sao-border-cyan) !important;
-    color: var(--sao-text-bright) !important;
-    border-radius: 8px !important;
-}
-.dm-search-input:focus { outline: none; border-color: var(--sao-cyan) !important; box-shadow: var(--focus-ring) !important; }
-.dm-member-item { border-bottom: 1px solid var(--sao-border) !important; }
-.dm-member-item:hover, .dm-member-item.active { background: rgba(111,146,179,0.08) !important; }
-.dm-member-avatar { background: var(--nm-navy) !important; border: 1px solid var(--sao-border) !important; }
-.dm-member-name { color: var(--sao-text-bright) !important; }
-.dm-member-preview { color: var(--nm-steel) !important; }
-.dm-loading { color: var(--nm-steel) !important; }
-
-.dm-placeholder { color: var(--nm-steel) !important; }
-.dm-placeholder-icon { filter: saturate(0.6) opacity(0.6); }
-.dm-chat-header { background: transparent !important; border-bottom: 1px solid var(--nm-hairline) !important; }
-.dm-recipient-name { color: var(--sao-gold-light) !important; font-weight: 600; }
-.dm-recipient-status { color: #86d3b1 !important; }
-.dm-back-btn { background: transparent !important; border: 1px solid var(--sao-border-cyan) !important; color: var(--nm-steel) !important; border-radius: 6px !important; }
-.dm-back-btn:hover { color: var(--sao-gold-light) !important; border-color: var(--sao-cyan) !important; }
-
-.dm-message-author { color: var(--sao-gold-light) !important; }
-.dm-message-time { color: var(--nm-steel) !important; }
-.dm-message-bubble { background: var(--sao-bg-card) !important; border: 1px solid var(--sao-border) !important; color: var(--sao-text) !important; border-radius: 10px !important; }
-.dm-message.own-message .dm-message-bubble { border-color: var(--sao-border-hover) !important; }
-.dm-message-avatar { background: var(--nm-navy) !important; }
-.dm-message-image { border-radius: 8px !important; border: 1px solid var(--sao-border) !important; }
-
-/* --- Responsive --- */
+/* Route-scoped activity and communication surfaces, loaded after widget CSS. */
+.guilde-container .activity-wall-container { margin: 0; padding: var(--nm-space-5); background: var(--nm-surface); border: 1px solid var(--nm-border); border-radius: var(--nm-radius); box-shadow: none; }
+.guilde-container .activity-wall-header { margin-bottom: var(--nm-space-4); padding-bottom: var(--nm-space-4); border-bottom: 1px solid var(--nm-border); }
+.guilde-container .activity-wall-title { color: var(--nm-text-bright); font: 500 var(--nm-title-sm)/1.35 var(--font-title); text-shadow: none; }
+.guilde-container .activity-wall-content { gap: var(--nm-space-4); }
+.guilde-container .activity-post { padding: var(--nm-space-4); background: var(--nm-bg-secondary); border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); }
+.guilde-container .activity-post:hover { background: var(--nm-bg-secondary); transform: none; }
+.guilde-container .activity-post-header { flex-wrap: wrap; gap: var(--nm-space-2); }
+.guilde-container .activity-post-title { color: var(--nm-text-bright); font: 600 var(--nm-text-base)/1.4 var(--font-text); overflow-wrap: anywhere; }
+.guilde-container .activity-post-date { color: var(--nm-text-secondary); font-size: var(--nm-text-xs); font-style: normal; }
+.guilde-container .activity-post-content { color: var(--nm-text); font-size: var(--nm-text-sm); overflow-wrap: anywhere; }
+.guilde-container .activity-post-image { border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); background: var(--nm-bg); }
+.guilde-container .activity-post-footer { border-top: 1px solid var(--nm-border); gap: var(--nm-space-2); flex-wrap: wrap; }
+.guilde-container .activity-post-author { color: var(--nm-text-secondary); font-size: var(--nm-text-xs); }
+.guilde-container .activity-post-type { background: var(--nm-surface-raised); color: var(--nm-gold-light); border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); padding: var(--nm-space-1) var(--nm-space-2); font-size: var(--nm-text-xs); text-transform: none; letter-spacing: 0; }
+.guilde-container .no-activities-text { margin: 0; color: var(--nm-text-secondary); }
+.guilde-container .guild-resources { margin-top: var(--nm-space-5); padding: var(--nm-space-5); background: var(--nm-surface); border: 1px solid var(--nm-border); border-radius: var(--nm-radius); }
+.guilde-container .guild-resources h2 { margin: 0 0 var(--nm-space-4); color: var(--nm-text-bright); font: 500 var(--nm-title-sm)/1.3 var(--font-title); }
+.guilde-container .guild-resource-links { display: grid; gap: var(--nm-space-2); }
+.guilde-container .guild-resource-links a { display: flex; align-items: center; gap: var(--nm-space-3); min-height: var(--nm-control-height); padding: var(--nm-space-3); color: var(--nm-text); background: var(--nm-bg-secondary); border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); text-decoration: none; font-size: var(--nm-text-sm); }
+.guilde-container .guild-resource-links a:hover { border-color: var(--nm-gold); background: var(--nm-surface-raised); }
+.guilde-container .guild-resource-links .nm-ui-icon { color: var(--nm-gold-light); flex-shrink: 0; }
+.guilde-container .chat-float-button { width: auto; min-width: 132px; height: var(--nm-control-height); padding: 0 var(--nm-space-4); bottom: var(--nm-space-5); right: var(--nm-space-5); gap: var(--nm-space-2); border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius); color: var(--nm-text-bright); background: var(--nm-surface-raised); box-shadow: var(--nm-shadow-panel); font: 600 var(--nm-text-sm)/1.4 var(--font-text); z-index: 90; }
+.guilde-container .chat-float-button:hover { border-color: var(--nm-gold); transform: none; box-shadow: var(--nm-shadow-panel); }
+.guilde-container .chat-float-button.has-new-messages { animation: none; border-color: var(--nm-gold); }
+.guilde-container .chat-float-button .chat-badge { position: static; min-width: 22px; width: auto; height: 22px; padding: 0 var(--nm-space-1); border: 0; border-radius: var(--nm-radius-sm); color: var(--nm-bg); background: var(--nm-gold-light); }
+.guilde-container .chat-container { width: min(640px, calc(100vw - 2rem)); height: min(640px, 80dvh); max-height: calc(100dvh - var(--nm-header-height) - 1rem); right: var(--nm-space-4); background: var(--nm-bg-secondary); border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius) var(--nm-radius) 0 0; backdrop-filter: none; box-shadow: var(--nm-shadow-dialog); z-index: var(--nm-z-dialog); }
+.guilde-container .chat-container.open { animation: nmGuildChatEnter var(--nm-duration-panel) var(--nm-ease); }
+.guilde-container .chat-header { padding: var(--nm-space-3) var(--nm-space-4); background: var(--nm-surface); border-bottom: 1px solid var(--nm-border); }
+.guilde-container .chat-title { color: var(--nm-text-bright); font: 500 var(--nm-text-lg)/1.3 var(--font-title); }
+.guilde-container .chat-tabs { background: var(--nm-bg-secondary); border-bottom: 1px solid var(--nm-border); }
+.guilde-container .chat-tab-btn { min-height: var(--nm-control-height); padding: var(--nm-space-3); color: var(--nm-text-secondary); background: transparent; border: 0; border-bottom: 2px solid transparent; }
+.guilde-container .chat-tab-btn.active { color: var(--nm-gold-light); border-bottom-color: var(--nm-gold); background: var(--nm-surface); }
+.guilde-container .chat-message { background: var(--nm-surface); border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); }
+.guilde-container .chat-message:hover { background: var(--nm-surface); }
+.guilde-container .chat-message.own-message { background: var(--nm-surface-raised); border-color: var(--nm-border-control); }
+.guilde-container .chat-message:focus-within .message-actions { opacity: 1; }
+.guilde-container :is(.message-author, .dm-message-author, .reply-to-author, .replying-to-label) { color: var(--nm-gold-light); }
+.guilde-container :is(.message-time, .dm-message-time, .reply-to-content, .replying-to-preview, .chat-loading, .dm-loading, .dm-placeholder, .dm-messages-loading) { color: var(--nm-text-secondary); }
+.guilde-container :is(.message-content, .dm-message-bubble) { color: var(--nm-text); overflow-wrap: anywhere; }
+.guilde-container :is(.message-image, .dm-message-image) { border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); }
+.guilde-container :is(.message-reply-to, .chat-replying-to) { background: var(--nm-bg); border-color: var(--nm-border); }
+.guilde-container .message-reply-to { border-left: 2px solid var(--nm-gold); border-radius: var(--nm-radius-sm); }
+.guilde-container :is(.chat-input-container, .dm-input-container) { background: var(--nm-surface); border-top: 1px solid var(--nm-border); }
+.guilde-container :is(.chat-input-wrapper, .dm-input-wrapper) { min-width: 0; gap: var(--nm-space-2); }
+.guilde-container :is(.chat-input, .dm-input, .dm-search-input) { min-width: 0; min-height: var(--nm-control-height); background: var(--nm-bg); border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius-sm); color: var(--nm-text); font-size: var(--nm-text-sm); }
+.guilde-container :is(.chat-input, .dm-input, .dm-search-input)::placeholder { color: var(--nm-text-secondary); }
+.guilde-container :is(.chat-image-btn, .dm-image-btn, .chat-send-btn, .dm-send-btn, .chat-close-btn, .cancel-reply-btn, .dm-back-btn, .message-action-btn, .action-btn, .delete-msg-btn) { min-width: var(--nm-control-height); min-height: var(--nm-control-height); padding: var(--nm-space-2); background: var(--nm-bg-secondary); color: var(--nm-text); border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius-sm); box-shadow: none; flex-shrink: 0; }
+.guilde-container :is(.chat-send-btn, .dm-send-btn) { color: var(--nm-gold-light); }
+.guilde-container :is(.chat-image-btn, .dm-image-btn, .chat-send-btn, .dm-send-btn):hover { background: var(--nm-surface-raised); transform: none; box-shadow: none; }
+.guilde-container .mention-autocomplete { background: var(--nm-surface-raised); border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius-sm); box-shadow: var(--nm-shadow-panel); }
+.guilde-container .mention { color: var(--nm-link); background: var(--nm-bg); border-radius: var(--nm-radius-sm); }
+.guilde-container .dm-layout { min-height: 0; flex-direction: row; }
+.guilde-container .dm-sidebar { width: 220px; max-width: 220px; max-height: none; background: var(--nm-bg-secondary); border-right: 1px solid var(--nm-border); }
+.guilde-container .dm-member-item { background: transparent; border-bottom: 1px solid var(--nm-border); min-height: var(--nm-control-height); }
+.guilde-container .dm-member-item:hover, .guilde-container .dm-member-item.active { background: var(--nm-surface-raised); }
+.guilde-container .dm-member-name { color: var(--nm-text-bright); }
+.guilde-container .dm-member-preview { color: var(--nm-text-secondary); }
+.guilde-container .dm-chat-area { background: var(--nm-bg-secondary); min-width: 0; }
+.guilde-container .dm-chat-header { background: var(--nm-surface); border-bottom: 1px solid var(--nm-border); }
+.guilde-container .dm-recipient-name { color: var(--nm-text-bright); }
+.guilde-container .dm-recipient-status { color: var(--nm-text-secondary); }
+.guilde-container .dm-message-bubble { background: var(--nm-surface); border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); }
+.guilde-container .dm-message.own-message .dm-message-bubble { background: var(--nm-surface-raised); border-color: var(--nm-border-control); }
+.guilde-container :is(.dm-unread-badge, .tab-badge) { color: var(--nm-bg); background: var(--nm-gold-light); border-radius: var(--nm-radius-sm); }
+@keyframes nmGuildChatEnter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 600px) {
-    .guilde-container { padding: 1.25rem 0.85rem 3rem !important; }
+    .guilde-container :is(.activity-wall-container, .guild-resources) { padding: var(--nm-space-4); }
+    .guilde-container .chat-container { width: 100%; right: 0; height: min(720px, 85dvh); max-height: calc(100dvh - var(--nm-header-height)); border-radius: 0; }
+    .guilde-container .chat-float-button { right: var(--nm-space-3); bottom: var(--nm-space-3); }
+    .guilde-container .chat-input-container, .guilde-container .dm-input-container { padding: var(--nm-space-3); }
+    .guilde-container .dm-layout { flex-direction: column; }
+    .guilde-container .dm-sidebar { width: 100%; max-width: 100%; max-height: 24dvh; border-right: 0; border-bottom: 1px solid var(--nm-border); }
+    .guilde-container .dm-active-chat { min-height: 0; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-    .chat-float-button, .chat-tab-btn, .guilde-tab-btn, .appel-btn, .dm-member-item { transition: none !important; }
-}
+@media (prefers-reduced-motion: reduce) { .guilde-container *, .guilde-container *::before, .guilde-container *::after { animation: none !important; transition: none !important; } }
+@media (hover: none) { .guilde-container .message-actions { opacity: 1; } }

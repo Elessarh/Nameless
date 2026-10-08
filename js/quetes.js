@@ -146,7 +146,17 @@
 
         applyUrl() {
             var id = new URLSearchParams(window.location.search).get('quest');
+            var archived = this.$('#quest-archived-target');
+            if (archived) archived.hidden = true;
             if (!id) return;
+            if (/^(?:p[12]-principale-|(?:floor2-)?quest-\d)/.test(id)) {
+                if (archived) {
+                    archived.hidden = false;
+                    archived.focus({ preventScroll: true });
+                    archived.scrollIntoView({ block: 'center', behavior: 'auto' });
+                }
+                return;
+            }
             var quest = this.allQuests.find(function (entry) { return entry.id === id; });
             if (!quest) return;
             this.currentTier = quest.tier;
@@ -304,8 +314,8 @@
                 h.textContent = 'Aucune quête trouvée';
                 p.textContent = 'Aucun résultat pour « ' + this.search + ' » au palier ' + this.currentTier + '.';
             } else {
-                h.textContent = 'Palier ' + this.currentTier + ' en préparation';
-                p.textContent = 'Les quêtes de ce palier arrivent bientôt. Paliers disponibles : 1 et 2.';
+                h.textContent = 'Aucune archive secondaire pour ce palier';
+                p.textContent = 'Informations historiques non vérifiées. Paliers documentés : 1 et 2.';
             }
             this.emptyEl.style.display = 'block';
         }

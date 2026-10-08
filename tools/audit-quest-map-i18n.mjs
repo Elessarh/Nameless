@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import {createRequire} from 'node:module';
+import {projectMapSource} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
 
@@ -92,7 +93,7 @@ for (const file of ['pages/quetes.html', 'pages/map.html']) {
 }
 
 const reviewedAttributes = [
-    "Progression d'Aincrad — le guide des quêtes principales et secondaires de la guilde Nameless, avec lieux, PNJ, objectifs et coordonnées.",
+    "Archives des quêtes secondaires d'Aincrad. Informations historiques non vérifiées.",
     "Le guide des quêtes d'Aincrad : lieux, PNJ, objectifs et coordonnées.",
     "La carte interactive d'Aincrad — zones, donjons, quêtes, villes, marchands et monstres. Le territoire de la guilde Nameless.",
     "La carte interactive d'Aincrad et tous ses points d'intérêt.",
@@ -106,7 +107,7 @@ for (const source of reviewedAttributes) assertReviewed(source, 'HTML attribute'
 
 const mapSource = read('js/map.js');
 const mapDataValues = new Set();
-for (const table of Object.values(JSON.parse(read('data/map-source.json')))) {
+for (const table of Object.values(projectMapSource(JSON.parse(read('data/map-source.json'))))) {
     if (!Array.isArray(table)) continue;
     for (const point of table) for (const field of ['name', 'description', 'npc']) {
         if (point[field]) mapDataValues.add(point[field]);

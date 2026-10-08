@@ -1,0 +1,92 @@
+{
+  "rows": [
+    {
+      "cards": [
+        {
+          "h": 188,
+          "w": 352
+        },
+        {
+          "h": 188,
+          "w": 352
+        },
+        {
+          "h": 188,
+          "w": 352
+        },
+        {
+          "h": 188,
+          "w": 352
+        }
+      ],
+      "clipped": [],
+      "height": 868,
+      "overflow": false,
+      "record": [
+        {
+          "h": 108,
+          "w": 353
+        },
+        {
+          "h": 108,
+          "w": 353
+        },
+        {
+          "h": 108,
+          "w": 353
+        },
+        {
+          "h": 108,
+          "w": 353
+        }
+      ],
+      "scrollTop": 0,
+      "width": 768
+    },
+    {
+      "clipped": [],
+      "inventoryTitleGap": 25.625,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "clipped": [],
+      "inventoryTitleGap": 25.625,
+      "overflow": false,
+      "width": 360
+    },
+    {
+      "clipped": [],
+      "inventoryTitleGap": 25.5,
+      "overflow": false,
+      "width": 481
+    },
+    {
+      "clipped": [],
+      "inventoryTitleGap": 25.5,
+      "overflow": false,
+      "width": 600
+    },
+    {
+      "clipped": [],
+      "inventoryTitleGap": 23.75,
+      "overflow": false,
+      "width": 1024
+    },
+    {
+      "overflow": false,
+      "scrollTop": 0,
+      "width": 2570
+    }
+  ],
+  "keyboard": {
+    "searchArrowDown": true,
+    "searchEscapeReturnFocus": true,
+    "mobileMenuEscapeReturnFocus": true
+  },
+  "english360": {
+    "clipped": []
+  },
+  "inventoryNativePixels": true,
+  "generatedPaintingsReferenced": false
+}

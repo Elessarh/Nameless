@@ -114,17 +114,19 @@ function paletteIsolation(w, selector) {
 }
 
 {
-    const dom = surface('pages/quetes.html', '/quetes?quest=p2-principale-1', ['js/quetes.js']);
+    const dom = surface('pages/quetes.html', '/quetes?quest=p2-secondaire-minutiare', ['js/quetes.js']);
     const w = dom.window, d = w.document; w.NamelessQuestPage.init(d);
     check(d.querySelector('#tier-select').value === '2', 'Quest deep link selects its floor');
-    check(d.activeElement.id === 'p2-principale-1' && d.activeElement.style.display === 'block', 'Quest deep link focuses its visible step');
+    check(d.activeElement.id === 'p2-secondaire-minutiare' && d.activeElement.style.display === 'block', 'Secondary archive deep link focuses its visible step');
     const all = Array.from(d.querySelectorAll('.quest-step'));
     check(all.every(step => step.id) && new Set(all.map(step => step.id)).size === all.length, 'Quest IDs are permanent and unique');
-    const coords = d.querySelector('#p2-principale-1 a.coordinates');
-    check(coords && new URL(coords.href).searchParams.get('y') === '-888', 'Quest coordinate links preserve negative values');
+    const coords = d.querySelector('.quest-section[data-tier="2"] a.coordinates[data-y^="-"]');
+    check(coords && Number(new URL(coords.href).searchParams.get('y')) < 0, 'Secondary archive coordinate links preserve negative values');
+    route(w, '/quetes?quest=p1-secondaire-varn');
+    check(d.activeElement.id === 'p1-secondaire-varn' && d.querySelector('#tier-select').value === '1', 'Same-route secondary navigation changes floor');
     route(w, '/quetes?quest=p1-principale-1');
-    check(d.activeElement.id === 'p1-principale-1' && d.querySelector('#tier-select').value === '1', 'Same-route quest navigation changes floor');
-    check(d.querySelector('.quest-filter-btn.active').getAttribute('aria-pressed') === 'true', 'Quest category selection exposes state');
+    check(!d.querySelector('#p1-principale-1') && !d.querySelector('#quest-archived-target').hidden && d.activeElement.id === 'quest-archived-target', 'Old main quest URL explains archiving without exposing obsolete content');
+    check(!d.querySelector('.quest-filter-btn') && !d.querySelector('.quest-section[data-category="principale"]'), 'The secondary archive offers no misleading category toggle for retired main quests');
     w.NamelessQuestPage.destroy(); dom.window.close();
 }
 

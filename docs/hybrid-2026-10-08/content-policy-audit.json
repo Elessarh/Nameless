@@ -1,0 +1,1925 @@
+{
+  "version": 1,
+  "removedMainGuideIds": [
+    "p2-principale-1",
+    "p2-principale-2",
+    "p2-principale-3",
+    "p2-principale-4",
+    "p2-principale-5",
+    "p2-principale-6",
+    "p2-principale-7",
+    "p2-principale-8",
+    "p2-principale-9",
+    "p2-principale-10",
+    "p2-principale-11",
+    "p2-principale-12",
+    "p2-principale-13",
+    "p2-principale-14",
+    "p2-principale-15",
+    "p2-principale-16",
+    "p1-principale-1",
+    "p1-principale-2",
+    "p1-principale-3",
+    "p1-principale-4",
+    "p1-principale-5",
+    "p1-principale-6",
+    "p1-principale-7",
+    "p1-principale-8-1",
+    "p1-principale-8-1-2",
+    "p1-principale-8-1-3",
+    "p1-principale-8-1-4",
+    "p1-principale-8-1-5",
+    "p1-principale-8-1-6",
+    "p1-principale-8-1-7",
+    "p1-principale-8-1-8",
+    "p1-principale-8-1-9",
+    "p1-principale-8-1-10",
+    "p1-principale-8-1-11",
+    "p1-principale-8-1-12",
+    "p1-principale-8-1-13",
+    "p1-principale-8-2",
+    "p1-principale-8-2-2",
+    "p1-principale-8-2-3",
+    "p1-principale-9",
+    "p1-principale-10",
+    "p1-principale-11",
+    "p1-principale-12",
+    "p1-principale-13",
+    "p1-principale-14",
+    "p1-principale-15",
+    "p1-principale-16",
+    "p1-principale-17",
+    "p1-principale-18",
+    "p1-principale-19",
+    "p1-principale-20",
+    "p1-principale-21",
+    "p1-principale-22",
+    "p1-principale-23",
+    "p1-principale-24",
+    "p1-principale-25",
+    "p1-principale-26",
+    "p1-principale-26-1",
+    "p1-principale-26-2",
+    "p1-principale-26-3",
+    "p1-principale-26-4",
+    "p1-principale-27-1",
+    "p1-principale-27-2",
+    "p1-principale-27-3",
+    "p1-principale-28",
+    "p1-principale-29-1",
+    "p1-principale-29-2"
+  ],
+  "removedPrimaryRows": [
+    {
+      "table": "questData",
+      "id": "quest-1"
+    },
+    {
+      "table": "questData",
+      "id": "quest-2"
+    },
+    {
+      "table": "questData",
+      "id": "quest-3"
+    },
+    {
+      "table": "questData",
+      "id": "quest-4"
+    },
+    {
+      "table": "questData",
+      "id": "quest-5"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1-2"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1-5"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1-6"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1-7"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1-9"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1-10"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-1-13"
+    },
+    {
+      "table": "questData",
+      "id": "quest-8-2-2"
+    },
+    {
+      "table": "questData",
+      "id": "quest-13"
+    },
+    {
+      "table": "questData",
+      "id": "quest-15"
+    },
+    {
+      "table": "questData",
+      "id": "quest-16"
+    },
+    {
+      "table": "questData",
+      "id": "quest-17"
+    },
+    {
+      "table": "questData",
+      "id": "quest-21"
+    },
+    {
+      "table": "questData",
+      "id": "quest-22"
+    },
+    {
+      "table": "questData",
+      "id": "quest-23"
+    },
+    {
+      "table": "questData",
+      "id": "quest-26-1"
+    },
+    {
+      "table": "questData",
+      "id": "quest-26-2"
+    },
+    {
+      "table": "questData",
+      "id": "quest-27-1"
+    },
+    {
+      "table": "questData",
+      "id": "quest-28"
+    },
+    {
+      "table": "questData",
+      "id": "quest-29-1"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-1"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-2"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-3"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-4"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-5"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-6"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-7"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-8"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-9"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-10"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-11"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-12"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-13"
+    },
+    {
+      "table": "questDataFloor2",
+      "id": "floor2-quest-16"
+    }
+  ],
+  "remainingSecondaryGuideCount": 58,
+  "removedTranslationKeys": [
+    {
+      "file": "js/i18n-en.js",
+      "key": "10 Tissus Maudits & 1 Cœur Putrifié"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "16 Peaux de Cerf & 10 Lingots de Fer"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Abraham vous attend"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Achèvement du Palier 1"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Affrontez et éliminez le redoutable Léviathan."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Après Léviathan"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Archipel d'Ika - Le Sceau"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Artheon"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Au Spawn"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Avancer les lignes principales et secondaires ensemble, sans laisser personne derrière."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Boss de fin de branche"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Boss majeur aquatique"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Branche 8.1 - La quête d'Elma (Mizunari)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Branche 8.2 - Mine de Geldorak"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Cathédrale"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Chasse maritime"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Codex des créatures d'Aincrad — boss, élites et bêtes, avec paliers, zones, PV et butin. Le bestiaire de la guilde Nameless."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collecter 15 Âmes des Ruines"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez ces matériaux rares dans la zone."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez et livrez ces ressources à Emy."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez les bûches pour Bronn"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez les bûches pour Bronn."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez les matériaux rares"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez les matériaux rares."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez les ressources pour Yuko"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Collectez les ressources pour Yuko."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Commencez votre aventure - Point de spawn"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Commencez votre aventure au Palier 2"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Commencez votre aventure au Palier 2 en parlant au Maître Épéiste."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Commencez votre aventure en parlant au Maître Épéiste au point de spawn."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Compléter la Mine de Geldorak"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Compléter le rush"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Contacter Yaa"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Continuez l'aventure avec Ramoon après le boss."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Coordonnées d'Artheon : X: 133, Z: -375, Y: 140"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Craft Clé de la Mine de Geldorak"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Craftez la clé pour accéder à la mine de Geldorak."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Dernière livraison pour Bronn"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Dernière livraison pour Bronn."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Dialoguez avec cette entité mystérieuse."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Dialoguez avec les 3 PNJ dans la taverne."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Discutez avec Kwabeno"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Discutez avec Kwabeno."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Donjon Abeille"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Donjon Araignée Xal'Zirith"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Donjon final du Palier 1"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Donjon majeur"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Début de la première branche - parlez à Elma à Mizunari."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Début du Palier 2"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "En haut de la tour"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Entité mystérieuse"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Fabriquer la clé d'accès"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Fabriquez les planches pour Bronn"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Fabriquez les planches pour Bronn."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Farm 15 Âmes des Ruines"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Farm Matériaux Spéciaux"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Farmez dans les ruines pour obtenir 15 Âmes des Ruines."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Fin avec Mephisto"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Finir le Donjon (Mine)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Finir le Donjon Rush de Melliona"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Finir le Donjon de Xal'Zirith"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Finir le Labyrinthe des Déchus"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Harrold vous attend"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Homme Cagoulé"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Homme mystérieux"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Introduction - Premiers pas"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "La vieille Mara vous donnera des informations importantes."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Le parcours de la guilde : principales et secondaires, avec lieux et PNJ."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Le parcours de la guilde, palier par palier — quêtes principales et secondaires, avec lieux, PNJ et objectifs."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Lieu:"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Livrer les Ressources à Emy"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Maître Épéiste"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Maître Épéiste (Cathédrale)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Mini-Boss"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Montez en haut de la tour pour parler au Maître Épéiste."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Niveau 4 minimum"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Nouveau chapitre commence avec Ramoon à Virelune."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Nécessite la quête de Zebulgarath"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Objectif interactif sur l'Archipel d'Ika."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Objectif:"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenez la clé de Melliona en complétant le donjon des abeilles."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenir 10 Planches d'Acacia et 1 Lingot d'Onyx Pur"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenir 10 Écailles Fulgurantes et 10 Cornes de Taureaux"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenir 20 Bûches d'Acacia et 20 Bûches de Chêne"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenir 20 Planches d'Acacia et 20 Planches de Chêne"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenir 20 Planches de Chêne, 20 Planches d'Acacia et 10 Bûches de Bouleau"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenir 30 Bûches de Chêne, 10 Fourrures de Loup, 20 Minerais de Charbon"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Obtenir la Clé de Melliona"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Ombre Mystérieuse"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler au Maire"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler au Maître Épéiste"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler au Spectre Archiviste"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler aux 3 PNJs"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Abraham"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Bantu"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Catherine"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Elma"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Emy"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Eric"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Kwabeno"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Malrik"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Mephisto"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Neko"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Ramoon"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Silrix"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Virel"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à Wali"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à l'Homme Cagoulé"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à l'Ombre Mystérieuse"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à la Statue de Yaa"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parler à la Vieille Mara"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parlez à Catherine pour préparer le donjon du Labyrinthe."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parlez à Emy et préparez-vous à livrer des ressources."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parlez à la Statue de Yaa"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Parlez à la Statue de Yaa."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Prendre la Rune"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Prendre le Téléporteur"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Progression d'Aincrad — le guide des quêtes principales et secondaires de la guilde Nameless, avec lieux, PNJ, objectifs et coordonnées."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Préparez-vous pour le dernier donjon avec Silrix."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Prérequis:"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Quête Principale - Palier 1"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Quête Principale - Palier 2"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Quête d'Elma - Mizunari"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rapport au Spectre Archiviste"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rapport à Catherine"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rapport à Harrold"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rapport à Malrik"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rapport à Virel"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rapport à Wali"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rassemblez les matériaux demandés"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rassemblez les matériaux demandés."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rendez-vous auprès de Bantu"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rendez-vous auprès de Bantu."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rendez-vous aux Ruines Squelettiques pour parler à Eric."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rendez-vous voir Abraham pour la suite de votre mission."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rendez-vous à Tolbana pour parler à Mephisto."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rendez-vous à la Cathédrale pour parler au Maître Épéiste."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retour au Maître Épéiste"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retour à Wali"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez faire votre rapport à Catherine."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez voir Harrold avec la Spore Corrompu."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez voir Malrik après la chasse."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez voir Virel après avoir vaincu le Léviathan."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez voir Wali après avoir livré à Emy."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez voir Wali avec les informations."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez voir le Spectre Archiviste avec les matériaux."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez à Tolbana pour parler à Malrik."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez à Virelune pour parler à Virel."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Retournez à la Cathédrale."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Rune mystérieuse"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Récompense:"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Récupérez la rune mystérieuse à cet emplacement."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Réparer le Sceau"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Saut requis pour atteindre le PNJ."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Sortie du donjon"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Suite Principale - Après les branches"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Suite après avoir terminé les deux branches."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Suite avec Ramoon"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Taverne (Ville de départ)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Terminez ce donjon pour compléter entièrement le Palier 1 !"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Terminez cette partie de la quête avec Mephisto."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Terminez entièrement ce donjon important."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Terminez entièrement le donjon de la mine."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Terminez le donjon Rush de Melliona."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tolbana - La Cité"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouver Artheon à Urbus"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouver Harrold"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouver Velka"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouvez Artheon aux coordonnées X: 133, Z: -375, Y: 140."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouvez Velka à CastelBrume."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouvez Wali à la sortie du Labyrinthe des Déchus."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouvez et parlez à Harrold."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouvez et parlez à Neko."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Trouvez l'homme mystérieux cagoulé."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tuer 10 Sangliers"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tuer 20 Taureaux"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tuer 25 Loups"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tuer Gorbel (Last Hit)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tuer Nasgul (Boss)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tuer Nephantes"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Tuer le Léviathan (Boss Majeur)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Téléporteur"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Utilisez le téléporteur"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Utilisez le téléporteur à ces coordonnées."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Virelune - Nouveau Chapitre"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Vous devez recevoir 2 quêtes importantes après avoir atteint le niveau 4."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "X:1839, Z:4530 (Cathédrale)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "X:2380, Z:2417 (Labyrinthe)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "X:2864, Z:4491 (Ruine Squelettique)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "X:3249, Z:4295 (Archipel d'Ika)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "X:638, Z:-267"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "X:979, Z:1372 (Donjon Araignée)"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez 10 requins dans les zones aquatiques."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez 10 sangliers dans la zone de chasse."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez 20 taureaux dans la zone"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez 20 taureaux dans la zone."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez Gorbel - vous devez porter le coup final."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Éliminez des Nephantes pour obtenir 1 Spore Corrompu."
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Établissez le contact avec Yaa"
+    },
+    {
+      "file": "js/i18n-en.js",
+      "key": "Établissez le contact avec Yaa."
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "Le parcours de la guilde, palier par palier — quêtes principales et secondaires, avec lieux, PNJ et objectifs."
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "Quête Principale - Palier 1"
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "Quête Principale - Palier 2"
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "Introduction - Premiers pas"
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "Au Spawn"
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "En haut de la tour"
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "600 PV, dans le donjon Kobold. Retrouvez les informations connues avant le combat."
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "Points de vie, lieux et butins connus des boss, élites et créatures."
+    },
+    {
+      "file": "js/i18n-en-reviewed.js",
+      "key": "Étapes, PNJ et coordonnées des quêtes principales et secondaires."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Lieu:"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Prérequis:"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Objectif:"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Récompense:"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Note:"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Type:"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "PNJ:"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Niveau 4 minimum"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Progression d'Aincrad — le guide des quêtes principales et secondaires de la guilde Nameless, avec lieux, PNJ, objectifs et coordonnées."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Boss de fin de branche"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Boss majeur aquatique"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Mini-Boss"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Donjon majeur"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Donjon final du Palier 1"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Achèvement du Palier 1"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Chasse maritime"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Sortie du donjon"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Objectif interactif sur l'Archipel d'Ika."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler au Maître Épéiste"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Maître Épéiste"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Maître Épéiste (Cathédrale)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Commencez votre aventure en parlant au Maître Épéiste au point de spawn."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Commencez votre aventure - Point de spawn"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Zone de chasse aux sangliers"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Abraham vous attend"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Informations importantes"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rune mystérieuse"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Quête d'Elma - Mizunari"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Harrold vous attend"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tuer 10 Sangliers"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez 10 sangliers dans la zone de chasse."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Abraham"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rendez-vous voir Abraham pour la suite de votre mission."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à la Vieille Mara"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "La vieille Mara vous donnera des informations importantes."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Prendre la Rune"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Récupérez la rune mystérieuse à cet emplacement."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Montez en haut de la tour pour parler au Maître Épéiste."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retour au Maître Épéiste"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Vous devez recevoir 2 quêtes importantes après avoir atteint le niveau 4."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Branche 8.1 - La quête d'Elma (Mizunari)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Elma"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Début de la première branche - parlez à Elma à Mizunari."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouver Harrold"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouvez et parlez à Harrold."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tuer Nephantes"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Farm 1 Spore Corrompu"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez des Nephantes pour obtenir 1 Spore Corrompu."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rapport à Harrold"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez voir Harrold avec la Spore Corrompu."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rendez-vous à la Cathédrale pour parler au Maître Épéiste."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouver Velka"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouvez Velka à CastelBrume."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Eric"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rendez-vous aux Ruines Squelettiques pour parler à Eric."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Farm 15 Âmes des Ruines"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collecter 15 Âmes des Ruines"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Farmez dans les ruines pour obtenir 15 Âmes des Ruines."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Prendre le Téléporteur"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Utilisez le téléporteur à ces coordonnées."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Utilisez le téléporteur"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Saut requis"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler au Spectre Archiviste"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Saut requis pour atteindre le PNJ."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Farm Matériaux Spéciaux"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "10 Tissus Maudits & 1 Cœur Putrifié"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez ces matériaux rares dans la zone."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rapport au Spectre Archiviste"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez voir le Spectre Archiviste avec les matériaux."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tuer Nasgul (Boss)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Branche 8.2 - Mine de Geldorak"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Mine de Geldorak"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Craft Clé de la Mine de Geldorak"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Fabriquer la clé d'accès"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Craftez la clé pour accéder à la mine de Geldorak."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Neko"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouvez et parlez à Neko."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Finir le Donjon (Mine)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Compléter la Mine de Geldorak"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Terminez entièrement le donjon de la mine."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Suite Principale - Après les branches"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Suite après avoir terminé les deux branches."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler aux 3 PNJs"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Taverne (Ville de départ)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Dialoguez avec les 3 PNJ dans la taverne."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler au Maire"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Nécessite la quête de Zebulgarath"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tuer Gorbel (Last Hit)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez Gorbel - vous devez porter le coup final."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à l'Homme Cagoulé"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouvez l'homme mystérieux cagoulé."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Homme mystérieux"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez à la Cathédrale."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Catherine"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parlez à Catherine pour préparer le donjon du Labyrinthe."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Archipel d'Ika - Le Sceau"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Réparer le Sceau"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à l'Ombre Mystérieuse"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Dialoguez avec cette entité mystérieuse."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Entité mystérieuse"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rapport à Catherine"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez faire votre rapport à Catherine."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Finir le Labyrinthe des Déchus"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Terminez entièrement ce donjon important."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tolbana - La Cité"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Wali"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouvez Wali à la sortie du Labyrinthe des Déchus."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Mephisto"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rendez-vous à Tolbana pour parler à Mephisto."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rapport à Wali"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retour à Wali"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez voir Wali avec les informations."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Emy"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parlez à Emy et préparez-vous à livrer des ressources."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Livrer les Ressources à Emy"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Livraison de ressources"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "16 Peaux de Cerf & 10 Lingots de Fer"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez et livrez ces ressources à Emy."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez voir Wali après avoir livré à Emy."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Fin avec Mephisto"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Terminez cette partie de la quête avec Mephisto."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Virelune - Nouveau Chapitre"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Virelune - Nouveau chapitre"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Ramoon"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Nouveau chapitre commence avec Ramoon à Virelune."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Malrik"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez à Tolbana pour parler à Malrik."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez 10 requins dans les zones aquatiques."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rapport à Malrik"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez voir Malrik après la chasse."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Virel"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez à Virelune pour parler à Virel."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tuer le Léviathan (Boss Majeur)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Affrontez et éliminez le redoutable Léviathan."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rapport à Virel"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Après Léviathan"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Retournez voir Virel après avoir vaincu le Léviathan."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Suite avec Ramoon"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Continuez l'aventure avec Ramoon après le boss."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Xal'Zirith - Donjon Final"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Donjon Araignée Xal'Zirith"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Silrix"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Préparez-vous pour le dernier donjon avec Silrix."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Finir le Donjon de Xal'Zirith"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Terminez ce donjon pour compléter entièrement le Palier 1 !"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Cathédrale"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Ruine Squelettique"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Labyrinthe"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "X:979, Z:1372 (Donjon Araignée)"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Début du Palier 2"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Commencez votre aventure au Palier 2"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Commencez votre aventure au Palier 2 en parlant au Maître Épéiste."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouver Artheon à Urbus"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Coordonnées d'Artheon : X: 133, Z: -375, Y: 140"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Trouvez Artheon aux coordonnées X: 133, Z: -375, Y: 140."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tuer 20 Taureaux"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez 20 taureaux dans la zone"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez 20 taureaux dans la zone."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Bantu"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rendez-vous auprès de Bantu"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rendez-vous auprès de Bantu."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Tuer 25 Loups"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenir 10 Planches d'Acacia et 1 Lingot d'Onyx Pur"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rassemblez les matériaux demandés"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Rassemblez les matériaux demandés."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à Kwabeno"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Discutez avec Kwabeno"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Discutez avec Kwabeno."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenir 10 Écailles Fulgurantes et 10 Cornes de Taureaux"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez les matériaux rares"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez les matériaux rares."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Contacter Yaa"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Établissez le contact avec Yaa"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Établissez le contact avec Yaa."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenir 20 Bûches d'Acacia et 20 Bûches de Chêne"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez les bûches pour Bronn"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez les bûches pour Bronn."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenir 20 Planches d'Acacia et 20 Planches de Chêne"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Fabriquez les planches pour Bronn"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Fabriquez les planches pour Bronn."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenir 20 Planches de Chêne, 20 Planches d'Acacia et 10 Bûches de Bouleau"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Dernière livraison pour Bronn"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Dernière livraison pour Bronn."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parler à la Statue de Yaa"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parlez à la Statue de Yaa"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Parlez à la Statue de Yaa."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenir la Clé de Melliona"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Donjon Abeille"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenez la clé de Melliona en complétant le donjon des abeilles."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Finir le Donjon Rush de Melliona"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Compléter le rush"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Terminez le donjon Rush de Melliona."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Obtenir 30 Bûches de Chêne, 10 Fourrures de Loup, 20 Minerais de Charbon"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez les ressources pour Yuko"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Collectez les ressources pour Yuko."
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Artheon"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Bantu"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Bronn"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Elyra"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Fanny"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Kwabena"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Kwabeno"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Yuko"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "CastelBrume"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Homme Cagoulé"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Ombre Mystérieuse"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Spectre Archiviste"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Téléporteur"
+    },
+    {
+      "file": "js/i18n-quests-en-reviewed.js",
+      "key": "Statue"
+    }
+  ]
+}

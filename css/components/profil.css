@@ -1,326 +1,67 @@
-/* ============================================================
-   NAMELESS — Page Profil (refonte premium)
-   Carte joueur + infos + identite Minecraft. Cible le markup existant
-   (IDs préservés pour profil.js). Sombre, sobre, lisible.
-   ============================================================ */
-
-body.profil-page {
-    --profile-bg-image: url("../../assets/brand/page-font-profil.webp");
-    background-color: var(--nm-black);
-    background-image:
-        linear-gradient(180deg, rgba(3, 6, 14, 0.58) 0%, rgba(3, 6, 14, 0.70) 45%, rgba(3, 6, 14, 0.84) 100%),
-        radial-gradient(110% 90% at 50% 36%, transparent 44%, rgba(0, 0, 0, 0.46) 100%),
-        var(--profile-bg-image);
-    background-size: cover, cover, cover;
-    background-position: center top, center top, center top;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-@media (max-width: 768px) {
-    body.profil-page {
-        --profile-bg-image: url("../../assets/brand/page-font-profil-mobile.webp");
-        background-attachment: scroll;
-    }
-}
-
-.profil-container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem 4rem;
-}
-
-/* --- Hero compact --- */
-.profil-hero { text-align: center; padding: 2rem 0 1.5rem; }
-.profil-hero .nm-eyebrow {
-    display: block;
-    color: var(--sao-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
-    font-size: 0.7rem;
-    margin-bottom: 0.6rem;
-}
-.profil-hero h1 {
-    font-family: var(--font-title);
-    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
-    letter-spacing: 0.12em;
-    background: var(--nm-gold-grad);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    padding: 0.04em 0.04em;
-    margin: 0;
-}
-
-/* --- Loading --- */
-.profil-loading { text-align: center; padding: 3rem 1rem; color: var(--nm-steel); }
-.profil-spinner {
-    width: 34px; height: 34px;
-    margin: 0 auto 1rem;
-    border: 2px solid var(--sao-border);
-    border-top-color: var(--sao-gold);
-    border-radius: 50%;
-    animation: profilSpin 0.9s linear infinite;
-}
-@keyframes profilSpin { to { transform: rotate(360deg); } }
-
-/* --- Carte joueur --- */
-.player-card {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.2rem;
-    padding: 1.6rem 1.8rem;
-    margin-bottom: 1.5rem;
-    background: var(--sao-bg-card);
-    border: 1px solid var(--sao-border-hover);
-    border-radius: 6px;
-    box-shadow: none;
-}
-.player-card-head { display: flex; align-items: center; gap: 1.2rem; min-width: 0; }
-.mc-avatar-section { display: flex; align-items: center; }
-.mc-avatar-img {
-    width: 80px; height: 80px;
-    border-radius: 4px;
-    border: 1px solid var(--sao-border-hover);
-    background: var(--nm-navy);
-    image-rendering: pixelated;   /* avatar voxel net */
-    box-shadow: none;
-}
-.player-identity { min-width: 0; }
-.mc-display-name {
-    font-family: var(--font-title);
-    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
-    letter-spacing: 0.05em;
-    color: var(--sao-text-bright);
-    margin: 0 0 0.4rem;
-    word-break: break-word;
-}
-.mc-display-name:empty { display: none; }
-.player-fallback {
-    font-family: var(--font-title);
-    font-size: 1.5rem;
-    letter-spacing: 0.05em;
-    color: var(--sao-text-bright);
-    display: block;
-    margin-bottom: 0.4rem;
-}
-/* Si un pseudo MC est affiché, le titre de repli n'est plus nécessaire */
-.mc-avatar-section[style*="flex"] ~ .player-identity .player-fallback { display: none; }
-
-.player-role-line { display: flex; align-items: center; gap: 0.5rem; }
-.role-badge {
-    display: inline-block;
-    padding: 0.25rem 0.8rem;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: 1px solid var(--sao-border-hover);
-    background: rgba(5,7,13,0.5);
-}
-.role-badge.role-joueur { color: var(--nm-steel); border-color: var(--sao-border-cyan); }
-.role-badge.role-membre { color: #86d3b1; border-color: rgba(90,168,134,0.5); }
-.role-badge.role-admin  { color: var(--sao-gold-light); border-color: var(--sao-border-hover); background: linear-gradient(180deg, rgba(194,163,103,0.16), rgba(194,163,103,0.05)); }
-
-.player-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-.player-btn {
-    display: inline-block;
-    padding: 0.6rem 1.1rem;
-    border: 1px solid var(--sao-border-cyan);
-    border-radius: 6px;
-    color: var(--nm-steel);
-    text-decoration: none;
-    font-size: 0.82rem;
-    letter-spacing: 0.05em;
-    transition: color 160ms ease, border-color 160ms ease;
-}
-.player-btn:hover { color: var(--sao-text-bright); border-color: var(--sao-cyan); box-shadow: none; }
-.player-btn-admin { color: var(--sao-gold-light); border-color: var(--sao-border-hover); }
-.player-btn-admin:hover { color: var(--sao-gold-light); border-color: var(--sao-gold); box-shadow: none; }
-
-/* --- Informations --- */
-.profil-info {
-    background: rgba(8, 12, 23, 0.78);
-    border: 1px solid var(--sao-border);
-    border-radius: var(--nm-radius);
-    padding: 1.6rem 1.8rem;
-    margin-bottom: 1.5rem;
-}
-.profil-section-title {
-    font-family: var(--font-text);
-    font-weight: 600;
-    color: var(--sao-gold);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.75rem;
-    margin: 0 0 1.2rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--nm-hairline);
-}
-.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.4rem 2rem; }
-.info-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.7rem 0;
-    border-bottom: 1px solid var(--sao-border);
-}
-.info-label {
-    color: var(--nm-steel);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    flex-shrink: 0;
-}
-.info-value { color: var(--sao-text-bright); font-size: 0.92rem; text-align: right; word-break: break-word; }
-
-.profile-select, .profile-input {
-    padding: 0.5rem 0.8rem !important;
-    background: var(--nm-navy) !important;
-    color: var(--sao-text-bright) !important;
-    border: 1px solid var(--sao-border-cyan) !important;
-    border-radius: 8px !important;
-    font-family: var(--font-text);
-    font-size: 0.88rem;
-}
-.profile-select:focus, .profile-input:focus { outline: none; border-color: var(--sao-cyan) !important; box-shadow: var(--focus-ring); }
-.profile-input { width: 90px; text-align: center; }
-
-.profil-save-row { text-align: center; margin-top: 1.4rem; }
-.save-profile-btn {
-    padding: 0.75rem 1.6rem !important;
-    background: rgba(194,163,103,0.12) !important;
-    border: 1px solid var(--sao-border-hover) !important;
-    border-radius: 6px !important;
-    color: var(--sao-gold-light) !important;
-    font-family: var(--font-text);
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: background-color 160ms ease, border-color 160ms ease;
-}
-.save-profile-btn:hover { transform: none; box-shadow: none !important; border-color: var(--sao-gold) !important;
-    background: rgba(194,163,103,0.18) !important;
-}
-
-/* --- Liaison Minecraft --- */
-.minecraft-link-info {
-    display: block;
-    background: var(--sao-bg-panel);
-    border: 1px solid rgba(194, 163, 103, 0.62);
-    border-radius: var(--nm-radius);
-    padding: 1.65rem 1.9rem;
-    box-shadow: none;
-
-    border-color: var(--sao-border);
-}
-.minecraft-link-info .profil-section-title { margin-bottom: 0.55rem; }
-.minecraft-link-status {
-    color: var(--sao-text-bright);
-    font-weight: 600;
-    margin: 0 0 0.35rem;
-}
-.minecraft-link-copy {
-    color: var(--nm-steel);
-    font-size: 0.9rem;
-    line-height: 1.55;
-    margin: 0;
-}
-.minecraft-link-warning {
-    color: var(--sao-gold-light);
-    font-size: 0.86rem;
-    line-height: 1.5;
-    margin: 0.55rem 0 0;
-}
-.minecraft-link-form { margin-top: 1rem; }
-.minecraft-link-label {
-    display: block;
-    color: var(--nm-steel);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 0.45rem;
-}
-.minecraft-link-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-.minecraft-link-input {
-    flex: 1 1 180px;
-    min-width: 0;
-    padding: 0.72rem 0.9rem;
-    background: var(--nm-navy);
-    color: var(--sao-text-bright);
-    border: 1px solid var(--sao-border-cyan);
-    border-radius: 10px;
-    font-family: var(--font-text);
-    font-size: 0.92rem;
-}
-.minecraft-link-input:focus {
-    outline: none;
-    border-color: var(--sao-cyan);
-    box-shadow: var(--focus-ring);
-}
-.minecraft-link-submit {
-    background: rgba(194,163,103,0.12) !important;
-    border-color: rgba(194,163,103,0.78) !important;
-    box-shadow: none;
-    white-space: nowrap;
-}
-.minecraft-link-input:disabled,
-.minecraft-link-controls .save-profile-btn:disabled {
-    cursor: wait;
-    opacity: 0.68;
-    transform: none;
-}
-
-/* --- Erreur --- */
-.profil-error {
-    max-width: 520px;
-    margin: 2rem auto;
-    text-align: center;
-    padding: 2rem 1.5rem;
-    background: rgba(193,88,95,0.08);
-    border: 1px solid rgba(193,88,95,0.4);
-    border-radius: var(--nm-radius);
-    color: #e59aa0;
-}
-.profil-error h2 { font-family: var(--font-title); letter-spacing: 0.06em; margin-bottom: 0.5rem; color: #e59aa0; }
-
-/* --- Responsive --- */
+/* Account tools use an opaque, quiet surface. Route selectors survive SPA visits. */
+body.profil-page { background: var(--nm-bg); }
+.profil-container { max-width: 1120px; margin: 0 auto; padding: var(--nm-space-6) var(--nm-space-5) var(--nm-space-8); }
+.profil-container .profil-hero { margin-bottom: var(--nm-space-6); padding-bottom: var(--nm-space-5); border-bottom: 1px solid var(--nm-border); }
+.profil-container .profil-hero .nm-eyebrow { color: var(--nm-gold-light); font: 600 var(--nm-text-xs)/1.5 var(--font-text); letter-spacing: .12em; text-transform: uppercase; }
+.profil-container .profil-hero h1 { margin: var(--nm-space-2) 0 0; color: var(--nm-text-bright); font: 500 var(--nm-title-lg)/1.25 var(--font-title); }
+.profil-container .profil-loading { text-align: center; padding: var(--nm-space-7) var(--nm-space-4); color: var(--nm-text-secondary); }
+.profil-container .profil-spinner { width: 32px; height: 32px; margin: 0 auto var(--nm-space-4); border: 2px solid var(--nm-border); border-top-color: var(--nm-gold); border-radius: 50%; animation: nmProfileSpin .9s linear infinite; }
+@keyframes nmProfileSpin { to { transform: rotate(360deg); } }
+.profil-container .player-card { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--nm-space-5); padding: var(--nm-space-5); background: var(--nm-surface); border: 1px solid var(--nm-border); border-radius: var(--nm-radius); }
+.profil-container .player-card-head { display: flex; align-items: center; gap: var(--nm-space-5); min-width: 0; }
+.profil-container .mc-avatar-section { flex-shrink: 0; }
+.profil-container .mc-avatar-img { width: 80px; height: 80px; border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius-sm); background: var(--nm-bg-secondary); image-rendering: pixelated; }
+.profil-container .player-identity { min-width: 0; }
+.profil-container .mc-display-name, .profil-container .player-fallback { display: block; margin: 0 0 var(--nm-space-2); color: var(--nm-text-bright); font: 500 clamp(1.3rem, 3vw, 1.8rem)/1.3 var(--font-title); overflow-wrap: anywhere; }
+.profil-container .mc-display-name:empty { display: none; }
+.profil-container .mc-avatar-section[style*="flex"] ~ .player-identity .player-fallback { display: none; }
+.profil-container .player-role-line { display: flex; align-items: center; }
+.profil-container .role-badge { display: inline-block; padding: var(--nm-space-1) var(--nm-space-2); background: var(--nm-bg-secondary); border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); color: var(--nm-text-secondary); font-size: var(--nm-text-xs); }
+.profil-container .role-badge.role-admin { border-color: var(--nm-gold-dark); color: var(--nm-gold-light); }
+.profil-container .role-badge.role-membre { color: var(--nm-success); }
+.profil-container .player-actions { display: flex; flex-wrap: wrap; gap: var(--nm-space-2); }
+.profil-container .player-btn { display: inline-flex; align-items: center; justify-content: center; min-height: var(--nm-control-height); padding: var(--nm-space-2) var(--nm-space-4); color: var(--nm-text); background: var(--nm-bg-secondary); border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius-sm); text-decoration: none; font-size: var(--nm-text-sm); transition: background var(--nm-duration-hover) var(--nm-ease), border-color var(--nm-duration-hover) var(--nm-ease); }
+.profil-container .player-btn:hover { background: var(--nm-surface-raised); border-color: var(--nm-gold); }
+.profil-container .player-btn-admin { color: var(--nm-gold-light); }
+.profil-container .profile-details { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--nm-space-5); }
+.profil-container .profil-info, .profil-container .minecraft-link-info { min-width: 0; padding: var(--nm-space-5); background: var(--nm-surface); border: 1px solid var(--nm-border); border-radius: var(--nm-radius); }
+.profil-container .minecraft-link-info { margin-top: var(--nm-space-5); }
+.profil-container .profil-section-title { margin: 0 0 var(--nm-space-4); padding-bottom: var(--nm-space-3); border-bottom: 1px solid var(--nm-border); color: var(--nm-text-bright); font: 500 var(--nm-title-sm)/1.35 var(--font-title); }
+.profil-container .profile-section-copy { margin: 0 0 var(--nm-space-4); color: var(--nm-text-secondary); line-height: 1.6; font-size: var(--nm-text-sm); }
+.profil-container .info-grid { display: grid; gap: var(--nm-space-1); }
+.profil-container .info-row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--nm-space-4); padding: var(--nm-space-3) 0; border-bottom: 1px solid var(--nm-border); }
+.profil-container .info-label { flex-shrink: 0; color: var(--nm-text-secondary); font-size: var(--nm-text-sm); line-height: 1.6; }
+.profil-container .info-value { color: var(--nm-text); min-width: 0; text-align: right; font-size: var(--nm-text-sm); line-height: 1.6; overflow-wrap: anywhere; }
+.profil-container .profile-character .info-row { align-items: center; }
+.profil-container :is(.profile-select, .profile-input, .minecraft-link-input) { min-height: var(--nm-control-height); max-width: 100%; padding: var(--nm-space-2) var(--nm-space-3); border: 1px solid var(--nm-border-control); border-radius: var(--nm-radius-sm); background: var(--nm-bg-secondary); color: var(--nm-text); font: var(--nm-text-base)/1.4 var(--font-text); }
+.profil-container .profile-input { width: 100px; }
+.profil-container .profile-select { width: 170px; }
+.profil-container .profil-save-row { margin-top: var(--nm-space-5); }
+.profil-container .save-profile-btn { min-height: var(--nm-control-height); padding: var(--nm-space-3) var(--nm-space-4); background: var(--nm-surface-raised); border: 1px solid var(--nm-gold-dark); border-radius: var(--nm-radius-sm); color: var(--nm-gold-light); font: 600 var(--nm-text-sm)/1.5 var(--font-text); cursor: pointer; transition: border-color var(--nm-duration-hover) var(--nm-ease), background var(--nm-duration-hover) var(--nm-ease); }
+.profil-container .save-profile-btn:hover { border-color: var(--nm-gold-light); background: var(--nm-bg-secondary); }
+.profil-container .minecraft-link-status { margin-bottom: var(--nm-space-2); color: var(--nm-text-bright); font-weight: 600; }
+.profil-container .minecraft-link-copy, .profil-container .minecraft-link-warning { margin: 0 0 var(--nm-space-2); color: var(--nm-text-secondary); font-size: var(--nm-text-sm); line-height: 1.6; }
+.profil-container .minecraft-link-warning { color: var(--nm-warning); }
+.profil-container .minecraft-link-form { margin-top: var(--nm-space-5); }
+.profil-container .minecraft-link-label { display: block; color: var(--nm-text); font-size: var(--nm-text-sm); margin-bottom: var(--nm-space-2); }
+.profil-container .minecraft-link-controls { display: flex; flex-wrap: wrap; gap: var(--nm-space-3); }
+.profil-container .minecraft-link-input { flex: 1 1 240px; min-width: 0; }
+.profil-container :is(.minecraft-link-input, .save-profile-btn):disabled { cursor: wait; opacity: .6; }
+.profil-container .profile-feedback { margin: var(--nm-space-4) 0; min-height: 1.5em; color: var(--nm-text); font-size: var(--nm-text-sm); line-height: 1.6; }
+.profil-container .profile-feedback.error { color: var(--nm-danger); }
+.profil-container .profile-feedback.success { color: var(--nm-success); }
+.profil-container .profil-error { max-width: 640px; margin: var(--nm-space-7) auto; padding: var(--nm-space-5); background: var(--nm-surface); border: 1px solid var(--nm-danger); border-radius: var(--nm-radius); color: var(--nm-text); }
+.profil-container .profil-error h2 { color: var(--nm-danger); font: 500 var(--nm-title-sm)/1.3 var(--font-title); margin: 0 0 var(--nm-space-4); }
+.profil-container :is(button, a, select, input):focus-visible { outline: 2px solid var(--nm-focus); outline-offset: 3px; }
+@media (max-width: 767px) { .profil-container .profile-details { grid-template-columns: 1fr; } }
 @media (max-width: 600px) {
-    body.profil-page {
-        background-attachment: scroll;
-    }
-
-    .profil-container { padding: 1.25rem 0.85rem 3rem; }
-    .player-card { flex-direction: column; align-items: stretch; text-align: center;
-    background: var(--sao-bg-card);
-
-    border-radius: 6px;
-
-    box-shadow: none;
+    .profil-container { padding: var(--nm-space-5) var(--nm-space-3) var(--nm-space-8); }
+    .profil-container .player-card, .profil-container .profil-info, .profil-container .minecraft-link-info { padding: var(--nm-space-4); }
+    .profil-container .player-card-head { gap: var(--nm-space-4); }
+    .profil-container .mc-avatar-img { width: 64px; height: 64px; }
+    .profil-container .info-row { flex-direction: column; gap: var(--nm-space-2); }
+    .profil-container .info-value { text-align: left; }
+    .profil-container .profile-character .info-row { flex-direction: row; }
+    .profil-container .minecraft-link-controls .save-profile-btn { width: 100%; }
 }
-    .player-card-head { flex-direction: column; text-align: center; }
-    .player-actions { justify-content: center; }
-    .info-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-    .info-value { text-align: left; }
-    .minecraft-link-info { text-align: left;
-    background: var(--sao-bg-panel);
-
-    border-color: var(--sao-border);
-
-    box-shadow: none;
-}
-    .minecraft-link-controls { flex-direction: column; align-items: stretch; }
-    .minecraft-link-controls .save-profile-btn { width: 100%; }
-}
-/* Accessible feedback fits the existing member panel. */
-.profile-feedback { margin: 1rem 0; padding: 0; min-height: 1.4em; color: var(--sao-text-bright); }
-.profile-feedback.error { color: #ffb4a9; }
-.profile-feedback.success { color: #a9e9c3; }
+@media (prefers-reduced-motion: reduce) { .profil-container *, .profil-container *::before, .profil-container *::after { animation: none !important; transition: none !important; } }

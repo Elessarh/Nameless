@@ -1,0 +1,109 @@
+/* Nameless Hybrid MMORPG — shared values, loaded before component styles.
+   Responsive contracts: compact 480px; navigation 768px (navbar-mobile.js);
+   intermediate desktop 1023px; wide content 1440px. Media queries keep literals
+   because CSS custom properties cannot be used as media query conditions. */
+:root {
+    color-scheme: dark;
+    --nm-bg: #030B12;
+    --nm-bg-secondary: #07131B;
+    --nm-surface: #0A1923;
+    --nm-panel: var(--nm-surface);
+    --nm-surface-raised: #112632;
+    --nm-border: #35454A;
+    --nm-border-control: #65767D;
+    --nm-gold: #BBA47A;
+    --nm-gold-light: #D3BE91;
+    --nm-gold-dark: #86734E;
+    --nm-text: #DDD7CB;
+    --nm-text-secondary: #94A3AB;
+    --nm-muted: var(--nm-text-secondary);
+    --nm-text-bright: #F1EBDD;
+    --nm-teal: #477C80;
+    --nm-link: #94BDC0;
+    --nm-danger: #DF9395;
+    --nm-success: #9EBDA7;
+    --nm-warning: #D3B783;
+    --nm-focus: #D3BE91;
+    --nm-border-selected: #BBA47A;
+    --nm-hairline: #615C4D;
+    --nm-radius-sm: 2px;
+    --nm-radius: 4px;
+    --nm-space-1: .25rem;
+    --nm-space-2: .5rem;
+    --nm-space-3: .75rem;
+    --nm-space-4: 1rem;
+    --nm-space-5: 1.5rem;
+    --nm-space-6: 2rem;
+    --nm-space-7: 3rem;
+    --nm-space-8: 4rem;
+    --nm-text-xs: .75rem;
+    --nm-text-sm: .875rem;
+    --nm-text-base: 1rem;
+    --nm-text-lg: 1.125rem;
+    --nm-title-sm: 1.5rem;
+    --nm-title-lg: clamp(1.75rem, 3vw, 2.75rem);
+    --nm-shadow-panel: 0 8px 24px rgba(0, 0, 0, .24);
+    --nm-shadow-dialog: 0 24px 64px rgba(0, 0, 0, .48);
+    --nm-z-content: 1;
+    --nm-z-header: 100;
+    --nm-z-menu: 110;
+    --nm-z-dialog: 200;
+    --nm-z-toast: 250;
+    --nm-duration-hover: 160ms;
+    --nm-duration-select: 200ms;
+    --nm-duration-panel: 280ms;
+    --nm-duration-navigation: 320ms;
+    --nm-duration-map: 450ms;
+    --nm-ease: cubic-bezier(.2, .7, .3, 1);
+    --nm-header-height: 64px;
+    --nm-control-height: 44px;
+    --font-title: 'Cinzel', Georgia, serif;
+    --font-display: var(--font-title);
+    --font-text: 'Inter', system-ui, sans-serif;
+    --font-mono: ui-monospace, 'Consolas', monospace;
+    --focus-ring: 0 0 0 2px var(--nm-focus);
+
+    /* Compatibility names: existing page modules share the same palette. */
+    --sao-gold: var(--nm-gold);
+    --sao-gold-light: var(--nm-gold-light);
+    --sao-gold-dark: var(--nm-gold-dark);
+    --sao-cyan: var(--nm-link);
+    --sao-cyan-dark: var(--nm-teal);
+    --sao-teal: var(--nm-link);
+    --sao-bg-deep: var(--nm-bg);
+    --sao-bg: var(--nm-bg-secondary);
+    --sao-bg-panel: var(--nm-surface);
+    --sao-bg-card: var(--nm-surface);
+    --sao-text: var(--nm-text);
+    --sao-text-dim: var(--nm-text-secondary);
+    --sao-text-bright: var(--nm-text-bright);
+    --sao-red: var(--nm-danger);
+    --sao-purple: #B5A9C1;
+    --sao-green: var(--nm-success);
+    --sao-orange: var(--nm-warning);
+    --sao-border: var(--nm-border);
+    --sao-border-hover: var(--nm-hairline);
+    --sao-border-cyan: var(--nm-border);
+    --sao-shadow: var(--nm-shadow-panel);
+    --sao-shadow-gold: none;
+    --sao-shadow-cyan: none;
+    --sao-glow-gold: 0 0 0 transparent;
+    --sao-glow-cyan: 0 0 0 transparent;
+    --color-bg: var(--nm-bg);
+    --color-accent: var(--nm-gold);
+    --color-white: var(--nm-text-bright);
+    --color-purple: var(--sao-purple);
+    --color-cyan: var(--nm-link);
+    --nm-black: var(--nm-bg);
+    --nm-navy: var(--nm-bg-secondary);
+    --nm-steel: var(--nm-text-secondary);
+    --nm-gold-grad: linear-gradient(180deg, var(--nm-gold-light), var(--nm-gold));
+    --nm-blue-glow: transparent;
+    --nm-hero-img: url('../assets/brand/nameless-hero-boss.webp');
+}
+@media (max-width: 768px) {
+    :root { --nm-header-height: 60px; --nm-hero-img: url('../assets/brand/nameless-hero-boss-mobile.webp'); }
+}
+@media (prefers-reduced-motion: reduce) {
+    :root { --nm-duration-hover: 0ms; --nm-duration-select: 0ms; --nm-duration-panel: 0ms; --nm-duration-navigation: 0ms; --nm-duration-map: 0ms; }
+}

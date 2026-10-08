@@ -1,15 +1,16 @@
 /* ============================================================
    NAMELESS — Bouton d'ambiance sonore (discret, premium)
-   Pilule flottante en bas à droite. Égaliseur animé quand actif.
+   Contrôles dans le flux de page. Égaliseur animé quand actif.
    ============================================================ */
 
-/* Mini lecteur flottant : précédent, piste active, suivant. */
+/* Music remains available after the footer without covering navigation or cards. */
 .nm-audio-dock {
-    position: fixed;
-    right: 1.1rem;
-    bottom: 1.1rem;
-    z-index: 60;
-    display: inline-flex;
+    position: relative;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    margin: 0 auto 24px;
+    z-index: var(--nm-z-content, 1);
+    display: flex;
     align-items: center;
     gap: 0.32rem;
 }
@@ -21,25 +22,22 @@
     width: 190px;
     min-height: 42px;
     padding: 0.46rem 0.72rem;
-    background: linear-gradient(180deg, rgba(10,14,26,0.92), rgba(6,9,16,0.92));
-    border: 1px solid var(--sao-border-hover, rgba(194,163,103,0.28));
-    border-radius: 13px;
+    background: var(--nm-bg-secondary, #111e27);
+    border: 1px solid var(--nm-border-control, #65767d);
+    border-radius: var(--nm-radius-sm, 2px);
     color: var(--nm-steel, #8b93a3);
     font-family: var(--font-text, 'Inter', sans-serif);
     font-size: 0.78rem;
     letter-spacing: 0.03em;
     cursor: pointer;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: none;
+    transition: color var(--nm-duration-hover, 160ms), border-color var(--nm-duration-hover, 160ms);
 }
 .nm-audio-btn:hover,
 .nm-audio-btn:focus-visible {
     color: var(--sao-text-bright, #e8eaf0);
     border-color: var(--sao-cyan, #6f92b3);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4), var(--sao-glow-cyan, 0 0 10px rgba(91,127,166,0.18));
-    outline: none;
+    box-shadow: none;
 }
 .nm-audio-btn.is-on {
     color: var(--sao-gold-light, #e4cd97);
@@ -55,26 +53,22 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     padding: 0;
-    background: linear-gradient(180deg, rgba(10,14,26,0.92), rgba(6,9,16,0.92));
-    border: 1px solid var(--sao-border-hover, rgba(194,163,103,0.28));
-    border-radius: 50%;
+    background: var(--nm-bg-secondary, #111e27);
+    border: 1px solid var(--nm-border-control, #65767d);
+    border-radius: var(--nm-radius-sm, 2px);
     color: var(--nm-steel, #8b93a3);
     cursor: pointer;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: none;
+    transition: color var(--nm-duration-hover, 160ms), border-color var(--nm-duration-hover, 160ms);
 }
 .nm-audio-skip:hover,
 .nm-audio-skip:focus-visible {
     color: var(--sao-gold-light, #e4cd97);
     border-color: var(--sao-gold, #c2a367);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4), var(--sao-glow-gold, 0 0 10px rgba(194,163,103,0.25));
-    outline: none;
-    transform: translateY(-1px);
+    box-shadow: none;
 }
 .nm-audio-skip:active { transform: translateY(0); }
 .nm-audio-prev svg { transform: scaleX(-1); }
@@ -170,7 +164,6 @@
 }
 
 @media (max-width: 600px) {
-    .nm-audio-dock { right: 0.8rem; bottom: 0.8rem; }
     .nm-audio-btn {
         gap: 0.42rem;
         padding: 0.45rem 0.62rem;
@@ -179,11 +172,11 @@
     }
     .nm-audio-btn {
         width: 158px;
-        min-height: 39px;
+        min-height: 44px;
     }
     .nm-audio-skip {
-        width: 30px;
-        height: 30px;
+        width: 44px;
+        height: 44px;
     }
     .nm-audio-timeline {
         grid-template-columns: 1.95rem minmax(28px, 1fr) 1.95rem;

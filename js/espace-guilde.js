@@ -268,11 +268,11 @@ function displayPlanning(data) {
     }
     
     container.innerHTML = data.map(event => `
-        <div class="planning-item">
-            <div class="item-title">${escapeHtml(event.titre)}</div>
+        <article class="planning-item">
+            <h3 class="item-title">${escapeHtml(event.titre)}</h3>
             <div class="item-date">${formatDate(event.date_event)} | Type: ${escapeHtml(formatEventType(event.type_event))}</div>
             ${event.description ? `<div class="item-description">${escapeHtml(event.description)}</div>` : ''}
-        </div>
+        </article>
     `).join('');
 }// ========== OBJECTIFS ==========
 async function loadObjectives(token = guildInitToken) {
@@ -338,18 +338,17 @@ function displayObjectives(data) {
         // Coercition numérique: empêche l'injection via l'attribut style.
         const progression = Math.max(0, Math.min(100, parseInt(obj.progression, 10) || 0));
         return `
-        <div class="objective-item">
-            <div class="item-title">${escapeHtml(obj.titre)}</div>
+        <article class="objective-item">
+            <h3 class="item-title">${escapeHtml(obj.titre)}</h3>
             <div class="item-description">${escapeHtml(obj.description || '')}</div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: ${progression}%">
-                    ${progression}%
-                </div>
+            <div class="objective-progress-label"><span>Progression</span><strong>${progression}%</strong></div>
+            <div class="progress-bar" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progression}">
+                <div class="progress-fill" style="width: ${progression}%"></div>
             </div>
-            <div style="color: #888; font-size: 0.85rem; margin-top: 5px;">
+            <div class="objective-status">
                 Statut: ${escapeHtml(formatStatus(obj.statut))}
             </div>
-        </div>
+        </article>
     `;
     }).join('');
 }

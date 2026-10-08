@@ -29,6 +29,23 @@
         return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     }
 
+    function matchesQuery(value, query) {
+        var source = String(value || '');
+        var english = window.NamelessTranslations && window.NamelessTranslations.en && window.NamelessTranslations.en[source];
+        return [source, typeof english === 'string' ? english : ''].some(function (text) {
+            var normalized = normalizeSearch(text);
+            return normalized.indexOf(query) !== -1 || normalized.replace(/\s+/g, '').indexOf(query.replace(/\s+/g, '')) !== -1;
+        });
+    }
+
+    function displayName(value) {
+        return window.NamelessI18n && typeof window.NamelessI18n.translate === 'function' ? window.NamelessI18n.translate(value) : value;
+    }
+
+    function currentLocale() {
+        return window.NamelessI18n && typeof window.NamelessI18n.getLocale === 'function' ? window.NamelessI18n.getLocale() : 'fr-FR';
+    }
+
     function updateItemUrl(id) {
         var url = new URL(window.location.href);
         if (id) url.searchParams.set('item', id);
@@ -56,6 +73,7 @@
         if (typeof itemsCatalog === 'undefined') return;
         if (!document.getElementById('items-grid')) return;
         controller = new AbortController();
+        itemsPerPage = parseInt(document.getElementById('items-per-page-select')?.value, 10) || 12;
         loadItems();
         populateCategoryFilter();
         setupItemImages();
@@ -64,6 +82,7 @@
         applyFilters();
         applyItemUrl();
         document.addEventListener('nameless:routechange', applyItemUrl, { signal: controller.signal });
+        document.addEventListener('nameless:languagechange', applyFilters, { signal: controller.signal });
     }
 
     function destroyItems() {
@@ -181,12 +200,23 @@
         if (cat) cat.addEventListener('change', applyFilters, opts);
         var rar = document.getElementById('it-rarity');
         if (rar) rar.addEventListener('change', applyFilters, opts);
+        var sort = document.getElementById('it-sort');
+        if (sort) sort.addEventListener('change', applyFilters, opts);
         var reset = document.getElementById('it-reset');
         if (reset) reset.addEventListener('click', function () {
             if (search) search.value = '';
             if (cat) cat.value = '';
             if (rar) rar.value = '';
+            if (sort) sort.value = 'catalogue';
+            var url = new URL(window.location.href); url.searchParams.delete('q'); history.replaceState(history.state, '', url.href);
             applyFilters();
+        }, opts);
+        var filterDetails = document.getElementById('it-filter-details');
+        var compactFilters = window.innerWidth <= 768;
+        if (filterDetails) filterDetails.open = !compactFilters;
+        window.addEventListener('resize', function () {
+            var compact = window.innerWidth <= 768;
+            if (filterDetails && compact !== compactFilters) { filterDetails.open = !compact; compactFilters = compact; }
         }, opts);
 
         var grid = document.getElementById('items-grid');
@@ -259,11 +289,19 @@
         var rar = (document.getElementById('it-rarity') && document.getElementById('it-rarity').value) || '';
 
         filtered = allItems.filter(function (i) {
-            var matchSearch = !q || normalizeSearch(i.name).indexOf(q) !== -1 || normalizeSearch(i.categoryLabel).indexOf(q) !== -1;
+            var matchSearch = !q || [i.name, i.category, i.categoryLabel].some(function (value) { return matchesQuery(value, q); });
             var matchCat = !cat || i.category === cat;
             var matchRar = !rar || i.rarity === rar;
             return matchSearch && matchCat && matchRar;
         });
+        var sort = document.getElementById('it-sort') && document.getElementById('it-sort').value || 'catalogue';
+        var byName = function (a, b) { return displayName(a.name).localeCompare(displayName(b.name), currentLocale(), { sensitivity: 'base', numeric: true }) || a.id.localeCompare(b.id); };
+        var rarityOrder = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 };
+        if (sort === 'name-asc') filtered.sort(byName);
+        else if (sort === 'name-desc') filtered.sort(function (a, b) { return -byName(a, b); });
+        else if (sort === 'rarity-asc') filtered.sort(function (a, b) { return rarityOrder[a.rarity] - rarityOrder[b.rarity] || byName(a, b); });
+        else if (sort === 'rarity-desc') filtered.sort(function (a, b) { return rarityOrder[b.rarity] - rarityOrder[a.rarity] || byName(a, b); });
+        else if (sort === 'category') filtered.sort(function (a, b) { return cleanCategory(displayName(a.category)).localeCompare(cleanCategory(displayName(b.category)), currentLocale()) || byName(a, b); });
         currentPage = 1;
         render();
     }
@@ -292,6 +330,10 @@
 
         var start = (currentPage - 1) * itemsPerPage;
         filtered.slice(start, start + itemsPerPage).forEach(function (item) { grid.appendChild(buildCard(item)); });
+        if (modalReturnFocus && modalReturnFocus.matches('.item-card') && !modalReturnFocus.isConnected) {
+            var openerId = modalReturnFocus.dataset.id;
+            modalReturnFocus = Array.from(grid.querySelectorAll('.item-card')).find(function (card) { return card.dataset.id === openerId; }) || null;
+        }
         updatePagination();
     }
 
@@ -301,10 +343,13 @@
         var meta = rarityMeta(item.rarity);
         var card = document.createElement('article');
         card.className = 'item-card ' + meta.cls;
+        var modal = document.querySelector('.item-modal');
+        if (modal && modal.style.display === 'flex' && modal.dataset.item === item.id) card.classList.add('is-selected');
         card.dataset.id = item.id;
         card.tabIndex = 0;
         card.setAttribute('role', 'button');
         card.setAttribute('aria-label', 'Voir ' + item.name);
+        card.setAttribute('aria-haspopup', 'dialog');
 
         var media = document.createElement('div');
         media.className = 'item-media';
@@ -343,7 +388,7 @@
         var meta = rarityMeta(item.rarity);
 
         var modal = document.querySelector('.item-modal');
-        if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; document.body.appendChild(modal); }
+        if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; modal.id = 'item-dialog'; document.body.appendChild(modal); }
         if (modal.style.display !== 'flex') { modalReturnFocus = document.activeElement; previousOverflow = document.body.style.overflow; }
         modal.setAttribute('role', 'dialog');
         modal.setAttribute('aria-modal', 'true');
@@ -359,6 +404,7 @@
         close.className = 'modal-close';
         close.setAttribute('aria-label', 'Fermer');
         close.textContent = '×';
+        document.querySelectorAll('.item-card').forEach(function (card) { card.classList.toggle('is-selected', card.dataset.id === id); });
         content.appendChild(close);
 
         var media = document.createElement('div');
@@ -414,7 +460,7 @@
                     if (url.origin !== window.location.origin || url.pathname !== '/bestiaire' || !/^\d+$/.test(url.searchParams.get('creature') || '')) return;
                     var row = document.createElement('li'); var link = document.createElement('a');
                     link.href = url.pathname + url.search;
-                    link.textContent = source.title + ' — Palier ' + source.floor;
+                    link.textContent = source.title + (/^[1-3]$/.test(String(source.floor)) ? ' — Palier ' + source.floor : '');
                     row.appendChild(link);
                     if (typeof source.location === 'string' && source.location.trim()) {
                         var zone = document.createElement('span'); zone.className = 'item-source-zone';
@@ -455,6 +501,7 @@
             if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus();
             modalReturnFocus = null;
         }
+        document.querySelectorAll('.item-card.is-selected').forEach(function (card) { card.classList.remove('is-selected'); });
         if (updateUrl !== false) updateItemUrl(null);
     }
 

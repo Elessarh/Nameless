@@ -1,0 +1,220 @@
+{
+  "version": "2026-10-08-navigation-v2",
+  "generator": "built-in image_gen; one call per asset, no CLI/API fallback",
+  "prompts": "docs/art-direction-2026-10-08/navigation-prompts.json",
+  "artistic_bible": "docs/art-direction-2026-10-08/ART_BIBLE.md",
+  "optimization": {
+    "operation": "RGB WebP copies, Lanczos downscale only; no semantic retouching or synthetic repainting",
+    "quality": 76,
+    "method": 6,
+    "widths": [
+      256,
+      512,
+      768
+    ]
+  },
+  "reference_subject": {
+    "path": "assets/mobs/Petit Slime.png",
+    "width": 483,
+    "height": 400,
+    "format": "PNG",
+    "mode": "P",
+    "bytes": 6428,
+    "sha256": "bd2c916646fd61eaa35a6d77cbc4ff2ff4ae1177662cc7f22a59656bda30cfc2"
+  },
+  "assets": [
+    {
+      "id": "map",
+      "usage": "Home navigation: Carte d'Aincrad. Decorative exploration scene, never real map data.",
+      "focal_point": [
+        0.64,
+        0.35
+      ],
+      "inspection": "Clear stone path and arched bridge; readable blue-grey citadel; coherent daylight and distance; no cartography or UI.",
+      "source": {
+        "path": "docs/art-direction-2026-10-08/sources/map-v2-source.png",
+        "width": 1672,
+        "height": 941,
+        "format": "PNG",
+        "mode": "RGB",
+        "bytes": 3058052,
+        "sha256": "ad8140f695ed6f0e56884796c31b1eb60e3a8d29848f41a8416d9828c9ba3d66"
+      },
+      "variants": [
+        {
+          "path": "assets/illustrations/map-v2-256.webp",
+          "width": 256,
+          "height": 144,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 10204,
+          "sha256": "de2024657d5306e6f847a7591816ed9704f916cb2f6c3c2be903b3eedd719378"
+        },
+        {
+          "path": "assets/illustrations/map-v2-512.webp",
+          "width": 512,
+          "height": 288,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 35472,
+          "sha256": "5bcfd2f10f7d63b11db5a1218aa3c87436a91271a057222be466c76a044853ff"
+        },
+        {
+          "path": "assets/illustrations/map-v2-768.webp",
+          "width": 768,
+          "height": 432,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 73842,
+          "sha256": "be5943b4fbcc54fec5c6bb062325bdc78a3d55d6fb8436f8bdab97e3222c3d00"
+        }
+      ]
+    },
+    {
+      "id": "bestiary",
+      "usage": "Home navigation: Bestiaire. Faithful artistic interpretation of the real Petit Slime; decorative environment only.",
+      "focal_point": [
+        0.59,
+        0.5
+      ],
+      "inspection": "Cube silhouette and two dark square eyes match the source render; no mouth, limbs, armour or invented anatomy.",
+      "source": {
+        "path": "docs/art-direction-2026-10-08/sources/bestiary-v2-source.png",
+        "width": 1672,
+        "height": 941,
+        "format": "PNG",
+        "mode": "RGB",
+        "bytes": 2820345,
+        "sha256": "4fa814fdf57908095abc94dad355f911108234edbb1570e43a8f18ffca0cb007"
+      },
+      "variants": [
+        {
+          "path": "assets/illustrations/bestiary-v2-256.webp",
+          "width": 256,
+          "height": 144,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 12072,
+          "sha256": "79ccab454ac49dcce0671698453d6d7f12f3266c10fd69b0135646aec5f541fb"
+        },
+        {
+          "path": "assets/illustrations/bestiary-v2-512.webp",
+          "width": 512,
+          "height": 288,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 40358,
+          "sha256": "98527524eb28772ba50d060735058b242343c629f165e0eaac7e43afe566b6d3"
+        },
+        {
+          "path": "assets/illustrations/bestiary-v2-768.webp",
+          "width": 768,
+          "height": 432,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 77044,
+          "sha256": "9562935777acb6a0629584e72b3eb8fca6a5f6a9471dab956412f3a3416b737e"
+        }
+      ]
+    },
+    {
+      "id": "items",
+      "usage": "Home navigation: Objets. Generic equipment workshop; does not replace a real game inventory item.",
+      "focal_point": [
+        0.69,
+        0.43
+      ],
+      "inspection": "Single straight aligned sword; plausible kite shield; workshop materials and lighting agree with the collection.",
+      "source": {
+        "path": "docs/art-direction-2026-10-08/sources/items-v2-source.png",
+        "width": 1672,
+        "height": 941,
+        "format": "PNG",
+        "mode": "RGB",
+        "bytes": 2597267,
+        "sha256": "41733af9ac2cdc801cd9baafeba80e05409d0c51462e98ea1600af48691aa9a3"
+      },
+      "variants": [
+        {
+          "path": "assets/illustrations/items-v2-256.webp",
+          "width": 256,
+          "height": 144,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 7264,
+          "sha256": "fb3df125815d5a8ce41223fb00ee09ec0c22f736a3363b4091ed80ff41da87e8"
+        },
+        {
+          "path": "assets/illustrations/items-v2-512.webp",
+          "width": 512,
+          "height": 288,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 24664,
+          "sha256": "cce0a77331196f38e4a0795a215bb8e70b37e8ce9fecd101d26c6a58f825d56c"
+        },
+        {
+          "path": "assets/illustrations/items-v2-768.webp",
+          "width": 768,
+          "height": 432,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 48768,
+          "sha256": "0abf7de87a6bb4561e31cfcc26c6f60eaea816819e07ed51ba1a09e96277bf9a"
+        }
+      ]
+    },
+    {
+      "id": "guild",
+      "usage": "Home navigation: Guilde. Empty council room; no fictional people, events or real game information.",
+      "focal_point": [
+        0.64,
+        0.45
+      ],
+      "inspection": "Coherent oak council table and chairs, slate stone, ivory daylight; no members, legible documents or invented map.",
+      "source": {
+        "path": "docs/art-direction-2026-10-08/sources/guild-v2-source.png",
+        "width": 1672,
+        "height": 941,
+        "format": "PNG",
+        "mode": "RGB",
+        "bytes": 2617387,
+        "sha256": "8e575a1bbe36e9518a72ab41e8a080de2c1642ce3a4185c06cd3f8f9dd066619"
+      },
+      "variants": [
+        {
+          "path": "assets/illustrations/guild-v2-256.webp",
+          "width": 256,
+          "height": 144,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 7126,
+          "sha256": "bd945c4ad04089b13c1311c153ad2968137b3252da9e2d69685e621028411480"
+        },
+        {
+          "path": "assets/illustrations/guild-v2-512.webp",
+          "width": 512,
+          "height": 288,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 25836,
+          "sha256": "8d6f10de65585709843258dd40b92855e642a1e0ff615c1fc4f3023765aa6dcd"
+        },
+        {
+          "path": "assets/illustrations/guild-v2-768.webp",
+          "width": 768,
+          "height": 432,
+          "format": "WEBP",
+          "mode": "RGB",
+          "bytes": 54192,
+          "sha256": "43ab773e7609efd10d9a85f630c0ce8a55baec62bd01fc10ff4d1aa5d34740b3"
+        }
+      ]
+    }
+  ],
+  "total_source_bytes": 11093051,
+  "total_all_variants_bytes": 416842,
+  "total_512_bytes": 126330,
+  "total_256_bytes": 36666,
+  "largest_variant_bytes": 77044
+}

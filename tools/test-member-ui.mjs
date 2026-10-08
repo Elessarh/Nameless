@@ -59,6 +59,10 @@ function page(name, profileData = profile) {
     assert.equal(w.document.getElementById('hamburger').getAttribute('aria-expanded'), 'false');
     assert.equal(w.document.querySelector('main').inert, undefined);
     assert.equal(w.document.activeElement.id, 'hamburger');
+    w.document.activeElement.blur();
+    Object.defineProperty(w, 'scrollY', {value: 200, writable: true});
+    w.dispatchEvent(new w.Event('scroll'));
+    assert.equal(w.document.querySelector('.header').classList.contains('hidden'), false, 'Mobile navigation remains available after scrolling away from focused controls');
     w.localStorage.setItem('guildeActiveTab', 'invalid');
     w.eval(source('espace-guilde'));
     await w.NamelessGuildPage.init();

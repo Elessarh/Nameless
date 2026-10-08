@@ -3,6 +3,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import {createMapGraph} from './build-map-graph.mjs';
+import {projectCreature} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const origin = 'https://nameless-sao.fr';
@@ -71,7 +72,7 @@ function pngSize(root, image) {
 export function buildBossPages({ root, output, mapGraph }) {
     root = path.resolve(root); output = path.resolve(output);
     const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-    const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData');
+    const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData').map(projectCreature);
     const catalog = readLiteral(read('js/items-catalog-hdv.js'), 'itemsCatalog');
     const items = Object.values(catalog).flatMap(group => group.items);
     mapGraph ||= createMapGraph({root});
@@ -85,7 +86,7 @@ export function buildBossPages({ root, output, mapGraph }) {
         const route = '/boss/' + slug;
         const canonical = origin + route;
         const title = boss.name + ' — Boss du palier ' + boss.palier + ' | Nameless';
-        const description = (boss.name + ', boss du palier ' + boss.palier + " d'Aincrad : " + boss.location + ', ' + boss.hp + ' PV. ' + boss.description).slice(0, 160);
+        const description = (boss.name + ', boss du palier ' + boss.palier + " d'Aincrad : " + boss.location + '. ' + boss.description).slice(0, 160);
         const image = assetPath(root, boss.image);
         const imageSize = pngSize(root, image);
         const dom = new JSDOM(template, { url: origin + '/pages/bestiaire.html' });
@@ -136,7 +137,7 @@ export function buildBossPages({ root, output, mapGraph }) {
         badges.append(element('span', 'creature-chip chip-boss', 'Boss'), element('span', 'creature-chip chip-type', boss.type), element('span', 'creature-chip chip-palier', 'Palier ' + boss.palier));
         info.appendChild(badges);
         const stats = element('dl', 'modal-stats');
-        for (const [label, value] of [['Points de vie', boss.hp], ['Zone', boss.location]]) {
+        for (const [label, value] of [['Zone', boss.location]]) {
             const stat = element('div', 'modal-stat'); stat.append(element('dt', 'modal-stat-label', label), element('dd', 'modal-stat-value', value)); stats.appendChild(stat);
         }
         info.appendChild(stats);

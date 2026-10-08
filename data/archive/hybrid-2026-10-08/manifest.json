@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "date": "2026-10-08",
+  "reason": "Unverified creature combat values and superseded main quests retained outside the public artifact.",
+  "files": [
+    {
+      "source": "js/bestiaire.js",
+      "archive": "js/bestiaire.js",
+      "bytes": 56589,
+      "sha256": "93cb81f6be0236e73f4d96b9a87ec79fd2be2d99e1aef62bf9703ed91ffe80ed"
+    },
+    {
+      "source": "pages/quetes.html",
+      "archive": "pages/quetes.html",
+      "bytes": 92642,
+      "sha256": "47317d6629c748fb478ba9f8e04b3b4220f106132542470de4342e04a6b05a8e"
+    },
+    {
+      "source": "data/map-source.json",
+      "archive": "data/map-source.json",
+      "bytes": 32451,
+      "sha256": "b1d5bae3b10c4d62e76c09ed139c66e7314dad7409496bc00dc0d528deb0da27"
+    },
+    {
+      "source": "js/i18n-en.js",
+      "archive": "js/i18n-en.js",
+      "bytes": 116400,
+      "sha256": "c230dd3098254ce8f310c37859c52d3b6823fef0af1a4cdd0a69fe6a2e0cdaa6"
+    },
+    {
+      "source": "js/i18n-en-reviewed.js",
+      "archive": "js/i18n-en-reviewed.js",
+      "bytes": 15202,
+      "sha256": "f694f84a464ab83fc52a7e98fd3e635df877564970bc8b9654743c58521013ac"
+    },
+    {
+      "source": "js/i18n-quests-en-reviewed.js",
+      "archive": "js/i18n-quests-en-reviewed.js",
+      "bytes": 37764,
+      "sha256": "40f5ab26912d70c48c8533a40a6463865ea424235a611fb24e1c2ac5daa69fee"
+    },
+    {
+      "source": "js/i18n-game-en-reviewed.js",
+      "archive": "js/i18n-game-en-reviewed.js",
+      "bytes": 24037,
+      "sha256": "6358c89ee9d5a502451f7b43bdc841bc8eb5d2f53d65e84a69fbce6d941844a4"
+    }
+  ]
+}

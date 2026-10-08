@@ -12,7 +12,7 @@
 
     <!-- Open Graph -->
     <!-- Theme & Favicon -->
-    <meta name="theme-color" content="#05070d">
+    <meta name="theme-color" content="#030B12">
     <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg?v=20261008logo">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=20261008logo">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=20261008logo">
@@ -21,8 +21,9 @@
     <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
     <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="../css/style.css?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261007a">
+    <link rel="stylesheet" href="../css/tokens.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/style.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/audio-player.css?v=20261008hybrid">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="noindex, follow">
     <meta property="og:type" content="website">
@@ -38,8 +39,9 @@
     <meta name="twitter:title" content="Conditions d’utilisation | Nameless">
     <meta name="twitter:description" content="Utilisation des archives, comptes et espaces communautaires de Nameless.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/global-search.css?v=20261008map">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261008sao">
     <link rel="stylesheet" href="../css/components/information.css?v=20261007a">
+    <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
 </head>
 <body class="information-body">
 <a href="#main-content" class="skip-link">Aller au contenu principal</a>
@@ -47,21 +49,21 @@
         <nav class="nav-container" role="navigation" aria-label="Navigation principale">
             <div class="nav-logo-container">
                 <a href="/" aria-label="Nameless - Accueil">
-                    <img src="/assets/brand/nameless-emblem-128.webp?v=20261008logo" srcset="/assets/brand/nameless-emblem-128.webp?v=20261008logo 1x, /assets/brand/nameless-emblem-256.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="52" height="52" loading="eager" decoding="async">
+                    <img src="/assets/brand/nameless-emblem-64.webp?v=20261008sao" srcset="/assets/brand/nameless-emblem-64.webp?v=20261008sao 1x, /assets/brand/nameless-emblem-128.webp?v=20261008logo 2x" alt="Nameless" class="nav-logo-safe" width="44" height="44" loading="eager" decoding="async">
+                    <span class="nav-wordmark">Nameless</span>
                 </a>
             </div>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="/" class="nav-link">Accueil</a></li>
+                <li><a href="/wiki" class="nav-link">Explorer</a></li>
                 <li><a href="/carte" class="nav-link">Carte</a></li>
                 <li><a href="/bestiaire" class="nav-link">Bestiaire</a></li>
-                <li><a href="/items" class="nav-link">Items</a></li>
-                <li><a href="/quetes" class="nav-link">Quêtes</a></li>
-                <li><a href="/wiki" class="nav-link">Wiki</a></li>
+                <li><a href="/items" class="nav-link">Objets</a></li>
+                <li><a href="/espace-guilde" class="nav-link">Guilde</a></li>
             </ul>
             <div class="nav-connexion">
                 <span id="user-info" class="user-info" style="display: none;">
                     <a href="/profil" id="username" class="username-link"></a>
-                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter">Déconnexion</button>
+                    <button id="logout-btn" class="logout-btn" aria-label="Se déconnecter"><svg class="logout-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H4v16h6M9 12h12m-5-5 5 5-5 5"></path></svg><span class="logout-label">Déconnexion</span></button>
                 </span>
                 <a href="/connexion" class="connexion-link" id="login-link">Connexion</a>
             </div>
@@ -114,22 +116,22 @@
         </nav>
 
     </footer>
-    <script src="../js/i18n-en.js?v=20261007a" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261008map" defer></script>
-    <script src="../js/i18n-quests-en-reviewed.js?v=20261007a" defer></script>
-    <script src="../js/i18n-game-en-reviewed.js?v=20261007a" defer></script>
+    <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261008sao" defer></script>
+    <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
+    <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
-    <script src="../js/i18n.js?v=20261007a" defer></script>
+    <script src="../js/i18n.js?v=20261008hybrid" defer></script>
     <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
     <script src="../js/supabase-public-config.js?v=20261007a" defer></script>
     <script src="../js/db-guard.js?v=20261007a" defer></script>
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/navbar-mobile.js?v=20261007a" defer></script>
-    <script src="../js/audio-controller.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261008map" defer></script>
-    <script src="../js/page-registry.js?v=20261008map" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
+    <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
+    <script src="../js/global-search.js?v=20261008sao" defer></script>
+    <script src="../js/page-registry.js?v=20261008sao" defer></script>
     <script src="../js/app-router.js?v=20261007a" defer></script>
 </body>
 </html>

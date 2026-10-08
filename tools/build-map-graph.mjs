@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
+import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, assertNoCombatFields} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
 const { JSDOM } = require('jsdom');
@@ -111,8 +112,8 @@ function aliasMatcher(pairs) {
 function compile({ root = defaultRoot } = {}) {
     root = path.resolve(root);
     const read = file => fs.readFileSync(path.join(root, file), 'utf8');
-    const source = JSON.parse(read('data/map-source.json'));
-    const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData');
+    const source = projectMapSource(JSON.parse(read('data/map-source.json')));
+    const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData').map(projectCreature);
     const groups = readLiteral(read('js/items-catalog-hdv.js'), 'itemsCatalog');
     const en = readEnglish(read);
     const audit = { version: 1, source: 'data/map-source.json', locationAliases: aliases, cityAliases,
@@ -182,7 +183,7 @@ function compile({ root = defaultRoot } = {}) {
             const entity = add({ key, id: point.id, kind: 'quest', title: point.name, floor,
                 markerType: normalize(point.name) === 'teleporteur' ? 'teleporter' : point.type === 'principale' ? 'quest-primary' : 'quest-secondary', description: point.description,
                 url: '/carte?floor=' + floor + '&entity=' + encodeURIComponent(key), position: position(point.coordinates, floor), positionRef: key,
-                category: point.type, step: point.step, npc: point.npc || null,
+                category: point.type, status: HISTORICAL_QUEST_STATUS, step: point.step, npc: point.npc || null,
                 sources: [{ file: 'data/map-source.json', table, index, id: point.id, coordinates: point.coordinates, npc: point.npc || null }] });
             if (entity.position) floors[floor].points.push(key); quests.push(entity);
         });
@@ -193,6 +194,7 @@ function compile({ root = defaultRoot } = {}) {
     for (const step of dom.window.document.querySelectorAll('.quest-step')) {
         if (!step.id) throw new Error('Guide needs a permanent HTML ID');
         const section = step.closest('.quest-section'), floor = Number(section.dataset.tier), category = section.dataset.category;
+        if (category !== 'secondaire') continue;
         const title = clean(step.querySelector('h4')?.textContent), coordinate = step.querySelector('.coordinates');
         const coordinates = coordinate ? [Number(coordinate.dataset.x), Number(coordinate.dataset.y)] : null;
         const group = step.closest('.secondary-quest-group');
@@ -211,7 +213,7 @@ function compile({ root = defaultRoot } = {}) {
         const key = 'guide:' + step.id;
         const entity = add({ key, id: step.id, kind: 'guide', title, floor, markerType: category === 'principale' ? 'quest-primary' : 'quest-secondary',
             description: clean(step.querySelector('.step-content')?.textContent), url: '/quetes?quest=' + encodeURIComponent(step.id),
-            position: position(coordinates, floor), positionRef: coordinates ? key : null, placeKey: place?.key || null, category,
+            position: position(coordinates, floor), positionRef: coordinates ? key : null, placeKey: place?.key || null, category, status: HISTORICAL_QUEST_STATUS,
             sources: [{ file: 'pages/quetes.html', id: step.id, category, floor, coordinates, npc: npcName, city: cityName || null }] });
         guides.push(entity); if (npcName) guideNpc.set(key, npcName);
         if (place) { place.guideKeys.push(key); link(place, entity); }
@@ -240,7 +242,7 @@ function compile({ root = defaultRoot } = {}) {
         let npc = npcs.get(key);
         if (!npc) {
             npc = add({ key, id: slug(name), kind: 'npc', title: name, floor: reference.floor, markerType: 'npc',
-                description: 'PNJ associé aux quêtes du palier ' + reference.floor, url: '/carte?floor=' + reference.floor + '&entity=' + encodeURIComponent(key) });
+                description: 'PNJ associé aux quêtes secondaires historiques du palier ' + reference.floor, status: HISTORICAL_QUEST_STATUS, url: '/carte?floor=' + reference.floor + '&entity=' + encodeURIComponent(key) });
             npcs.set(key, npc); npcEvidence.set(key, []);
         }
         npc.sources.push({ file, referenceKey: reference.key, coordinates: reference.position ? [reference.position.x, reference.position.z] : null, placeKey: reference.placeKey });
@@ -291,7 +293,7 @@ function compile({ root = defaultRoot } = {}) {
             markerType: creature.category === 'boss' ? 'boss' : 'creature', description: creature.description,
             url: creature.category === 'boss' ? '/boss/' + slug(creature.name) : '/bestiaire?creature=' + creature.id,
             image: imageUrl(creature.image), positionRef: place?.key || null, placeKey: place?.key || null,
-            category: creature.category, type: creature.type, hp: creature.hp,
+            category: creature.category, type: creature.type,
             sources: [{ file: 'js/bestiaire.js', literal: 'creaturesData', index, id: creature.id, location: creature.location }] });
         if (place) { place.creatureKeys.push(entity.key); link(place, entity); }
         else audit.unmatchedCreatureLocations.push({ key: entity.key, title: entity.title, location: creature.location, reason: creature.location === '???' ? 'unknown' : 'no-exact-or-approved-alias' });
@@ -322,14 +324,16 @@ function compile({ root = defaultRoot } = {}) {
     }
     const registry = [...entities.values()].filter(entity => entity.kind !== 'item').map(entity => ({ key: entity.key, kind: entity.kind, floor: entity.floor, markerType: entity.markerType }));
     const catalog = { version: 1, floors: floorMeta, index: [...entities.values()].map(entity => ({ key: entity.key, id: entity.id, kind: entity.kind, title: entity.title,
-        titleEn: entity.titleEn, floor: entity.floor, markerType: entity.markerType, positionRef: entity.position ? entity.key : entity.positionRef, url: entity.url,
+        titleEn: entity.titleEn, floor: entity.floor, markerType: entity.markerType, status: entity.status || null, positionRef: entity.position ? entity.key : entity.positionRef, url: entity.url,
         mapUrl: '/carte?floor=' + entity.floor + '&entity=' + encodeURIComponent(entity.key),
         keywords: clean([entity.description, entity.npc, entity.category, ...entity.sources.map(source => source.location || source.city || ''), ...entity.drops.map(drop => drop.name)].join(' ')) })), registry };
     audit.counts = { entities: entities.size, byKind: Object.fromEntries(['location', 'quest', 'guide', 'npc', 'creature', 'item'].map(kind => [kind, [...entities.values()].filter(entity => entity.kind === kind).length])),
         floors: Object.fromEntries(Object.values(floors).map(floor => [floor.floor, { entities: Object.keys(floor.entities).length, defaultPoints: floor.points.length }])), registry: registry.length,
         guidesByCategory: Object.fromEntries(['1:principale', '1:secondaire', '2:principale', '2:secondaire'].map(key => [key, guides.filter(guide => guide.floor + ':' + guide.category === key).length])) };
     audit.legacyFavorites = audit.legacyFavorites.filter((entry, index, all) => all.findIndex(other => other.key === entry.key && JSON.stringify(other.globalIds) === JSON.stringify(entry.globalIds)) === index);
-    return { graph: { catalog, floors, registry }, audit };
+    const graph = { catalog, floors, registry };
+    assertNoCombatFields(graph);
+    return { graph, audit };
 }
 
 export function createMapGraph(options = {}) { return compile(options).graph; }
@@ -348,6 +352,7 @@ export function writeMapGraph({ root = defaultRoot, output = root } = {}) {
     const rows = graph.registry.map(entity => '    (' + [sqlQuote(entity.key), sqlQuote(entity.kind), entity.floor, sqlQuote(entity.markerType)].join(', ') + ')').join(',\n');
     const sqlDirectory = path.join(root, 'docs/supabase'); fs.mkdirSync(sqlDirectory, { recursive: true });
     fs.writeFileSync(path.join(sqlDirectory, 'SAO_NAMELESS_MAP_ENTITY_SEED_005.sql'), '-- Generated by tools/build-map-graph.mjs. Apply after the map registry schema 005.\n-- Public entity identities only; content and coordinate evidence stay in static JSON.\nBEGIN;\nINSERT INTO public.map_entity_registry (entity_key, kind, floor, marker_type) VALUES\n' + rows + '\nON CONFLICT (entity_key) DO UPDATE SET kind = EXCLUDED.kind, floor = EXCLUDED.floor, marker_type = EXCLUDED.marker_type;\nCOMMIT;\n');
+    fs.writeFileSync(path.join(sqlDirectory, 'SAO_NAMELESS_MAP_PUBLICATION_SEED_006.sql'), '-- Generated public allowlist. Apply after schema 006 and entity seed 005.\n-- Historical registry rows and overrides survive but remain unpublished.\nBEGIN;\nUPDATE public.map_entity_registry SET published = false;\nUPDATE public.map_entity_registry SET published = true WHERE entity_key IN (\n' + graph.registry.map(entity => '    ' + sqlQuote(entity.key)).join(',\n') + '\n);\nCOMMIT;\n');
     return graph;
 }
 

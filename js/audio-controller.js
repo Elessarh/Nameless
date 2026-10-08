@@ -208,6 +208,7 @@
 
         var timeline = document.createElement('span');
         timeline.className = 'nm-audio-timeline';
+        timeline.setAttribute('aria-hidden', 'true');
         timeline.appendChild(currentTime);
         timeline.appendChild(progress);
         timeline.appendChild(duration);

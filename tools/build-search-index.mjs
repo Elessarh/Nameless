@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import {createRequire} from 'node:module';
 import {bossSlug} from './build-boss-pages.mjs';
 import {createMapGraph} from './build-map-graph.mjs';
+import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, assertNoCombatFields} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
@@ -30,7 +31,7 @@ function literalArray(source, name) {
 }
 
 export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
-    const mapSource = JSON.parse(read('data/map-source.json'));
+    const mapSource = projectMapSource(JSON.parse(read('data/map-source.json')));
     const mapEntries = new Map(mapGraph.catalog.index.map(entry => [entry.key, entry]));
     const mapEntities = Object.assign({}, ...Object.values(mapGraph.floors).map(floor => floor.entities));
     const mapMetadata = key => {
@@ -44,9 +45,13 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
     const en = translations.window.NamelessTranslations.en;
     const entries = [];
     const add = entry => entries.push({...entry, titleEn: en[entry.title] || entry.title, summaryEn: en[entry.summary] || entry.summary});
-    const creatures = literalArray(read('js/bestiaire.js'), 'creaturesData');
+    const creatures = literalArray(read('js/bestiaire.js'), 'creaturesData').map(projectCreature);
+    const assetUrl = value => {
+        const url = new URL(String(value), 'https://nameless-sao.fr/pages/bestiaire.html');
+        return url.origin === 'https://nameless-sao.fr' && url.pathname.startsWith('/assets/') ? url.pathname : null;
+    };
     creatures.forEach(c => add({kind: c.category === 'boss' ? 'boss' : 'creature', id: String(c.id), title: c.name,
-        url: c.category === 'boss' ? '/boss/' + bossSlug(c.name) : '/bestiaire?creature=' + c.id, summary: c.location + ' · Palier ' + c.palier, location: c.location, ...mapMetadata('creature:' + c.id), keywords: c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')}));
+        url: c.category === 'boss' ? '/boss/' + bossSlug(c.name) : '/bestiaire?creature=' + c.id, image: assetUrl(c.image), summary: c.location + ' · Palier ' + c.palier, location: c.location, ...mapMetadata('creature:' + c.id), keywords: c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')}));
     const sandbox = {};
     vm.runInNewContext(read('js/items-catalog-hdv.js') + ';this.catalog = itemsCatalog;', sandbox);
     for (const group of Object.values(sandbox.catalog)) {
@@ -56,7 +61,7 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
                 .map(c => ({title: c.name, url: '/bestiaire?creature=' + c.id, floor: c.palier, location: c.location,
                     ...(mapEntries.get('creature:' + c.id)?.positionRef ? {mapUrl: mapEntries.get('creature:' + c.id).mapUrl} : {})}));
             add({kind: 'item', id: item.id, title: item.name, url: '/items?item=' + encodeURIComponent(item.id),
-                summary: clean(group.name).replace(/^\S+\s+/, ''), keywords: item.rarity + ' ' + sources.map(s => s.title).join(' '), sources,
+                image: assetUrl('/assets/items/' + item.image), summary: clean(group.name).replace(/^\S+\s+/, ''), keywords: item.rarity + ' ' + sources.map(s => s.title).join(' '), sources,
                 dropNames: [...new Set((graphItem?.sources || []).filter(source => source.creatureKey).map(source => source.name))]});
         }
     }
@@ -64,8 +69,9 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
     quests.querySelectorAll('.quest-step').forEach(step => {
         if (!step.id) throw new Error('Quest is missing a permanent ID');
         const section = step.closest('.quest-section');
+        if (section.dataset.category !== 'secondaire') return;
         add({kind: 'quest', id: step.id, title: clean(step.querySelector('h4')?.textContent), url: '/quetes?quest=' + encodeURIComponent(step.id),
-            summary: 'Palier ' + section.dataset.tier + ' · ' + section.dataset.category, ...mapMetadata('guide:' + step.id), keywords: clean(step.textContent).slice(0, 450)});
+            summary: 'Palier ' + section.dataset.tier + ' · Secondaire historique non vérifiée', status: HISTORICAL_QUEST_STATUS, ...mapMetadata('guide:' + step.id), keywords: clean(step.textContent).slice(0, 450)});
     });
     const wiki = new JSDOM(read('pages/wiki.html')).window.document;
     wiki.querySelectorAll('.wiki-page').forEach(article => {
@@ -86,7 +92,7 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
             if (npcKeys.has(key)) return;
             npcKeys.add(key);
             const target = mapGraph.catalog.index.find(entry => entry.kind === 'npc' && entry.floor === floor && normalize(entry.title) === normalize(point.npc));
-            add({kind: 'npc', id: key, title: point.npc, summary: 'Carte · Palier ' + floor, keywords: point.name,
+            add({kind: 'npc', id: key, title: point.npc, summary: 'Secondaire historique non vérifiée · Palier ' + floor, status: HISTORICAL_QUEST_STATUS, keywords: point.name,
                 ...(target ? mapMetadata(target.key) : {}), url: target?.mapUrl || '/carte?floor=' + floor + '&q=' + encodeURIComponent(point.npc)});
         });
     }
@@ -96,7 +102,9 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
         if (seen.has(key)) throw new Error('Duplicate search entry: ' + key);
         seen.add(key);
     }
-    return {version: 1, entries};
+    const index = {version: 1, entries};
+    assertNoCombatFields(index);
+    return index;
 }
 
 if (process.argv[1] === import.meta.filename) {

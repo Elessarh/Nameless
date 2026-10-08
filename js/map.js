@@ -9,7 +9,7 @@
     const TYPE_LABELS = {
         town: ['Villes', 'Towns'], dungeon: ['Donjons', 'Dungeons'], zone: ['Zones', 'Zones'],
         merchant: ['Marchands', 'Merchants'], 'quest-primary': ['Quêtes principales', 'Main quests'],
-        'quest-secondary': ['Quêtes secondaires', 'Side quests'], npc: ['PNJ', 'NPCs'],
+        'quest-secondary': ['Secondaires (archives)', 'Side quests (archives)'], npc: ['PNJ', 'NPCs'],
         teleporter: ['Téléporteurs', 'Teleporters'], boss: ['Boss', 'Bosses'], creature: ['Créatures', 'Creatures']
     };
     const KIND_LABELS = { location: ['Lieu', 'Location'], quest: ['Quête', 'Quest'], guide: ['Guide', 'Guide'], npc: ['PNJ', 'NPC'], creature: ['Créature', 'Creature'], item: ['Ressource', 'Resource'] };
@@ -25,17 +25,29 @@
         boss: '<path d="m4 6 4 3 4-5 4 5 4-3-2 13H6L4 6ZM9 14h.01M15 14h.01M9 17h6"/>',
         creature: '<path d="m5 5 5 4h4l5-4v11l-7 5-7-5V5ZM9 13h.01M15 13h.01M10 17h4"/>'
     };
+    const CONTROL_GLYPHS = {
+        recenter: '<circle cx="12" cy="12" r="6"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>',
+        fullscreen: '<path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/>',
+        share: '<path d="M12 16V3m-4 4 4-4 4 4M5 12v9h14v-9"/>',
+        filters: '<path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/>'
+    };
     function english() { return global.NamelessI18n?.getLanguage?.() === 'en'; }
     function text(fr, en) { return english() ? en : fr; }
     function label(entity) { return english() && entity.titleEn ? entity.titleEn : entity.title || entity.id || entity.key; }
     function typeLabel(type) { const value = TYPE_LABELS[type] || ['Repères', 'Markers']; return text(...value); }
     function kindLabel(kind) { return text(...(KIND_LABELS[kind] || ['Lieu', 'Location'])); }
-    function entryKind(entity) { return entity.markerType === 'boss' ? text('Boss', 'Boss') : kindLabel(entity.kind); }
+    function entryKind(entity) { const kind = entity.markerType === 'boss' ? text('Boss', 'Boss') : kindLabel(entity.kind); return entity.status === 'historical-unverified' ? kind + text(' · Archive non vérifiée', ' · Unverified archive') : kind; }
     function node(tag, className, content) {
         const element = document.createElement(tag);
         if (className) element.className = className;
         if (content != null) element.textContent = String(content);
         return element;
+    }
+    function controlLabel(element, content, glyph) {
+        if (!element) return;
+        const icon = node('span', 'map-control-icon'); icon.setAttribute('aria-hidden', 'true');
+        icon.innerHTML = '<svg viewBox="0 0 24 24">' + CONTROL_GLYPHS[glyph] + '</svg>';
+        element.replaceChildren(icon, node('span', 'map-control-label', content)); element.setAttribute('aria-label', content); element.title = content;
     }
     function finite(value, limit = 1000000) { return typeof value === 'number' && Number.isFinite(value) && Math.abs(value) <= limit; }
     function numberParam(params, name, limit = 1000000) {
@@ -165,6 +177,11 @@
         state.ui.filters.classList.toggle('is-ready', !!state.data && state.overridesStatus !== 'pending');
         const available = new Set((state.data?.points || []).map(key => state.data.entities[key]?.markerType).filter(Boolean));
         state.ui.filters.replaceChildren();
+        if (state.ui.filterEmpty) {
+            state.ui.filterEmpty.hidden = !state.data || available.size > 0;
+            state.ui.filterEmpty.textContent = state.overridesStatus === 'pending'
+                ? text('Vérification des repères…', 'Checking markers…') : text('Aucun repère disponible.', 'No markers available.');
+        }
         const groups = [ [['Lieux', 'Places'], ['town', 'dungeon', 'zone', 'merchant', 'teleporter']], [['Quêtes', 'Quests'], ['quest-primary', 'quest-secondary']], [['Personnages', 'Characters'], ['npc', 'boss', 'creature']] ];
         for (const [name, types] of groups) {
             const present = types.filter(type => available.has(type)); if (!present.length) continue;
@@ -177,6 +194,37 @@
             }
             state.ui.filters.append(fieldset);
         }
+    }
+    function syncFilterDrawer(state) {
+        const compact = global.innerWidth <= 768;
+        if (!compact) state.filtersOpen = false;
+        state.ui.filterRail?.classList.toggle('is-open', compact && state.filtersOpen);
+        if (state.ui.filterRail) state.ui.filterRail.hidden = compact && !state.filtersOpen;
+        state.ui.filterToggle?.setAttribute('aria-expanded', String(compact && state.filtersOpen));
+    }
+    function syncFloorControls(state) {
+        const floors = state.catalog?.floors || [];
+        const current = floors.findIndex(floor => Number(floor.id) === state.floor);
+        if (state.ui.floorTitle) state.ui.floorTitle.textContent = text('Palier ', 'Floor ') + String(state.floor).padStart(2, '0');
+        if (state.ui.previous) state.ui.previous.disabled = current <= 0;
+        if (state.ui.next) state.ui.next.disabled = current < 0 || current >= floors.length - 1;
+        for (const button of state.ui.floorButtons?.querySelectorAll('button') || []) {
+            const selected = Number(button.dataset.floor) === state.floor;
+            button.classList.toggle('is-selected', selected); button.setAttribute('aria-pressed', String(selected));
+            button.setAttribute('aria-label', text('Palier ', 'Floor ') + button.textContent);
+        }
+    }
+    function renderFloorControls(state) {
+        if (!state.catalog) return;
+        state.ui.floor.replaceChildren(); state.ui.floorButtons?.replaceChildren();
+        for (const floor of state.catalog.floors) {
+            const option = node('option', '', text('Palier ', 'Floor ') + floor.id); option.value = String(floor.id); state.ui.floor.append(option);
+            if (!state.ui.floorButtons) continue;
+            const button = node('button', 'map-floor-button', String(floor.id).padStart(2, '0')); button.type = 'button'; button.dataset.floor = String(floor.id);
+            listen(state, button, 'click', () => chooseFloor(state, Number(floor.id)));
+            state.ui.floorButtons.append(button);
+        }
+        state.ui.floor.value = String(state.floor); syncFloorControls(state);
     }
     function targetPosition(state, entity) {
         if (!entity || ['hidden', 'deleted'].includes(entity.overrideState)) return { position: null, reference: null };
@@ -261,15 +309,37 @@
         const list = node('ul', 'map-relations');
         for (const key of unique) {
             const entity = state.data.entities[key] || state.catalog.index.find(entry => entry.key === key); if (!entity) continue;
-            const item = node('li'); const button = node('button', '', label(entity)); button.type = 'button'; button.dataset.entityKey = key;
-            if (suffixes?.[key]) button.append(node('small', '', suffixes[key]));
+            const item = node('li'); const button = node('button', 'map-relation', null); button.type = 'button'; button.dataset.entityKey = key;
+            const image = entityImage(state, entity, 'map-relation-image'); if (image) button.append(image);
+            const info = node('span', 'map-relation-info'); info.append(node('span', 'map-relation-title', label(entity)));
+            const note = [entity.status === 'historical-unverified' ? text('Archive non vérifiée', 'Unverified archive') : '', suffixes?.[key] || ''].filter(Boolean).join(' · ');
+            if (note) info.append(node('small', '', note));
+            button.append(info, node('span', 'map-relation-arrow', '›'));
             listen(state, button, 'click', () => selectEntity(state, key)); item.append(button); list.append(item);
         }
         if (list.childElementCount) state.ui.content.append(node('h3', '', heading), list);
     }
+    function entityImage(state, entity, className) {
+        if (!['creature', 'item'].includes(entity.kind)) return null;
+        const src = localUrl(entity.image); if (!src) return null;
+        const media = node('span', className + (entity.kind === 'item' ? ' is-item' : ''));
+        const image = node('img'); image.src = src; image.alt = ''; image.setAttribute('loading', 'lazy'); image.setAttribute('decoding', 'async'); image.width = 64; image.height = 64;
+        if (entity.kind === 'item') listen(state, image, 'load', () => {
+            if (!valid(state) || !image.naturalWidth || !image.naturalHeight) return;
+            if (image.naturalWidth <= 56 && image.naturalHeight <= 56) {
+                const scale = Math.max(1, Math.min(2, Math.floor(Math.min(56 / image.naturalWidth, 56 / image.naturalHeight))));
+                image.classList.add('is-pixel-art'); image.style.width = image.naturalWidth * scale + 'px'; image.style.height = image.naturalHeight * scale + 'px';
+            }
+        });
+        listen(state, image, 'error', () => { if (valid(state)) media.hidden = true; });
+        media.append(image); return media;
+    }
     function renderPanel(state, entity) {
         state.choiceKeys = null; state.ui.content.replaceChildren();
-        state.ui.content.append(node('span', 'map-kind', entryKind(entity) + ' · ' + text('Palier ', 'Floor ') + state.floor), node('h2', '', label(entity)));
+        const head = node('div', 'map-entity-heading');
+        const image = entityImage(state, entity, 'map-entity-image'); if (image) head.append(image);
+        const title = node('div'); title.append(node('span', 'map-kind', entryKind(entity) + ' · ' + text('Palier ', 'Floor ') + state.floor), node('h2', '', label(entity))); head.append(title); state.ui.content.append(head);
+        if (entity.status === 'historical-unverified') state.ui.content.append(node('p', 'map-position-note', text('Documentation secondaire historique. Ces informations n’ont pas été vérifiées depuis les changements du serveur.', 'Historical side-quest documentation. This information has not been verified since the server changes.')));
         if (entity.description) state.ui.content.append(node('p', '', english() && entity.descriptionEn ? entity.descriptionEn : global.NamelessI18n?.translate?.(entity.description) || entity.description));
         const target = targetPosition(state, entity);
         if (target.reference) {
@@ -288,7 +358,6 @@
         }
         const href = localUrl(entity.url);
         if (href && !new URL(href).pathname.match(/^\/(carte|pages\/map\.html)$/)) { const link = node('a', 'map-page-link', text('Ouvrir la fiche', 'Open details')); link.href = href; state.ui.content.append(link); }
-        if (entity.image) { const src = localUrl(entity.image); if (src) { const image = node('img', 'map-entity-image'); image.src = src; image.alt = ''; image.loading = 'lazy'; state.ui.content.append(image); } }
         const reverse = Object.values(state.data.entities).filter(other => other.key !== entity.key);
         relation(state, text('Lieu associé', 'Associated place'), [entity.placeKey, entity.positionRef]);
         if (entity.kind !== 'item') relation(state, text('Créatures', 'Creatures'), [...(entity.creatureKeys || []), ...reverse.filter(other => other.kind === 'creature' && (other.placeKey === entity.key || other.positionRef === entity.key)).map(other => other.key)]);
@@ -338,7 +407,7 @@
     async function changeFloor(state, id, options = {}) {
         const config = configOf(state, id); if (!config || !valid(state)) return false;
         const generation = ++state.floorGeneration;
-        state.floor = Number(id); state.rawData = null; state.data = null; state.ui.floor.value = String(id); clearMarkers(state); renderFilters(state);
+        state.floor = Number(id); state.rawData = null; state.data = null; state.ui.floor.value = String(id); syncFloorControls(state); clearMarkers(state); renderFilters(state);
         state.map.setMaxBounds?.(config.maxBounds || config.bounds); recenter(state); mountImage(state, config);
         state.ui.map.setAttribute('aria-busy', 'true');
         if (Number(config.id) === 3) notice(state, text('Palier 3 : image disponible, repères et coordonnées du jeu non calibrés.', 'Floor 3: image available; markers and game coordinates are not calibrated.'));
@@ -361,7 +430,7 @@
         if (!valid(state) || intent !== state.intent || state.floor !== targetFloor) return false;
         const entity = state.data.entities[key];
         if (!entity) { notice(state, text('La fiche de ce repère n’est pas disponible sur ce palier.', 'This marker entry is not available on this floor.')); return false; }
-        state.selected = key; hideSearch(state); renderMarkers(state); renderPanel(state, entity);
+        state.selected = key; hideSearch(state); state.filtersOpen = false; syncFilterDrawer(state); renderMarkers(state); renderPanel(state, entity);
         const target = targetPosition(state, entity);
         if (target.position && options.center !== false) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: false });
         else if (state.overridesStatus === 'pending' && options.center !== false) state.pendingSelection = { key, intent };
@@ -399,7 +468,10 @@
         if (state.floor !== floor || !state.data) { if (!(await changeFloor(state, floor))) return; }
         if (!valid(state) || intent !== state.intent || state.floor !== floor) return;
         if (key) await selectEntity(state, key, { intent, url: false });
-        else if (['entity', 'location', 'creature', 'boss', 'guide', 'quest'].some(name => params.has(name))) notice(state, text('Ce repère est introuvable.', 'This marker could not be found.'));
+        else if (['entity', 'location', 'creature', 'boss', 'guide', 'quest'].some(name => params.has(name))) {
+            const archivedMain = ['entity', 'guide', 'quest'].some(name => /(?:^|:)p[12]-principale-/.test(params.get(name) || ''));
+            notice(state, archivedMain ? text('Cette ancienne quête principale a été archivée. Son parcours obsolète n’est plus publié.', 'This former main quest has been archived. Its obsolete walkthrough is no longer published.') : text('Ce repère est introuvable.', 'This marker could not be found.'));
+        }
         if (!valid(state) || intent !== state.intent) return;
         const u = numberParam(params, 'u', 2), v = numberParam(params, 'v', 2), zoom = numberParam(params, 'zoom', 20);
         const x = numberParam(params, 'x'), z = numberParam(params, 'y');
@@ -474,16 +546,23 @@
     }
     function syncFullscreen(state) {
         const enabled = document.fullscreenElement === state.ui.workspace || state.ui.workspace.classList.contains('is-fullscreen'); state.ui.fullscreen.setAttribute('aria-pressed', String(enabled));
-        state.ui.fullscreen.textContent = enabled ? text('Quitter le plein écran', 'Exit fullscreen') : text('Plein écran', 'Fullscreen'); state.map.invalidateSize?.({ pan: false });
+        controlLabel(state.ui.fullscreen, enabled ? text('Quitter le plein écran', 'Exit fullscreen') : text('Plein écran', 'Fullscreen'), 'fullscreen'); state.map.invalidateSize?.({ pan: false });
     }
     function translateUi(state) {
-        const pairs = [[state.ui.recenter, 'Recentrer', 'Recenter'], [state.ui.share, 'Partager', 'Share'], [state.ui.close, 'Fermer', 'Close']]; pairs.forEach(([element, fr, en]) => { element.textContent = text(fr, en); });
+        controlLabel(state.ui.recenter, text('Recentrer', 'Recenter'), 'recenter'); controlLabel(state.ui.share, text('Partager', 'Share'), 'share'); state.ui.close.textContent = text('Fermer', 'Close');
         state.ui.search.placeholder = text('Quête, PNJ, créature, lieu…', 'Quest, NPC, creature, place…'); state.ui.search.setAttribute('aria-label', text('Rechercher dans tous les paliers', 'Search all floors'));
         state.ui.expand.textContent = state.ui.panel.classList.contains('is-expanded') ? text('Voir moins', 'Show less') : text('Voir plus', 'Show more');
         state.ui.clear.setAttribute('aria-label', text('Effacer la recherche', 'Clear search')); state.ui.close.setAttribute('aria-label', text('Fermer les détails', 'Close details'));
+        if (state.ui.previous) state.ui.previous.setAttribute('aria-label', text('Palier précédent', 'Previous floor'));
+        if (state.ui.next) state.ui.next.setAttribute('aria-label', text('Palier suivant', 'Next floor'));
+        if (state.ui.floorButtons) state.ui.floorButtons.setAttribute('aria-label', text('Choisir un palier', 'Choose a floor'));
+        controlLabel(state.ui.filterToggle, text('Filtres', 'Filters'), 'filters');
+        if (state.ui.filterReset) state.ui.filterReset.textContent = text('Réinitialiser', 'Reset');
+        if (state.ui.filterEmpty) state.ui.filterEmpty.textContent = text('Aucun repère disponible.', 'No markers available.');
+        if (state.ui.filterRail) { state.ui.filterRail.setAttribute('aria-label', text('Filtres de la carte', 'Map filters')); state.ui.filterRail.querySelector('h2').textContent = text('Filtres', 'Filters'); }
         if (state.ui.admin) state.ui.admin.querySelector('summary').textContent = text('Édition de la carte', 'Map editor');
         for (const option of state.ui.floor.options) option.textContent = text('Palier ', 'Floor ') + option.value;
-        syncFullscreen(state); renderFilters(state); renderMarkers(state); renderSearch(state);
+        syncFloorControls(state); syncFilterDrawer(state); syncFullscreen(state); renderFilters(state); renderMarkers(state); renderSearch(state);
         if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
         else if (state.choiceKeys) showChoices(state, state.choiceKeys.map(key => state.data.entities[key]).filter(Boolean));
     }
@@ -497,9 +576,17 @@
         });
         listen(state, ui.clear, 'click', () => { ui.search.value = ''; renderSearch(state); ui.search.focus(); });
         listen(state, document, 'pointerdown', event => { if (!ui.search.closest('.map-search-container').contains(event.target)) hideSearch(state); });
-        listen(state, ui.floor, 'change', async () => {
-            ++state.intent; hideSearch(state); ui.search.value = ''; closePanel(state, false); updateUrlForFloor(state, Number(ui.floor.value)); await changeFloor(state, Number(ui.floor.value));
+        listen(state, ui.floor, 'change', () => chooseFloor(state, Number(ui.floor.value)));
+        const adjacentFloor = direction => { const floors = state.catalog?.floors || []; const index = floors.findIndex(floor => Number(floor.id) === state.floor); const next = floors[index + direction]; if (next) chooseFloor(state, Number(next.id)); };
+        listen(state, ui.previous, 'click', () => adjacentFloor(-1)); listen(state, ui.next, 'click', () => adjacentFloor(1));
+        listen(state, ui.floorButtons, 'keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key) || !event.target.matches('button[data-floor]')) return;
+            const buttons = [...ui.floorButtons.querySelectorAll('button')]; const index = buttons.indexOf(event.target);
+            const target = event.key === 'Home' ? buttons[0] : event.key === 'End' ? buttons.at(-1) : buttons[index + (event.key === 'ArrowRight' ? 1 : -1)];
+            event.preventDefault(); if (target) { target.focus(); target.click(); }
         });
+        listen(state, ui.filterToggle, 'click', () => { state.filtersOpen = !state.filtersOpen; syncFilterDrawer(state); });
+        listen(state, ui.filterReset, 'click', () => { for (const type of state.filters.keys()) state.filters.set(type, !type.startsWith('quest-')); renderFilters(state); renderMarkers(state); });
         listen(state, ui.recenter, 'click', () => recenter(state)); listen(state, ui.fullscreen, 'click', () => fullscreen(state));
         listen(state, ui.close, 'click', () => closePanel(state));
         listen(state, ui.expand, 'click', () => { const enabled = ui.panel.classList.toggle('is-expanded'); ui.expand.setAttribute('aria-expanded', String(enabled)); ui.expand.textContent = enabled ? text('Voir moins', 'Show less') : text('Voir plus', 'Show more'); });
@@ -508,21 +595,27 @@
             try { await global.navigator.clipboard.writeText(global.location.href); notice(state, text('Lien de la carte copié.', 'Map link copied.')); }
             catch (_) { notice(state, text('Le lien à partager est dans la barre d’adresse.', 'The share link is in the address bar.')); }
         });
-        listen(state, ui.map, 'keydown', event => { if (event.key === '0' && !event.ctrlKey && !event.metaKey && !event.altKey && !document.querySelector('[role="dialog"][aria-modal="true"]') && !event.target.matches('input, textarea, select')) { event.preventDefault(); recenter(state); } });
+        listen(state, ui.map, 'keydown', event => { if (event.key === '0' && !event.ctrlKey && !event.metaKey && !event.altKey && !document.querySelector('dialog[open], [role="dialog"][aria-modal="true"]') && !event.target.matches('input, textarea, select')) { event.preventDefault(); recenter(state); } });
         listen(state, document, 'keydown', event => {
-            if (event.key !== 'Escape' || document.querySelector('[role="dialog"][aria-modal="true"]')) return;
+            if (event.key !== 'Escape' || document.querySelector('dialog[open], [role="dialog"][aria-modal="true"]')) return;
             if (!ui.results.hidden) { hideSearch(state); ui.search.focus(); }
+            else if (state.filtersOpen) { state.filtersOpen = false; syncFilterDrawer(state); ui.filterToggle?.focus(); }
             else if (ui.workspace.classList.contains('is-fullscreen')) { ui.workspace.classList.remove('is-fullscreen'); syncFullscreen(state); }
             else if (ui.panel.classList.contains('is-expanded')) { ui.panel.classList.remove('is-expanded'); ui.expand.setAttribute('aria-expanded', 'false'); ui.expand.textContent = text('Voir plus', 'Show more'); }
             else if (!ui.panel.hidden && ui.workspace.contains(event.target)) { closePanel(state); ui.map.focus(); }
         });
         listen(state, document, 'fullscreenchange', () => syncFullscreen(state));
-        listen(state, global, 'resize', () => state.map.invalidateSize?.({ pan: false }));
+        listen(state, global, 'resize', () => { syncFilterDrawer(state); state.map.invalidateSize?.({ pan: false }); });
         listen(state, global, 'popstate', () => applyRoute(state)); listen(state, document, 'nameless:routechange', () => applyRoute(state));
         listen(state, document, 'nameless:languagechange', () => translateUi(state));
         listen(state, document, 'nameless:auth-changed', () => { reloadOverrides(state); adminCheck(state); });
         state.map.on('moveend', () => saveState(state)); state.map.on('zoomend', () => { state.detailCheck?.(); renderMarkers(state); saveState(state); });
         state.map.on('click', event => { if (state.editorMode) emit(state, 'click', { latlng: event.latlng, relative: relative(state, event.latlng) }); });
+    }
+    async function chooseFloor(state, id) {
+        if (!configOf(state, id) || !valid(state) || (state.floor === id && state.data)) return;
+        ++state.intent; hideSearch(state); state.ui.search.value = ''; state.ui.clear.style.display = 'none'; closePanel(state, false); state.filtersOpen = false; syncFilterDrawer(state);
+        updateUrlForFloor(state, id); await changeFloor(state, id);
     }
     function updateUrlForFloor(state, id) { const previous = state.floor; state.floor = id; updateUrl(state, null); state.floor = previous; }
     async function init(root) {
@@ -532,8 +625,8 @@
         destroy();
         const main = container.closest('main') || root || document;
         const query = id => main.querySelector('#' + id);
-        const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), admin: query('map-admin-tools') },
-            root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', editorMode: false, events: new Map(), lastRoute: null };
+        const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), floorTitle: query('map-floor-title'), floorButtons: query('map-floor-buttons'), previous: query('map-floor-previous'), next: query('map-floor-next'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), filterRail: query('map-filter-rail'), filterToggle: query('map-filters-toggle'), filterReset: query('map-filters-reset'), filterEmpty: query('map-filters-empty'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), admin: query('map-admin-tools') },
+            root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), filtersOpen: false, markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', editorMode: false, events: new Map(), lastRoute: null };
         active = state;
         state.map = global.L.map(container, { crs: global.L.CRS.Simple, minZoom: -5, maxZoom: 3, zoom: -3, center: [2560, 2560], zoomControl: true, attributionControl: false, keyboard: true, zoomSnap: .25, zoomDelta: .5, maxBoundsViscosity: .5 });
         state.markerLayer = global.L.layerGroup().addTo(state.map);
@@ -545,7 +638,7 @@
         state.ready = (async () => {
             try {
                 const catalog = await getCatalog(); if (!valid(state)) return null;
-                state.catalog = catalog; state.bridge.catalog = catalog;
+                state.catalog = catalog; state.bridge.catalog = catalog; renderFloorControls(state);
                 await Promise.all([applyRoute(state, true), reloadOverrides(state)]); if (!valid(state)) return null;
                 adminCheck(state); return state.bridge;
             } catch (_) { if (valid(state)) notice(state, text('La carte ne peut pas être chargée. Réessayez.', 'The map could not be loaded. Please try again.')); return null; }
@@ -557,7 +650,7 @@
         active = null; api.active = null; state.controller.abort(); state.intent++; state.floorGeneration++; state.authGeneration++;
         global.NamelessMapAdmin?.destroy?.();
         if (document.fullscreenElement === state.ui.workspace) document.exitFullscreen?.().catch?.(() => {});
-        state.ui.workspace?.classList.remove('is-fullscreen'); clearOverlays(state); clearMarkers(state);
+        state.ui.workspace?.classList.remove('is-fullscreen'); state.filtersOpen = false; syncFilterDrawer(state); clearOverlays(state); clearMarkers(state);
         state.fullImages.forEach(record => { state.map.removeLayer(record.overlay); record.overlay.off?.(); }); state.fullImages.clear();
         state.map.remove(); state.map.off?.(); state.events.clear();
     }

@@ -20,7 +20,7 @@ assert.equal(build.status, 0, 'Publication build failed:\n' + build.stdout + bui
 const scope = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'), scope);
 const routes = scope.window.NamelessPageRegistry.routes;
-const nonPublic = new Set(['connexion', 'profil', 'espace-guilde', 'admin-dashboard', 'confidentialite', 'conditions']);
+const nonPublic = new Set(['connexion', 'profil', 'espace-guilde', 'admin-dashboard', 'confidentialite', 'conditions', 'quetes']);
 let htmlCount = 0;
 let localReferences = 0;
 

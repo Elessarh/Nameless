@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "date": "2026-10-08",
+  "generator": "tools/optimize-sao-home.py",
+  "processing": "Recorded crop, aspect-preserving Lanczos resize, WebP compression. No generated illustration, repainting, recoloring, invented map markers or semantic edits.",
+  "citySourcePreservedExactly": true,
+  "artwork": [
+    {
+      "key": "city",
+      "source": {
+        "path": "docs/sao-minecraft-home-2026-10-08/sources/city.png",
+        "dimensions": [
+          1920,
+          1009
+        ],
+        "mode": "RGB",
+        "hasAlpha": false,
+        "bytes": 3614460,
+        "sha256": "0c3fd1a17d78ea130db320ea8a4e2d60813557e62848fa1050d4ce0a07c6c6e0"
+      },
+      "outputs": [
+        {
+          "path": "assets/home/sao-city-1920.webp",
+          "dimensions": [
+            1920,
+            1009
+          ],
+          "mode": "RGB",
+          "hasAlpha": false,
+          "bytes": 220884,
+          "sha256": "5eee780b21311e0bfd348072ea628dea3d0a2a887c8a91c8bec86ded78202f0e",
+          "quality": 80,
+          "crop": null,
+          "croppedSourceDimensions": [
+            1920,
+            1009
+          ]
+        },
+        {
+          "path": "assets/home/sao-city-1600.webp",
+          "dimensions": [
+            1600,
+            841
+          ],
+          "mode": "RGB",
+          "hasAlpha": false,
+          "bytes": 151128,
+          "sha256": "258b62bd854bfeb37e71cb36699d8d90ce2dcd342cf796b2d85c5a57b4cb172e",
+          "quality": 80,
+          "crop": null,
+          "croppedSourceDimensions": [
+            1920,
+            1009
+          ]
+        },
+        {
+          "path": "assets/home/sao-city-960.webp",
+          "dimensions": [
+            960,
+            504
+          ],
+          "mode": "RGB",
+          "hasAlpha": false,
+          "bytes": 54648,
+          "sha256": "aaabb69203bf3c96397928a522bc9fe5e2cf5dce14379780986d632cdeba4d33",
+          "quality": 78,
+          "crop": null,
+          "croppedSourceDimensions": [
+            1920,
+            1009
+          ]
+        },
+        {
+          "path": "assets/home/sao-city-mobile.webp",
+          "dimensions": [
+            640,
+            539
+          ],
+          "mode": "RGB",
+          "hasAlpha": false,
+          "bytes": 52616,
+          "sha256": "1c0607a9e5d7c05c2684b165d86bfe34e6fcb9b1e6de9c6f0b1dd8565db25a6f",
+          "quality": 78,
+          "crop": [
+            580,
+            80,
+            1340,
+            720
+          ],
+          "croppedSourceDimensions": [
+            760,
+            640
+          ]
+        }
+      ]
+    },
+    {
+      "key": "map",
+      "source": {
+        "path": "assets/carte-overview-mobile.webp",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "mode": "RGBA",
+        "hasAlpha": true,
+        "bytes": 530752,
+        "sha256": "f2e8cf638071a5d6f8be56fc3ca2c25d9091baa42a2e7782100b0b8ceaf0e0c5"
+      },
+      "outputs": [
+        {
+          "path": "assets/home/sao-map-512.webp",
+          "dimensions": [
+            512,
+            288
+          ],
+          "mode": "RGBA",
+          "hasAlpha": true,
+          "bytes": 60564,
+          "sha256": "3eb95f4d2c8a5ad518a4a789df683f43efb134cc2597fd9b95ec9133c704c723",
+          "quality": 80,
+          "crop": [
+            160,
+            600,
+            720,
+            915
+          ],
+          "croppedSourceDimensions": [
+            560,
+            315
+          ],
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "480ecaff79247293436f77220838110bc275736d1423bcf2cc6cb30582b12058",
+          "decodedAlphaSha256": "480ecaff79247293436f77220838110bc275736d1423bcf2cc6cb30582b12058"
+        },
+        {
+          "path": "assets/home/sao-map-256.webp",
+          "dimensions": [
+            256,
+            144
+          ],
+          "mode": "RGBA",
+          "hasAlpha": true,
+          "bytes": 13094,
+          "sha256": "40afbe8352058858dd956079f68c70ae918fbbb98dd3248b6251e03729d5f7dc",
+          "quality": 80,
+          "crop": [
+            160,
+            600,
+            720,
+            915
+          ],
+          "croppedSourceDimensions": [
+            560,
+            315
+          ],
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "9bee04efe183836e68c92a557bb3fb0bddcdb0271c53100cdc16e92879fa5150",
+          "decodedAlphaSha256": "9bee04efe183836e68c92a557bb3fb0bddcdb0271c53100cdc16e92879fa5150"
+        }
+      ]
+    },
+    {
+      "key": "guild",
+      "source": {
+        "path": "assets/caroussel_ensemble.webp",
+        "dimensions": [
+          2172,
+          724
+        ],
+        "mode": "RGB",
+        "hasAlpha": false,
+        "bytes": 122762,
+        "sha256": "9a82f380d7d6479134be7fc06c92e81c0ff03ab04e3357fd1874a2311926108b"
+      },
+      "outputs": [
+        {
+          "path": "assets/home/sao-guild-512.webp",
+          "dimensions": [
+            512,
+            291
+          ],
+          "mode": "RGB",
+          "hasAlpha": false,
+          "bytes": 21308,
+          "sha256": "98a9e0fe19abcf8b2d0e9533e60cd494b77d027fbf09d48b1456e91fbf5f6eb6",
+          "quality": 82,
+          "crop": [
+            900,
+            0,
+            2172,
+            724
+          ],
+          "croppedSourceDimensions": [
+            1272,
+            724
+          ]
+        },
+        {
+          "path": "assets/home/sao-guild-256.webp",
+          "dimensions": [
+            256,
+            146
+          ],
+          "mode": "RGB",
+          "hasAlpha": false,
+          "bytes": 6788,
+          "sha256": "b8a1ebe395e8050f7f770e724587f282652ba7c718927b23c6b1671681e25fa3",
+          "quality": 82,
+          "crop": [
+            900,
+            0,
+            2172,
+            724
+          ],
+          "croppedSourceDimensions": [
+            1272,
+            724
+          ]
+        }
+      ]
+    }
+  ],
+  "reused": [
+    {
+      "path": "assets/home/illfang-256.webp",
+      "dimensions": [
+        256,
+        231
+      ],
+      "mode": "RGBA",
+      "hasAlpha": true,
+      "bytes": 13464,
+      "sha256": "fe3088f56fbdcb0b2e5ef7e6336258867130de0faee01277ed5e43fe4e4de1c2",
+      "key": "illfang",
+      "source": "assets/mobs/illfang.png",
+      "sourceManifest": "docs/hybrid-mmorpg-2026-10-08/home-art-manifest.json",
+      "processing": "Reused unchanged; no duplicate generated."
+    }
+  ],
+  "sourceBytesTotal": 4267974,
+  "allVariantBytesTotal": 581030
+}

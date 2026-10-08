@@ -37,13 +37,13 @@ function assertEqual(actual, expected, label) {
     }
 }
 
-const mainQuestHeading = window.document.querySelector('.quest-section h2');
-assertEqual(mainQuestHeading.textContent.trim(), 'Main Quest — Floor 1', 'Static quest heading');
+const secondaryQuestHeading = window.document.querySelector('.quest-section h2');
+assertEqual(secondaryQuestHeading.textContent.trim(), 'Side Quests — Floor 1', 'Static secondary archive heading');
 
 const popup = window.document.createElement('div');
 popup.innerHTML = `
     <div class="quest-popup">
-        <strong><span aria-hidden="true"></span><span>Parler au Maître Épéiste</span></strong>
+        <strong><span aria-hidden="true"></span><span>Milla</span></strong>
         <p><strong>Position:</strong> X:638, Z:-267</p>
         <p>Obtenir 4 Plumes Enflammées, 4 Plumes Ondoyantes, 4 Plumes Terreuses</p>
         <p>Collectez les différentes plumes élémentaires pour Ifa</p>
@@ -51,7 +51,7 @@ popup.innerHTML = `
 window.document.body.appendChild(popup);
 await waitForMutations();
 
-assertEqual(popup.querySelector('strong span:last-child').textContent, 'Talk to the Master Swordsman', 'Dynamic popup quest name');
+assertEqual(popup.querySelector('strong span:last-child').textContent, 'Milla', 'Dynamic popup NPC proper name');
 assertEqual(popup.querySelector('p strong').textContent, 'Location:', 'Dynamic popup label');
 assertEqual(popup.querySelectorAll('p')[0].textContent.trim(), 'Location: X:638, Z:-267', 'Negative coordinate preservation');
 assertEqual(popup.querySelectorAll('p')[1].textContent, 'Collect 4 Flaming Feathers, 4 Water Feathers and 4 Earth Feathers', 'Dynamic popup objective');
@@ -82,12 +82,12 @@ assertEqual(liveStatus.textContent, 'Unknown Land', 'Dynamic text-node update');
 
 window.NamelessI18n.setLanguage('fr');
 await waitForMutations();
-assertEqual(popup.querySelector('strong span:last-child').textContent, 'Parler au Maître Épéiste', 'English to French popup switch');
+assertEqual(popup.querySelector('strong span:last-child').textContent, 'Milla', 'English to French proper-name switch');
 assertEqual(liveStatus.textContent, 'Terre Inconnue', 'English to French dynamic switch');
 
 window.NamelessI18n.setLanguage('en');
 await waitForMutations();
-assertEqual(popup.querySelector('strong span:last-child').textContent, 'Talk to the Master Swordsman', 'French to English popup switch');
+assertEqual(popup.querySelector('strong span:last-child').textContent, 'Milla', 'French to English proper-name switch');
 assertEqual(liveStatus.textContent, 'Unknown Land', 'French to English dynamic switch');
 
 const entryPages = [

@@ -401,7 +401,7 @@ function displayUsers() {
     tbody.innerHTML = '';
     
     if (filteredUsers.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #888; padding: 30px;">Aucun utilisateur trouvé</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="admin-empty">Aucun utilisateur trouvé</td></tr>';
         updatePagination();
         return;
     }
@@ -666,8 +666,10 @@ function initializeEventListeners() {
             // Mettre à jour les classes CSS
             sortableHeaders.forEach(h => {
                 h.classList.remove('sorted-asc', 'sorted-desc');
+                h.setAttribute('aria-sort', 'none');
             });
             header.classList.add(currentSortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            header.setAttribute('aria-sort', currentSortDirection === 'asc' ? 'ascending' : 'descending');
             
             // Trier et afficher
             sortUsers();
@@ -857,15 +859,20 @@ function switchGuildTab(tabName) {
     // Masquer tous les contenus
     document.querySelectorAll('.guild-tab-content').forEach(tab => {
         tab.style.display = 'none';
+        tab.classList.remove('active');
     });
     
     // Retirer la classe active de tous les onglets
     document.querySelectorAll('.guild-tab').forEach(btn => {
         btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.tabIndex = -1;
     });
     
     // Afficher le contenu sélectionné
-    document.getElementById(`guild-${tabName}-tab`).style.display = 'block';
+    const activeContent = document.getElementById(`guild-${tabName}-tab`);
+    activeContent.style.display = 'block';
+    activeContent.classList.add('active');
     const activeTab = document.getElementById(`tab-${tabName}`);
     activeTab.classList.add('active');
     activeTab.setAttribute('aria-selected', 'true');
@@ -895,7 +902,7 @@ async function loadAdminPlanning() {
         const container = document.getElementById('admin-planning-list');
         
         if (!data || data.length === 0) {
-            container.innerHTML = '<p style="color: #888; text-align: center;">Aucun événement planifié</p>';
+            container.innerHTML = '<p class="admin-empty">Aucun événement planifié</p>';
             return;
         }
         
@@ -907,8 +914,8 @@ async function loadAdminPlanning() {
                         <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_planning" data-id="${escapeHtml(event.id)}" data-item-type="planning">Supprimer</button>
                     </div>
                 </div>
-                <div style="color: #ff6b35; margin: 5px 0;">${formatDate(event.date_event)} | ${escapeHtml(formatEventType(event.type_event))}</div>
-                ${event.description ? `<div style="color: #ccc;">${escapeHtml(event.description)}</div>` : ''}
+                <div class="guild-item-date">${formatDate(event.date_event)} | ${escapeHtml(formatEventType(event.type_event))}</div>
+                ${event.description ? `<div class="guild-item-copy">${escapeHtml(event.description)}</div>` : ''}
             </div>
         `).join('');
 
@@ -932,7 +939,7 @@ async function loadAdminObjectives() {
         const container = document.getElementById('admin-objectives-list');
         
         if (!data || data.length === 0) {
-            container.innerHTML = '<p style="color: #888; text-align: center;">Aucun objectif défini</p>';
+            container.innerHTML = '<p class="admin-empty">Aucun objectif défini</p>';
             return;
         }
         
@@ -948,14 +955,11 @@ async function loadAdminObjectives() {
                         <button class="btn-delete" data-admin-action="delete-guild-item" data-table="guild_objectives" data-id="${escapeHtml(obj.id)}" data-item-type="objectives">Supprimer</button>
                     </div>
                 </div>
-                <div style="color: #ccc; margin: 10px 0;">${escapeHtml(obj.description || '')}</div>
-                <div style="color: #888; font-size: 0.9rem;">Semaine ${semaine}/${annee} | Statut: ${escapeHtml(formatStatus(obj.statut))}</div>
-                <div style="margin-top: 10px;">
-                    <div style="background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; overflow: hidden;">
-                        <div style="background: linear-gradient(90deg, #ff6b35, #f7931e); height: 100%; width: ${progression}%; text-align: center; color: white; font-size: 0.8rem; line-height: 20px;">
-                            ${progression}%
-                        </div>
-                    </div>
+                <div class="guild-item-copy">${escapeHtml(obj.description || '')}</div>
+                <div class="guild-item-meta">Semaine ${semaine}/${annee} | Statut: ${escapeHtml(formatStatus(obj.statut))}</div>
+                <div class="objective-progress-label"><span>Progression</span><strong>${progression}%</strong></div>
+                <div class="objective-progress" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progression}">
+                    <div class="objective-progress-fill" style="width: ${progression}%"></div>
                 </div>
             </div>
         `;
@@ -987,7 +991,7 @@ async function loadAdminPresence() {
         const container = document.getElementById('admin-presence-list');
         
         if (!data || data.length === 0) {
-            container.innerHTML = '<p style="color: #888; text-align: center;">Aucune présence enregistrée aujourd\'hui</p>';
+            container.innerHTML = '<p class="admin-empty">Aucune présence enregistrée aujourd\'hui</p>';
             return;
         }
         
@@ -1007,7 +1011,7 @@ async function loadAdminPresence() {
                 <div style="color: ${getStatusColor(presence.statut)}; font-weight: bold;">
                     ${escapeHtml(formatPresenceStatus(presence.statut))}
                 </div>
-                ${presence.commentaire ? `<div style="color: #ccc; margin-top: 5px;">${escapeHtml(presence.commentaire)}</div>` : ''}
+                ${presence.commentaire ? `<div class="guild-item-copy">${escapeHtml(presence.commentaire)}</div>` : ''}
             </div>
         `;
         }).join('');
@@ -1235,11 +1239,11 @@ function formatPresenceStatus(status) {
 
 function getStatusColor(status) {
     const colors = {
-        'present': '#4caf50',
-        'absent': '#f44336',
-        'en_mission': '#ff9800'
+        'present': 'var(--nm-success)',
+        'absent': 'var(--nm-danger)',
+        'en_mission': 'var(--nm-warning)'
     };
-    return colors[status] || '#888';
+    return colors[status] || 'var(--nm-text-secondary)';
 }
 
 function formatDate(dateString) {
@@ -1312,7 +1316,7 @@ async function loadPresences() {
         if (!tbody) return;
         
         if (!members || members.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #888;">Aucun membre dans la guilde</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="admin-empty">Aucun membre dans la guilde</td></tr>';
             return;
         }
         
@@ -1366,7 +1370,7 @@ function setPresenceTableMessage(message) {
     const td = document.createElement('td');
     td.colSpan = 5;
     td.style.textAlign = 'center';
-    td.style.color = '#e74c3c';
+    td.className = 'admin-load-error';
     td.textContent = message;
     tr.appendChild(td);
     tbody.appendChild(tr);
@@ -1398,7 +1402,7 @@ async function loadAdminActivities() {
         
         if (error) {
             document.getElementById('admin-activities-list').innerHTML = 
-                '<div style="text-align: center; padding: 40px; color: #e74c3c;">Erreur de chargement</div>';
+                '<div class="admin-load-error">Erreur de chargement</div>';
             return;
         }
         
@@ -1418,7 +1422,7 @@ async function displayAdminActivities(activities) {
     
     if (!activities || activities.length === 0) {
         container.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: #888;">
+            <div class="admin-empty">
                 Aucune publication. Créez votre première publication ci-dessus !
             </div>
         `;

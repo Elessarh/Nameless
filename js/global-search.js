@@ -83,6 +83,7 @@
     }
     function render() {
         list.replaceChildren();
+        list.setAttribute('aria-busy', String(loading));
         var source = favoritesOnly ? entries.filter(function (entry) {return favorites.includes(entityKey(entry));}) : entries.concat(actions());
         results = match(input.value, source);
         if (!input.value && !favoritesOnly) results = actions();
@@ -91,13 +92,27 @@
             if (!group.length) return;
             var heading = document.createElement('h3');
             heading.textContent = groups[kind][english() ? 1 : 0];
+            heading.appendChild(document.createTextNode(' '));
+            var count = document.createElement('span'); count.className = 'nm-search-group-count'; count.textContent = String(group.length);
+            heading.appendChild(count);
             list.appendChild(heading);
             group.forEach(function (entry) {
                 var row = document.createElement('div'); row.className = 'nm-search-result';
                 var link = document.createElement('a'); link.href = entry.url;
+                if (typeof entry.image === 'string' && /^\/assets\/[A-Za-z0-9/_ .%-]+\.(?:webp|png|jpg|jpeg)$/.test(entry.image) && !entry.image.includes('..')) {
+                    var thumbnail = document.createElement('img'); thumbnail.className = 'nm-search-thumbnail' + (kind === 'item' ? ' nm-search-thumbnail--item' : '');
+                    thumbnail.src = entry.image; thumbnail.alt = ''; thumbnail.width = 44; thumbnail.height = 44; thumbnail.loading = 'lazy'; thumbnail.decoding = 'async';
+                    link.appendChild(thumbnail);
+                }
+                var content = document.createElement('span'); content.className = 'nm-search-result-content';
                 var title = document.createElement('strong'); title.textContent = english() ? entry.titleEn || entry.title : entry.title;
-                link.appendChild(title);
-                if (entry.summary) {var description = document.createElement('span'); description.textContent = english() ? entry.summaryEn || entry.summary : entry.summary; link.appendChild(description);}
+                content.appendChild(title);
+                if (entry.summary) {var description = document.createElement('span'); description.className = 'nm-search-result-description'; description.textContent = english() ? entry.summaryEn || entry.summary : entry.summary; content.appendChild(description);}
+                if (entry.status === 'historical-unverified') {
+                    var archiveStatus = document.createElement('span'); archiveStatus.className = 'nm-search-result-description';
+                    archiveStatus.textContent = label('Archive secondaire non vérifiée', 'Unverified side-quest archive'); content.appendChild(archiveStatus);
+                }
+                link.appendChild(content);
                 link.addEventListener('click', function () {dialog.close();});
                 if (entry.id === 'discord' && entry.kind === 'action') {link.target = '_blank'; link.rel = 'noopener noreferrer';}
                 row.appendChild(link);
@@ -121,20 +136,23 @@
         loading = !entries.length;
         render();
         try {await getIndex(); loading = false; if (dialog.open) render();}
-        catch (_) {loading = false; status.textContent = label('Recherche indisponible. Réessaie en rouvrant la recherche.','Search unavailable. Close and reopen to retry.');}
+        catch (_) {loading = false; list.setAttribute('aria-busy', 'false'); status.textContent = label('Recherche indisponible. Réessaie en rouvrant la recherche.','Search unavailable. Close and reopen to retry.');}
     }
     function build() {
         if (document.getElementById('nameless-global-search')) return;
         var nav = document.querySelector('.nav-container'); if (!nav) return;
         var trigger = document.createElement('button'); trigger.type = 'button'; trigger.className = 'nm-search-trigger';
         trigger.dataset.i18nIgnore = ''; trigger.appendChild(icon('search')); trigger.setAttribute('aria-keyshortcuts','Control+K Meta+K');
+        var triggerLabel = document.createElement('span'); triggerLabel.className = 'nm-search-trigger-label'; triggerLabel.textContent = label('Rechercher…', 'Search…');
+        var shortcut = document.createElement('kbd'); shortcut.textContent = 'Ctrl K'; shortcut.setAttribute('aria-hidden', 'true');
+        trigger.appendChild(triggerLabel); trigger.appendChild(shortcut);
         trigger.setAttribute('aria-label', label('Rechercher sur Nameless (Ctrl+K)','Search Nameless (Ctrl+K)')); trigger.title = trigger.getAttribute('aria-label');
         trigger.addEventListener('click', open); nav.insertBefore(trigger, document.getElementById('hamburger'));
-        dialog = document.createElement('dialog'); dialog.id = 'nameless-global-search'; dialog.className = 'nm-search-dialog'; dialog.dataset.i18nIgnore = '';
+        dialog = document.createElement('dialog'); dialog.id = 'nameless-global-search'; dialog.className = 'nm-search-dialog nm-game-frame nm-game-panel'; dialog.dataset.i18nIgnore = '';
         dialog.setAttribute('aria-labelledby','nm-search-title');
-        var heading = document.createElement('h2'); heading.id = 'nm-search-title'; heading.textContent = label('Archives de Nameless','Nameless archives');
+        var heading = document.createElement('h2'); heading.id = 'nm-search-title'; heading.textContent = label('Rechercher dans Nameless','Search Nameless');
         var close = document.createElement('button'); close.type = 'button'; close.className = 'nm-search-close'; close.appendChild(icon('close')); close.setAttribute('aria-label',label('Fermer la recherche','Close search')); close.addEventListener('click',function () {dialog.close();});
-        var inputLabel = document.createElement('label'); inputLabel.htmlFor = 'nm-global-query'; inputLabel.textContent = label('Boss, item, quête, PNJ, lieu ou guide','Boss, item, quest, NPC, place or guide');
+        var inputLabel = document.createElement('label'); inputLabel.htmlFor = 'nm-global-query'; inputLabel.textContent = label('Boss, objet, créature, PNJ, lieu ou guide','Boss, item, creature, NPC, place or guide');
         input = document.createElement('input'); input.id = 'nm-global-query'; input.type = 'search'; input.autocomplete = 'off'; input.maxLength = 100;
         input.placeholder = label('Ex. : Illfang, potion, mineur…','E.g. Illfang, potion, miner…'); input.addEventListener('input', render);
         favoriteFilter = document.createElement('button'); favoriteFilter.type = 'button'; favoriteFilter.textContent = label('Mes favoris','My favorites'); favoriteFilter.setAttribute('aria-pressed','false');
@@ -156,10 +174,10 @@
             if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {event.preventDefault(); dialog.open ? dialog.close() : open();}
         });
         document.addEventListener('nameless:languagechange', function () {
-            heading.textContent = label('Archives de Nameless','Nameless archives'); inputLabel.textContent = label('Boss, item, quête, PNJ, lieu ou guide','Boss, item, quest, NPC, place or guide');
+            heading.textContent = label('Rechercher dans Nameless','Search Nameless'); inputLabel.textContent = label('Boss, objet, créature, PNJ, lieu ou guide','Boss, item, creature, NPC, place or guide');
             input.placeholder = label('Ex. : Illfang, potion, mineur…','E.g. Illfang, potion, miner…'); close.setAttribute('aria-label',label('Fermer la recherche','Close search'));
             favoriteFilter.textContent = label('Mes favoris','My favorites'); note.textContent = label('Favoris sur ce navigateur · ↑ ↓ pour parcourir · Échap pour fermer','Favorites on this browser · ↑ ↓ to browse · Escape to close');
-            trigger.setAttribute('aria-label',label('Rechercher sur Nameless (Ctrl+K)','Search Nameless (Ctrl+K)')); trigger.title = trigger.getAttribute('aria-label'); if (dialog.open) render();
+            triggerLabel.textContent = label('Rechercher…', 'Search…'); trigger.setAttribute('aria-label',label('Rechercher sur Nameless (Ctrl+K)','Search Nameless (Ctrl+K)')); trigger.title = trigger.getAttribute('aria-label'); if (dialog.open) render();
         });
     }
     global.NamelessGlobalSearch = {getIndex:getIndex, search:match, open:open};

@@ -33,12 +33,13 @@ try {
         check(data['@type'] === 'BreadcrumbList' && data.itemListElement[2].name === page.title, 'Readable breadcrumb structured data');
         check(!/service_role|SUPABASE_SERVICE_ROLE_KEY|DISCORD_CLIENT_SECRET|SESSION_SECRET/.test(html), 'Generated pages contain no privileged credential material');
         if (page.title === 'Illfang') {
-            check(d.body.textContent.includes('600') && d.body.textContent.includes('Donjon Kobold'), 'Illfang facts come from the existing bestiary');
+            check(d.body.textContent.includes('Donjon Kobold') && !d.body.textContent.includes('600'), 'Illfang keeps its documented zone and omits unverified combat values');
             const map = d.querySelector('a[href^="/carte?"]');
             check(map && new URL(map.getAttribute('href'), 'https://nameless-sao.fr').searchParams.get('floor') === '1', 'Confirmed boss zone links to the correct map floor');
             check(d.body.textContent.includes('Aucun butin connu.'), 'Unknown boss loot stays explicitly unknown');
         }
         if (page.title === 'Léviathan') check(d.querySelector('a[href="/items?item=coeur_nautherion"]'), 'Confirmed loot links directly to its existing item ID');
+        check(!/Points de vie|\b(?:PV|HP)\b/.test(html), 'Unverified combat labels and metadata are absent from generated boss pages');
         dom.window.close();
     }
     console.log(`Boss page build: ${pages.length} generated pages, ${checks} checks passed.`);

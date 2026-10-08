@@ -74,11 +74,8 @@ class MobileNavbar {
         if (restoreFocus) this.hamburger.focus();
     }
     handleScroll() {
-        const currentScrollY = window.scrollY;
-        if (window.innerWidth <= 768 && !this.isMenuOpen && !this.header.contains(document.activeElement)) {
-            this.header.classList.toggle('hidden', currentScrollY > this.lastScrollY && currentScrollY > this.scrollThreshold);
-        }
-        this.lastScrollY = currentScrollY;
+        this.header.classList.remove('hidden');
+        this.lastScrollY = window.scrollY;
     }
     handleResize() {
         if (window.innerWidth > 768) {

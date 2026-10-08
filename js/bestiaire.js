@@ -6,7 +6,6 @@ const creaturesData = [
         name: "Gorbel",
         category: "boss",
         type: "Créature",
-        hp: 1250,
         palier: 1,
         image: "../assets/mobs/Gorbel.png",
         description: "Un colosse gélatineux, maître des essaims de slimes. Il écrase tout sur son passage, lentement mais sûrement.",
@@ -22,7 +21,6 @@ const creaturesData = [
         name: "Petit Slime",
         category: "creature",
         type: "Créature",
-        hp: 80,
         palier: 1,
         image: "../assets/mobs/Petit Slime.png",
         description: "Malgré sa petite taille, il bondit sans peur. Inoffensif en apparence mais têtu comme pas deux. Certains disent qu'il garde un secret au coeur mou.",
@@ -36,7 +34,6 @@ const creaturesData = [
         name: "Slime Guerrier",
         category: "creature",
         type: "Créature",
-        hp: 100,
         palier: 1,
         image: "../assets/mobs/Guerrier Slime.avif",
         description: "Né d'un amas magique de gelée ancienne, il a appris à manier l'arme comme un vrai geurrier. Il défend son territoire avec une rage inattendue.",
@@ -50,7 +47,6 @@ const creaturesData = [
         name: "Slime Soigneur",
         category: "creature",
         type: "Créature",
-        hp: 150,
         palier: 1,
         image: "../assets/mobs/Slime Soigneur.png",
         description: "Ce slime irradie une énergie apaisante. Blessures mineures se referment à son passage. Il fuit le combat, mais sauve les siens dans l'ombre.",
@@ -65,7 +61,6 @@ const creaturesData = [
         name: "Slime Magicien",
         category: "elite",
         type: "Créature",
-        hp: 120,
         palier: 1,
         image: "../assets/mobs/Slime Magicien.png",
         description: "Un slime imprégné d'énergies arcaniques anciennes. Ses attaques lancent des sorts chaotiques et imprévisibles.",
@@ -82,7 +77,6 @@ const creaturesData = [
         name: "Sanglier",
         category: "creature",
         type: "Bête",
-        hp: 65,
         palier: 1,
         image: "../assets/mobs/Sangliers.png",
         description: "Une bête sauvage issue des forêts du premier palier. Il charge sans relâche, animé d'une rage primitive.",
@@ -98,7 +92,6 @@ const creaturesData = [
         name: "Mage Sylvestre",
         category: "elite",
         type: "Plante",
-        hp: 90,
         palier: 1,
         image: "../assets/mobs/Mage Sylvestre.avif",
         description: "Il canalise la magie des arbres anciens. Ses enchantements font fleurir ou pourrir tout ce qu'il touche.",
@@ -114,7 +107,6 @@ const creaturesData = [
         name: "Mini Tréant",
         category: "creature",
         type: "Plante",
-        hp: 50,
         palier: 1,
         image: "../assets/mobs/Mini Tréant.avif",
         description: "Petit gardien de la forêt, il défend les lieux sacrés avec hargne. Sous ses racines courtes dort une volonté de fer.",
@@ -129,7 +121,6 @@ const creaturesData = [
         name: "Tréant Elite",
         category: "elite",
         type: "Plante",
-        hp: 80,
         palier: 1,
         image: "../assets/mobs/Tréant Elite.avif",
         description: "Ancien protecteur des forêts oubliées, ce tréant détient une puissance redoutable.",
@@ -144,7 +135,6 @@ const creaturesData = [
         name: "Guerrier Tréant",
         category: "elite",
         type: "Plante",
-        hp: 100,
         palier: 1,
         image: "../assets/mobs/Guerrier Tréant.avif",
         description: "Forgé dans l'écorce et la magie, ce tréant veille sur les bois sacrés. Il frappe avec la force d'un vieux chêne, et la colère de la forêt.",
@@ -159,7 +149,6 @@ const creaturesData = [
         name: "Gardien Colossal",
         category: "boss",
         type: "Golem",
-        hp: 250,
         palier: 1,
         image: "../assets/mobs/Gardien Colossal.avif",
         description: "Forgé dans la pierre et éveillé par la magie ancienne, il garde les terres oubliées contre toute intrusion. Ses pas seuls font trembler la forêt...",
@@ -175,7 +164,6 @@ const creaturesData = [
         name: "Loup Blanc",
         category: "creature",
         type: "Bête",
-        hp: 90,
         palier: 1,
         image: "../assets/mobs/Loup Sinistre Blanc.png",
         description: "Gardien de la Vallée des Loups. Son hurlement glace le sang.",
@@ -190,7 +178,6 @@ const creaturesData = [
         name: "Loup Brun",
         category: "creature",
         type: "Bête",
-        hp: 450,
         palier: 1,
         image: "../assets/mobs/Loup Sinistre Brun.png",
         description: "Gardien de la Vallée des Loups. Son hurlement donne une frénésie.",
@@ -205,7 +192,6 @@ const creaturesData = [
         name: "Loup Noir",
         category: "creature",
         type: "Bête",
-        hp: 90,
         palier: 1,
         image: "../assets/mobs/Loup SInistre Noir.png",
         description: "Gardien de la Vallée des Loups. Son hurlement donne des frissons.",
@@ -220,7 +206,6 @@ const creaturesData = [
         name: "Albal",
         category: "boss",
         type: "Bête",
-        hp: 500,
         palier: 1,
         image: "../assets/mobs/Loup SInistre Noir.png",
         description: "Le chef alpha de la Vallée des Loups, une bête légendaire aux crocs acérés.",
@@ -237,7 +222,6 @@ const creaturesData = [
         name: "Ika",
         category: "boss",
         type: "Tortue Ancienne",
-        hp: 800,
         palier: 1,
         image: "../assets/mobs/Ika.avif",
         description: "Cette tortue ancienne erre lentement dans les recoins oubliés du monde. Sa carapace recèle les secrets d'âges passés.",
@@ -251,7 +235,6 @@ const creaturesData = [
         name: "Narax",
         category: "boss",
         type: "Démon",
-        hp: 850,
         palier: 1,
         image: "../assets/mobs/Narax.png",
         description: "Un archidémon des flammes éternelles, seigneur d'un royaume infernal.",
@@ -263,7 +246,6 @@ const creaturesData = [
         name: "Néphantes",
         category: "boss",
         type: "Plante Carnivore",
-        hp: 150,
         palier: 1,
         image: "../assets/mobs/Nephantes.gif",
         description: "Cette plante carnivore géante se nourrit de chair et de sang. Ses lianes s'enroulent sans bruit, avant de refermer son piège mortel. Même les aventuriers aguerris évitent ses racines traînantes.",
@@ -278,7 +260,6 @@ const creaturesData = [
         name: "Ornstein",
         category: "boss",
         type: "Chevalier Dragon",
-        hp: 950,
         palier: 1,
         image: "../assets/mobs/Ornstein.avif",
         description: "Le légendaire tueur de dragons, chevalier au service du soleil, maître de la lance sacrée.",
@@ -290,7 +271,6 @@ const creaturesData = [
         name: "Plante Dévoreuse",
         category: "elite",
         type: "Plante",
-        hp: 125,
         palier: 1,
         image: "../assets/mobs/Plante Dévoreuse.avif",
         description: "Discrète sous ses feuilles luxuriantes, le danger rôde au moindre faux pas... Ses racines enserrent ses proies, lentement, avant de les engloutir sans laisser de trace.",
@@ -302,7 +282,6 @@ const creaturesData = [
         name: "Smoug",
         category: "boss",
         type: "Dragon",
-        hp: 1200,
         palier: 1,
         image: "../assets/mobs/Smoug.png",
         description: "Le dragon ancien des montagnes, gardien d'un trésor légendaire accumulé sur des millénaires.",
@@ -314,7 +293,6 @@ const creaturesData = [
         name: "Spirite de Glace",
         category: "elite",
         type: "Élémentaire",
-        hp: 220,
         palier: 1,
         image: "../assets/mobs/Spirite de glace.png",
         description: "Âme ancienne née des tempêtes hivernales, la Spirite de Glace veille sur les terres gelées. Elle murmure aux vents et glace les intrus, protégeant les secrets oubliés du givre éternel.",
@@ -331,7 +309,6 @@ const creaturesData = [
         name: "Araignée Chasseuse",
         category: "creature",
         type: "Araignée",
-        hp: 75,
         palier: 1,
         image: "../assets/mobs/Araignée_chasseuse.png",
         description: "Une araignée agile et rusée qui traque ses proies dans l'ombre. Ses pattes acérées percent les armures légères.",
@@ -346,7 +323,6 @@ const creaturesData = [
         name: "Araignée Empoisonnée",
         category: "elite",
         type: "Araignée",
-        hp: 95,
         palier: 1,
         image: "../assets/mobs/Araignée_empoisonnée.png",
         description: "Une araignée dont le venin est mortel. Ses crochets distillent un poison qui paralyse ses victimes.",
@@ -361,7 +337,6 @@ const creaturesData = [
         name: "Araignée Étrangleuse",
         category: "elite",
         type: "Araignée",
-        hp: 110,
         palier: 1,
         image: "../assets/mobs/Araignée_étrangleuse.png",
         description: "Cette araignée massive utilise sa toile pour étrangler ses proies. Son corps imposant cache une force redoutable.",
@@ -378,7 +353,6 @@ const creaturesData = [
         name: "Kobold",
         category: "creature",
         type: "Humanoïde",
-        hp: 60,
         palier: 1,
         image: "../assets/mobs/Kobold.png",
         description: "Un petit humanoïde rusé vivant dans les cavernes. Faible individuellement mais dangereux en groupe.",
@@ -390,7 +364,6 @@ const creaturesData = [
         name: "Archer Kobold",
         category: "creature",
         type: "Humanoïde",
-        hp: 55,
         palier: 1,
         image: "../assets/mobs/Archer_kobold.png",
         description: "Un kobold équipé d'un arc rudimentaire. Il préfère attaquer à distance depuis les hauteurs.",
@@ -402,7 +375,6 @@ const creaturesData = [
         name: "Guerrier Kobold",
         category: "elite",
         type: "Humanoïde",
-        hp: 85,
         palier: 1,
         image: "../assets/mobs/Guerrier_kobold.png",
         description: "Un kobold plus grand et mieux équipé que ses congénères. Il mène les groupes au combat.",
@@ -414,7 +386,6 @@ const creaturesData = [
         name: "Hallebardier Kobold",
         category: "elite",
         type: "Humanoïde",
-        hp: 90,
         palier: 1,
         image: "../assets/mobs/Hallebardier_Kobold.png",
         description: "Armé d'une hallebarde artisanale, ce kobold défend les passages stratégiques des mines.",
@@ -426,7 +397,6 @@ const creaturesData = [
         name: "Mineur Kobold",
         category: "creature",
         type: "Humanoïde",
-        hp: 70,
         palier: 1,
         image: "../assets/mobs/Mineur_Kobold.png",
         description: "Un kobold mineur qui extrait des minerais. Plus résistant que la moyenne grâce à son travail.",
@@ -438,7 +408,6 @@ const creaturesData = [
         name: "Soldat Kobold",
         category: "elite",
         type: "Humanoïde",
-        hp: 95,
         palier: 1,
         image: "../assets/mobs/Soldat_kobold.png",
         description: "Un kobold entraîné au combat organisé. Il porte une armure fonctionnelle et se bat avec discipline.",
@@ -450,7 +419,6 @@ const creaturesData = [
         name: "Sorcier Kobold",
         category: "elite",
         type: "Humanoïde",
-        hp: 80,
         palier: 1,
         image: "../assets/mobs/Sorcier_kobold.png",
         description: "Un kobold qui a appris les rudiments de la magie. Ses sorts sont primitifs mais efficaces.",
@@ -464,7 +432,6 @@ const creaturesData = [
         name: "Squelette",
         category: "creature",
         type: "Mort-vivant",
-        hp: 100,
         palier: 1,
         image: "../assets/mobs/squelette.png",
         description: "Un guerrier défunt animé par la nécromancie. Ses os cliquettent dans la nuit éternelle.",
@@ -479,7 +446,6 @@ const creaturesData = [
         name: "Archer Squelette",
         category: "creature",
         type: "Mort-vivant",
-        hp: 90,
         palier: 1,
         image: "../assets/mobs/Archer_squelette.png",
         description: "Un squelette armé d'un arc ancien. Ses flèches ne manquent jamais leur cible.",
@@ -493,7 +459,6 @@ const creaturesData = [
         name: "Épéiste Squelette",
         category: "elite",
         type: "Mort-vivant",
-        hp: 120,
         palier: 1,
         image: "../assets/mobs/Epeiste_squelette.png",
         description: "Un maître d'armes du passé, encore mortel malgré la mort. Sa lame danse avec une précision macabre.",
@@ -507,7 +472,6 @@ const creaturesData = [
         name: "Guerrier Squelette",
         category: "elite",
         type: "Mort-vivant",
-        hp: 130,
         palier: 1,
         image: "../assets/mobs/Guerrier_squelette.png",
         description: "Un ancien guerrier ressuscité, vêtu d'une armure rouillée mais toujours fonctionnelle.",
@@ -521,7 +485,6 @@ const creaturesData = [
         name: "Hallebardier Squelette",
         category: "elite",
         type: "Mort-vivant",
-        hp: 135,
         palier: 1,
         image: "../assets/mobs/Hallebardier_squelette.png",
         description: "Gardien éternel armé d'une hallebarde spectrale. Sa portée est redoutable.",
@@ -535,7 +498,6 @@ const creaturesData = [
         name: "Tank Squelette",
         category: "elite",
         type: "Mort-vivant",
-        hp: 180,
         palier: 1,
         image: "../assets/mobs/Tank_squelette.png",
         description: "Un colosse osseux recouvert d'une armure lourde. Pratiquement indestructible.",
@@ -549,7 +511,6 @@ const creaturesData = [
         name: "Sorcier Squelette",
         category: "elite",
         type: "Mort-vivant",
-        hp: 110,
         palier: 1,
         image: "../assets/mobs/Sorcier_squelette.png",
         description: "Un nécromancien déchu qui maîtrise encore les arts sombres. Ses sorts drainent la vie.",
@@ -563,7 +524,6 @@ const creaturesData = [
         name: "Soldat Déchu",
         category: "elite",
         type: "Humanoïde",
-        hp: 140,
         palier: 1,
         image: "../assets/mobs/Soldat-Déchu.png",
         description: "Un soldat corrompu par les ténèbres. Son âme est perdue mais son entraînement perdure.",
@@ -575,7 +535,6 @@ const creaturesData = [
         name: "Gardien Déchu",
         category: "elite",
         type: "Humanoïde",
-        hp: 160,
         palier: 1,
         image: "../assets/mobs/Gardien-Déchu.png",
         description: "Autrefois protecteur de la lumière, maintenant serviteur des ombres. Sa force n'a fait que croître.",
@@ -587,7 +546,6 @@ const creaturesData = [
         name: "Guerrier Déchu",
         category: "elite",
         type: "Humanoïde",
-        hp: 155,
         palier: 1,
         image: "../assets/mobs/Guerrier Déchu.png",
         description: "Un champion tombé dans les ténèbres. Sa lame brise les espoirs comme elle brise les armures.",
@@ -599,7 +557,6 @@ const creaturesData = [
         name: "Héraut Déchu",
         category: "boss",
         type: "Humanoïde",
-        hp: 450,
         palier: 1,
         image: "../assets/mobs/Héraut-Déchu.png",
         description: "Le commandant des armées déchues. Son aura corrompt tout ce qui l'entoure.",
@@ -613,7 +570,6 @@ const creaturesData = [
         name: "Faucheuse Déchu",
         category: "boss",
         type: "Mort-vivant",
-        hp: 500,
         palier: 1,
         image: "../assets/mobs/Faucheuse-Déchu.png",
         description: "La mort incarnée, corrompue par les ténèbres. Sa faux récolte les âmes des vivants.",
@@ -629,7 +585,6 @@ const creaturesData = [
         name: "Golem de Glace",
         category: "elite",
         type: "Élémentaire",
-        hp: 200,
         palier: 1,
         image: "../assets/mobs/Golem_de_glace.png",
         description: "Forgé dans les profondeurs d'un glacier ancien, le Golem de Glace est une sentinelle implacable. Son corps de cristal givré repousse toute chaleur, et ses coups peuvent figer le sang en un instant.",
@@ -644,7 +599,6 @@ const creaturesData = [
         name: "Ours Glacial",
         category: "elite",
         type: "Bête",
-        hp: 175,
         palier: 1,
         image: "../assets/mobs/Ours_Glacial.png",
         description: "Un ours massif adapté au froid extrême. Sa fourrure blanche le rend quasi invisible dans la neige.",
@@ -658,7 +612,6 @@ const creaturesData = [
         name: "Plante Mutante",
         category: "elite",
         type: "Plante",
-        hp: 2000,
         palier: 1,
         image: "../assets/mobs/Plante_mutante.png",
         description: "Entité rampante née des mines de Geldorak, Vyrmoss s'imprègne des spores et de la terre humide. Sa peau est couverte de mousse vivante, et son souffle corrompt tout ce qu'il touche.",
@@ -670,7 +623,6 @@ const creaturesData = [
         name: "Essaim d'Insectes",
         category: "creature",
         type: "Essaim",
-        hp: 20,
         palier: 1,
         image: "../assets/mobs/Essaim d'insectes.png",
         description: "Un nuage bourdonnant d'insectes agressifs. Difficile à combattre, impossible à fuir.",
@@ -682,7 +634,6 @@ const creaturesData = [
         name: "Farfadet",
         category: "creature",
         type: "Féérique",
-        hp: 250,
         palier: 1,
         image: "../assets/mobs/Farfadet.png",
         description: "Une créature espiègle de la forêt enchantée. Méfiez-vous de sa magie illusoire.",
@@ -694,7 +645,6 @@ const creaturesData = [
         name: "Cerf",
         category: "creature",
         type: "Bête",
-        hp: 70,
         palier: 1,
         image: "../assets/mobs/Cerf.png",
         description: "Majestueux et insaisissable, le Cerf des Montagnes habite les hauteurs glacées et les forêts enneigées. On raconte qu'il apparaît aux âmes pures, guidant les voyageurs égarés vers la sécurité.",
@@ -706,7 +656,6 @@ const creaturesData = [
         name: "Bandit Assassin",
         category: "elite",
         type: "Humanoïde",
-        hp: 120,
         palier: 1,
         image: "../assets/mobs/Bandit Assassin.png",
         description: "Maître de l'ombre et des lames silencieuses, il ne laisse derrière lui que le vide... et une cible tombée.",
@@ -720,7 +669,6 @@ const creaturesData = [
         name: "Poisson Requin",
         category: "elite",
         type: "Bête Aquatique",
-        hp: 500,
         palier: 1,
         image: "../assets/mobs/Poisson_requin.png",
         description: "Prédateur implacable des eaux profondes, le Poisson Requin traque silencieusement ses proies. Ses dents acérées peuvent trancher l'acier, et son instinct ne connaît ni pitié ni repos.",
@@ -736,7 +684,6 @@ const creaturesData = [
         name: "Illfang",
         category: "boss",
         type: "Kobold Seigneur",
-        hp: 600,
         palier: 1,
         image: "../assets/mobs/illfang.png",
         description: "Le roi des kobolds, un seigneur de guerre redoutable. Premier boss légendaire d'Aincrad.",
@@ -748,7 +695,6 @@ const creaturesData = [
         name: "Jira",
         category: "boss",
         type: "Démon",
-        hp: 750,
         palier: 1,
         image: "../assets/mobs/Jira.png",
         description: "Un démon ancien emprisonné dans les profondeurs. Sa rage est sans limites.",
@@ -760,7 +706,6 @@ const creaturesData = [
         name: "Kamilia",
         category: "boss",
         type: "Mage",
-        hp: 650,
         palier: 1,
         image: "../assets/mobs/Kamilia.png",
         description: "Une archimage corrompue. Ses sorts peuvent plier la réalité elle-même.",
@@ -772,7 +717,6 @@ const creaturesData = [
         name: "Léviathan",
         category: "boss",
         type: "Serpent de Mer",
-        hp: 5000,
         palier: 1,
         image: "../assets/mobs/leviathan.png",
         description: "Serpent mythique glissant entre les courants profonds, Nymbréa incarne la grâce et la traîtrise des eaux calmes. Ses écailles scintillent comme des perles maudites.",
@@ -786,7 +730,6 @@ const creaturesData = [
         name: "Priscilia",
         category: "boss",
         type: "Dragon-Humanoïde",
-        hp: 850,
         palier: 1,
         image: "../assets/mobs/priscilia.png",
         description: "Une dragonne métamorphe, reine des dragons. Sa beauté cache une puissance dévastatrice.",
@@ -798,7 +741,6 @@ const creaturesData = [
         name: "Soul Knight",
         category: "boss",
         type: "Chevalier Maudit",
-        hp: 800,
         palier: 1,
         image: "../assets/mobs/soulknight.png",
         description: "Un chevalier dont l'âme est liée à son armure pour l'éternité. Gardien immortel.",
@@ -810,7 +752,6 @@ const creaturesData = [
         name: "Yula",
         category: "boss",
         type: "Sorcière",
-        hp: 700,
         palier: 1,
         image: "../assets/mobs/Yula.png",
         description: "La sorcière des marais, maîtresse des malédictions. Ses potions sont mortelles.",
@@ -822,7 +763,6 @@ const creaturesData = [
         name: "Octana",
         category: "boss",
         type: "Pieuvre Géante",
-        hp: 780,
         palier: 1,
         image: "../assets/mobs/Octana.png",
         description: "Une pieuvre colossale des profondeurs. Ses tentacules peuvent couler des navires entiers.",
@@ -858,6 +798,27 @@ function besNormalize(value) {
     return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 }
 
+function besMatchesQuery(value, query) {
+    const source = String(value || '');
+    const english = window.NamelessTranslations?.en?.[source];
+    return [source, typeof english === 'string' ? english : ''].some(text => {
+        const normalized = besNormalize(text);
+        return normalized.includes(query) || normalized.replace(/\s+/g, '').includes(query.replace(/\s+/g, ''));
+    });
+}
+
+function besDisplayName(value) {
+    return typeof window.NamelessI18n?.translate === 'function' ? window.NamelessI18n.translate(value) : value;
+}
+
+function besLocale() {
+    return typeof window.NamelessI18n?.getLocale === 'function' ? window.NamelessI18n.getLocale() : 'fr-FR';
+}
+
+function besLocationLabel(value) {
+    return value === UNKNOWN_BESTIARY_LOCATION ? 'Zone non renseignée' : value;
+}
+
 function updateCreatureUrl(id) {
     const url = new URL(window.location.href);
     if (id) url.searchParams.set('creature', String(id));
@@ -888,12 +849,14 @@ function initBestiary(root) {
     destroyBestiary();
     if (!document.getElementById('creatures-grid')) return;
     besController = new AbortController();
+    itemsPerPage = parseInt(document.getElementById('items-per-page')?.value, 10) || 12;
     populateDynamicFilters();
     setupImageFallback();
     setupEventListeners();
     filterCreatures();
     applyCreatureUrl();
     document.addEventListener('nameless:routechange', applyCreatureUrl, { signal: besController.signal });
+    document.addEventListener('nameless:languagechange', filterCreatures, { signal: besController.signal });
 }
 
 function destroyBestiary() {
@@ -926,15 +889,17 @@ function populateDynamicFilters() {
     const types = [...new Set(creaturesData.map(c => c.type))].sort((a, b) => a.localeCompare(b, 'fr'));
     const zones = [...new Set(creaturesData.map(c => c.location))].sort((a, b) => a.localeCompare(b, 'fr'));
     fillSelect(document.getElementById('bes-type'), types);
-    fillSelect(document.getElementById('bes-zone'), zones);
+    fillSelect(document.getElementById('bes-zone'), zones, besLocationLabel);
+    fillSelect(document.getElementById('bes-palier'), [...new Set(creaturesData.map(c => String(c.palier)))].sort((a, b) => Number(a) - Number(b)), value => 'Palier ' + value);
+    fillSelect(document.getElementById('bes-category'), [...new Set(creaturesData.map(c => c.category))], getCategoryDisplay);
 }
-function fillSelect(select, values) {
+function fillSelect(select, values, label) {
     if (!select) return;
     while (select.options.length > 1) select.remove(1);
     values.forEach(v => {
         const opt = document.createElement('option');
         opt.value = v;
-        opt.textContent = v;
+        opt.textContent = label ? label(v) : v;
         select.appendChild(opt);
     });
 }
@@ -957,10 +922,24 @@ function setupEventListeners() {
 
     const search = document.getElementById('bes-search');
     if (search) search.addEventListener('input', filterCreatures, opts);
-    ['bes-palier', 'bes-category', 'bes-type', 'bes-zone'].forEach(id => {
+    ['bes-palier', 'bes-category', 'bes-type', 'bes-zone', 'bes-sort'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('change', filterCreatures, opts);
     });
+    const reset = document.getElementById('bes-reset');
+    if (reset) reset.addEventListener('click', () => {
+        ['bes-search', 'bes-palier', 'bes-category', 'bes-type', 'bes-zone'].forEach(id => { const field = document.getElementById(id); if (field) field.value = ''; });
+        const sort = document.getElementById('bes-sort'); if (sort) sort.value = 'catalogue';
+        const url = new URL(window.location.href); url.searchParams.delete('q'); history.replaceState(history.state, '', url.href);
+        filterCreatures();
+    }, opts);
+    const filterDetails = document.getElementById('bes-filter-details');
+    let compactFilters = window.innerWidth <= 768;
+    if (filterDetails) filterDetails.open = !compactFilters;
+    window.addEventListener('resize', () => {
+        const compact = window.innerWidth <= 768;
+        if (filterDetails && compact !== compactFilters) { filterDetails.open = !compact; compactFilters = compact; }
+    }, opts);
 
     // Grille: délégation clic -> ouvrir le modal (data-id)
     const grid = document.getElementById('creatures-grid');
@@ -1022,17 +1001,21 @@ function filterCreatures() {
     const zone = document.getElementById('bes-zone')?.value || '';
 
     filteredCreatures = creaturesData.filter(c => {
-        const matchesSearch = !q ||
-            besNormalize(c.name).includes(q) ||
-            besNormalize(c.type).includes(q) ||
-            besNormalize(c.location).includes(q) ||
-            besNormalize(c.description).includes(q);
+        const matchesSearch = !q || [c.name, c.type, c.location, besLocationLabel(c.location), getCategoryDisplay(c.category), c.description].some(value => besMatchesQuery(value, q));
         const matchesPalier = !palier || String(c.palier) === palier;
         const matchesCategory = !category || c.category === category;
         const matchesType = !type || c.type === type;
         const matchesZone = !zone || c.location === zone;
         return matchesSearch && matchesPalier && matchesCategory && matchesType && matchesZone;
     });
+    const sort = document.getElementById('bes-sort')?.value || 'catalogue';
+    const byName = (a, b) => besDisplayName(a.name).localeCompare(besDisplayName(b.name), besLocale(), { sensitivity: 'base', numeric: true }) || a.id - b.id;
+    if (sort === 'name-asc') filteredCreatures.sort(byName);
+    else if (sort === 'name-desc') filteredCreatures.sort((a, b) => -byName(a, b));
+    else if (sort === 'category') {
+        const order = { boss: 0, elite: 1, creature: 2 };
+        filteredCreatures.sort((a, b) => (order[a.category] ?? 3) - (order[b.category] ?? 3) || byName(a, b));
+    }
     currentPage = 1;
     renderCreatures();
 }
@@ -1045,6 +1028,8 @@ function renderCreatures() {
 
     totalPages = Math.max(1, Math.ceil(filteredCreatures.length / itemsPerPage));
     if (currentPage > totalPages) currentPage = totalPages;
+    const count = document.getElementById('bes-count');
+    if (count) count.textContent = filteredCreatures.length + ' créature' + (filteredCreatures.length > 1 ? 's' : '');
 
     if (filteredCreatures.length === 0) {
         const empty = document.createElement('div');
@@ -1062,6 +1047,9 @@ function renderCreatures() {
 
     const start = (currentPage - 1) * itemsPerPage;
     filteredCreatures.slice(start, start + itemsPerPage).forEach(c => grid.appendChild(buildCard(c)));
+    if (besModalReturnFocus?.matches('.creature-card') && !besModalReturnFocus.isConnected) {
+        besModalReturnFocus = [...grid.querySelectorAll('.creature-card')].find(card => card.dataset.id === besModalReturnFocus.dataset.id) || null;
+    }
     updatePagination();
 }
 
@@ -1075,10 +1063,12 @@ function makeChip(text, cls) {
 function buildCard(creature) {
     const card = document.createElement('article');
     card.className = 'creature-card cat-' + creature.category;
+    if (selectedCreature?.id === creature.id && document.querySelector('.creature-modal')?.style.display === 'flex') card.classList.add('is-selected');
     card.dataset.id = creature.id;
     card.tabIndex = 0;
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', 'Voir ' + creature.name);
+    card.setAttribute('aria-haspopup', 'dialog');
 
     const media = document.createElement('div');
     media.className = 'creature-media';
@@ -1110,24 +1100,10 @@ function buildCard(creature) {
     meta.appendChild(makeChip(creature.type, 'chip-type'));
     body.appendChild(meta);
 
-    const stats = document.createElement('div');
-    stats.className = 'creature-stats';
-    const hp = document.createElement('div');
-    hp.className = 'creature-hp';
-    const hpLabel = document.createElement('span');
-    hpLabel.className = 'hp-label';
-    hpLabel.textContent = 'PV';
-    const hpVal = document.createElement('span');
-    hpVal.className = 'hp-val';
-    hpVal.textContent = creature.hp;
-    hp.appendChild(hpLabel);
-    hp.appendChild(hpVal);
-    stats.appendChild(hp);
-    body.appendChild(stats);
 
     const zone = document.createElement('div');
     zone.className = 'creature-zone';
-    zone.textContent = creature.location;
+    zone.textContent = besLocationLabel(creature.location);
     body.appendChild(zone);
 
     const btn = document.createElement('span');
@@ -1149,6 +1125,7 @@ function openCreatureModal(id, updateUrl) {
     if (!modal) {
         modal = document.createElement('div');
         modal.className = 'creature-modal';
+        modal.id = 'creature-dialog';
         document.body.appendChild(modal);
     }
     if (modal.style.display !== 'flex') { besModalReturnFocus = document.activeElement; besPreviousOverflow = document.body.style.overflow; }
@@ -1166,6 +1143,7 @@ function openCreatureModal(id, updateUrl) {
     close.className = 'modal-close';
     close.setAttribute('aria-label', 'Fermer');
     close.textContent = '×';
+    document.querySelectorAll('.creature-card').forEach(card => card.classList.toggle('is-selected', card.dataset.id === String(id)));
     content.appendChild(close);
 
     const header = document.createElement('div');
@@ -1197,8 +1175,7 @@ function openCreatureModal(id, updateUrl) {
 
     const statRow = document.createElement('div');
     statRow.className = 'modal-stats';
-    statRow.appendChild(makeStat('Points de vie', creature.hp));
-    statRow.appendChild(makeStat('Zone', creature.location));
+    statRow.appendChild(makeStat('Zone', besLocationLabel(creature.location)));
     info.appendChild(statRow);
     const mapSection = document.createElement('div');
     mapSection.className = 'creature-map-location';
@@ -1336,6 +1313,7 @@ function closeModal(updateUrl) {
         besModalReturnFocus = null;
     }
     selectedCreature = null;
+    document.querySelectorAll('.creature-card.is-selected').forEach(card => card.classList.remove('is-selected'));
     if (updateUrl !== false) updateCreatureUrl(null);
 }
 

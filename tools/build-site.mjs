@@ -5,13 +5,15 @@ import {createRequire} from 'node:module';
 import {createSearchIndex} from './build-search-index.mjs';
 import {buildBossPages} from './build-boss-pages.mjs';
 import {writeMapGraph} from './build-map-graph.mjs';
+import {verifyHistoricalArchive} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.resolve(root, '_site');
+verifyHistoricalArchive(root);
 // The only directory removed by this build is this repository's generated artifact.
 if (output !== path.join(root, '_site') || path.dirname(output) !== root) throw new Error('Unsafe build output');
-fs.rmSync(output, {recursive: true, force: true});
+fs.rmSync(output, {recursive: true, force: true, maxRetries: 3, retryDelay: 100});
 fs.mkdirSync(output, {recursive: true});
 const mapGraph = writeMapGraph({root});
 for (const name of ['assets', 'css', 'js', 'pages']) fs.cpSync(path.join(root, name), path.join(output, name), {recursive: true});
@@ -43,7 +45,7 @@ const bossPages = buildBossPages({root, output, mapGraph});
 fs.writeFileSync(path.join(output,'assets/search-index.json'), JSON.stringify(index));
 // Keep the committed preview index aligned with the same source of truth.
 fs.writeFileSync(path.join(root,'assets/search-index.json'), JSON.stringify(index));
-const publicRoutes = routes.filter(r => !['connexion','profil','espace-guilde','admin-dashboard','confidentialite','conditions'].includes(r.id));
+const publicRoutes = routes.filter(r => !['connexion','profil','espace-guilde','admin-dashboard','confidentialite','conditions','quetes'].includes(r.id));
 const urls = publicRoutes.concat(bossPages).map(r => '  <url><loc>https://nameless-sao.fr' + (r.path === '/' ? '/' : r.path) + '</loc></url>').join('\n');
 fs.writeFileSync(path.join(output,'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'\n</urlset>\n');
 fs.writeFileSync(path.join(output,'robots.txt'), 'User-agent: *\nAllow: /\nDisallow: /profil\nDisallow: /espace-guilde\nDisallow: /admin-dashboard\nDisallow: /pages/profil.html\nDisallow: /pages/espace-guilde.html\nDisallow: /pages/admin-dashboard.html\nSitemap: https://nameless-sao.fr/sitemap.xml\n');

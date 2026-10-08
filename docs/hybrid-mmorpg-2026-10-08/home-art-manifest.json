@@ -1,0 +1,248 @@
+{
+  "version": 2,
+  "generator": "tools/optimize-home-art.py",
+  "processing": "Aspect-preserving Lanczos resize and WebP compression. The guild council has a recorded crop of its empty left margin. No recoloring, background removal or regenerated artwork.",
+  "alpha": "WebP alpha is byte-identical to the resized source alpha. Resize changes dimensions; it does not threshold or repaint the silhouette.",
+  "excluded": [
+    "Hero artwork",
+    "Original artwork",
+    "All item PNG sprites"
+  ],
+  "artwork": [
+    {
+      "key": "map",
+      "source": "assets/brand/page-font-map-mobile.webp",
+      "sourceSha256": "36bfe8ae6d14b983a2a52ec1bad1f1de73bae233241f9057ce6605b9328bc248",
+      "sourceBytes": 130470,
+      "sourceDimensions": [
+        900,
+        507
+      ],
+      "outputs": [
+        {
+          "path": "assets/home/map-256.webp",
+          "sha256": "9a8abb8cadee4c976531e9e16dce3142a80c426c721369334389dd21897cbb52",
+          "bytes": 8960,
+          "dimensions": [
+            256,
+            144
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "93c11643664e45d5c0698eb690c9162789f01ba58f36b09ba1bc9cd3b9d49603",
+          "decodedAlphaSha256": "93c11643664e45d5c0698eb690c9162789f01ba58f36b09ba1bc9cd3b9d49603"
+        },
+        {
+          "path": "assets/home/map-512.webp",
+          "sha256": "e4e1b5d1a0519219b237a026b1dce532f9196b5f6172247841ddfa2274eb8553",
+          "bytes": 32970,
+          "dimensions": [
+            512,
+            288
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "4ae2e6e6e32dace013ba173d69a66ac11951b0d718d68aaf31816a8b69264794",
+          "decodedAlphaSha256": "4ae2e6e6e32dace013ba173d69a66ac11951b0d718d68aaf31816a8b69264794"
+        }
+      ],
+      "displaySourceDimensions": [
+        900,
+        507
+      ]
+    },
+    {
+      "key": "bestiary",
+      "source": "assets/brand/page-font-bestiaire-mobile.webp",
+      "sourceSha256": "5c432d025f66043b03179360d6cc1c870df6862345ba032a5b3e10aab962c13a",
+      "sourceBytes": 84914,
+      "sourceDimensions": [
+        900,
+        507
+      ],
+      "outputs": [
+        {
+          "path": "assets/home/bestiary-256.webp",
+          "sha256": "6822f81051904400a502e1c83ab80c7b61847e91940460c12bbfc8de67ad8d00",
+          "bytes": 6852,
+          "dimensions": [
+            256,
+            144
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "93c11643664e45d5c0698eb690c9162789f01ba58f36b09ba1bc9cd3b9d49603",
+          "decodedAlphaSha256": "93c11643664e45d5c0698eb690c9162789f01ba58f36b09ba1bc9cd3b9d49603"
+        },
+        {
+          "path": "assets/home/bestiary-512.webp",
+          "sha256": "c110e945f87a6c33d6411269189498bd08ee23031ab7f177c61d28587b241957",
+          "bytes": 23460,
+          "dimensions": [
+            512,
+            288
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "4ae2e6e6e32dace013ba173d69a66ac11951b0d718d68aaf31816a8b69264794",
+          "decodedAlphaSha256": "4ae2e6e6e32dace013ba173d69a66ac11951b0d718d68aaf31816a8b69264794"
+        }
+      ],
+      "displaySourceDimensions": [
+        900,
+        507
+      ]
+    },
+    {
+      "key": "items",
+      "source": "assets/brand/page-font-items-mobile.webp",
+      "sourceSha256": "c61287f1b8d2f54c59c95141a471582a49d863ddd88c6680e61d87a9333536e5",
+      "sourceBytes": 102462,
+      "sourceDimensions": [
+        900,
+        507
+      ],
+      "outputs": [
+        {
+          "path": "assets/home/items-256.webp",
+          "sha256": "a053ad6381dd5efde2f515a431eb5f2d66aa8c5a688e8147fda25068ea49d321",
+          "bytes": 8756,
+          "dimensions": [
+            256,
+            144
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "93c11643664e45d5c0698eb690c9162789f01ba58f36b09ba1bc9cd3b9d49603",
+          "decodedAlphaSha256": "93c11643664e45d5c0698eb690c9162789f01ba58f36b09ba1bc9cd3b9d49603"
+        },
+        {
+          "path": "assets/home/items-512.webp",
+          "sha256": "421462bfe674fe7757a124f4c92809ff303e1f2d141f43782b23c58869d64076",
+          "bytes": 29436,
+          "dimensions": [
+            512,
+            288
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "4ae2e6e6e32dace013ba173d69a66ac11951b0d718d68aaf31816a8b69264794",
+          "decodedAlphaSha256": "4ae2e6e6e32dace013ba173d69a66ac11951b0d718d68aaf31816a8b69264794"
+        }
+      ],
+      "displaySourceDimensions": [
+        900,
+        507
+      ]
+    },
+    {
+      "key": "guild",
+      "source": "assets/caroussel_ensemble.webp",
+      "sourceSha256": "9a82f380d7d6479134be7fc06c92e81c0ff03ab04e3357fd1874a2311926108b",
+      "sourceBytes": 122762,
+      "sourceDimensions": [
+        2172,
+        724
+      ],
+      "outputs": [
+        {
+          "path": "assets/home/guild-256.webp",
+          "sha256": "b8a1ebe395e8050f7f770e724587f282652ba7c718927b23c6b1671681e25fa3",
+          "bytes": 6788,
+          "dimensions": [
+            256,
+            146
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "b0cdfde9c3f6bb12e0525209a077997bf47fd733770cfe2216aede6125382c1d",
+          "decodedAlphaSha256": "b0cdfde9c3f6bb12e0525209a077997bf47fd733770cfe2216aede6125382c1d"
+        },
+        {
+          "path": "assets/home/guild-512.webp",
+          "sha256": "98a9e0fe19abcf8b2d0e9533e60cd494b77d027fbf09d48b1456e91fbf5f6eb6",
+          "bytes": 21308,
+          "dimensions": [
+            512,
+            291
+          ],
+          "quality": 82,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "a48762b452219660f85de07f138d8fc29fa89d83267acc194c295a913bd38c44",
+          "decodedAlphaSha256": "a48762b452219660f85de07f138d8fc29fa89d83267acc194c295a913bd38c44"
+        }
+      ],
+      "crop": [
+        900,
+        0,
+        2172,
+        724
+      ],
+      "displaySourceDimensions": [
+        1272,
+        724
+      ]
+    },
+    {
+      "key": "illfang",
+      "source": "assets/mobs/illfang.png",
+      "sourceSha256": "cf3188b0c322e9f56d3667fba6f93458d228a7d5d4029c1961d4bc15ad9aee1e",
+      "sourceBytes": 68729,
+      "sourceDimensions": [
+        500,
+        452
+      ],
+      "outputs": [
+        {
+          "path": "assets/home/illfang-256.webp",
+          "sha256": "fe3088f56fbdcb0b2e5ef7e6336258867130de0faee01277ed5e43fe4e4de1c2",
+          "bytes": 13464,
+          "dimensions": [
+            256,
+            231
+          ],
+          "quality": 84,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "5eaaf931aa6344c8685f527fd05f666314bc72f0ebec43d9913f0ba7ab9cac59",
+          "decodedAlphaSha256": "5eaaf931aa6344c8685f527fd05f666314bc72f0ebec43d9913f0ba7ab9cac59"
+        }
+      ],
+      "displaySourceDimensions": [
+        500,
+        452
+      ]
+    },
+    {
+      "key": "gorbel",
+      "source": "assets/mobs/Gorbel.png",
+      "sourceSha256": "c96a07ed2e9393d984bf695ff6883c14fbe65a106ce8016de3fc79445c5e30e2",
+      "sourceBytes": 30160,
+      "sourceDimensions": [
+        740,
+        814
+      ],
+      "outputs": [
+        {
+          "path": "assets/home/gorbel-256.webp",
+          "sha256": "acefed5be63fa102d993d2872c9b6659a32bb6eadde6b31b4a33c3a88f1090ef",
+          "bytes": 18744,
+          "dimensions": [
+            256,
+            282
+          ],
+          "quality": 84,
+          "alphaPreservedExactly": true,
+          "resizedAlphaSha256": "cc25bc303da24b9346c34ae1399b40308774b9ec4dc245927ddad9fbe25161bb",
+          "decodedAlphaSha256": "cc25bc303da24b9346c34ae1399b40308774b9ec4dc245927ddad9fbe25161bb"
+        }
+      ],
+      "displaySourceDimensions": [
+        740,
+        814
+      ]
+    }
+  ],
+  "sourceBytesTotal": 539497,
+  "largestVariantBytesTotal": 139382,
+  "allVariantBytesTotal": 170738
+}

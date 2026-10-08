@@ -28,8 +28,7 @@
     font-family: var(--font-title);
     font-size: clamp(1.9rem, 5vw, 3rem);
     letter-spacing: 0.12em;
-    background: var(--nm-gold-grad);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
+    color: var(--nm-text);
     margin: 0;
 }
 .quests-hero .quests-subtitle {
@@ -43,7 +42,7 @@
     margin-top: 1.1rem;
     padding: 0.35rem 1rem;
     border: 1px solid var(--sao-border-hover);
-    border-radius: 999px;
+    border-radius: var(--nm-radius);
     color: var(--sao-gold-light);
     font-size: 0.8rem;
     letter-spacing: 0.1em;

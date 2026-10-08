@@ -464,7 +464,6 @@ function displayError() {
     const container = document.getElementById('chat-messages');
     container.innerHTML = `
         <div class="chat-no-messages">
-            <div class="chat-no-messages-icon">⚠️</div>
             <p class="chat-no-messages-text">Erreur de chargement des messages.</p>
         </div>
     `;

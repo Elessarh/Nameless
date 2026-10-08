@@ -38,7 +38,7 @@
   "10 Lingots de Cuivre": "10 Copper ingots",
   "10 Miel": "10 Honey",
   "10 Minerais d'Onyx Impur": "10 Onyx Impur ores",
-  "10 Tissus Maudits & 1 Cœur Putrifié": "10 Cursed Fabrics & 1 Putrified Heart",
+
   "10 par page": "10 per page",
   "10 Écorces, 10 Brindilles, 3 Racines - Mizunari": "10 Ecorcs, 10 Bridals, 3 Roots - Mizunari",
   "100 par page": "100 per page",
@@ -55,7 +55,7 @@
   "16 Bûches Chêne, 16 Bûches Bouleau - Virelune": "16 Logs Oak, 16 Logs Bouleau - Virelune",
   "16 Bûches de Chêne, 16 Bûches de Bouleau": "16 Oak logs, 16 Bouleau logs",
   "16 Epis Sauvages": "16 Wild Epis",
-  "16 Peaux de Cerf & 10 Lingots de Fer": "16 Cerf & 10 Iron Ingots",
+
   "16 Peaux de Cerf des Montagnes": "16 Skins of Cerf des Montagnes",
   "16 Épis Sauvages - Mizunari": "16 Wild ears - Mizunari",
   "2 sur 8": "2 of 8",
@@ -133,7 +133,7 @@
   "A. Donjons classiques": "A. Classic dungeons",
   "ATTENTION : tu es en train de retirer TON PROPRE rôle admin. Continuer ?": "CAUTION: You are removing YOUR OWN administrative role. Continue?",
   "ATTENTION : tu es en train de supprimer TON PROPRE compte admin. Continuer ?": "CAUTION: You are deleting YOUR PROPRE admin account. Continue?",
-  "Abraham vous attend": "Abraham awaits you",
+
   "Absents:": "Absent:",
   "Accessible via le hub ou": "Accessible via the hub or",
   "Accessoires :": "Accessories:",
@@ -145,7 +145,7 @@
   "Achat via": "Purchase via",
   "Achats :": "Procurement:",
   "Acheter et vendre via le commerce direct entre joueurs.": "Buy and sell via direct commerce between players.",
-  "Achèvement du Palier 1": "Completion of Tier 1",
+
   "Acquisition d'un logement": "Acquisition of housing",
   "Action admin échouée": "Failed admin action",
   "Action désactivée : la vérification Minecraft n'existe plus.": "Action deactivated: Minecraft verification no longer exists.",
@@ -157,7 +157,7 @@
   "Administrateurs": "Administrators",
   "Affichage de": "Viewing",
   "Affichage des éléments": "Viewing Items",
-  "Affrontez et éliminez le redoutable Léviathan.": "Confront and eliminate the terrible Leviathan.",
+
   "Agilité, +Mana": "Agility, +Mana",
   "Aile Ténébreuse": "Dark wing",
   "Ajout du système de classes, premières compétences et gestion des niveaux. Refonte de l'interface joueur.": "Addition of the system of classes, first skills and level management. Recast the player interface.",
@@ -183,23 +183,23 @@
   "Appel Quotidien - Aujourd'hui": "Daily Appeal - Today.",
   "Appel quotidien": "Daily call",
   "Appropriées": "Appropriate",
-  "Après Léviathan": "After Leviathan",
+
   "Araignée": "Spider",
   "Araignée Chasseuse": "Spider Hunter",
   "Araignée Empoisonnée": "Spider Poisoned",
   "Araignée Étrangleuse": "Scratch Scratch",
   "Arbre de compétences": "Skill Tree",
   "Archipel d'Ika": "Archipelago of Ika",
-  "Archipel d'Ika - Le Sceau": "Archipelago of Ika - Seal",
+
   "Arme": "Weapons",
   "Armes, armures et ressources d'Aincrad, classées par rareté.": "Weapons, armor, and resources from Aincrad, sorted by rarity.",
   "Armurier, Potionnier, Forgeron, Épicier, etc.": "Armorier, Potionary, Forgeron, Epicier, etc.",
   "Armé d'une hallebarde artisanale, ce kobold défend les passages stratégiques des mines.": "Armed with a craft hall, this kobold defends the strategic passages of the mines.",
-  "Artheon": "Arteon",
+
   "Assassin": "Killer",
   "Associer ce pseudo": "Associate this nickname",
   "Associer ton pseudo Minecraft": "Associate your nickname Minecraft",
-  "Au Spawn": "Spawn",
+
   "Aucun avantage de combat n'est achetable via la boutique.": "No fighting advantage can be purchased via the shop.",
   "Aucun butin connu.": "No known loot.",
   "Aucun destinataire sélectionné": "No recipient selected",
@@ -213,7 +213,7 @@
   "Aucune créature trouvée": "No creature found",
   "Aucune quête trouvée": "No quest found",
   "Autrefois protecteur de la lumière, maintenant serviteur des ombres. Sa force n'a fait que croître.": "Once protector of light, now servant of shadows. His strength has only grown.",
-  "Avancer les lignes principales et secondaires ensemble, sans laisser personne derrière.": "Complete the main and side questlines together, leaving no one behind.",
+
   "Aventurier": "Adventurer",
   "Avertissement → Mute → Kick → Ban": "Warning → Mute → Kick → Ban",
   "Banque": "Bank",
@@ -233,18 +233,18 @@
   "Bonbon Sucrée au Sucre": "Sweet Sugar",
   "Bosquet Ombrelame": "Bosquet Shadow",
   "Boss de Palier plus punitif que Raid": "Palier Boss more punitive than Raid",
-  "Boss de fin de branche": "End of branch Boss",
+
   "Boss de palier": "Floor boss",
   "Boss de palier et mécaniques de combat révisées. Drops spécifiques liés aux donjons.": "Revised bearing and combat mechanics. Specific dungeons-related drops.",
-  "Boss majeur aquatique": "Marine major",
+
   "Boss, élites et créatures : forces, faiblesses et zones d'apparition.": "Bosses, elites, and creatures: strengths, weaknesses, and spawn locations.",
   "Boss, événements": "Boss, events",
   "Bouclier Magique": "Magic Shield",
   "Bouclier Spirituel": "Spiritual Shield",
   "Boule de Feu": "Fireball",
   "Boutique": "Shop",
-  "Branche 8.1 - La quête d'Elma (Mizunari)": "Branch 8.1 - Elma's quest (Mizunari)",
-  "Branche 8.2 - Mine de Geldorak": "Branch 8.2 - Geldorak Mine",
+
+
   "Brindille Enchantée": "Brindille Enchanted",
   "Brindille Enchantées": "Brindille Enchanted",
   "Burst damage, rapidité, infiltration": "Burst damage, speed, infiltration",
@@ -273,7 +273,7 @@
   "Catalogue d'Items - Nameless": "Catalogue of items - Nameless",
   "Catalogue d'Items — Nameless": "Catalogue of items — Nameless",
   "Catalogue des reliques": "Catalogue of relics",
-  "Cathédrale": "Cathedral",
+
   "Cathédrale du Soleil": "Cathedral of the Sun",
   "Catégorie": "Category",
   "Ce profil Minecraft est déjà associé à un autre compte.": "This Minecraft profile is already associated with another account.",
@@ -302,7 +302,7 @@
   "Chargement des publications...": "Loading publications...",
   "Chargement du dashboard…": "Loading the dashboard...",
   "Chargement...": "Loading...",
-  "Chasse maritime": "Maritime hunting",
+
   "Chasseur": "Hunter",
   "Chasseur de Dragon": "Dragon Hunter",
   "Chat Vocal": "Vocal cat",
@@ -325,35 +325,35 @@
   "Clé des Déchus": "Key of the fallen",
   "Codex & archives": "Codex & Archives",
   "Codex des créatures": "Creature Codex",
-  "Codex des créatures d'Aincrad — boss, élites et bêtes, avec paliers, zones, PV et butin. Le bestiaire de la guilde Nameless.": "Codex of the creatures of Aincrad — boss, elite and beasts, with bearings, zones, PV and spoil. The bestiary of the guild Nameless.",
+
   "Coeur Nécrotique": "Necrotic heart",
   "Coeur Putrifié": "Putrified Heart",
   "Coffre de maison": "Home box",
-  "Collecter 15 Âmes des Ruines": "Collect 15 Souls of the Ruins",
+
   "Collectez 30 minerais de bauxite pour Charles": "Collect 30 bauxite ores for Charles",
-  "Collectez ces matériaux rares dans la zone.": "Collect these rare materials in the area.",
+
   "Collectez du miel pour Baraka": "Collect honey for Baraka",
-  "Collectez et livrez ces ressources à Emy.": "Collect and deliver these resources to Emy.",
-  "Collectez les bûches pour Bronn": "Collect logs for Bronn",
-  "Collectez les bûches pour Bronn.": "Collect logs for Bronn.",
+
+
+
   "Collectez les différentes plumes élémentaires pour Ifa": "Collect the different elementary feathers for Ifa",
   "Collectez les fourrures et peaux pour Ife": "Collect furs and skins for Ife",
   "Collectez les ingrédients pour Havca": "Collect ingredients for Havca",
   "Collectez les ingrédients pour Mansa": "Collect ingredients for Mansa",
-  "Collectez les matériaux rares": "Collect rare materials",
-  "Collectez les matériaux rares.": "Collect rare materials.",
+
+
   "Collectez les objets mystérieux pour Elyen": "Collect mysterious objects for Elyen",
   "Collectez les peaux demandées pour Minutiare": "Collect the requested skins for Minutiare",
   "Collectez les plumes corrompues pour Nora": "Collect the corrupt feathers for Nora",
-  "Collectez les ressources pour Yuko": "Collect resources for Yuko",
-  "Collectez les ressources pour Yuko.": "Gather resources for Yuko.",
+
+
   "Cols, coffres de vote, Triggiums bonus": "Cols, voting boxes, Triggium bonus",
   "Combat & Aventure": "Combat & Adventure",
   "Commande :": "Command:",
-  "Commencez votre aventure - Point de spawn": "Start your adventure - Spawn point",
-  "Commencez votre aventure au Palier 2": "Start your adventure at Palier 2",
-  "Commencez votre aventure au Palier 2 en parlant au Maître Épéiste.": "Start your adventure at Palier 2 by talking to Master Epistle.",
-  "Commencez votre aventure en parlant au Maître Épéiste au point de spawn.": "Start your adventure by talking to Master Epistle at the spawn point.",
+
+
+
+
   "Comment Participer": "How to Participate",
   "Comment obtenir une monture ?": "How to get a mount?",
   "Comment réaliser une alliance ?": "How to make an alliance?",
@@ -361,8 +361,8 @@
   "Commerce": "Trade",
   "Commerces": "Trade",
   "Commun": "Common",
-  "Compléter la Mine de Geldorak": "Complete Geldorak Mine",
-  "Compléter le rush": "Complete the rush",
+
+
   "Comportement": "Behaviour",
   "Compte Microsoft": "Microsoft Account",
   "Compte Microsoft connecté": "Microsoft account connected",
@@ -381,25 +381,25 @@
   "Conquête et domination": "Conquest and domination",
   "Consigner ce qu'on apprend pour que la guilde progresse plus vite.": "Record what we learn so the guild can progress faster.",
   "Consulte les pages dédiées pour des conseils de build.": "Consult the dedicated pages for build tips.",
-  "Contacter Yaa": "Contact Yaa",
+
   "Contactez un administrateur pour obtenir le rôle « Membre ».": "Contact an administrator to obtain the \"Member\" role.",
   "Contenu *": "Contents *",
   "Contenu :": "Content:",
   "Contenu de la publication...": "Content of the publication...",
   "Contenu à venir — cette page sera complétée prochainement.": "Future content — this page will be completed shortly.",
   "Contenus difficiles": "Challenging content",
-  "Continuez l'aventure avec Ramoon après le boss.": "Continue the adventure with Ramoon after the boss.",
+
   "Contrôles de la carte": "Card controls",
   "Coopération Obligatoire": "Mandatory cooperation",
-  "Coordonnées d'Artheon : X: 133, Z: -375, Y: 140": "Contact details of Arteon : X: 133, Z: -375, Y: 140",
+
   "Coordonnées:": "Contact details:",
   "Corne Ébrechée": "Shafted Horn",
   "Couleur": "Colour",
   "Coup Circulaire": "Information circular",
   "Coups de main, farm partagé et conseils entre anciens et nouveaux.": "Helping hands, shared farming, and advice between veterans and newcomers.",
   "Couteau de chasse": "Hunting knife",
-  "Craft Clé de la Mine de Geldorak": "Craft Key of Geldorak Mine",
-  "Craftez la clé pour accéder à la mine de Geldorak.": "Craft the key to the Geldorak mine.",
+
+
   "Crinière": "Crain",
   "Critères d'Accès": "Access criteria",
   "Crochets acérés": "Acrylic hooks",
@@ -421,8 +421,8 @@
   "Dashboard administrateur": "Dashboard administrator",
   "De l'entraide pour tous les niveaux": "Self-help for all levels",
   "Demande:": "Request:",
-  "Dernière livraison pour Bronn": "Last delivery for Bronn",
-  "Dernière livraison pour Bronn.": "Last delivery for Bronn.",
+
+
   "Des expéditions et raids organisés": "Organized expeditions and raids",
   "Des guides et stratégies partagés": "Shared guides and strategies",
   "Des objectifs clairs, un planning et des rôles. On avance sans chaos.": "Clear goals, a schedule, and defined roles. We move forward without chaos.",
@@ -434,8 +434,8 @@
   "Devlog 4 — Combats et Donjons": "Devlog 4 — Combats and Donjons",
   "Devlog 5 — Guildes et Alliances": "Devlog 5 — Guilds and Alliances",
   "Devlog 6 — Préparation Alpha": "Devlog 6 — Alpha preparation",
-  "Dialoguez avec cette entité mystérieuse.": "Chat with this mysterious entity.",
-  "Dialoguez avec les 3 PNJ dans la taverne.": "Chat with the 3 NPCs in the tavern.",
+
+
   "Diapositive précédente": "Previous slide",
   "Diapositive suivante": "Next Slide",
   "Difficulté progressive adaptée à l'avancée": "Progressive difficulty adapted to progress",
@@ -445,15 +445,15 @@
   "Discret, fiable, motivé ? Lie ton compte Minecraft et présente-toi.": "Discreet, reliable, and motivated? Link your Minecraft account and introduce yourself.",
   "Discrète sous ses feuilles luxuriantes, le danger rôde au moindre faux pas... Ses racines enserrent ses proies, lentement, avant de les engloutir sans laisser de trace.": "Discreet under its lush leaves, danger roams at the slightest false step... Its roots engulfed its prey slowly before swallowing them without leaving any trace.",
   "Discussions RP encouragées.": "RP discussions encouraged.",
-  "Discutez avec Kwabeno": "Discuss with Kwabeno",
-  "Discutez avec Kwabeno.": "Talk to Kwabeno.",
+
+
   "Disponible": "Available",
   "Distance de rendu :": "render distance:",
   "Documentation wiki": "Wiki documentation",
-  "Donjon Abeille": "Donjon Bee",
-  "Donjon Araignée Xal'Zirith": "Donjon Spider Xal'Zirith",
-  "Donjon final du Palier 1": "Final Donjon of the Palier 1",
-  "Donjon majeur": "Major Donjon",
+
+
+
+
   "Donjon redoutable gardé par Geldorak": "Dreadful Donjon guarded by Geldorak",
   "Donjons et Boss Palier": "Donjons and Boss Palier",
   "Dragon-Humanoïde": "Dragon-Humanoid",
@@ -464,8 +464,8 @@
   "Durée de l'Exclusion": "Duration of Exclusion",
   "Débloquer de nouvelles compétences": "Unlocking new skills",
   "Débris Putride de Chair": "Chair Putride",
-  "Début de la première branche - parlez à Elma à Mizunari.": "Start of first branch - Talk to Elma in Mizunari.",
-  "Début du Palier 2": "Beginning of Tier 2",
+
+
   "Débuter": "Start",
   "Débuter l'aventure": "Start the adventure",
   "Déclarer une absence": "Declare absence",
@@ -491,13 +491,13 @@
   "Emplacements": "Locations",
   "En cours": "In progress",
   "En cours...": "Working...",
-  "En haut de la tour": "Top of the tower",
+
   "En ligne": "Online",
   "En mission:": "On mission:",
   "Enregistrer": "Save",
   "Enregistrer la Présence": "Save Presence",
   "Ensemble": "Together",
-  "Entité mystérieuse": "Mystery entity",
+
   "Entité rampante née des mines de Geldorak, Vyrmoss s'imprègne des spores et de la terre humide. Sa peau est couverte de mousse vivante, et son souffle corrompt tout ce qu'il touche.": "A creeping entity born from the Geldorak mines, Vyrmoss soaks up the spores and wet soil. His skin is covered with living foam, and his breath corrupts everything he touches.",
   "Entièrement gérés par les membres. Les joueurs solo peuvent interagir et négocier des tarifs préférentiels.": "Fully managed by members. Solo players can interact and negotiate preferential rates.",
   "Entraide membres": "Helping members",
@@ -540,19 +540,19 @@
   "Explorer le wiki": "Explore the wiki",
   "Expédition": "Shipping",
   "Expéditions en zone inconnue": "Shipments to unknown area",
-  "Fabriquer la clé d'accès": "Making the access key",
-  "Fabriquez les planches pour Bronn": "Make the boards for Bronn",
-  "Fabriquez les planches pour Bronn.": "Make the boards for Bronn.",
+
+
+
   "Faiblesses :": "Weaknesses:",
   "Familier & Monture": "Family & Mount",
   "Familiers": "Family",
   "Familiers de combat": "Fighters",
   "Familiers passifs": "Passive family members",
   "Familiers utilitaires": "Utility families",
-  "Farm 15 Âmes des Ruines": "Farm 15 Souls of the Ruins",
-  "Farm Matériaux Spéciaux": "Farm Special Materials",
+
+
   "Farm partagé, coups de main et préparation de groupe. On joue en meute.": "Shared farming, helping hands, and group preparation. We play as a pack.",
-  "Farmez dans les ruines pour obtenir 15 Âmes des Ruines.": "Farm in the ruins to get 15 Souls of the Ruins.",
+
   "Faucheuse Déchu": "Dumpback",
   "Fermer": "Close",
   "Fermer le menu": "Close menu",
@@ -567,11 +567,11 @@
   "Filtrer par zone": "Filter by zone",
   "Filtres de quêtes": "Search filters",
   "Filtres de recherche": "Search filters",
-  "Fin avec Mephisto": "End with Mephisto",
-  "Finir le Donjon (Mine)": "Finish the Donjon (Mine)",
-  "Finir le Donjon Rush de Melliona": "Finish the Donjon Rush of Melliona",
-  "Finir le Donjon de Xal'Zirith": "Finish the Donjon of Xal'Zirith",
-  "Finir le Labyrinthe des Déchus": "Finishing the Labyrinth of the Fallen",
+
+
+
+
+
   "Flèche Explosive": "Explosive Arrow",
   "Fonctionnalité admin à venir...": "Upcoming administrative functionality...",
   "Fonctionnement": "Operation",
@@ -635,13 +635,13 @@
   "Général": "General",
   "Hache": "Axe",
   "Hache Ébréchée": "Abbreviated axe",
-  "Harrold vous attend": "Harold is waiting for you.",
+
   "Haute résistance, excellent en 1v1": "High resistance, excellent in 1v1",
   "Herbes": "Herbs",
   "Heure": "Time",
   "Historique des présences (Aujourd'hui)": "History of presences (Today)",
-  "Homme Cagoulé": "Cagoule male",
-  "Homme mystérieux": "Mystery man",
+
+
   "Houe & arrosoir": "Houe & watering",
   "Housing de base (acquisition + gestion)": "Basic housing (acquisition + management)",
   "Housing, métiers, et commerce entre joueurs. Génération des villages et PNJ marchands.": "Housing, trades, and business between players. Generation of merchant villages and NPCs.",
@@ -668,7 +668,7 @@
   "Informations du profil": "Profile information",
   "Installer les mods requis (OptiFine ou Iris, ModelEngine, etc.)": "Install the required mods (OptiFine or Iris, ModelEngine, etc.)",
   "Insultes, harcèlement, discrimination et menaces entraîneront des": "Insults, harassment, discrimination and threats will result in",
-  "Introduction - Premiers pas": "Introduction - First steps",
+
   "Inviter des joueurs à visiter": "Invite players to visit",
   "Invocation de Totem": "Invocation of Totem",
   "Items": "Items",
@@ -698,7 +698,7 @@
   "La monnaie du serveur : les": "The currency of the server: the",
   "La mort incarnée, corrompue par les ténèbres. Sa faux récolte les âmes des vivants.": "Death incarnate, corrupted by darkness. His false harvests the souls of the living.",
   "La sorcière des marais, maîtresse des malédictions. Ses potions sont mortelles.": "The witch of the marshes, master of curses. His potions are deadly.",
-  "La vieille Mara vous donnera des informations importantes.": "Old Mara will give you important information.",
+
   "Lacs, rivières, côtes": "Lakes, rivers, coasts",
   "Lame Empoisonnée": "Poisoned blade",
   "Le PvP est": "The PvP is",
@@ -719,8 +719,8 @@
   "Le légendaire tueur de dragons, chevalier au service du soleil, maître de la lance sacrée.": "The legendary dragon killer, knight in the service of the sun, master of the sacred spear.",
   "Le micro Discord doit être clean (pas de musique, pas de bruits).": "Microdiscord must be clean (no music, no noises).",
   "Le niveau doit être entre 1 et 100.": "The level must be between 1 and 100.",
-  "Le parcours de la guilde : principales et secondaires, avec lieux et PNJ.": "The guild's journey: main and side quests, with locations and NPCs.",
-  "Le parcours de la guilde, palier par palier — quêtes principales et secondaires, avec lieux, PNJ et objectifs.": "The course of the guild, level by level — main and secondary quests, with places, NPCs and objectives.",
+
+
   "Le premier gardien d'Aincrad. On l'étudie, on s'organise, on l'abat ensemble.": "Aincrad's first guardian. We study him, get organized, and take him down together.",
   "Le recensement des créatures d'Aincrad — boss, élites et bêtes, palier par palier.": "The census of Aincrad's creatures — bosses, elites and beasts, step by step.",
   "Le roi des kobolds, un seigneur de guerre redoutable. Premier boss légendaire d'Aincrad.": "The kobold king, a terrible warlord. Aincrad's first legendary boss.",
@@ -747,7 +747,7 @@
   "Les soundboards doivent être modérées.": "Soundboards should be moderate.",
   "Les stuffs sont": "The stuffs are",
   "Liaison Minecraft": "Minecraft link",
-  "Lieu:": "Place:",
+
   "Lingot d'Âme de Métal": "Metal Soul Lingot",
   "Lingot de métal enchanté": "Enchanted metal linget",
   "Lingots, pierres taillées. XP de métier gagnée en minant.": "Ingots, cut stones. XP craft earned by minting.",
@@ -756,7 +756,7 @@
   "Liste des Guildes Officielles": "List of Official Guilds",
   "Liste des créatures": "List of creatures",
   "Liste des items": "List of items",
-  "Livrer les Ressources à Emy": "Deliver Resources to Emy",
+
   "Localisation :": "Location:",
   "Logistique (accès zones spéciales, expéditions, équipements)": "Logistics (access to special areas, shipments, equipment)",
   "Légendaire": "Legendary",
@@ -782,8 +782,8 @@
   "Matériaux de craft spéciaux": "Special craft materials",
   "Maître de l'ombre et des lames silencieuses, il ne laisse derrière lui que le vide... et une cible tombée.": "Master of the shadows and silent blades, he leaves behind only the emptiness... and a fallen target.",
   "Maître forgeron d'armes": "Master gunsmith",
-  "Maître Épéiste": "Master Epistle",
-  "Maître Épéiste (Cathédrale)": "Master Epistle (Cathedral)",
+
+
   "Membre": "Member",
   "Membre depuis": "Member since",
   "Membres": "Members",
@@ -798,7 +798,7 @@
   "Mines (chaque palier)": "Mines (each level)",
   "Mineur": "Minor",
   "Mini Tréant": "Mini Real",
-  "Mini-Boss": "Mini Boss",
+
   "Mobilité réduite, compétences à distance limitées": "Reduced mobility, limited distance skills",
   "Mode Édition": "Edit mode",
   "Modifications sauvegardées avec succès !": "Successfully saved changes!",
@@ -816,7 +816,7 @@
   "Monnaie :": "Currency:",
   "Monopole de Ressources": "Monopoly of Resources",
   "Monstres": "Monsters",
-  "Montez en haut de la tour pour parler au Maître Épéiste.": "Go up to the top of the tower to talk to Master Epistle.",
+
   "Montures": "Mounts",
   "Montures de Combat": "Combat Mounts",
   "Montures de Voyage": "Travel Mounts",
@@ -838,7 +838,7 @@
   "Niveau": "Level",
   "Niveau 1-20": "Level 1-20",
   "Niveau 21-40": "Level 21-40",
-  "Niveau 4 minimum": "Minimum level 4",
+
   "Niveau 41-60": "Level 41-60",
   "Niveau 61-80": "Level 61-80",
   "Niveau 81-100": "Level 81-100",
@@ -850,36 +850,36 @@
   "Nourriture, ingrédients alchimiques.": "Food, alchemical ingredients.",
   "Nous avons survécu à Aincrad, puis choisi l'oubli. Une guilde discrète et soudée, pour ceux qui préfèrent l'ombre à la gloire.": "We survived Aincrad, then chose obscurity. A close-knit, discreet guild for those who prefer the shadows to glory.",
   "Nous rejoindre →": "Join us →",
-  "Nouveau chapitre commence avec Ramoon à Virelune.": "New chapter starts with Ramoon in Virlon.",
+
   "Nouveau rôle :": "New role:",
   "Nouvelle publication": "New publication",
   "Numéro de semaine": "Week number",
   "Né d'un amas magique de gelée ancienne, il a appris à manier l'arme comme un vrai geurrier. Il défend son territoire avec une rage inattendue.": "Born of a magical pile of ancient jelly, he learned how to handle the weapon like a real gutter. He defends his territory with unexpected rage.",
-  "Nécessite la quête de Zebulgarath": "Requires Zebulgarath's quest",
+
   "Néphantes": "Nephants",
   "Objectif Collectif": "Collective objective",
-  "Objectif interactif sur l'Archipel d'Ika.": "Interactive objective on the Ika Archipelago.",
-  "Objectif:": "Objective:",
+
+
   "Objectifs": "Objectives",
   "Objectifs actifs": "Active objectives",
   "Objectifs de la semaine": "Objectives of the week",
   "Objets Exclusifs": "Exclusive",
   "Objets de Sauvetage :": "Rescue objects:",
-  "Obtenez la clé de Melliona en complétant le donjon des abeilles.": "Get the key to Melliona by completing the bee dungeon.",
+
   "Obtenir 1 Sac de Toile, 1 Anneau sans nom, 1 Carnet Froissé": "Get 1 Canvas Bag, 1 Ring without name, 1 Frossed Book",
-  "Obtenir 10 Planches d'Acacia et 1 Lingot d'Onyx Pur": "Get 10 Acacia Boards and 1 Pure Onyx Lingot",
-  "Obtenir 10 Écailles Fulgurantes et 10 Cornes de Taureaux": "Get 10 Extinguishing Scales and 10 Taurus Horns",
+
+
   "Obtenir 15 Peaux de Sangliers et 15 Peau Épaisse": "Get 15 Snails and 15 Skin Thickness",
-  "Obtenir 20 Bûches d'Acacia et 20 Bûches de Chêne": "Get 20 Acacia logs and 20 Oak logs",
-  "Obtenir 20 Planches d'Acacia et 20 Planches de Chêne": "Get 20 Acacia Boards and 20 Oak Boards",
-  "Obtenir 20 Planches de Chêne, 20 Planches d'Acacia et 10 Bûches de Bouleau": "Get 20 Oak Boards, 20 Acacia Boards and 10 Birch Boards",
-  "Obtenir 30 Bûches de Chêne, 10 Fourrures de Loup, 20 Minerais de Charbon": "Getting 30 Oak Logs, 10 Wolf Furs, 20 Coal ores",
+
+
+
+
   "Obtenir 4 Plumes Enflammées, 4 Plumes Ondoyantes, 4 Plumes Terreuses": "Get 4 Inflamed Plums, 4 Inflamed Plums, 4 Earthy Plums",
   "Obtenir Champignogno et 2 Herbes Parfumées": "Get Champignogno and 2 Scented Herbs",
-  "Obtenir la Clé de Melliona": "Get the Key of Melliona",
+
   "Obtention": "Obtaining",
   "Obtention :": "Obtained:",
-  "Ombre Mystérieuse": "Mysterious Shadow",
+
   "On joue en groupe. Personne ne reste bloqué seul.": "We play in a group. Nobody's stuck alone.",
   "On prépare et on affronte les boss et donjons exigeants.": "We prepare and face the demanding bosses and dungeons.",
   "OptiFine ou Iris + Sodium pour de meilleures performances graphiques.": "OptiFine or Iris + Sodium for better graphic performance.",
@@ -918,33 +918,33 @@
   "Parchemin de Maîtrise": "Parchment of Mastery",
   "Parchemin de Réallocation": "Reassignment Parchment",
   "Parcourir les items →": "Browse Items →",
-  "Parler au Maire": "Talk to the Mayor",
-  "Parler au Maître Épéiste": "Talk to Master Epistle",
-  "Parler au Spectre Archiviste": "Talking to the Archivist Spectre",
-  "Parler aux 3 PNJs": "Talk to the 3 NPCs",
+
+
+
+
   "Parler aux PNJ, accepter les premières quêtes": "Talking to NPCs, accepting the first quests",
-  "Parler à Abraham": "Talking to Abraham",
-  "Parler à Bantu": "Talk to Bantu",
-  "Parler à Catherine": "Talk to Catherine",
-  "Parler à Elma": "Talk to Elma",
-  "Parler à Emy": "Talk to Emy",
-  "Parler à Eric": "Talk to Eric",
-  "Parler à Kwabeno": "Talk to Kwabeno",
-  "Parler à Malrik": "Talk to Malrik",
-  "Parler à Mephisto": "Talk to Mephisto",
-  "Parler à Neko": "Talk to Neko",
-  "Parler à Ramoon": "Talking to Ramoon",
-  "Parler à Silrix": "Talk to Silrix",
-  "Parler à Virel": "Talk to Virel",
-  "Parler à Wali": "Talk to Wali",
-  "Parler à l'Homme Cagoulé": "Talking to the Cagoule Man",
-  "Parler à l'Ombre Mystérieuse": "Talking to the Mystery Shadow",
-  "Parler à la Statue de Yaa": "Talking to the Yaa Statue",
-  "Parler à la Vieille Mara": "Talking to the Old Mara",
-  "Parlez à Catherine pour préparer le donjon du Labyrinthe.": "Talk to Catherine to prepare the Labyrinth dungeon.",
-  "Parlez à Emy et préparez-vous à livrer des ressources.": "Talk to Emy and get ready to deliver resources.",
-  "Parlez à la Statue de Yaa": "Talk to the Yaa Statue",
-  "Parlez à la Statue de Yaa.": "Talk to Yaa's Statue.",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "Participation & Présence": "Participation & Presence",
   "Pas d'Ombre": "No Shadow",
   "Pas d'insultes, harcèlement, menaces, ou contenu offensant envers les membres.": "No insults, harassment, threats, or content offensive to members.",
@@ -994,8 +994,8 @@
   "Poussière de givre": "Ice dust",
   "Premiers Pas": "First steps",
   "Premières fondations du monde, génération des paliers et premières zones. Mise en place du serveur et tests de charge.": "First foundations of the world, generation of bearings and first areas. Server setting up and load tests.",
-  "Prendre la Rune": "Take the Rune",
-  "Prendre le Téléporteur": "Take the Teleporter",
+
+
   "Prendre place parmi les nôtres": "Take your place among us",
   "Presence enregistree avec succes !": "Present recorded with success!",
   "Principale": "Main",
@@ -1008,15 +1008,15 @@
   "Progression & Événements": "Progression & Events",
   "Progression collective": "Collective progress",
   "Progression d'Aincrad": "Progression of Aincrad",
-  "Progression d'Aincrad — le guide des quêtes principales et secondaires de la guilde Nameless, avec lieux, PNJ, objectifs et coordonnées.": "Progression of Aincrad — the guide to the main and secondary quests of the guild Nameless, with places, PNJ, objectives and coordinates.",
+
   "Progression des sanctions :": "Progress in sanctions:",
   "Progression et Avantages": "Progress and Benefits",
   "Précédent": "Prev",
   "Prédateur implacable des eaux profondes, le Poisson Requin traque silencieusement ses proies. Ses dents acérées peuvent trancher l'acier, et son instinct ne connaît ni pitié ni repos.": "The implacable predator of deep waters, the Requin Fish silently hunts its prey. Her sharp teeth can cut the steel, and her instinct knows no mercy or rest.",
   "Préparation boss": "Boss preparation",
   "Préparer l'affrontement →": "Prepare for battle →",
-  "Préparez-vous pour le dernier donjon avec Silrix.": "Prepare for the last dungeon with Silrix.",
-  "Prérequis:": "Prerequisite:",
+
+
   "Présence en jeu requise": "Presence in play required",
   "Présences": "Presence",
   "Présenter le projet (objectifs, collaboration, motivations)": "Present the project (objectives, collaboration, motivations)",
@@ -1036,10 +1036,10 @@
   "Quartier général": "Headquarters",
   "Quelle version de Minecraft ?": "What version of Minecraft?",
   "Quête Principale": "Main quest",
-  "Quête Principale - Palier 1": "Main quest - Level 1",
-  "Quête Principale - Palier 2": "Main quest - Level 2",
+
+
   "Quête Secondaire": "Secondary quest",
-  "Quête d'Elma - Mizunari": "Elma quest - Mizunari",
+
   "Quête, PNJ, monstre, ville...": "Quest, NPC, monster, city...",
   "Quêtes": "Quests",
   "Quêtes Principales": "Main quests",
@@ -1053,16 +1053,16 @@
   "Rage du Combat": "Rage of Combat",
   "Raids multi-guildes": "Multi-guilder raids",
   "Rangs Custom avec permissions spécifiques": "Custom rangs with specific permissions",
-  "Rapport au Spectre Archiviste": "Report to the Archivist Spectre",
-  "Rapport à Catherine": "Report to Catherine",
-  "Rapport à Harrold": "Report to Harold",
-  "Rapport à Malrik": "Report to Malrik",
-  "Rapport à Virel": "Report to Virel",
-  "Rapport à Wali": "Report to Wali",
+
+
+
+
+
+
   "Rareté": "Rare",
   "Raretés": "Rare",
-  "Rassemblez les matériaux demandés": "Gather the requested materials",
-  "Rassemblez les matériaux demandés.": "Gather the requested materials.",
+
+
   "Recettes": "Income",
   "Recherche": "Research",
   "Recherche du profil Minecraft...": "Search the Minecraft profile...",
@@ -1083,13 +1083,13 @@
   "Rejoindre ou créer une guilde": "Join or Create Guild",
   "Rejoins le": "Join",
   "Reliques": "Relics",
-  "Rendez-vous auprès de Bantu": "Visit Bantu",
-  "Rendez-vous auprès de Bantu.": "Meet Bantu.",
-  "Rendez-vous aux Ruines Squelettiques pour parler à Eric.": "Meet the Skeletal Ruins to talk to Eric.",
+
+
+
   "Rendez-vous dans la zone aux horaires prévus": "Visit the area at scheduled times",
-  "Rendez-vous voir Abraham pour la suite de votre mission.": "See Abraham for the rest of your mission.",
-  "Rendez-vous à Tolbana pour parler à Mephisto.": "See you in Tolbana to talk to Mephisto.",
-  "Rendez-vous à la Cathédrale pour parler au Maître Épéiste.": "See you at the Cathedral to talk to Master Epistle.",
+
+
+
   "Représentation :": "Representation:",
   "Respect de l'équilibre pour l'équité": "Respecting balance for equity",
   "Respect de la conversation en cours.": "Respect for the ongoing conversation.",
@@ -1099,25 +1099,25 @@
   "Ressources": "Resources",
   "Ressources Appropriées": "Appropriate resources",
   "Ressources du Monde": "World resources",
-  "Retour au Maître Épéiste": "Back to Master Epistle",
-  "Retour à Wali": "Back to Wali",
-  "Retournez faire votre rapport à Catherine.": "Go back and report to Catherine.",
-  "Retournez voir Harrold avec la Spore Corrompu.": "Go back to Harold with the Spore Corrompu.",
-  "Retournez voir Malrik après la chasse.": "Go back to Malrik after the hunt.",
-  "Retournez voir Virel après avoir vaincu le Léviathan.": "Go back to Virel after defeating Leviathan.",
-  "Retournez voir Wali après avoir livré à Emy.": "Go back to Wali after delivering to Emy.",
-  "Retournez voir Wali avec les informations.": "Go back to Wali with the information.",
-  "Retournez voir le Spectre Archiviste avec les matériaux.": "Go back to the Archivist Spectre with the materials.",
-  "Retournez à Tolbana pour parler à Malrik.": "Go back to Tolbana to talk to Malrik.",
-  "Retournez à Virelune pour parler à Virel.": "Go back to Virelune to talk to Virel.",
-  "Retournez à la Cathédrale.": "Go back to the Cathedral.",
+
+
+
+
+
+
+
+
+
+
+
+
   "Retrouver Relax le chat": "Find Relax the cat",
   "Retrouvez Relax le chat pour Itamii": "Find Relax the cat for Itamii",
   "Robustes, entraînées pour les affrontements en monde ouvert": "Robust, trained for open world clashes",
   "Roméo": "Romeo",
   "Ruines anciennes pleines de mystères": "Ancient ruins full of mysteries",
   "Ruines peuplées de créatures maudites": "Ruins populated by cursed creatures",
-  "Rune mystérieuse": "Mystery Rune",
+
   "Règlement": "Rules",
   "Règlement Aincrad": "Aincrad Rules",
   "Règlement Chat Vocal": "Voice Chat Rules",
@@ -1126,13 +1126,13 @@
   "Règles": "Rules",
   "Règles, classes, métiers et donjons réunis dans le wiki.": "Rules, classes, professions, and dungeons—all gathered in the wiki.",
   "Récolte": "Harvest",
-  "Récompense:": "Rewards:",
+
   "Récompenses :": "Rewards:",
-  "Récupérez la rune mystérieuse à cet emplacement.": "Pick up the mysterious rune at this location.",
+
   "Récupérez les minerais d'onyx impur pour Shii": "Recover the onyx ores unclean for Shii",
   "Réduire les particules": "Reduce particulate matter",
   "Réinitialiser": "Reset",
-  "Réparer le Sceau": "Repair the Seal",
+
   "Répondre": "Reply",
   "Répondre à": "Reply to",
   "Réponse Minecraft publique invalide.": "Invalid public minecraft response.",
@@ -1152,7 +1152,7 @@
   "Sans nom. Jamais seuls.": "Nameless. Never alone.",
   "Sans nom. Jamais seuls. Le portail de la guilde Nameless : carte, bestiaire, items, quêtes et wiki.": "No name. Never alone. The guild portal Nameless: map, bestiary, items, quests and wiki.",
   "Sans nom. Jamais seuls. Le portail de la guilde Nameless.": "No name. Never alone. The guild portal Nameless.",
-  "Saut requis pour atteindre le PNJ.": "Jump required to reach the NPC.",
+
   "Sauvegarder les modifications": "Save Changes",
   "Se connecter avec Microsoft": "Connect with Microsoft",
   "Se déconnecter": "Sign out",
@@ -1173,15 +1173,15 @@
   "Soin de Groupe": "Group care",
   "Soldat Déchu": "Soldier Fallen",
   "Sorcière": "Witch",
-  "Sortie du donjon": "Out of dungeon",
+
   "Spécialisé dans les outils et équipements": "Specialized in tools and equipment",
   "Stabilisation du code, tests avec les joueurs. Corrections de bugs majeurs, ajout de nouvelles quêtes.": "Code stabilization, player testing. Fixed major bugs, added new quests.",
   "Statut": "Status",
   "Stockage personnel sécurisé": "Secure personal storage",
   "Stockage sécurisé et centralisé": "Secure and centralized storage",
-  "Suite Principale - Après les branches": "Main Suite - After the branches",
-  "Suite après avoir terminé les deux branches.": "After finishing both branches.",
-  "Suite avec Ramoon": "Suite with Ramoon",
+
+
+
   "Suivant": "Next",
   "Suivant →": "Next →",
   "Suppression Auth bloquée par Storage ownership. Purger les fichiers du joueur puis réessayer.": "Auth removal blocked by Storage ownership. Pursue the player's files and try again.",
@@ -1213,13 +1213,13 @@
   "Tag de combat :": "Combat tag:",
   "Tank / DPS Mêlée": "Tank / DPS Mixed",
   "Tape SUPPRIMER pour confirmer :": "SUPPRIZE to confirm:",
-  "Taverne (Ville de départ)": "Tavern (City of departure)",
+
   "Technique & Installation": "Technical & Installation",
-  "Terminez ce donjon pour compléter entièrement le Palier 1 !": "Finish this dungeon to complete the entire Tier 1!",
-  "Terminez cette partie de la quête avec Mephisto.": "Finish this part of the quest with Mephisto.",
-  "Terminez entièrement ce donjon important.": "Complete this important dungeon.",
-  "Terminez entièrement le donjon de la mine.": "Complete the dungeon of the mine.",
-  "Terminez le donjon Rush de Melliona.": "Finish Melliona's Rush dungeon.",
+
+
+
+
+
   "Terminé": "Completed",
   "Terres Déchues": "Land",
   "Territoire": "Territory",
@@ -1230,7 +1230,7 @@
   "Titre de l'objectif": "Title of objective",
   "Titre de l'événement": "Title of event",
   "Titre de la publication": "Title of publication",
-  "Tolbana - La Cité": "Tolbana - The City",
+
   "Tolérance zéro": "Zero tolerance",
   "Total Utilisateurs": "Total Users",
   "Totem + Bâton": "Totem + Stick",
@@ -1249,35 +1249,35 @@
   "Toutes les zones": "All areas",
   "Transparence totale (items et Cols visibles en temps réel)": "Total transparency (items and Cols visible in real time)",
   "Triggiums (achat réel)": "Triggiums (actual purchase)",
-  "Trouver Artheon à Urbus": "Find Arteon in Urbus",
-  "Trouver Harrold": "Find Harold",
-  "Trouver Velka": "Find Velka",
+
+
+
   "Trouver son logement (Housing)": "Find accommodation (Housing)",
-  "Trouvez Artheon aux coordonnées X: 133, Z: -375, Y: 140.": "Find Arteon at coordinates X: 133, Z: -375, Y: 140.",
-  "Trouvez Velka à CastelBrume.": "Find Velka in CastelBrume.",
-  "Trouvez Wali à la sortie du Labyrinthe des Déchus.": "Find Wali at the exit of the Dechus Labyrinth.",
-  "Trouvez et parlez à Harrold.": "Find and talk to Harold.",
-  "Trouvez et parlez à Neko.": "Find and talk to Neko.",
-  "Trouvez l'homme mystérieux cagoulé.": "Find the mysterious hooded man.",
+
+
+
+
+
+
   "Tréant Elite": "Real Elite",
   "Trêve de Guilde": "Truce of Guild",
   "Tu commences au": "You start at",
   "Tu trouveras ici toutes les informations nécessaires pour survivre et prospérer dans l'Aincrad.": "Here you will find all the information needed to survive and prosper in Aincrad.",
   "Tu viens d'arriver dans l'Aincrad et tu ne sais pas par où commencer ? Ce guide te guidera étape par étape pour comprendre les mécaniques fondamentales du serveur.": "You just arrived in Aincrad and you don't know where to start? This guide will guide you step by step to understand the basic mechanics of the server.",
   "Tuer 10 Requins": "Kill 10 Sharks",
-  "Tuer 10 Sangliers": "Kill 10 Boars",
+
   "Tuer 20 Araignées": "Kill 20 Spices",
   "Tuer 20 Araignées - Virelune": "Kill 20 Spices - Virelune",
-  "Tuer 20 Taureaux": "Kill 20 bulls",
-  "Tuer 25 Loups": "Kill 25 Wolves",
-  "Tuer Gorbel (Last Hit)": "Kill Gorbel (Last Hit)",
-  "Tuer Nasgul (Boss)": "Kill Nasgul (Boss)",
-  "Tuer Nephantes": "Kill Nephantes",
-  "Tuer le Léviathan (Boss Majeur)": "Kill Leviathan (Boss Major)",
+
+
+
+
+
+
   "Type de Guilde": "Type of Guild",
   "Type de quête": "Type of quest",
   "Types :": "Types:",
-  "Téléporteur": "Teleporter",
+
   "Un ancien guerrier ressuscité, vêtu d'une armure rouillée mais toujours fonctionnelle.": "A resurrected former warrior dressed in rusty but still functional armor.",
   "Un archidémon des flammes éternelles, seigneur d'un royaume infernal.": "An archdemon of eternal flames, lord of an infernal kingdom.",
   "Un champion tombé dans les ténèbres. Sa lame brise les espoirs comme elle brise les armures.": "A champion fallen into darkness. Her blade breaks hopes like it breaks armor.",
@@ -1314,8 +1314,8 @@
   "Utilisateurs": "Users",
   "Utiliser": "Use",
   "Utiliser un casque est recommandé": "Use a helmet is recommended",
-  "Utilisez le téléporteur": "Use the transporter",
-  "Utilisez le téléporteur à ces coordonnées.": "Use the transporter at these coordinates.",
+
+
   "Vaincre 30 Harpies de Feu / Foudre": "Win 30 Fire Harpies / Lightning",
   "Vaincre 30 Squelettes dans le Sanctuaire de Keshûn": "Win 30 Skeles in the Keshûn Shrine",
   "Vaincre 5 Harpie de Feu, 5 Harpie de Foudre, 5 Harpie de Terre": "Winning 5 Fire Harpie, 5 Lightning Harpie, 5 Earth Harpie",
@@ -1338,7 +1338,7 @@
   "Ville fortifiée du nord": "Northern fortified city",
   "Ville prospère au cœur du royaume": "A prosperous city in the heart of the kingdom",
   "Villes": "Cities",
-  "Virelune - Nouveau Chapitre": "Virelune - New Chapter",
+
   "Voir cet item": "See this item",
   "Voir les quêtes →": "See the quests →",
   "Volume ajustable via les paramètres du mod": "Adjustable volume via mod parameters",
@@ -1346,7 +1346,7 @@
   "Votre absence a deja ete enregistree.": "Your absence has already been recorded.",
   "Votre presence a deja ete enregistree !": "Your presence has already been recorded!",
   "Votre profil Nameless — pseudo Minecraft, rôle, classe, niveau et progression.": "Your Nameless profile — pseudo Minecraft, role, class, level and progression.",
-  "Vous devez recevoir 2 quêtes importantes après avoir atteint le niveau 4.": "You must receive 2 important quests after reaching level 4.",
+
   "Vous devez être administrateur pour accéder à cette page.": "You must be an administrator to access this page.",
   "Vous devez être connecté pour accéder au dashboard.": "You must be logged in to access the dashboard.",
   "Vous devez être connecté pour accéder à l'espace guilde.": "You need to be logged in to access guild space.",
@@ -1357,12 +1357,12 @@
   "Wiki d'Aincrad — classes, métiers, donjons, guildes, économie et plus encore. Le savoir de la guilde Nameless.": "Wiki of Aincrad — classes, trades, dungeons, guilds, economy and more. The knowledge of Nameless Guild.",
   "WorldBoss hebdomadaires réguliers": "Regular weekly WorldBoss",
   "X:111, Z:-391": "X:111, Z:391",
-  "X:1839, Z:4530 (Cathédrale)": "X:1839, Z:4530 (Cathedral)",
-  "X:2380, Z:2417 (Labyrinthe)": "X:2380, Z:2417 (Labyrinth)",
-  "X:2864, Z:4491 (Ruine Squelettique)": "X:2864, Z:4491 (Skeletal Ruin)",
-  "X:3249, Z:4295 (Archipel d'Ika)": "X:3249, Z:4295 (Ika Archipelago)",
-  "X:638, Z:-267": "X:638, Z:267",
-  "X:979, Z:1372 (Donjon Araignée)": "X:979, Z:1372 (Donjon Spider)",
+
+
+
+
+
+
   "XP de compétence gagnée en utilisant les compétences en combat": "XP competence gained using combat skills",
   "XP via missions et événements des Game Designers": "XP via Games Designers missions and events",
   "XP via missions spécifiques et événements Game Designers.": "XP via specific missions and Game Designers events.",
@@ -1507,15 +1507,15 @@
   "Écriture du rôle refusée côté Supabase. Vérifie les patches SQL.": "Writing the rejected role on the Supabase side. Check SQL patches.",
   "Écrivez votre message privé...": "Write your private message...",
   "Écrivez votre message...": "Write your message...",
-  "Éliminez 10 requins dans les zones aquatiques.": "Eliminate 10 sharks in aquatic areas.",
-  "Éliminez 10 sangliers dans la zone de chasse.": "Eliminate 10 wild boars in the hunting area.",
-  "Éliminez 20 taureaux dans la zone": "Eliminate 20 bulls in the area",
-  "Éliminez 20 taureaux dans la zone.": "Eliminate 20 bulls in the area.",
-  "Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146": "Remove 25 wolves, then go to Kwabena in X: -437, Z: -441, Y: 146",
-  "Éliminez 25 loups, puis allez voir Kwabena en X: -437, Z: -441, Y: 146.": "Remove 25 wolves, then go to Kwabena in X: -437, Z: -441, Y: 146.",
+
+
+
+
+
+
   "Éliminez 50 harpies de terre pour Poris": "Eliminate 50 ground harpies for Poris",
-  "Éliminez Gorbel - vous devez porter le coup final.": "Eliminate Gorbel - you must take the final blow.",
-  "Éliminez des Nephantes pour obtenir 1 Spore Corrompu.": "Remove Nephantes to get 1 Spore Corrompu.",
+
+
   "Éliminez les différentes harpies pour Frank": "Eliminate the different harpies for Frank",
   "Éliminez les harpies pour Sissou": "Eliminate harpies for Sissou",
   "Éliminez les squelettes pour SamaelTVS": "Eliminate skeletons for SamaelTVS",
@@ -1528,8 +1528,8 @@
   "Équilibrage des classes": "Class balance",
   "Équipement": "Equipment",
   "Équipement & Accessoires": "Equipment & Accessories",
-  "Établissez le contact avec Yaa": "Make contact with Yaa",
-  "Établissez le contact avec Yaa.": "Make contact with Yaa.",
+
+
   "Étape 1 : Rejoindre le serveur": "Step 1: Join the server",
   "Étape 2 : Créer son personnage": "Step 2: Create your character",
   "Étape 3 : Explorer le Palier 1": "Step 3: Explore Tier 1",
