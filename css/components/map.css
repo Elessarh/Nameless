@@ -122,3 +122,5 @@
   .map-editor { grid-template-columns: 1fr; max-height: 40svh; }
 }
 @media (prefers-reduced-motion: reduce) { .map-workspace *, .map-marker * { animation: none !important; transition: none !important; } }
+/* Keep the shared music controls accessible without covering map details. */
+body:has(main.map-container) .nm-audio-dock { position: relative; inset: auto; width: max-content; max-width: calc(100% - 24px); margin: 0 auto 18px; }

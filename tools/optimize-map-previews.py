@@ -37,7 +37,7 @@ def optimize(root):
             "method": 6,
             "desktopQuality": 82,
             "mobileQuality": 80,
-            "detailQuality": 88,
+            "detailQuality": 84,
             "description": "Resize and encode the existing map artwork only; no drawing or generated imagery.",
         },
         "floors": [],
@@ -54,7 +54,7 @@ def optimize(root):
             "source": {"path": relative_source, "sha256": original_hash, "bytes": source.stat().st_size, "width": width, "height": height},
             "outputs": [],
         }
-        for variant, target_width, quality in (("desktop", desktop_width, 82), ("mobile", 768, 80), ("detail", width, 88)):
+        for variant, target_width, quality in (("desktop", desktop_width, 82), ("mobile", 768, 80), ("detail", width, 84)):
             target_height = int(height * target_width / width + 0.5)
             image = original if (target_width, target_height) == original.size else original.resize((target_width, target_height), Image.Resampling.LANCZOS)
             output = destination / f"floor-{floor}-{variant}.webp"

@@ -30,8 +30,8 @@
     }
     function removePreview(state) {
         if (state.preview) {
-            state.preview.off?.();
             state.bridge.map.removeLayer(state.preview);
+            state.preview.off?.();
             state.preview = null;
         }
     }

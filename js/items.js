@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    var FALLBACK_IMG = '../assets/Logo_3.png';
+    var FALLBACK_IMG = '/assets/brand/nameless-emblem-128.webp?v=20261008logo';
     var RARITY = {
         common:    { label: 'Commun',     cls: 'r-common' },
         uncommon:  { label: 'Peu commun', cls: 'r-uncommon' },

@@ -882,7 +882,7 @@ function applyCreatureUrl() {
 // aucun handler inline. Données: creaturesData (ci-dessus).
 // ============================================================
 
-const FALLBACK_IMG = '../assets/Logo_3.png';
+const FALLBACK_IMG = '/assets/brand/nameless-emblem-128.webp?v=20261008logo';
 
 function initBestiary(root) {
     destroyBestiary();

@@ -306,18 +306,41 @@ body .nav-logo-container {
 }
 
 .nav-logo, body .nav-logo-safe {
-    height: 42px !important;
+    height: 52px !important;
     width: auto !important;
-    max-height: 42px !important;
+    max-height: 52px !important;
     max-width: 200px !important;
     object-fit: contain;
     display: block;
     filter: none;
-    transition: filter 0.3s ease;
 }
 
 body .nav-logo-safe:hover {
-    filter: drop-shadow(0 0 6px rgba(196, 165, 90, 0.1));
+    filter: none;
+}
+
+/* Emblème officiel fourni par la guilde : proportions et transparence conservées. */
+.brand-emblem {
+    display: block;
+    object-fit: contain;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+}
+.brand-emblem--hero {
+    width: 176px;
+    height: 176px;
+    margin: 0 0 1.25rem;
+}
+.brand-emblem--auth {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+}
+.home-page .hero {
+    height: auto;
+    min-height: 100svh;
+    padding-top: 110px;
+    padding-bottom: 64px;
 }
 
 /* === NAV MENU — SAO Expanding Hover === */
@@ -1171,7 +1194,8 @@ img { max-width: 100%; height: auto; }
     }
     
     .nav-logo-container { grid-area: logo !important; width: 70px !important; flex-shrink: 0 !important; }
-    .nav-logo-safe { height: 35px !important; width: auto !important; max-width: 70px !important; display: block !important; }
+    .nav-logo-safe { height: 44px !important; width: auto !important; max-width: 70px !important; display: block !important; }
+    .brand-emblem--hero { width: 132px; height: 132px; margin: 0 auto 1.1rem; }
     body .nav-menu { display: none !important; grid-area: menu !important; }
     
     .nav-connexion {
@@ -1328,7 +1352,7 @@ img { max-width: 100%; height: auto; }
         gap: 5px !important;
     }
     .nav-logo-container { width: 60px !important; }
-    .nav-logo-safe { height: 30px !important; max-width: 60px !important; }
+    .nav-logo-safe { height: 44px !important; max-width: 60px !important; }
     .nav-connexion { font-size: 0.65rem !important; }
     .nav-connexion .user-info { flex-direction: row !important; gap: 5px !important; }
     .nav-connexion .connexion-link, .nav-connexion .username-link { font-size: 0.65rem !important; padding: 5px 8px !important; }
@@ -1343,7 +1367,7 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 320px) {
     .nav-container { padding: 4px 5px !important; grid-template-columns: 50px 1fr auto auto !important; gap: 4px !important; }
     .nav-logo-container { width: 50px !important; }
-    .nav-logo-safe { height: 26px !important; max-width: 50px !important; }
+    .nav-logo-safe { height: 40px !important; max-width: 50px !important; }
     .nav-connexion .connexion-link, .nav-connexion .username-link { font-size: 0.6rem !important; padding: 4px 6px !important; }
     .hamburger { width: 35px !important; height: 35px !important; padding: 5px !important; }
     .hamburger span { width: 18px !important; height: 2px !important; }

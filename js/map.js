@@ -90,7 +90,7 @@
     function clearOverlays(state) {
         state.overlayGeneration++;
         const cached = new Set([...state.fullImages.values()].map(record => record.overlay));
-        for (const layer of state.overlays) { if (!cached.has(layer)) layer.off?.(); state.map.removeLayer(layer); }
+        for (const layer of state.overlays) { state.map.removeLayer(layer); if (!cached.has(layer)) layer.off?.(); }
         state.overlays = []; state.detail = null;
     }
     function mountImage(state, config) {
@@ -184,8 +184,13 @@
         const reference = state.data?.entities?.[entity.positionRef];
         return { position: reference && !['hidden', 'deleted'].includes(reference.overrideState) ? latlng(state, reference.position) : null, reference: reference || null };
     }
+    function clearMarkers(state) {
+        const previous = []; state.markerLayer.eachLayer?.(marker => previous.push(marker));
+        // Leaflet's remove event releases map listeners; keep it alive until removal.
+        state.markerLayer.clearLayers(); previous.forEach(marker => marker.off?.()); state.markers.clear();
+    }
     function renderMarkers(state) {
-        state.markerLayer.eachLayer?.(marker => marker.off?.()); state.markerLayer.clearLayers(); state.markers.clear();
+        clearMarkers(state);
         if (!state.data) return;
         const selectedEntity = state.data.entities[state.selected];
         const selectedTarget = targetPosition(state, selectedEntity);
@@ -333,7 +338,7 @@
     async function changeFloor(state, id, options = {}) {
         const config = configOf(state, id); if (!config || !valid(state)) return false;
         const generation = ++state.floorGeneration;
-        state.floor = Number(id); state.rawData = null; state.data = null; state.ui.floor.value = String(id); state.markerLayer.clearLayers(); state.markers.clear(); renderFilters(state);
+        state.floor = Number(id); state.rawData = null; state.data = null; state.ui.floor.value = String(id); clearMarkers(state); renderFilters(state);
         state.map.setMaxBounds?.(config.maxBounds || config.bounds); recenter(state); mountImage(state, config);
         state.ui.map.setAttribute('aria-busy', 'true');
         if (Number(config.id) === 3) notice(state, text('Palier 3 : image disponible, repères et coordonnées du jeu non calibrés.', 'Floor 3: image available; markers and game coordinates are not calibrated.'));
@@ -448,7 +453,7 @@
                 if (!adminScriptPromise) adminScriptPromise = new Promise((resolve, reject) => {
                     const existing = document.querySelector('script[data-map-admin]');
                     if (existing) { existing.addEventListener('load', resolve, { once: true }); existing.addEventListener('error', reject, { once: true }); return; }
-                    const script = node('script'); script.src = '/js/map-admin.js?v=20261008map'; script.dataset.mapAdmin = 'true'; script.onload = resolve; script.onerror = () => { script.remove(); adminScriptPromise = null; reject(new Error('admin module')); }; document.head.append(script);
+                    const script = node('script'); script.src = '/js/map-admin.js?v=20261008map2'; script.dataset.mapAdmin = 'true'; script.onload = resolve; script.onerror = () => { script.remove(); adminScriptPromise = null; reject(new Error('admin module')); }; document.head.append(script);
                 });
                 await adminScriptPromise;
             }
@@ -550,9 +555,11 @@
     function destroy() {
         const state = active; if (!state) return;
         active = null; api.active = null; state.controller.abort(); state.intent++; state.floorGeneration++; state.authGeneration++;
-        global.NamelessMapAdmin?.destroy?.(); state.fullImages.forEach(record => record.overlay.off?.());
+        global.NamelessMapAdmin?.destroy?.();
         if (document.fullscreenElement === state.ui.workspace) document.exitFullscreen?.().catch?.(() => {});
-        state.ui.workspace?.classList.remove('is-fullscreen'); clearOverlays(state); state.map.off?.(); state.markerLayer.eachLayer?.(marker => marker.off?.()); state.markerLayer.clearLayers(); state.map.remove(); state.events.clear();
+        state.ui.workspace?.classList.remove('is-fullscreen'); clearOverlays(state); clearMarkers(state);
+        state.fullImages.forEach(record => { state.map.removeLayer(record.overlay); record.overlay.off?.(); }); state.fullImages.clear();
+        state.map.remove(); state.map.off?.(); state.events.clear();
     }
     const api = global.NamelessMapPage = { init, destroy, active: null };
     function autoStart() { if (!global.NamelessSpaRouter?.controlsLifecycle) init(); }

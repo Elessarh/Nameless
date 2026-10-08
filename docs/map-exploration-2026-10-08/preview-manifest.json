@@ -11,7 +11,7 @@
     "method": 6,
     "desktopQuality": 82,
     "mobileQuality": 80,
-    "detailQuality": 88,
+    "detailQuality": 84,
     "description": "Resize and encode the existing map artwork only; no drawing or generated imagery."
   },
   "floors": [
@@ -50,11 +50,11 @@
         {
           "variant": "detail",
           "path": "assets/map-preview/floor-1-detail.webp",
-          "sha256": "c23cf04a8a442811db9f2a2d7d57e09dcfa5e503f12ca9b4a46e569630f0cea9",
-          "bytes": 8839188,
+          "sha256": "269328b992f401f16927f1aea777271ed7822e01b20a4c461a2095a682c62456",
+          "bytes": 7727910,
           "width": 4952,
           "height": 4952,
-          "quality": 88,
+          "quality": 84,
           "method": 6,
           "lossless": false
         }
@@ -95,11 +95,11 @@
         {
           "variant": "detail",
           "path": "assets/map-preview/floor-2-detail.webp",
-          "sha256": "309cefcb8456f81d1529f0b1a8e39fe746e72b708c7cb55dff21746b052acdb1",
-          "bytes": 1672588,
+          "sha256": "9320aa2b3337d4dd40e96123deb8532143222ee91830e8a5152803ce121ef12e",
+          "bytes": 1471228,
           "width": 2119,
           "height": 2340,
-          "quality": 88,
+          "quality": 84,
           "method": 6,
           "lossless": false
         }
@@ -140,11 +140,11 @@
         {
           "variant": "detail",
           "path": "assets/map-preview/floor-3-detail.webp",
-          "sha256": "6b1b739ac20d5396075302cec4aa8860458f7ca7c5361993a4a4a567c2a95740",
-          "bytes": 766180,
+          "sha256": "cfa513d516bbcb86099dc31dc1d9a06450ea1c9d53576261e9a717545b459c21",
+          "bytes": 662582,
           "width": 1274,
           "height": 1513,
-          "quality": 88,
+          "quality": 84,
           "method": 6,
           "lossless": false
         }

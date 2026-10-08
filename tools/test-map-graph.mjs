@@ -65,7 +65,7 @@ for (const meta of graph.catalog.floors) {
         assert.deepEqual(imageSize(buffer), [output.width, output.height]);
         assert.equal(output.height, Math.round(meta.height * output.width / meta.width), 'Derived images preserve aspect ratio');
         check(output.bytes < original.length, 'Compressed derivative is lighter than the lossless original');
-        assert.equal(output.quality, { desktop: 82, mobile: 80, detail: 88 }[output.variant]);
+        assert.equal(output.quality, { desktop: 82, mobile: 80, detail: 84 }[output.variant]);
         assert.equal(output.method, 6); assert.equal(output.lossless, false);
         if (output.variant === 'desktop') { assert.equal(meta.overview, '/' + output.path); assert.equal(meta.overviewWidth, output.width); }
         if (output.variant === 'mobile') { assert.equal(meta.overviewMobile, '/' + output.path); assert.equal(meta.overviewMobileWidth, 768); assert.equal(output.width, 768); }

@@ -74,12 +74,12 @@
             title: "Carte d'Aincrad - Nameless",
             css: [
                 'css/vendor/leaflet-1.9.4.css?v=20261007a',
-                'css/components/map.css?v=20261008map',
+                'css/components/map.css?v=20261008map2',
                 'css/components/page-hero.css?v=20261007a'
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
-                'js/map.js?v=20261008map'
+                'js/map.js?v=20261008map2'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -102,7 +102,7 @@
                 'css/components/page-hero.css?v=20261007a'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261008map'
+                'js/bestiaire.js?v=20261008logo'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -126,7 +126,7 @@
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261008map'
+                'js/items.js?v=20261008logo'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
