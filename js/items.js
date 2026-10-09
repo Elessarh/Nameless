@@ -513,6 +513,7 @@
 
         var modal = document.querySelector('.item-modal');
         if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; modal.id = 'item-dialog'; (document.querySelector('.items-page .catalogue-detail-slot') || document.body).appendChild(modal); }
+        window.NamelessReferenceShell?.cancelPanelClose(modal);
         if (modal.style.display !== 'flex') { modalReturnFocus = document.activeElement; previousOverflow = document.body.style.overflow; }
         if (moveFocus) modalReturnFocus = document.activeElement;
         modal.setAttribute('aria-labelledby', 'item-dialog-title');
@@ -662,10 +663,14 @@
     function closeModal(updateUrl) {
         var modal = document.querySelector('.item-modal');
         if (modal && modal.style.display !== 'none') {
-            modal.style.display = 'none'; if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = previousOverflow;
-            delete modal.dataset.item;
-            if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus();
-            modalReturnFocus = null;
+            var finish = function () {
+                modal.style.display = 'none'; if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = previousOverflow;
+                delete modal.dataset.item;
+                if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus();
+                modalReturnFocus = null;
+            };
+            if (updateUrl === false || !window.NamelessReferenceShell) { window.NamelessReferenceShell?.cancelPanelClose(modal); finish(); }
+            else window.NamelessReferenceShell.closePanel(modal, finish);
         }
         setItemSelection(null);
         if (updateUrl !== false) updateItemUrl(null);

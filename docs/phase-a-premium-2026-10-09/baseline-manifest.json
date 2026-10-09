@@ -1,0 +1,36 @@
+{
+  "scope": "Original served site before Phase A build",
+  "source": "Actual PNG dimensions and filesystem capture timestamps",
+  "screenshots": [
+    {
+      "name": "before-bestiaire-desktop.png",
+      "width": 1920,
+      "height": 1080,
+      "capturedAt": "2026-10-09T11:13:26.032Z"
+    },
+    {
+      "name": "before-home-desktop.png",
+      "width": 1920,
+      "height": 1080,
+      "capturedAt": "2026-10-09T11:13:19.484Z"
+    },
+    {
+      "name": "before-home-mobile.png",
+      "width": 390,
+      "height": 844,
+      "capturedAt": "2026-10-09T11:13:23.926Z"
+    },
+    {
+      "name": "before-home-ultrawide.png",
+      "width": 2560,
+      "height": 1440,
+      "capturedAt": "2026-10-09T11:13:22.088Z"
+    },
+    {
+      "name": "before-items-desktop.png",
+      "width": 1920,
+      "height": 1080,
+      "capturedAt": "2026-10-09T11:13:28.068Z"
+    }
+  ]
+}

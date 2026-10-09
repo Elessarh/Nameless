@@ -42,7 +42,7 @@
             'css/components/mmorpg-kit.css?v=20261008sao',
             'css/components/home.css?v=20261009premium',
             'css/components/home-premium.css?v=20261009phase1',
-            'css/components/reference-home.css?v=20261009reference'
+            'css/components/reference-home.css?v=20261009phasea'
         ],
         scripts: [
             'js/home-carousel.js?v=20261009premium'
@@ -78,11 +78,11 @@
                 'css/vendor/leaflet-1.9.4.css?v=20261007a',
                 'css/components/map.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-map.css?v=20261009reference'
+                'css/components/reference-map.css?v=20261009phasea'
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
-                'js/map.js?v=20261009reference'
+                'js/map.js?v=20261009phasea'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -103,10 +103,10 @@
             css: [
                 'css/components/bestiaire.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-catalogs.css?v=20261009reference'
+                'css/components/reference-catalogs.css?v=20261009phasea'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261009reference'
+                'js/bestiaire.js?v=20261009phasea'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -127,11 +127,11 @@
             css: [
                 'css/components/items.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-catalogs.css?v=20261009reference'
+                'css/components/reference-catalogs.css?v=20261009phasea'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261009reference'
+                'js/items.js?v=20261009phasea'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
@@ -274,7 +274,7 @@
                 'css/components/guild-chat.css?v=20261008hybrid',
                 'css/components/guild-dm.css?v=20261008hybrid',
                 'css/components/guilde-nameless.css?v=20261008hybrid',
-                'css/components/guild-reference.css?v=20261009hq'
+                'css/components/guild-reference.css?v=20261009phasea'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',

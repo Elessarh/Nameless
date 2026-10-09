@@ -303,4 +303,13 @@ function page({ url = '/carte', mobile = false, rpc, waits = {}, stored, deniedS
     const restored = p.calls.views.at(-1).coord;
     assert.ok(Math.abs(restored[0] - 6500) < .01 && Math.abs(restored[1] + 1400) < .01, 'shared margin views round-trip with normalized coordinates'); p.cleanup();
 }
-console.log('Map view: lazy floors, async navigation, truthful positions, URLs and margins, progressive images on all floors, visual groups, overrides, keyboard and lifecycle passed.');
+{
+    const p = page(); await p.init(); await p.bridge().selectEntity(a.key);
+    const close = p.w.document.getElementById('map-panel-close'); close.focus(); close.click();
+    assert.equal(p.w.document.activeElement.id, 'game-map', 'Closing the focused details returns focus to the usable map');
+    await p.bridge().selectEntity(a.key);
+    const search = p.w.document.getElementById('map-search-input'); search.focus(); close.click();
+    assert.equal(p.w.document.activeElement, search, 'Closing details from another control does not steal its focus');
+    p.cleanup();
+}
+console.log('Map view: lazy floors, async navigation, truthful positions, URLs and margins, progressive images on all floors, visual groups, overrides, keyboard/focus and lifecycle passed.');

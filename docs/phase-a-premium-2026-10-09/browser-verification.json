@@ -1,0 +1,674 @@
+{
+  "generatedAt": "2026-10-09T11:30:54.960Z",
+  "scope": "Phase A home, context atmospheres and existing interaction verification only",
+  "base": "http://127.0.0.1:4173",
+  "checks": [
+    {
+      "name": "home-desktop: layout and image loading",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1277
+      }
+    },
+    {
+      "name": "Home navigation indicator: active route, hover and keyboard focus",
+      "passed": true,
+      "detail": {
+        "active": {
+          "enabled": "true",
+          "left": "0px",
+          "width": "72.7031px"
+        },
+        "hover": {
+          "enabled": "true",
+          "left": "157.453px",
+          "width": "74.8594px"
+        },
+        "focused": {
+          "enabled": "true",
+          "left": "87.7031px",
+          "width": "54.75px"
+        },
+        "restored": {
+          "enabled": "true",
+          "left": "0px",
+          "width": "72.7031px"
+        }
+      }
+    },
+    {
+      "name": "Desktop action menu: keyboard, ARIA and focus return",
+      "passed": true,
+      "detail": {
+        "focusReturned": true
+      }
+    },
+    {
+      "name": "Home real destination links and global search",
+      "passed": true,
+      "detail": {
+        "categoryLinks": 4,
+        "realRecords": 5,
+        "searchResult": "/boss/illfang"
+      }
+    },
+    {
+      "name": "Home scenery pauses every decorative layer and resumes",
+      "passed": true,
+      "detail": {
+        "pausedLayers": 7
+      }
+    },
+    {
+      "name": "home-ultrawide: layout and image loading",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 2560,
+          "height": 1440
+        },
+        "height": 1440
+      }
+    },
+    {
+      "name": "Bestiary desktop: real cards and initial inline selection",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1742
+      }
+    },
+    {
+      "name": "Bestiary: combinable real filters, chips and reset",
+      "passed": true,
+      "detail": {
+        "initial": "60 créatures trouvées",
+        "filtered": "17 créatures trouvées",
+        "selectedRealCreature": "12"
+      }
+    },
+    {
+      "name": "Bestiary: selection, tabs, close/Escape/focus, grid/list and sort",
+      "passed": true,
+      "detail": {
+        "selectedCreature": "1",
+        "detailTabs": [
+          "overview",
+          "zones",
+          "drops"
+        ],
+        "closing": {
+          "closeButton": true,
+          "escape": true,
+          "focusReturned": true
+        }
+      }
+    },
+    {
+      "name": "Items desktop: real catalogue and inline selection",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1701
+      }
+    },
+    {
+      "name": "Items: selection, tabs, close/Escape/focus, grid/list and sort",
+      "passed": true,
+      "detail": {
+        "selectedRealItem": "anneau_leviathan",
+        "detailTabs": [
+          "overview",
+          "sources"
+        ],
+        "closing": {
+          "closeButton": true,
+          "escape": true,
+          "focusReturned": true
+        }
+      }
+    },
+    {
+      "name": "Items: category/rarity/source filters, chips, reset and known Gelée source",
+      "passed": true,
+      "detail": {
+        "initial": "104 objets trouvés",
+        "filtered": "9 objets trouvés",
+        "sourceLinks": [
+          "/bestiaire?creature=1",
+          "/carte?floor=1&entity=creature%3A1",
+          "/bestiaire?creature=2",
+          "/carte?floor=1&entity=creature%3A2",
+          "/bestiaire?creature=3",
+          "/carte?floor=1&entity=creature%3A3",
+          "/bestiaire?creature=4",
+          "/carte?floor=1&entity=creature%3A4",
+          "/bestiaire?creature=5",
+          "/carte?floor=1&entity=creature%3A5"
+        ],
+        "detailTabs": [
+          "overview",
+          "sources",
+          "related"
+        ]
+      }
+    },
+    {
+      "name": "Map desktop: original floor image, real markers and selected place",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1476
+      }
+    },
+    {
+      "name": "Map: exactly three real floors and working floor navigation",
+      "passed": true,
+      "detail": {
+        "floors": [
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    },
+    {
+      "name": "Map: marker filters, names, legend and selected-place tabs",
+      "passed": true,
+      "detail": {
+        "markerCount": 17,
+        "filteredMarkers": 16,
+        "selectedPlace": "location:1:ville-depart",
+        "panelTabs": [
+          "overview",
+          "creatures",
+          "items",
+          "places"
+        ]
+      }
+    },
+    {
+      "name": "Map: actual zoom, drag/pan and recenter remain functional",
+      "passed": true,
+      "detail": {
+        "imageWidthBefore": 4951,
+        "imageWidthAfterZoom": 7002,
+        "transformBefore": "matrix(1, 0, 0, 1, -150, 0)",
+        "afterPan": "matrix(1, 0, 0, 1, -298, 75)"
+      }
+    },
+    {
+      "name": "Map details: close button/Escape return focus to the map",
+      "passed": true,
+      "detail": {
+        "closeButton": true,
+        "escape": true,
+        "focusReturnedToMap": true
+      }
+    },
+    {
+      "name": "Dungeon ambience: real Illfang page layout and assets",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1412
+      }
+    },
+    {
+      "name": "Guild public route: member gate and real sign-in links",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1080
+      }
+    },
+    {
+      "name": "home mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2432
+      }
+    },
+    {
+      "name": "Home mobile menu opens and closes",
+      "passed": true,
+      "detail": {
+        "position": "fixed",
+        "rect": {
+          "x": 0,
+          "y": 54,
+          "width": 390,
+          "height": 784,
+          "top": 54,
+          "right": 390,
+          "bottom": 838,
+          "left": 0
+        },
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "bestiaire mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2369
+      }
+    },
+    {
+      "name": "bestiaire mobile: real detail sheet and Escape focus return",
+      "passed": true
+    },
+    {
+      "name": "items mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2402
+      }
+    },
+    {
+      "name": "items mobile: real detail sheet and Escape focus return",
+      "passed": true
+    },
+    {
+      "name": "map mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 1464
+      }
+    },
+    {
+      "name": "Map mobile: filter rail and legend are accessible",
+      "passed": true
+    },
+    {
+      "name": "dungeon mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 1362
+      }
+    },
+    {
+      "name": "guild-public mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 1133
+      }
+    },
+    {
+      "name": "Guild isolated QA: labeled fixture and reference dashboard",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1751
+      }
+    },
+    {
+      "name": "Guild isolated QA: real tabs and calendar controls",
+      "passed": true,
+      "detail": {
+        "tabs": [
+          "overview",
+          "expeditions",
+          "members",
+          "resources",
+          "settings"
+        ],
+        "month": "Octobre 2026",
+        "fixtureOnly": true
+      }
+    },
+    {
+      "name": "Guild isolated QA mobile390: layout and resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2623
+      }
+    },
+    {
+      "name": "Reduced motion home remains still",
+      "passed": true,
+      "detail": {
+        "runningDecorativeAnimations": 0
+      }
+    },
+    {
+      "name": "Reduced motion context pages have no running decorative loops",
+      "passed": true,
+      "detail": [
+        {
+          "route": "/bestiaire",
+          "running": 0
+        },
+        {
+          "route": "/items",
+          "running": 0
+        },
+        {
+          "route": "/espace-guilde",
+          "running": 0
+        },
+        {
+          "route": "/boss/illfang",
+          "running": 0
+        }
+      ]
+    },
+    {
+      "name": "Real browser motion and selection recording",
+      "passed": true,
+      "detail": {
+        "file": "phase-a-motion-demo.webm",
+        "viewport": "1920×1080",
+        "actions": [
+          "hero entrance",
+          "parallax",
+          "hover",
+          "creature selection",
+          "drops tab",
+          "item selection",
+          "sources tab",
+          "real floor transitions"
+        ]
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "page": "home-desktop",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1277,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "page": "home-ultrawide",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      },
+      "width": 2560,
+      "height": 1440,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "page": "bestiaire-desktop",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1742,
+      "brokenImages": [],
+      "heading": "Bestiaire"
+    },
+    {
+      "page": "items-desktop",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1701,
+      "brokenImages": [],
+      "heading": "Objets"
+    },
+    {
+      "page": "map-desktop",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1476,
+      "brokenImages": [],
+      "heading": "Carte d’Aincrad"
+    },
+    {
+      "page": "dungeon-desktop",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1412,
+      "brokenImages": [],
+      "heading": "Illfang"
+    },
+    {
+      "page": "guild-public-desktop",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1080,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "home-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2432,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "page": "bestiaire-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2369,
+      "brokenImages": [],
+      "heading": "Bestiaire"
+    },
+    {
+      "page": "items-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2402,
+      "brokenImages": [],
+      "heading": "Objets"
+    },
+    {
+      "page": "map-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 1464,
+      "brokenImages": [],
+      "heading": "Carte d’Aincrad"
+    },
+    {
+      "page": "dungeon-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 1362,
+      "brokenImages": [],
+      "heading": "Illfang"
+    },
+    {
+      "page": "guild-public-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 1133,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-isolated-QA",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1751,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-isolated-QA-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2623,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    }
+  ],
+  "screenshots": [
+    "home-desktop.png",
+    "home-desktop-full.png",
+    "home-ultrawide.png",
+    "home-ultrawide-full.png",
+    "bestiaire-desktop.png",
+    "bestiaire-selected.png",
+    "bestiaire-list.png",
+    "items-desktop.png",
+    "items-list.png",
+    "items-real-sources.png",
+    "map-desktop.png",
+    "map-floor-2.png",
+    "map-floor-3.png",
+    "map-legend.png",
+    "map-selected.png",
+    "dungeon-desktop.png",
+    "guild-public-desktop.png",
+    "home-mobile.png",
+    "home-mobile-full.png",
+    "home-mobile-menu.png",
+    "bestiaire-mobile.png",
+    "bestiaire-mobile-full.png",
+    "bestiaire-mobile-detail.png",
+    "items-mobile.png",
+    "items-mobile-full.png",
+    "items-mobile-detail.png",
+    "map-mobile.png",
+    "map-mobile-full.png",
+    "dungeon-mobile.png",
+    "dungeon-mobile-full.png",
+    "guild-public-mobile.png",
+    "guild-public-mobile-full.png",
+    "guild-qa-desktop.png",
+    "guild-qa-mobile.png",
+    "guild-qa-mobile-full.png"
+  ],
+  "browserErrors": [],
+  "consoleErrors": [
+    {
+      "page": "catalogues/map/guild",
+      "message": "Failed to load resource: the server responded with a status of 404 ()"
+    },
+    {
+      "page": "mobile",
+      "message": "Failed to load resource: the server responded with a status of 404 ()"
+    },
+    {
+      "page": "recording",
+      "message": "Failed to load resource: the server responded with a status of 404 ()"
+    }
+  ],
+  "localHttpErrors": [],
+  "abortedRequests": [],
+  "externalNetwork": [
+    {
+      "page": "catalogues/map/guild",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "mobile",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "recording",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    }
+  ],
+  "qa": {
+    "enabled": true,
+    "base": "http://127.0.0.1:4181",
+    "data": "Explicitly labeled, isolated in-memory QA data; no real API"
+  },
+  "summary": {
+    "passed": 35,
+    "failed": 0
+  },
+  "completedAt": "2026-10-09T11:32:25.724Z"
+}

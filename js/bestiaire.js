@@ -1241,6 +1241,7 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
         modal.id = 'creature-dialog';
         (document.querySelector('.bestiary-page .catalogue-detail-slot') || document.body).appendChild(modal);
     }
+    window.NamelessReferenceShell?.cancelPanelClose(modal);
     if (modal.style.display !== 'flex') { besModalReturnFocus = document.activeElement; besPreviousOverflow = document.body.style.overflow; }
     if (moveFocus) besModalReturnFocus = document.activeElement;
     modal.setAttribute('aria-labelledby', 'creature-dialog-title');
@@ -1447,11 +1448,15 @@ function buildDrop(drop) {
 function closeModal(updateUrl) {
     const modal = document.querySelector('.creature-modal');
     if (modal && modal.style.display !== 'none') {
-        modal.style.display = 'none';
-        delete modal.dataset.creature;
-        if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = besPreviousOverflow;
-        if (besModalReturnFocus && besModalReturnFocus.isConnected) besModalReturnFocus.focus();
-        besModalReturnFocus = null;
+        const finish = function () {
+            modal.style.display = 'none';
+            delete modal.dataset.creature;
+            if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = besPreviousOverflow;
+            if (besModalReturnFocus && besModalReturnFocus.isConnected) besModalReturnFocus.focus();
+            besModalReturnFocus = null;
+        };
+        if (updateUrl === false || !window.NamelessReferenceShell) { window.NamelessReferenceShell?.cancelPanelClose(modal); finish(); }
+        else window.NamelessReferenceShell.closePanel(modal, finish);
     }
     selectedCreature = null;
     setBestiarySelection(null);

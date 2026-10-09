@@ -5,6 +5,9 @@
     --world-light: 61, 112, 119;
     --world-warm: 120, 89, 47;
     --world-material: url('../../assets/ui/world-stone.svg');
+    --world-scene: url('../../assets/reference-v2/home-environment-1672.webp');
+    --world-scene-position: 64% 34%;
+    --world-scene-filter: saturate(.82);
     --world-ease-out: cubic-bezier(.16, 1, .3, 1);
     --world-ease-return: cubic-bezier(.4, 0, .2, 1);
     --world-duration-press: 90ms;
@@ -16,29 +19,35 @@
     --world-environment-opacity: .22;
     view-transition-name: none;
 }
-:root[data-world-atmosphere='forest'] { --world-light: 49, 96, 73; --world-warm: 49, 83, 77; }
-:root[data-world-atmosphere='armory'] { --world-light: 71, 96, 119; --world-warm: 134, 96, 53; }
-:root[data-world-atmosphere='guild'] { --world-light: 100, 78, 48; --world-warm: 147, 105, 54; }
-:root[data-world-atmosphere='dungeon'] { --world-light: 61, 83, 114; --world-warm: 42, 83, 92; }
+:root[data-world-atmosphere='forest'] { --world-light: 56, 123, 119; --world-warm: 49, 83, 77; --world-scene: url('../../assets/reference-v2/forest-environment-1280.webp'); --world-scene-position: 54% 46%; }
+:root[data-world-atmosphere='armory'] { --world-light: 90, 126, 147; --world-warm: 174, 112, 51; --world-scene: url('../../assets/reference-v2/workshop-environment-1280.webp'); --world-scene-position: 52% 54%; }
+:root[data-world-atmosphere='guild'] { --world-light: 119, 102, 76; --world-warm: 181, 118, 55; --world-scene: url('../../assets/reference-v2/guild-environment-1280.webp'); --world-scene-position: 50% 48%; }
+:root[data-world-atmosphere='dungeon'] { --world-light: 71, 118, 144; --world-warm: 42, 83, 92; --world-scene: url('../../assets/reference-v2/guild-environment-1280.webp'); --world-scene-position: 48% 43%; --world-scene-filter: grayscale(.88) hue-rotate(165deg) saturate(.55); }
 html[data-world-atmosphere] body { position: relative; isolation: isolate; background-color: var(--nm-bg); }
 html[data-world-atmosphere] body::before, html[data-world-atmosphere] body::after {
     content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
 }
 html[data-world-atmosphere] body::before {
-    background: radial-gradient(ellipse 850px 550px at 84% 30%, rgba(var(--world-light), .22), transparent 75%),
-        radial-gradient(ellipse 780px 520px at 8% 90%, rgba(var(--world-warm), .14), transparent 78%),
-        var(--world-material) 0 0 / 128px 128px repeat, var(--nm-bg);
+    background: linear-gradient(180deg,rgba(3,13,20,.2),rgba(3,13,20,.47) 48%,rgba(3,13,20,.69)),
+        radial-gradient(ellipse 880px 620px at 84% 34%,rgba(var(--world-light),.16),transparent 76%),
+        var(--world-scene) var(--world-scene-position) / cover no-repeat,var(--nm-bg);
+    filter: var(--world-scene-filter);
 }
 html[data-world-atmosphere] body::after {
-    background: url('../../assets/ui/world-foreground.svg') center bottom / max(1440px, 100vw) auto no-repeat;
-    opacity: .24;
+    background: radial-gradient(ellipse 75% 20% at 66% 88%,rgba(var(--world-light),.32),transparent 72%),
+        var(--world-material) 0 0 / 128px 128px repeat,
+        url('../../assets/ui/world-foreground.svg') center bottom / max(1440px,100vw) auto no-repeat;
+    opacity: .19;
 }
-html[data-world-atmosphere='forest'] body::after { background-image: url('../../assets/ui/world-canopy.svg'); opacity: .38; }
-html[data-world-atmosphere='armory'] body::before {
-    background: radial-gradient(ellipse 700px 500px at 82% 22%, rgba(var(--world-light), .22), transparent 78%),
-        radial-gradient(ellipse 600px 420px at 12% 85%, rgba(var(--world-warm), .13), transparent 80%),
-        repeating-linear-gradient(135deg, transparent 0 63px, rgba(96,122,135,.035) 64px 65px), var(--nm-bg);
+html[data-world-atmosphere='forest'] body::after {
+    background: radial-gradient(ellipse 80% 24% at 64% 74%,rgba(98,169,164,.4),transparent 70%),var(--world-material) 0 0 / 128px 128px repeat,url('../../assets/ui/world-canopy.svg') center bottom / max(1440px,100vw) auto no-repeat;
+    opacity: .23;
 }
+html[data-world-atmosphere='armory'] body::after { background: radial-gradient(ellipse 64% 42% at 14% 42%,rgba(var(--world-warm),.34),transparent 73%),repeating-linear-gradient(125deg,transparent 0 80px,rgba(137,170,181,.08) 81px 82px),var(--world-material) 0 0 / 128px 128px repeat; }
+html[data-world-atmosphere='dungeon'] :is(.quetes-container.page-visual-shell,.bestiary-page.page-visual-shell) { background: linear-gradient(180deg,#06131e52,#0510197d); }
+html[data-world-atmosphere='dungeon'] .boss-fact { background: linear-gradient(145deg,#122d3ce8,#071520f5); border-color: #607b8270; box-shadow: 0 12px 35px #0005,inset 0 1px 0 #accad014; }
+html[data-world-atmosphere='dungeon'] .boss-fact .modal-media { background: radial-gradient(ellipse at 50% 80%,#38687555,transparent 68%),var(--world-material) 0 0 / 128px 128px repeat,#071520 !important; }
+html[data-world-atmosphere='dungeon'] .boss-fact .modal-media::before { background: var(--world-material) 0 0 / 128px 128px repeat,#051825; opacity: .3; }
 .nm-fx { display: none; }
 html[data-world-atmosphere] .header {
     background: linear-gradient(180deg, #10212b, #061018 68%);
@@ -140,6 +149,10 @@ html[data-world-hidden='true'] :is(.home-hero-mist,.home-hero-light), html[data-
     .home-page .home-guild-scene { grid-row: 1 / span 2; height: 140px; }
 }
 @media (max-width: 768px) {
+    :root[data-world-atmosphere='aincrad'] { --world-scene: url('../../assets/reference-v2/home-environment-960.webp'); }
+    :root[data-world-atmosphere='forest'] { --world-scene: url('../../assets/reference-v2/forest-environment-640.webp'); }
+    :root[data-world-atmosphere='armory'] { --world-scene: url('../../assets/reference-v2/workshop-environment-640.webp'); }
+    :root[data-world-atmosphere='guild'],:root[data-world-atmosphere='dungeon'] { --world-scene: url('../../assets/reference-v2/guild-environment-640.webp'); }
     html[data-world-atmosphere] body::after { opacity: .24; }
     .home-page .home-hero::after { background: linear-gradient(180deg,transparent 100px,rgba(3,11,18,.85) 230px,rgba(3,11,18,.98) 290px); }
     .home-page .home-hero-environment { height: 290px; }

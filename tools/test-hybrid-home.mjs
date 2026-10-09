@@ -149,6 +149,13 @@ for (const output of heroArt.outputs) {
     assert.equal(doc.querySelectorAll('main').length, 1);
     assert.equal(main.querySelector('h1').textContent, 'Explorez Aincrad, ensemble');
     assert.deepEqual([...main.querySelectorAll('.home-entry')].map(link => new URL(link.href).pathname), ['/carte', '/bestiaire', '/items', '/espace-guilde']);
+    assert.deepEqual([...main.querySelectorAll('[data-home-portal]')].map(link => link.dataset.homePortal), ['map', 'bestiary', 'items', 'guild'], 'The four destinations have individual RPG portal compositions');
+    for (const link of main.querySelectorAll('[data-home-portal]')) {
+        assert.equal(link.tagName, 'A', 'A portal remains a native navigable link');
+        assert.ok(link.querySelector('.home-portal-frame[aria-hidden="true"]'), 'Simple portal ornament is drawn in SVG');
+        assert.ok(link.querySelector('.home-portal-visual[aria-hidden="true"]'), 'Foreground art stays separate from the accessible destination name');
+        assert.equal(link.querySelector(':scope > picture'), null, 'Portals do not return to large rectangular photographic banners');
+    }
     assert.equal(main.querySelector('[data-carousel], [inert], [aria-hidden="true"] a'), null, 'Every destination stays visible and focusable');
     assert.equal(main.querySelector('a[href="/quetes"]'), null, 'Home must not promote obsolete main quests');
     assert.doesNotMatch(main.textContent, /\b(?:HP|PV)\b|Points de vie|600|Dernières découvertes/, 'Home shows no unverified combat stats or fabricated recent activity');
@@ -169,6 +176,12 @@ for (const output of heroArt.outputs) {
         const entry = index.find(item => item.kind === 'item' && item.id === tile.dataset.homeItemSource);
         assert.ok(entry, 'Inventory preview uses a real catalogue item');
         assert.equal(tile.querySelector('img').getAttribute('src'), entry.image);
+    }
+    assert.equal(main.querySelectorAll('[data-home-item-source]').length, 2, 'The item portal displays two real native inventory sprites');
+    for (const support of main.querySelectorAll('.home-record-art--item')) {
+        const sprite = support.querySelector('img');
+        assert.equal(parseFloat(support.style.getPropertyValue('--sprite-width')), Number(sprite.getAttribute('width')) * 2, 'Featured inventory sprites use a crisp integer horizontal scale');
+        assert.equal(parseFloat(support.style.getPropertyValue('--sprite-height')), Number(sprite.getAttribute('height')) * 2, 'Featured inventory sprites use a crisp integer vertical scale');
     }
     const hero = main.querySelector('.home-hero-scene img');
     assert.equal(hero.getAttribute('src'), '/assets/reference-v2/home-environment-1672.webp');

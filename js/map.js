@@ -299,11 +299,13 @@
         state.map.invalidateSize?.({ pan: false });
     }
     function closePanel(state, update = true) {
+        const restoreFocus = state.ui.panel.contains(document.activeElement);
         state.selected = null; state.pendingSelection = null; state.choiceKeys = null; state.ui.panel.hidden = true; state.ui.panel.classList.remove('is-expanded'); state.ui.expand.setAttribute('aria-expanded', 'false'); state.ui.workspace.classList.remove('has-selection');
         renderMarkers(state); state.map.invalidateSize?.({ pan: false });
         renderPlaces(state);
         if (update) updateUrl(state, null);
         emit(state, 'selection', null);
+        if (restoreFocus) state.ui.map.focus({ preventScroll: true });
     }
     function showChoices(state, entities) {
         state.choiceKeys = entities.map(entity => entity.key); state.ui.content.replaceChildren(node('h2', '', text('Plusieurs repères à cet endroit', 'Several markers at this location')));

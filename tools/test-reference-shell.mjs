@@ -23,6 +23,37 @@ w.eval(fs.readFileSync(new URL('../js/reference-shell.js', import.meta.url), 'ut
 d.dispatchEvent(new w.Event('DOMContentLoaded'));
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 const burger = d.querySelector('#hamburger');
+const navigation = d.createElement('ul'); navigation.className = 'nav-menu';
+const explorer = d.createElement('a'); explorer.href = 'https://nameless-sao.fr/wiki'; explorer.textContent = 'Explorer'; navigation.appendChild(explorer);
+navigation.getBoundingClientRect = () => ({ left: 120, width: 600 });
+explorer.getBoundingClientRect = () => ({ left: 120, width: 90 });
+d.querySelector('.nav-container').appendChild(navigation); w.NamelessReferenceShell.upgrade();
+await new Promise(resolve => setTimeout(resolve, 25));
+assert.equal(navigation.dataset.referenceIndicator, 'true', 'The homepage indicator accepts router-normalized absolute links');
+assert.equal(navigation.style.getPropertyValue('--reference-nav-width'), '90px');
+// Exit animations keep focus inside until completion, and stale completions
+// cannot hide a newly selected record or return focus to its old card.
+const panel = d.createElement('div'); panel.dataset.panelMode = 'rail'; d.body.appendChild(panel);
+let resolveExit, cancellations = 0, finishes = 0;
+panel.animate = () => ({ finished: new Promise(resolve => { resolveExit = resolve; }), cancel: () => { cancellations++; } });
+w.NamelessReferenceShell.closePanel(panel, () => { finishes++; });
+assert.equal(panel.dataset.referenceClosing, 'true');
+assert.equal(finishes, 0);
+w.NamelessReferenceShell.cancelPanelClose(panel);
+resolveExit(); await tick();
+assert.equal(finishes, 0, 'A cancelled exit never hides the replacement panel');
+assert.equal(cancellations, 1);
+w.NamelessReferenceShell.closePanel(panel, () => { finishes++; });
+resolveExit(); await tick();
+assert.equal(finishes, 1);
+assert.equal(panel.hasAttribute('data-reference-closing'), false);
+w.matchMedia = () => ({ matches: true });
+w.NamelessReferenceShell.closePanel(panel, () => { finishes++; });
+assert.equal(finishes, 2, 'Reduced motion closes immediately');
+w.matchMedia = () => ({ matches: false });
+w.NamelessReferenceShell.closePanel(panel, () => { finishes++; });
+panel.remove(); resolveExit(); await tick();
+assert.equal(finishes, 2, 'A route-unmounted panel cannot steal the new route focus');
 burger.click();
 const menu = d.querySelector('#reference-navigation');
 assert.equal(menu.open, true);
@@ -65,4 +96,4 @@ pendingAccount = null; user = null; d.dispatchEvent(new w.Event('nameless:auth-c
 release({ data: { user: { id: 'stale-member' } } }); await tick(); await tick();
 assert.equal(privateReads, 1, 'A stale session response cannot restore private announcements');
 dom.window.close();
-console.log('Reference shell passed: member announcements, private gates, safe text, stale sessions, menu focus/ARIA, language and mobile ownership.');
+console.log('Reference shell passed: member announcements, private gates, safe text, stale sessions, menu focus/ARIA, language, mobile ownership and cancellable/reduced-motion panel exits.');

@@ -4,11 +4,11 @@
     --catalogue-scene: url('../../assets/reference-v2/forest-environment-1280.webp');
     --catalogue-card-scene: url('../../assets/reference-v2/forest-environment-640.webp');
     --catalogue-line: rgba(207,171,112,.38);
-    --catalogue-panel: rgba(4,20,28,.96);
+    --catalogue-panel: rgba(4,20,28,.94);
     padding: 0 0 44px !important;
-    background: radial-gradient(ellipse at 52% 18%,rgba(10,64,72,.2),transparent 65%),#031017;
+    background: radial-gradient(ellipse 65% 45% at 38% 48%,rgba(14,62,65,.12),transparent 72%),linear-gradient(180deg,#0310171a,#03101766 68%,#031017a6);
 }
-.items-page.page-visual-shell { --catalogue-scene: url('../../assets/reference-v2/workshop-environment-1280.webp'); --catalogue-card-scene: url('../../assets/reference-v2/workshop-environment-640.webp'); background: radial-gradient(ellipse at 75% 8%,rgba(115,64,24,.16),transparent 55%),#031017; }
+.items-page.page-visual-shell { --catalogue-scene: url('../../assets/reference-v2/workshop-environment-1280.webp'); --catalogue-card-scene: url('../../assets/reference-v2/workshop-environment-640.webp'); background: radial-gradient(ellipse 54% 48% at 72% 35%,rgba(138,90,43,.13),transparent 75%),linear-gradient(180deg,#0310171a,#03101766 68%,#031017a6); }
 :is(.bestiary-page,.items-page) > .nm-scene-hero {
     width: 100%; max-width: none; min-height: 178px; overflow: hidden;
     padding: 22px max(28px,calc((100vw - 1432px)/2)) 25px !important;
@@ -20,8 +20,11 @@
 }
 :is(.bestiary-page,.items-page) > .nm-scene-hero::after {
     content: '' !important; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(90deg,rgba(2,12,18,.97),rgba(2,12,18,.45) 46%,rgba(2,12,18,.12)),linear-gradient(0deg,#031017,transparent 54%);
+    background: linear-gradient(90deg,rgba(2,12,18,.93),rgba(2,12,18,.36) 46%,rgba(2,12,18,.08)),linear-gradient(0deg,#0310179c,transparent 58%);
 }
+:is(.bestiary-page,.items-page) .catalogue-layout { position: relative; isolation: isolate; padding-top: 20px; }
+:is(.bestiary-page,.items-page) .catalogue-layout::before { content: ''; position: absolute; z-index: -1; pointer-events: none; inset: 0 -24px -20px; background: radial-gradient(ellipse 68% 36% at 48% 26%,rgba(var(--world-light),.13),transparent 78%),url('../../assets/ui/world-stone.svg') 0 0 / 128px 128px repeat; opacity: .52; }
+.items-page .catalogue-layout::before { background: radial-gradient(ellipse 62% 46% at 64% 27%,rgba(190,129,61,.12),transparent 76%),url('../../assets/ui/world-stone.svg') 0 0 / 128px 128px repeat; }
 :is(.bestiary-page,.items-page) .catalogue-breadcrumb { display: flex; align-items: center; gap: 7px; margin-bottom: 13px; color: #b2c3cb; font: 400 11px/1.5 var(--font-text); }
 :is(.bestiary-page,.items-page) .catalogue-breadcrumb a { color: #d8c197; text-decoration: none; }
 :is(.bestiary-page,.items-page) .catalogue-breadcrumb a::before { content: '⌂'; margin-right: 5px; }
@@ -66,7 +69,10 @@
 :is(.bestiary-page,.items-page) :is(.creature-card,.item-card).is-selected { border-color: #f2ce91 !important; box-shadow: 0 0 0 1px rgba(235,193,121,.4),0 0 18px rgba(239,184,85,.32); transition-duration: 120ms; }
 :is(.bestiary-page,.items-page) :is(.creature-card,.item-card).is-selected::before { content: attr(data-selected-label); position: absolute; z-index: 3; left: 50%; top: -9px; transform: translateX(-50%); padding: 2px 7px; border-radius: 3px; background: linear-gradient(#f0d6a7,#bc995f); color: #1a180f; font: 500 9px/1.4 var(--font-text); white-space: nowrap; }
 :is(.bestiary-page,.items-page) :is(.creature-media,.item-media) { height: 164px; aspect-ratio: auto; border-radius: 3px 3px 0 0; border-bottom: 1px solid rgba(132,168,176,.15); background: radial-gradient(ellipse at 50% 76%,rgba(48,83,81,.4),transparent 63%),linear-gradient(160deg,#092432,#07151b) !important; }
-.bestiary-page .creature-media::before { content: ''; position: absolute; inset: 0; background: var(--catalogue-card-scene) center / cover; opacity: .35; filter: saturate(.7); }
+.bestiary-page .creature-media::before { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg,#02101896,transparent 50%),var(--catalogue-card-scene) center 48% / cover; opacity: .52; filter: saturate(.72); }
+.items-page .item-media { position: relative; isolation: isolate; background: radial-gradient(ellipse at 52% 32%,#a7bdc830,transparent 68%),linear-gradient(145deg,#263740,#101e29 60%,#3a30234d) !important; }
+.items-page .item-media::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(0deg,#06121ba8,transparent 55%),var(--catalogue-card-scene) center 56% / cover; opacity: .28; filter: saturate(.55); }
+.items-page .item-media::after { content: ''; position: absolute; inset: 10px; z-index: -1; pointer-events: none; background: linear-gradient(145deg,#aec5d817,transparent 42%,#c89d5c15),url('../../assets/ui/world-stone.svg') 0 0 / 96px 96px repeat; border: 1px solid #b9b69921; box-shadow: inset 0 0 20px #02080e5e; }
 .bestiary-page .creature-image { position: relative; z-index: 1; height: 100%; object-fit: contain; padding: 5px; filter: drop-shadow(0 4px 5px rgba(0,0,0,.6)); }
 .bestiary-page .creature-cat-tag,.items-page .item-rarity-badge { display: none; }
 :is(.bestiary-page,.items-page) :is(.creature-body,.item-body) { padding: 9px 10px 10px; gap: 5px; min-height: 53px; }
@@ -76,7 +82,7 @@
 .bestiary-page :is(.creature-meta .chip-type,.creature-zone,.creature-details-btn) { display: none; }
 .items-page .item-cat { color: #bcd0d5; font-size: 10px; }
 .items-page .item-image { filter: drop-shadow(2px 3px 1px rgba(0,0,0,.65)); }
-:is(.bestiary-page,.items-page) .catalogue-detail-slot { position: sticky; top: calc(var(--nm-header-height) + 18px); min-width: 0; min-height: 400px; border: 1px solid var(--catalogue-line); border-radius: 4px; background: linear-gradient(145deg,rgba(10,35,45,.97),rgba(2,18,25,.98)); }
+:is(.bestiary-page,.items-page) .catalogue-detail-slot { position: sticky; top: calc(var(--nm-header-height) + 18px); min-width: 0; min-height: 400px; border: 1px solid var(--catalogue-line); border-radius: 4px; background: radial-gradient(ellipse at 80% 0,rgba(var(--world-light),.16),transparent 58%),linear-gradient(145deg,rgba(10,35,45,.96),rgba(2,18,25,.97)); box-shadow: 0 9px 26px #0004,inset 0 1px 0 #d6c49712; }
 :is(.bestiary-page,.items-page) .catalogue-detail-empty { text-align: center; padding: 95px 23px; color: #9bb5c0; }
 :is(.bestiary-page,.items-page) .catalogue-detail-empty > span { color: #d7b679; font-size: 50px; }
 :is(.bestiary-page,.items-page) .catalogue-detail-empty h2 { color: #e9d9ba; font: 500 20px/1.4 var(--font-title); margin-top: 12px; }
@@ -89,7 +95,9 @@
 .bestiary-page .creature-modal .modal-header { display: block; margin-bottom: 15px; }
 :is(.bestiary-page,.items-page) :is(.modal-media,.item-modal-media) { width: 100%; height: 206px; max-width: none; aspect-ratio: auto; border: 0; border-radius: 0; margin: 0 0 12px; background: radial-gradient(ellipse at 50% 85%,rgba(73,107,98,.4),transparent 62%) !important; overflow: hidden; }
 .bestiary-page .modal-media { position: relative; isolation: isolate; }
-.bestiary-page .modal-media::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--catalogue-card-scene) center / cover; opacity: .3; }
+.bestiary-page .modal-media::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg,#06121b80,transparent 65%),var(--catalogue-card-scene) center / cover; opacity: .47; }
+.items-page .item-modal-media { position: relative; isolation: isolate; background: radial-gradient(ellipse at 50% 70%,#c69d5a26,transparent 63%),linear-gradient(135deg,#273c45,#101e2a) !important; }
+.items-page .item-modal-media::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(0deg,#06121bab,transparent),var(--catalogue-card-scene) center 58% / cover; opacity: .28; }
 .bestiary-page .modal-media img { width: 100%; height: 100%; object-fit: contain; padding: 5px; filter: drop-shadow(0 5px 6px rgba(0,0,0,.6)); }
 :is(.bestiary-page,.items-page) :is(.modal-info,.item-modal-info) { padding: 0; min-width: 0; }
 :is(.bestiary-page,.items-page) :is(.modal-name,.item-modal-name) { margin: 0 0 10px; font: 400 24px/1.25 'Times New Roman',Georgia,serif; color: #faedda; }
@@ -157,6 +165,8 @@
     :is(.bestiary-page,.items-page) .catalogue-detail-tabs button { min-height: 44px; font-size: 12px; }
 }
 @media (max-width: 768px) {
+    .bestiary-page.page-visual-shell { --catalogue-scene: url('../../assets/reference-v2/forest-environment-640.webp'); }
+    .items-page.page-visual-shell { --catalogue-scene: url('../../assets/reference-v2/workshop-environment-640.webp'); }
     :is(.bestiary-page,.items-page).page-visual-shell { padding-top: 0 !important; }
     :is(.bestiary-page,.items-page) > .nm-scene-hero { min-height: 167px; padding: 20px 17px 25px !important; }
     :is(.bestiary-page,.items-page) .catalogue-layout { grid-template-columns: minmax(0,1fr); }
@@ -181,4 +191,8 @@
 @media (prefers-reduced-motion: reduce) {
     :is(.bestiary-page,.items-page) :is(.creature-card,.item-card,.modal-content,[data-catalogue-tab-panel] > *,.catalogue-tooltip) { animation: none !important; transition: none !important; }
     :is(.bestiary-page,.items-page) :is(.creature-card,.item-card):hover { transform: none; }
+}
+@media (forced-colors: active) {
+    :is(.bestiary-page,.items-page).page-visual-shell,:is(.bestiary-page,.items-page) :is(.item-media,.item-modal-media,.catalogue-detail-slot) { background: Canvas !important; }
+    :is(.bestiary-page,.items-page) :is(.catalogue-layout,.nm-scene-hero,.creature-media,.modal-media,.item-media,.item-modal-media)::before,:is(.bestiary-page,.items-page) :is(.nm-scene-hero,.item-media)::after { display: none !important; }
 }
