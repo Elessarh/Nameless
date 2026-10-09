@@ -1,0 +1,167 @@
+{
+  "generatedAt": "2026-10-09T10:26:57.225Z",
+  "base": "http://127.0.0.1:4173",
+  "checks": [
+    {
+      "name": "guild-public final polish 1672: layout/resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1050
+      }
+    },
+    {
+      "name": "guild-public final polish 390: layout/resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 1133
+      }
+    },
+    {
+      "name": "guild-public final polish 420: layout/resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 420,
+          "height": 844
+        },
+        "height": 1106
+      }
+    },
+    {
+      "name": "guild-qa final polish 1672: layout/resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1751
+      }
+    },
+    {
+      "name": "guild-qa final polish 390: layout/resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2623
+      }
+    },
+    {
+      "name": "guild-qa final polish 420: layout/resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 420,
+          "height": 844
+        },
+        "height": 2605
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "page": "guild-public-polish-1672",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1050,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-public-polish-390",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 1133,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-public-polish-420",
+      "viewport": {
+        "width": 420,
+        "height": 844
+      },
+      "width": 420,
+      "height": 1106,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-qa-polish-1672",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1751,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-qa-polish-390",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2623,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-qa-polish-420",
+      "viewport": {
+        "width": 420,
+        "height": 844
+      },
+      "width": 420,
+      "height": 2605,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    }
+  ],
+  "screenshots": [
+    "guild-public-reference.png",
+    "guild-public-mobile.png",
+    "guild-public-mobile-full.png",
+    "guild-public-mobile420.png",
+    "guild-public-mobile420-full.png",
+    "guild-qa-reference.png",
+    "guild-qa-mobile.png",
+    "guild-qa-mobile-full.png",
+    "guild-qa-mobile420.png",
+    "guild-qa-mobile420-full.png"
+  ],
+  "browserErrors": [],
+  "consoleErrors": [],
+  "localHttpErrors": [],
+  "abortedRequests": [],
+  "externalNetwork": [],
+  "qa": {
+    "enabled": true,
+    "base": "http://127.0.0.1:4181",
+    "data": "Explicitly labeled, isolated in-memory QA data; no real API"
+  },
+  "scope": "Incremental guild background/typography polish",
+  "summary": {
+    "passed": 6,
+    "failed": 0
+  }
+}

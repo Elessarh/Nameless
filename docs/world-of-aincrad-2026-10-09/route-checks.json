@@ -1,0 +1,41 @@
+[
+  {
+    "busy": null,
+    "focus": "main-content",
+    "nav": "Bestiaire",
+    "overflow": false,
+    "path": "/bestiaire",
+    "theme": "forest",
+    "title": "Bestiaire d'Aincrad",
+    "viewTransitionName": "nm-world-content"
+  },
+  {
+    "busy": null,
+    "focus": "main-content",
+    "nav": "Objets",
+    "overflow": false,
+    "path": "/items",
+    "theme": "armory",
+    "title": "Catalogue d'objets",
+    "viewTransitionName": "nm-world-content"
+  },
+  {
+    "busy": null,
+    "focus": "main-content",
+    "nav": "Guilde",
+    "overflow": false,
+    "path": "/espace-guilde",
+    "theme": "guild",
+    "title": "Quartier général",
+    "viewTransitionName": "nm-world-content"
+  },
+  {
+    "busy": null,
+    "focus": "main-content",
+    "overflow": false,
+    "path": "/",
+    "theme": "aincrad",
+    "title": "Explorez Aincrad, ensemble",
+    "viewTransitionName": "nm-world-content"
+  }
+]

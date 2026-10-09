@@ -37,6 +37,7 @@ function paletteIsolation(w, selector) {
 {
     const dom = surface('pages/bestiaire.html', '/bestiaire?creature=53', ['js/bestiaire.js']);
     const w = dom.window, d = w.document;
+    w.innerWidth = 390;
     w.NamelessBestiaryPage.init(d);
     check(d.querySelector('.creature-card .creature-name').tagName === 'H2', 'Creature cards follow the page H1 without skipping a heading level');
     check(d.querySelector('[role="dialog"] h2').textContent === 'Illfang', 'Bestiary deep link opens the requested creature');
@@ -67,6 +68,7 @@ function paletteIsolation(w, selector) {
 {
     const dom = surface('pages/items.html', '/items?item=potion_mana', ['js/items-catalog-hdv.js', 'js/items.js']);
     const w = dom.window, d = w.document;
+    w.innerWidth = 390;
     w.NamelessGlobalSearch = { getIndex: async () => [{ kind: 'item', id: 'potion_mana', sources: [{ title: '<script>unsafe</script>', url: '/bestiaire?creature=1', floor: 1 }] }] };
     w.NamelessItemsPage.init(d); await pause(0);
     check(d.querySelector('.item-card .item-name').tagName === 'H2', 'Item cards follow the page H1 without skipping a heading level');

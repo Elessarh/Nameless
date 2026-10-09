@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <g fill="none" stroke="#50717b" stroke-width=".8" opacity=".12">
+    <path d="M0 0h128M0 32h128M0 64h128M0 96h128M0 128h128M32 0v32m64-32v32M0 32v32m64-32v32m64-32v32M32 64v32m64-32v32M0 96v32m64-32v32m64-32v32"/>
+    <path d="M4 4h20v2M68 36h22v2M36 68h16v2M4 100h21v2" opacity=".7"/>
+  </g>
+  <g fill="#7a949b" opacity=".04"><path d="M16 18h2v2h-2zM74 43h3v2h-3zM106 82h2v3h-2zM46 116h3v2h-3z"/></g>
+</svg>

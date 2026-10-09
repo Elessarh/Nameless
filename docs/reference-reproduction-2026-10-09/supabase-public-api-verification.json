@@ -1,0 +1,23 @@
+{
+  "verifiedAt": "2026-10-09T10:22:48.165Z",
+  "checks": [
+    {
+      "table": "guild_event_attendance",
+      "status": 401,
+      "code": "42501",
+      "message": "permission denied for table guild_event_attendance"
+    },
+    {
+      "table": "guild_event_checklist",
+      "status": 401,
+      "code": "42501",
+      "message": "permission denied for table guild_event_checklist"
+    },
+    {
+      "table": "guild_event_checks",
+      "status": 401,
+      "code": "42501",
+      "message": "permission denied for table guild_event_checks"
+    }
+  ]
+}

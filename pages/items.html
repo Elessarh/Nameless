@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-world-atmosphere="armory">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
@@ -44,6 +44,11 @@
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="../css/components/global-search.css?v=20261008sao">
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261009world">
+    <link rel="stylesheet" href="../css/components/reference-catalogs.css?v=20261009reference">
+    <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009reference">
+    <script src="/js/reference-shell.js?v=20261009reference" defer></script>
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -81,16 +86,17 @@
     </header>
 
     <!-- Contenu principal -->
-    <main id="main-content" class="items-container page-visual-shell items-visual-shell" role="main">
+    <main id="main-content" class="items-container page-visual-shell items-visual-shell items-page" role="main">
         <!-- Hero compact -->
         <section class="items-hero nm-scene-hero nm-scene-hero--bleed scene-items">
-            <span class="nm-eyebrow">Inventaire d'Aincrad</span>
-            <h1>Catalogue d'objets</h1>
-            <p class="items-subtitle">Les objets d'Aincrad — armes, armures, accessoires, consommables, ressources et runes.</p>
+            <nav class="catalogue-breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">›</span><span>Objets</span></nav>
+            <h1>Objets</h1>
+            <p class="items-subtitle">Consultez les ressources, équipements et consommables.</p>
         </section>
 
         <div class="catalogue-layout">
         <aside class="items-filters" aria-label="Recherche et filtres des objets">
+            <div class="catalogue-filter-title"><strong>Filtres</strong><button type="button" class="items-reset catalogue-reset" id="it-reset">Réinitialiser</button></div>
             <div class="items-search">
                 <label for="it-search">Rechercher un objet</label>
                 <input type="search" id="it-search" placeholder="Nom ou catégorie…" autocomplete="off" maxlength="200">
@@ -111,9 +117,10 @@
                     <option value="epic">Épique</option>
                     <option value="legendary">Légendaire</option>
                 </select>
+                <label for="it-source">Sources</label>
+                <select id="it-source" aria-label="Filtrer par source"><option value="">Toutes les sources</option><option value="known">Butins du bestiaire</option><option value="unknown">Source non renseignée</option></select>
             </div>
             </details>
-            <button type="button" class="items-reset catalogue-reset" id="it-reset">Réinitialiser les filtres</button>
         </aside>
 
         <div class="catalogue-results">
@@ -127,7 +134,9 @@
                 <option value="rarity-asc">Rareté : croissante</option>
                 <option value="category">Catégorie</option>
             </select></div>
+            <div class="catalogue-view" role="group" aria-label="Affichage des objets"><button type="button" data-catalog-view="grid" aria-label="Vue grille" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h5v5H3zM12 3h5v5h-5zM3 12h5v5H3zM12 12h5v5h-5z"/></svg></button><button type="button" data-catalog-view="list" aria-label="Vue liste" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h3v3H3zM9 4h8M3 12h3v3H3zM9 12h8"/></svg></button></div>
         </div>
+        <div id="it-active-filters" class="catalogue-active-filters" aria-label="Filtres actifs"></div>
         <section class="items-grid" id="items-grid" aria-label="Liste des items" aria-live="polite"></section>
 
         <!-- Pagination -->
@@ -149,6 +158,7 @@
             </div>
         </nav>
         </div>
+        <aside class="catalogue-detail-slot" aria-label="Fiche de l’objet"><div class="catalogue-detail-empty"><span aria-hidden="true">◇</span><h2>L’inventaire d’Aincrad</h2><p>Sélectionnez un objet pour consulter sa rareté et ses sources connues.</p></div></aside>
         </div>
     </main>
 
@@ -162,7 +172,7 @@
 
     <!-- Scripts -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261009def" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261009reference" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -174,8 +184,8 @@
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
     <script src="../js/items-catalog-hdv.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261008sao" defer></script>
-    <script src="../js/items.js?v=20261008hybrid" defer></script>
+    <script src="../js/global-search.js?v=20261009phase1" defer></script>
+    <script src="../js/items.js?v=20261009reference" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
 </body>

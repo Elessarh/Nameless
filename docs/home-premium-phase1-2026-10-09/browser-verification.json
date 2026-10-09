@@ -1,0 +1,279 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "generatedAt": "2026-10-09T05:22:49.621Z",
+  "checks": [
+    {
+      "name": "Desktop 1920 × 1080: image loading and overflow",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "pageWidth": 1920,
+        "pageHeight": 1242,
+        "brokenImages": [],
+        "heading": "Explorez Aincrad, ensemble"
+      }
+    },
+    {
+      "name": "Four category destinations and five discoveries resolve to real local routes",
+      "passed": true,
+      "detail": {
+        "categories": 4,
+        "discoveries": 5
+      }
+    },
+    {
+      "name": "Hero search opens dialog, Escape restores focus, Ctrl+K opens and closes",
+      "passed": true
+    },
+    {
+      "name": "Search Illfang, keyboard navigation, real boss route, and home return",
+      "passed": true,
+      "detail": {
+        "route": "/boss/illfang/",
+        "returnedHome": true
+      }
+    },
+    {
+      "name": "Decorative mist, light, clouds and motes actually animate; pause and resume affect every layer",
+      "passed": true,
+      "detail": {
+        "movingLayers": 7,
+        "pausedLayers": 7,
+        "resumedLayers": 7
+      }
+    },
+    {
+      "name": "Pointer parallax moves the scene and resets on pointer exit",
+      "passed": true,
+      "detail": {
+        "x": "6.67px",
+        "y": "-2.11px"
+      }
+    },
+    {
+      "name": "Category hover raises card and uses the luminous frame",
+      "passed": true,
+      "detail": {
+        "transform": "matrix(1, 0, 0, 1, 0, -6)",
+        "shadow": "rgba(0, 0, 0, 0.333) 0px 14px 32px 0px, rgba(212, 178, 124, 0.18) 0px 0px 0px 1px, rgba(212, 178, 124, 0.08) 0px 0px 24px 0px"
+      }
+    },
+    {
+      "name": "FR/EN translates hero, guild section, guild destination and motion control",
+      "passed": true,
+      "detail": {
+        "frenchGuild": "Notre guilde",
+        "englishGuild": "Our guild",
+        "englishHero": "Explore Aincrad, together"
+      }
+    },
+    {
+      "name": "Direct nonhome route to home loads home CSS through SPA registry",
+      "passed": true,
+      "detail": {
+        "animation": "premium-clouds",
+        "css": true
+      }
+    },
+    {
+      "name": "Mobile 390 px: image loading and overflow",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "pageWidth": 390,
+        "pageHeight": 2268,
+        "brokenImages": [],
+        "heading": "Explorez Aincrad, ensemble"
+      }
+    },
+    {
+      "name": "Mobile menu opens, category navigation works, and home returns",
+      "passed": true,
+      "detail": {
+        "route": "/bestiaire"
+      }
+    },
+    {
+      "name": "Mobile hero search: filled query closes with one Escape and focus returns",
+      "passed": true
+    },
+    {
+      "name": "Additional 320 px viewport: no overflow or broken images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 320,
+          "height": 900
+        },
+        "pageWidth": 320,
+        "pageHeight": 2293,
+        "brokenImages": [],
+        "heading": "Explorez Aincrad, ensemble"
+      }
+    },
+    {
+      "name": "Additional 768 px viewport: no overflow or broken images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 768,
+          "height": 900
+        },
+        "pageWidth": 768,
+        "pageHeight": 2024,
+        "brokenImages": [],
+        "heading": "Explorez Aincrad, ensemble"
+      }
+    },
+    {
+      "name": "Reduced motion removes decorative animation and disables scenery toggle",
+      "passed": true,
+      "detail": {
+        "decorativeInfiniteAnimationsRunning": 0
+      }
+    },
+    {
+      "name": "Actual browser animation recording",
+      "passed": true,
+      "detail": {
+        "filename": "home-motion-demo.webm",
+        "seconds": 16,
+        "resolution": "1920 × 1080",
+        "actions": [
+          "entrance",
+          "pointer parallax",
+          "category hover",
+          "search",
+          "pause",
+          "resume"
+        ]
+      }
+    }
+  ],
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "pageWidth": 1920,
+      "pageHeight": 1242,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pageWidth": 390,
+      "pageHeight": 2268,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 900
+      },
+      "pageWidth": 320,
+      "pageHeight": 2293,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "pageWidth": 768,
+      "pageHeight": 2024,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    }
+  ],
+  "routes": [
+    {
+      "title": "Carte d’Aincrad",
+      "href": "/carte",
+      "record": null,
+      "status": 200
+    },
+    {
+      "title": "Bestiaire",
+      "href": "/bestiaire",
+      "record": null,
+      "status": 200
+    },
+    {
+      "title": "Objets",
+      "href": "/items",
+      "record": null,
+      "status": 200
+    },
+    {
+      "title": "Guilde",
+      "href": "/espace-guilde",
+      "record": null,
+      "status": 200
+    },
+    {
+      "title": "Illfang",
+      "href": "/boss/illfang",
+      "record": "boss:53",
+      "status": 200
+    },
+    {
+      "title": "Gorbel",
+      "href": "/boss/gorbel",
+      "record": "boss:1",
+      "status": 200
+    },
+    {
+      "title": "Loup Blanc",
+      "href": "/bestiaire?creature=12",
+      "record": "creature:12",
+      "status": 200
+    },
+    {
+      "title": "Gelée de Slime",
+      "href": "/items?item=gelee_slime",
+      "record": "item:gelee_slime",
+      "status": 200
+    },
+    {
+      "title": "Potion de Mana",
+      "href": "/items?item=potion_mana",
+      "record": "item:potion_mana",
+      "status": 200
+    }
+  ],
+  "browserErrors": [
+    {
+      "page": "desktop",
+      "check": "Search Illfang, keyboard navigation, real boss route, and home return",
+      "message": "Transition was skipped",
+      "stack": ""
+    }
+  ],
+  "consoleErrors": [],
+  "localRequestFailures": [
+    {
+      "page": "desktop",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261008logo",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "localHttpErrors": [],
+  "externalNetworkObservations": [],
+  "summary": {
+    "passed": 16,
+    "failed": 0
+  }
+}

@@ -15,6 +15,7 @@
     var rootHref = global.location.origin + '/';
     var currentRoute = null;
     var navToken = 0;
+    var activeTransition = null;
 
     global.NamelessSpaRouter = {
         controlsLifecycle: true,
@@ -249,8 +250,63 @@
             appView.setAttribute('tabindex', '-1');
             appView.focus({preventScroll: true});
         }
+        if (global.NamelessWorldAtmosphere && typeof global.NamelessWorldAtmosphere.sync === 'function') {
+            global.NamelessWorldAtmosphere.sync(route.id);
+        }
         if (route.init) route.init(root);
         routeChanged(route);
+    }
+
+    function skipActiveTransition() {
+        var previous = activeTransition;
+        activeTransition = null;
+        if (previous && typeof previous.skipTransition === 'function') {
+            try { previous.skipTransition(); } catch (e) { /* The next navigation still owns the commit. */ }
+        }
+    }
+
+    function canTransition() {
+        if (typeof document.startViewTransition !== 'function' || document.hidden) return false;
+        return !(global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    }
+
+    function commitNavigation(doc, route, options, token) {
+        var attempted = false;
+        var handled = false;
+        function commit() {
+            // skipTransition only stops animation: a skipped callback can still run later.
+            if (token !== navToken) return true;
+            if (attempted) return handled;
+            attempted = true;
+            if (!applyDocument(doc, route)) return false;
+            if (options.push !== false) {
+                history.pushState({ route: route.path }, '', options.url || urlForRoute(route.path));
+            }
+            activateRoute(route, appView, options);
+            handled = true;
+            return true;
+        }
+
+        if (!canTransition()) return Promise.resolve(commit());
+        var transition;
+        try {
+            transition = document.startViewTransition(commit);
+        } catch (e) {
+            // A failed enhancement may fall back, but cannot repeat a started commit.
+            return attempted ? Promise.resolve(handled) : Promise.resolve(commit());
+        }
+        activeTransition = transition;
+        // ready may reject when an animation is skipped; neither animation promise owns routing.
+        Promise.resolve(transition.ready).catch(function () {});
+        Promise.resolve(transition.finished).catch(function () {}).then(function () {
+            if (activeTransition === transition) activeTransition = null;
+        });
+        return Promise.resolve(transition.updateCallbackDone).then(function () {
+            return token !== navToken || handled;
+        }, function () {
+            if (token !== navToken) return true;
+            return attempted ? handled : commit();
+        });
     }
 
     function navigate(routePath, options) {
@@ -259,6 +315,7 @@
         if (!route || !appView) return Promise.resolve(false);
         // Every choice supersedes an older fetch, including returning to the current page.
         var token = ++navToken;
+        skipActiveTransition();
 
         var sameRoute = currentRoute && currentRoute.id === route.id;
         if (sameRoute && !options.force) {
@@ -277,12 +334,7 @@
                     return ensureScripts(route);
                 }).then(function () {
                     if (token !== navToken) return true;
-                    if (options.push !== false) {
-                        history.pushState({ route: route.path }, '', options.url || urlForRoute(route.path));
-                    }
-                    if (!applyDocument(doc, route)) return false;
-                    activateRoute(route, appView, options);
-                    return true;
+                    return commitNavigation(doc, route, options, token);
                 });
             })
             .catch(function () {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-world-atmosphere="aincrad">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
@@ -49,6 +49,11 @@
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="../css/components/global-search.css?v=20261008sao">
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261009world">
+    <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
+    <link rel="stylesheet" href="../css/components/reference-map.css?v=20261009reference">
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009reference">
+    <script src="/js/reference-shell.js?v=20261009reference" defer></script>
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -87,9 +92,10 @@
 
     <!-- Contenu principal -->
     <main id="main-content" class="map-container" role="main">
-        <div class="map-header">
+        <div class="map-header map-reference-hero">
+            <p class="map-breadcrumb"><a href="/">Accueil</a><span>›</span> Carte</p>
             <h1 class="map-title">Carte d'Aincrad</h1>
-            <p class="map-subtitle">Lieux, créatures et ressources connues.</p>
+            <p class="map-subtitle">Explorez les paliers, découvrez les lieux et retrouvez les créatures, objets et donjons.</p>
         </div>
         
         <section id="map-workspace" class="map-workspace" aria-label="Carte interactive d'Aincrad">
@@ -146,6 +152,12 @@
                 </div>
                 <div id="map-filters" class="map-filters" aria-label="Repères affichés"></div>
                 <p id="map-filters-empty" class="map-filters-empty" hidden>Aucun repère disponible.</p>
+                <fieldset class="map-display-options">
+                    <legend>Affichage</legend>
+                    <label class="map-filter"><input id="map-display-markers" type="checkbox" checked><span>Marqueurs</span></label>
+                    <label class="map-filter"><input id="map-display-names" type="checkbox" checked><span>Noms des lieux</span></label>
+                </fieldset>
+                <button id="map-legend-open" class="map-legend-open" type="button">◇ Légende de la carte</button>
             </aside>
             <div class="map-wrapper">
                 <div id="game-map" role="region" tabindex="0" aria-label="Carte du monde d'Aincrad" aria-describedby="map-keyboard-help"></div>
@@ -159,6 +171,14 @@
                 <div id="map-panel-content" class="map-panel-content"></div>
             </aside>
         </div>
+        <dialog id="map-legend" class="map-legend-dialog" aria-labelledby="map-legend-title">
+            <div class="map-legend-heading"><h2 id="map-legend-title">Légende de la carte</h2><button id="map-legend-close" type="button" aria-label="Fermer la légende">×</button></div>
+            <div id="map-legend-content"></div>
+        </dialog>
+        </section>
+        <section id="map-places" class="map-places" aria-labelledby="map-places-title" hidden>
+            <header><div><h2 id="map-places-title">Lieux d’intérêt du Palier 01</h2><p id="map-places-description">Découvrez les lieux connus de ce palier et préparez votre exploration.</p></div><button id="map-places-toggle" type="button" aria-expanded="false">Voir tous les lieux</button></header>
+            <div id="map-places-list" class="map-places-list"></div>
         </section>
     </main>
 
@@ -178,7 +198,7 @@
     
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261009def" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261009reference" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -189,9 +209,9 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/map.js?v=20261008hybrid" defer></script>
+    <script src="../js/map.js?v=20261009reference" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
-    <script src="../js/global-search.js?v=20261008sao" defer></script>
+    <script src="../js/global-search.js?v=20261009phase1" defer></script>
 </body>
 </html>

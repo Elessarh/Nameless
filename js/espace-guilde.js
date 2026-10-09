@@ -3,6 +3,67 @@
 /* espace-guilde.js - Gestion de l'espace guilde pour les membres */
 
 let guildInitToken = 0;
+let guildAuthListeners = null;
+let guildMemberId = null;
+let guildResumeCommunications = false;
+
+function clearPrivateGuildContent() {
+    const content = document.getElementById('guilde-content');
+    if (content) content.style.display = 'none';
+    const ids = ['planning-list', 'objectives-list', 'presence-list', 'presence-feedback', 'activity-wall-content',
+        'hq-calendar', 'hq-month-label', 'hq-calendar-note', 'hq-day-events', 'hq-objective-preview',
+        'chat-messages', 'dm-messages', 'dm-members-list', 'chat-image-preview', 'dm-image-preview', 'mention-autocomplete',
+        'reply-to-author', 'reply-to-preview', 'dm-recipient-name'];
+    ids.forEach((id) => document.getElementById(id)?.replaceChildren());
+    content?.querySelectorAll('[data-guild-events], [data-guild-members], [data-guild-member-count], [data-guild-setup]').forEach((node) => node.replaceChildren());
+    content?.querySelectorAll('input, textarea').forEach((input) => { input.value = ''; });
+    document.querySelector('#guild-event-dialog [data-guild-dialog-content]')?.replaceChildren();
+    const dialog = document.getElementById('guild-event-dialog');
+    if (dialog?.open) dialog.close();
+    const chat = document.getElementById('guild-chat');
+    chat?.classList.remove('open');
+    document.getElementById('chat-replying-to')?.classList.remove('active');
+    const dmChat = document.getElementById('dm-active-chat');
+    if (dmChat) dmChat.style.display = 'none';
+    const dmPlaceholder = document.getElementById('dm-placeholder');
+    if (dmPlaceholder) dmPlaceholder.style.display = 'block';
+    ['chat-badge', 'tab-private-badge'].forEach((id) => { const badge = document.getElementById(id); if (badge) { badge.textContent = ''; badge.style.display = 'none'; } });
+    const toggle = document.getElementById('chat-toggle-btn');
+    if (toggle) toggle.style.display = 'none';
+    ['chat-input', 'dm-input', 'dm-search-input', 'chat-image-input', 'dm-image-input'].forEach((id) => { const input = document.getElementById(id); if (input) input.value = ''; });
+    document.querySelectorAll('.appel-actions button').forEach((button) => { button.disabled = false; button.removeAttribute('aria-busy'); button.removeAttribute('aria-pressed'); });
+}
+
+function onGuildAuthChanged(event) {
+    const content = document.getElementById('guilde-content');
+    if (!content) return;
+    const active = document.activeElement;
+    const privateFocus = content.contains(active) || document.getElementById('guild-event-dialog')?.contains(active) || document.getElementById('guild-chat')?.contains(active);
+    // Auth emits { user }, after publishing window.currentUser; invalidate before
+    // any outstanding response can render or refill the just-cleared private cache.
+    guildInitToken++;
+    guildMemberId = null;
+    guildResumeCommunications = false;
+    markingPresence = null;
+    window.NamelessGuildExpeditions?.destroy();
+    window.NamelessGuildChat?.destroy();
+    window.NamelessGuildDm?.destroy();
+    window.cacheManager?.clear();
+    clearPrivateGuildContent();
+    const user = event.detail && Object.prototype.hasOwnProperty.call(event.detail, 'user') ? event.detail.user : window.currentUser;
+    if (!user || !window.currentUser || user.id !== window.currentUser.id) {
+        showAccessDenied('Vous devez être connecté pour accéder à l\'espace guilde.');
+        if (privateFocus) document.querySelector('#access-denied a[href="/connexion"]')?.focus();
+        return;
+    }
+    const loading = document.getElementById('loading');
+    if (loading) loading.style.display = 'block';
+    const denied = document.getElementById('access-denied');
+    if (denied) denied.style.display = 'none';
+    if (privateFocus) { const title = document.querySelector('.guild-hall h1'); if (title) { title.tabIndex = -1; title.focus(); } }
+    guildResumeCommunications = true;
+    initGuildPage();
+}
 
 // Fonction pour changer d'onglet
 function switchGuildeTab(tabName, persist = true) {
@@ -41,6 +102,10 @@ function switchGuildeTab(tabName, persist = true) {
 // Attendre que l'auth soit prête
 async function initGuildPage() {
     const token = ++guildInitToken;
+    guildMemberId = null;
+    if (guildAuthListeners) guildAuthListeners.abort();
+    guildAuthListeners = new AbortController();
+    document.addEventListener('nameless:auth-changed', onGuildAuthChanged, { signal: guildAuthListeners.signal });
     // console.log('[GUILDE] Initialisation de l espace guilde...');
     
     // Cacher le lien "Guilde" du menu (on est déjà sur la page)
@@ -75,6 +140,11 @@ async function initGuildPage() {
 
 function destroyGuildPage() {
     guildInitToken++;
+    guildMemberId = null;
+    guildResumeCommunications = false;
+    if (guildAuthListeners) guildAuthListeners.abort();
+    guildAuthListeners = null;
+    if (window.NamelessGuildExpeditions) window.NamelessGuildExpeditions.destroy();
 }
 
 window.NamelessGuildPage = {
@@ -151,9 +221,15 @@ async function checkMemberAccess(token) {
         if (token !== guildInitToken) return;
         
         if (role === 'membre' || role === 'admin') {
+            guildMemberId = window.currentUser.id;
             // console.log('[OK] Acces autorise - Role:', role);
-            await loadGuildeData(token);
+            await loadGuildeData(token, role);
             if (token !== guildInitToken) return;
+            if (guildResumeCommunications) {
+                guildResumeCommunications = false;
+                if (window.NamelessGuildChat?.init) Promise.resolve(window.NamelessGuildChat.init()).catch((error) => logGuildWarning('chat_resume_failed', error));
+                if (window.NamelessGuildDm?.init) Promise.resolve(window.NamelessGuildDm.init()).catch((error) => logGuildWarning('dm_resume_failed', error));
+            }
             
             // Restaurer l'onglet actif depuis localStorage
             let savedTab = null;
@@ -186,20 +262,33 @@ function showAccessDenied(message) {
 }
 
 // Charger toutes les données de la guilde
-async function loadGuildeData(token) {
+async function loadGuildeData(token, role) {
     if (token !== guildInitToken || !document.getElementById('guilde-content')) return;
     document.getElementById('loading').style.display = 'none';
     document.getElementById('guilde-content').style.display = 'block';
+    const denied = document.getElementById('access-denied');
+    if (denied) denied.style.display = 'none';
     
     // Charger les trois sections en parallèle
     await Promise.all([
-        loadPlanning(token),
+        window.NamelessGuildExpeditions
+            ? window.NamelessGuildExpeditions.init(document.getElementById('main-content'), { client: supabase, user: window.currentUser, role: role })
+            : loadPlanning(token),
         loadObjectives(token),
         loadPresence(token),
         loadActivityWall(token)
     ]);
     
     if (token !== guildInitToken) return;
+    const objectivePreview = document.getElementById('hq-objective-preview');
+    const objectives = document.getElementById('objectives-list');
+    if (objectivePreview && objectives) {
+        const first = objectives.querySelector('.objective-item');
+        if (first) {
+            objectivePreview.classList.remove('hq-empty');
+            objectivePreview.replaceChildren(first.cloneNode(true));
+        } else objectivePreview.textContent = objectives.textContent.trim();
+    }
     // Event listeners pour les boutons d'appel
     const presenceBtn = document.getElementById('mark-presence-btn');
     const absenceBtn = document.getElementById('mark-absence-btn');
@@ -215,6 +304,7 @@ async function loadGuildeData(token) {
 
 // ========== PLANNING ==========
 async function loadPlanning(token = guildInitToken) {
+    if (token !== guildInitToken) return;
     try {
         // Utiliser le cache
         const cacheKey = 'guild_planning';
@@ -242,6 +332,7 @@ async function loadPlanning(token = guildInitToken) {
             return;
         }
         
+        if (token !== guildInitToken) return;
         // Mettre en cache pour 2 minutes
         if (window.cacheManager) {
             window.cacheManager.set(cacheKey, data || []);
@@ -276,6 +367,7 @@ function displayPlanning(data) {
     `).join('');
 }// ========== OBJECTIFS ==========
 async function loadObjectives(token = guildInitToken) {
+    if (token !== guildInitToken) return;
     try {
         // Obtenir le numéro de semaine actuel
         const now = new Date();
@@ -309,6 +401,7 @@ async function loadObjectives(token = guildInitToken) {
             return;
         }
         
+        if (token !== guildInitToken) return;
         // Mettre en cache pour 5 minutes
         if (window.cacheManager) {
             window.cacheManager.set(cacheKey, data || []);
@@ -398,7 +491,7 @@ async function loadPresence(token = guildInitToken) {
         if (profilesError) {
             // console.error('[ERREUR] Erreur chargement profils:', profilesError);
             const container = document.getElementById('presence-list');
-            container.innerHTML = '<div class="no-data">Erreur de chargement des profils</div>';
+            if (token === guildInitToken) container.innerHTML = '<div class="no-data">Erreur de chargement des profils</div>';
             return;
         }
         
@@ -440,18 +533,18 @@ async function loadPresence(token = guildInitToken) {
     } catch (error) {
         // console.error('[ERREUR]:', error);
         const container = document.getElementById('presence-list');
-        if (container) {
+        if (token === guildInitToken && container) {
             container.innerHTML = '<div class="no-data">Erreur technique lors du chargement</div>';
         }
     }
 }
 
 // Marquer sa présence ou absence
-let markingPresence = false;
+let markingPresence = null;
 async function markPresence(statut = 'present') {
-    if (markingPresence || !window.currentUser || !['present', 'absent'].includes(statut)) return;
-    markingPresence = true;
     const token = guildInitToken;
+    if (markingPresence === token || !window.currentUser || window.currentUser.id !== guildMemberId || !['present', 'absent'].includes(statut)) return;
+    markingPresence = token;
     const buttons = [...document.querySelectorAll('.appel-actions button')];
     const feedback = document.getElementById('presence-feedback');
     buttons.forEach((button) => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
@@ -469,8 +562,10 @@ async function markPresence(statut = 'present') {
     } catch (error) {
         if (token === guildInitToken && feedback) feedback.textContent = 'Impossible d’enregistrer votre statut. Réessayez dans un instant.';
     } finally {
-        markingPresence = false;
-        buttons.forEach((button) => { button.disabled = false; button.removeAttribute('aria-busy'); });
+        if (markingPresence === token) {
+            markingPresence = null;
+            buttons.forEach((button) => { button.disabled = false; button.removeAttribute('aria-busy'); });
+        }
     }
 }
 
@@ -546,6 +641,7 @@ function escapeHtml(text) {
 
 // ========== MUR D'ACTIVITÉ ==========
 async function loadActivityWall(token = guildInitToken) {
+    if (token !== guildInitToken) return;
     try {
         // console.log('[GUILDE] Chargement du mur d\'activité...');
         
@@ -574,6 +670,7 @@ async function loadActivityWall(token = guildInitToken) {
             return;
         }
         
+        if (token !== guildInitToken) return;
         // Mettre en cache pour 1 minute
         if (window.cacheManager) {
             window.cacheManager.set(cacheKey, data || [], 60000);

@@ -11,7 +11,7 @@ const routes = new Map([['/qa/guild', 'espace-guilde'], ['/qa/profile', 'profil'
 const scripts = new Set([
     'i18n-en.js', 'i18n-en-reviewed.js', 'i18n-quests-en-reviewed.js', 'i18n-game-en-reviewed.js',
     'i18n-information-en-reviewed.js', 'i18n.js', 'guild-date-utils.js', 'cache-manager.js', 'security-utils.js',
-    'navbar-mobile.js', 'global-search.js', 'espace-guilde.js', 'profil.js', 'admin-dashboard.js', 'guild-chat.js', 'guild-dm.js'
+    'navbar-mobile.js', 'global-search.js', 'reference-shell.js', 'guild-expeditions.js', 'espace-guilde.js', 'profil.js', 'admin-dashboard.js', 'guild-chat.js', 'guild-dm.js'
 ]);
 const csp = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
 const headers = {

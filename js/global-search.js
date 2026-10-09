@@ -164,6 +164,14 @@
         dialog.addEventListener('close', function () {if (opener && opener.isConnected) opener.focus();});
         dialog.addEventListener('click', function (event) {if (event.target === dialog) {var rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();}});
         dialog.addEventListener('keydown', function (event) {
+            // A search input consumes native Escape to clear its value. Close the
+            // dialog explicitly so the advertised shortcut works with a query too.
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                event.stopPropagation();
+                dialog.close();
+                return;
+            }
             if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
             var links = Array.from(list.querySelectorAll('a')); if (!links.length) return;
             event.preventDefault();

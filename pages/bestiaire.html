@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-world-atmosphere="forest">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
@@ -44,6 +44,11 @@
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="../css/components/global-search.css?v=20261008sao">
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261009world">
+    <link rel="stylesheet" href="../css/components/reference-catalogs.css?v=20261009reference">
+    <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009reference">
+    <script src="/js/reference-shell.js?v=20261009reference" defer></script>
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -81,16 +86,17 @@
     </header>
 
     <!-- Contenu principal -->
-    <main id="main-content" class="bestiaire-container page-visual-shell bestiaire-visual-shell" role="main">
+    <main id="main-content" class="bestiaire-container page-visual-shell bestiaire-visual-shell bestiary-page" role="main">
         <!-- Hero compact -->
         <section class="bes-hero nm-scene-hero nm-scene-hero--bleed scene-bestiaire">
-            <span class="nm-eyebrow">Codex des créatures</span>
-            <h1>Bestiaire d'Aincrad</h1>
-            <p class="bes-subtitle">Créatures, zones et butins connus. Ouvre une fiche pour explorer ses sources.</p>
+            <nav class="catalogue-breadcrumb" aria-label="Fil d’Ariane"><a href="/">Accueil</a><span aria-hidden="true">›</span><span>Bestiaire</span></nav>
+            <h1>Bestiaire</h1>
+            <p class="bes-subtitle">Découvrez les créatures d’Aincrad et leurs butins.</p>
         </section>
 
         <div class="catalogue-layout">
         <aside class="bes-filters" aria-label="Recherche et filtres du bestiaire">
+            <div class="catalogue-filter-title"><strong>Filtres</strong><button type="button" class="catalogue-reset" id="bes-reset">Réinitialiser</button></div>
             <div class="bes-search">
                 <label for="bes-search">Rechercher une créature</label>
                 <input type="search" id="bes-search" placeholder="Nom, type ou zone…" autocomplete="off" maxlength="200">
@@ -116,7 +122,6 @@
                 </select>
             </div>
             </details>
-            <button type="button" class="catalogue-reset" id="bes-reset">Réinitialiser les filtres</button>
         </aside>
 
         <div class="catalogue-results">
@@ -128,7 +133,9 @@
                 <option value="name-desc">Nom : Z à A</option>
                 <option value="category">Catégorie</option>
             </select></div>
+            <div class="catalogue-view" role="group" aria-label="Affichage des créatures"><button type="button" data-catalog-view="grid" aria-label="Vue grille" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h5v5H3zM12 3h5v5h-5zM3 12h5v5H3zM12 12h5v5h-5z"/></svg></button><button type="button" data-catalog-view="list" aria-label="Vue liste" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h3v3H3zM9 4h8M3 12h3v3H3zM9 12h8"/></svg></button></div>
         </div>
+        <div id="bes-active-filters" class="catalogue-active-filters" aria-label="Filtres actifs"></div>
         <section class="creatures-grid" id="creatures-grid" aria-label="Liste des créatures" aria-live="polite"></section>
 
         <!-- Contrôles de pagination -->
@@ -152,6 +159,7 @@
             </div>
         </nav>
         </div>
+        <aside class="catalogue-detail-slot" aria-label="Fiche de la créature"><div class="catalogue-detail-empty"><span aria-hidden="true">✧</span><h2>Le codex d’Aincrad</h2><p>Sélectionnez une créature pour découvrir sa zone et ses butins.</p></div></aside>
         </div>
     </main>
 
@@ -165,7 +173,7 @@
 
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261009def" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261009reference" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -176,8 +184,8 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261008sao" defer></script>
-    <script src="../js/bestiaire.js?v=20261008hybrid" defer></script>
+    <script src="../js/global-search.js?v=20261009phase1" defer></script>
+    <script src="../js/bestiaire.js?v=20261009reference" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
 </body>

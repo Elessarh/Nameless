@@ -1,0 +1,543 @@
+{
+  "generatedAt": "2026-10-09T10:22:40.195Z",
+  "base": "http://127.0.0.1:4173",
+  "checks": [
+    {
+      "name": "home-reference: layout and image loading",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1146
+      }
+    },
+    {
+      "name": "Desktop action menu: keyboard, ARIA and focus return",
+      "passed": true,
+      "detail": {
+        "focusReturned": true
+      }
+    },
+    {
+      "name": "Home real destination links and global search",
+      "passed": true,
+      "detail": {
+        "categoryLinks": 4,
+        "realRecords": 5,
+        "searchResult": "/boss/illfang"
+      }
+    },
+    {
+      "name": "Home scenery pauses every decorative layer and resumes",
+      "passed": true,
+      "detail": {
+        "pausedLayers": 7
+      }
+    },
+    {
+      "name": "home-desktop: layout and image loading",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "height": 1248
+      }
+    },
+    {
+      "name": "Bestiary desktop: real cards and initial inline selection",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1722
+      }
+    },
+    {
+      "name": "Bestiary: combinable real filters, chips and reset",
+      "passed": true,
+      "detail": {
+        "initial": "60 créatures trouvées",
+        "filtered": "17 créatures trouvées",
+        "selectedRealCreature": "12"
+      }
+    },
+    {
+      "name": "Bestiary: selection, grid/list, sorting and detail tabs",
+      "passed": true,
+      "detail": {
+        "selectedCreature": "1",
+        "detailTabs": [
+          "overview",
+          "zones",
+          "drops"
+        ]
+      }
+    },
+    {
+      "name": "Items desktop: real catalogue and inline selection",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1681
+      }
+    },
+    {
+      "name": "Items: selection, real sources tabs, grid/list and sorting",
+      "passed": true,
+      "detail": {
+        "selectedRealItem": "anneau_leviathan",
+        "detailTabs": [
+          "overview",
+          "sources"
+        ]
+      }
+    },
+    {
+      "name": "Items: category/rarity/source filters, chips, reset and known Gelée source",
+      "passed": true,
+      "detail": {
+        "initial": "104 objets trouvés",
+        "filtered": "9 objets trouvés",
+        "sourceLinks": [
+          "/bestiaire?creature=1",
+          "/carte?floor=1&entity=creature%3A1",
+          "/bestiaire?creature=2",
+          "/carte?floor=1&entity=creature%3A2",
+          "/bestiaire?creature=3",
+          "/carte?floor=1&entity=creature%3A3",
+          "/bestiaire?creature=4",
+          "/carte?floor=1&entity=creature%3A4",
+          "/bestiaire?creature=5",
+          "/carte?floor=1&entity=creature%3A5"
+        ],
+        "detailTabs": [
+          "overview",
+          "sources",
+          "related"
+        ]
+      }
+    },
+    {
+      "name": "Map desktop: original floor image, real markers and selected place",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1476
+      }
+    },
+    {
+      "name": "Map: exactly three real floors and working floor navigation",
+      "passed": true,
+      "detail": {
+        "floors": [
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    },
+    {
+      "name": "Map: marker filters, names, legend and selected-place tabs",
+      "passed": true,
+      "detail": {
+        "markerCount": 17,
+        "filteredMarkers": 16,
+        "selectedPlace": "location:1:ville-depart",
+        "panelTabs": [
+          "overview",
+          "creatures",
+          "items",
+          "places"
+        ]
+      }
+    },
+    {
+      "name": "Guild public route: member gate and real sign-in links",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1050
+      }
+    },
+    {
+      "name": "home mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2149
+      }
+    },
+    {
+      "name": "Home mobile menu opens and closes",
+      "passed": true
+    },
+    {
+      "name": "bestiaire mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2349
+      }
+    },
+    {
+      "name": "bestiaire mobile: real detail sheet and Escape focus return",
+      "passed": true
+    },
+    {
+      "name": "items mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2382
+      }
+    },
+    {
+      "name": "items mobile: real detail sheet and Escape focus return",
+      "passed": true
+    },
+    {
+      "name": "map mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 1464
+      }
+    },
+    {
+      "name": "Map mobile: filter rail and legend are accessible",
+      "passed": true
+    },
+    {
+      "name": "guild-public mobile390: layout and images",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 1133
+      }
+    },
+    {
+      "name": "Guild isolated QA: labeled fixture and reference dashboard",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 1672,
+          "height": 941
+        },
+        "height": 1751
+      }
+    },
+    {
+      "name": "Guild isolated QA: real tabs and calendar controls",
+      "passed": true,
+      "detail": {
+        "tabs": [
+          "overview",
+          "expeditions",
+          "members",
+          "resources",
+          "settings"
+        ],
+        "month": "Octobre 2026",
+        "fixtureOnly": true
+      }
+    },
+    {
+      "name": "Guild isolated QA mobile390: layout and resources",
+      "passed": true,
+      "detail": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "height": 2668
+      }
+    },
+    {
+      "name": "Reduced motion home remains still",
+      "passed": true,
+      "detail": {
+        "runningDecorativeAnimations": 0
+      }
+    },
+    {
+      "name": "Real browser motion and selection recording",
+      "passed": true,
+      "detail": {
+        "file": "reference-motion-demo.webm",
+        "viewport": "1920×1080",
+        "actions": [
+          "hero entrance",
+          "parallax",
+          "hover",
+          "creature selection",
+          "drops tab",
+          "item selection",
+          "sources tab",
+          "real floor transitions"
+        ]
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "page": "home-reference",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1146,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "page": "home-desktop",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1248,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "page": "bestiaire-desktop",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1722,
+      "brokenImages": [],
+      "heading": "Bestiaire"
+    },
+    {
+      "page": "items-desktop",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1681,
+      "brokenImages": [],
+      "heading": "Objets"
+    },
+    {
+      "page": "map-desktop",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1476,
+      "brokenImages": [],
+      "heading": "Carte d’Aincrad"
+    },
+    {
+      "page": "guild-public-desktop",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1050,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "home-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2149,
+      "brokenImages": [],
+      "heading": "Explorez Aincrad, ensemble"
+    },
+    {
+      "page": "bestiaire-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2349,
+      "brokenImages": [],
+      "heading": "Bestiaire"
+    },
+    {
+      "page": "items-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2382,
+      "brokenImages": [],
+      "heading": "Objets"
+    },
+    {
+      "page": "map-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 1464,
+      "brokenImages": [],
+      "heading": "Carte d’Aincrad"
+    },
+    {
+      "page": "guild-public-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 1133,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-isolated-QA",
+      "viewport": {
+        "width": 1672,
+        "height": 941
+      },
+      "width": 1672,
+      "height": 1751,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    },
+    {
+      "page": "guild-isolated-QA-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "width": 390,
+      "height": 2668,
+      "brokenImages": [],
+      "heading": "Quartier général"
+    }
+  ],
+  "screenshots": [
+    "home-reference.png",
+    "home-reference-full.png",
+    "home-desktop.png",
+    "home-desktop-full.png",
+    "bestiaire-initial.png",
+    "bestiaire-reference.png",
+    "bestiaire-list.png",
+    "items-reference.png",
+    "items-list.png",
+    "items-real-sources.png",
+    "map-reference.png",
+    "map-floor-2.png",
+    "map-floor-3.png",
+    "map-legend.png",
+    "map-selected.png",
+    "guild-public-reference.png",
+    "home-mobile.png",
+    "home-mobile-full.png",
+    "bestiaire-mobile.png",
+    "bestiaire-mobile-full.png",
+    "bestiaire-mobile-detail.png",
+    "items-mobile.png",
+    "items-mobile-full.png",
+    "items-mobile-detail.png",
+    "map-mobile.png",
+    "map-mobile-full.png",
+    "guild-public-mobile.png",
+    "guild-public-mobile-full.png",
+    "guild-qa-reference.png",
+    "guild-qa-mobile.png",
+    "guild-qa-mobile-full.png"
+  ],
+  "browserErrors": [],
+  "consoleErrors": [
+    {
+      "page": "catalogues/map/guild",
+      "message": "Failed to load resource: the server responded with a status of 404 ()"
+    },
+    {
+      "page": "mobile",
+      "message": "Failed to load resource: the server responded with a status of 404 ()"
+    },
+    {
+      "page": "recording",
+      "message": "Failed to load resource: the server responded with a status of 404 ()"
+    }
+  ],
+  "localHttpErrors": [],
+  "abortedRequests": [
+    {
+      "page": "catalogues/map/guild",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261008sao",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "page": "mobile",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261008sao",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "externalNetwork": [
+    {
+      "page": "catalogues/map/guild",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "mobile",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "recording",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    }
+  ],
+  "qa": {
+    "enabled": true,
+    "base": "http://127.0.0.1:4181",
+    "data": "Explicitly labeled, isolated in-memory QA data; no real API"
+  },
+  "summary": {
+    "passed": 29,
+    "failed": 0
+  }
+}

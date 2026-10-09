@@ -40,10 +40,12 @@
         // dont le <head> ne contient pas les styles/scripts de l'accueil.
         css: [
             'css/components/mmorpg-kit.css?v=20261008sao',
-            'css/components/home.css?v=20261009def'
+            'css/components/home.css?v=20261009premium',
+            'css/components/home-premium.css?v=20261009phase1',
+            'css/components/reference-home.css?v=20261009reference'
         ],
         scripts: [
-            'js/home-carousel.js?v=20261008sao'
+            'js/home-carousel.js?v=20261009premium'
         ],
         init: function (root) {
             if (global.NamelessHomePage && typeof global.NamelessHomePage.init === 'function') {
@@ -75,11 +77,12 @@
             css: [
                 'css/vendor/leaflet-1.9.4.css?v=20261007a',
                 'css/components/map.css?v=20261008hybrid',
-                'css/components/page-hero.css?v=20261008hybrid'
+                'css/components/page-hero.css?v=20261008hybrid',
+                'css/components/reference-map.css?v=20261009reference'
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
-                'js/map.js?v=20261008hybrid'
+                'js/map.js?v=20261009reference'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -99,10 +102,11 @@
             title: 'Bestiaire - Nameless',
             css: [
                 'css/components/bestiaire.css?v=20261008hybrid',
-                'css/components/page-hero.css?v=20261008hybrid'
+                'css/components/page-hero.css?v=20261008hybrid',
+                'css/components/reference-catalogs.css?v=20261009reference'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261008hybrid'
+                'js/bestiaire.js?v=20261009reference'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -122,11 +126,12 @@
             title: "Catalogue d'Items - Nameless",
             css: [
                 'css/components/items.css?v=20261008hybrid',
-                'css/components/page-hero.css?v=20261008hybrid'
+                'css/components/page-hero.css?v=20261008hybrid',
+                'css/components/reference-catalogs.css?v=20261009reference'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261008hybrid'
+                'js/items.js?v=20261009reference'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
@@ -268,12 +273,14 @@
                 'css/components/activity-wall.css?v=20261008hybrid',
                 'css/components/guild-chat.css?v=20261008hybrid',
                 'css/components/guild-dm.css?v=20261008hybrid',
-                'css/components/guilde-nameless.css?v=20261008hybrid'
+                'css/components/guilde-nameless.css?v=20261008hybrid',
+                'css/components/guild-reference.css?v=20261009hq'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/espace-guilde.js?v=20261008hybrid',
+                'js/guild-expeditions.js?v=20261009hq',
+                'js/espace-guilde.js?v=20261009hq',
                 'js/guild-chat.js?v=20261008hybrid',
                 'js/guild-dm.js?v=20261007a'
             ],

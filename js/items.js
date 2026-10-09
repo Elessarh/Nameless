@@ -24,6 +24,8 @@
     var controller = null;
     var modalReturnFocus = null;
     var previousOverflow = '';
+    var sourceItems = new Set();
+    var sourceFiltersReady = false;
 
     function normalizeSearch(value) {
         return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
@@ -44,6 +46,91 @@
 
     function currentLocale() {
         return window.NamelessI18n && typeof window.NamelessI18n.getLocale === 'function' ? window.NamelessI18n.getLocale() : 'fr-FR';
+    }
+
+    function itemUi(fr, en) { return window.NamelessI18n && typeof window.NamelessI18n.getLanguage === 'function' && window.NamelessI18n.getLanguage() === 'en' ? en : fr; }
+    function compactPanel() { return window.innerWidth <= 980; }
+
+    function syncItemPanelMode() {
+        var modal = document.querySelector('.item-modal');
+        if (!modal) return;
+        var compact = compactPanel(), wasSheet = modal.dataset.panelMode === 'sheet';
+        modal.dataset.panelMode = compact ? 'sheet' : 'rail';
+        modal.setAttribute('role', compact ? 'dialog' : 'region');
+        if (compact) modal.setAttribute('aria-modal', 'true'); else modal.removeAttribute('aria-modal');
+        if (modal.style.display === 'flex') {
+            if (compact) document.body.style.overflow = 'hidden';
+            else if (wasSheet) document.body.style.overflow = previousOverflow;
+        }
+        document.querySelectorAll('.item-card').forEach(function (card) {
+            if (compact) card.setAttribute('aria-haspopup', 'dialog'); else card.removeAttribute('aria-haspopup');
+        });
+    }
+
+    function setItemSelection(id) {
+        document.querySelectorAll('.item-card').forEach(function (card) {
+            var selected = card.dataset.id === id;
+            card.classList.toggle('is-selected', selected); card.setAttribute('aria-expanded', String(selected));
+        });
+    }
+
+    function setupFilterChoices() {
+        var group = document.querySelector('.items-page .items-filter-group');
+        if (!group) return;
+        group.querySelectorAll('.catalogue-filter-section').forEach(function (section) { section.remove(); });
+        group.querySelectorAll('label, select').forEach(function (field) { field.classList.add('catalogue-native-field'); });
+        var definitions = [
+            ['it-category', 'Catégories', 'Categories', function (item) { return item.category; }],
+            ['it-rarity', 'Raretés', 'Rarities', function (item) { return item.rarity; }]
+        ];
+        if (sourceFiltersReady) definitions.push(['it-source', 'Sources', 'Sources', function (item) { return sourceItems.has(item.id) ? 'known' : 'unknown'; }]);
+        definitions.forEach(function (definition) {
+            var id = definition[0], select = document.getElementById(id);
+            if (!select) return;
+            var section = document.createElement('fieldset'); section.className = 'catalogue-filter-section';
+            var title = document.createElement('legend'); title.textContent = itemUi(definition[1], definition[2]); section.appendChild(title);
+            Array.from(select.options).filter(function (option) { return option.value; }).forEach(function (option) {
+                var countValue = allItems.filter(function (item) { return definition[3](item) === option.value; }).length;
+                if (!countValue) return;
+                var row = document.createElement('label'); row.className = 'catalogue-filter-option';
+                var input = document.createElement('input'); input.type = 'checkbox'; input.dataset.filterField = id; input.value = option.value; input.checked = select.value === option.value;
+                var name = document.createElement('span'); name.textContent = displayName(option.textContent);
+                var count = document.createElement('span'); count.textContent = String(countValue);
+                row.append(input, name, count); section.appendChild(row);
+            });
+            group.appendChild(section);
+        });
+    }
+
+    function syncFilterChoices() {
+        document.querySelectorAll('.items-page [data-filter-field]').forEach(function (input) {
+            input.checked = document.getElementById(input.dataset.filterField).value === input.value;
+        });
+        var chips = document.getElementById('it-active-filters');
+        if (!chips) return;
+        chips.replaceChildren();
+        ['it-search', 'it-category', 'it-rarity', 'it-source'].forEach(function (id) {
+            var field = document.getElementById(id);
+            if (!field || !field.value) return;
+            var label = field.tagName === 'SELECT' ? field.options[field.selectedIndex].textContent : field.value;
+            var button = document.createElement('button'); button.type = 'button'; button.className = 'catalogue-filter-chip'; button.dataset.clearFilter = id; button.textContent = displayName(label) + ' ×';
+            button.setAttribute('aria-label', itemUi('Retirer le filtre ', 'Remove filter ') + displayName(label)); chips.appendChild(button);
+        });
+    }
+
+    function loadSourceFilters() {
+        if (!window.NamelessGlobalSearch || typeof window.NamelessGlobalSearch.getIndex !== 'function') return;
+        var signal = controller.signal;
+        window.NamelessGlobalSearch.getIndex().then(function (entries) {
+            if (signal.aborted || !document.querySelector('.items-page')) return;
+            sourceItems = new Set(entries.filter(function (entry) { return entry.kind === 'item' && Array.isArray(entry.sources) && entry.sources.some(validBestiarySource); }).map(function (entry) { return entry.id; }));
+            sourceFiltersReady = true; setupFilterChoices(); syncFilterChoices();
+        }).catch(function () { /* Catalogue filters remain usable without the source index. */ });
+    }
+
+    function validBestiarySource(source) {
+        if (!source || typeof source.url !== 'string' || typeof source.title !== 'string') return false;
+        try { var url = new URL(source.url, window.location.origin); return url.origin === window.location.origin && url.pathname === '/bestiaire' && /^\d+$/.test(url.searchParams.get('creature') || ''); } catch (_) { return false; }
     }
 
     function updateItemUrl(id) {
@@ -76,25 +163,33 @@
         itemsPerPage = parseInt(document.getElementById('items-per-page-select')?.value, 10) || 12;
         loadItems();
         populateCategoryFilter();
+        setupFilterChoices();
         setupItemImages();
         setupListeners();
         applyFromBestiaire();   // pré-remplit la recherche si venu d'un drop (validé)
         applyFilters();
         applyItemUrl();
+        if (!compactPanel() && !new URLSearchParams(window.location.search).has('item') && filtered.length) openItemModal(filtered[0].id, false, false);
+        loadSourceFilters();
         document.addEventListener('nameless:routechange', applyItemUrl, { signal: controller.signal });
-        document.addEventListener('nameless:languagechange', applyFilters, { signal: controller.signal });
+        document.addEventListener('nameless:languagechange', function () {
+            setupFilterChoices(); applyFilters();
+            var modal = document.querySelector('.item-modal');
+            if (modal && modal.style.display === 'flex' && modal.dataset.item) openItemModal(modal.dataset.item, false, false);
+        }, { signal: controller.signal });
     }
 
     function destroyItems() {
         if (controller) { controller.abort(); controller = null; }
         var modal = document.querySelector('.item-modal');
         if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
-        if (modal) document.body.style.overflow = previousOverflow;
+        if (modal && modal.dataset.panelMode === 'sheet' && modal.style.display === 'flex') document.body.style.overflow = previousOverflow;
         modalReturnFocus = null;
         allItems = [];
         filtered = [];
         currentPage = 1;
         totalPages = 1;
+        sourceItems = new Set(); sourceFiltersReady = false;
     }
 
     window.NamelessItemsPage = { init: initItems, destroy: destroyItems };
@@ -196,10 +291,27 @@
 
         var search = document.getElementById('it-search');
         if (search) search.addEventListener('input', applyFilters, opts);
+        var choices = document.querySelector('.items-page .items-filter-group');
+        if (choices) choices.addEventListener('change', function (event) {
+            var input = event.target.closest('[data-filter-field]'); if (!input) return;
+            var select = document.getElementById(input.dataset.filterField); if (select) { select.value = input.checked ? input.value : ''; applyFilters(); }
+        }, opts);
+        var chips = document.getElementById('it-active-filters');
+        if (chips) chips.addEventListener('click', function (event) {
+            var button = event.target.closest('[data-clear-filter]'); if (!button) return;
+            var field = document.getElementById(button.dataset.clearFilter); if (field) { field.value = ''; applyFilters(); }
+        }, opts);
+        var view = document.querySelector('.items-page .catalogue-view');
+        if (view) view.addEventListener('click', function (event) {
+            var button = event.target.closest('[data-catalog-view]'); if (!button) return;
+            document.getElementById('items-grid').dataset.view = button.dataset.catalogView;
+            view.querySelectorAll('button').forEach(function (control) { control.setAttribute('aria-pressed', String(control === button)); });
+        }, opts);
         var cat = document.getElementById('it-category');
         if (cat) cat.addEventListener('change', applyFilters, opts);
         var rar = document.getElementById('it-rarity');
         if (rar) rar.addEventListener('change', applyFilters, opts);
+        var source = document.getElementById('it-source'); if (source) source.addEventListener('change', applyFilters, opts);
         var sort = document.getElementById('it-sort');
         if (sort) sort.addEventListener('change', applyFilters, opts);
         var reset = document.getElementById('it-reset');
@@ -207,6 +319,7 @@
             if (search) search.value = '';
             if (cat) cat.value = '';
             if (rar) rar.value = '';
+            if (source) source.value = '';
             if (sort) sort.value = 'catalogue';
             var url = new URL(window.location.href); url.searchParams.delete('q'); history.replaceState(history.state, '', url.href);
             applyFilters();
@@ -217,6 +330,7 @@
         window.addEventListener('resize', function () {
             var compact = window.innerWidth <= 768;
             if (filterDetails && compact !== compactFilters) { filterDetails.open = !compact; compactFilters = compact; }
+            syncItemPanelMode();
         }, opts);
 
         var grid = document.getElementById('items-grid');
@@ -250,16 +364,17 @@
         document.addEventListener('click', function (e) {
             var modal = document.querySelector('.item-modal');
             if (!modal || modal.style.display === 'none') return;
-            if (e.target.classList.contains('item-modal') || e.target.closest('.modal-close')) closeModal();
+            if ((modal.dataset.panelMode === 'sheet' && e.target === modal) || e.target.closest('.item-modal .modal-close')) closeModal();
         }, opts);
         document.addEventListener('keydown', function (e) {
             if (e.target.closest && e.target.closest('dialog[open]')) return;
             var modal = document.querySelector('.item-modal');
             if (!modal || modal.style.display === 'none') return;
-            if (e.key === 'Escape') { e.preventDefault(); closeModal(); }
-            if (e.key === 'Tab') {
-                var controls = Array.from(modal.querySelectorAll('button, a[href], [tabindex="0"]'));
+            if (e.key === 'Escape' && (compactPanel() || modal.contains(e.target))) { e.preventDefault(); closeModal(); }
+            if (e.key === 'Tab' && compactPanel()) {
+                var controls = Array.from(modal.querySelectorAll('button, a[href], [tabindex="0"]')).filter(function (control) { return !control.closest('[hidden]') && control.tabIndex !== -1; });
                 var first = controls[0], last = controls[controls.length - 1];
+                if (!first) return;
                 if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
                 else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
             }
@@ -287,12 +402,14 @@
         var q = normalizeSearch(document.getElementById('it-search') && document.getElementById('it-search').value || '');
         var cat = (document.getElementById('it-category') && document.getElementById('it-category').value) || '';
         var rar = (document.getElementById('it-rarity') && document.getElementById('it-rarity').value) || '';
+        var source = (document.getElementById('it-source') && document.getElementById('it-source').value) || '';
 
         filtered = allItems.filter(function (i) {
             var matchSearch = !q || [i.name, i.category, i.categoryLabel].some(function (value) { return matchesQuery(value, q); });
             var matchCat = !cat || i.category === cat;
             var matchRar = !rar || i.rarity === rar;
-            return matchSearch && matchCat && matchRar;
+            var matchSource = !source || !sourceFiltersReady || (source === 'known' ? sourceItems.has(i.id) : !sourceItems.has(i.id));
+            return matchSearch && matchCat && matchRar && matchSource;
         });
         var sort = document.getElementById('it-sort') && document.getElementById('it-sort').value || 'catalogue';
         var byName = function (a, b) { return displayName(a.name).localeCompare(displayName(b.name), currentLocale(), { sensitivity: 'base', numeric: true }) || a.id.localeCompare(b.id); };
@@ -303,6 +420,7 @@
         else if (sort === 'rarity-desc') filtered.sort(function (a, b) { return rarityOrder[b.rarity] - rarityOrder[a.rarity] || byName(a, b); });
         else if (sort === 'category') filtered.sort(function (a, b) { return cleanCategory(displayName(a.category)).localeCompare(cleanCategory(displayName(b.category)), currentLocale()) || byName(a, b); });
         currentPage = 1;
+        syncFilterChoices();
         render();
     }
 
@@ -315,7 +433,7 @@
         if (currentPage > totalPages) currentPage = totalPages;
 
         var count = document.getElementById('it-count');
-        if (count) count.textContent = filtered.length + ' item' + (filtered.length > 1 ? 's' : '');
+        if (count) count.textContent = filtered.length + itemUi(' objet' + (filtered.length > 1 ? 's trouvés' : ' trouvé'), ' item' + (filtered.length > 1 ? 's found' : ' found'));
 
         if (filtered.length === 0) {
             var empty = document.createElement('div');
@@ -346,10 +464,12 @@
         var modal = document.querySelector('.item-modal');
         if (modal && modal.style.display === 'flex' && modal.dataset.item === item.id) card.classList.add('is-selected');
         card.dataset.id = item.id;
+        card.dataset.selectedLabel = itemUi('Sélectionné', 'Selected');
         card.tabIndex = 0;
         card.setAttribute('role', 'button');
         card.setAttribute('aria-label', 'Voir ' + item.name);
-        card.setAttribute('aria-haspopup', 'dialog');
+        if (compactPanel()) card.setAttribute('aria-haspopup', 'dialog');
+        card.setAttribute('aria-controls', 'item-dialog'); card.setAttribute('aria-expanded', String(card.classList.contains('is-selected')));
 
         var media = document.createElement('div');
         media.className = 'item-media';
@@ -378,20 +498,23 @@
         catChip.textContent = item.categoryLabel;
         body.appendChild(catChip);
         card.appendChild(body);
+        var tooltip = document.createElement('span'); tooltip.className = 'catalogue-tooltip'; tooltip.setAttribute('aria-hidden', 'true');
+        var icon = document.createElement('img'); icon.src = item.image; icon.alt = ''; icon.loading = 'lazy'; icon.dataset.fallback = 'item'; tooltip.appendChild(icon);
+        var tooltipInfo = document.createElement('span'), tooltipName = document.createElement('strong'), tooltipCategory = document.createElement('span'), tooltipRarity = document.createElement('span');
+        tooltipName.textContent = displayName(item.name); tooltipCategory.textContent = displayName(item.categoryLabel); tooltipRarity.textContent = displayName(meta.label); tooltipInfo.append(tooltipName, tooltipCategory, tooltipRarity); tooltip.appendChild(tooltipInfo); card.appendChild(tooltip);
 
         return card;
     }
 
-    function openItemModal(id, updateUrl) {
+    function openItemModal(id, updateUrl, moveFocus = true) {
         var item = allItems.filter(function (i) { return i.id === id; })[0];
         if (!item) return;
         var meta = rarityMeta(item.rarity);
 
         var modal = document.querySelector('.item-modal');
-        if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; modal.id = 'item-dialog'; document.body.appendChild(modal); }
+        if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; modal.id = 'item-dialog'; (document.querySelector('.items-page .catalogue-detail-slot') || document.body).appendChild(modal); }
         if (modal.style.display !== 'flex') { modalReturnFocus = document.activeElement; previousOverflow = document.body.style.overflow; }
-        modal.setAttribute('role', 'dialog');
-        modal.setAttribute('aria-modal', 'true');
+        if (moveFocus) modalReturnFocus = document.activeElement;
         modal.setAttribute('aria-labelledby', 'item-dialog-title');
         modal.dataset.item = id;
         modal.innerHTML = '';
@@ -404,7 +527,7 @@
         close.className = 'modal-close';
         close.setAttribute('aria-label', 'Fermer');
         close.textContent = '×';
-        document.querySelectorAll('.item-card').forEach(function (card) { card.classList.toggle('is-selected', card.dataset.id === id); });
+        setItemSelection(id);
         content.appendChild(close);
 
         var media = document.createElement('div');
@@ -436,12 +559,15 @@
         badges.appendChild(cb);
         info.appendChild(badges);
 
+        var sources = document.createElement('section'); sources.className = 'item-sources';
+        var sourcesTitle = document.createElement('h3'); sourcesTitle.textContent = itemUi('Sources d’obtention', 'Known sources'); sources.appendChild(sourcesTitle);
+        var sourceStatus = document.createElement('p'); sourceStatus.textContent = itemUi('Sources non renseignées.', 'Sources not recorded.'); sources.appendChild(sourceStatus);
+        content.appendChild(info);
+        var detailTabs = installItemDetailTabs(content, id, sources);
+
         if (window.NamelessGlobalSearch && typeof window.NamelessGlobalSearch.getIndex === 'function') {
             var sourceSignal = controller && controller.signal;
-            var sources = document.createElement('section'); sources.className = 'item-sources';
-            var sourcesTitle = document.createElement('h3'); sourcesTitle.textContent = 'Sources connues'; sources.appendChild(sourcesTitle);
-            var sourceStatus = document.createElement('p'); sourceStatus.textContent = 'Chargement des sources...'; sources.appendChild(sourceStatus);
-            info.appendChild(sources);
+            sourceStatus.textContent = itemUi('Chargement des sources...', 'Loading sources...');
             var currentSources = function () {
                 return !(sourceSignal && sourceSignal.aborted) && sources.isConnected && modal.isConnected
                     && modal.dataset.item === id && modal.style.display === 'flex';
@@ -482,26 +608,66 @@
                 });
                 if (list.children.length) { sourceStatus.remove(); sources.appendChild(list); }
                 else sourceStatus.textContent = 'Aucune source confirmée dans le bestiaire.';
+                var sourceUrls = new Set(knownSources.filter(validBestiarySource).map(function (source) { return source.url; }));
+                var related = entries.filter(function (candidate) {
+                    return candidate.kind === 'item' && candidate.id !== id && allItems.some(function (record) { return record.id === candidate.id; }) && Array.isArray(candidate.sources) && candidate.sources.some(function (source) { return validBestiarySource(source) && sourceUrls.has(source.url); });
+                });
+                if (related.length) detailTabs.related(related.slice(0, 6));
             }).catch(function () { if (currentSources()) sourceStatus.textContent = 'Sources temporairement indisponibles.'; });
         }
 
-        content.appendChild(info);
         modal.appendChild(content);
         modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+        syncItemPanelMode();
         if (updateUrl !== false) updateItemUrl(id);
-        close.focus();
+        if (moveFocus) close.focus();
+    }
+
+    function installItemDetailTabs(content, id, sources) {
+        var bar = document.createElement('div'); bar.className = 'catalogue-detail-tabs'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', itemUi('Détails de l’objet', 'Item details'));
+        var panels = new Map(), buttons = new Map();
+        content.appendChild(bar);
+        function addTab(key, fr, en) {
+            var button = document.createElement('button'); button.type = 'button'; button.id = 'it-tab-' + id + '-' + key; button.dataset.detailTab = key; button.setAttribute('role', 'tab'); button.textContent = itemUi(fr, en); bar.appendChild(button); buttons.set(key, button);
+            var panel = document.createElement('section'); panel.id = 'it-panel-' + id + '-' + key; panel.dataset.catalogueTabPanel = key; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', button.id); button.setAttribute('aria-controls', panel.id); panels.set(key, panel); content.appendChild(panel); panel.hidden = key !== 'overview'; button.setAttribute('aria-selected', String(key === 'overview')); button.tabIndex = key === 'overview' ? 0 : -1;
+            return panel;
+        }
+        addTab('overview', 'Aperçu', 'Overview'); addTab('sources', 'Sources', 'Sources');
+        function activate(key, focus) {
+            panels.forEach(function (panel, name) { panel.hidden = name !== key; });
+            buttons.forEach(function (button, name) { button.setAttribute('aria-selected', String(name === key)); button.tabIndex = name === key ? 0 : -1; });
+            panels.get(key === 'sources' ? 'sources' : 'overview').appendChild(sources);
+            if (focus) buttons.get(key).focus();
+        }
+        bar.addEventListener('click', function (e) { var button = e.target.closest('[data-detail-tab]'); if (button) activate(button.dataset.detailTab, false); }, { signal: controller.signal });
+        bar.addEventListener('keydown', function (e) {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+            var keys = Array.from(buttons.keys()), current = keys.indexOf(e.target.dataset.detailTab); if (current < 0) return;
+            e.preventDefault(); activate(keys[e.key === 'Home' ? 0 : e.key === 'End' ? keys.length - 1 : (current + (e.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length], true);
+        }, { signal: controller.signal });
+        activate('overview', false);
+        return { related: function (entries) {
+            var panel = addTab('related', 'Objets liés', 'Related items');
+            var title = document.createElement('h3'); title.className = 'modal-section-title'; title.textContent = itemUi('Objets des mêmes sources', 'Items from the same sources'); panel.appendChild(title);
+            var list = document.createElement('div'); list.className = 'catalogue-related-items';
+            entries.forEach(function (entry) {
+                var item = allItems.find(function (record) { return record.id === entry.id; }); if (!item) return;
+                var link = document.createElement('a'); link.className = 'catalogue-related-item'; link.href = '/items?item=' + encodeURIComponent(item.id);
+                var image = document.createElement('img'); image.src = item.image; image.alt = ''; image.dataset.fallback = 'item';
+                var name = document.createElement('span'); name.textContent = displayName(item.name); link.append(image, name); list.appendChild(link);
+            }); panel.appendChild(list);
+        } };
     }
 
     function closeModal(updateUrl) {
         var modal = document.querySelector('.item-modal');
         if (modal && modal.style.display !== 'none') {
-            modal.style.display = 'none'; document.body.style.overflow = previousOverflow;
+            modal.style.display = 'none'; if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = previousOverflow;
             delete modal.dataset.item;
             if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus();
             modalReturnFocus = null;
         }
-        document.querySelectorAll('.item-card.is-selected').forEach(function (card) { card.classList.remove('is-selected'); });
+        setItemSelection(null);
         if (updateUrl !== false) updateItemUrl(null);
     }
 

@@ -30,6 +30,16 @@ function surface(width) {
     assert.equal(d.querySelector('#map-floor-buttons button[aria-pressed="true"]').textContent, '01');
     assert.equal(d.getElementById('map-floor-previous').disabled, true); assert.equal(d.getElementById('map-floor-next').disabled, false);
     assert.equal(d.getElementById('map-filter-rail').hidden, false, 'Desktop exposes the filter rail');
+    const actualPlaces = Object.values(bridge.getData().entities).filter(entity => entity.kind === 'location' && entity.position);
+    assert.equal(d.getElementById('map-places').hidden, false, 'A floor with real located places shows its discovery strip');
+    for (const button of d.querySelectorAll('.map-place-card')) assert.ok(actualPlaces.some(entity => entity.key === button.dataset.entityKey), 'Every location card is a real positioned graph entity');
+    assert.ok(d.querySelector('.map-place-card .map-location-preview').style.backgroundImage.includes('floor-1-desktop.webp'), 'Location previews use the calibrated atlas, without imaginary server screenshots');
+    d.getElementById('map-places-toggle').click(); assert.equal(d.querySelectorAll('.map-place-card').length, actualPlaces.length, 'Show all exposes the documented locations');
+    d.getElementById('map-display-names').click(); assert.equal(d.querySelector('main').classList.contains('map-hide-names'), true);
+    d.getElementById('map-display-markers').click(); assert.equal(d.querySelector('main').classList.contains('map-hide-markers'), true);
+    d.getElementById('map-filters-reset').click(); assert.equal(d.querySelector('main').classList.contains('map-hide-markers'), false); assert.equal(d.getElementById('map-display-names').checked, true, 'Reset restores display controls as well as marker filters');
+    const legend = d.getElementById('map-legend'); legend.showModal = () => { legend.open = true; }; legend.close = () => { legend.open = false; };
+    d.getElementById('map-legend-open').click(); assert.equal(legend.open, true); assert.ok(d.querySelectorAll('.map-legend-row').length > 0); assert.ok(!d.getElementById('map-legend-content').textContent.includes('Quêtes principales'), 'Legend lists only actual public marker types'); d.getElementById('map-legend-close').click();
     assert.ok(d.querySelector('.map-body > #map-filter-rail'), 'Filters sit beside the map rather than consuming a second toolbar');
     assert.equal(p.requests.filter(url => /floor-\d+\.json$/.test(url)).length, 1, 'Shortcuts do not preload other floors');
     d.getElementById('map-floor-next').click(); await waitFor(() => bridge.getData()?.floor === 2);
@@ -40,11 +50,14 @@ function surface(width) {
     await waitFor(() => bridge.getData()?.floor === 3);
     assert.equal(d.activeElement.dataset.floor, '3'); assert.equal(d.getElementById('map-floor-next').disabled, true);
     assert.equal(d.getElementById('map-filters-empty').hidden, false, 'Image-only floor explains the absence of filters');
+    assert.equal(d.getElementById('map-places').hidden, true, 'The uncalibrated floor receives no fabricated location strip');
     d.activeElement.dispatchEvent(new p.w.KeyboardEvent('keydown', {key:'Home',bubbles:true,cancelable:true}));
     await waitFor(() => bridge.getData()?.floor === 1);
     const archive = d.querySelector('[data-marker-type="quest-secondary"]'); archive.checked = true; archive.dispatchEvent(new p.w.Event('change'));
     d.getElementById('map-filters-reset').click(); assert.equal(d.querySelector('[data-marker-type="quest-secondary"]').checked, false, 'Reset keeps unverified archives off by default');
     await bridge.selectEntity('creature:1');
+    d.querySelector('[data-panel-tab="items"]').click(); assert.equal(d.getElementById('map-panel-pane-items').hidden, false); assert.equal(d.getElementById('map-panel-pane-overview').hidden, true, 'Tab selection exposes documented drop relations');
+    d.querySelector('[data-panel-tab="items"]').dispatchEvent(new p.w.KeyboardEvent('keydown', {key:'ArrowRight',bubbles:true,cancelable:true})); assert.equal(d.activeElement.dataset.panelTab, 'places', 'Detail tabs support keyboard navigation');
     const relatedImages = [...d.querySelectorAll('.map-relations img')]; assert.ok(relatedImages.length > 0, 'Known drops use their actual catalogue artwork');
     for (const image of relatedImages) { assert.equal(image.getAttribute('loading'), 'lazy'); assert.equal(image.getAttribute('width'), '64'); assert.ok(fs.existsSync(path.join(root, decodeURIComponent(new URL(image.src).pathname).slice(1)))); }
     const pixel = d.querySelector('.map-relation-image.is-item img');

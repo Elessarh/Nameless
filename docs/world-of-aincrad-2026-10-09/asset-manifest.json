@@ -1,0 +1,44 @@
+[
+  {
+    "file": "assets/ui/world-stone.svg",
+    "usage": "Hand-drawn material tile",
+    "bytes": 499,
+    "sha256": "f81d6ae6f8205ba256899e6a1435422ae6f79011117b62155fbb989484f60c3d",
+    "serverCapture": false
+  },
+  {
+    "file": "assets/ui/world-foreground.svg",
+    "usage": "Hand-drawn stepped stone foreground",
+    "bytes": 719,
+    "sha256": "5d5eb109b7084fc37a77e3cf104de05c8a3869ed9d6aa229a9e4905066adf9d5",
+    "serverCapture": false
+  },
+  {
+    "file": "assets/ui/world-canopy.svg",
+    "usage": "Hand-drawn voxel vegetation silhouette",
+    "bytes": 508,
+    "sha256": "8f4bdaf3381ad045a86d9a7cdaf057cd79196ae637a3ce012a2d6da818a138e3",
+    "serverCapture": false
+  },
+  {
+    "file": "assets/home/aincrad-minecraft-1920.webp",
+    "usage": "Preserved atmosphere illustration",
+    "bytes": 201012,
+    "sha256": "4e50fec3667262c1ca39100a72b218a39f4e45b5078b34a4c2a6c0a3b4fa034d",
+    "serverCapture": false
+  },
+  {
+    "file": "assets/home/aincrad-minecraft-mobile.webp",
+    "usage": "Preserved mobile crop",
+    "bytes": 50826,
+    "sha256": "4332905f7e31fe07f85e7eb59ff733a24f81cc542e5675b6621fcaa70416efa4",
+    "serverCapture": false
+  },
+  {
+    "file": "assets/home/sao-guild-512.webp",
+    "usage": "Preserved historical guild illustration",
+    "bytes": 21308,
+    "sha256": "98a9e0fe19abcf8b2d0e9533e60cd494b77d027fbf09d48b1456e91fbf5f6eb6",
+    "serverCapture": false
+  }
+]

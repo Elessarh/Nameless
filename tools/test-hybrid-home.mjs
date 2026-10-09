@@ -11,11 +11,92 @@ const runtime = read('js/home-carousel.js');
 const index = JSON.parse(read('assets/search-index.json')).entries;
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 const page = () => new JSDOM(html, { url: 'https://nameless-sao.fr/', runScripts: 'outside-only', pretendToBeVisual: true });
+const reducedQuery = '(prefers-reduced-motion: reduce)';
+const pointerQuery = '(hover: hover) and (pointer: fine)';
+function mediaPreferences(w, { reduced = false, fine = true, legacy = false } = {}) {
+    const queries = new Map([[reducedQuery, reduced], [pointerQuery, fine]].map(([query, matches]) => {
+        const listeners = new Set();
+        const media = { matches, listeners };
+        if (legacy) {
+            media.addListener = fn => listeners.add(fn);
+            media.removeListener = fn => listeners.delete(fn);
+        } else {
+            media.addEventListener = (_type, fn) => listeners.add(fn);
+            media.removeEventListener = (_type, fn) => listeners.delete(fn);
+        }
+        return [query, media];
+    }));
+    w.matchMedia = query => {
+        assert.ok(queries.has(query), 'Each motion capability has a distinct media query: ' + query);
+        return queries.get(query);
+    };
+    return {
+        queries,
+        change(query, matches) {
+            const media = queries.get(query);
+            media.matches = matches;
+            for (const fn of media.listeners) fn();
+        },
+        listenerCount: () => [...queries.values()].reduce((sum, media) => sum + media.listeners.size, 0)
+    };
+}
+
+function motionEnvironment(w, preferences = {}) {
+    const media = mediaPreferences(w, preferences);
+    const hero = w.document.querySelector('.home-hero');
+    const main = w.document.querySelector('main[data-home]');
+    const rectangle = { left: 100, top: 80, width: 1000, height: 500, right: 1100, bottom: 580 };
+    let measurements = 0;
+    hero.getBoundingClientRect = () => { measurements++; return rectangle; };
+    let hidden = false;
+    Object.defineProperty(w.document, 'hidden', { configurable: true, get: () => hidden });
+    Object.defineProperty(w.document, 'visibilityState', { configurable: true, get: () => hidden ? 'hidden' : 'visible' });
+    let nextFrame = 0;
+    const frames = new Map();
+    const cancelled = [];
+    w.requestAnimationFrame = callback => { const id = ++nextFrame; frames.set(id, callback); return id; };
+    w.cancelAnimationFrame = id => { cancelled.push(id); frames.delete(id); };
+    const observers = [];
+    w.IntersectionObserver = class {
+        constructor(callback) { this.callback = callback; this.target = null; this.disconnected = false; observers.push(this); }
+        observe(target) { this.target = target; }
+        disconnect() { this.disconnected = true; this.target = null; }
+        emit(visible) { if (this.target) this.callback([{ target: this.target, isIntersecting: visible }]); }
+    };
+    return {
+        media, hero, main, frames, cancelled, observers, rectangle,
+        measurements: () => measurements,
+        pointer(type, x = 600, y = 330, pointerType = 'mouse') {
+            const event = new w.MouseEvent(type, { clientX: x, clientY: y });
+            Object.defineProperty(event, 'pointerType', { value: pointerType });
+            hero.dispatchEvent(event);
+        },
+        show(visible) { observers.at(-1).emit(visible); },
+        visibility(value) { hidden = value; w.document.dispatchEvent(new w.Event('visibilitychange')); },
+        flush() {
+            for (const [id, callback] of [...frames]) { frames.delete(id); callback(0); }
+        },
+        depth: () => [parseFloat(main.style.getPropertyValue('--home-depth-x')), parseFloat(main.style.getPropertyValue('--home-depth-y'))]
+    };
+}
 const art = JSON.parse(read('docs/hybrid-mmorpg-2026-10-08/home-art-manifest.json'));
 const minecraftArt = JSON.parse(read('docs/sao-minecraft-home-2026-10-08/asset-manifest.json'));
 const heroArt = JSON.parse(read('docs/definitive-hybrid-2026-10-09/hero-manifest.json'));
+const referenceArt = JSON.parse(read('assets/reference-v2/asset-manifest.json'));
 const derivedImages = new Map();
 const fileHash = name => createHash('sha256').update(fs.readFileSync(path.join(root, name))).digest('hex');
+for (const source of referenceArt.sources) assert.equal(fileHash(source.path), source.sha256, 'Reference sources remain intact');
+for (const output of referenceArt.exports) {
+    assert.equal(fileHash(output.path), output.sha256);
+    assert.equal(fs.statSync(path.join(root, output.path)).size, output.bytes);
+    const source = referenceArt.sources.find(source => source.path.endsWith(output.source || referenceArt.source));
+    assert.ok(source);
+    const width = output.crop ? output.crop[2] - output.crop[0] : source.width;
+    const height = output.crop ? output.crop[3] - output.crop[1] : source.height;
+    assert.ok(output.width <= width, 'Reference exports do not upscale');
+    assert.ok(Math.abs(output.height - height * output.width / width) <= .5);
+    derivedImages.set(output.path, { ...output, dimensions: [output.width, output.height] });
+}
 
 for (const record of art.artwork) {
     assert.equal(fileHash(record.source), record.sourceSha256, 'Original artwork stays untouched: ' + record.source);
@@ -90,11 +171,11 @@ for (const output of heroArt.outputs) {
         assert.equal(tile.querySelector('img').getAttribute('src'), entry.image);
     }
     const hero = main.querySelector('.home-hero-scene img');
-    assert.equal(hero.getAttribute('src'), '/assets/home/aincrad-minecraft-1920.webp');
+    assert.equal(hero.getAttribute('src'), '/assets/reference-v2/home-environment-1672.webp');
     assert.equal(hero.getAttribute('fetchpriority'), 'high');
     assert.equal(main.querySelector('.home-scene-caption').textContent, 'Illustration d’ambiance', 'The hero interpretation is not presented as an official server location');
     assert.equal(hero.getAttribute('loading'), null, 'The hero must load immediately');
-    assert.ok(doc.head.querySelector('link[rel="preload"][href="/assets/home/aincrad-minecraft-mobile.webp"]'));
+    assert.ok(doc.head.querySelector('link[rel="preload"][href="/assets/reference-v2/home-environment-mobile.webp"]'));
     for (const image of main.querySelectorAll('img')) {
         const relative = decodeURIComponent(new URL(image.src).pathname).slice(1);
         const filename = path.join(root, relative);
@@ -110,7 +191,7 @@ for (const output of heroArt.outputs) {
             assert.ok(image.closest('picture'));
             assert.match(image.getAttribute('sizes'), /max-width: 480px/);
             const candidates = image.getAttribute('srcset').split(',').map(candidate => candidate.trim().split(/\s+/));
-            assert.deepEqual(candidates.map(([, width]) => width), ['256w', '512w']);
+            assert.deepEqual(candidates.map(([, width]) => width), relative.startsWith('assets/reference-v2/') ? ['320w', '640w'] : ['256w', '512w']);
             for (const [candidate] of candidates) assert.ok(derivedImages.has(decodeURIComponent(new URL(candidate, doc.URL).pathname).slice(1)));
         }
         if (relative.endsWith('.png')) {
@@ -125,35 +206,225 @@ for (const output of heroArt.outputs) {
 {
     const dom = page();
     const w = dom.window;
-    const mediaListeners = new Set();
-    const media = { matches: false, addEventListener(_type, fn) { mediaListeners.add(fn); }, removeEventListener(_type, fn) { mediaListeners.delete(fn); } };
-    w.matchMedia = () => media;
+    const media = mediaPreferences(w);
     w.eval(runtime);
     w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
     const main = w.document.querySelector('main');
     const button = main.querySelector('[data-home-motion]');
-    assert.equal(mediaListeners.size, 1);
+    assert.equal(media.listenerCount(), 2);
+    for (const preference of media.queries.values()) assert.equal(preference.listeners.size, 1);
     button.click();
     assert.equal(main.dataset.motionPaused, 'true', 'The scenery can be paused with a native button');
     assert.equal(button.getAttribute('aria-pressed'), 'true');
     w.NamelessHomePage.init(main);
-    assert.equal(mediaListeners.size, 1, 'SPA init cannot accumulate media preference listeners');
+    assert.equal(media.listenerCount(), 2, 'SPA init cannot accumulate either media preference listener');
     assert.equal(main.dataset.motionPaused, 'true', 'The chosen pause survives route initialization');
-    media.matches = true;
-    for (const fn of mediaListeners) fn();
+    media.change(reducedQuery, true);
     assert.equal(button.disabled, true, 'Reduced motion disables the animated scenery');
     assert.match(button.getAttribute('aria-label'), /mouvements réduits/);
-    media.matches = false;
-    for (const fn of mediaListeners) fn();
+    media.change(reducedQuery, false);
     button.click();
     assert.equal(main.dataset.motionPaused, 'false');
     w.NamelessI18n = { getLanguage: () => 'en' };
     w.document.dispatchEvent(new w.Event('nameless:languagechange'));
     assert.equal(button.getAttribute('aria-label'), 'Pause scenery');
     w.NamelessHomePage.destroy();
-    assert.equal(mediaListeners.size, 0, 'Leaving home removes the preference listener');
+    assert.equal(media.listenerCount(), 0, 'Leaving home removes both preference listeners');
     button.click();
     assert.equal(main.dataset.motionPaused, 'false', 'Destroyed home no longer handles scenery controls');
+    dom.window.close();
+}
+
+{
+    const dom = page();
+    const w = dom.window;
+    const media = mediaPreferences(w);
+    const storageKey = 'nameless-world-motion-paused';
+    w.sessionStorage.setItem(storageKey, 'true');
+    w.eval(runtime);
+    w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
+    const main = w.document.querySelector('main[data-home]');
+    const button = main.querySelector('[data-home-motion]');
+    assert.equal(main.dataset.motionPaused, 'true', 'A new document restores the session’s chosen pause');
+    assert.equal(button.getAttribute('aria-pressed'), 'true');
+    button.click();
+    assert.equal(main.dataset.motionPaused, 'false');
+    assert.equal(w.sessionStorage.getItem(storageKey), 'false', 'Resuming saves the user’s choice for the next document');
+    media.change(reducedQuery, true);
+    assert.equal(main.dataset.motionPaused, 'true');
+    assert.equal(w.sessionStorage.getItem(storageKey), 'false', 'Reduced motion never overwrites the saved user choice');
+    media.change(reducedQuery, false);
+    assert.equal(main.dataset.motionPaused, 'false', 'The stored choice resumes after reduced motion is removed');
+    button.click();
+    assert.equal(w.sessionStorage.getItem(storageKey), 'true', 'Pausing saves the user’s explicit choice');
+    w.NamelessHomePage.destroy();
+    dom.window.close();
+}
+
+{
+    const dom = page();
+    const w = dom.window;
+    mediaPreferences(w);
+    const errors = [];
+    w.addEventListener('error', event => errors.push(event.error));
+    Object.defineProperty(w, 'sessionStorage', { configurable: true, get() { throw new w.DOMException('Storage refused', 'SecurityError'); } });
+    assert.doesNotThrow(() => w.eval(runtime), 'Unavailable session storage cannot block module loading');
+    w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
+    const main = w.document.querySelector('main[data-home]');
+    const button = main.querySelector('[data-home-motion]');
+    assert.equal(main.dataset.motionPaused, 'false');
+    button.click();
+    assert.equal(main.dataset.motionPaused, 'true', 'Pause still works when storage is refused');
+    w.NamelessHomePage.init(main);
+    assert.equal(main.dataset.motionPaused, 'true', 'The module keeps the SPA choice without storage');
+    button.click();
+    assert.equal(main.dataset.motionPaused, 'false', 'Resume still works when storage is refused');
+    assert.equal(errors.length, 0, 'Storage refusal emits no unhandled event error');
+    w.NamelessHomePage.destroy();
+    dom.window.close();
+}
+
+{
+    const dom = page();
+    const w = dom.window;
+    const motion = motionEnvironment(w);
+    let timers = 0;
+    w.setInterval = () => { timers++; return 1; };
+    w.eval(runtime);
+    w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
+    assert.equal(motion.main.dataset.motionSuspended, 'true', 'Decorative motion waits for confirmed hero visibility');
+    motion.show(true);
+    assert.equal(motion.main.dataset.motionSuspended, 'false');
+    motion.pointer('pointerenter');
+    const initialMeasurements = motion.measurements();
+    motion.pointer('pointermove', 1100, 580);
+    motion.pointer('pointermove', 5100, 2580);
+    assert.equal(motion.frames.size, 1, 'Pointer events coalesce into one pending frame');
+    assert.equal(motion.measurements(), initialMeasurements, 'Pointer moves do not force layout');
+    motion.flush();
+    assert.deepEqual(motion.depth(), [10, 5], 'Parallax amplitude is bounded even for outlying coordinates');
+    assert.equal(motion.measurements(), initialMeasurements, 'The animation frame does not force layout');
+    motion.pointer('pointermove', -4000, -2000);
+    motion.flush();
+    assert.deepEqual(motion.depth(), [-10, -5]);
+    motion.pointer('pointerleave');
+    assert.deepEqual(motion.depth(), [0, 0], 'Leaving the hero restores its neutral framing');
+
+    motion.pointer('pointerenter');
+    motion.pointer('pointermove', 1100, 580);
+    const beforePause = motion.cancelled.length;
+    motion.main.querySelector('[data-home-motion]').click();
+    assert.equal(motion.cancelled.length, beforePause + 1, 'Choosing pause cancels the pending frame');
+    assert.equal(motion.frames.size, 0);
+    assert.deepEqual(motion.depth(), [0, 0]);
+    motion.pointer('pointermove', 1100, 580);
+    assert.equal(motion.frames.size, 0, 'Paused scenery never schedules pointer motion');
+    motion.main.querySelector('[data-home-motion]').click();
+
+    motion.media.change(pointerQuery, false);
+    motion.pointer('pointermove', 1100, 580);
+    assert.equal(motion.frames.size, 0, 'Coarse or non-hover input never schedules parallax');
+    assert.equal(motion.main.dataset.motionPaused, 'false', 'Pointer capability does not replace the user’s pause preference');
+    motion.media.change(pointerQuery, true);
+    motion.media.change(reducedQuery, true);
+    motion.pointer('pointermove', 1100, 580);
+    assert.equal(motion.frames.size, 0, 'Reduced motion never schedules parallax');
+    assert.equal(motion.main.dataset.motionPaused, 'true');
+    assert.deepEqual(motion.depth(), [0, 0]);
+    motion.media.change(reducedQuery, false);
+
+    motion.pointer('pointermove', 1100, 580);
+    motion.visibility(true);
+    assert.equal(motion.main.dataset.motionSuspended, 'true', 'A hidden tab suspends all decoration');
+    assert.equal(motion.frames.size, 0, 'Hiding the tab cancels queued pointer motion');
+    assert.deepEqual(motion.depth(), [0, 0]);
+    motion.pointer('pointermove', 1100, 580);
+    assert.equal(motion.frames.size, 0, 'A hidden tab never schedules new pointer motion');
+    motion.visibility(false);
+    assert.equal(motion.main.dataset.motionSuspended, 'false');
+    motion.pointer('pointermove', 1100, 580);
+    motion.show(false);
+    assert.equal(motion.main.dataset.motionSuspended, 'true', 'An offscreen hero suspends all decoration');
+    assert.equal(motion.frames.size, 0);
+    motion.pointer('pointermove', 1100, 580);
+    assert.equal(motion.frames.size, 0, 'An offscreen hero never schedules new pointer motion');
+    motion.show(true);
+    motion.pointer('pointermove', 1100, 580, 'touch');
+    assert.equal(motion.frames.size, 0, 'A touch event cannot use a fine pointer’s parallax');
+
+    const desktopWidth = w.innerWidth;
+    w.innerWidth = 768;
+    w.dispatchEvent(new w.Event('resize'));
+    motion.pointer('pointermove', 1100, 580);
+    assert.equal(motion.frames.size, 0, 'A narrow viewport stays fixed even with a fine desktop pointer');
+    assert.deepEqual(motion.depth(), [0, 0]);
+    w.innerWidth = desktopWidth;
+    w.dispatchEvent(new w.Event('resize'));
+
+    motion.pointer('pointermove', 1100, 580);
+    w.dispatchEvent(new w.Event('resize'));
+    assert.equal(motion.frames.size, 0, 'Resizing discards motion based on stale coordinates');
+    assert.equal(motion.measurements(), initialMeasurements + 4, 'Bounds are measured only on entry and resize');
+    motion.pointer('pointermove', 1100, 580);
+    const oldObserver = motion.observers.at(-1);
+    const oldFrame = [...motion.frames.values()][0];
+    const beforeReinit = motion.cancelled.length;
+    w.NamelessHomePage.init(motion.main);
+    assert.equal(motion.cancelled.length, beforeReinit + 1, 'SPA reinitialization cancels the previous frame');
+    assert.equal(oldObserver.disconnected, true);
+    assert.equal(motion.media.listenerCount(), 2, 'Only the new route’s media listeners survive');
+    assert.equal(motion.observers.filter(observer => !observer.disconnected).length, 1);
+    assert.deepEqual(motion.depth(), [0, 0]);
+    motion.show(true);
+    const beforeNewEntry = motion.measurements();
+    motion.pointer('pointerenter');
+    assert.equal(motion.measurements(), beforeNewEntry + 1, 'SPA reinitialization has a single pointer listener');
+    motion.pointer('pointermove', 1100, 580);
+    assert.equal(motion.frames.size, 1);
+    motion.flush();
+    assert.deepEqual(motion.depth(), [10, 5]);
+    oldFrame();
+    assert.deepEqual(motion.depth(), [10, 5], 'A previous route’s callback cannot reset the active route’s depth');
+    motion.pointer('pointermove', 1100, 580);
+    const staleCallback = [...motion.frames.values()][0];
+    w.NamelessHomePage.destroy();
+    assert.equal(motion.frames.size, 0, 'Destroy cancels the final frame');
+    assert.equal(motion.observers.at(-1).disconnected, true);
+    assert.equal(motion.media.listenerCount(), 0);
+    assert.equal(motion.main.dataset.motionSuspended, 'true');
+    staleCallback();
+    assert.deepEqual(motion.depth(), [0, 0], 'A stale frame cannot change a destroyed home');
+    const beforeDestroyedEvents = motion.measurements();
+    motion.pointer('pointerenter');
+    motion.pointer('pointermove', 1100, 580);
+    w.dispatchEvent(new w.Event('resize'));
+    motion.visibility(true);
+    assert.equal(motion.measurements(), beforeDestroyedEvents);
+    assert.equal(motion.frames.size, 0);
+    assert.equal(timers, 0, 'Parallax and visibility do not create permanent timers');
+    dom.window.close();
+}
+
+{
+    const dom = page();
+    const w = dom.window;
+    const media = mediaPreferences(w, { legacy: true });
+    w.IntersectionObserver = undefined;
+    let frames = 0;
+    w.requestAnimationFrame = () => { frames++; return 1; };
+    w.eval(runtime);
+    w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
+    const main = w.document.querySelector('main[data-home]');
+    const hero = main.querySelector('.home-hero');
+    assert.equal(main.dataset.motionSuspended, 'true', 'Without visibility observation, the safe fallback is still scenery');
+    hero.dispatchEvent(new w.MouseEvent('pointerenter'));
+    hero.dispatchEvent(new w.MouseEvent('pointermove', { clientX: 1000, clientY: 500 }));
+    assert.equal(frames, 0);
+    assert.equal(media.listenerCount(), 2, 'Legacy media listeners are supported separately');
+    media.change(reducedQuery, true);
+    assert.equal(main.querySelector('[data-home-motion]').disabled, true);
+    w.NamelessHomePage.destroy();
+    assert.equal(media.listenerCount(), 0, 'Legacy listeners are removed at destroy');
     dom.window.close();
 }
 
@@ -242,4 +513,4 @@ for (const output of heroArt.outputs) {
     dom.window.close();
 }
 
-console.log('Hybrid home tests passed: genuine records/routes, artwork, shared search/focus, scenery pause/reduced-motion, SPA cleanup, scroll and delayed failure.');
+console.log('Hybrid home tests passed: genuine records/routes, artwork, shared search/focus, bounded/coalesced parallax, session pause/storage refusal, reduced/coarse/narrow/hidden/offscreen motion, SPA cleanup, scroll and delayed failure.');

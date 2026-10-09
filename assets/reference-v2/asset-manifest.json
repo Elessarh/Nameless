@@ -1,0 +1,222 @@
+{
+  "tool": "built-in image_gen",
+  "source": "home-environment-source.png",
+  "sourceDimensions": [
+    1672,
+    941
+  ],
+  "exports": [
+    {
+      "path": "assets/reference-v2/home-environment-1672.webp",
+      "width": 1672,
+      "height": 941,
+      "bytes": 312140,
+      "sha256": "bd42b18f5611aaa8e69df582cbd06d5f1109e767c055f0ee18562fb16bf6920a",
+      "crop": null
+    },
+    {
+      "path": "assets/reference-v2/home-environment-1280.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 215888,
+      "sha256": "314e355a1617d1e496d47d5c796a75289a32e3c6b924fbb2a749e8141298b980",
+      "crop": null
+    },
+    {
+      "path": "assets/reference-v2/home-environment-960.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 140354,
+      "sha256": "d16af9a0b56af918f0c7bbbee9756c2933bdccb56e6e123db1243a5143edb37c",
+      "crop": null
+    },
+    {
+      "path": "assets/reference-v2/home-environment-mobile.webp",
+      "width": 640,
+      "height": 917,
+      "bytes": 141154,
+      "sha256": "645eecb6ec9297b74e691f3515f47c99c8aa767371129bbb4b26eb6a6c698080",
+      "crop": [
+        760,
+        0,
+        1417,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/forest-environment-1280.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 192884,
+      "sha256": "aa0ed187c29c4633161d8a8ac64f29c7e8d253402f87d847dce9eeeee4c91c90",
+      "crop": null,
+      "source": "forest-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/forest-environment-640.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 65446,
+      "sha256": "c3617b2284ee78f44ecf75fb378d36aa067392fa1fb770160ae78cc46e357902",
+      "crop": null,
+      "source": "forest-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/forest-environment-320.webp",
+      "width": 320,
+      "height": 180,
+      "bytes": 19368,
+      "sha256": "da60c7a77c2718e201178c1edfb7b1234175c5d71d1b3d28c638828586fa1258",
+      "crop": null,
+      "source": "forest-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/workshop-environment-1280.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 158100,
+      "sha256": "9ef6046d456a531a47bd4b21e27aa9b0d9c459938ab2777ba28836ed049f2d0d",
+      "crop": null,
+      "source": "workshop-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/workshop-environment-640.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 55184,
+      "sha256": "b0ea865ac1e3231cc82e52ef40022ab0d1fad1e868ab2c41f2d0b0c5eea336d9",
+      "crop": null,
+      "source": "workshop-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/workshop-environment-320.webp",
+      "width": 320,
+      "height": 180,
+      "bytes": 17202,
+      "sha256": "5b20ec86a8b2204bd35e1e15f68e8b34499c014c11e1ded6b73f17256dbcf46b",
+      "crop": null,
+      "source": "workshop-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/guild-environment-1280.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 182464,
+      "sha256": "356a2bd236b40390dccf37c6c9bb396042d951a47018c22915ed432c415e8499",
+      "crop": null,
+      "source": "guild-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/guild-environment-640.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 61924,
+      "sha256": "0af32d8e6c0b2045f11db3911198320043b96b761d541ee73e5a4832de5d1f03",
+      "crop": null,
+      "source": "guild-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/guild-environment-320.webp",
+      "width": 320,
+      "height": 180,
+      "bytes": 19138,
+      "sha256": "93c681cb429ab4bd0e48516e2c013b187f59294b599e296df3c90c0bfdefdb32",
+      "crop": null,
+      "source": "guild-environment-source.png",
+      "sourceDimensions": [
+        1672,
+        941
+      ]
+    },
+    {
+      "path": "assets/reference-v2/home-castle-card-640.webp",
+      "width": 640,
+      "height": 200,
+      "bytes": 44644,
+      "sha256": "e4fec5fa8f8b2238c76a0ead9e4e768d0b16b9fc87b60f197244c1f02fc71253",
+      "crop": [
+        640,
+        70,
+        1520,
+        345
+      ],
+      "source": "home-environment-source.png"
+    },
+    {
+      "path": "assets/reference-v2/home-castle-card-320.webp",
+      "width": 320,
+      "height": 100,
+      "bytes": 13946,
+      "sha256": "78299c9d7f256e4d0f680a1fee10291a148205b06cd88dfbc8d207a5ea1504c4",
+      "crop": [
+        640,
+        70,
+        1520,
+        345
+      ],
+      "source": "home-environment-source.png"
+    }
+  ],
+  "sources": [
+    {
+      "path": "assets/reference-v2/forest-environment-source.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2421862,
+      "sha256": "19accf925f620ade0e033b38600eb6d6844972c8c6e8a1bd8943ea44aa600bb1"
+    },
+    {
+      "path": "assets/reference-v2/guild-environment-source.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2349311,
+      "sha256": "63e04534e2600634a93b6bd5f5ab36b85f685b7d265e07cb6154279f665c0406"
+    },
+    {
+      "path": "assets/reference-v2/home-environment-source.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2491354,
+      "sha256": "1326fba15883f38d7acb1fe697df309f45c0c991b5b516e4c16c8a78c7054e98"
+    },
+    {
+      "path": "assets/reference-v2/workshop-environment-source.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2206593,
+      "sha256": "1b77146d7d0af8f26995e9487523532bdffd3b2b6fbb903b8b0d0fee668fb988"
+    }
+  ]
+}

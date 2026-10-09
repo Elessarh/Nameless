@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Décor actif, état initial",
+    "depthX": "0px",
+    "depthY": "0px",
+    "mist": {
+      "opacity": "0.180001",
+      "playState": "running",
+      "transform": "matrix(1, 0, 0, 1, -7.99983, 3.99994)"
+    },
+    "paused": "false",
+    "sceneTransform": "matrix(1, 0, 0, 1, 0, 0)",
+    "suspended": "false",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "name": "Pointeur côté droit",
+    "depthX": "2.95px",
+    "depthY": "-0.49px",
+    "mist": {
+      "opacity": "0.180025",
+      "playState": "running",
+      "transform": "matrix(1, 0, 0, 1, -7.9955, 3.99836)"
+    },
+    "paused": "false",
+    "sceneTransform": "matrix(1, 0, 0, 1, 2.95, -0.49)",
+    "suspended": "false",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "name": "Décor actif, second état",
+    "depthX": "2.95px",
+    "depthY": "-0.49px",
+    "mist": {
+      "opacity": "0.213112",
+      "playState": "running",
+      "transform": "matrix(1, 0, 0, 1, -1.9295, 1.79255)"
+    },
+    "paused": "false",
+    "sceneTransform": "matrix(1, 0, 0, 1, 2.95, -0.49)",
+    "suspended": "false",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "name": "Pause choisie",
+    "depthX": "0px",
+    "depthY": "0px",
+    "mist": {
+      "opacity": "0.212895",
+      "playState": "paused",
+      "transform": "matrix(1, 0, 0, 1, -1.96916, 1.80697)"
+    },
+    "paused": "true",
+    "sceneTransform": "matrix(1, 0, 0, 1, 0, 0)",
+    "suspended": "false",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "name": "Après défilement partiel : hero encore visible",
+    "depthX": "0px",
+    "depthY": "0px",
+    "mist": {
+      "opacity": "0.210725",
+      "playState": "running",
+      "transform": "matrix(1, 0, 0, 1, -2.36705, 1.95165)"
+    },
+    "paused": "false",
+    "sceneTransform": "matrix(1, 0, 0, 1, 0, 0)",
+    "suspended": "false",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "name": "Hero complètement hors viewport en 1280×720",
+    "depthX": "0px",
+    "depthY": "0px",
+    "mist": {
+      "opacity": "0.180014",
+      "playState": "paused",
+      "transform": "matrix(1, 0, 0, 1, -7.9975, 3.99909)"
+    },
+    "paused": "false",
+    "sceneTransform": "matrix(1, 0, 0, 1, 0, 0)",
+    "suspended": "true",
+    "viewport": [
+      1280,
+      720
+    ]
+  }
+]

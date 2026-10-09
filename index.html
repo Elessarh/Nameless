@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-world-atmosphere="aincrad">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https://mc-heads.net https://iwrvdntlrjnoqzbwbsfm.supabase.co data:; connect-src 'self' https://iwrvdntlrjnoqzbwbsfm.supabase.co wss://iwrvdntlrjnoqzbwbsfm.supabase.co https://playerdb.co; media-src 'self'; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self';">
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="css/style.css?v=20261008sao">
     <link rel="stylesheet" href="css/components/audio-player.css?v=20261008sao">
     <link rel="stylesheet" href="css/components/mmorpg-kit.css?v=20261008sao">
-    <link rel="stylesheet" href="css/components/home.css?v=20261009def">
+    <link rel="stylesheet" href="css/components/home.css?v=20261009premium">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
@@ -52,18 +52,15 @@
     <meta name="twitter:description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, bestiaire, objets et wiki pour préparer les sorties de la guilde.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="css/components/global-search.css?v=20261008sao">
-    <link rel="preload" href="/assets/home/aincrad-minecraft-1920.webp" imagesrcset="/assets/home/aincrad-minecraft-1440.webp 1440w, /assets/home/aincrad-minecraft-1920.webp 1920w" imagesizes="(min-width: 1900px) 1480px, 78vw" as="image" fetchpriority="high" media="(min-width: 769px)">
-    <link rel="preload" href="/assets/home/aincrad-minecraft-mobile.webp" as="image" fetchpriority="high" media="(max-width: 480px)">
-    <link rel="preload" href="/assets/home/aincrad-minecraft-960.webp" as="image" fetchpriority="high" media="(min-width: 481px) and (max-width: 768px)">
+    <link rel="stylesheet" href="css/components/world-experience.css?v=20261009world">
+    <link rel="stylesheet" href="css/components/home-premium.css?v=20261009phase1">
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009reference">
+    <script src="/js/reference-shell.js?v=20261009reference" defer></script>
+    <link rel="preload" as="image" href="/assets/reference-v2/home-environment-1672.webp" imagesrcset="/assets/reference-v2/home-environment-1280.webp 1280w, /assets/reference-v2/home-environment-1672.webp 1672w" imagesizes="100vw" fetchpriority="high" media="(min-width: 769px)">
+    <link rel="preload" as="image" href="/assets/reference-v2/home-environment-mobile.webp" fetchpriority="high" media="(max-width: 768px)">
+    <link rel="stylesheet" href="/css/components/reference-home.css?v=20261009reference">
 </head>
 <body class="home-page">
-    <!-- Effets d'ambiance sobres (Nameless) -->
-    <div class="nm-fx" aria-hidden="true">
-        <div class="nm-fx-aurora"></div>
-        <div class="nm-fx-line"></div>
-        <div class="nm-fx-vignette"></div>
-    </div>
-
     <!-- Skip link pour l'accessibilité -->
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
@@ -101,13 +98,21 @@
     <!-- Contenu principal -->
     <main id="main-content" role="main" data-home>
         <div class="home-shell">
+                    <picture class="home-hero-scene" aria-hidden="true">
+                        <source media="(max-width: 768px)" srcset="/assets/reference-v2/home-environment-mobile.webp">
+
+                        <img src="/assets/reference-v2/home-environment-1672.webp" srcset="/assets/reference-v2/home-environment-1280.webp 1280w, /assets/reference-v2/home-environment-1672.webp 1672w" sizes="100vw" width="1672" height="941" alt="" fetchpriority="high" decoding="async">
+                    </picture>
             <div class="home-arrival">
                 <section class="home-hero" aria-labelledby="hero-title">
-                    <picture class="home-hero-scene" aria-hidden="true">
-                        <source media="(max-width: 480px)" srcset="/assets/home/aincrad-minecraft-mobile.webp">
-                        <source media="(max-width: 768px)" srcset="/assets/home/aincrad-minecraft-960.webp">
-                        <img src="/assets/home/aincrad-minecraft-1920.webp" srcset="/assets/home/aincrad-minecraft-1440.webp 1440w, /assets/home/aincrad-minecraft-1920.webp 1920w" sizes="(min-width: 1900px) 1480px, 78vw" width="1920" height="641" alt="" fetchpriority="high" decoding="async">
-                    </picture>
+                    <div class="home-hero-environment" aria-hidden="true">
+                        <span class="home-hero-mist"></span>
+                        <span class="home-hero-light"></span>
+                        <span class="home-hero-clouds"></span>
+                        <span class="home-hero-motes"><i></i><i></i><i></i><i></i></span>
+                    </div>
+                    <div class="home-hero-front" aria-hidden="true"></div>
+                    <div class="home-hero-banner" aria-hidden="true"><img src="/assets/brand/nameless-reference-emblem.svg" alt="" width="96" height="112" decoding="async"></div>
                     <p class="home-scene-caption">Illustration d’ambiance</p>
                     <button type="button" class="nm-game-button home-motion" data-home-motion aria-pressed="false" aria-label="Pause du décor">
                         <svg class="home-icon home-motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
@@ -142,30 +147,26 @@
                     <ul class="home-access">
                         <li>
                             <a class="home-entry nm-game-frame" href="/carte">
-                                <picture><img class="home-entry-art home-entry-art--map" src="/assets/home/sao-map-512.webp" srcset="/assets/home/sao-map-256.webp 256w, /assets/home/sao-map-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 62px) / 2), (max-width: 1460px) calc((100vw - 106px) / 4), 339px" alt="" width="512" height="288" loading="lazy" decoding="async"></picture>
-                                <div class="home-entry-copy"><h3>Carte d’Aincrad</h3><p>Explorez les paliers et leurs lieux connus.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                                <picture><img class="home-entry-art home-entry-art--map" src="/assets/reference-v2/home-castle-card-640.webp" srcset="/assets/reference-v2/home-castle-card-320.webp 320w, /assets/reference-v2/home-castle-card-640.webp 640w" sizes="(max-width: 480px) 45vw, 22vw" alt="" width="640" height="200" loading="lazy" decoding="async"></picture>
+                                <div class="home-entry-copy"><svg class="home-icon home-entry-symbol" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-map"></use></svg><h3>Carte d’Aincrad</h3><p>Explorez les paliers et leurs lieux connus.</p><svg class="home-icon home-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
                             </a>
                         </li>
                         <li>
                             <a class="home-entry nm-game-frame" href="/bestiaire">
                                 <picture class="home-native-creature" data-home-creature-source="boss:53"><img class="home-entry-creature" src="/assets/home/illfang-256.webp" alt="" width="256" height="231" loading="lazy" decoding="async"></picture>
-                                <div class="home-entry-copy"><h3>Bestiaire</h3><p>Découvrez les créatures et leurs butins.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                                <div class="home-entry-copy"><svg class="home-icon home-entry-symbol" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-bestiary"></use></svg><h3>Bestiaire</h3><p>Découvrez les créatures et leurs butins.</p><svg class="home-icon home-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
                             </a>
                         </li>
                         <li>
                             <a class="home-entry nm-game-frame" href="/items">
-                                <div class="home-item-sprites" aria-hidden="true">
-                                    <span data-home-item-source="potion_mana"><img src="/assets/items/Consommables/PotiondeMana.png" alt="" width="46" height="46" loading="lazy" decoding="async"></span>
-                                    <span data-home-item-source="gelee_slime"><img src="/assets/items/Ressources/Gel%C3%A9edeSlime.png" alt="" width="47" height="48" loading="lazy" decoding="async"></span>
-                                    <span class="home-item-sprite--extra" data-home-item-source="baton_sorcier_shaman"><img src="/assets/items/Armes/BatonduSorcierduShaman.png" alt="" width="48" height="48" loading="lazy" decoding="async"></span>
-                                </div>
-                                <div class="home-entry-copy"><h3>Objets</h3><p>Consultez les ressources et consommables.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                                <picture><img class="home-entry-art home-entry-art--items" src="/assets/reference-v2/workshop-environment-640.webp" srcset="/assets/reference-v2/workshop-environment-320.webp 320w, /assets/reference-v2/workshop-environment-640.webp 640w" sizes="(max-width: 480px) 45vw, 22vw" alt="" width="640" height="360" loading="lazy" decoding="async"></picture>
+                                <div class="home-entry-copy"><svg class="home-icon home-entry-symbol" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-items"></use></svg><h3>Objets</h3><p>Consultez les ressources et consommables.</p><svg class="home-icon home-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
                             </a>
                         </li>
                         <li>
                             <a class="home-entry nm-game-frame" href="/espace-guilde">
-                                <picture><img class="home-entry-art home-entry-art--guild" src="/assets/home/sao-guild-512.webp" srcset="/assets/home/sao-guild-256.webp 256w, /assets/home/sao-guild-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 62px) / 2), (max-width: 1460px) calc((100vw - 106px) / 4), 339px" alt="" width="512" height="291" loading="lazy" decoding="async"></picture>
-                                <div class="home-entry-copy"><h3>Guilde</h3><p>Retrouvez le planning et les annonces des membres.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
+                                <picture><img class="home-entry-art home-entry-art--guild" src="/assets/reference-v2/guild-environment-640.webp" srcset="/assets/reference-v2/guild-environment-320.webp 320w, /assets/reference-v2/guild-environment-640.webp 640w" sizes="(max-width: 480px) 45vw, 22vw" alt="" width="640" height="360" loading="lazy" decoding="async"></picture>
+                                <div class="home-entry-copy"><svg class="home-icon home-entry-symbol" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-guild"></use></svg><h3>Guilde</h3><p>Retrouvez le planning et les annonces des membres.</p><svg class="home-icon home-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
                             </a>
                         </li>
                     </ul>
@@ -179,47 +180,27 @@
                     <a class="home-text-link" href="/bestiaire"><span>Voir le bestiaire</span><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a>
                 </header>
                 <ul class="home-selection">
-                    <li>
-                        <a class="home-record nm-game-frame" href="/boss/illfang" data-home-record="boss:53">
-                            <div class="home-record-art"><img src="/assets/home/illfang-256.webp" alt="" width="256" height="231" loading="lazy" decoding="async"></div>
-                            <div class="home-record-copy"><h3>Illfang</h3><p>Boss · Palier 1</p><p>Donjon Kobold</p></div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="home-record nm-game-frame" href="/boss/gorbel" data-home-record="boss:1">
-                            <div class="home-record-art"><img src="/assets/home/gorbel-256.webp" alt="" width="256" height="282" loading="lazy" decoding="async"></div>
-                            <div class="home-record-copy"><h3>Gorbel</h3><p>Boss · Palier 1</p><p>Marécage putride</p></div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="home-record nm-game-frame" href="/bestiaire?creature=12" data-home-record="creature:12">
-                            <div class="home-record-art"><img src="/assets/home/white-wolf-256.webp" alt="" width="256" height="291" loading="lazy" decoding="async"></div>
-                            <div class="home-record-copy"><h3>Loup Blanc</h3><p>Créature · Palier 1</p><p>Vallée des loups</p></div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="home-record nm-game-frame" href="/items?item=gelee_slime" data-home-record="item:gelee_slime">
-                            <div class="home-record-art home-record-art--item"><img src="/assets/items/Ressources/Gel%C3%A9edeSlime.png" alt="" width="47" height="48" loading="lazy" decoding="async"></div>
-                            <div class="home-record-copy"><h3>Gelée de Slime</h3><p>Ressource</p><p>Butin des slimes</p></div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="home-record nm-game-frame" href="/items?item=potion_mana" data-home-record="item:potion_mana">
-                            <div class="home-record-art home-record-art--item home-record-art--potion"><img src="/assets/items/Consommables/PotiondeMana.png" alt="" width="46" height="46" loading="lazy" decoding="async"></div>
-                            <div class="home-record-copy"><h3>Potion de Mana</h3><p>Consommable</p></div>
-                        </a>
-                    </li>
+                    <li><a class="home-record nm-game-frame" href="/boss/illfang" data-home-record="boss:53"><div class="home-record-art"><img src="/assets/home/illfang-256.webp" alt="" width="256" height="231" loading="lazy" decoding="async"></div><div class="home-record-copy"><h3>Illfang</h3><p>Boss · Palier 1</p><p class="visually-hidden">Donjon Kobold</p><svg class="home-icon home-record-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div></a></li>
+                    <li><a class="home-record nm-game-frame" href="/items?item=gelee_slime" data-home-record="item:gelee_slime"><div class="home-record-art home-record-art--item"><img src="/assets/items/Ressources/Gel%C3%A9edeSlime.png" alt="" width="47" height="48" loading="lazy" decoding="async"></div><div class="home-record-copy"><h3>Gelée de Slime</h3><p>Ressource</p><p class="visually-hidden">Butin des slimes</p><svg class="home-icon home-record-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div></a></li>
+                    <li><a class="home-record nm-game-frame" href="/items?item=baton_sorcier_shaman" data-home-record="item:baton_sorcier_shaman"><div class="home-record-art home-record-art--item"><img src="/assets/items/Armes/BatonduSorcierduShaman.png" alt="" width="48" height="48" loading="lazy" decoding="async"></div><div class="home-record-copy"><h3>Bâton du Sorcier du Shaman</h3><p>Arme</p><svg class="home-icon home-record-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div></a></li>
+                    <li><a class="home-record nm-game-frame" href="/items?item=potion_vie_i" data-home-record="item:potion_vie_i"><div class="home-record-art home-record-art--item home-record-art--potion"><img src="/assets/items/Consommables/PotiondeVieI.png" alt="" width="47" height="49" loading="lazy" decoding="async"></div><div class="home-record-copy"><h3>Potion de Vie I</h3><p>Consommable</p><svg class="home-icon home-record-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div></a></li>
+                    <li><a class="home-record nm-game-frame" href="/carte?floor=1&entity=location%3A1%3Avallee-loups" data-home-record="location:monstresData-1"><div class="home-record-art home-record-art--place"><img src="/assets/reference-v2/forest-environment-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async" title="Illustration d’ambiance"></div><div class="home-record-copy"><h3>Vallée des Loups</h3><p>Lieu · Palier 1</p><svg class="home-icon home-record-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div></a></li>
                 </ul>
             </section>
 
             <section class="home-section home-guild" aria-labelledby="join-title">
-                <div>
-                    <h2 id="join-title">Jouer avec Nameless</h2>
-                    <p>Présentez votre personnage sur Discord. Une fois membre, connectez-vous pour consulter le planning, les objectifs et les messages de la guilde.</p>
-                </div>
+                <header class="home-section-head nm-game-divider"><h2 id="join-title">Notre guilde</h2><a class="home-text-link" href="/espace-guilde"><span>Voir la guilde</span><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a></header>
+                <div class="home-guild-card nm-game-frame"><div class="home-guild-banner" aria-hidden="true"><img src="/assets/brand/nameless-reference-emblem.svg" alt="" width="96" height="112" loading="lazy" decoding="async"></div>
+                <picture class="home-guild-scene" aria-hidden="true">
+                    <img src="/assets/home/sao-guild-512.webp" srcset="/assets/home/sao-guild-256.webp 256w, /assets/home/sao-guild-512.webp 512w" sizes="(max-width: 768px) calc(100vw - 32px), 420px" alt="" width="512" height="291" loading="lazy" decoding="async">
+                </picture>
+                <div class="home-guild-copy">
+                    <div class="home-guild-identity"><img src="/assets/brand/nameless-emblem-64.webp?v=20261008sao" alt="" width="44" height="44" loading="lazy" decoding="async"><div><h3>Nameless</h3><span>Guilde sur SAO France</span></div></div>
+                    <p>Une communauté de joueurs réunie pour explorer Aincrad, partager ses découvertes et progresser ensemble dans l’aventure.</p>
                 <div class="home-guild-actions">
-                    <a href="https://discord.gg/BwxjRmh6qK" class="nm-game-button home-action" target="_blank" rel="noopener noreferrer">Rejoindre Discord</a>
-                    <a href="/espace-guilde" class="home-text-link">Accéder à l’espace guilde</a>
+                    <a href="https://discord.gg/BwxjRmh6qK" class="nm-game-button home-action" target="_blank" rel="noopener noreferrer"><svg class="home-icon" aria-hidden="true"><use href="/assets/ui/reference-icons.svg#icon-discord"></use></svg><span>Rejoindre notre Discord</span><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6m-9 3 9-9M10 4H4v16h16v-6"></path></svg></a>
+                </div>
+                </div>
                 </div>
             </section>
             </div>
@@ -237,7 +218,7 @@
 
     <!-- Scripts - ordre sécurité conservé -->
     <script src="js/i18n-en.js?v=20261008sao" defer></script>
-    <script src="js/i18n-en-reviewed.js?v=20261009def" defer></script>
+    <script src="js/i18n-en-reviewed.js?v=20261009reference" defer></script>
     <script src="js/i18n-quests-en-reviewed.js?v=20261008sao" defer></script>
     <script src="js/i18n-game-en-reviewed.js?v=20261008sao" defer></script>
     <script src="js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -250,9 +231,10 @@
     <script src="js/auth-supabase.js?v=20261007a" defer></script>
     <script src="js/navbar-mobile.js?v=20261009def" defer></script>
     <script src="js/audio-controller.js?v=20261008sao" defer></script>
-    <script src="js/home-carousel.js?v=20261008sao" defer></script>
-    <script src="js/page-registry.js?v=20261009def" defer></script>
-    <script src="js/app-router.js?v=20261007a" defer></script>
-    <script src="js/global-search.js?v=20261008sao" defer></script>
+    <script src="js/home-carousel.js?v=20261009premium" defer></script>
+    <script src="js/page-registry.js?v=20261009reference" defer></script>
+    <script src="js/world-atmosphere.js?v=20261009world" defer></script>
+    <script src="js/app-router.js?v=20261009world" defer></script>
+    <script src="js/global-search.js?v=20261009phase1" defer></script>
 </body>
 </html>

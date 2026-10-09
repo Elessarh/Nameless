@@ -156,4 +156,76 @@ for (const kind of ['creature', 'item']) {
     equal(ids(s, kind), retainedCards, 'Destroyed ' + kind + ' lifecycle removes language and filter handlers');
     s.dom.window.close();
 }
+
+// The reference composition keeps catalogue filters interactive beside a
+// desktop detail rail, and changes to a focus-contained sheet on compact screens.
+for (const kind of ['creature', 'item']) {
+    const s = surface(kind), { w, d, data } = s;
+    const creature = kind === 'creature';
+    const selector = creature ? '.creature-modal' : '.item-modal';
+    const gridId = creature ? 'creatures-grid' : 'items-grid';
+    const fieldId = creature ? 'bes-category' : 'it-category';
+    const chipsId = creature ? 'bes-active-filters' : 'it-active-filters';
+    const modal = d.querySelector(selector);
+    check(modal && modal.dataset.panelMode === 'rail' && modal.getAttribute('role') === 'region' && !modal.hasAttribute('aria-modal'), kind + ' opens a persistent nonmodal desktop detail rail');
+    check(d.querySelector('.catalogue-detail-slot').contains(modal), kind + ' detail occupies the actual third catalogue column');
+    check(d.querySelector('.catalogue-layout').children[2] === d.querySelector('.catalogue-detail-slot'), kind + ' detail slot is the third layout column beside filters and results');
+    check(d.body.style.overflow === '' && d.activeElement === d.body && !d.querySelector('[inert]'), kind + ' default desktop selection leaves page scroll and focus available');
+    const tab = new w.KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+    const search = d.getElementById(creature ? 'bes-search' : 'it-search'); search.focus(); search.dispatchEvent(tab);
+    check(!tab.defaultPrevented && d.activeElement === search, kind + ' desktop rail cannot trap focus from the filter rail');
+    const original = ids(s, kind);
+    d.querySelector('[data-catalog-view="list"]').click();
+    check(d.getElementById(gridId).dataset.view === 'list' && d.querySelector('[data-catalog-view="list"]').getAttribute('aria-pressed') === 'true', kind + ' list view has a real selected control and layout state');
+    equal(ids(s, kind), original, kind + ' view changes preserve the visible records and order');
+    d.querySelector('[data-catalog-view="grid"]').click();
+    check(d.getElementById(gridId).dataset.view === 'grid', kind + ' grid view can be restored');
+    const choice = d.querySelector('[data-filter-field="' + fieldId + '"]');
+    const expected = data.filter(record => record.category === choice.value);
+    equal(Number(choice.parentElement.lastElementChild.textContent), expected.length, kind + ' checkbox count comes from the supplied category records');
+    choice.click();
+    equal(new Set(allPages(s, kind)), new Set(expected.map(record => String(record.id))), kind + ' checkbox selection filters the real catalogue');
+    check(d.getElementById(fieldId).value === choice.value && d.querySelectorAll('[data-filter-field="' + fieldId + '"]:checked').length === 1, kind + ' checkbox choices and the filter state stay synchronized');
+    const chip = d.getElementById(chipsId).querySelector('[data-clear-filter="' + fieldId + '"]');
+    check(chip && chip.getAttribute('aria-label'), kind + ' active filter provides a named remove control'); chip.click();
+    equal(ids(s, kind), original, kind + ' removing the chip restores the original first page');
+    check(!choice.checked && !d.getElementById(chipsId).children.length, kind + ' removing a chip also clears its checkbox');
+    const nextTab = modal.querySelector('[data-detail-tab="' + (creature ? 'zones' : 'sources') + '"]'); nextTab.click();
+    const activePanel = d.getElementById(nextTab.getAttribute('aria-controls'));
+    check(nextTab.getAttribute('aria-selected') === 'true' && !activePanel.hidden && activePanel.querySelector(creature ? '.creature-map-location' : '.item-sources'), kind + ' detail tab reveals the same actual source/zone section');
+    nextTab.focus(); nextTab.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true }));
+    check(d.activeElement.dataset.detailTab === 'overview' && d.activeElement.getAttribute('aria-selected') === 'true', kind + ' detail tabs support Home and roving keyboard focus');
+    d.body.style.overflow = 'clip';
+    d.querySelector('.modal-close').click();
+    const card = d.querySelector(creature ? '.creature-card' : '.item-card'); card.focus(); card.click();
+    check(card.getAttribute('aria-expanded') === 'true' && card.dataset.selectedLabel, kind + ' selected record exposes its expanded state and visible badge label');
+    w.innerWidth = 390; w.dispatchEvent(new w.Event('resize'));
+    check(modal.dataset.panelMode === 'sheet' && modal.getAttribute('role') === 'dialog' && modal.getAttribute('aria-modal') === 'true' && d.body.style.overflow === 'hidden', kind + ' compact resize changes the rail into a scrolling-safe dialog sheet');
+    w.innerWidth = 1080; w.dispatchEvent(new w.Event('resize'));
+    check(modal.dataset.panelMode === 'rail' && !modal.hasAttribute('aria-modal') && d.body.style.overflow === 'clip', kind + ' desktop resize releases the sheet and restores prior page overflow');
+    close(s);
+}
+
+{
+    const s = surface('item'), { w, d, data } = s;
+    const index = JSON.parse(read('assets/search-index.json')).entries;
+    w.NamelessGlobalSearch = { getIndex: async () => index };
+    w.history.replaceState({}, '', '/items?item=gelee_slime'); s.api.init(d);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const known = new Set(index.filter(entry => entry.kind === 'item' && Array.isArray(entry.sources) && entry.sources.some(source => source && /^\/bestiaire\?creature=\d+$/.test(source.url))).map(entry => entry.id));
+    const sourceChoice = d.querySelector('[data-filter-field="it-source"][value="known"]');
+    check(sourceChoice && Number(sourceChoice.parentElement.lastElementChild.textContent) === data.filter(item => known.has(item.id)).length, 'Known-source filter counts actual bestiary relations');
+    sourceChoice.click();
+    equal(new Set(allPages(s, 'item')), new Set(data.filter(item => known.has(item.id)).map(item => item.id)), 'Known-source checkbox includes exclusively real bestiary drop relations');
+    const related = d.querySelector('[data-detail-tab="related"]');
+    check(related, 'An item with real shared source relations offers related items'); related.click();
+    const selectedEntry = index.find(entry => entry.kind === 'item' && entry.id === 'gelee_slime');
+    const sourceUrls = new Set(selectedEntry.sources.map(source => source.url));
+    for (const link of d.querySelectorAll('.catalogue-related-item')) {
+        const id = new URL(link.href).searchParams.get('item');
+        check(index.some(entry => entry.kind === 'item' && entry.id === id && entry.sources.some(source => sourceUrls.has(source.url))), 'Every related item shares an actual recorded source with the selected item');
+    }
+    check(d.querySelector('.catalogue-tooltip[aria-hidden="true"] img').getAttribute('src') === d.querySelector('.item-image').getAttribute('src'), 'The item tooltip retains the same native catalogue sprite');
+    close(s);
+}
 console.log('Hybrid catalogue regressions: ' + checks + ' checks passed for actual data, filters, sorting, pagination and mobile disclosure lifecycles.');

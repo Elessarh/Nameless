@@ -90,6 +90,7 @@ export function buildBossPages({ root, output, mapGraph }) {
         const image = assetPath(root, boss.image);
         const imageSize = pngSize(root, image);
         const dom = new JSDOM(template, { url: origin + '/pages/bestiaire.html' });
+        dom.window.document.documentElement.dataset.worldAtmosphere = 'dungeon';
         const doc = dom.window.document;
         const element = (tag, className, text) => {
             const node = doc.createElement(tag);

@@ -7,6 +7,7 @@ const source = (name) => fs.readFileSync(new URL('../js/' + name + '.js', import
 const wait = (ms = 150) => new Promise((resolve) => setTimeout(resolve, ms));
 const profile = { id: '11111111-1111-4111-8111-111111111111', username: 'Adventurer', role: 'admin', classe: 'Guerrier', niveau: 42, created_at: '2026-01-01T12:00:00Z' };
 const activity = { id: '22222222-2222-4222-8222-222222222222', titre: 'Préparation', contenu: 'Potions', type: 'annonce', image_url: 'guild-activities/' + profile.id + '/image.png', created_at: '2026-01-01T12:00:00Z' };
+const objective = { id: '33333333-3333-4333-8333-333333333333', titre: 'QA Préparation de la guilde', description: 'Fixture isolée du test membre', progression: 42, statut: 'en_cours' };
 function page(name, profileData = profile) {
     const ownProfile = { ...profileData };
     const dom = new JSDOM(fs.readFileSync(new URL('../pages/' + name + '.html', import.meta.url), 'utf8'), {
@@ -23,12 +24,12 @@ function page(name, profileData = profile) {
         rpc: async () => ({ data: 'admin', error: null }),
         from(table) {
             let single = false;
-            const query = { select() { return this; }, eq() { return this; }, in() { return this; }, gte() { return this; }, order() { return this; }, limit() { return this; },
+            const query = { select() { return this; }, eq() { return this; }, in() { return this; }, gte() { return this; }, lt() { return this; }, order() { return this; }, limit() { return this; },
                 insert(payload) { writes.push({ table, payload }); return this; },
                 update(payload) { writes.push({ table, payload }); if (table === 'user_profiles') Object.assign(ownProfile, payload); return this; },
                 upsert(payload) { writes.push({ table, payload }); return this; },
                 single() { single = true; return this; }, maybeSingle() { single = true; return this; },
-                then(resolve) { return Promise.resolve({ data: table === 'user_profiles' ? (single ? ownProfile : [ownProfile]) : table === 'guild_activity_wall' && single ? activity : [], error: null }).then(resolve); }
+                then(resolve) { return Promise.resolve({ data: table === 'user_profiles' ? (single ? ownProfile : [ownProfile]) : table === 'guild_activity_wall' && single ? activity : table === 'guild_objectives' ? [objective] : [], error: null }).then(resolve); }
             };
             return query;
         }
@@ -74,16 +75,35 @@ function page(name, profileData = profile) {
     w.dispatchEvent(new w.Event('scroll'));
     assert.equal(w.document.querySelector('.header').classList.contains('hidden'), false, 'Mobile navigation remains available after scrolling away from focused controls');
     w.localStorage.setItem('guildeActiveTab', 'invalid');
+    // The route now boots the actual headquarters module after the member gate.
+    w.eval(source('guild-expeditions'));
     w.eval(source('espace-guilde'));
     await w.NamelessGuildPage.init();
     await wait();
-    assert.equal(w.document.querySelector('.guilde-tab-btn[aria-selected="true"]').dataset.tab, 'planning');
-    const tab = w.document.getElementById('guild-tab-planning');
-    tab.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
-    assert.equal(w.document.activeElement.id, 'guild-tab-objectives');
+    assert.equal(w.document.querySelector('.guild-hq-tab[aria-selected="true"]').dataset.hqTab, 'overview');
+    const tabs = [...w.document.querySelectorAll('.guild-hq-tab')];
+    assert.deepEqual(tabs.map(tab => tab.dataset.hqTab), ['overview', 'expeditions', 'members', 'resources', 'settings']);
+    for (let next = 1; next < tabs.length; next++) {
+        const event = new w.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true });
+        tabs[next - 1].dispatchEvent(event);
+        assert.equal(event.defaultPrevented, true, 'headquarters owns its tab-list arrow navigation');
+        assert.equal(w.document.activeElement, tabs[next], 'keyboard activation follows the current headquarters tabs');
+        assert.equal(tabs[next].getAttribute('aria-selected'), 'true');
+        assert.equal(tabs[next].tabIndex, 0);
+        assert.equal(w.document.querySelectorAll('.guild-hq-tab[aria-selected="true"]').length, 1);
+        assert.equal(w.document.getElementById(tabs[next].getAttribute('aria-controls')).hidden, false);
+        assert.equal(w.document.querySelectorAll('[data-hq-panel]:not([hidden])').length, 1, 'inactive headquarters panels remain hidden');
+    }
+    w.document.querySelector('[data-hq-tab="resources"]').click();
+    assert.equal(w.document.querySelector('#hq-resources #objectives-list [role="progressbar"]').getAttribute('aria-valuenow'), '42', 'the Resources panel preserves real objective progression');
+    assert.equal(w.document.querySelector('#hq-resources .objective-progress-label strong').textContent, '42%');
     w.NamelessGuildPage.destroy();
     await w.NamelessGuildPage.init();
-    assert.equal(w.document.querySelector('.guilde-tab-btn[aria-selected="true"]').dataset.tab, 'objectives', 'member tabs must retain the saved preference');
+    assert.equal(w.document.querySelector('.guild-hq-tab[aria-selected="true"]').dataset.hqTab, 'overview', 'a fresh headquarters visit starts on its overview');
+    const firstTab = w.document.querySelector('[data-hq-tab="overview"]');
+    firstTab.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }));
+    assert.equal(w.document.activeElement.dataset.hqTab, 'expeditions', 'SPA reinitialization binds the current tabs once');
+    w.document.querySelector('[data-hq-tab="settings"]').click();
     const presence = w.document.getElementById('mark-presence-btn');
     presence.click(); presence.click();
     await wait(0);
@@ -177,6 +197,82 @@ function page(name, profileData = profile) {
     await w.submitActivity();
     assert.equal(writes.find((entry) => entry.table === 'guild_activity_wall').payload.image_url, activity.image_url, 'editing text must preserve the existing image');
     dom.window.close();
+}
+{
+    const { dom, w, writes } = page('espace-guilde');
+    w.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
+    w.HTMLDialogElement.prototype.close = function () { this.open = false; this.dispatchEvent(new w.Event('close')); };
+    const communications = { destroyed: 0, resumed: 0 };
+    w.NamelessGuildChat = w.NamelessGuildDm = { destroy() { communications.destroyed++; }, init() { communications.resumed++; } };
+    w.eval(source('guild-expeditions'));
+    w.eval(source('espace-guilde'));
+    await w.NamelessGuildPage.init();
+    await wait();
+    assert.ok(w.document.querySelector('#objectives-list [role="progressbar"]'));
+    const dialog = w.document.getElementById('guild-event-dialog');
+    const details = dialog.querySelector('[data-guild-dialog-content]');
+    details.textContent = 'PRIVATE EVENT DETAILS';
+    const privateInput = w.document.createElement('input'); details.appendChild(privateInput); dialog.showModal(); privateInput.focus();
+    w.document.getElementById('chat-messages').textContent = 'PRIVATE CHAT DATA';
+    w.document.getElementById('reply-to-author').textContent = 'PRIVATE REPLY AUTHOR';
+    w.document.getElementById('reply-to-preview').textContent = 'PRIVATE REPLY CONTENT';
+    w.document.getElementById('dm-recipient-name').textContent = 'PRIVATE RECIPIENT';
+    w.currentUser = null;
+    w.document.dispatchEvent(new w.CustomEvent('nameless:auth-changed', { detail: { user: null } }));
+    assert.equal(w.document.getElementById('guilde-content').style.display, 'none', 'external sign out synchronously masks the protected headquarters');
+    assert.equal(dialog.open, false, 'sign out immediately closes the event dialog');
+    assert.equal(details.textContent, '', 'private event details are removed, not just hidden');
+    assert.equal(w.document.getElementById('objectives-list').textContent, '');
+    assert.equal(w.document.getElementById('chat-messages').textContent, '');
+    assert.equal(w.document.getElementById('reply-to-author').textContent, '');
+    assert.equal(w.document.getElementById('reply-to-preview').textContent, '');
+    assert.equal(w.document.getElementById('dm-recipient-name').textContent, '');
+    assert.equal(w.document.querySelector('[data-guild-members]').textContent, '');
+    assert.equal(w.document.activeElement.getAttribute('href'), '/connexion', 'focus leaves the revoked private dialog for the public sign-in action');
+    assert.equal(communications.destroyed, 2, 'both communication modules are torn down');
+    let reads = 0;
+    const from = w.supabase.from.bind(w.supabase);
+    w.supabase.from = table => { reads++; return from(table); };
+    w.currentUser = { id: '55555555-5555-4555-8555-555555555555' };
+    w.supabase.rpc = async () => ({data:'joueur',error:null});
+    w.document.dispatchEvent(new w.CustomEvent('nameless:auth-changed', {detail:{user:w.currentUser}}));
+    await wait(250);
+    assert.equal(reads, 0, 'a new account must pass the role gate before any private read');
+    assert.equal(w.document.getElementById('guilde-content').style.display, 'none');
+    w.document.getElementById('mark-presence-btn').click();await wait(0);
+    assert.equal(writes.length, 0, 'a stale attendance control cannot write for a denied account');
+    w.supabase.rpc = async () => ({data:'membre',error:null});
+    w.document.dispatchEvent(new w.CustomEvent('nameless:auth-changed', {detail:{user:w.currentUser}}));
+    await wait(250);
+    assert.ok(reads > 0, 'a newly authorized actor reloads current guild data');
+    assert.equal(w.document.getElementById('guilde-content').style.display, 'block');
+    assert.equal(communications.resumed, 2, 'communication is restored only after the new member gate');
+    w.NamelessGuildPage.destroy();
+    const before = communications.destroyed;
+    w.currentUser = null;
+    w.document.dispatchEvent(new w.CustomEvent('nameless:auth-changed', {detail:{user:null}}));
+    assert.equal(communications.destroyed, before, 'a destroyed route removes its auth listener');
+    dom.window.close();
+}
+{
+    const { dom, w } = page('espace-guilde');
+    let releaseObjectives;
+    const from = w.supabase.from.bind(w.supabase);
+    w.supabase.from = table => {
+        if (table !== 'guild_objectives') return from(table);
+        const query = {select(){return this;},eq(){return this;},order(){return this;},then(resolve){return new Promise(release=>{releaseObjectives=release;}).then(resolve);}};
+        return query;
+    };
+    w.eval(source('guild-expeditions'));w.eval(source('espace-guilde'));
+    const pending = w.NamelessGuildPage.init();await wait();
+    assert.equal(typeof releaseObjectives, 'function');
+    w.currentUser = null;
+    w.document.dispatchEvent(new w.CustomEvent('nameless:auth-changed', {detail:{user:null}}));
+    releaseObjectives({data:[objective],error:null});await pending;await wait(0);
+    assert.equal(w.document.getElementById('objectives-list').textContent, '', 'late private responses cannot repopulate the revoked DOM');
+    const week = w.NamelessGuildDates.isoWeek(new Date());
+    assert.equal(w.cacheManager.get('guild_objectives_'+week.year+'_'+week.week), null, 'late private responses cannot refill the cleared cache');
+    w.NamelessGuildPage.destroy();dom.window.close();
 }
 {
     const { dom, w } = page('espace-guilde');

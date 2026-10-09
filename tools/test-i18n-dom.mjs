@@ -98,6 +98,24 @@ const entryPages = [
 ];
 const frenchResidue = /\b(accueil|aucun|aucune|araignée|araignées|bientôt|bouleau|cerf|chêne|coordonnées|déconnexion|donjon|donjons|étape|guilde|joueur|lieu|marchand|métier|métiers|palier|paliers|parler|peaux|plumes|quête|quêtes|recherche|ressources|retournez|sanglier|tuer|vaincre|ville|votre|vous)\b/i;
 const knownBadEnglish = /Master Epistle|Contact details|\bDonjon\b|\bPalier\b|\bPlums?\b|\bSpices\b|\bArteon\b|\bVirlon\b|Scale \d selected|Frossed|Corrected Plums|Skin Thickness|Bouleau log|Scratch Scratch|Spider Poisoned|\bElementary\b|Copper dust|Giant culvert|From Spider|\bWin \d/i;
+const referenceLabels = {
+    'pages/bestiaire.html': [
+        ['.catalogue-detail-empty h2', null, 'Le codex d’Aincrad', 'The Aincrad codex'],
+        ['[data-catalog-view="grid"]', 'aria-label', 'Vue grille', 'Grid view'],
+        ['.catalogue-detail-slot', 'aria-label', 'Fiche de la créature', 'Creature details']
+    ],
+    'pages/items.html': [
+        ['.catalogue-detail-empty h2', null, 'L’inventaire d’Aincrad', 'The Aincrad inventory'],
+        ['#it-source option[value="known"]', null, 'Butins du bestiaire', 'Bestiary drops'],
+        ['#it-source', 'aria-label', 'Filtrer par source', 'Filter by source']
+    ],
+    'pages/map.html': [
+        ['#map-legend-title', null, 'Légende de la carte', 'Map legend'],
+        ['#map-legend-close', 'aria-label', 'Fermer la légende', 'Close legend'],
+        ['#map-places-title', null, 'Lieux d’intérêt du Palier 01', 'Locations of interest on Floor 01'],
+        ['#map-places-description', null, 'Découvrez les lieux connus de ce palier et préparez votre exploration.', 'Discover the known locations on this floor and prepare your exploration.']
+    ]
+};
 
 for (const page of entryPages) {
     const pageDom = new JSDOM(read(page), {
@@ -113,6 +131,9 @@ for (const page of entryPages) {
         'js/i18n-game-en-reviewed.js',
         'js/i18n-information-en-reviewed.js'
     ];
+    // Headquarters keeps its reviewed copy beside the optional expedition module.
+    // The actual entry page loads this module before DOMContentLoaded/i18n boot.
+    if (page === 'pages/espace-guilde.html') scripts.push('js/guild-expeditions.js');
     scripts.push('js/i18n.js');
     for (const script of scripts) pageWindow.eval(read(script));
     pageWindow.document.dispatchEvent(new pageWindow.Event('DOMContentLoaded'));
@@ -127,6 +148,16 @@ for (const page of entryPages) {
     }
     const badEnglish = renderedText.match(knownBadEnglish);
     if (badEnglish) throw new Error(`${page}: known bad English detected in DOM: ${JSON.stringify(badEnglish[0])}`);
+    const labels = referenceLabels[page] || [];
+    for (const language of ['en', 'fr', 'en']) {
+        if (!labels.length) break;
+        pageWindow.NamelessI18n.setLanguage(language);
+        await waitForMutations();
+        for (const [selector, attribute, french, english] of labels) {
+            const element = pageWindow.document.querySelector(selector);
+            assertEqual(attribute ? element.getAttribute(attribute) : element.textContent, language === 'fr' ? french : english, `${page} ${selector} ${language} reference label`);
+        }
+    }
 }
 
 console.log(`DOM i18n test passed: dynamic popups, coordinates, FR/EN/FR switching and ${entryPages.length} English entry pages.`);

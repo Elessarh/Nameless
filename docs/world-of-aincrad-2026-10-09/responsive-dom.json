@@ -1,0 +1,762 @@
+[
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 257,
+        "right": 493.796875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 257,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 507.796875,
+        "right": 744.59375,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 507.796875,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 758.59375,
+        "right": 995.390625,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 758.59375,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1009.390625,
+        "right": 1246.1875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 1009.390625,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1260.1875,
+        "right": 1497,
+        "top": 746.6875,
+        "width": 236.8125,
+        "x": 1260.1875,
+        "y": 746.6875
+      }
+    ],
+    "contentWidth": 1910,
+    "guild": {
+      "bottom": 1101.875,
+      "height": 157,
+      "left": 257,
+      "right": 1653,
+      "top": 944.875,
+      "width": 1396,
+      "x": 257,
+      "y": 944.875
+    },
+    "hero": {
+      "bottom": 505.59375,
+      "height": 441.59375,
+      "left": 0,
+      "right": 1910,
+      "top": 64,
+      "width": 1910,
+      "x": 0,
+      "y": 64
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "file": "home-1920.jpg"
+  },
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 577,
+        "right": 813.796875,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 577,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 827.796875,
+        "right": 1064.59375,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 827.796875,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1078.59375,
+        "right": 1315.390625,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 1078.59375,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1329.390625,
+        "right": 1566.1875,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 1329.390625,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1580.1875,
+        "right": 1817,
+        "top": 765.09375,
+        "width": 236.8125,
+        "x": 1580.1875,
+        "y": 765.09375
+      }
+    ],
+    "contentWidth": 2550,
+    "guild": {
+      "bottom": 1120.28125,
+      "height": 157,
+      "left": 577,
+      "right": 1973,
+      "top": 963.28125,
+      "width": 1396,
+      "x": 577,
+      "y": 963.28125
+    },
+    "hero": {
+      "bottom": 524,
+      "height": 460,
+      "left": 0,
+      "right": 2550,
+      "top": 64,
+      "width": 2550,
+      "x": 0,
+      "y": 64
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      2560,
+      1440
+    ],
+    "file": "home-2560.jpg"
+  },
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1537.96875,
+        "height": 90,
+        "left": 16,
+        "right": 364,
+        "top": 1447.96875,
+        "width": 348,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "contentWidth": 380,
+    "guild": {
+      "bottom": 1865.203125,
+      "height": 302.234375,
+      "left": 16,
+      "right": 364,
+      "top": 1562.96875,
+      "width": 348,
+      "x": 16,
+      "y": 1562.96875
+    },
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390.jpg"
+  },
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1537.96875,
+        "height": 90,
+        "left": 16,
+        "right": 364,
+        "top": 1447.96875,
+        "width": 348,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "contentWidth": 380,
+    "guild": {
+      "bottom": 1865.203125,
+      "height": 302.234375,
+      "left": 16,
+      "right": 364,
+      "top": 1562.96875,
+      "width": 348,
+      "x": 16,
+      "y": 1562.96875
+    },
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390-full.jpg"
+  },
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 257,
+        "right": 493.796875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 257,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 507.796875,
+        "right": 744.59375,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 507.796875,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 758.59375,
+        "right": 995.390625,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 758.59375,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1009.390625,
+        "right": 1246.1875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 1009.390625,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1260.1875,
+        "right": 1497,
+        "top": 746.6875,
+        "width": 236.8125,
+        "x": 1260.1875,
+        "y": 746.6875
+      }
+    ],
+    "contentWidth": 1910,
+    "guild": {
+      "bottom": 1101.875,
+      "height": 157,
+      "left": 257,
+      "right": 1653,
+      "top": 944.875,
+      "width": 1396,
+      "x": 257,
+      "y": 944.875
+    },
+    "hero": {
+      "bottom": 505.59375,
+      "height": 441.59375,
+      "left": 0,
+      "right": 1910,
+      "top": 64,
+      "width": 1910,
+      "x": 0,
+      "y": 64
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "file": "home-1920.jpg"
+  },
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 582,
+        "right": 818.796875,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 582,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 832.796875,
+        "right": 1069.59375,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 832.796875,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1083.59375,
+        "right": 1320.390625,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 1083.59375,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1334.390625,
+        "right": 1571.1875,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 1334.390625,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1585.1875,
+        "right": 1822,
+        "top": 765.09375,
+        "width": 236.8125,
+        "x": 1585.1875,
+        "y": 765.09375
+      }
+    ],
+    "contentWidth": 2560,
+    "guild": {
+      "bottom": 1120.28125,
+      "height": 157,
+      "left": 582,
+      "right": 1978,
+      "top": 963.28125,
+      "width": 1396,
+      "x": 582,
+      "y": 963.28125
+    },
+    "hero": {
+      "bottom": 524,
+      "height": 460,
+      "left": 0,
+      "right": 2560,
+      "top": 64,
+      "width": 2560,
+      "x": 0,
+      "y": 64
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      2560,
+      1440
+    ],
+    "file": "home-2560.jpg"
+  },
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1537.96875,
+        "height": 90,
+        "left": 16,
+        "right": 364,
+        "top": 1447.96875,
+        "width": 348,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "contentWidth": 380,
+    "guild": {
+      "bottom": 1865.203125,
+      "height": 302.234375,
+      "left": 16,
+      "right": 364,
+      "top": 1562.96875,
+      "width": 348,
+      "x": 16,
+      "y": 1562.96875
+    },
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390.jpg"
+  },
+  {
+    "atmosphere": "aincrad",
+    "cards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1537.96875,
+        "height": 90,
+        "left": 16,
+        "right": 364,
+        "top": 1447.96875,
+        "width": 348,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "contentWidth": 380,
+    "guild": {
+      "bottom": 1865.203125,
+      "height": 302.234375,
+      "left": 16,
+      "right": 364,
+      "top": 1562.96875,
+      "width": 348,
+      "x": 16,
+      "y": 1562.96875
+    },
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "imagesLoaded": true,
+    "overflow": false,
+    "paused": "true",
+    "scrollTop": 0,
+    "suspended": "false",
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390-full.jpg"
+  },
+  {
+    "contentWidth": 1910,
+    "imagesLoaded": true,
+    "overflow": false,
+    "scrollTop": 0,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "file": "home-1920.jpg",
+    "method": "clip on active tab"
+  },
+  {
+    "contentWidth": 2560,
+    "imagesLoaded": true,
+    "overflow": false,
+    "scrollTop": 0,
+    "viewport": [
+      2560,
+      1440
+    ],
+    "file": "home-2560.jpg",
+    "method": "clip on active tab"
+  },
+  {
+    "contentWidth": 380,
+    "imagesLoaded": true,
+    "overflow": false,
+    "scrollTop": 0,
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390.jpg",
+    "method": "clip on active tab"
+  },
+  {
+    "contentWidth": 350,
+    "imagesLoaded": true,
+    "overflow": false,
+    "scrollTop": 0,
+    "viewport": [
+      360,
+      800
+    ],
+    "file": "home-360.jpg",
+    "method": "clip on active tab"
+  },
+  {
+    "contentWidth": 758,
+    "imagesLoaded": true,
+    "overflow": false,
+    "scrollTop": 0,
+    "viewport": [
+      768,
+      1024
+    ],
+    "file": "home-768.jpg",
+    "method": "clip on active tab"
+  },
+  {
+    "contentWidth": 1270,
+    "imagesLoaded": true,
+    "overflow": false,
+    "scrollTop": 0,
+    "viewport": [
+      1280,
+      900
+    ],
+    "file": "home-1280.jpg",
+    "method": "clip on active tab"
+  }
+]

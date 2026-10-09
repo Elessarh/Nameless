@@ -815,6 +815,86 @@ function besLocale() {
     return typeof window.NamelessI18n?.getLocale === 'function' ? window.NamelessI18n.getLocale() : 'fr-FR';
 }
 
+function besUi(fr, en) {
+    return window.NamelessI18n?.getLanguage?.() === 'en' ? en : fr;
+}
+
+function besCompactPanel() { return window.innerWidth <= 980; }
+
+function syncBestiaryPanelMode() {
+    const modal = document.querySelector('.creature-modal');
+    if (!modal) return;
+    const compact = besCompactPanel();
+    const wasSheet = modal.dataset.panelMode === 'sheet';
+    modal.dataset.panelMode = compact ? 'sheet' : 'rail';
+    modal.setAttribute('role', compact ? 'dialog' : 'region');
+    if (compact) modal.setAttribute('aria-modal', 'true');
+    else modal.removeAttribute('aria-modal');
+    if (modal.style.display === 'flex') {
+        if (compact) document.body.style.overflow = 'hidden';
+        else if (wasSheet) document.body.style.overflow = besPreviousOverflow;
+    }
+    document.querySelectorAll('.creature-card').forEach(card => {
+        if (compact) card.setAttribute('aria-haspopup', 'dialog');
+        else card.removeAttribute('aria-haspopup');
+    });
+}
+
+function setupBestiaryFilterChoices() {
+    const group = document.querySelector('.bestiary-page .bes-filter-group');
+    if (!group) return;
+    group.querySelectorAll('.catalogue-filter-section').forEach(section => section.remove());
+    group.querySelectorAll('label, select').forEach(field => field.classList.add('catalogue-native-field'));
+    const definitions = [
+        ['bes-palier', 'Paliers', 'Floors', c => String(c.palier)],
+        ['bes-category', 'Catégories', 'Categories', c => c.category],
+        ['bes-type', 'Types', 'Types', c => c.type],
+        ['bes-zone', 'Zones', 'Zones', c => c.location]
+    ];
+    definitions.forEach(([id, fr, en, valueOf]) => {
+        const select = document.getElementById(id);
+        if (!select) return;
+        const section = document.createElement('fieldset');
+        section.className = 'catalogue-filter-section';
+        const title = document.createElement('legend'); title.textContent = besUi(fr, en); section.appendChild(title);
+        [...select.options].filter(option => option.value).forEach(option => {
+            const row = document.createElement('label'); row.className = 'catalogue-filter-option';
+            const input = document.createElement('input'); input.type = 'checkbox'; input.dataset.filterField = id; input.value = option.value;
+            input.checked = select.value === option.value;
+            const name = document.createElement('span'); name.textContent = besDisplayName(option.textContent);
+            const count = document.createElement('span'); count.textContent = String(creaturesData.filter(c => valueOf(c) === option.value).length);
+            row.append(input, name, count); section.appendChild(row);
+        });
+        group.appendChild(section);
+    });
+}
+
+function syncBestiaryFilterChoices() {
+    document.querySelectorAll('.bestiary-page [data-filter-field]').forEach(input => {
+        input.checked = document.getElementById(input.dataset.filterField)?.value === input.value;
+    });
+    const chips = document.getElementById('bes-active-filters');
+    if (!chips) return;
+    chips.replaceChildren();
+    ['bes-search', 'bes-palier', 'bes-category', 'bes-type', 'bes-zone'].forEach(id => {
+        const field = document.getElementById(id);
+        if (!field?.value) return;
+        const label = field.tagName === 'SELECT' ? field.options[field.selectedIndex].textContent : field.value;
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'catalogue-filter-chip'; button.dataset.clearFilter = id;
+        button.textContent = besDisplayName(label) + ' ×';
+        button.setAttribute('aria-label', besUi('Retirer le filtre ', 'Remove filter ') + besDisplayName(label));
+        chips.appendChild(button);
+    });
+}
+
+function setBestiarySelection(id) {
+    document.querySelectorAll('.creature-card').forEach(card => {
+        const selected = card.dataset.id === String(id);
+        card.classList.toggle('is-selected', selected);
+        card.setAttribute('aria-expanded', String(selected));
+    });
+}
+
 function besLocationLabel(value) {
     return value === UNKNOWN_BESTIARY_LOCATION ? 'Zone non renseignée' : value;
 }
@@ -851,19 +931,25 @@ function initBestiary(root) {
     besController = new AbortController();
     itemsPerPage = parseInt(document.getElementById('items-per-page')?.value, 10) || 12;
     populateDynamicFilters();
+    setupBestiaryFilterChoices();
     setupImageFallback();
     setupEventListeners();
     filterCreatures();
     applyCreatureUrl();
+    if (!besCompactPanel() && !new URLSearchParams(window.location.search).has('creature') && filteredCreatures.length) openCreatureModal(filteredCreatures[0].id, false, false);
     document.addEventListener('nameless:routechange', applyCreatureUrl, { signal: besController.signal });
-    document.addEventListener('nameless:languagechange', filterCreatures, { signal: besController.signal });
+    document.addEventListener('nameless:languagechange', () => {
+        setupBestiaryFilterChoices();
+        filterCreatures();
+        if (selectedCreature && document.querySelector('.creature-modal')?.style.display === 'flex') openCreatureModal(selectedCreature.id, false, false);
+    }, { signal: besController.signal });
 }
 
 function destroyBestiary() {
     if (besController) { besController.abort(); besController = null; }
     const modal = document.querySelector('.creature-modal');
     if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
-    if (modal) document.body.style.overflow = besPreviousOverflow;
+    if (modal?.dataset.panelMode === 'sheet' && modal.style.display === 'flex') document.body.style.overflow = besPreviousOverflow;
     besModalReturnFocus = null;
     selectedCreature = null;
     filteredCreatures = [...creaturesData];
@@ -922,6 +1008,27 @@ function setupEventListeners() {
 
     const search = document.getElementById('bes-search');
     if (search) search.addEventListener('input', filterCreatures, opts);
+    const choices = document.querySelector('.bestiary-page .bes-filter-group');
+    if (choices) choices.addEventListener('change', e => {
+        const input = e.target.closest('[data-filter-field]');
+        if (!input) return;
+        const select = document.getElementById(input.dataset.filterField);
+        if (select) { select.value = input.checked ? input.value : ''; filterCreatures(); }
+    }, opts);
+    const chips = document.getElementById('bes-active-filters');
+    if (chips) chips.addEventListener('click', e => {
+        const button = e.target.closest('[data-clear-filter]');
+        if (!button) return;
+        const field = document.getElementById(button.dataset.clearFilter);
+        if (field) { field.value = ''; filterCreatures(); }
+    }, opts);
+    const view = document.querySelector('.bestiary-page .catalogue-view');
+    if (view) view.addEventListener('click', e => {
+        const button = e.target.closest('[data-catalog-view]');
+        if (!button) return;
+        document.getElementById('creatures-grid').dataset.view = button.dataset.catalogView;
+        view.querySelectorAll('button').forEach(control => control.setAttribute('aria-pressed', String(control === button)));
+    }, opts);
     ['bes-palier', 'bes-category', 'bes-type', 'bes-zone', 'bes-sort'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('change', filterCreatures, opts);
@@ -939,6 +1046,7 @@ function setupEventListeners() {
     window.addEventListener('resize', () => {
         const compact = window.innerWidth <= 768;
         if (filterDetails && compact !== compactFilters) { filterDetails.open = !compact; compactFilters = compact; }
+        syncBestiaryPanelMode();
     }, opts);
 
     // Grille: délégation clic -> ouvrir le modal (data-id)
@@ -974,16 +1082,17 @@ function setupEventListeners() {
     document.addEventListener('click', (e) => {
         const modal = document.querySelector('.creature-modal');
         if (!modal || modal.style.display === 'none') return;
-        if (e.target.classList.contains('creature-modal') || e.target.closest('.modal-close')) { closeModal(); return; }
+        if ((modal.dataset.panelMode === 'sheet' && e.target === modal) || e.target.closest('.creature-modal .modal-close')) { closeModal(); return; }
     }, opts);
     document.addEventListener('keydown', (e) => {
         if (e.target.closest && e.target.closest('dialog[open]')) return;
         const modal = document.querySelector('.creature-modal');
         if (!modal || modal.style.display === 'none') return;
-        if (e.key === 'Escape') { e.preventDefault(); closeModal(); }
-        if (e.key === 'Tab') {
-            const controls = Array.from(modal.querySelectorAll('button, a[href], [tabindex="0"]'));
+        if (e.key === 'Escape' && (besCompactPanel() || modal.contains(e.target))) { e.preventDefault(); closeModal(); }
+        if (e.key === 'Tab' && besCompactPanel()) {
+            const controls = Array.from(modal.querySelectorAll('button, a[href], [tabindex="0"]')).filter(control => !control.closest('[hidden]') && control.tabIndex !== -1);
             const first = controls[0], last = controls[controls.length - 1];
+            if (!first) return;
             if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
             else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
         }
@@ -1017,6 +1126,7 @@ function filterCreatures() {
         filteredCreatures.sort((a, b) => (order[a.category] ?? 3) - (order[b.category] ?? 3) || byName(a, b));
     }
     currentPage = 1;
+    syncBestiaryFilterChoices();
     renderCreatures();
 }
 
@@ -1029,7 +1139,7 @@ function renderCreatures() {
     totalPages = Math.max(1, Math.ceil(filteredCreatures.length / itemsPerPage));
     if (currentPage > totalPages) currentPage = totalPages;
     const count = document.getElementById('bes-count');
-    if (count) count.textContent = filteredCreatures.length + ' créature' + (filteredCreatures.length > 1 ? 's' : '');
+    if (count) count.textContent = filteredCreatures.length + besUi(' créature' + (filteredCreatures.length > 1 ? 's trouvées' : ' trouvée'), ' creature' + (filteredCreatures.length > 1 ? 's found' : ' found'));
 
     if (filteredCreatures.length === 0) {
         const empty = document.createElement('div');
@@ -1065,10 +1175,13 @@ function buildCard(creature) {
     card.className = 'creature-card cat-' + creature.category;
     if (selectedCreature?.id === creature.id && document.querySelector('.creature-modal')?.style.display === 'flex') card.classList.add('is-selected');
     card.dataset.id = creature.id;
+    card.dataset.selectedLabel = besUi('Sélectionné', 'Selected');
     card.tabIndex = 0;
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', 'Voir ' + creature.name);
-    card.setAttribute('aria-haspopup', 'dialog');
+    if (besCompactPanel()) card.setAttribute('aria-haspopup', 'dialog');
+    card.setAttribute('aria-controls', 'creature-dialog');
+    card.setAttribute('aria-expanded', String(card.classList.contains('is-selected')));
 
     const media = document.createElement('div');
     media.className = 'creature-media';
@@ -1116,7 +1229,7 @@ function buildCard(creature) {
 }
 
 // --- Modal détail (DOM) ---
-function openCreatureModal(id, updateUrl) {
+function openCreatureModal(id, updateUrl, moveFocus = true) {
     const creature = creaturesData.find(c => c.id === id);
     if (!creature) return;
     selectedCreature = creature;
@@ -1126,11 +1239,10 @@ function openCreatureModal(id, updateUrl) {
         modal = document.createElement('div');
         modal.className = 'creature-modal';
         modal.id = 'creature-dialog';
-        document.body.appendChild(modal);
+        (document.querySelector('.bestiary-page .catalogue-detail-slot') || document.body).appendChild(modal);
     }
     if (modal.style.display !== 'flex') { besModalReturnFocus = document.activeElement; besPreviousOverflow = document.body.style.overflow; }
-    modal.setAttribute('role', 'dialog');
-    modal.setAttribute('aria-modal', 'true');
+    if (moveFocus) besModalReturnFocus = document.activeElement;
     modal.setAttribute('aria-labelledby', 'creature-dialog-title');
     modal.dataset.creature = String(id);
     modal.innerHTML = '';
@@ -1143,7 +1255,7 @@ function openCreatureModal(id, updateUrl) {
     close.className = 'modal-close';
     close.setAttribute('aria-label', 'Fermer');
     close.textContent = '×';
-    document.querySelectorAll('.creature-card').forEach(card => card.classList.toggle('is-selected', card.dataset.id === String(id)));
+    setBestiarySelection(id);
     content.appendChild(close);
 
     const header = document.createElement('div');
@@ -1220,16 +1332,17 @@ function openCreatureModal(id, updateUrl) {
     header.appendChild(info);
     content.appendChild(header);
 
+    let description = null;
     if (creature.description) {
-        content.appendChild(makeSection('Description', (sec) => {
+        description = makeSection(besUi('Description', 'Description'), (sec) => {
             const p = document.createElement('p');
             p.className = 'modal-desc';
             p.textContent = creature.description;
             sec.appendChild(p);
-        }));
+        });
     }
 
-    content.appendChild(makeSection('Butin possible', (sec) => {
+    const drops = makeSection(besUi('Butins connus', 'Known drops'), (sec) => {
         if (creature.drops && creature.drops.length) {
             const dgrid = document.createElement('div');
             dgrid.className = 'drops-grid';
@@ -1241,13 +1354,41 @@ function openCreatureModal(id, updateUrl) {
             none.textContent = 'Aucun butin connu.';
             sec.appendChild(none);
         }
-    }));
+    });
+    const zones = makeSection(besUi('Zones principales', 'Main zones'), sec => { sec.appendChild(statRow); sec.appendChild(mapSection); });
+    installBestiaryDetailTabs(content, id, description, zones, drops);
 
     modal.appendChild(content);
     modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    syncBestiaryPanelMode();
     if (updateUrl !== false) updateCreatureUrl(id);
-    close.focus();
+    if (moveFocus) close.focus();
+}
+
+function installBestiaryDetailTabs(content, id, description, zones, drops) {
+    const bar = document.createElement('div'); bar.className = 'catalogue-detail-tabs'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', besUi('Détails de la créature', 'Creature details'));
+    const tabs = [['overview', 'Aperçu', 'Overview'], ['zones', 'Zones', 'Zones'], ['drops', 'Drops', 'Drops']];
+    const panels = new Map(); const buttons = new Map();
+    tabs.forEach(([key, fr, en]) => {
+        const button = document.createElement('button'); button.type = 'button'; button.id = 'bes-tab-' + id + '-' + key; button.dataset.detailTab = key; button.setAttribute('role', 'tab'); button.textContent = besUi(fr, en); bar.appendChild(button); buttons.set(key, button);
+        const panel = document.createElement('section'); panel.id = 'bes-panel-' + id + '-' + key; panel.dataset.catalogueTabPanel = key; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', button.id); button.setAttribute('aria-controls', panel.id); panels.set(key, panel);
+    });
+    content.appendChild(bar); panels.forEach(panel => content.appendChild(panel));
+    function activate(key, focus) {
+        panels.forEach((panel, name) => { panel.hidden = name !== key; });
+        buttons.forEach((button, name) => { button.setAttribute('aria-selected', String(name === key)); button.tabIndex = name === key ? 0 : -1; });
+        if (description) panels.get('overview').appendChild(description);
+        panels.get(key === 'zones' ? 'zones' : 'overview').appendChild(zones);
+        panels.get(key === 'drops' ? 'drops' : 'overview').appendChild(drops);
+        if (focus) buttons.get(key).focus();
+    }
+    bar.addEventListener('click', e => { const button = e.target.closest('[data-detail-tab]'); if (button) activate(button.dataset.detailTab, false); }, { signal: besController.signal });
+    bar.addEventListener('keydown', e => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+        const keys = [...buttons.keys()]; const current = keys.indexOf(e.target.dataset.detailTab); if (current < 0) return;
+        e.preventDefault(); activate(keys[e.key === 'Home' ? 0 : e.key === 'End' ? keys.length - 1 : (current + (e.key === 'ArrowRight' ? 1 : -1) + keys.length) % keys.length], true);
+    }, { signal: besController.signal });
+    activate('overview', false);
 }
 
 function makeStat(label, value) {
@@ -1308,12 +1449,12 @@ function closeModal(updateUrl) {
     if (modal && modal.style.display !== 'none') {
         modal.style.display = 'none';
         delete modal.dataset.creature;
-        document.body.style.overflow = besPreviousOverflow;
+        if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = besPreviousOverflow;
         if (besModalReturnFocus && besModalReturnFocus.isConnected) besModalReturnFocus.focus();
         besModalReturnFocus = null;
     }
     selectedCreature = null;
-    document.querySelectorAll('.creature-card.is-selected').forEach(card => card.classList.remove('is-selected'));
+    setBestiarySelection(null);
     if (updateUrl !== false) updateCreatureUrl(null);
 }
 
