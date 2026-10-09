@@ -59,6 +59,16 @@ function page(name, profileData = profile) {
     assert.equal(w.document.getElementById('hamburger').getAttribute('aria-expanded'), 'false');
     assert.equal(w.document.querySelector('main').inert, undefined);
     assert.equal(w.document.activeElement.id, 'hamburger');
+    w.document.documentElement.lang = 'en';
+    w.document.dispatchEvent(new w.Event('nameless:languagechange'));
+    assert.equal(w.document.getElementById('hamburger').getAttribute('aria-label'), 'Open menu');
+    w.document.getElementById('hamburger').click();
+    assert.equal(w.document.getElementById('hamburger').getAttribute('aria-label'), 'Close menu');
+    w.document.documentElement.lang = 'fr';
+    w.document.dispatchEvent(new w.Event('nameless:languagechange'));
+    assert.equal(w.document.getElementById('hamburger').getAttribute('aria-label'), 'Fermer le menu', 'Changing language preserves the open state');
+    w.document.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    assert.equal(w.document.getElementById('hamburger').getAttribute('aria-label'), 'Ouvrir le menu');
     w.document.activeElement.blur();
     Object.defineProperty(w, 'scrollY', {value: 200, writable: true});
     w.dispatchEvent(new w.Event('scroll'));

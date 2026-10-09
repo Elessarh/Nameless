@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Historical snapshots are checked byte-for-byte against their original hash.
+# Text normalization would change them on Linux and block the public build.
+data/archive/** -text

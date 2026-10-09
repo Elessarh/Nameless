@@ -40,7 +40,7 @@
         // dont le <head> ne contient pas les styles/scripts de l'accueil.
         css: [
             'css/components/mmorpg-kit.css?v=20261008sao',
-            'css/components/home.css?v=20261008sao'
+            'css/components/home.css?v=20261009def'
         ],
         scripts: [
             'js/home-carousel.js?v=20261008sao'

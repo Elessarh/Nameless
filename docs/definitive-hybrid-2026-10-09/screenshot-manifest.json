@@ -1,0 +1,227 @@
+[
+  {
+    "file": "phase-0/screenshots/bestiary-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 146534,
+    "sha256": "5150691e094932d4b8a9cf440ad46f63928c8578f38eb00f79693473cca5f001"
+  },
+  {
+    "file": "phase-0/screenshots/guild-qa-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 108653,
+    "sha256": "066c0930071b16906a98d20134ae79666466e27002be952e0b5f38292ca327f8"
+  },
+  {
+    "file": "phase-0/screenshots/guild-qa-390.jpg",
+    "dimensions": [
+      380,
+      822
+    ],
+    "bytes": 43113,
+    "sha256": "60939f6f5ae5abda30f1e886fa7f296a1d3126df468a249cc2a175be6da9c179"
+  },
+  {
+    "file": "phase-0/screenshots/home-baseline-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 171843,
+    "sha256": "82f3eb1c74413683c07c28d11b7dad26a8b96ee53843e46e6cb32a3cf81a11eb"
+  },
+  {
+    "file": "phase-0/screenshots/item-detail-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 60007,
+    "sha256": "b124cedcf8da41f9561a292be52f017af11c95b3c20b0c977c0bacdcb2d90576"
+  },
+  {
+    "file": "phase-0/screenshots/items-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 116116,
+    "sha256": "88a10df9d746c503ba656681e0697a463eb7de49fb694eba66e7c9b0d985e2c7"
+  },
+  {
+    "file": "phase-0/screenshots/map-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 371505,
+    "sha256": "c280b532ca996e140da05b7f4347d4ca28f166854fb742003b840fe4b8250139"
+  },
+  {
+    "file": "phase-0/screenshots/map-390.jpg",
+    "dimensions": [
+      380,
+      822
+    ],
+    "bytes": 52807,
+    "sha256": "f16159c2e3ec9cc504cd7df577202c82faef22f3d4e0b9c53127fcfe64106c01"
+  },
+  {
+    "file": "phase-0/screenshots/public-bestiary-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 146534,
+    "sha256": "5150691e094932d4b8a9cf440ad46f63928c8578f38eb00f79693473cca5f001"
+  },
+  {
+    "file": "phase-0/screenshots/public-boss-unavailable.jpg",
+    "dimensions": [
+      1930,
+      1086
+    ],
+    "bytes": 50896,
+    "sha256": "ace43cc14f28faafa622fdd1baa4fcad568d4f4b3a3ad3c232a968601113753d"
+  },
+  {
+    "file": "phase-0/screenshots/public-home-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 169314,
+    "sha256": "e7162d5854669b1fb123d8fdb335426e9d7e8bbff4f4a4d18ef0469025a7bb97"
+  },
+  {
+    "file": "phase-0/screenshots/search-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 84709,
+    "sha256": "b56dd17d96cd235ef1f0b565369f48ef4498f4c58ad1b1c657463cca26ae1916"
+  },
+  {
+    "file": "phase-0/screenshots/search-390.jpg",
+    "dimensions": [
+      390,
+      844
+    ],
+    "bytes": 39222,
+    "sha256": "8110e5000521d00d89a7819ea4c38767e510982cee9dc765723c226697a232e4"
+  },
+  {
+    "file": "phase-1/screenshots/home-1280.jpg",
+    "dimensions": [
+      1270,
+      893
+    ],
+    "bytes": 146320,
+    "sha256": "4263d4c3663175bafcb459f2c250f6fef53d278d1e75d71b93dbdfce89c7006a"
+  },
+  {
+    "file": "phase-1/screenshots/home-1920-full.jpg",
+    "dimensions": [
+      1910,
+      1401
+    ],
+    "bytes": 236626,
+    "sha256": "8990ad1b9b7f70b6c4383a6306f53fd5588cb9f3a7b897ba9758744f6b4c3bac"
+  },
+  {
+    "file": "phase-1/screenshots/home-1920.jpg",
+    "dimensions": [
+      1910,
+      1074
+    ],
+    "bytes": 199877,
+    "sha256": "79ae4198878e9df9f5a2dcebdb0663c9363c8568587f00d16d753244529f6b10"
+  },
+  {
+    "file": "phase-1/screenshots/home-2560.jpg",
+    "dimensions": [
+      2560,
+      1376
+    ],
+    "bytes": 266504,
+    "sha256": "d4b41ddfdb37686ace386b9f30b305413ba2a710d43c6fb859a18653423837da"
+  },
+  {
+    "file": "phase-1/screenshots/home-360.jpg",
+    "dimensions": [
+      350,
+      778
+    ],
+    "bytes": 45131,
+    "sha256": "3fbf6417ab1e4be7931aab0552bc1c3fa36422c57fcf754cda1b40808ea8733e"
+  },
+  {
+    "file": "phase-1/screenshots/home-390-en.jpg",
+    "dimensions": [
+      380,
+      822
+    ],
+    "bytes": 49371,
+    "sha256": "b6e660b152c02616cc87c18ab6998210d58ef9d45ea5040901e2f074637e50a0"
+  },
+  {
+    "file": "phase-1/screenshots/home-390-full.jpg",
+    "dimensions": [
+      380,
+      2170
+    ],
+    "bytes": 114422,
+    "sha256": "a159724bb419715ddef2959286bd077e78baf749cb27968ddc41bc33fc4cce02"
+  },
+  {
+    "file": "phase-1/screenshots/home-390.jpg",
+    "dimensions": [
+      380,
+      822
+    ],
+    "bytes": 51001,
+    "sha256": "c0f30e9b5d538d893805fe0414c68f97224e74bee85b858d7476371429bd4211"
+  },
+  {
+    "file": "phase-1/screenshots/home-768.jpg",
+    "dimensions": [
+      758,
+      1011
+    ],
+    "bytes": 97664,
+    "sha256": "d9884a3087ec50cefc6330020672e497b04424967d75b8171a9d65700f7fca5e"
+  },
+  {
+    "file": "phase-1/screenshots/iteration-1-1920.jpg",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "bytes": 216681,
+    "sha256": "f8415d7ec083b5a8de0bfeb5791238127262d350330237816ecb88eade23261d"
+  },
+  {
+    "file": "phase-1/screenshots/menu-390-en.jpg",
+    "dimensions": [
+      380,
+      822
+    ],
+    "bytes": 9222,
+    "sha256": "6321ef6da38b8a9aacfa636737879a68d0f21b3431e86167c51a05bb9e399b79"
+  },
+  {
+    "file": "phase-1/screenshots/search-390.jpg",
+    "dimensions": [
+      380,
+      822
+    ],
+    "bytes": 28053,
+    "sha256": "a92595e498442ceae1fb0da217fba5f3345b9f68dabdf9fb36e48d141821c1c9"
+  }
+]

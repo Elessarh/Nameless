@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="css/style.css?v=20261008sao">
     <link rel="stylesheet" href="css/components/audio-player.css?v=20261008sao">
     <link rel="stylesheet" href="css/components/mmorpg-kit.css?v=20261008sao">
-    <link rel="stylesheet" href="css/components/home.css?v=20261008sao">
+    <link rel="stylesheet" href="css/components/home.css?v=20261009def">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
@@ -52,9 +52,9 @@
     <meta name="twitter:description" content="Nameless, guilde Minecraft sur SAO France. Carte d'Aincrad, bestiaire, objets et wiki pour préparer les sorties de la guilde.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="css/components/global-search.css?v=20261008sao">
-    <link rel="preload" href="/assets/home/sao-city-1920.webp" imagesrcset="/assets/home/sao-city-1600.webp 1600w, /assets/home/sao-city-1920.webp 1920w" imagesizes="100vw" as="image" fetchpriority="high" media="(min-width: 769px)">
-    <link rel="preload" href="/assets/home/sao-city-mobile.webp" as="image" fetchpriority="high" media="(max-width: 480px)">
-    <link rel="preload" href="/assets/home/sao-city-960.webp" as="image" fetchpriority="high" media="(min-width: 481px) and (max-width: 768px)">
+    <link rel="preload" href="/assets/home/aincrad-minecraft-1920.webp" imagesrcset="/assets/home/aincrad-minecraft-1440.webp 1440w, /assets/home/aincrad-minecraft-1920.webp 1920w" imagesizes="(min-width: 1900px) 1480px, 78vw" as="image" fetchpriority="high" media="(min-width: 769px)">
+    <link rel="preload" href="/assets/home/aincrad-minecraft-mobile.webp" as="image" fetchpriority="high" media="(max-width: 480px)">
+    <link rel="preload" href="/assets/home/aincrad-minecraft-960.webp" as="image" fetchpriority="high" media="(min-width: 481px) and (max-width: 768px)">
 </head>
 <body class="home-page">
     <!-- Effets d'ambiance sobres (Nameless) -->
@@ -104,10 +104,11 @@
             <div class="home-arrival">
                 <section class="home-hero" aria-labelledby="hero-title">
                     <picture class="home-hero-scene" aria-hidden="true">
-                        <source media="(max-width: 480px)" srcset="/assets/home/sao-city-mobile.webp">
-                        <source media="(max-width: 768px)" srcset="/assets/home/sao-city-960.webp">
-                        <img src="/assets/home/sao-city-1920.webp" srcset="/assets/home/sao-city-1600.webp 1600w, /assets/home/sao-city-1920.webp 1920w" sizes="100vw" width="1920" height="1009" alt="" fetchpriority="high" decoding="async">
+                        <source media="(max-width: 480px)" srcset="/assets/home/aincrad-minecraft-mobile.webp">
+                        <source media="(max-width: 768px)" srcset="/assets/home/aincrad-minecraft-960.webp">
+                        <img src="/assets/home/aincrad-minecraft-1920.webp" srcset="/assets/home/aincrad-minecraft-1440.webp 1440w, /assets/home/aincrad-minecraft-1920.webp 1920w" sizes="(min-width: 1900px) 1480px, 78vw" width="1920" height="641" alt="" fetchpriority="high" decoding="async">
                     </picture>
+                    <p class="home-scene-caption">Illustration d’ambiance</p>
                     <button type="button" class="nm-game-button home-motion" data-home-motion aria-pressed="false" aria-label="Pause du décor">
                         <svg class="home-icon home-motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
                         <svg class="home-icon home-motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"></path></svg>
@@ -141,7 +142,7 @@
                     <ul class="home-access">
                         <li>
                             <a class="home-entry nm-game-frame" href="/carte">
-                                <picture><img class="home-entry-art" src="/assets/home/sao-map-512.webp" srcset="/assets/home/sao-map-256.webp 256w, /assets/home/sao-map-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 80px) / 2), (max-width: 1640px) calc((100vw - 112px) / 4), 382px" alt="" width="512" height="288" loading="lazy" decoding="async"></picture>
+                                <picture><img class="home-entry-art home-entry-art--map" src="/assets/home/sao-map-512.webp" srcset="/assets/home/sao-map-256.webp 256w, /assets/home/sao-map-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 62px) / 2), (max-width: 1460px) calc((100vw - 106px) / 4), 339px" alt="" width="512" height="288" loading="lazy" decoding="async"></picture>
                                 <div class="home-entry-copy"><h3>Carte d’Aincrad</h3><p>Explorez les paliers et leurs lieux connus.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
                             </a>
                         </li>
@@ -163,7 +164,7 @@
                         </li>
                         <li>
                             <a class="home-entry nm-game-frame" href="/espace-guilde">
-                                <picture><img class="home-entry-art" src="/assets/home/sao-guild-512.webp" srcset="/assets/home/sao-guild-256.webp 256w, /assets/home/sao-guild-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 80px) / 2), (max-width: 1640px) calc((100vw - 112px) / 4), 382px" alt="" width="512" height="291" loading="lazy" decoding="async"></picture>
+                                <picture><img class="home-entry-art home-entry-art--guild" src="/assets/home/sao-guild-512.webp" srcset="/assets/home/sao-guild-256.webp 256w, /assets/home/sao-guild-512.webp 512w" sizes="(max-width: 480px) calc((100vw - 44px) / 2), (max-width: 900px) calc((100vw - 62px) / 2), (max-width: 1460px) calc((100vw - 106px) / 4), 339px" alt="" width="512" height="291" loading="lazy" decoding="async"></picture>
                                 <div class="home-entry-copy"><h3>Guilde</h3><p>Retrouvez le planning et les annonces des membres.</p><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
                             </a>
                         </li>
@@ -188,6 +189,12 @@
                         <a class="home-record nm-game-frame" href="/boss/gorbel" data-home-record="boss:1">
                             <div class="home-record-art"><img src="/assets/home/gorbel-256.webp" alt="" width="256" height="282" loading="lazy" decoding="async"></div>
                             <div class="home-record-copy"><h3>Gorbel</h3><p>Boss · Palier 1</p><p>Marécage putride</p></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="home-record nm-game-frame" href="/bestiaire?creature=12" data-home-record="creature:12">
+                            <div class="home-record-art"><img src="/assets/home/white-wolf-256.webp" alt="" width="256" height="291" loading="lazy" decoding="async"></div>
+                            <div class="home-record-copy"><h3>Loup Blanc</h3><p>Créature · Palier 1</p><p>Vallée des loups</p></div>
                         </a>
                     </li>
                     <li>
@@ -230,7 +237,7 @@
 
     <!-- Scripts - ordre sécurité conservé -->
     <script src="js/i18n-en.js?v=20261008sao" defer></script>
-    <script src="js/i18n-en-reviewed.js?v=20261008sao" defer></script>
+    <script src="js/i18n-en-reviewed.js?v=20261009def" defer></script>
     <script src="js/i18n-quests-en-reviewed.js?v=20261008sao" defer></script>
     <script src="js/i18n-game-en-reviewed.js?v=20261008sao" defer></script>
     <script src="js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -241,10 +248,10 @@
     <script src="js/cache-manager.js?v=20261007a" defer></script>
     <script src="js/security-utils.js?v=20261007a" defer></script>
     <script src="js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="js/navbar-mobile.js?v=20261008sao" defer></script>
+    <script src="js/navbar-mobile.js?v=20261009def" defer></script>
     <script src="js/audio-controller.js?v=20261008sao" defer></script>
     <script src="js/home-carousel.js?v=20261008sao" defer></script>
-    <script src="js/page-registry.js?v=20261008sao" defer></script>
+    <script src="js/page-registry.js?v=20261009def" defer></script>
     <script src="js/app-router.js?v=20261007a" defer></script>
     <script src="js/global-search.js?v=20261008sao" defer></script>
 </body>

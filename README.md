@@ -28,7 +28,7 @@ Ouvrir `http://127.0.0.1:4173`. Le serveur sert exclusivement `_site`, généré
 | `tools/` | Build, serveur local, audits et tests |
 | `_site/` | Artefact public généré, ignoré par Git |
 
-Le build génère les 12 routes (dont deux documents d’information en brouillon), les 18 fiches boss statiques, `robots.txt`, `sitemap.xml` et un index de recherche de 403 entrées. Les catalogues sources restent la référence : modifier les données existantes puis reconstruire, sans éditer les fichiers générés. Les comptes et données privées ne font pas partie de l'index de recherche.
+Le build génère les 12 routes (dont deux documents d’information en brouillon), les 18 fiches boss statiques, `robots.txt`, `sitemap.xml` et un index de recherche de 326 entrées dans l’état actuel des données. Les catalogues sources restent la référence : modifier les données existantes puis reconstruire, sans éditer les fichiers générés. Les comptes et données privées ne font pas partie de l'index de recherche.
 
 ## Configuration
 
@@ -67,5 +67,7 @@ Les en-têtes HTTP avancés doivent être appliqués sur le domaine via sa confi
 ## Direction visuelle et informations de site
 
 La [direction Nameless](docs/NAMELESS_DIRECTION_VISUELLE.md) précise les couleurs, la typographie, les composants et les limites des effets visuels. Les informations utiles et les illustrations du projet passent avant les conventions de template.
+
+La passe définitive Hybrid SAO Minecraft du 9 octobre est documentée dans [l’audit de départ](docs/definitive-hybrid-2026-10-09/phase-0/AUDIT.md), [la bible artistique](docs/definitive-hybrid-2026-10-09/ART_BIBLE.md) et [le rapport d’accueil avec captures](docs/definitive-hybrid-2026-10-09/phase-1/REPORT.md). L’audit distingue le résultat local de la publication publique et décrit la correction Git des archives immuables.
 
 Les pages de confidentialité et de conditions sont liées depuis tous les footers. Elles restent des **brouillons à valider**, non indexés, tant que le responsable, son contact, les durées et les configurations des prestataires ne sont pas confirmés. Voir [les points de validation](docs/INFORMATIONS_LEGALES_A_VALIDER.md). Aucun faux nom, base juridique, durée de conservation ou consentement forcé n'a été inventé.

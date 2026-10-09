@@ -1,0 +1,1289 @@
+[
+  {
+    "contentWidth": 350,
+    "discoveryCards": [
+      {
+        "bottom": 1287.65625,
+        "height": 170,
+        "left": 16,
+        "right": 169,
+        "top": 1117.65625,
+        "width": 153,
+        "x": 16,
+        "y": 1117.65625
+      },
+      {
+        "bottom": 1287.65625,
+        "height": 170,
+        "left": 181,
+        "right": 334,
+        "top": 1117.65625,
+        "width": 153,
+        "x": 181,
+        "y": 1117.65625
+      },
+      {
+        "bottom": 1469.65625,
+        "height": 170,
+        "left": 16,
+        "right": 169,
+        "top": 1299.65625,
+        "width": 153,
+        "x": 16,
+        "y": 1299.65625
+      },
+      {
+        "bottom": 1469.65625,
+        "height": 170,
+        "left": 181,
+        "right": 334,
+        "top": 1299.65625,
+        "width": 153,
+        "x": 181,
+        "y": 1299.65625
+      },
+      {
+        "bottom": 1647.65625,
+        "height": 166,
+        "left": 16,
+        "right": 169,
+        "top": 1481.65625,
+        "width": 153,
+        "x": 16,
+        "y": 1481.65625
+      }
+    ],
+    "hero": {
+      "bottom": 622.46875,
+      "height": 562.46875,
+      "left": 0,
+      "right": 350,
+      "top": 60,
+      "width": 350,
+      "x": 0,
+      "y": 60
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-mobile.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 812.453125,
+        "height": 207.984375,
+        "left": 16,
+        "right": 169,
+        "top": 604.46875,
+        "width": 153,
+        "x": 16,
+        "y": 604.46875
+      },
+      {
+        "bottom": 812.453125,
+        "height": 207.984375,
+        "left": 181,
+        "right": 334,
+        "top": 604.46875,
+        "width": 153,
+        "x": 181,
+        "y": 604.46875
+      },
+      {
+        "bottom": 1049.234375,
+        "height": 224.78125,
+        "left": 16,
+        "right": 169,
+        "top": 824.453125,
+        "width": 153,
+        "x": 16,
+        "y": 824.453125
+      },
+      {
+        "bottom": 1049.234375,
+        "height": 224.78125,
+        "left": 181,
+        "right": 334,
+        "top": 824.453125,
+        "width": 153,
+        "x": 181,
+        "y": 824.453125
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 350,
+    "viewport": [
+      360,
+      800
+    ],
+    "file": "home-360.jpg"
+  },
+  {
+    "contentWidth": 758,
+    "discoveryCards": [
+      {
+        "bottom": 1215.328125,
+        "height": 172.1875,
+        "left": 24,
+        "right": 327,
+        "top": 1043.140625,
+        "width": 303,
+        "x": 24,
+        "y": 1043.140625
+      },
+      {
+        "bottom": 1215.328125,
+        "height": 172.1875,
+        "left": 341,
+        "right": 644,
+        "top": 1043.140625,
+        "width": 303,
+        "x": 341,
+        "y": 1043.140625
+      },
+      {
+        "bottom": 1401.515625,
+        "height": 172.1875,
+        "left": 24,
+        "right": 327,
+        "top": 1229.328125,
+        "width": 303,
+        "x": 24,
+        "y": 1229.328125
+      },
+      {
+        "bottom": 1401.515625,
+        "height": 172.1875,
+        "left": 341,
+        "right": 644,
+        "top": 1229.328125,
+        "width": 303,
+        "x": 341,
+        "y": 1229.328125
+      },
+      {
+        "bottom": 1579.515625,
+        "height": 164,
+        "left": 24,
+        "right": 327,
+        "top": 1415.515625,
+        "width": 303,
+        "x": 24,
+        "y": 1415.515625
+      }
+    ],
+    "hero": {
+      "bottom": 596.625,
+      "height": 536.625,
+      "left": 0,
+      "right": 758,
+      "top": 60,
+      "width": 758,
+      "x": 0,
+      "y": 60
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-960.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 767.328125,
+        "height": 188.703125,
+        "left": 24,
+        "right": 372,
+        "top": 578.625,
+        "width": 348,
+        "x": 24,
+        "y": 578.625
+      },
+      {
+        "bottom": 767.328125,
+        "height": 188.703125,
+        "left": 386,
+        "right": 734,
+        "top": 578.625,
+        "width": 348,
+        "x": 386,
+        "y": 578.625
+      },
+      {
+        "bottom": 970.03125,
+        "height": 188.703125,
+        "left": 24,
+        "right": 372,
+        "top": 781.328125,
+        "width": 348,
+        "x": 24,
+        "y": 781.328125
+      },
+      {
+        "bottom": 970.03125,
+        "height": 188.703125,
+        "left": 386,
+        "right": 734,
+        "top": 781.328125,
+        "width": 348,
+        "x": 386,
+        "y": 781.328125
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 758,
+    "viewport": [
+      768,
+      1024
+    ],
+    "file": "home-768.jpg"
+  },
+  {
+    "contentWidth": 1270,
+    "discoveryCards": [
+      {
+        "bottom": 897.28125,
+        "height": 172.1875,
+        "left": 32,
+        "right": 262,
+        "top": 725.09375,
+        "width": 230,
+        "x": 32,
+        "y": 725.09375
+      },
+      {
+        "bottom": 897.28125,
+        "height": 172.1875,
+        "left": 276,
+        "right": 506,
+        "top": 725.09375,
+        "width": 230,
+        "x": 276,
+        "y": 725.09375
+      },
+      {
+        "bottom": 897.28125,
+        "height": 172.1875,
+        "left": 520,
+        "right": 750,
+        "top": 725.09375,
+        "width": 230,
+        "x": 520,
+        "y": 725.09375
+      },
+      {
+        "bottom": 897.28125,
+        "height": 172.1875,
+        "left": 764,
+        "right": 994,
+        "top": 725.09375,
+        "width": 230,
+        "x": 764,
+        "y": 725.09375
+      },
+      {
+        "bottom": 897.28125,
+        "height": 172.1875,
+        "left": 1008,
+        "right": 1238,
+        "top": 725.09375,
+        "width": 230,
+        "x": 1008,
+        "y": 725.09375
+      }
+    ],
+    "hero": {
+      "bottom": 484,
+      "height": 420,
+      "left": 0,
+      "right": 1270,
+      "top": 64,
+      "width": 1270,
+      "x": 0,
+      "y": 64
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-1440.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 651.984375,
+        "height": 191.984375,
+        "left": 32,
+        "right": 323,
+        "top": 460,
+        "width": 291,
+        "x": 32,
+        "y": 460
+      },
+      {
+        "bottom": 651.984375,
+        "height": 191.984375,
+        "left": 337,
+        "right": 628,
+        "top": 460,
+        "width": 291,
+        "x": 337,
+        "y": 460
+      },
+      {
+        "bottom": 651.984375,
+        "height": 191.984375,
+        "left": 642,
+        "right": 933,
+        "top": 460,
+        "width": 291,
+        "x": 642,
+        "y": 460
+      },
+      {
+        "bottom": 651.984375,
+        "height": 191.984375,
+        "left": 947,
+        "right": 1238,
+        "top": 460,
+        "width": 291,
+        "x": 947,
+        "y": 460
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 1270,
+    "viewport": [
+      1280,
+      900
+    ],
+    "file": "home-1280.jpg"
+  },
+  {
+    "contentWidth": 380,
+    "discoveryCards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1613.96875,
+        "height": 166,
+        "left": 16,
+        "right": 184,
+        "top": 1447.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-mobile.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 587.578125,
+        "width": 168,
+        "x": 16,
+        "y": 587.578125
+      },
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 587.578125,
+        "width": 168,
+        "x": 196,
+        "y": 587.578125
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 807.5625,
+        "width": 168,
+        "x": 16,
+        "y": 807.5625
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 807.5625,
+        "width": 168,
+        "x": 196,
+        "y": 807.5625
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 380,
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390.jpg"
+  },
+  {
+    "contentWidth": 1910,
+    "discoveryCards": [
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 257,
+        "right": 493.796875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 257,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 507.796875,
+        "right": 744.59375,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 507.796875,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 758.59375,
+        "right": 995.390625,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 758.59375,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1009.390625,
+        "right": 1246.1875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 1009.390625,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1260.1875,
+        "right": 1497,
+        "top": 746.6875,
+        "width": 236.8125,
+        "x": 1260.1875,
+        "y": 746.6875
+      }
+    ],
+    "hero": {
+      "bottom": 505.59375,
+      "height": 441.59375,
+      "left": 0,
+      "right": 1910,
+      "top": 64,
+      "width": 1910,
+      "x": 0,
+      "y": 64
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-1920.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 257,
+        "right": 595.5,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 257,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 609.5,
+        "right": 948,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 609.5,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 962,
+        "right": 1300.5,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 962,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 1314.5,
+        "right": 1653,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 1314.5,
+        "y": 481.59375
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 1910,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "file": "home-1920.jpg"
+  },
+  {
+    "contentWidth": 1910,
+    "discoveryCards": [
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 257,
+        "right": 493.796875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 257,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 507.796875,
+        "right": 744.59375,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 507.796875,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 758.59375,
+        "right": 995.390625,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 758.59375,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1009.390625,
+        "right": 1246.1875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 1009.390625,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1260.1875,
+        "right": 1497,
+        "top": 746.6875,
+        "width": 236.8125,
+        "x": 1260.1875,
+        "y": 746.6875
+      }
+    ],
+    "hero": {
+      "bottom": 505.59375,
+      "height": 441.59375,
+      "left": 0,
+      "right": 1910,
+      "top": 64,
+      "width": 1910,
+      "x": 0,
+      "y": 64
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-1920.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 257,
+        "right": 595.5,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 257,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 609.5,
+        "right": 948,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 609.5,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 962,
+        "right": 1300.5,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 962,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 1314.5,
+        "right": 1653,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 1314.5,
+        "y": 481.59375
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 1910,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "file": "home-1920-full.jpg"
+  },
+  {
+    "contentWidth": 2560,
+    "discoveryCards": [
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 582,
+        "right": 818.796875,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 582,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 832.796875,
+        "right": 1069.59375,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 832.796875,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1083.59375,
+        "right": 1320.390625,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 1083.59375,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1334.390625,
+        "right": 1571.1875,
+        "top": 765.09375,
+        "width": 236.796875,
+        "x": 1334.390625,
+        "y": 765.09375
+      },
+      {
+        "bottom": 937.28125,
+        "height": 172.1875,
+        "left": 1585.1875,
+        "right": 1822,
+        "top": 765.09375,
+        "width": 236.8125,
+        "x": 1585.1875,
+        "y": 765.09375
+      }
+    ],
+    "hero": {
+      "bottom": 524,
+      "height": 460,
+      "left": 0,
+      "right": 2560,
+      "top": 64,
+      "width": 2560,
+      "x": 0,
+      "y": 64
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-1920.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 691.984375,
+        "height": 191.984375,
+        "left": 582,
+        "right": 920.5,
+        "top": 500,
+        "width": 338.5,
+        "x": 582,
+        "y": 500
+      },
+      {
+        "bottom": 691.984375,
+        "height": 191.984375,
+        "left": 934.5,
+        "right": 1273,
+        "top": 500,
+        "width": 338.5,
+        "x": 934.5,
+        "y": 500
+      },
+      {
+        "bottom": 691.984375,
+        "height": 191.984375,
+        "left": 1287,
+        "right": 1625.5,
+        "top": 500,
+        "width": 338.5,
+        "x": 1287,
+        "y": 500
+      },
+      {
+        "bottom": 691.984375,
+        "height": 191.984375,
+        "left": 1639.5,
+        "right": 1978,
+        "top": 500,
+        "width": 338.5,
+        "x": 1639.5,
+        "y": 500
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 2560,
+    "viewport": [
+      2560,
+      1440
+    ],
+    "file": "home-2560.jpg"
+  },
+  {
+    "contentWidth": 380,
+    "discoveryCards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1613.96875,
+        "height": 166,
+        "left": 16,
+        "right": 184,
+        "top": 1447.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-mobile.webp",
+    "imagesLoaded": false,
+    "navCards": [
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 587.578125,
+        "width": 168,
+        "x": 16,
+        "y": 587.578125
+      },
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 587.578125,
+        "width": 168,
+        "x": 196,
+        "y": 587.578125
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 807.5625,
+        "width": 168,
+        "x": 16,
+        "y": 807.5625
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 807.5625,
+        "width": 168,
+        "x": 196,
+        "y": 807.5625
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 380,
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390-full.jpg"
+  },
+  {
+    "contentWidth": 1910,
+    "discoveryCards": [
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 257,
+        "right": 493.796875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 257,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 507.796875,
+        "right": 744.59375,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 507.796875,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 758.59375,
+        "right": 995.390625,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 758.59375,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1009.390625,
+        "right": 1246.1875,
+        "top": 746.6875,
+        "width": 236.796875,
+        "x": 1009.390625,
+        "y": 746.6875
+      },
+      {
+        "bottom": 918.875,
+        "height": 172.1875,
+        "left": 1260.1875,
+        "right": 1497,
+        "top": 746.6875,
+        "width": 236.8125,
+        "x": 1260.1875,
+        "y": 746.6875
+      }
+    ],
+    "hero": {
+      "bottom": 505.59375,
+      "height": 441.59375,
+      "left": 0,
+      "right": 1910,
+      "top": 64,
+      "width": 1910,
+      "x": 0,
+      "y": 64
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-1920.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 257,
+        "right": 595.5,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 257,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 609.5,
+        "right": 948,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 609.5,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 962,
+        "right": 1300.5,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 962,
+        "y": 481.59375
+      },
+      {
+        "bottom": 673.578125,
+        "height": 191.984375,
+        "left": 1314.5,
+        "right": 1653,
+        "top": 481.59375,
+        "width": 338.5,
+        "x": 1314.5,
+        "y": 481.59375
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 1910,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "file": "home-1920.jpg"
+  },
+  {
+    "contentWidth": 380,
+    "discoveryCards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1613.96875,
+        "height": 166,
+        "left": 16,
+        "right": 184,
+        "top": 1447.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-mobile.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 587.578125,
+        "width": 168,
+        "x": 16,
+        "y": 587.578125
+      },
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 587.578125,
+        "width": 168,
+        "x": 196,
+        "y": 587.578125
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 807.5625,
+        "width": 168,
+        "x": 16,
+        "y": 807.5625
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 807.5625,
+        "width": 168,
+        "x": 196,
+        "y": 807.5625
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 380,
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390.jpg"
+  },
+  {
+    "contentWidth": 380,
+    "discoveryCards": [
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1253.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1083.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1083.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 16,
+        "right": 184,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1435.96875,
+        "height": 170,
+        "left": 196,
+        "right": 364,
+        "top": 1265.96875,
+        "width": 168,
+        "x": 196,
+        "y": 1265.96875
+      },
+      {
+        "bottom": 1613.96875,
+        "height": 166,
+        "left": 16,
+        "right": 184,
+        "top": 1447.96875,
+        "width": 168,
+        "x": 16,
+        "y": 1447.96875
+      }
+    ],
+    "hero": {
+      "bottom": 605.578125,
+      "height": 545.578125,
+      "left": 0,
+      "right": 380,
+      "top": 60,
+      "width": 380,
+      "x": 0,
+      "y": 60
+    },
+    "heroSource": "http://127.0.0.1:4173/assets/home/aincrad-minecraft-mobile.webp",
+    "imagesLoaded": true,
+    "navCards": [
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 587.578125,
+        "width": 168,
+        "x": 16,
+        "y": 587.578125
+      },
+      {
+        "bottom": 795.5625,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 587.578125,
+        "width": 168,
+        "x": 196,
+        "y": 587.578125
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 16,
+        "right": 184,
+        "top": 807.5625,
+        "width": 168,
+        "x": 16,
+        "y": 807.5625
+      },
+      {
+        "bottom": 1015.546875,
+        "height": 207.984375,
+        "left": 196,
+        "right": 364,
+        "top": 807.5625,
+        "width": 168,
+        "x": 196,
+        "y": 807.5625
+      }
+    ],
+    "paused": "true",
+    "scrollTop": 0,
+    "scrollWidth": 380,
+    "viewport": [
+      390,
+      844
+    ],
+    "file": "home-390-full.jpg"
+  }
+]

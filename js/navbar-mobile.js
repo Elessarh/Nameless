@@ -15,6 +15,11 @@ class MobileNavbar {
     }
     init() {
         if (!this.header || !this.hamburger || !this.navMenu) return;
+        // This stateful label is updated here, rather than restored by i18n's
+        // remembered static attributes when the menu changes state.
+        this.hamburger.setAttribute('data-i18n-ignore', '');
+        this.updateMenuLabel();
+        document.addEventListener('nameless:languagechange', () => this.updateMenuLabel());
         this.hamburger.addEventListener('click', () => this.toggleMenu());
         this.navMenu.addEventListener('click', (event) => {
             if (event.target.closest('a') || event.target === this.navMenu) this.closeMenu();
@@ -47,6 +52,12 @@ class MobileNavbar {
         if (this.isMenuOpen) this.closeMenu(true);
         else this.openMenu();
     }
+    updateMenuLabel() {
+        const english = document.documentElement.lang === 'en';
+        this.hamburger.setAttribute('aria-label', this.isMenuOpen
+            ? (english ? 'Close menu' : 'Fermer le menu')
+            : (english ? 'Open menu' : 'Ouvrir le menu'));
+    }
     openMenu() {
         if (window.innerWidth > 768 || this.isMenuOpen) return;
         this.isMenuOpen = true;
@@ -54,7 +65,7 @@ class MobileNavbar {
         this.navMenu.classList.add('active');
         this.hamburger.classList.add('active');
         this.hamburger.setAttribute('aria-expanded', 'true');
-        this.hamburger.setAttribute('aria-label', 'Fermer le menu');
+        this.updateMenuLabel();
         this.savedOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
         this.inertElements = [...document.querySelectorAll('main, footer')].map((element) => ({ element, inert: element.inert }));
@@ -67,7 +78,7 @@ class MobileNavbar {
         this.navMenu.classList.remove('active');
         this.hamburger.classList.remove('active');
         this.hamburger.setAttribute('aria-expanded', 'false');
-        this.hamburger.setAttribute('aria-label', 'Ouvrir le menu');
+        this.updateMenuLabel();
         document.body.style.overflow = this.savedOverflow;
         this.inertElements.forEach(({ element, inert }) => { element.inert = inert; });
         this.inertElements = [];

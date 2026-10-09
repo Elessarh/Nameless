@@ -1,0 +1,79 @@
+{
+  "source": "docs/definitive-hybrid-2026-10-09/sources/hero-blocks-final.png",
+  "sourceDimensions": [
+    2170,
+    725
+  ],
+  "sourceSha256": "c157b3017f94fd0f136e1ea017bb236b00d88cc3025e8e36a55841c9ce3ad3f9",
+  "origin": "Built-in image_gen; single Minecraft atmosphere interpretation, followed by framing repair. Not an official server capture or map.",
+  "prompt": "docs/definitive-hybrid-2026-10-09/HERO_PROMPT.md",
+  "processing": "Aspect-preserving resize, recorded mobile crop, WebP compression. No invented resolution.",
+  "outputs": [
+    {
+      "path": "assets/home/aincrad-minecraft-1920.webp",
+      "dimensions": [
+        1920,
+        641
+      ],
+      "bytes": 201012,
+      "sha256": "4e50fec3667262c1ca39100a72b218a39f4e45b5078b34a4c2a6c0a3b4fa034d",
+      "quality": 80,
+      "crop": null
+    },
+    {
+      "path": "assets/home/aincrad-minecraft-1440.webp",
+      "dimensions": [
+        1440,
+        481
+      ],
+      "bytes": 125134,
+      "sha256": "8b8620c309bc310ae7e835b9bf1814f69863542af2cb16db0cb8a0b2d892fd25",
+      "quality": 79,
+      "crop": null
+    },
+    {
+      "path": "assets/home/aincrad-minecraft-960.webp",
+      "dimensions": [
+        960,
+        321
+      ],
+      "bytes": 61494,
+      "sha256": "e4b41694e067a90ca0dcc8c28221c7d9db0e9776189f90d40d098f2498585d62",
+      "quality": 78,
+      "crop": null
+    },
+    {
+      "path": "assets/home/aincrad-minecraft-mobile.webp",
+      "dimensions": [
+        640,
+        457
+      ],
+      "bytes": 50826,
+      "sha256": "4332905f7e31fe07f85e7eb59ff733a24f81cc542e5675b6621fcaa70416efa4",
+      "quality": 79,
+      "crop": [
+        950,
+        0,
+        1930,
+        700
+      ]
+    }
+  ],
+  "creatureThumbnail": {
+    "source": "assets/mobs/Loup Sinistre Blanc.png",
+    "sourceDimensions": [
+      597,
+      678
+    ],
+    "sourceSha256": "f7ac916cfe102489b7625d9c8fb20472dfef055c53fa028c15675c5248aec964",
+    "path": "assets/home/white-wolf-256.webp",
+    "dimensions": [
+      256,
+      291
+    ],
+    "bytes": 14760,
+    "sha256": "cc64d93ab0086591cc38b0c7a62097dfaf953234302d4907646fdb1fc6db7c27",
+    "resizedAlphaSha256": "9bbc755b28027b8b91bab50a2ae4a86218c506348c9875ca507117b6c398be88",
+    "decodedAlphaSha256": "9bbc755b28027b8b91bab50a2ae4a86218c506348c9875ca507117b6c398be88"
+  }
+}

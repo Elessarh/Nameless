@@ -1,0 +1,100 @@
+{
+  "routes": [
+    {
+      "name": "Entrée Bestiaire",
+      "bodyClass": "",
+      "overflow": false,
+      "path": "/bestiaire",
+      "query": "",
+      "title": "Bestiaire d'Aincrad"
+    },
+    {
+      "name": "Retour accueil depuis Bestiaire",
+      "bodyClass": "home-page",
+      "overflow": false,
+      "path": "/",
+      "query": "",
+      "title": "Explorez Aincrad, ensemble"
+    },
+    {
+      "name": "Fiche Loup Blanc",
+      "bodyClass": "",
+      "overflow": false,
+      "path": "/bestiaire",
+      "query": "?creature=12",
+      "title": "Bestiaire d'Aincrad"
+    },
+    {
+      "name": "Retour accueil après la fiche",
+      "bodyClass": "home-page",
+      "overflow": false,
+      "path": "/",
+      "query": "",
+      "title": "Explorez Aincrad, ensemble"
+    },
+    {
+      "name": "Entrée Objets",
+      "bodyClass": "",
+      "overflow": false,
+      "path": "/items",
+      "query": "",
+      "title": "Catalogue d'objets"
+    },
+    {
+      "name": "Retour accueil depuis Objets",
+      "bodyClass": "home-page",
+      "overflow": false,
+      "path": "/",
+      "query": "",
+      "title": "Explorez Aincrad, ensemble"
+    },
+    {
+      "name": "Fiche Potion de Mana",
+      "bodyClass": "",
+      "overflow": false,
+      "path": "/items",
+      "query": "?item=potion_mana",
+      "title": "Catalogue d'objets"
+    },
+    {
+      "name": "Retour accueil après la potion",
+      "bodyClass": "home-page",
+      "overflow": false,
+      "path": "/",
+      "query": "",
+      "title": "Explorez Aincrad, ensemble"
+    },
+    {
+      "name": "Entrée Guilde en visiteur",
+      "bodyClass": "",
+      "overflow": false,
+      "path": "/espace-guilde",
+      "query": "",
+      "title": "Quartier général"
+    },
+    {
+      "name": "Retour final accueil",
+      "bodyClass": "home-page",
+      "overflow": false,
+      "path": "/",
+      "query": "",
+      "title": "Explorez Aincrad, ensemble"
+    }
+  ],
+  "search": {
+    "query": "Illfang",
+    "result": "/boss/illfang",
+    "keyboard": "Down focuses boss link; Escape closes and returns to hero button"
+  },
+  "menu": {
+    "englishOpen": "Close menu",
+    "englishClosed": "Open menu",
+    "escapeFocus": "hamburger",
+    "inertMainWhileOpen": true
+  },
+  "language": "FR → EN → FR checked in browser",
+  "motion": "Pause uses aria-pressed true; reduced-motion covered by DOM tests",
+  "wolfDetail": "Loup Blanc; Vallée des loups; known drops shown",
+  "potionDetail": "No confirmed source displayed; no source invented",
+  "limits": "No live sign-in, member write, Discord submission or backend migration"
+}

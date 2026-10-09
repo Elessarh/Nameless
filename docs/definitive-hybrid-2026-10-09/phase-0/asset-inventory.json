@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Logo Nameless",
+    "path": "assets/brand/nameless-logo.png",
+    "format": "PNG",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "bytes": 1536502,
+    "sha256": "8afaaa6a804362e36a7a5a20ebbb6bb3a81307c71e6f8515a4cf9b575202cb9b",
+    "alpha": true,
+    "status": "A",
+    "usage": "Header, favicon",
+    "note": "Logo fourni ; RGBA intact.",
+    "origin": "Fourni et validé par l’utilisateur ; SHA comparé à la source",
+    "minecraftCoherence": "Emblème de guilde validé",
+    "quality": "Net à taille de header",
+    "edges": "RGBA propre, petits détails fins",
+    "treatment": "Conserver original et variantes 64/128 px"
+  },
+  {
+    "name": "Ville Minecraft",
+    "path": "docs/sao-minecraft-home-2026-10-08/sources/city.png",
+    "format": "PNG",
+    "dimensions": [
+      1920,
+      1009
+    ],
+    "bytes": 3614460,
+    "sha256": "0c3fd1a17d78ea130db320ea8a4e2d60813557e62848fa1050d4ce0a07c6c6e0",
+    "alpha": false,
+    "status": "B",
+    "usage": "Hero actuel ; repli",
+    "note": "Lieu / provenance officiels inconnus. Vue centrée.",
+    "origin": "Image fournie antérieurement ; lieu officiel inconnu",
+    "minecraftCoherence": "Blocs Minecraft identifiables",
+    "quality": "Nette, mais point focal central et vue aérienne plate",
+    "edges": "RGB opaque",
+    "treatment": "Conserver comme repli ; recomposer le hero avec une autre source justifiée"
+  },
+  {
+    "name": "Carte palier",
+    "path": "assets/carte-overview-mobile.webp",
+    "format": "WEBP",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "bytes": 530752,
+    "sha256": "f2e8cf638071a5d6f8be56fc3ca2c25d9091baa42a2e7782100b0b8ceaf0e0c5",
+    "alpha": true,
+    "status": "A",
+    "usage": "Navigation Carte",
+    "note": "Carte existante ; contour transparent.",
+    "origin": "Ressource cartographique déjà présente dans le projet",
+    "minecraftCoherence": "Terrain Minecraft réel utilisé par le module",
+    "quality": "Adaptée à la carte et au crop de navigation",
+    "edges": "RGBA ; 461 pixels semi-transparents au contour",
+    "treatment": "Garder données et alpha ; crop de navigation enregistré"
+  },
+  {
+    "name": "Illfang",
+    "path": "assets/mobs/illfang.png",
+    "format": "PNG",
+    "dimensions": [
+      500,
+      452
+    ],
+    "bytes": 68729,
+    "sha256": "cf3188b0c322e9f56d3667fba6f93458d228a7d5d4029c1961d4bc15ad9aee1e",
+    "alpha": true,
+    "status": "A",
+    "usage": "Bestiaire / découverte",
+    "note": "Modèle du catalogue ; garder contours.",
+    "origin": "Modèle du bestiaire existant",
+    "minecraftCoherence": "Véritable apparence du catalogue",
+    "quality": "Silhouette nette, arme et bouclier reconnaissables",
+    "edges": "Alpha antialiasé ; pointes proches des limites du canvas",
+    "treatment": "Utiliser la vignette et du padding, sans reconstruire le modèle"
+  },
+  {
+    "name": "Gorbel",
+    "path": "assets/mobs/Gorbel.png",
+    "format": "PNG",
+    "dimensions": [
+      740,
+      814
+    ],
+    "bytes": 30160,
+    "sha256": "c96a07ed2e9393d984bf695ff6883c14fbe65a106ce8016de3fc79445c5e30e2",
+    "alpha": true,
+    "status": "A",
+    "usage": "Découverte",
+    "note": "Slime couronné ; alpha naturel conservé.",
+    "origin": "Modèle du bestiaire existant",
+    "minecraftCoherence": "Slime couronné du catalogue",
+    "quality": "Silhouette lisible",
+    "edges": "Semi-transparence naturelle du slime, à conserver",
+    "treatment": "Conserver original et vignette, ne pas seuiller l’alpha"
+  },
+  {
+    "name": "Potion de Mana",
+    "path": "assets/items/Consommables/PotiondeMana.png",
+    "format": "PNG",
+    "dimensions": [
+      46,
+      46
+    ],
+    "bytes": 2623,
+    "sha256": "42c251ae9a6edbd73e83b1011593ece82d09835b45705b7a85f2f87aeda52012",
+    "alpha": true,
+    "status": "A",
+    "usage": "Inventaire / découverte",
+    "note": "PNG de l’archive, inchangé.",
+    "origin": "Archive Items_Cleaned_FirstPass.zip, manifeste confirmé",
+    "minecraftCoherence": "Sprite de l’item réel",
+    "quality": "Pixels nets à taille native",
+    "edges": "120 pixels semi-transparents conservés",
+    "treatment": "PNG intact à 46×46 ; image-rendering pixelated"
+  },
+  {
+    "name": "Gelée de Slime",
+    "path": "assets/items/Ressources/GeléedeSlime.png",
+    "format": "PNG",
+    "dimensions": [
+      47,
+      48
+    ],
+    "bytes": 449,
+    "sha256": "e23df8f4d5e0ef34ec34b8d3334bb778b4fb2e7f83f89c1d3d4367f65335d004",
+    "alpha": true,
+    "status": "A",
+    "usage": "Inventaire / découverte",
+    "note": "PNG de l’archive, inchangé.",
+    "origin": "Archive Items_Cleaned_FirstPass.zip, manifeste confirmé",
+    "minecraftCoherence": "Sprite de l’item réel",
+    "quality": "Pixels nets à taille native",
+    "edges": "Contour alpha net",
+    "treatment": "PNG intact à 47×48 ; aucune conversion"
+  },
+  {
+    "name": "Bâton du Shaman",
+    "path": "assets/items/Armes/BatonduSorcierduShaman.png",
+    "format": "PNG",
+    "dimensions": [
+      48,
+      48
+    ],
+    "bytes": 908,
+    "sha256": "25e1467df72504a208b8b9931356d23f480e36690e5fcfc27bfb0556d409643b",
+    "alpha": true,
+    "status": "A",
+    "usage": "Inventaire",
+    "note": "Contours nettoyés antérieurement ; SHA conforme.",
+    "origin": "Archive fournie ; nettoyage antérieur enregistré",
+    "minecraftCoherence": "Arme du catalogue réel",
+    "quality": "Pixels natifs préservés",
+    "edges": "48 pixels de cadre rendus transparents antérieurement",
+    "treatment": "Conserver le PNG final de 48×48, SHA conforme au manifeste"
+  },
+  {
+    "name": "Scène de guilde",
+    "path": "assets/caroussel_ensemble.webp",
+    "format": "WEBP",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "bytes": 122762,
+    "sha256": "9a82f380d7d6479134be7fc06c92e81c0ff03ab04e3357fd1874a2311926108b",
+    "alpha": false,
+    "status": "B",
+    "usage": "Navigation Guilde",
+    "note": "Illustration voxel ancienne ; origine non certifiée.",
+    "origin": "Illustration voxel historique du dépôt ; origine officielle inconnue",
+    "minecraftCoherence": "Personnages voxel cohérents, aucune identité réelle certifiée",
+    "quality": "Lecture correcte dans une bande de navigation",
+    "edges": "RGB opaque",
+    "treatment": "Crop existant ; ne pas présenter comme un lieu ou événement officiel"
+  },
+  {
+    "name": "Ancien hero",
+    "path": "assets/brand/nameless-hero.webp",
+    "format": "WEBP",
+    "dimensions": [
+      1672,
+      941
+    ],
+    "bytes": 90154,
+    "sha256": "9f0a8a4451242d4b16673c3c508383e0364129d5026ff3d1dd23ab64832b1eb0",
+    "alpha": false,
+    "status": "C",
+    "usage": "Rejeté pour l’accueil",
+    "note": "Peinture fantasy sans blocs identifiables.",
+    "origin": "Ancienne ressource du dépôt",
+    "minecraftCoherence": "Fantasy sans blocs identifiables",
+    "quality": "Inadapté à la direction actuelle",
+    "edges": "RGB opaque",
+    "treatment": "Exclure de l’accueil ; garder l’original restaurable"
+  },
+  {
+    "name": "Panorama peint v2",
+    "path": "docs/art-direction-2026-10-08/sources/aincrad-panorama-v2.png",
+    "format": "PNG",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "bytes": 2672960,
+    "sha256": "5f6c31f791431eaa7a010b1f9919dae6ae25ce74eeb41ac9f17dbf5748ca4749",
+    "alpha": false,
+    "status": "C",
+    "usage": "Historique uniquement",
+    "note": "Généré et rejeté par l’utilisateur.",
+    "origin": "Génération antérieure explicitement rejetée",
+    "minecraftCoherence": "Peinture fantasy, identité Minecraft insuffisante",
+    "quality": "Composition large mais style incorrect",
+    "edges": "RGB opaque",
+    "treatment": "Historique seulement ; aucune remise en service"
+  }
+]

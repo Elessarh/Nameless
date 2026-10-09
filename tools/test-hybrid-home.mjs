@@ -13,6 +13,7 @@ const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 const page = () => new JSDOM(html, { url: 'https://nameless-sao.fr/', runScripts: 'outside-only', pretendToBeVisual: true });
 const art = JSON.parse(read('docs/hybrid-mmorpg-2026-10-08/home-art-manifest.json'));
 const minecraftArt = JSON.parse(read('docs/sao-minecraft-home-2026-10-08/asset-manifest.json'));
+const heroArt = JSON.parse(read('docs/definitive-hybrid-2026-10-09/hero-manifest.json'));
 const derivedImages = new Map();
 const fileHash = name => createHash('sha256').update(fs.readFileSync(path.join(root, name))).digest('hex');
 
@@ -45,6 +46,21 @@ for (const record of minecraftArt.artwork) {
     }
 }
 
+assert.equal(fileHash(heroArt.source), heroArt.sourceSha256, 'The inspected Minecraft hero source is preserved');
+const wolf = heroArt.creatureThumbnail;
+assert.equal(fileHash(wolf.source), wolf.sourceSha256, 'The White Wolf catalogue model stays untouched');
+assert.equal(fileHash(wolf.path), wolf.sha256);
+assert.equal(wolf.decodedAlphaSha256, wolf.resizedAlphaSha256, 'The resized wolf contour alpha stays exact');
+derivedImages.set(wolf.path, wolf);
+for (const output of heroArt.outputs) {
+    assert.equal(fileHash(output.path), output.sha256);
+    const framedWidth = output.crop ? output.crop[2] - output.crop[0] : heroArt.sourceDimensions[0];
+    const framedHeight = output.crop ? output.crop[3] - output.crop[1] : heroArt.sourceDimensions[1];
+    assert.ok(output.dimensions[0] <= framedWidth, 'Hero variants never upscale the source');
+    assert.ok(Math.abs(output.dimensions[1] - framedHeight * output.dimensions[0] / framedWidth) <= .5);
+    derivedImages.set(output.path, output);
+}
+
 {
     const dom = page();
     const doc = dom.window.document;
@@ -63,7 +79,7 @@ for (const record of minecraftArt.artwork) {
         assert.ok(entry, 'Featured record exists in the actual catalogue: ' + link.dataset.homeRecord);
         assert.equal(link.getAttribute('href'), entry.url);
         assert.equal(link.querySelector('h3').textContent, entry.title);
-        if (kind === 'boss') assert.ok(link.textContent.includes(entry.location), 'Boss location is sourced from its actual entry');
+        if (kind === 'boss' || kind === 'creature') assert.ok(link.textContent.includes(entry.location), 'Creature location is sourced from its actual entry');
     }
     assert.equal(main.querySelector('img[src*="/assets/illustrations/"]'), null, 'Rejected fantasy paintings never return to the homepage');
     const creature = main.querySelector('[data-home-creature-source] img');
@@ -74,10 +90,11 @@ for (const record of minecraftArt.artwork) {
         assert.equal(tile.querySelector('img').getAttribute('src'), entry.image);
     }
     const hero = main.querySelector('.home-hero-scene img');
-    assert.equal(hero.getAttribute('src'), '/assets/home/sao-city-1920.webp');
+    assert.equal(hero.getAttribute('src'), '/assets/home/aincrad-minecraft-1920.webp');
     assert.equal(hero.getAttribute('fetchpriority'), 'high');
+    assert.equal(main.querySelector('.home-scene-caption').textContent, 'Illustration d’ambiance', 'The hero interpretation is not presented as an official server location');
     assert.equal(hero.getAttribute('loading'), null, 'The hero must load immediately');
-    assert.ok(doc.head.querySelector('link[rel="preload"][href="/assets/home/sao-city-mobile.webp"]'));
+    assert.ok(doc.head.querySelector('link[rel="preload"][href="/assets/home/aincrad-minecraft-mobile.webp"]'));
     for (const image of main.querySelectorAll('img')) {
         const relative = decodeURIComponent(new URL(image.src).pathname).slice(1);
         const filename = path.join(root, relative);

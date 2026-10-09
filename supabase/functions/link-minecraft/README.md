@@ -18,7 +18,7 @@ Minecraft Services currently rejects the Microsoft app registration with:
 Invalid app registration
 ```
 
-That means Nameless cannot honestly claim a Microsoft -> Minecraft verified ownership check yet. The profile page now uses public Minecraft identity detection instead: the player enters a Minecraft username, the browser resolves public UUID/name data through PlayerDB, and `minecraft_verified` remains `false` until an admin validates it.
+That means Nameless cannot honestly claim a Microsoft -> Minecraft verified ownership check yet. The profile page now uses public Minecraft identity detection instead: the player enters a Minecraft username and the browser resolves public UUID/name data through PlayerDB. `minecraft_verified` remains `false`; the current administrative function rejects manual `set_minecraft_verified` requests. This detection must not be presented as an ownership verification.
 
 Apply `docs/supabase/SAO_NAMELESS_MINECRAFT_PUBLIC_LINK_PATCH.sql` so authenticated players may save only public detected fields while admins/backend remain the only actors allowed to set `minecraft_verified = true`.
 

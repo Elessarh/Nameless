@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Entrée Bestiaire",
+    "bodyClass": "",
+    "overflow": false,
+    "path": "/bestiaire",
+    "query": "",
+    "title": "Bestiaire d'Aincrad"
+  },
+  {
+    "name": "Retour accueil depuis Bestiaire",
+    "bodyClass": "home-page",
+    "overflow": false,
+    "path": "/",
+    "query": "",
+    "title": "Explorez Aincrad, ensemble"
+  },
+  {
+    "name": "Fiche Loup Blanc",
+    "bodyClass": "",
+    "overflow": false,
+    "path": "/bestiaire",
+    "query": "?creature=12",
+    "title": "Bestiaire d'Aincrad"
+  },
+  {
+    "name": "Retour accueil après la fiche",
+    "bodyClass": "home-page",
+    "overflow": false,
+    "path": "/",
+    "query": "",
+    "title": "Explorez Aincrad, ensemble"
+  },
+  {
+    "name": "Entrée Objets",
+    "bodyClass": "",
+    "overflow": false,
+    "path": "/items",
+    "query": "",
+    "title": "Catalogue d'objets"
+  },
+  {
+    "name": "Retour accueil depuis Objets",
+    "bodyClass": "home-page",
+    "overflow": false,
+    "path": "/",
+    "query": "",
+    "title": "Explorez Aincrad, ensemble"
+  },
+  {
+    "name": "Fiche Potion de Mana",
+    "bodyClass": "",
+    "overflow": false,
+    "path": "/items",
+    "query": "?item=potion_mana",
+    "title": "Catalogue d'objets"
+  },
+  {
+    "name": "Retour accueil après la potion",
+    "bodyClass": "home-page",
+    "overflow": false,
+    "path": "/",
+    "query": "",
+    "title": "Explorez Aincrad, ensemble"
+  },
+  {
+    "name": "Entrée Guilde en visiteur",
+    "bodyClass": "",
+    "overflow": false,
+    "path": "/espace-guilde",
+    "query": "",
+    "title": "Quartier général"
+  },
+  {
+    "name": "Retour final accueil",
+    "bodyClass": "home-page",
+    "overflow": false,
+    "path": "/",
+    "query": "",
+    "title": "Explorez Aincrad, ensemble"
+  },
+  {
+    "name": "Fiche boss Illfang locale",
+    "bodyClass": "",
+    "overflow": false,
+    "path": "/boss/illfang/",
+    "query": "",
+    "title": "Illfang"
+  },
+  {
+    "name": "Retour accueil après rechargement profond",
+    "bodyClass": "home-page",
+    "overflow": false,
+    "path": "/",
+    "query": "",
+    "title": "Explorez Aincrad, ensemble"
+  }
+]
