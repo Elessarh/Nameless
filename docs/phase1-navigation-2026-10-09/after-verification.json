@@ -1,0 +1,899 @@
+{
+  "stage": "after",
+  "base": "http://127.0.0.1:4173",
+  "browser": "148.0.7778.96",
+  "createdAt": "2026-10-09T19:23:57.996Z",
+  "captures": [
+    {
+      "file": "after-home-360x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-home-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-search-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-home-768x1024.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-home-1280x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-search-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-home-2560x1440.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-wiki-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-carte-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-bestiaire-1920x1080.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-espace-guilde-1920x1080.png",
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-profil-1920x1080.png",
+      "url": "http://127.0.0.1:4173/profil/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-settings-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-menu-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-mobile-settings-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-search-reduced-motion-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-account-isolated-qa-1920x1080.png",
+      "url": "http://127.0.0.1:4181/qa/profile",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "name": "home-360",
+      "url": "http://127.0.0.1:4173/",
+      "width": 360,
+      "height": 844,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": true,
+      "currentLinks": []
+    },
+    {
+      "name": "home-390",
+      "url": "http://127.0.0.1:4173/",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": true,
+      "currentLinks": []
+    },
+    {
+      "name": "home-768",
+      "url": "http://127.0.0.1:4173/",
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": true,
+      "currentLinks": []
+    },
+    {
+      "name": "home-1280",
+      "url": "http://127.0.0.1:4173/",
+      "width": 1280,
+      "height": 1080,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "home-1920",
+      "url": "http://127.0.0.1:4173/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "home-2560",
+      "url": "http://127.0.0.1:4173/",
+      "width": 2560,
+      "height": 1440,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "/wiki",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/wiki",
+          "text": "Explorer"
+        }
+      ]
+    },
+    {
+      "name": "/carte",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/carte",
+          "text": "Carte"
+        }
+      ]
+    },
+    {
+      "name": "/bestiaire",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/bestiaire",
+          "text": "Bestiaire"
+        }
+      ]
+    },
+    {
+      "name": "/items",
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/items",
+          "text": "Objets"
+        }
+      ]
+    },
+    {
+      "name": "/espace-guilde",
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "/profil",
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "home-360: bounds, images and identity",
+      "passed": true,
+      "detail": {
+        "name": "home-360",
+        "url": "http://127.0.0.1:4173/",
+        "width": 360,
+        "height": 844,
+        "scrollWidth": 360,
+        "brokenImages": [],
+        "logo": {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+          "naturalWidth": 64,
+          "naturalHeight": 64,
+          "width": 48,
+          "height": 48,
+          "objectFit": "contain"
+        },
+        "language": "fr",
+        "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+        "hamburgerVisible": true,
+        "currentLinks": []
+      }
+    },
+    {
+      "name": "home-390: bounds, images and identity",
+      "passed": true,
+      "detail": {
+        "name": "home-390",
+        "url": "http://127.0.0.1:4173/",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "brokenImages": [],
+        "logo": {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+          "naturalWidth": 64,
+          "naturalHeight": 64,
+          "width": 48,
+          "height": 48,
+          "objectFit": "contain"
+        },
+        "language": "fr",
+        "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+        "hamburgerVisible": true,
+        "currentLinks": []
+      }
+    },
+    {
+      "name": "home-768: bounds, images and identity",
+      "passed": true,
+      "detail": {
+        "name": "home-768",
+        "url": "http://127.0.0.1:4173/",
+        "width": 768,
+        "height": 1024,
+        "scrollWidth": 768,
+        "brokenImages": [],
+        "logo": {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+          "naturalWidth": 64,
+          "naturalHeight": 64,
+          "width": 48,
+          "height": 48,
+          "objectFit": "contain"
+        },
+        "language": "fr",
+        "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+        "hamburgerVisible": true,
+        "currentLinks": []
+      }
+    },
+    {
+      "name": "home-1280: bounds, images and identity",
+      "passed": true,
+      "detail": {
+        "name": "home-1280",
+        "url": "http://127.0.0.1:4173/",
+        "width": 1280,
+        "height": 1080,
+        "scrollWidth": 1280,
+        "brokenImages": [],
+        "logo": {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+          "naturalWidth": 64,
+          "naturalHeight": 64,
+          "width": 48,
+          "height": 48,
+          "objectFit": "contain"
+        },
+        "language": "fr",
+        "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+        "hamburgerVisible": false,
+        "currentLinks": []
+      }
+    },
+    {
+      "name": "home-1920: bounds, images and identity",
+      "passed": true,
+      "detail": {
+        "name": "home-1920",
+        "url": "http://127.0.0.1:4173/",
+        "width": 1920,
+        "height": 1080,
+        "scrollWidth": 1920,
+        "brokenImages": [],
+        "logo": {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+          "naturalWidth": 64,
+          "naturalHeight": 64,
+          "width": 48,
+          "height": 48,
+          "objectFit": "contain"
+        },
+        "language": "fr",
+        "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+        "hamburgerVisible": false,
+        "currentLinks": []
+      }
+    },
+    {
+      "name": "home-2560: bounds, images and identity",
+      "passed": true,
+      "detail": {
+        "name": "home-2560",
+        "url": "http://127.0.0.1:4173/",
+        "width": 2560,
+        "height": 1440,
+        "scrollWidth": 2560,
+        "brokenImages": [],
+        "logo": {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+          "naturalWidth": 64,
+          "naturalHeight": 64,
+          "width": 48,
+          "height": 48,
+          "objectFit": "contain"
+        },
+        "language": "fr",
+        "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+        "hamburgerVisible": false,
+        "currentLinks": []
+      }
+    },
+    {
+      "name": "Shared header identity and layout on all six supplied routes",
+      "passed": true,
+      "detail": [
+        {
+          "route": "/wiki",
+          "displayedUrl": "http://127.0.0.1:4173/wiki/",
+          "emblem": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity"
+        },
+        {
+          "route": "/carte",
+          "displayedUrl": "http://127.0.0.1:4173/carte/",
+          "emblem": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity"
+        },
+        {
+          "route": "/bestiaire",
+          "displayedUrl": "http://127.0.0.1:4173/bestiaire/",
+          "emblem": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity"
+        },
+        {
+          "route": "/items",
+          "displayedUrl": "http://127.0.0.1:4173/items/",
+          "emblem": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity"
+        },
+        {
+          "route": "/espace-guilde",
+          "displayedUrl": "http://127.0.0.1:4173/espace-guilde/",
+          "emblem": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity"
+        },
+        {
+          "route": "/profil",
+          "displayedUrl": "http://127.0.0.1:4173/profil/",
+          "emblem": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity"
+        }
+      ]
+    },
+    {
+      "name": "Simplified approved favicon is served and wordmark stays separate",
+      "passed": true,
+      "detail": {
+        "favicons": [
+          "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+          "http://127.0.0.1:4173/assets/brand/favicon-32.png?v=20261008logo",
+          "http://127.0.0.1:4173/assets/brand/favicon-192.png?v=20261008logo"
+        ],
+        "status": 200,
+        "separateWordmark": true
+      }
+    },
+    {
+      "name": "Ctrl+K, initial focus, Escape with a query and focus return",
+      "passed": true,
+      "detail": {
+        "actualEntity": "Illfang",
+        "restoredFocus": true
+      }
+    },
+    {
+      "name": "Real index query, clearing, favorites filter and persistence",
+      "passed": true,
+      "detail": {
+        "favoritesSavedAndRemoved": true,
+        "survivesReload": true,
+        "noMatch": true
+      }
+    },
+    {
+      "name": "Keyboard arrows select visible real results; Enter opens the boss route",
+      "passed": true,
+      "detail": {
+        "route": "/boss/illfang",
+        "focus": {
+          "outline": "2px",
+          "outlineColor": "rgb(225, 199, 152)",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      }
+    },
+    {
+      "name": "FR/EN controls update header/search coherently and persist across routes/reload",
+      "passed": true,
+      "detail": {
+        "locales": [
+          "fr",
+          "en"
+        ],
+        "persistedAcrossRouteAndReload": true
+      }
+    },
+    {
+      "name": "SPA navigation preserves header and moves active/focus indicator",
+      "passed": true,
+      "detail": [
+        {
+          "route": "/wiki",
+          "indicator": {
+            "shown": "true",
+            "x": "0px",
+            "width": "76.171875px"
+          }
+        },
+        {
+          "route": "/carte",
+          "indicator": {
+            "shown": "true",
+            "x": "84.171875px",
+            "width": "58.421875px"
+          }
+        },
+        {
+          "route": "/bestiaire",
+          "indicator": {
+            "shown": "true",
+            "x": "150.59375px",
+            "width": "78.453125px"
+          }
+        },
+        {
+          "route": "/items",
+          "indicator": {
+            "shown": "true",
+            "x": "237.046875px",
+            "width": "64.609375px"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Desktop settings are separate; real scenery and audio controls respond",
+      "passed": true,
+      "detail": {
+        "realMotionAndAudio": true,
+        "focusReturn": true,
+        "bounds": {
+          "x": 750,
+          "y": 423.5,
+          "width": 420,
+          "height": 233,
+          "viewportWidth": 1920,
+          "viewportHeight": 1080,
+          "opacity": "1",
+          "background": "linear-gradient(145deg, rgb(16, 38, 51), rgb(7, 23, 34)) rgb(7, 23, 34)",
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "name": "Mobile menu opens, traps focus, closes with Escape, and restores content",
+      "passed": true,
+      "detail": {
+        "focusableControls": 12,
+        "contentRestored": true
+      }
+    },
+    {
+      "name": "Mobile route selection closes menu and updates current route",
+      "passed": true
+    },
+    {
+      "name": "Mobile ambience access keeps nested focus and Escape behavior coherent",
+      "passed": true,
+      "detail": {
+        "nestedSettingsAndMenu": true,
+        "restoredFocus": true,
+        "bounds": {
+          "x": 19,
+          "y": 305.5,
+          "width": 352,
+          "height": 233,
+          "viewportWidth": 390,
+          "viewportHeight": 844,
+          "opacity": "1",
+          "background": "linear-gradient(145deg, rgb(16, 38, 51), rgb(7, 23, 34)) rgb(7, 23, 34)",
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "name": "Mobile search keyboard, modal bounds and touch-sized controls",
+      "passed": true,
+      "detail": {
+        "modalBounds": {
+          "x": 19,
+          "y": 204.0326385498047,
+          "width": 352,
+          "height": 443.96876525878906
+        },
+        "targets": [
+          {
+            "class": "nm-search-close",
+            "width": 44,
+            "height": 44.00001525878906
+          },
+          {
+            "class": "nm-search-clear",
+            "width": 44,
+            "height": 44
+          },
+          {
+            "class": "nm-search-favorites",
+            "width": 131.34375,
+            "height": 40
+          },
+          {
+            "class": "nm-search-star",
+            "width": 44,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reduced motion removes header/search transitions and modal motion",
+      "passed": true,
+      "detail": [
+        {
+          "class": "nav-menu",
+          "animation": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        },
+        {
+          "class": "nm-search-trigger",
+          "animation": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        },
+        {
+          "class": "nm-search-dialog nm-game-frame nm-game-panel",
+          "animation": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        },
+        {
+          "class": "nm-search-entry-link",
+          "animation": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        }
+      ]
+    },
+    {
+      "name": "Account menu and logout forwarding use the isolated marked QA fixture",
+      "passed": true,
+      "detail": {
+        "isolatedFixture": "http://127.0.0.1:4181",
+        "forwardedExactlyOnce": true,
+        "realAuthenticationUsed": false,
+        "bounds": {
+          "x": 750,
+          "y": 358.78125,
+          "width": 420,
+          "height": 362.421875,
+          "viewportWidth": 1920,
+          "viewportHeight": 1080,
+          "opacity": "1",
+          "background": "linear-gradient(145deg, rgb(16, 38, 51), rgb(7, 23, 34)) rgb(7, 23, 34)",
+          "position": "fixed"
+        }
+      }
+    },
+    {
+      "name": "Actual navigation/search/settings motion demonstration (18 seconds)",
+      "passed": true,
+      "detail": {
+        "file": "phase1-navigation-motion.webm",
+        "durationSeconds": 18.8,
+        "elapsedMs": 18143,
+        "actualInteractions": [
+          "nav hover",
+          "route",
+          "search typing",
+          "keyboard selection",
+          "favorite",
+          "clear",
+          "favorite filter",
+          "settings",
+          "real scenery pause/resume"
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "external": [
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "method": "POST",
+      "blockedNonGet": true
+    },
+    {
+      "page": "shared-header",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "message": "net::ERR_FAILED"
+    },
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "method": "POST",
+      "blockedNonGet": true
+    },
+    {
+      "page": "shared-header",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "message": "net::ERR_FAILED"
+    },
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "method": "POST",
+      "blockedNonGet": true
+    },
+    {
+      "page": "desktop-interactions",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "message": "net::ERR_FAILED"
+    }
+  ],
+  "cancelledRequests": [
+    {
+      "page": "desktop-interactions",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+      "message": "net::ERR_ABORTED"
+    },
+    {
+      "page": "desktop-interactions",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+      "message": "net::ERR_ABORTED"
+    },
+    {
+      "page": "mobile-interactions",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+      "message": "net::ERR_ABORTED"
+    }
+  ]
+}

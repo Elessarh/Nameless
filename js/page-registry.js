@@ -42,7 +42,7 @@
             'css/components/mmorpg-kit.css?v=20261008sao',
             'css/components/home.css?v=20261009premium',
             'css/components/home-premium.css?v=20261009phase1',
-            'css/components/reference-home.css?v=20261009phasea'
+            'css/components/reference-home.css?v=20261009ux1'
         ],
         scripts: [
             'js/home-carousel.js?v=20261009premium'

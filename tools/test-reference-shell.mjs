@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { JSDOM } from 'jsdom';
 
-const dom = new JSDOM(`<header class="header"><nav class="nav-container"><img class="nav-logo-safe"><button id="hamburger" aria-controls="nav-menu" aria-expanded="false">Menu</button><div class="nav-connexion"><a id="login-link" href="/connexion">Connexion</a></div></nav></header><main><button data-home-motion aria-pressed="false">Pause</button><button class="nm-audio-btn" aria-pressed="false">Audio</button></main>`, { url: 'https://nameless-sao.fr/', runScripts: 'outside-only', pretendToBeVisual: true });
+const dom = new JSDOM(`<header class="header"><nav class="nav-container"><img class="nav-logo-safe"><span class="nav-wordmark">Nameless</span><button id="hamburger" aria-controls="nav-menu" aria-expanded="false">Menu</button><div class="nav-connexion"><span id="user-info" style="display:flex"><a id="username" href="/profil"><img alt="" src="/assets/brand/favicon-32.png">Personnage réel</a><button id="logout-btn">Déconnexion</button></span><a id="login-link" href="/connexion">Connexion</a></div></nav></header><main><button data-home-motion aria-pressed="false">Pause</button><button class="nm-audio-btn" aria-pressed="false">Audio</button></main>`, { url: 'https://nameless-sao.fr/', runScripts: 'outside-only', pretendToBeVisual: true });
 const w = dom.window, d = w.document;
-let language = 'fr', user = { id: 'test-member' }, role = 'membre', privateReads = 0, pendingAccount;
+let language = 'fr', user = { id: 'test-member' }, role = 'membre', privateReads = 0, pendingAccount, logouts = 0;
 w.innerWidth = 1920;
 w.NamelessI18n = { getLanguage: () => language };
 w.HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); this.querySelector('button').focus(); };
@@ -19,6 +19,7 @@ w.supabase = {
     }
 };
 for (const target of d.querySelectorAll('[data-home-motion], .nm-audio-btn')) target.addEventListener('click', () => target.setAttribute('aria-pressed', String(target.getAttribute('aria-pressed') !== 'true')));
+d.querySelector('#logout-btn').addEventListener('click', () => { logouts++; });
 w.eval(fs.readFileSync(new URL('../js/reference-shell.js', import.meta.url), 'utf8'));
 d.dispatchEvent(new w.Event('DOMContentLoaded'));
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
@@ -54,11 +55,16 @@ w.matchMedia = () => ({ matches: false });
 w.NamelessReferenceShell.closePanel(panel, () => { finishes++; });
 panel.remove(); resolveExit(); await tick();
 assert.equal(finishes, 2, 'A route-unmounted panel cannot steal the new route focus');
-burger.click();
+const settings = d.querySelector('.reference-settings-trigger');
+assert.equal(d.querySelector('.nav-logo-safe').width, 48);
+assert.match(d.querySelector('.nav-logo-safe').srcset, /nameless-emblem-128\.webp/);
+settings.click();
 const menu = d.querySelector('#reference-navigation');
 assert.equal(menu.open, true);
-assert.equal(burger.getAttribute('aria-controls'), menu.id);
-assert.equal(burger.getAttribute('aria-expanded'), 'true');
+assert.equal(settings.getAttribute('aria-controls'), menu.id);
+assert.equal(settings.getAttribute('aria-expanded'), 'true');
+assert.equal(menu.querySelectorAll('a').length, 0, 'Desktop settings contain no duplicate navigation');
+assert.equal(burger.getAttribute('aria-controls'), 'nav-menu', 'The burger always belongs to mobile navigation');
 for (const action of ['motion', 'audio']) {
     const before = menu.querySelector(`[data-reference-action="${action}"]`);
     before.focus(); before.click();
@@ -70,11 +76,45 @@ assert.equal(d.activeElement.dataset.referenceAction, 'audio');
 assert.equal(menu.querySelector('.reference-dialog-close').getAttribute('aria-label'), 'Close');
 menu.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
 assert.equal(menu.open, false);
-assert.equal(d.activeElement, burger);
-assert.equal(burger.getAttribute('aria-expanded'), 'false');
+assert.equal(d.activeElement, settings);
+assert.equal(settings.getAttribute('aria-expanded'), 'false');
+assert.equal(settings.getAttribute('aria-label'), 'Ambience and display');
 w.innerWidth = 390; w.dispatchEvent(new w.Event('resize'));
 assert.equal(burger.getAttribute('aria-controls'), 'nav-menu');
 burger.click(); assert.equal(menu.open, false, 'Mobile remains owned by the existing navigation controller');
+
+// The compact account menu uses the existing, authenticated identity and logout handler.
+const accountTrigger = d.querySelector('.reference-account-trigger');
+accountTrigger.click();
+const account = d.querySelector('#reference-account');
+assert.equal(account.open, true);
+assert.match(account.textContent, /Personnage réel/);
+assert.deepEqual([...account.querySelectorAll('a')].map(a => a.getAttribute('href')), ['/profil', '/espace-guilde']);
+assert.equal(logouts, 0, 'Opening the account menu has no authentication side effects');
+const profileLink = account.querySelector('a'); profileLink.focus();
+language = 'fr'; d.dispatchEvent(new w.Event('nameless:languagechange'));
+assert.equal(d.activeElement.getAttribute('href'), '/profil', 'Language changes preserve the focused account link');
+assert.match(account.querySelector('h2').textContent, /Votre compte/);
+account.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+assert.equal(d.activeElement, accountTrigger);
+assert.equal(accountTrigger.getAttribute('aria-expanded'), 'false');
+d.querySelector('#username').replaceChildren(d.createTextNode('Identité actualisée'));
+await tick();
+assert.match(accountTrigger.textContent, /Identité actualisée/, 'Auth identity changes update the compact button');
+accountTrigger.click(); account.querySelector('.reference-account-logout').click();
+assert.equal(logouts, 1, 'Logout is forwarded exactly once to the original handler');
+accountTrigger.click();
+d.querySelector('#login-link').style.display = 'none';
+// Production dispatches the auth event before AuthUI switches the visible controls.
+d.dispatchEvent(new w.CustomEvent('nameless:auth-changed', { detail: { user: null } }));
+d.querySelector('#user-info').style.display = 'none';
+d.querySelector('#login-link').style.display = 'inline-flex';
+await new Promise(resolve => setTimeout(resolve, 25));
+assert.equal(account.open, false);
+assert.equal(account.querySelector('.reference-account-content'), null, 'Changing account removes the previous identity');
+assert.doesNotMatch(accountTrigger.textContent, /Identité actualisée/, 'The compact button also drops the previous identity');
+assert.equal(d.activeElement, d.querySelector('#login-link'), 'Anonymous state restores focus to the sign-in control');
+language = 'en'; d.dispatchEvent(new w.Event('nameless:languagechange'));
 
 const bell = d.querySelector('.reference-notifications-trigger');
 bell.click(); await tick(); await tick();
@@ -96,4 +136,4 @@ pendingAccount = null; user = null; d.dispatchEvent(new w.Event('nameless:auth-c
 release({ data: { user: { id: 'stale-member' } } }); await tick(); await tick();
 assert.equal(privateReads, 1, 'A stale session response cannot restore private announcements');
 dom.window.close();
-console.log('Reference shell passed: member announcements, private gates, safe text, stale sessions, menu focus/ARIA, language, mobile ownership and cancellable/reduced-motion panel exits.');
+console.log('Reference shell passed: official identity, distinct settings, real account/logout, private announcements, focus/ARIA, language, mobile ownership and cancellable/reduced-motion exits.');

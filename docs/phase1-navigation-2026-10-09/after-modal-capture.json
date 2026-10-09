@@ -1,0 +1,170 @@
+{
+  "stage": "after",
+  "base": "http://127.0.0.1:4173",
+  "browser": "148.0.7778.96",
+  "createdAt": "2026-10-09T19:26:33.597Z",
+  "captures": [
+    {
+      "file": "after-search-360x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-search-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-search-768x1024.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-search-1280x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-search-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-search-2560x1440.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    }
+  ],
+  "layouts": [],
+  "checks": [
+    {
+      "name": "Search modal layout at 360px",
+      "passed": true,
+      "detail": {
+        "x": 19,
+        "y": 192.34375,
+        "width": 322,
+        "height": 459.3125,
+        "viewportWidth": 360,
+        "viewportHeight": 844,
+        "scrollWidth": 321,
+        "clientWidth": 320,
+        "overflowX": "hidden",
+        "opacity": "1",
+        "clippedControls": [],
+        "brokenImages": []
+      }
+    },
+    {
+      "name": "Search modal layout at 390px",
+      "passed": true,
+      "detail": {
+        "x": 19,
+        "y": 200.015625,
+        "width": 352,
+        "height": 443.96875,
+        "viewportWidth": 390,
+        "viewportHeight": 844,
+        "scrollWidth": 351,
+        "clientWidth": 350,
+        "overflowX": "hidden",
+        "opacity": "1",
+        "clippedControls": [],
+        "brokenImages": []
+      }
+    },
+    {
+      "name": "Search modal layout at 768px",
+      "passed": true,
+      "detail": {
+        "x": 24,
+        "y": 284.171875,
+        "width": 720,
+        "height": 455.640625,
+        "viewportWidth": 768,
+        "viewportHeight": 1024,
+        "scrollWidth": 719,
+        "clientWidth": 718,
+        "overflowX": "hidden",
+        "opacity": "1",
+        "clippedControls": [],
+        "brokenImages": []
+      }
+    },
+    {
+      "name": "Search modal layout at 1280px",
+      "passed": true,
+      "detail": {
+        "x": 280,
+        "y": 312.171875,
+        "width": 720,
+        "height": 455.640625,
+        "viewportWidth": 1280,
+        "viewportHeight": 1080,
+        "scrollWidth": 719,
+        "clientWidth": 718,
+        "overflowX": "hidden",
+        "opacity": "1",
+        "clippedControls": [],
+        "brokenImages": []
+      }
+    },
+    {
+      "name": "Search modal layout at 1920px",
+      "passed": true,
+      "detail": {
+        "x": 600,
+        "y": 312.171875,
+        "width": 720,
+        "height": 455.640625,
+        "viewportWidth": 1920,
+        "viewportHeight": 1080,
+        "scrollWidth": 719,
+        "clientWidth": 718,
+        "overflowX": "hidden",
+        "opacity": "1",
+        "clippedControls": [],
+        "brokenImages": []
+      }
+    },
+    {
+      "name": "Search modal layout at 2560px",
+      "passed": true,
+      "detail": {
+        "x": 920,
+        "y": 492.171875,
+        "width": 720,
+        "height": 455.640625,
+        "viewportWidth": 2560,
+        "viewportHeight": 1440,
+        "scrollWidth": 719,
+        "clientWidth": 718,
+        "overflowX": "hidden",
+        "opacity": "1",
+        "clippedControls": [],
+        "brokenImages": []
+      }
+    }
+  ],
+  "errors": [],
+  "cancelledRequests": [],
+  "external": []
+}

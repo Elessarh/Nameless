@@ -1,0 +1,379 @@
+{
+  "stage": "after",
+  "captures": [
+    {
+      "file": "after-home-360x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-home-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-search-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-home-768x1024.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-home-1280x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-search-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-home-2560x1440.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-wiki-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-carte-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-bestiaire-1920x1080.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-espace-guilde-1920x1080.png",
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-profil-1920x1080.png",
+      "url": "http://127.0.0.1:4173/profil/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "name": "home-360",
+      "url": "http://127.0.0.1:4173/",
+      "width": 360,
+      "height": 844,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": true,
+      "currentLinks": []
+    },
+    {
+      "name": "home-390",
+      "url": "http://127.0.0.1:4173/",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": true,
+      "currentLinks": []
+    },
+    {
+      "name": "home-768",
+      "url": "http://127.0.0.1:4173/",
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": true,
+      "currentLinks": []
+    },
+    {
+      "name": "home-1280",
+      "url": "http://127.0.0.1:4173/",
+      "width": 1280,
+      "height": 1080,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "home-1920",
+      "url": "http://127.0.0.1:4173/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "home-2560",
+      "url": "http://127.0.0.1:4173/",
+      "width": 2560,
+      "height": 1440,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "/wiki",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/wiki",
+          "text": "Explorer"
+        }
+      ]
+    },
+    {
+      "name": "/carte",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/carte",
+          "text": "Carte"
+        }
+      ]
+    },
+    {
+      "name": "/bestiaire",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/bestiaire",
+          "text": "Bestiaire"
+        }
+      ]
+    },
+    {
+      "name": "/items",
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": [
+        {
+          "href": "/items",
+          "text": "Objets"
+        }
+      ]
+    },
+    {
+      "name": "/espace-guilde",
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    },
+    {
+      "name": "/profil",
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "logo": {
+        "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+        "naturalWidth": 64,
+        "naturalHeight": 64,
+        "width": 48,
+        "height": 48,
+        "objectFit": "contain"
+      },
+      "language": "fr",
+      "favicon": "http://127.0.0.1:4173/assets/brand/favicon.svg?v=20261008logo",
+      "hamburgerVisible": false,
+      "currentLinks": []
+    }
+  ]
+}
