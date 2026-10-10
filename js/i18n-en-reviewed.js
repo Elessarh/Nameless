@@ -470,3 +470,8 @@ Object.assign(window.NamelessTranslations.en, {
     "La Puissance Financière": "Financial Strength",
     "Le Classement officiel": "Official Ranking"
 });
+
+Object.assign(window.NamelessTranslations.en, {
+    "Administrer la carte": "Manage map",
+    "Atelier cartographique": "Map workbench"
+});

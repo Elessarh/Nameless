@@ -20,7 +20,7 @@ assert.equal(build.status, 0, 'Publication build failed:\n' + build.stdout + bui
 const scope = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'), scope);
 const routes = scope.window.NamelessPageRegistry.routes;
-const nonPublic = new Set(['connexion', 'profil', 'espace-guilde', 'admin-dashboard', 'confidentialite', 'conditions', 'quetes']);
+const nonPublic = new Set(['connexion', 'profil', 'espace-guilde', 'admin-dashboard','admin-carte', 'confidentialite', 'conditions', 'quetes']);
 let htmlCount = 0;
 let localReferences = 0;
 
@@ -123,7 +123,7 @@ const directives = fs.readFileSync(path.join(output, 'robots.txt'), 'utf8').spli
 assert.ok(directives.some((entry) => entry.name === 'user-agent' && entry.value === '*'), 'Robots file lacks a general crawler group');
 assert.ok(directives.some((entry) => entry.name === 'allow' && entry.value === '/'), 'Public site is blocked for crawlers');
 assert.deepEqual(directives.filter((entry) => entry.name === 'sitemap').map((entry) => entry.value), [origin + '/sitemap.xml']);
-for (const id of ['profil', 'espace-guilde', 'admin-dashboard']) {
+for (const id of ['profil', 'espace-guilde', 'admin-dashboard', 'admin-carte']) {
     const route = routes.find((route) => route.id === id);
     for (const blocked of [route.path, '/' + route.source]) {
         assert.ok(directives.some((entry) => entry.name === 'disallow' && entry.value === blocked), 'Missing private robots exclusion: ' + blocked);

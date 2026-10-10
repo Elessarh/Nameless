@@ -1,0 +1,28 @@
+{
+  "time": "2026-10-10T09:13:01.367Z",
+  "project": "iwrvdntlrjnoqzbwbsfm",
+  "mode": "Public read-only verification after migration008",
+  "results": [
+    {
+      "name": "read_map_marker_overrides",
+      "status": 200,
+      "count": 0,
+      "error": null,
+      "keys": []
+    },
+    {
+      "name": "read_map_regions",
+      "status": 200,
+      "count": 0,
+      "error": null,
+      "keys": []
+    },
+    {
+      "name": "read_map_custom_markers",
+      "status": 200,
+      "count": 0,
+      "error": null,
+      "keys": []
+    }
+  ]
+}

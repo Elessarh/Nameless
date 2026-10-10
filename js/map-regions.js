@@ -103,8 +103,12 @@
                     if (!entity || seenEntities.has(entityKey)) throw new Error('invalid_entity');
                     seenEntities.add(entityKey);
                 }
-                if (region.status !== 'indicative') throw new Error('invalid_status');
-                const result = { id, entityKey, title: cleanString(region.title, 120), status: 'indicative', vertices: validateVertices(region.vertices) };
+                if (!['indicative', 'verified', 'draft'].includes(region.status)) throw new Error('invalid_status');
+                const result = { id, entityKey, title: cleanString(region.title, 120), status: region.status, vertices: validateVertices(region.vertices) };
+                if (region.baseRevision != null) {
+                    if (!Number.isInteger(region.baseRevision) || region.baseRevision < 0) throw new Error('invalid_document');
+                    result.baseRevision = region.baseRevision;
+                }
                 if (region.titleEn != null) result.titleEn = cleanString(region.titleEn, 120);
                 if (region.wikiUrl) result.wikiUrl = localUrl(region.wikiUrl);
                 return result;
@@ -153,9 +157,28 @@
     }
     function label(region) { return english() && region.titleEn ? region.titleEn : region.title; }
     function records(state, floor = state.floor) {
+        if (state.remoteStatus === 'error' && state.bridge.canEditRegions?.() !== true) return [];
         const base = state.base?.floors.find(item => item.floor === floor)?.regions || [];
         const local = state.local?.floors.find(item => item.floor === floor)?.regions || [];
         const merged = new Map(base.map(region => [region.id, { ...region, local: false }]));
+        for (const row of state.remote || []) {
+            if (Number(row.floor) !== floor) continue;
+            const old = [...merged.values()].find(region => region.entityKey === row.entity_key);
+            if (old) merged.delete(old.id);
+            if (row.visible !== true || !['indicative', 'verified'].includes(row.status)) continue;
+            const entity = state.bridge.catalog.index.find(item => item.key === row.entity_key);
+            try {
+                const region = { ...(old || {}), id: row.region_id, entityKey: row.entity_key, title: old?.title || entity?.title,
+                    titleEn: old?.titleEn || entity?.titleEn, status: row.status, vertices: validateVertices(row.vertices), published: true };
+                if (entity && row.image_id === imageIdentity(state.bridge.catalog.floors.find(item => Number(item.id) === floor))) merged.set(region.id, region);
+            } catch (_) { /* Malformed shared contours are not displayed. */ }
+        }
+        if (state.bridge.canEditRegions?.() === true) for (const region of state.workspaceRegions || []) {
+            if (region.floor !== floor) continue;
+            const old = [...merged.values()].find(item => item.entityKey === region.entityKey);
+            if (old) merged.delete(old.id);
+            merged.set(region.id, region);
+        }
         for (const region of local) merged.set(region.id, { ...region, local: true });
         return [...merged.values()];
     }
@@ -200,7 +223,7 @@
                 if (coordinates.some(value => !value)) continue;
                 const polygon = global.L.polygon(coordinates, { pane: state.pane, bubblingMouseEvents: false, ...selectionStyle(state, region) }).addTo(state.layers);
                 const tooltip = node('span', 'map-region-tooltip-name', label(region));
-                tooltip.append(node('small', '', text('Contour indicatif', 'Indicative outline') + (region.local ? text(' · local', ' · local') : '')));
+                tooltip.append(node('small', '', region.status === 'verified' ? text('Limites vérifiées', 'Verified boundaries') : text('Contour indicatif', 'Indicative outline') + (region.local ? text(' · brouillon local', ' · local draft') : '')));
                 polygon.bindTooltip?.(tooltip, { sticky: true, direction: 'top', className: 'map-region-tooltip', opacity: 1 });
                 polygon.on?.('mouseover', () => { if (!state.editing) polygon.setStyle(selectionStyle(state, region, true)); });
                 polygon.on?.('mouseout', () => polygon.setStyle(selectionStyle(state, region)));
@@ -212,11 +235,12 @@
                 state.polygons.set(region.id, polygon);
             }
             const button = node('button', 'map-region-choice'); button.type = 'button'; button.dataset.regionId = region.id;
-            button.append(node('span', '', label(region)), node('small', '', region.local ? text('Indicatif · ce navigateur', 'Indicative · this browser') : text('Indicatif', 'Indicative')));
+            button.append(node('span', '', label(region)), node('small', '', region.local ? text('Brouillon', 'Draft') : region.status === 'verified' ? text('Vérifié', 'Verified') : text('Indicatif', 'Indicative')));
             button.addEventListener('click', () => select(state, region.id), { signal: state.publicController.signal }); state.ui.list?.append(button);
         }
         if (state.ui.status) {
-            state.ui.status.textContent = all.length ? text(visible.length + ' contours indicatifs · limites à valider', visible.length + ' indicative outlines · boundaries need review')
+            state.ui.status.textContent = state.remoteStatus === 'error' ? text('Les dernières limites publiées ne sont pas disponibles. Réessayez.', 'The latest published boundaries are unavailable. Please retry.')
+                : all.length ? text(visible.length + ' zones · sélectionnez un contour', visible.length + ' regions · select an outline')
                 : text('Aucun contour proposé sur ce palier.', 'No outlines proposed on this floor.');
         }
         syncSelection(state);
@@ -279,9 +303,13 @@
         return validateDocument({ schemaVersion: 1, coordinateSystem: 'image-relative-top-left', floors: [floor] }, state.bridge.catalog).floors[0].regions[0];
     }
     function commitDraft(state, value, selectedVertex = state.vertex) {
-        if (!floorReady(state) || state.draftFloor !== state.floor) return;
+        if (!floorReady(state) || state.draftFloor !== state.floor || state.bridge.canEditRegions?.() !== true) return;
         state.draft = copy(value); state.history.push(state.draft); state.vertex = selectedVertex;
         renderEditorState(state); renderDraft(state);
+        changed(state);
+    }
+    function changed(state) {
+        state.bridge.root?.dispatchEvent(new CustomEvent('nameless:region-draft', { detail: { draft: state.draft ? copy(state.draft) : null, floor: state.floor } }));
     }
     function syncFields(state) {
         state.ui.name.value = state.draft.title; state.ui.entity.value = state.draft.entityKey || '';
@@ -389,9 +417,11 @@
     }
     function emptyDocument() { return { schemaVersion: 1, coordinateSystem: 'image-relative-top-left', floors: [] }; }
     function save(state) {
-        if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor) return false;
+        if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor || state.bridge.canEditRegions?.() !== true) return false;
         try {
             const draft = cleanDraft(state), local = copy(state.local || emptyDocument());
+            const revision = state.bridge.getRegionRevision?.(draft.entityKey);
+            if (Number.isInteger(revision) && revision >= 0) draft.baseRevision = revision;
             let floor = local.floors.find(item => item.floor === state.floor);
             if (!floor) { floor = { floor: state.floor, imageId: imageIdentity(state.bridge.catalog.floors.find(item => Number(item.id) === state.floor)), regions: [] }; local.floors.push(floor); }
             // A linked region has one outline: local edits replace the original rather than creating duplicates.
@@ -402,7 +432,7 @@
             floor.regions = floor.regions.filter(region => region.id !== draft.id && (!draft.entityKey || region.entityKey !== draft.entityKey));
             floor.regions.push(draft);
             const validated = validateDocument(local, state.bridge.catalog);
-            global.localStorage.setItem(STORAGE_KEY, JSON.stringify(validated));
+            global.localStorage.setItem(state.bridge.getRegionDraftKey?.() || STORAGE_KEY, JSON.stringify(validated));
             state.local = validated; state.draft = copy(draft); state.selected = draft.id;
             state.history = createHistory(draft); renderPublic(state); populateSelectors(state); renderEditorState(state); renderDraft(state);
             message(state, 'Contour indicatif enregistré dans ce navigateur uniquement.', 'Indicative outline saved in this browser only.'); return true;
@@ -412,13 +442,13 @@
         }
     }
     function reset(state) {
-        if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor) return false;
+        if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor || state.bridge.canEditRegions?.() !== true) return false;
         try {
             const local = copy(state.local || emptyDocument());
             const floor = local.floors.find(item => item.floor === state.floor);
             if (floor) floor.regions = floor.regions.filter(region => region.id !== state.draft?.id);
             local.floors = local.floors.filter(item => item.regions.length);
-            global.localStorage.setItem(STORAGE_KEY, JSON.stringify(local)); state.local = local;
+            global.localStorage.setItem(state.bridge.getRegionDraftKey?.() || STORAGE_KEY, JSON.stringify(local)); state.local = local;
             const base = records(state).find(region => region.id === state.draft?.id);
             state.draft = copy(base || blank(state)); state.history = createHistory(state.draft); state.vertex = null;
             state.mode = state.draft.vertices.length >= 3 ? 'edit' : 'draw';
@@ -427,7 +457,7 @@
         } catch (_) { message(state, 'La modification locale n’a pas pu être retirée.', 'The local edit could not be removed.'); return false; }
     }
     function importDocument(state, value) {
-        if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor) return false;
+        if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor || state.bridge.canEditRegions?.() !== true) return false;
         try {
             const validated = validateDocument(value, state.bridge.catalog);
             // Stage imported contours; persistence remains an explicit Save action.
@@ -531,12 +561,13 @@
         state.history = createHistory(state.draft); state.vertex = null; state.mode = state.draft.vertices.length >= 3 ? 'edit' : 'draw';
         populateSelectors(state); renderEditorState(state); renderDraft(state); message(state, '', '');
         fitEditorBounds(state);
+        changed(state);
     }
     function fitEditorBounds(state) {
         if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor || state.draft.vertices.length < 3) return;
         const coordinates = state.draft.vertices.map(point => state.bridge.getLatLng(point));
         if (coordinates.some(point => !point)) return;
-        const sheetHeight = global.innerWidth <= 768 ? Math.max(0, state.ui.host.getBoundingClientRect().height || 0) : 0;
+        const sheetHeight = global.innerWidth <= 768 && !state.bridge.root?.classList.contains('map-admin-workspace') ? Math.max(0, state.ui.host.getBoundingClientRect().height || 0) : 0;
         state.bridge.map.invalidateSize?.({ pan: false }); state.bridge.map.stop?.();
         state.bridge.map.fitBounds(global.L.latLngBounds(coordinates), { paddingTopLeft: [20, 20], paddingBottomRight: [20, sheetHeight + 20], maxZoom: 0, animate: !reduced(), duration: .32 });
     }
@@ -546,7 +577,7 @@
         if (state.draft.vertices.length < 3) state.mode = 'draw'; renderEditorState(state); renderDraft(state); return true;
     }
     function openEditor(state, id) {
-        if (!floorReady(state) || !state.ui.host) return false;
+        if (!floorReady(state) || !state.ui.host || state.bridge.canEditRegions?.() !== true) return false;
         state.pendingCamera = null;
         state.opener = document.activeElement; state.editing = true; state.importGeneration++;
         state.bridge.setRegionEditorMode?.(true); state.ui.host.hidden = false;
@@ -554,7 +585,7 @@
         editorMarkup(state);
         startDraft(state, records(state).find(region => region.id === (id || state.selected)) || records(state)[0] || blank(state));
         renderPublic(state); state.bridge.map.invalidateSize?.({ pan: false });
-        state.ui.name.focus(); return true;
+        state.ui.name.focus({ preventScroll: true }); return true;
     }
     function closeEditor(state, restoreFocus = true) {
         if (!state.editing) return;
@@ -569,6 +600,22 @@
         if (id !== Number(state.bridge.getFloor()) || Number(state.bridge.getData()?.floor) !== id) return;
         closeEditor(state, false); state.selectionGeneration++; state.pendingCamera = null; state.floor = id; state.floorPending = false; state.selected = null;
         renderPublic(state);
+    }
+    async function reloadRemote(state) {
+        const generation = state.remoteGeneration = (state.remoteGeneration || 0) + 1;
+        if (!global.supabase?.rpc) { state.remoteStatus = 'archive'; return; }
+        try {
+            const result = await global.supabase.rpc('read_map_regions');
+            if (!alive(state) || generation !== state.remoteGeneration) return;
+            if (result.error) throw result.error;
+            state.remote = Array.isArray(result.data) ? result.data : []; state.remoteStatus = 'ready';
+            renderPublic(state);
+        } catch (error) {
+            if (!alive(state) || generation !== state.remoteGeneration) return;
+            if (error?.code === 'PGRST202') { state.remoteStatus = 'archive'; return; }
+            state.remoteStatus = 'error'; renderPublic(state);
+            if (state.ui.status) state.ui.status.textContent = text('Les dernières limites publiées ne sont pas disponibles. Réessayez.', 'The latest published boundaries are unavailable. Please retry.');
+        }
     }
     async function init(bridge) {
         if (!bridge?.map || !bridge.catalog?.floors || !global.L) return null;
@@ -587,7 +634,33 @@
             filter(value) { state.filter = normalizeFilter(value); renderPublic(state); },
             clearSelection() { state.selected = null; state.selectionGeneration++; state.pendingCamera = null; syncSelection(state); },
             getRegions: () => floorReady(state) ? copy(records(state)) : [],
+            setWorkspaceRecords(rows) {
+                if (state.bridge.canEditRegions?.() !== true) return;
+                state.workspaceRegions = [];
+                for (const row of Array.isArray(rows) ? rows : []) {
+                    const entity = state.bridge.catalog.index.find(item => item.key === row.entity_key);
+                    const floor = state.bridge.catalog.floors.find(item => Number(item.id) === Number(row.floor));
+                    if (!entity || !floor || row.image_id !== imageIdentity(floor)) continue;
+                    try { state.workspaceRegions.push({ id: row.region_id, entityKey: row.entity_key, title: entity.title, titleEn: entity.titleEn,
+                        status: row.status, vertices: validateVertices(row.vertices), floor: Number(row.floor), baseRevision: row.revision, local: false }); } catch (_) {}
+                }
+                renderPublic(state);
+            },
+            setRemoteRecords(rows) { state.remote = Array.isArray(rows) ? copy(rows) : []; state.remoteStatus = 'ready'; renderPublic(state); },
+            reloadRemote: () => reloadRemote(state),
             editor: { open: id => openEditor(state, id), close: () => closeEditor(state), save: () => save(state), reset: () => reset(state),
+                acceptPublished(row) {
+                    if (state.bridge.canEditRegions?.() !== true || !row || state.draft?.entityKey !== row.entity_key) return false;
+                    const local = copy(state.local || emptyDocument());
+                    for (const floor of local.floors) floor.regions = floor.regions.filter(region => region.entityKey !== row.entity_key);
+                    local.floors = local.floors.filter(floor => floor.regions.length);
+                    try { global.localStorage.setItem(state.bridge.getRegionDraftKey?.() || STORAGE_KEY, JSON.stringify(local)); } catch (_) {}
+                    state.local = local;
+                    const region = records(state).find(region => region.entityKey === row.entity_key);
+                    if (region) startDraft(state, { ...region, baseRevision: row.revision });
+                    return true;
+                },
+                load(region) { if (state.bridge.canEditRegions?.() !== true || !floorReady(state)) return false; if (!state.editing && !openEditor(state)) return false; startDraft(state, region); return true; },
                 importDocument: value => importDocument(state, value), exportDocument: () => exportDocument(state), mode: value => mode(state, value),
                 undo: () => historyMove(state, 'undo'), redo: () => historyMove(state, 'redo'), getDraft: () => state.draft ? copy(state.draft) : null } };
         const mapClick = event => {
@@ -630,12 +703,12 @@
             renderPublic(state);
             if (state.editing) { const draft = copy(state.draft), history = state.history, vertex = state.vertex, currentMode = state.mode;
                 editorMarkup(state); state.draft = draft; state.history = history; state.vertex = vertex; state.mode = currentMode;
-                populateSelectors(state); renderEditorState(state); renderDraft(state); state.ui.name.focus(); }
+                populateSelectors(state); renderEditorState(state); renderDraft(state); state.ui.name.focus({ preventScroll: true }); }
         });
         bridge.signal?.addEventListener('abort', () => { if (active === state) destroy(); }, { once: true, signal: state.controller.signal });
         try {
-            const saved = global.localStorage.getItem(STORAGE_KEY);
-            if (saved && saved.length <= 1024 * 1024) state.local = validateDocument(JSON.parse(saved), bridge.catalog);
+            const saved = global.localStorage.getItem(state.bridge.getRegionDraftKey?.() || STORAGE_KEY);
+            if (state.bridge.canEditRegions?.() === true && saved && saved.length <= 1024 * 1024) state.local = validateDocument(JSON.parse(saved), bridge.catalog);
         } catch (_) { if (state.ui.status) state.ui.status.textContent = text('Les anciens contours locaux ne correspondent pas à cet atlas.', 'The previous local outlines do not match this atlas.'); }
         renderPublic(state);
         state.ready = (async () => {
@@ -644,6 +717,7 @@
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 const document = validateDocument(await response.json(), bridge.catalog); if (!alive(state)) return null;
                 state.base = document; state.loaded = true;
+                await reloadRemote(state); if (!alive(state)) return null;
                 const initial = bridge.getSelection?.();
                 state.selected = records(state).find(region => region.entityKey === (initial?.key || initial))?.id || null;
                 renderPublic(state); return state.api;

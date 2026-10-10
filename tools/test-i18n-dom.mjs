@@ -112,8 +112,7 @@ const referenceLabels = {
     'pages/map.html': [
         ['#map-legend-title', null, 'Légende de la carte', 'Map legend'],
         ['#map-legend-close', 'aria-label', 'Fermer la légende', 'Close legend'],
-        ['#map-places-title', null, 'Lieux d’intérêt du Palier 01', 'Locations of interest on Floor 01'],
-        ['#map-places-description', null, 'Découvrez les lieux connus de ce palier et préparez votre exploration.', 'Discover the known locations on this floor and prepare your exploration.']
+        ['#map-admin-entry', null, 'Administrer la carte', 'Manage map']
     ]
 };
 

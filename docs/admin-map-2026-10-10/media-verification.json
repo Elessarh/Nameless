@@ -1,0 +1,7 @@
+{
+  "method": "FFmpeg decoded one VP8 frame at 00:00:03 from each WebM; both commands exited successfully. Frames were visually inspected.",
+  "videos": [
+    { "file": "public-map-motion.webm", "durationSeconds": 10.64, "width": 1920, "height": 1080, "codec": "VP8", "decodedFrame": "public-video-frame.png" },
+    { "file": "admin-map-editor-motion.webm", "durationSeconds": 9.04, "width": 1920, "height": 1080, "codec": "VP8", "decodedFrame": "admin-video-frame.png", "fixture": "Isolated administrator session and in-memory RPC writes; no live account writes." }
+  ]
+}

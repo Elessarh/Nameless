@@ -30,11 +30,12 @@ function surface(width) {
     assert.equal(d.querySelector('#map-floor-buttons button[aria-pressed="true"]').textContent, '01');
     assert.equal(d.getElementById('map-floor-previous').disabled, true); assert.equal(d.getElementById('map-floor-next').disabled, false);
     assert.equal(d.getElementById('map-filter-rail').hidden, false, 'Desktop exposes the filter rail');
-    const actualPlaces = Object.values(bridge.getData().entities).filter(entity => entity.kind === 'location' && entity.position);
-    assert.equal(d.getElementById('map-places').hidden, false, 'A floor with real located places shows its discovery strip');
-    for (const button of d.querySelectorAll('.map-place-card')) assert.ok(actualPlaces.some(entity => entity.key === button.dataset.entityKey), 'Every location card is a real positioned graph entity');
-    assert.ok(d.querySelector('.map-place-card .map-location-preview').style.backgroundImage.includes('floor-1-desktop.webp'), 'Location previews use the calibrated atlas, without imaginary server screenshots');
-    d.getElementById('map-places-toggle').click(); assert.equal(d.querySelectorAll('.map-place-card').length, actualPlaces.length, 'Show all exposes the documented locations');
+    assert.equal(d.getElementById('map-places'), null, 'The public atlas has no discovery strip');
+    assert.equal(d.querySelector('.map-place-card'), null);
+    assert.equal(bridge.getSelection(), null, 'Opening the atlas leaves the selection empty');
+    assert.equal(d.getElementById('map-panel').hidden, true, 'The unselected detail rail leaves the map visible');
+    assert.equal(bridge.canEditRegions(), false, 'Public initialization never grants geometry editing');
+    assert.equal(d.getElementById('map-regions-tools'), null, 'The public toolbar exposes no contour editor');
     d.getElementById('map-display-names').click(); assert.equal(d.querySelector('main').classList.contains('map-hide-names'), true);
     d.getElementById('map-display-markers').click(); assert.equal(d.querySelector('main').classList.contains('map-hide-markers'), true);
     d.getElementById('map-filters-reset').click(); assert.equal(d.querySelector('main').classList.contains('map-hide-markers'), false); assert.equal(d.getElementById('map-display-names').checked, true, 'Reset restores display controls as well as marker filters');
@@ -50,7 +51,8 @@ function surface(width) {
     await waitFor(() => bridge.getData()?.floor === 3);
     assert.equal(d.activeElement.dataset.floor, '3'); assert.equal(d.getElementById('map-floor-next').disabled, true);
     assert.equal(d.getElementById('map-filters-empty').hidden, false, 'Image-only floor explains the absence of filters');
-    assert.equal(d.getElementById('map-places').hidden, true, 'The uncalibrated floor receives no fabricated location strip');
+    assert.equal(d.getElementById('map-places'), null, 'Changing floors does not recreate the removed discovery strip');
+    assert.equal(bridge.getSelection(), null); assert.equal(d.getElementById('map-panel').hidden, true);
     d.activeElement.dispatchEvent(new p.w.KeyboardEvent('keydown', {key:'Home',bubbles:true,cancelable:true}));
     await waitFor(() => bridge.getData()?.floor === 1);
     const archive = d.querySelector('[data-marker-type="quest-secondary"]'); archive.checked = true; archive.dispatchEvent(new p.w.Event('change'));
@@ -67,10 +69,12 @@ function surface(width) {
     const secondary = Object.values(bridge.getData().entities).find(entity => entity.kind === 'guide' && entity.status === 'historical-unverified');
     await bridge.selectEntity(secondary.key); assert.match(d.getElementById('map-panel-content').textContent, /Archive non vérifiée/);
     await bridge.selectEntity('location:1:ville-depart'); assert.equal(d.querySelector('.map-entity-heading img'), null, 'Locations without source artwork do not receive an invented image');
+    assert.ok(d.querySelector('.map-location-preview').style.backgroundImage.includes('floor-1-desktop.webp'), 'Selected location previews retain the calibrated atlas');
     assert.equal(p.errors.length, 0, p.errors.map(String).join('\n')); p.destroy();
 }
 {
     const p = surface(390); const bridge = await p.init(); const d = p.doc;
+    assert.equal(d.getElementById('map-places'), null); assert.equal(bridge.getSelection(), null); assert.equal(d.getElementById('map-panel').hidden, true);
     const rail = d.getElementById('map-filter-rail'), toggle = d.getElementById('map-filters-toggle');
     assert.equal(rail.hidden, true); assert.equal(toggle.getAttribute('aria-expanded'), 'false');
     toggle.click(); assert.equal(rail.hidden, false); assert.equal(toggle.getAttribute('aria-expanded'), 'true');
@@ -93,4 +97,4 @@ function surface(width) {
     p.w.NamelessMapPage.destroy(); toggle.click(); assert.equal(toggle.getAttribute('aria-expanded'), 'false', 'Destroy removes mobile drawer listeners');
     assert.equal(d.getElementById('game-map').querySelectorAll('.leaflet-marker-icon').length, 0); assert.equal(p.errors.length, 0, p.errors.map(String).join('\n')); p.dom.window.close();
 }
-console.log('Hybrid map passed: actual floor shortcuts, keyboard, filter rail/drawer, nonmodal mobile, genuine thumbnails, archives and Leaflet lifecycle.');
+console.log('Hybrid map passed: clear public atlas, actual floor shortcuts, keyboard, filter rail/drawer, nonmodal mobile, genuine thumbnails, archives and Leaflet lifecycle.');

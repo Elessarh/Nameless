@@ -1,0 +1,212 @@
+{
+  "stage": "before",
+  "base": "http://127.0.0.1:4173",
+  "browser": "148.0.7778.96",
+  "generatedAt": "2026-10-10T08:41:27.434Z",
+  "captures": [
+    {
+      "file": "before-public-360x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "before-public-390x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "before-public-768x1024.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "before-public-1280x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "before-public-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "before-public-2560x1440.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "name": "public-360",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 360,
+      "height": 844,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "public-390",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "public-768",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "public-1280",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 1280,
+      "height": 1080,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "public-1920",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "public-2560",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 2560,
+      "height": 1440,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true
+    }
+  ],
+  "checks": [],
+  "errors": [],
+  "external": [
+    {
+      "page": "public-360",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-360",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-390",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-390",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-768",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-768",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-1280",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-1280",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-1920",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-1920",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-2560",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "public-2560",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    }
+  ],
+  "cancellations": [],
+  "mapAssetHashes": {
+    "/assets/carte.webp": "e1cc3d07e5b6d199972b4cd1e53887d4d43abf2b724624e07acba6ea1b070098",
+    "/assets/map-preview/floor-1-desktop.webp": "ee175e318f403d95fac2a331eb45f4d5e9104d681509bfe6c647a4d832810499",
+    "/assets/map-preview/floor-1-mobile.webp": "dbf93b33fd660666e6629ebd805c4474f0be78814cde63d6e75b344e54126e8c",
+    "/assets/map-preview/floor-1-detail.webp": "269328b992f401f16927f1aea777271ed7822e01b20a4c461a2095a682c62456",
+    "/assets/Palier2-map.webp": "f960e1d6f13fbaf48666962edefd872cfadb1e9697cd353fd7ba3685813d373a",
+    "/assets/map-preview/floor-2-desktop.webp": "9f5a3dfb2dc752ea847b44f04f178a90ddd9a46cf7a469e4645723a8eeea7854",
+    "/assets/map-preview/floor-2-mobile.webp": "b8792f5cea8843b0566734b51660f182dd8aa12d1fdc472e237354fe8eb8ddae",
+    "/assets/map-preview/floor-2-detail.webp": "9320aa2b3337d4dd40e96123deb8532143222ee91830e8a5152803ce121ef12e",
+    "/assets/Palier3-map.webp": "f32479eb066dd57413bec92c19092ecf4c22be1435ebc82159ec1c2f6b80f8bf",
+    "/assets/map-preview/floor-3-desktop.webp": "69763e78a81fafe315149388dc46ecb4ff4b031d26a637724aefa8f99cd71f76",
+    "/assets/map-preview/floor-3-mobile.webp": "b1330a54e1d2e7b0bec6d99e290eec34c492f094a4185df81798fcc17ff63f37",
+    "/assets/map-preview/floor-3-detail.webp": "cfa513d516bbcb86099dc31dc1d9a06450ea1c9d53576261e9a717545b459c21",
+    "/assets/carte.png": "738741f1f63954dbcf9384f88a7e2b5717f0fd6fdbd4df1cf90735a390545011",
+    "/assets/Palier2-map.png": "135b89c6b930876cbb3c7d0ca2c780690eb416e8c3d224ccf43e9591cc200eb0",
+    "/assets/Palier3-map.png": "5f96cb240f31390f71199079e4fcee87427c695108ec644541d8f260e6f795c7"
+  }
+}

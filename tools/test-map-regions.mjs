@@ -1,4 +1,4 @@
-// Isolated geometry, Leaflet lifecycle and browser-local persistence; no network or database.
+// Isolated geometry, public access and administrator drafts; no network or database.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
@@ -19,10 +19,10 @@ const region = { id: 'zone-alpha', entityKey: 'location:1:alpha', title: 'Zone A
 const seed = { schemaVersion: 1, coordinateSystem: 'image-relative-top-left', floors: [
     { floor: 1, imageId: '/assets/carte.webp', regions: [region] }, { floor: 2, imageId: '/assets/Palier2-map.webp', regions: [] }
 ] };
-function page({ stored, wait, fetchError = false, reduced = false, documentSeed = seed, nativeCatalog = catalog } = {}) {
+function page({ stored, wait, fetchError = false, reduced = false, documentSeed = seed, nativeCatalog = catalog, canEdit = false, remoteRows = [], remoteError = null, regionRevision } = {}) {
     const dom = new JSDOM('<main><label><input id="map-regions-toggle" type="checkbox" checked>Contours</label><button id="map-regions-tools">Dessiner</button><div id="map-region-list"></div><p id="map-region-status"></p><aside id="map-regions-editor" hidden></aside><div id="map"></div></main>',
         { url: 'https://nameless-sao.fr/carte', runScripts: 'outside-only', pretendToBeVisual: true });
-    const w = dom.window, calls = { polygons: [], markers: [], fetches: [], fits: [], views: [], selections: [], editor: [], removes: [] };
+    const w = dom.window, calls = { polygons: [], markers: [], fetches: [], rpc: [], fits: [], views: [], selections: [], editor: [], removes: [] };
     const handlers = new Map(); let floor = 1, dataFloor = 1, status = 'ready', lang = 'fr';
     const controller = new w.AbortController();
     const fixtureCatalog = clone(nativeCatalog);
@@ -67,10 +67,14 @@ function page({ stored, wait, fetchError = false, reduced = false, documentSeed 
         polyline: (coord, options) => new Layer(coord, options), marker: (coord, options) => { const layer = new Layer(coord, options); calls.markers.push(layer); return layer; } };
     w.matchMedia = () => ({ matches: reduced });
     w.NamelessI18n = { getLanguage: () => lang };
-    w.supabase = { rpc() { throw new Error('No remote mutation is allowed'); } };
+    w.supabase = { async rpc(name) {
+        calls.rpc.push(name);
+        assert.equal(name, 'read_map_regions', 'The region reader may not mutate remote state');
+        return { data: clone(remoteRows), error: remoteError };
+    } };
     w.fetch = async (url, options) => { calls.fetches.push({ url, options }); if (wait) await wait.promise; return { ok: !fetchError, status: fetchError ? 404 : 200, json: async () => clone(documentSeed) }; };
     if (stored) w.localStorage.setItem('nameless.map-regions.v1', JSON.stringify(stored));
-    const bridge = { root: w.document.querySelector('main'), catalog: fixtureCatalog, map, signal: controller.signal,
+    const bridge = { root: w.document.querySelector('main'), catalog: fixtureCatalog, map, signal: controller.signal, canEditRegions: () => canEdit, getRegionRevision: () => regionRevision,
         getFloor: () => floor, getData: () => dataFloor == null ? null : ({ floor: dataFloor, entities }), getOverridesStatus: () => status,
         getLatLng(value) { const [[south, west], [north, east]] = fixtureCatalog.floors.find(item => item.id === floor).bounds; return [north - value.v * (north - south), west + value.u * (east - west)]; },
         getRelative(value) { const [[south, west], [north, east]] = fixtureCatalog.floors.find(item => item.id === floor).bounds; return { u: (value.lng - west) / (east - west), v: (north - value.lat) / (north - south) }; },
@@ -106,12 +110,98 @@ await test('schema is bound to original atlas identity and known floor zone keys
     const p = page(), validate = value => p.w.NamelessMapRegions.validateDocument(value, catalog);
     assert.deepEqual(clone(validate(seed)), seed);
     for (const mutation of [value => value.floors[0].imageId = '/assets/preview.webp', value => value.floors[0].regions[0].entityKey = 'location:2:gamma',
-        value => value.floors[0].regions[0].status = 'verified', value => value.floors[0].regions[0].wikiUrl = 'https://malicious.example/',
+        value => value.floors[0].regions[0].status = 'unknown', value => value.floors[0].regions[0].wikiUrl = 'https://malicious.example/',
         value => value.floors.push(clone(value.floors[0])), value => value.floors[0].regions.push(clone(region))]) {
         const invalid = clone(seed); mutation(invalid); assert.throws(() => validate(invalid));
     }
     assert.throws(() => validate(JSON.parse('{"schemaVersion":1,"coordinateSystem":"image-relative-top-left","floors":[],"__proto__":{"polluted":true}}')));
     assert.equal({}.polluted, undefined); p.cleanup();
+});
+await test('schema preserves indicative, verified and draft states without accepting arbitrary publication labels', () => {
+    const p = page();
+    for (const status of ['indicative', 'verified', 'draft']) {
+        const document = clone(seed); document.floors[0].regions[0].status = status;
+        assert.equal(p.w.NamelessMapRegions.validateDocument(document, catalog).floors[0].regions[0].status, status);
+    }
+    p.cleanup();
+});
+await test('draft revision metadata accepts integer snapshots and rejects malformed conflict identifiers', () => {
+    const p = page();
+    for (const baseRevision of [0, 7]) {
+        const document = clone(seed); document.floors[0].regions[0].baseRevision = baseRevision;
+        assert.equal(p.w.NamelessMapRegions.validateDocument(document, catalog).floors[0].regions[0].baseRevision, baseRevision);
+    }
+    for (const baseRevision of [-1, 1.5, '7', NaN, Infinity]) {
+        const document = clone(seed); document.floors[0].regions[0].baseRevision = baseRevision;
+        assert.throws(() => p.w.NamelessMapRegions.validateDocument(document, catalog), /invalid_document/);
+    }
+    p.cleanup();
+});
+await test('public access cannot open, load or persist an editor, even with a forged editor button or local drafts', async () => {
+    const stored = clone(seed); stored.floors[0].regions[0].title = 'Private administrator draft'; stored.floors[0].regions[0].vertices[0].u = .14;
+    stored.floors[0].regions.push({ ...clone(region), id: 'private-unlinked-zone', entityKey: null, title: 'Private extra zone' });
+    const p = page({ stored }); await p.init();
+    const storageBefore = p.w.localStorage.getItem(p.w.NamelessMapRegions.STORAGE_KEY);
+    assert.equal(p.api().getRegions().length, 1, 'Stored administrator drafts never create public polygons');
+    assert.equal(p.api().getRegions()[0].title, region.title); assert.deepEqual(clone(p.api().getRegions()[0].vertices), square);
+    assert.equal(p.api().editor.open('zone-alpha'), false); assert.equal(p.api().editor.load(region), false);
+    p.w.document.getElementById('map-regions-tools').click(); p.click({ u: .6, v: .6 });
+    assert.equal(p.w.document.getElementById('map-regions-editor').hidden, true);
+    assert.equal(p.w.document.querySelectorAll('.map-region-vertex').length, 0); assert.equal(p.api().editor.getDraft(), null);
+    assert.equal(p.api().editor.save(), false); assert.equal(p.api().editor.importDocument(stored), false);
+    assert.equal(p.w.localStorage.getItem(p.w.NamelessMapRegions.STORAGE_KEY), storageBefore);
+    assert.deepEqual(p.calls.editor, []); assert.deepEqual(p.calls.rpc, ['read_map_regions']); p.cleanup();
+});
+await test('editor permission requires an explicit boolean grant rather than a role label or missing bridge method', async () => {
+    for (const canEdit of [false, 'admin', 1]) {
+        const p = page({ canEdit }); await p.init(); assert.equal(p.api().editor.open(), false); p.cleanup();
+    }
+    const p = page(); delete p.bridge.canEditRegions; await p.init(); assert.equal(p.api().editor.open(), false); p.cleanup();
+});
+await test('published region rows replace matching seeded entities and carry their verified geometry into selection', async () => {
+    const vertices = square.map(point => ({ u: point.u + .04, v: point.v + .02 }));
+    const row = { floor: 1, image_id: '/assets/carte.webp', region_id: 'published-alpha', entity_key: region.entityKey, status: 'verified', visible: true, vertices };
+    const p = page({ remoteRows: [row] }); await p.init();
+    const records = p.api().getRegions(); assert.equal(records.length, 1); assert.equal(records[0].id, row.region_id);
+    assert.equal(records[0].published, true); assert.equal(records[0].status, 'verified'); assert.deepEqual(clone(records[0].vertices), vertices);
+    assert.match(p.w.document.querySelector('.map-region-choice').textContent, /Vérifié/);
+    assert.equal(await p.api().select('zone-alpha'), false, 'The replaced seed no longer remains selectable under its old identifier');
+    assert.equal(await p.api().select('published-alpha'), true); assert.deepEqual(clone(p.calls.fits.at(-1).bounds), vertices.map(point => p.bridge.getLatLng(point)));
+    assert.deepEqual(p.calls.rpc, ['read_map_regions']); assert.deepEqual(region.vertices, square); assert.equal(p.w.localStorage.length, 0); p.cleanup();
+});
+await test('shared tombstones and unpublished rows suppress matching seed outlines while missing service retains proposals', async () => {
+    for (const row of [
+        { floor: 1, region_id: 'removed-alpha', entity_key: region.entityKey, visible: false, status: 'verified' },
+        { floor: 1, region_id: 'draft-alpha', entity_key: region.entityKey, visible: true, status: 'draft' }
+    ]) {
+        const p = page({ remoteRows: [row] }); await p.init();
+        assert.equal(p.api().getRegions().length, 0); assert.equal(p.w.document.querySelectorAll('.map-region-choice,.map-region-outline').length, 0);
+        assert.equal(await p.api().select('zone-alpha'), false); p.cleanup();
+    }
+    const p = page({ remoteError: { code: 'PGRST202', message: 'Function missing' } }); await p.init();
+    assert.equal(p.api().getRegions().length, 1); assert.equal(p.api().getRegions()[0].status, 'indicative');
+    assert.equal(p.api().editor.open(), false); assert.equal(p.w.localStorage.length, 0); p.cleanup();
+});
+await test('a failed published-region service hides seed polygons despite healthy markers and explains the outage', async () => {
+    const p = page({ remoteError: { status: 500, code: 'XX000', message: 'Region reader unavailable' } }); await p.init();
+    assert.equal(p.bridge.getOverridesStatus(), 'ready', 'Marker health cannot validate unavailable published-region state');
+    assert.equal(p.api().getRegions().length, 0); assert.equal(p.w.document.querySelectorAll('.map-region-choice,.map-region-outline').length, 0);
+    assert.equal(await p.api().select('zone-alpha'), false, 'A hidden or deleted published outline must not reappear as a seed fallback');
+    assert.match(p.w.document.getElementById('map-region-status').textContent, /limites publiées.*pas disponibles/i);
+    p.w.document.getElementById('map-regions-toggle').click(); p.w.document.getElementById('map-regions-toggle').click();
+    p.emit('markers'); p.language('en');
+    assert.equal(p.w.document.querySelectorAll('.map-region-outline').length, 0);
+    assert.match(p.w.document.getElementById('map-region-status').textContent, /published boundaries.*unavailable/i);
+    assert.equal(p.w.localStorage.length, 0); p.cleanup();
+});
+await test('an absent region RPC preserves all twelve labelled original-atlas proposals without exposing the editor', async () => {
+    const actualCatalog = JSON.parse(fs.readFileSync(new URL('../assets/map/catalog.json', import.meta.url), 'utf8'));
+    const actualSource = JSON.parse(fs.readFileSync(new URL('../data/map-regions.json', import.meta.url), 'utf8'));
+    const p = page({ documentSeed: actualSource, nativeCatalog: actualCatalog, remoteError: { code: 'PGRST202', message: 'Function missing' } }); await p.init();
+    assert.equal(p.api().getRegions().length, 12); assert.equal(p.w.document.querySelectorAll('.map-region-outline').length, 12);
+    assert.equal(p.w.document.querySelectorAll('.map-region-choice').length, 12);
+    assert.ok(p.api().getRegions().every(record => record.status === 'indicative' && record.local === false && !record.published));
+    assert.equal(p.api().editor.open(), false); assert.equal(p.w.localStorage.length, 0); p.cleanup();
 });
 await test('all twelve actual proposals use real zone keys and valid original-atlas geometry', () => {
     const p = page(), actualCatalog = JSON.parse(fs.readFileSync(new URL('../assets/map/catalog.json', import.meta.url), 'utf8'));
@@ -147,13 +237,13 @@ await test('accent-free region filtering matches the actual Vallée proposal wit
     assert.equal(unchanged.title, valley.title); assert.equal(unchanged.status, 'indicative'); assert.equal(JSON.stringify(valley), immutable);
     assert.equal(p.w.localStorage.length, 0); p.cleanup();
 });
-function cameraFixture() {
+function cameraFixture({ canEdit = false } = {}) {
     const cameraCatalog = clone(catalog), cameraSeed = clone(seed);
     cameraCatalog.index.push({ key: 'location:1:charlie', kind: 'location', markerType: 'zone', floor: 1, title: 'Charlie' });
     const beta = { ...clone(region), id: 'zone-beta', entityKey: 'location:1:beta', title: 'Zone Beta', vertices: square.map(point => ({ u: point.u + .3, v: point.v })) };
     const charlie = { ...clone(region), id: 'zone-charlie', entityKey: 'location:1:charlie', title: 'Zone Charlie', vertices: square.map(point => ({ u: point.u + .6, v: point.v })) };
     cameraSeed.floors[0].regions.push(beta, charlie);
-    return { p: page({ documentSeed: cameraSeed, nativeCatalog: cameraCatalog }), beta, charlie };
+    return { p: page({ documentSeed: cameraSeed, nativeCatalog: cameraCatalog, canEdit }), beta, charlie };
 }
 await test('selections during an active zoom queue only the newest region camera until zoomend', async () => {
     const { p, charlie } = cameraFixture(); await p.init(); await p.api().select('zone-alpha');
@@ -168,7 +258,7 @@ await test('selections during an active zoom queue only the newest region camera
     p.map.fire('zoomend'); assert.equal(p.calls.fits.length, previousFits + 1, 'a finished queue is not replayed'); p.cleanup();
 });
 await test('stale selection, floor changes, editor opening and abort cancel queued region cameras', async () => {
-    const { p } = cameraFixture(); await p.init(); await p.api().select('zone-alpha');
+    const { p } = cameraFixture({ canEdit: true }); await p.init(); await p.api().select('zone-alpha');
     let fitCount = p.calls.fits.length;
     p.map.fire('zoomstart'); await p.api().select('zone-beta'); p.emit('selection', p.entities['location:1:alpha']); p.map.fire('zoomend');
     assert.equal(p.calls.fits.length, fitCount, 'a native selection supersedes the old queued region');
@@ -212,8 +302,9 @@ await test('exact shared views replace queued region fits and are cancelled by U
 });
 await test('coordinate conversion preserves original atlas bounds and overlay selection fits geometry', async () => {
     const p = page({ reduced: true }), boundsBefore = JSON.stringify(p.bridge.catalog.floors); await p.init();
-    assert.equal(p.calls.polygons.length, 1); assert.equal(p.calls.polygons[0].options.pane, 'nameless-regions');
-    assert.deepEqual(p.calls.polygons[0].coord[0], [4540.9, 580.1]);
+    assert.equal(p.w.document.querySelectorAll('.map-region-outline').length, 1, 'Refreshing published data leaves one active outline');
+    const currentPolygon = p.calls.polygons.at(-1); assert.equal(currentPolygon.options.pane, 'nameless-regions');
+    assert.deepEqual(currentPolygon.coord[0], [4540.9, 580.1]);
     assert.equal(p.map.getPane('nameless-regions').style.zIndex, '450');
     await p.api().select('zone-alpha');
     assert.deepEqual(p.calls.selections, ['location:1:alpha']); assert.equal(p.calls.fits.at(-1).options.animate, false);
@@ -237,7 +328,7 @@ await test('the native checkbox stays synchronized across marker refreshes, lang
     toggle.click(); assert.equal(toggle.checked, true); assert.equal(p.w.document.querySelectorAll('.map-region-outline').length, 1); p.cleanup();
 });
 await test('delayed or failed floor changes cannot reopen or save a previous-atlas draft', async () => {
-    const p = page(); await p.init(); p.api().editor.open(); p.api().editor.save();
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open(); p.api().editor.save();
     const stored = p.w.localStorage.getItem(p.w.NamelessMapRegions.STORAGE_KEY);
     p.beginFloor(2);
     assert.equal(p.api().editor.open('zone-alpha'), false); assert.equal(p.api().editor.save(), false);
@@ -252,14 +343,14 @@ await test('delayed or failed floor changes cannot reopen or save a previous-atl
     await p.floor(1); assert.equal(p.api().getRegions()[0].local, true); p.cleanup();
 });
 await test('an unexpected bridge floor mismatch independently blocks contour save and export', async () => {
-    const p = page(); await p.init(); p.api().editor.open(); const before = clone(p.api().editor.getDraft());
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open(); const before = clone(p.api().editor.getDraft());
     p.mismatchedFloor(2); assert.equal(p.api().editor.save(), false); assert.equal(p.api().editor.open(), false);
     assert.equal(p.api().editor.importDocument(seed), false); assert.throws(() => p.api().editor.exportDocument(), /atlas_identity/);
     assert.equal(p.api().editor.undo(), false); assert.deepEqual(clone(p.api().editor.getDraft()), before);
     assert.equal(p.w.localStorage.length, 0); p.cleanup();
 });
 await test('drawing, geometric error reporting, undo, redo and three-vertex deletion work through real controls', async () => {
-    const p = page(); await p.init(); p.api().editor.open('zone-alpha'); p.button('clear').click();
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open('zone-alpha'); p.button('clear').click();
     for (const point of [{ u: .1, v: .1 }, { u: .3, v: .3 }, { u: .3, v: .1 }, { u: .1, v: .3 }]) p.click(point);
     p.button('finish').click(); assert.match(p.w.document.querySelector('.map-region-message').textContent, /se croise/);
     p.button('clear').click(); square.forEach(point => p.click(point)); p.button('finish').click();
@@ -275,7 +366,7 @@ await test('drawing, geometric error reporting, undo, redo and three-vertex dele
     assert.equal(p.api().editor.getDraft().vertices.length, 3); p.cleanup();
 });
 await test('opening a contour fits above the mobile sheet without moving the map on vertex edits', async () => {
-    const p = page({ reduced: true }); await p.init();
+    const p = page({ reduced: true, canEdit: true }); await p.init();
     Object.defineProperty(p.w, 'innerWidth', { value: 390, configurable: true });
     p.w.document.getElementById('map-regions-editor').getBoundingClientRect = () => ({ height: 330 });
     p.api().editor.open('zone-alpha');
@@ -289,7 +380,7 @@ await test('opening a contour fits above the mobile sheet without moving the map
     assert.deepEqual(clone(p.calls.fits.at(-1).options.paddingBottomRight), [20, 20]); p.cleanup();
 });
 await test('save is explicit, browser-only, restores on reload and resets to the original proposal', async () => {
-    const p = page(); await p.init(); p.api().editor.open('zone-alpha');
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open('zone-alpha');
     p.w.document.querySelector('.map-region-vertex').dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     assert.equal(p.w.localStorage.getItem(p.w.NamelessMapRegions.STORAGE_KEY), null);
     assert.equal(p.api().editor.save(), true);
@@ -297,12 +388,25 @@ await test('save is explicit, browser-only, restores on reload and resets to the
     assert.equal(stored.floors[0].regions[0].vertices[0].u, .101);
     assert.equal(p.api().getRegions()[0].local, true); assert.match(p.w.document.querySelector('.map-region-message').textContent, /ce navigateur uniquement/);
     const exported = clone(p.api().editor.exportDocument()); assert.equal(exported.floors[0].regions[0].local, undefined); assert.equal(exported.floors[0].regions[0].status, 'indicative');
-    p.cleanup(); const restored = page({ stored }); await restored.init();
+    p.cleanup(); const restored = page({ stored, canEdit: true }); await restored.init();
     assert.equal(restored.api().getRegions()[0].vertices[0].u, .101); restored.api().editor.open('zone-alpha'); assert.equal(restored.api().editor.reset(), true);
     assert.equal(restored.api().getRegions()[0].vertices[0].u, .1); assert.equal(restored.api().getRegions()[0].local, false); restored.cleanup();
 });
+await test('administrator saves retain the publication revision through local storage, export and restored drafts', async () => {
+    const p = page({ canEdit: true, regionRevision: 7 }); await p.init(); assert.equal(p.api().editor.open('zone-alpha'), true);
+    p.w.document.querySelector('.map-region-vertex').dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    assert.equal(p.api().editor.save(), true);
+    const stored = JSON.parse(p.w.localStorage.getItem(p.w.NamelessMapRegions.STORAGE_KEY));
+    assert.equal(stored.floors[0].regions[0].baseRevision, 7);
+    assert.equal(p.api().editor.exportDocument().floors[0].regions[0].baseRevision, 7);
+    p.cleanup();
+    const restored = page({ canEdit: true, stored }); await restored.init();
+    assert.equal(restored.api().getRegions()[0].baseRevision, 7); assert.equal(restored.api().getRegions()[0].vertices[0].u, .101);
+    assert.equal(restored.api().editor.open('zone-alpha'), true); assert.equal(restored.api().editor.getDraft().baseRevision, 7);
+    restored.cleanup();
+});
 await test('imports are staged, safe text remains literal, invalid input is atomic and replacing entity does not duplicate', async () => {
-    const p = page(); await p.init(); p.api().editor.open(); const imported = clone(seed);
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open(); const imported = clone(seed);
     imported.floors[0].regions[0].id = 'custom-alias'; imported.floors[0].regions[0].title = '<img src=x onerror=alert(1)>'; imported.floors[0].regions[0].vertices[0].u = .09;
     assert.equal(p.api().editor.importDocument(imported), true); assert.equal(p.w.localStorage.length, 0);
     assert.equal(p.w.document.querySelector('#map-regions-editor img'), null); assert.equal(p.w.document.querySelector('.map-region-name').value, '<img src=x onerror=alert(1)>');
@@ -312,7 +416,7 @@ await test('imports are staged, safe text remains literal, invalid input is atom
     p.cleanup();
 });
 await test('floor changes cancel handles and pending imports while keeping saved local contours', async () => {
-    const p = page(); await p.init(); p.api().editor.open(); p.api().editor.save();
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open(); p.api().editor.save();
     const pending = deferred(), input = p.w.document.querySelector('.map-region-file');
     Object.defineProperty(input, 'files', { value: [{ size: 20, text: () => pending.promise }] }); input.dispatchEvent(new p.w.Event('change'));
     await p.floor(2); assert.equal(p.w.document.querySelectorAll('.map-region-vertex').length, 0); assert.equal(p.w.document.getElementById('map-regions-editor').hidden, true);
@@ -320,7 +424,7 @@ await test('floor changes cancel handles and pending imports while keeping saved
     await p.floor(1); assert.equal(p.api().getRegions()[0].local, true); assert.equal(p.calls.editor.at(-1), false); p.cleanup();
 });
 await test('reopening and language changes do not stack controls, and Escape restores opener focus', async () => {
-    const p = page(); await p.init(); const open = p.w.document.getElementById('map-regions-tools'); open.focus(); open.click();
+    const p = page({ canEdit: true }); await p.init(); const open = p.w.document.getElementById('map-regions-tools'); open.focus(); open.click();
     p.button('close').click(); assert.equal(p.w.document.activeElement, open); open.click(); p.language('en');
     assert.equal(p.w.document.querySelector('.map-region-name').value, 'Zone Alpha'); assert.equal(p.button('save').textContent, 'Save locally');
     p.button('clear').click(); square.forEach(point => p.click(point)); const before = p.api().editor.getDraft().vertices.length;
@@ -329,7 +433,7 @@ await test('reopening and language changes do not stack controls, and Escape res
     assert.equal(p.w.document.getElementById('map-regions-editor').hidden, true); assert.equal(p.w.document.activeElement, open); p.cleanup();
 });
 await test('legend and modal dialog shortcuts preserve the underlying unsaved editor draft', async () => {
-    const p = page(); await p.init(); p.api().editor.open(); p.button('clear').click(); square.forEach(point => p.click(point));
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open(); p.button('clear').click(); square.forEach(point => p.click(point));
     const before = clone(p.api().editor.getDraft()), legend = p.w.document.createElement('dialog');
     legend.id = 'map-legend'; legend.setAttribute('open', ''); const close = p.w.document.createElement('button'); close.textContent = 'Fermer'; legend.append(close); p.w.document.body.append(legend); close.focus();
     close.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
@@ -349,11 +453,11 @@ await test('stale fetch and aborted bridge cannot leave overlays or listeners be
     const wait = deferred(), p = page({ wait }), ready = p.init(); p.controller.abort(); wait.resolve(); await ready;
     assert.equal(p.api(), null); assert.equal(p.calls.polygons.length, 0); assert.equal(p.map.handlers.get('click')?.size || 0, 0);
     assert.equal(p.map.layers.size, 0); p.cleanup();
-    const unavailable = page({ fetchError: true }); await unavailable.init(); assert.equal(unavailable.api().editor.open(), true); assert.equal(unavailable.api().getRegions().length, 0); unavailable.cleanup();
+    const unavailable = page({ fetchError: true, canEdit: true }); await unavailable.init(); assert.equal(unavailable.api().editor.open(), true); assert.equal(unavailable.api().getRegions().length, 0); unavailable.cleanup();
 });
 await test('undo histories isolate snapshots and discard redo after a new edit', () => {
     const p = page(), initial = { vertices: square }, history = p.w.NamelessMapRegions.createHistory(initial); initial.vertices[0].u = .9;
     assert.equal(history.undo().vertices[0].u, .1); history.push({ vertices: [{ u: .4, v: .4 }] }); history.undo(); assert.equal(history.canRedo, true);
     history.push({ vertices: [{ u: .5, v: .5 }] }); assert.equal(history.canRedo, false); p.cleanup();
 });
-console.log(passed + ' map region validation, local editor and lifecycle regressions passed.');
+console.log(passed + ' map region validation, public access, administrator draft and lifecycle regressions passed.');

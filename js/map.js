@@ -4,7 +4,6 @@
     const FLOOR_CACHE = new Map();
     let catalogPromise = null;
     let active = null;
-    let adminScriptPromise = null;
     let lastGoodOverrides = null;
     const TYPE_LABELS = {
         town: ['Villes', 'Towns'], dungeon: ['Donjons', 'Dungeons'], zone: ['Zones', 'Zones'],
@@ -167,6 +166,12 @@
         if (!state.rawData) return;
         const entities = Object.fromEntries(Object.entries(state.rawData.entities || {}).map(([key, entity]) => [key, { ...entity }]));
         const points = new Set(state.rawData.points || []);
+        for (const record of state.customRecords || []) {
+            if (Number(record.floor) !== state.floor) continue;
+            const entity = customEntity(record);
+            if (!entity) continue;
+            entities[entity.key] = entity; points.add(entity.key);
+        }
         if (state.overridesStatus === 'pending' || (state.overridesStatus === 'error' && !lastGoodOverrides)) {
             for (const entity of Object.values(entities)) { entity.position = null; entity.positionRef = null; entity.overrideState = 'unavailable'; }
             state.data = { ...state.rawData, entities, points: [] }; return;
@@ -184,6 +189,14 @@
             entity.overrideState = 'visible'; entity.overrideId = record.id; points.add(key);
         }
         state.data = { ...state.rawData, entities, points: [...points] };
+    }
+    function customEntity(record) {
+        if (!record || !/^custom:[a-f0-9-]{36}$/.test(record.entity_key || '') || record.state !== 'visible'
+            || !Object.hasOwn(TYPE_LABELS, record.marker_type) || typeof record.title !== 'string' || record.title.length > 160
+            || !finite(record.u, 1) || !finite(record.v, 1) || record.u < 0 || record.v < 0) return null;
+        return { key: record.entity_key, id: record.entity_key, floor: Number(record.floor), kind: 'location',
+            title: record.title, description: String(record.description || '').slice(0, 2048), markerType: record.marker_type,
+            position: { u: record.u, v: record.v, source: 'administrator' }, custom: true };
     }
     function renderFilters(state) {
         state.ui.filters.classList.toggle('is-ready', !!state.data && state.overridesStatus !== 'pending');
@@ -305,7 +318,6 @@
         state.personalRegion = null;
         state.selected = null; state.pendingSelection = null; state.choiceKeys = null; state.ui.panel.hidden = true; state.ui.panel.classList.remove('is-expanded'); state.ui.expand.setAttribute('aria-expanded', 'false'); state.ui.workspace.classList.remove('has-selection');
         renderMarkers(state); state.map.invalidateSize?.({ pan: false });
-        renderPlaces(state);
         if (update) updateUrl(state, null);
         emit(state, 'selection', null);
         if (restoreFocus) state.ui.map.focus({ preventScroll: true });
@@ -349,21 +361,6 @@
         preview.style.backgroundPosition = Math.max(0, Math.min(100, position.u * 100)) + '% ' + Math.max(0, Math.min(100, position.v * 100)) + '%';
         preview.setAttribute('role', 'img'); preview.setAttribute('aria-label', text('Extrait de la carte : ', 'Map excerpt: ') + label(entity));
         preview.append(node('span', '', text('Extrait de carte', 'Map excerpt'))); return preview;
-    }
-    function renderPlaces(state) {
-        if (!state.ui.places || !state.ui.placesList) return;
-        const places = Object.values(state.data?.entities || {}).filter(entity => entity.kind === 'location' && targetPosition(state, entity).position && !['hidden', 'deleted'].includes(entity.overrideState));
-        state.ui.places.hidden = !places.length; state.ui.placesList.replaceChildren();
-        state.ui.placesTitle.textContent = text('Lieux d’intérêt du Palier ', 'Places of interest on Floor ') + String(state.floor).padStart(2, '0');
-        if (!places.length) return;
-        const featured = [...places.filter(entity => entity.markerType === 'town').slice(0, 2), ...places.filter(entity => entity.markerType !== 'town')];
-        for (const entity of (state.showAllPlaces ? places : featured.slice(0, 5))) {
-            const card = node('button', 'map-place-card' + (entity.key === state.selected ? ' is-selected' : '')); card.type = 'button'; card.dataset.entityKey = entity.key;
-            const preview = locationPreview(state, entity); if (preview) card.append(preview);
-            card.append(node('strong', '', label(entity)), node('small', '', typeLabel(entity.markerType)));
-            listen(state, card, 'click', () => selectEntity(state, entity.key)); state.ui.placesList.append(card);
-        }
-        if (state.ui.placesToggle) { state.ui.placesToggle.hidden = places.length <= 5; state.ui.placesToggle.textContent = state.showAllPlaces ? text('Réduire', 'Show fewer') : text('Voir tous les lieux', 'Show all places'); state.ui.placesToggle.setAttribute('aria-expanded', String(!!state.showAllPlaces)); }
     }
     function panelTabs(state, panes) {
         const tabs = node('div', 'map-panel-tabs'); tabs.setAttribute('role', 'tablist'); tabs.setAttribute('aria-label', text('Informations du lieu', 'Place information'));
@@ -409,7 +406,7 @@
         if (entity.description) overview.append(node('p', '', english() && entity.descriptionEn ? entity.descriptionEn : global.NamelessI18n?.translate?.(entity.description) || entity.description));
         const outline = global.NamelessMapRegions?.active?.findByEntity(entity.key);
         if (outline) {
-            overview.append(node('p', 'map-region-position-note', text('Contour indicatif : limites proposées, à valider en jeu.', 'Indicative outline: proposed boundaries to review in game.')));
+            overview.append(node('p', 'map-region-position-note', outline.status === 'verified' ? text('Limites vérifiées par les administrateurs.', 'Boundaries verified by administrators.') : text('Contour indicatif : limites proposées, à valider en jeu.', 'Indicative outline: proposed boundaries to review in game.')));
             if (outline.wikiUrl) { const guide = node('a', 'map-page-link', text('Lire le guide lié', 'Read the linked guide')); guide.href = outline.wikiUrl; overview.append(guide); }
         }
         const target = targetPosition(state, entity);
@@ -491,7 +488,7 @@
         else if (state.overridesStatus !== 'error') notice(state, '');
         try {
             const data = await floorData(config); if (!valid(state) || generation !== state.floorGeneration) return false;
-            state.rawData = data; applyOverrides(state); renderFilters(state); renderMarkers(state); renderPlaces(state); state.ui.map.setAttribute('aria-busy', 'false'); if (state.overview?.getElement?.()?.complete) animateFloor(state);
+            state.rawData = data; applyOverrides(state); renderFilters(state); renderMarkers(state); state.ui.map.setAttribute('aria-busy', 'false'); if (state.overview?.getElement?.()?.complete) animateFloor(state);
             emit(state, 'floor', { floor: state.floor, data: state.data }); return true;
         } catch (_) {
             if (valid(state) && generation === state.floorGeneration) { state.ui.map.setAttribute('aria-busy', 'false'); notice(state, text('Les repères de ce palier ne peuvent pas être chargés.', 'Markers for this floor could not be loaded.')); }
@@ -508,7 +505,7 @@
         if (!valid(state) || intent !== state.intent || state.floor !== targetFloor) return false;
         const entity = state.data.entities[key];
         if (!entity) { notice(state, text('La fiche de ce repère n’est pas disponible sur ce palier.', 'This marker entry is not available on this floor.')); return false; }
-        state.selected = key; hideSearch(state); state.filtersOpen = false; syncFilterDrawer(state); renderMarkers(state); renderPanel(state, entity); renderPlaces(state);
+        state.selected = key; hideSearch(state); state.filtersOpen = false; syncFilterDrawer(state); renderMarkers(state); renderPanel(state, entity);
         const target = targetPosition(state, entity);
         const region = global.NamelessMapRegions?.active?.findByEntity(key);
         const regionVisible = region && ['ready','archive'].includes(state.overridesStatus) && !['hidden','deleted','unavailable'].includes(entity.overrideState);
@@ -524,9 +521,9 @@
         state.ui.content.replaceChildren(node('span', 'map-kind', text('Zone personnelle', 'Personal zone')), node('h2', '', label(region)),
             node('p', '', text('Contour indicatif conservé sur cet appareil.', 'Indicative outline kept on this device.')),
             node('p', '', text('Exporte le fichier JSON pour partager ce contour. La vue de la carte peut être partagée séparément.', 'Export the JSON file to share this outline. The map view can be shared separately.')));
-        const edit = node('button', 'map-page-link', text('Modifier le contour', 'Edit outline')); edit.type = 'button';
+        const edit = node('button', 'map-page-link', text('Modifier le contour', 'Edit outline')); edit.type = 'button'; edit.hidden = !state.bridge.canEditRegions();
         listen(state, edit, 'click', () => global.NamelessMapRegions?.active?.editor.open(region.id)); state.ui.content.append(edit);
-        showPanel(state); renderMarkers(state); renderPlaces(state);
+        showPanel(state); renderMarkers(state);
         if (options.url !== false) updateUrl(state, null);
     }
     function findAlias(state, params) {
@@ -587,9 +584,15 @@
         const generation = ++state.overrideGeneration; const db = client();
         if (!db) { state.overridesStatus = 'archive'; state.overrides = []; applyOverrides(state); renderFilters(state); renderMarkers(state); return { status: 'archive', records: [] }; }
         try {
-            const response = await db.rpc('read_map_marker_overrides');
+            const [response, customResponse] = await Promise.all([db.rpc('read_map_marker_overrides'), db.rpc('read_map_custom_markers')]);
             if (!valid(state) || generation !== state.overrideGeneration) return { status: 'stale' };
             if (response.error) throw response.error;
+            if (customResponse.error && customResponse.error.code !== 'PGRST202') throw customResponse.error;
+            state.customRecords = (Array.isArray(customResponse.data) ? customResponse.data : []).filter(record => {
+                const floor = configOf(state, record.floor);
+                return customEntity(record) && floor && record.image_id === (floor.originalImage || floor.image);
+            });
+            state.catalog.index = state.catalog.index.filter(entity => !entity.custom).concat(state.customRecords.map(customEntity));
             const records = Array.isArray(response.data) ? response.data : response.data?.records || [];
             if (state.overridesStatus === 'error' && state.floor !== 3) notice(state, '');
             state.overridesStatus = 'ready'; state.overrides = records; lastGoodOverrides = records;
@@ -601,7 +604,7 @@
             state.overridesStatus = missing ? 'archive' : 'error'; state.overrides = missing ? [] : lastGoodOverrides || [];
             if (!missing) notice(state, text('Les modifications de repères sont indisponibles. Réessayez dans quelques instants.', 'Marker updates are unavailable. Please try again shortly.'));
         }
-        applyOverrides(state); renderFilters(state); renderMarkers(state); renderPlaces(state);
+        applyOverrides(state); renderFilters(state); renderMarkers(state);
         if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
         if (state.pendingSelection && state.pendingSelection.intent === state.intent && state.pendingSelection.key === state.selected) {
             const target = targetPosition(state, state.data?.entities[state.selected]);
@@ -613,24 +616,15 @@
     }
     async function adminCheck(state) {
         const generation = ++state.authGeneration; const db = client();
-        global.NamelessMapAdmin?.destroy?.(); state.bridge?.setEditorMode(false);
-        if (state.ui.admin) { state.ui.admin.hidden = true; state.ui.admin.open = false; }
+        const entry = state.root.querySelector('#map-admin-entry');
+        if (entry) { entry.hidden = true; entry.textContent = text('Administrer la carte', 'Manage map'); }
         if (!db?.auth?.getUser) return;
         try {
             const user = await db.auth.getUser(); if (!valid(state) || generation !== state.authGeneration || user.error || !user.data?.user) return;
             const role = await db.rpc('current_user_role'); if (!valid(state) || generation !== state.authGeneration || role.error || role.data !== 'admin') return;
-            if (!global.NamelessMapAdmin) {
-                if (!adminScriptPromise) adminScriptPromise = new Promise((resolve, reject) => {
-                    const existing = document.querySelector('script[data-map-admin]');
-                    if (existing) { existing.addEventListener('load', resolve, { once: true }); existing.addEventListener('error', reject, { once: true }); return; }
-                    const script = node('script'); script.src = '/js/map-admin.js?v=20261010regions'; script.dataset.mapAdmin = 'true'; script.onload = resolve; script.onerror = () => { script.remove(); adminScriptPromise = null; reject(new Error('admin module')); }; document.head.append(script);
-                });
-                await adminScriptPromise;
-            }
             if (!valid(state) || generation !== state.authGeneration) return;
-            if (state.ui.admin) state.ui.admin.hidden = false;
-            await global.NamelessMapAdmin?.init?.(state.bridge);
-        } catch (_) { if (valid(state) && generation === state.authGeneration) notice(state, text('L’éditeur de carte ne peut pas être chargé.', 'The map editor could not be loaded.')); }
+            if (entry) entry.hidden = false;
+        } catch (_) { /* Public atlas remains available when account verification fails. */ }
     }
     function setEditorMode(state, enabled) {
         if (enabled && state.regionEditorMode) global.NamelessMapRegions?.active?.editor.close();
@@ -641,7 +635,7 @@
         state.regionEditorMode = !!enabled;
         if (enabled) { global.NamelessMapAdmin?.suspend?.(); setEditorMode(state, false); }
         state.ui.workspace.classList.toggle('is-region-editing', state.regionEditorMode);
-        if (enabled && global.innerWidth <= 768) global.requestAnimationFrame(() => {
+        if (enabled && global.innerWidth <= 768 && !state.root.classList.contains('map-admin-workspace')) global.requestAnimationFrame(() => {
             if (valid(state) && state.regionEditorMode) state.ui.workspace.scrollIntoView({block:'start', behavior:reducedMotion() ? 'auto' : 'smooth'});
         });
         state.map.invalidateSize?.({ pan: false });
@@ -658,9 +652,11 @@
         controlLabel(state.ui.fullscreen, enabled ? text('Quitter le plein écran', 'Exit fullscreen') : text('Plein écran', 'Fullscreen'), 'fullscreen'); state.map.invalidateSize?.({ pan: false });
     }
     function translateUi(state) {
-        const pageTitle = state.root.querySelector('.map-title'); if (pageTitle) pageTitle.textContent = text('Carte d’Aincrad', 'Aincrad map');
-        const subtitle = state.root.querySelector('.map-subtitle'); if (subtitle) subtitle.textContent = text('Explorez les paliers, découvrez les lieux et retrouvez les créatures, objets et donjons.', 'Explore the floors, discover places and find creatures, items and dungeons.');
-        const breadcrumb = state.root.querySelector('.map-breadcrumb'); if (breadcrumb) { const home = node('a', '', text('Accueil', 'Home')); home.href = '/'; breadcrumb.replaceChildren(home, node('span', '', '›'), document.createTextNode(text('Carte', 'Map'))); }
+        if (!state.root.classList.contains('map-admin-workspace')) {
+            const pageTitle = state.root.querySelector('.map-title'); if (pageTitle) pageTitle.textContent = text('Carte d’Aincrad', 'Aincrad map');
+            const subtitle = state.root.querySelector('.map-subtitle'); if (subtitle) subtitle.textContent = text('Parcourez les paliers et sélectionnez une zone pour découvrir son territoire.', 'Explore the floors and select a region to discover its territory.');
+            const breadcrumb = state.root.querySelector('.map-breadcrumb'); if (breadcrumb) { const home = node('a', '', text('Accueil', 'Home')); home.href = '/'; breadcrumb.replaceChildren(home, node('span', '', '›'), document.createTextNode(text('Carte', 'Map'))); }
+        }
         controlLabel(state.ui.recenter, text('Recentrer', 'Recenter'), 'recenter'); controlLabel(state.ui.share, text('Partager', 'Share'), 'share'); state.ui.close.textContent = text('Fermer', 'Close');
         state.ui.search.placeholder = text('Quête, PNJ, créature, lieu…', 'Quest, NPC, creature, place…'); state.ui.search.setAttribute('aria-label', text('Rechercher dans tous les paliers', 'Search all floors'));
         state.ui.expand.textContent = state.ui.panel.classList.contains('is-expanded') ? text('Voir moins', 'Show less') : text('Voir plus', 'Show more');
@@ -680,7 +676,7 @@
         if (state.ui.legendClose) state.ui.legendClose.setAttribute('aria-label', text('Fermer la légende', 'Close legend'));
         if (state.ui.placesDescription) state.ui.placesDescription.textContent = text('Découvrez les lieux connus de ce palier et préparez votre exploration.', 'Discover the documented places on this floor and plan your exploration.');
         for (const option of state.ui.floor.options) option.textContent = text('Palier ', 'Floor ') + option.value;
-        syncFloorControls(state); syncFilterDrawer(state); syncFullscreen(state); renderFilters(state); renderMarkers(state); renderSearch(state); renderPlaces(state);
+        syncFloorControls(state); syncFilterDrawer(state); syncFullscreen(state); renderFilters(state); renderMarkers(state); renderSearch(state);
         if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
         else if (state.choiceKeys) showChoices(state, state.choiceKeys.map(key => state.data.entities[key]).filter(Boolean));
         else if (state.personalRegion) showPersonalRegion(state, state.personalRegion, {url:false});
@@ -708,7 +704,6 @@
         listen(state, ui.filterReset, 'click', () => { for (const type of state.filters.keys()) state.filters.set(type, !type.startsWith('quest-')); if (ui.displayMarkers) ui.displayMarkers.checked = true; if (ui.displayNames) ui.displayNames.checked = true; state.root.classList.remove('map-hide-markers', 'map-hide-names'); renderFilters(state); renderMarkers(state); });
         listen(state, ui.displayMarkers, 'change', () => state.root.classList.toggle('map-hide-markers', !ui.displayMarkers.checked));
         listen(state, ui.displayNames, 'change', () => state.root.classList.toggle('map-hide-names', !ui.displayNames.checked));
-        listen(state, ui.placesToggle, 'click', () => { state.showAllPlaces = !state.showAllPlaces; renderPlaces(state); });
         listen(state, ui.legendOpen, 'click', () => {
             if (!ui.legend || !ui.legendContent) return; ui.legendContent.replaceChildren();
             const types = [...new Set((state.data?.points || []).map(key => state.data.entities[key]?.markerType).filter(type => Object.hasOwn(GLYPHS, type)))];
@@ -749,14 +744,14 @@
         updateUrlForFloor(state, id); await changeFloor(state, id);
     }
     function updateUrlForFloor(state, id) { const previous = state.floor; state.floor = id; updateUrl(state, null); state.floor = previous; }
-    async function init(root) {
+    async function init(root, options = {}) {
         const container = (root?.querySelector ? root : document).querySelector('#game-map') || (root?.id === 'game-map' ? root : null);
         if (!container || !global.L) return null;
         if (active?.ui.map === container && valid(active)) return active.ready;
         destroy();
         const main = container.closest('main') || root || document;
         const query = id => main.querySelector('#' + id);
-        const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), floorTitle: query('map-floor-title'), floorButtons: query('map-floor-buttons'), previous: query('map-floor-previous'), next: query('map-floor-next'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), filterRail: query('map-filter-rail'), filterToggle: query('map-filters-toggle'), filterReset: query('map-filters-reset'), filterEmpty: query('map-filters-empty'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), admin: query('map-admin-tools'), displayMarkers: query('map-display-markers'), displayNames: query('map-display-names'), legend: query('map-legend'), legendOpen: query('map-legend-open'), legendClose: query('map-legend-close'), legendTitle: query('map-legend-title'), legendContent: query('map-legend-content'), places: query('map-places'), placesList: query('map-places-list'), placesTitle: query('map-places-title'), placesToggle: query('map-places-toggle'), placesDescription: query('map-places-description') },
+        const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), floorTitle: query('map-floor-title'), floorButtons: query('map-floor-buttons'), previous: query('map-floor-previous'), next: query('map-floor-next'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), filterRail: query('map-filter-rail'), filterToggle: query('map-filters-toggle'), filterReset: query('map-filters-reset'), filterEmpty: query('map-filters-empty'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), displayMarkers: query('map-display-markers'), displayNames: query('map-display-names'), legend: query('map-legend'), legendOpen: query('map-legend-open'), legendClose: query('map-legend-close'), legendTitle: query('map-legend-title'), legendContent: query('map-legend-content') },
             root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), filtersOpen: false, markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', overridesDiagnostic: null, editorMode: false, regionEditorMode: false, events: new Map(), lastRoute: null };
         active = state;
         state.map = global.L.map(container, { crs: global.L.CRS.Simple, minZoom: -5, maxZoom: 3, zoom: -3, center: [2560, 2560], zoomControl: true, attributionControl: false, keyboard: true, zoomSnap: .25, zoomDelta: .5, maxBoundsViscosity: .5 });
@@ -765,6 +760,10 @@
         state.map.on('zoomend', () => { state.viewportZooming = false; });
         state.markerLayer = global.L.layerGroup().addTo(state.map);
         state.bridge = { map: state.map, root: main, signal: state.controller.signal, catalog: null,
+            canEditRegions: () => options.canEdit?.() === true,
+            getRegionDraftKey: () => options.regionDraftKey?.() || global.NamelessMapRegions?.STORAGE_KEY,
+            getRegionRevision: key => options.regionRevision?.(key),
+            closeSelection: () => closePanel(state, false), chooseFloor: id => chooseFloor(state, Number(id)),
             getFloor: () => state.floor, getData: () => state.data, getSelection: () => state.selected, getOverridesStatus: () => state.overridesStatus, getOverridesDiagnostic: () => state.overridesDiagnostic,
             selectEntity: (key, options) => selectEntity(state, key, options), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
             showRegion: region => showPersonalRegion(state, region),
@@ -772,13 +771,19 @@
             isViewportZooming: () => state.viewportZooming,
             getLatLng: value => value && finite(value.u, 1) && finite(value.v, 1) && value.u >= 0 && value.v >= 0 ? latlng(state, value) : null,
             on: (event, fn) => { if (!state.events.has(event)) state.events.set(event, new Set()); state.events.get(event).add(fn); return () => state.events.get(event)?.delete(fn); } };
+        if (global.innerWidth <= 700 && !main.classList.contains('map-admin-workspace')) {
+            state.ui.displayNames.checked = false; main.classList.add('map-hide-names');
+        }
         api.active = state.bridge; wire(state); translateUi(state);
         state.ready = (async () => {
             try {
                 const catalog = await getCatalog(); if (!valid(state)) return null;
-                state.catalog = catalog; state.bridge.catalog = catalog; renderFloorControls(state);
+                state.catalog = JSON.parse(JSON.stringify(catalog)); state.bridge.catalog = state.catalog; renderFloorControls(state);
                 await Promise.all([applyRoute(state, true), reloadOverrides(state)]); if (!valid(state)) return null;
-                if (!state.selected) { const place = Object.values(state.data?.entities || {}).find(entity => entity.kind === 'location' && targetPosition(state, entity).position); if (place) await selectEntity(state, place.key, { center: false, url: false }); }
+                const requestedCustom = new URL(global.location.href).searchParams.get('entity');
+                if (requestedCustom?.startsWith('custom:') && state.catalog.index.some(entity => entity.key === requestedCustom)) {
+                    await applyRoute(state, true); if (!valid(state)) return null;
+                }
                 await global.NamelessMapRegions?.init?.(state.bridge); if (!valid(state)) return null;
                 if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
                 if (state.selected && !state.explicitCamera) global.NamelessMapRegions?.active?.focusByEntity(state.selected);
@@ -799,6 +804,6 @@
         state.map.remove(); state.map.off?.(); state.events.clear();
     }
     const api = global.NamelessMapPage = { init, destroy, active: null };
-    function autoStart() { if (!global.NamelessSpaRouter?.controlsLifecycle) init(); }
+    function autoStart() { if (!global.NamelessSpaRouter?.controlsLifecycle && !document.querySelector('.map-admin-workspace')) init(); }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autoStart, { once: true }); else autoStart();
 })(window);

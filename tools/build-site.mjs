@@ -55,8 +55,8 @@ const bossPages = buildBossPages({root, output, mapGraph});
 fs.writeFileSync(path.join(output,'assets/search-index.json'), JSON.stringify(index));
 // Keep the committed preview index aligned with the same source of truth.
 fs.writeFileSync(path.join(root,'assets/search-index.json'), JSON.stringify(index));
-const publicRoutes = routes.filter(r => !['connexion','profil','espace-guilde','admin-dashboard','confidentialite','conditions','quetes'].includes(r.id));
+const publicRoutes = routes.filter(r => !['connexion','profil','espace-guilde','admin-dashboard','admin-carte','confidentialite','conditions','quetes'].includes(r.id));
 const urls = publicRoutes.concat(bossPages).map(r => '  <url><loc>https://nameless-sao.fr' + (r.path === '/' ? '/' : r.path) + '</loc></url>').join('\n');
 fs.writeFileSync(path.join(output,'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'\n</urlset>\n');
-fs.writeFileSync(path.join(output,'robots.txt'), 'User-agent: *\nAllow: /\nDisallow: /profil\nDisallow: /espace-guilde\nDisallow: /admin-dashboard\nDisallow: /pages/profil.html\nDisallow: /pages/espace-guilde.html\nDisallow: /pages/admin-dashboard.html\nSitemap: https://nameless-sao.fr/sitemap.xml\n');
+fs.writeFileSync(path.join(output,'robots.txt'), 'User-agent: *\nAllow: /\nDisallow: /profil\nDisallow: /espace-guilde\nDisallow: /admin-dashboard\nDisallow: /admin-carte\nDisallow: /pages/profil.html\nDisallow: /pages/espace-guilde.html\nDisallow: /pages/admin-dashboard.html\nDisallow: /pages/admin-carte.html\nSitemap: https://nameless-sao.fr/sitemap.xml\n');
 console.log('Built ' + routes.length + ' routes, ' + bossPages.length + ' boss pages with HTTP 200 documents, ' + index.entries.length + ' search entries.');

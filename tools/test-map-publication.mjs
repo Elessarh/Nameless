@@ -47,7 +47,10 @@ try {
       if(url.pathname==='/assets/map/catalog.json')data=graph.catalog;
       else {const match=/^\/assets\/map\/floor-([123])\.json$/.exec(url.pathname);assert.ok(match,'Map only requests the graph catalogue and selected floor');data=graph.floors[match[1]];}
       return {ok:true,json:async()=>JSON.parse(JSON.stringify(data))};};
-    w.supabase={rpc:async name=>{assert.equal(name,'read_map_marker_overrides');return {data:await visitor(),error:null};}};
+    w.supabase={rpc:async name=>{
+      if(name==='read_map_custom_markers')return {data:null,error:{code:'PGRST202',message:'Custom marker reader is not installed in migration 006'}};
+      assert.equal(name,'read_map_marker_overrides');return {data:await visitor(),error:null};
+    }};
     const container=w.document.getElementById('game-map');
     Object.defineProperties(container,{clientWidth:{value:900},clientHeight:{value:600}});
     container.getBoundingClientRect=()=>({top:0,left:0,bottom:600,right:900,width:900,height:600});
