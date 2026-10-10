@@ -6,6 +6,7 @@
     let active = null;
     const copy = value => JSON.parse(JSON.stringify(value));
     const english = () => global.NamelessI18n?.getLanguage?.() === 'en';
+    const normalizeFilter = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
     const text = (fr, en) => english() ? en : fr;
     const reduced = () => !!global.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const position = value => !!value && typeof value.u === 'number' && typeof value.v === 'number'
@@ -192,7 +193,7 @@
             if (state.ui.status) state.ui.status.textContent = text('Les contours seront disponibles lorsque ce palier sera chargé.', 'Outlines will be available when this floor has loaded.');
             return;
         }
-        const all = records(state), visible = all.filter(region => available(state, region) && (!state.filter || label(region).toLowerCase().includes(state.filter)));
+        const all = records(state), visible = all.filter(region => available(state, region) && (!state.filter || normalizeFilter([region.title, region.titleEn].filter(Boolean).join(' ')).includes(state.filter)));
         for (const region of visible) {
             if (state.shown) {
                 const coordinates = region.vertices.map(value => state.bridge.getLatLng(value));
@@ -220,6 +221,41 @@
         }
         syncSelection(state);
     }
+    function settleCamera(state) {
+        if (state.zooming) return;
+        const intent = state.pendingCamera; state.pendingCamera = null;
+        if (!intent || !floorReady(state) || state.editing || state.floor !== intent.floor
+            || state.selectionGeneration !== intent.generation) return;
+        if (intent.type === 'view') {
+            if (intent.href !== global.location.href) return;
+            state.bridge.map.stop?.(); state.bridge.map.setView(intent.center,intent.zoom,{animate:false}); return;
+        }
+        const region = records(state).find(item => item.id === intent.id);
+        if (!region || state.selected !== intent.id || !available(state,region)) return;
+        state.bridge.map.stop?.();
+        state.bridge.map.fitBounds(intent.bounds, { padding: global.innerWidth <= 768 ? [28, 28] : [48, 48], maxZoom: 0, animate: !reduced(), duration: .45 });
+    }
+    function requestCamera(state, region, generation) {
+        state.pendingCamera = { id:region.id, floor:state.floor, generation,
+            bounds:global.L.latLngBounds(region.vertices.map(value => state.bridge.getLatLng(value))) };
+        settleCamera(state);
+    }
+    function focusByEntity(state, key) {
+        if (!floorReady(state) || state.editing) return false;
+        const region = records(state).find(item => item.entityKey === key);
+        if (!region || !available(state, region)) return false;
+        state.selectionEntity = key; state.selected = region.id;
+        const generation = ++state.selectionGeneration; syncSelection(state);
+        requestCamera(state, region, generation); return true;
+    }
+    function restoreView(state,center,zoom) {
+        if (!floorReady(state) || state.editing || !Array.isArray(center) || center.length !== 2
+            || center.some(value => !Number.isFinite(value)) || !Number.isFinite(zoom)) return false;
+        const native = state.bridge.catalog.floors.find(item => Number(item.id) === state.floor), bounds = native.maxBounds || native.bounds;
+        if (center[0] < bounds[0][0] || center[0] > bounds[1][0] || center[1] < bounds[0][1] || center[1] > bounds[1][1]) return false;
+        state.pendingCamera = {type:'view',center:[...center],zoom,href:global.location.href,floor:state.floor,generation:state.selectionGeneration};
+        settleCamera(state); return true;
+    }
     async function select(state, id, center = true) {
         if (!floorReady(state) || state.editing) return false;
         const region = records(state).find(item => item.id === id); if (!region || !available(state, region)) return false;
@@ -230,11 +266,7 @@
         else state.bridge.showRegion?.(copy(region));
         if (!floorReady(state) || generation !== state.selectionGeneration || state.floor !== floor) return false;
         state.selected = id; syncSelection(state);
-        if (center) {
-            const bounds = global.L.latLngBounds(region.vertices.map(value => state.bridge.getLatLng(value)));
-            state.bridge.map.stop?.();
-            state.bridge.map.fitBounds(bounds, { padding: global.innerWidth <= 768 ? [28, 28] : [48, 48], maxZoom: 0, animate: !reduced(), duration: .45 });
-        }
+        if (center) requestCamera(state, region, generation);
         return true;
     }
     function blank(state) {
@@ -515,6 +547,7 @@
     }
     function openEditor(state, id) {
         if (!floorReady(state) || !state.ui.host) return false;
+        state.pendingCamera = null;
         state.opener = document.activeElement; state.editing = true; state.importGeneration++;
         state.bridge.setRegionEditorMode?.(true); state.ui.host.hidden = false;
         state.bridge.root?.classList.add('has-region-editor');
@@ -534,7 +567,7 @@
     function setFloor(state, value) {
         const id = Number(value?.floor ?? state.bridge.getFloor());
         if (id !== Number(state.bridge.getFloor()) || Number(state.bridge.getData()?.floor) !== id) return;
-        closeEditor(state, false); state.selectionGeneration++; state.floor = id; state.floorPending = false; state.selected = null;
+        closeEditor(state, false); state.selectionGeneration++; state.pendingCamera = null; state.floor = id; state.floorPending = false; state.selected = null;
         renderPublic(state);
     }
     async function init(bridge) {
@@ -543,16 +576,16 @@
         destroy();
         const query = id => bridge.root?.querySelector('#' + id);
         const state = { bridge, controller: new AbortController(), off: [], floor: Number(bridge.getFloor()), base: emptyDocument(), local: emptyDocument(),
-            selected: null, filter: '', shown: true, editing: false, loaded: false, floorPending: false, draftFloor: null, polygons: new Map(), handles: [], selectionGeneration: 0, importGeneration: 0,
+            selected: null, filter: '', shown: true, editing: false, loaded: false, floorPending: false, draftFloor: null, polygons: new Map(), handles: [], selectionGeneration: 0, importGeneration: 0, zooming:!!bridge.isViewportZooming?.(), pendingCamera:null,
             pane: 'nameless-regions', editPane: 'nameless-region-edit', ui: { toggle: query('map-regions-toggle'), open: query('map-regions-tools'), list: query('map-region-list'), status: query('map-region-status'), host: query('map-regions-editor') } };
         active = state;
         if (state.ui.toggle?.matches('input[type="checkbox"]')) state.shown = state.ui.toggle.checked;
         const pane = bridge.map.getPane?.(state.pane) || bridge.map.createPane(state.pane); pane.style.zIndex = '450';
         const editPane = bridge.map.getPane?.(state.editPane) || bridge.map.createPane(state.editPane); editPane.style.zIndex = '650';
         state.layers = global.L.layerGroup().addTo(bridge.map); state.editLayers = global.L.layerGroup().addTo(bridge.map);
-        state.api = { select: id => select(state, id), findByEntity: key => floorReady(state) ? records(state).find(region => region.entityKey === key) || null : null,
-            filter(value) { state.filter = String(value || '').trim().toLowerCase(); renderPublic(state); },
-            clearSelection() { state.selected = null; state.selectionGeneration++; syncSelection(state); },
+        state.api = { select: id => select(state, id), focusByEntity:key => focusByEntity(state,key), restoreView:(center,zoom)=>restoreView(state,center,zoom), cancelCamera(){state.pendingCamera=null;}, findByEntity: key => floorReady(state) ? records(state).find(region => region.entityKey === key) || null : null,
+            filter(value) { state.filter = normalizeFilter(value); renderPublic(state); },
+            clearSelection() { state.selected = null; state.selectionGeneration++; state.pendingCamera = null; syncSelection(state); },
             getRegions: () => floorReady(state) ? copy(records(state)) : [],
             editor: { open: id => openEditor(state, id), close: () => closeEditor(state), save: () => save(state), reset: () => reset(state),
                 importDocument: value => importDocument(state, value), exportDocument: () => exportDocument(state), mode: value => mode(state, value),
@@ -562,16 +595,20 @@
             addPoint(state, bridge.getRelative(event.latlng));
         };
         bridge.map.on('click', mapClick); state.off.push(() => bridge.map.off('click', mapClick));
+        const zoomStarted = () => { state.zooming = true; };
+        const zoomFinished = () => { state.zooming = false; settleCamera(state); };
+        bridge.map.on('zoomstart',zoomStarted); bridge.map.on('zoomend',zoomFinished);
+        state.off.push(() => bridge.map.off('zoomstart',zoomStarted), () => bridge.map.off('zoomend',zoomFinished));
         register(state, 'region-click', event => addPoint(state, event.relative || bridge.getRelative(event.latlng)));
         register(state, 'floor-pending', value => {
-            state.floorPending = true; closeEditor(state, false); state.selectionGeneration++;
+            state.floorPending = true; state.pendingCamera = null; closeEditor(state, false); state.selectionGeneration++;
             state.floor = Number(value?.floor ?? state.bridge.getFloor()); state.selected = null;
             renderPublic(state);
         });
         register(state, 'floor', value => setFloor(state, value));
         register(state, 'selection', entity => {
             if (state.editing || !floorReady(state)) return;
-            if (entity?.key !== state.selectionEntity) state.selectionGeneration++;
+            if (entity?.key !== state.selectionEntity) { state.selectionGeneration++; state.pendingCamera = null; }
             state.selected = records(state).find(region => region.entityKey === entity?.key)?.id || null; syncSelection(state);
         });
         register(state, 'markers', () => { if (state.loaded) renderPublic(state); });
@@ -621,7 +658,7 @@
     }
     function destroy() {
         const state = active; if (!state) return;
-        closeEditor(state, false); active = null; state.controller.abort(); state.selectionGeneration++; state.importGeneration++;
+        closeEditor(state, false); active = null; state.controller.abort(); state.selectionGeneration++; state.importGeneration++; state.pendingCamera = null;
         state.publicController?.abort(); state.editorController?.abort(); state.handleController?.abort();
         for (const off of state.off) off(); state.off = [];
         clearLayers(state); clearDraftLayers(state); state.bridge.map.removeLayer?.(state.layers); state.bridge.map.removeLayer?.(state.editLayers);

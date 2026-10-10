@@ -297,7 +297,8 @@
     }
     function showPanel(state) {
         state.ui.panel.hidden = false; state.ui.workspace.classList.add('has-selection');
-        state.map.invalidateSize?.({ pan: false });
+        // Preserve the logical map center when the detail rail changes its width.
+        state.map.invalidateSize?.({ pan: true, animate: false });
     }
     function closePanel(state, update = true) {
         const restoreFocus = state.ui.panel.contains(document.activeElement);
@@ -499,6 +500,7 @@
     }
     async function selectEntity(state, key, options = {}) {
         if (!valid(state) || !state.catalog) return false;
+        if (options.url !== false) state.explicitCamera = false;
         const entry = state.catalog.index.find(entity => entity.key === key); if (!entry) { notice(state, text('Ce repère est introuvable.', 'This marker could not be found.')); return false; }
         const intent = options.intent ?? ++state.intent;
         const targetFloor = Number(entry.floor) || state.floor;
@@ -510,7 +512,7 @@
         const target = targetPosition(state, entity);
         const region = global.NamelessMapRegions?.active?.findByEntity(key);
         const regionVisible = region && ['ready','archive'].includes(state.overridesStatus) && !['hidden','deleted','unavailable'].includes(entity.overrideState);
-        if (regionVisible && options.center !== false) state.map.fitBounds(region.vertices.map(vertex => latlng(state, vertex)), { padding: [24, 24], maxZoom: 0, animate: !reducedMotion(), duration: .45 });
+        if (regionVisible && options.center !== false) global.NamelessMapRegions.active.focusByEntity(key);
         else if (target.position && options.center !== false) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 });
         else if (state.overridesStatus === 'pending' && options.center !== false) state.pendingSelection = { key, intent };
         if (options.url !== false) updateUrl(state, key);
@@ -557,23 +559,27 @@
         closePanel(state, false);
         if (state.floor !== floor || !state.data) { if (!(await changeFloor(state, floor))) return; }
         if (!valid(state) || intent !== state.intent || state.floor !== floor) return;
-        if (key) await selectEntity(state, key, { intent, url: false });
-        else if (['entity', 'location', 'creature', 'boss', 'guide', 'quest'].some(name => params.has(name))) {
-            const archivedMain = ['entity', 'guide', 'quest'].some(name => /(?:^|:)p[12]-principale-/.test(params.get(name) || ''));
-            notice(state, archivedMain ? text('Cette ancienne quête principale a été archivée. Son parcours obsolète n’est plus publié.', 'This former main quest has been archived. Its obsolete walkthrough is no longer published.') : text('Ce repère est introuvable.', 'This marker could not be found.'));
-        }
-        if (!valid(state) || intent !== state.intent) return;
         const u = numberParam(params, 'u', 2), v = numberParam(params, 'v', 2), zoom = numberParam(params, 'zoom', 20);
         const x = numberParam(params, 'x'), z = numberParam(params, 'y');
         const relativeCenter = u != null && v != null ? latlng(state, { u, v }) : null;
         const allowedBounds = configOf(state).maxBounds || configOf(state).bounds;
         const relativeCenterAllowed = relativeCenter && relativeCenter[0] >= allowedBounds[0][0] && relativeCenter[0] <= allowedBounds[1][0] && relativeCenter[1] >= allowedBounds[0][1] && relativeCenter[1] <= allowedBounds[1][1];
-        if (relativeCenterAllowed && zoom != null) { state.pendingSelection = null; state.map.setView(relativeCenter, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), zoom)), { animate: false }); }
-        else if (x != null && z != null) {
-            const coord = latlng(state, { x, z });
-            if (coord) { state.pendingSelection = null; state.map.setView(coord, global.innerWidth <= 700 ? -1 : 0, { animate: false }); }
-            else notice(state, text('Les coordonnées X/Z ne sont pas calibrées pour ce palier.', 'X/Z coordinates are not calibrated for this floor.'));
-        } else if (params.has('x') || params.has('y')) notice(state, text('Les coordonnées de ce lien sont invalides.', 'The coordinates in this link are invalid.'));
+        const gameCenter = x != null && z != null ? latlng(state,{x,z}) : null;
+        const camera = relativeCenterAllowed && zoom != null ? {center:relativeCenter,zoom:Math.max(state.map.getMinZoom(),Math.min(state.map.getMaxZoom(),zoom))}
+            : gameCenter ? {center:gameCenter,zoom:global.innerWidth <= 700 ? -1 : 0} : null;
+        state.explicitCamera = !!camera;
+        if (camera) global.NamelessMapRegions?.active?.cancelCamera();
+        if (key) await selectEntity(state, key, { intent, url: false, center:!camera });
+        else if (['entity', 'location', 'creature', 'boss', 'guide', 'quest'].some(name => params.has(name))) {
+            const archivedMain = ['entity', 'guide', 'quest'].some(name => /(?:^|:)p[12]-principale-/.test(params.get(name) || ''));
+            notice(state, archivedMain ? text('Cette ancienne quête principale a été archivée. Son parcours obsolète n’est plus publié.', 'This former main quest has been archived. Its obsolete walkthrough is no longer published.') : text('Ce repère est introuvable.', 'This marker could not be found.'));
+        }
+        if (!valid(state) || intent !== state.intent) return;
+        if (camera) {
+            state.pendingSelection = null; global.NamelessMapRegions?.active?.cancelCamera();
+            if (!global.NamelessMapRegions?.active?.restoreView(camera.center,camera.zoom)) state.map.setView(camera.center,camera.zoom,{animate:false});
+        } else if (x != null && z != null) notice(state, text('Les coordonnées X/Z ne sont pas calibrées pour ce palier.', 'X/Z coordinates are not calibrated for this floor.'));
+        else if (params.has('x') || params.has('y')) notice(state, text('Les coordonnées de ce lien sont invalides.', 'The coordinates in this link are invalid.'));
         else if (saved) state.map.setView([saved.lat, saved.lng], Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), saved.zoom)), { animate: false });
         if (params.has('q')) { state.ui.search.value = params.get('q').slice(0, 200); renderSearch(state); }
     }
@@ -754,12 +760,16 @@
             root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), filtersOpen: false, markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', overridesDiagnostic: null, editorMode: false, regionEditorMode: false, events: new Map(), lastRoute: null };
         active = state;
         state.map = global.L.map(container, { crs: global.L.CRS.Simple, minZoom: -5, maxZoom: 3, zoom: -3, center: [2560, 2560], zoomControl: true, attributionControl: false, keyboard: true, zoomSnap: .25, zoomDelta: .5, maxBoundsViscosity: .5 });
+        state.viewportZooming = false;
+        state.map.on('zoomstart', () => { state.viewportZooming = true; });
+        state.map.on('zoomend', () => { state.viewportZooming = false; });
         state.markerLayer = global.L.layerGroup().addTo(state.map);
         state.bridge = { map: state.map, root: main, signal: state.controller.signal, catalog: null,
             getFloor: () => state.floor, getData: () => state.data, getSelection: () => state.selected, getOverridesStatus: () => state.overridesStatus, getOverridesDiagnostic: () => state.overridesDiagnostic,
             selectEntity: (key, options) => selectEntity(state, key, options), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
             showRegion: region => showPersonalRegion(state, region),
             setRegionEditorMode: enabled => setRegionEditorMode(state, enabled), isRegionEditorActive: () => state.regionEditorMode,
+            isViewportZooming: () => state.viewportZooming,
             getLatLng: value => value && finite(value.u, 1) && finite(value.v, 1) && value.u >= 0 && value.v >= 0 ? latlng(state, value) : null,
             on: (event, fn) => { if (!state.events.has(event)) state.events.set(event, new Set()); state.events.get(event).add(fn); return () => state.events.get(event)?.delete(fn); } };
         api.active = state.bridge; wire(state); translateUi(state);
@@ -771,6 +781,7 @@
                 if (!state.selected) { const place = Object.values(state.data?.entities || {}).find(entity => entity.kind === 'location' && targetPosition(state, entity).position); if (place) await selectEntity(state, place.key, { center: false, url: false }); }
                 await global.NamelessMapRegions?.init?.(state.bridge); if (!valid(state)) return null;
                 if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
+                if (state.selected && !state.explicitCamera) global.NamelessMapRegions?.active?.focusByEntity(state.selected);
                 adminCheck(state); return state.bridge;
             } catch (_) { if (valid(state)) notice(state, text('La carte ne peut pas être chargée. Réessayez.', 'The map could not be loaded. Please try again.')); return null; }
         })();

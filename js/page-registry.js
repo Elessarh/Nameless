@@ -83,8 +83,8 @@
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
-                'js/map-regions.js?v=20261010regions',
-                'js/map.js?v=20261010regions'
+                'js/map-regions.js?v=20261010regions3',
+                'js/map.js?v=20261010regions3'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {

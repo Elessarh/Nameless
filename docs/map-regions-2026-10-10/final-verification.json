@@ -1,0 +1,129 @@
+{
+  "scope": "Three incremental regressions; original 32 layout/editor/logo/image checks retained",
+  "base": "http://127.0.0.1:4173",
+  "browser": "148.0.7778.96",
+  "generatedAt": "2026-10-10T08:29:58.214Z",
+  "checks": [
+    {
+      "name": "Accentless native map search filters the exact region and keyboard selection uses its camera",
+      "passed": true,
+      "detail": {
+        "query": "vallee",
+        "exactRegion": true,
+        "nativeZoneResult": true,
+        "keyboardCamera": {
+          "entity": "location:1:vallee-loups",
+          "center": {
+            "u": 0.49606140173702284,
+            "v": 0.7675217127852959,
+            "x": 2541,
+            "z": 3885
+          },
+          "zoom": 0,
+          "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups"
+        }
+      }
+    },
+    {
+      "name": "Rapid A to B to C selection during zoom keeps the final native entity, panel and camera",
+      "passed": true,
+      "detail": {
+        "sequence": [
+          "zone-sanglier",
+          "vallee-loups",
+          "ruines-maudites"
+        ],
+        "artificialIntermediateWaits": 0,
+        "inputDurationMs": 97,
+        "finalCamera": {
+          "entity": "location:1:ruines-maudites",
+          "center": {
+            "u": 0.5639264794990911,
+            "v": 0.8895172692385377,
+            "x": 2877,
+            "z": 4489
+          },
+          "zoom": 0,
+          "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Aruines-maudites"
+        },
+        "keyboardCamera": {
+          "entity": "location:1:vallee-loups",
+          "center": {
+            "u": 0.49606140173702284,
+            "v": 0.7675217127852959,
+            "x": 2541,
+            "z": 3885
+          },
+          "zoom": 0,
+          "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups"
+        }
+      }
+    },
+    {
+      "name": "Explicit shared viewport survives region mount and native Back restores it during queued zoom",
+      "passed": true,
+      "detail": {
+        "requestedView": {
+          "u": 0.4,
+          "v": 0.6,
+          "zoom": -1.25
+        },
+        "mountedView": {
+          "entity": "location:1:vallee-loups",
+          "center": {
+            "u": 0.3998108567248483,
+            "v": 0.6001891432751517,
+            "x": 2064.463551644724,
+            "z": 3056.536448355276
+          },
+          "zoom": -1.25,
+          "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups&u=0.4&v=0.6&zoom=-1.25"
+        },
+        "inputDurationMs": 48,
+        "artificialIntermediateWaits": 0,
+        "nativeBackSteps": 2,
+        "restoredView": {
+          "entity": "location:1:vallee-loups",
+          "center": {
+            "u": 0.4,
+            "v": 0.6,
+            "x": 2065.4,
+            "z": 3055.6
+          },
+          "zoom": -1.25,
+          "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups&u=0.4&v=0.6&zoom=-1.25"
+        },
+        "sameMapBridge": true
+      }
+    }
+  ],
+  "errors": [],
+  "external": [
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    }
+  ],
+  "captures": [],
+  "version": "20261010regions3"
+}

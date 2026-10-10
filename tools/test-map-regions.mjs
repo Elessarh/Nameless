@@ -19,13 +19,14 @@ const region = { id: 'zone-alpha', entityKey: 'location:1:alpha', title: 'Zone A
 const seed = { schemaVersion: 1, coordinateSystem: 'image-relative-top-left', floors: [
     { floor: 1, imageId: '/assets/carte.webp', regions: [region] }, { floor: 2, imageId: '/assets/Palier2-map.webp', regions: [] }
 ] };
-function page({ stored, wait, fetchError = false, reduced = false } = {}) {
+function page({ stored, wait, fetchError = false, reduced = false, documentSeed = seed, nativeCatalog = catalog } = {}) {
     const dom = new JSDOM('<main><label><input id="map-regions-toggle" type="checkbox" checked>Contours</label><button id="map-regions-tools">Dessiner</button><div id="map-region-list"></div><p id="map-region-status"></p><aside id="map-regions-editor" hidden></aside><div id="map"></div></main>',
         { url: 'https://nameless-sao.fr/carte', runScripts: 'outside-only', pretendToBeVisual: true });
-    const w = dom.window, calls = { polygons: [], markers: [], fetches: [], fits: [], selections: [], editor: [], removes: [] };
+    const w = dom.window, calls = { polygons: [], markers: [], fetches: [], fits: [], views: [], selections: [], editor: [], removes: [] };
     const handlers = new Map(); let floor = 1, dataFloor = 1, status = 'ready', lang = 'fr';
     const controller = new w.AbortController();
-    const entities = Object.fromEntries(catalog.index.map(item => [item.key, clone(item)]));
+    const fixtureCatalog = clone(nativeCatalog);
+    const entities = Object.fromEntries(fixtureCatalog.index.map(item => [item.key, clone(item)]));
     class Events {
         handlers = new Map();
         on(name, fn) { if (!this.handlers.has(name)) this.handlers.set(name, new Set()); this.handlers.get(name).add(fn); return this; }
@@ -39,6 +40,9 @@ function page({ stored, wait, fetchError = false, reduced = false } = {}) {
         addLayer(layer) { this.layers.add(layer); return this; }
         removeLayer(layer) { this.layers.delete(layer); calls.removes.push(layer); layer.clearLayers?.(); return this; }
         fitBounds(bounds, options) { calls.fits.push({ bounds, options }); return this; }
+        setView(center, zoom, options) { calls.views.push({ center: clone(center), zoom, options }); return this; }
+        getMinZoom() { return -5; }
+        getMaxZoom() { return 3; }
         invalidateSize() { return this; }
         stop() { return this; }
     }
@@ -64,12 +68,12 @@ function page({ stored, wait, fetchError = false, reduced = false } = {}) {
     w.matchMedia = () => ({ matches: reduced });
     w.NamelessI18n = { getLanguage: () => lang };
     w.supabase = { rpc() { throw new Error('No remote mutation is allowed'); } };
-    w.fetch = async (url, options) => { calls.fetches.push({ url, options }); if (wait) await wait.promise; return { ok: !fetchError, status: fetchError ? 404 : 200, json: async () => clone(seed) }; };
+    w.fetch = async (url, options) => { calls.fetches.push({ url, options }); if (wait) await wait.promise; return { ok: !fetchError, status: fetchError ? 404 : 200, json: async () => clone(documentSeed) }; };
     if (stored) w.localStorage.setItem('nameless.map-regions.v1', JSON.stringify(stored));
-    const bridge = { root: w.document.querySelector('main'), catalog: clone(catalog), map, signal: controller.signal,
+    const bridge = { root: w.document.querySelector('main'), catalog: fixtureCatalog, map, signal: controller.signal,
         getFloor: () => floor, getData: () => dataFloor == null ? null : ({ floor: dataFloor, entities }), getOverridesStatus: () => status,
-        getLatLng(value) { const [[south, west], [north, east]] = catalog.floors.find(item => item.id === floor).bounds; return [north - value.v * (north - south), west + value.u * (east - west)]; },
-        getRelative(value) { const [[south, west], [north, east]] = catalog.floors.find(item => item.id === floor).bounds; return { u: (value.lng - west) / (east - west), v: (north - value.lat) / (north - south) }; },
+        getLatLng(value) { const [[south, west], [north, east]] = fixtureCatalog.floors.find(item => item.id === floor).bounds; return [north - value.v * (north - south), west + value.u * (east - west)]; },
+        getRelative(value) { const [[south, west], [north, east]] = fixtureCatalog.floors.find(item => item.id === floor).bounds; return { u: (value.lng - west) / (east - west), v: (north - value.lat) / (north - south) }; },
         async selectEntity(key) { calls.selections.push(key); emit('selection', entities[key]); return true; },
         setRegionEditorMode(value) { calls.editor.push(value); },
         on(name, fn) { if (!handlers.has(name)) handlers.set(name, new Set()); handlers.get(name).add(fn); return () => handlers.get(name).delete(fn); } };
@@ -124,6 +128,87 @@ await test('all twelve actual proposals use real zone keys and valid original-at
         assert.equal(p.w.NamelessMapRegions.containsPoint(proposal.vertices, anchor), true, 'the proposal contains its actual anchor: ' + proposal.entityKey);
     }
     p.cleanup();
+});
+await test('accent-free region filtering matches the actual Vallée proposal without changing its source identity', async () => {
+    const actualCatalog = JSON.parse(fs.readFileSync(new URL('../assets/map/catalog.json', import.meta.url), 'utf8'));
+    const actualSeed = JSON.parse(fs.readFileSync(new URL('../data/map-regions.json', import.meta.url), 'utf8'));
+    const valley = actualSeed.floors[0].regions.find(region => region.entityKey === 'location:1:vallee-loups');
+    assert.ok(valley); const immutable = JSON.stringify(valley);
+    const p = page({ documentSeed: actualSeed, nativeCatalog: actualCatalog }); await p.init();
+    p.api().filter('vallee');
+    let choices = p.w.document.querySelectorAll('.map-region-choice'), paths = p.w.document.querySelectorAll('.map-region-outline');
+    assert.equal(choices.length, 1); assert.equal(paths.length, 1);
+    assert.equal(choices[0].dataset.regionId, valley.id); assert.equal(paths[0].dataset.regionId, valley.id); assert.match(choices[0].textContent, /Vallée/);
+    p.api().filter('VALLÉE'); assert.equal(p.w.document.querySelector('.map-region-choice').dataset.regionId, valley.id);
+    p.language('en'); p.api().filter('wolf valley');
+    choices = p.w.document.querySelectorAll('.map-region-choice'); assert.equal(choices.length, 1); assert.equal(choices[0].dataset.regionId, valley.id); assert.match(choices[0].textContent, /Wolf Valley/);
+    const unchanged = p.api().getRegions().find(region => region.id === valley.id);
+    assert.equal(unchanged.entityKey, valley.entityKey); assert.deepEqual(clone(unchanged.vertices), valley.vertices);
+    assert.equal(unchanged.title, valley.title); assert.equal(unchanged.status, 'indicative'); assert.equal(JSON.stringify(valley), immutable);
+    assert.equal(p.w.localStorage.length, 0); p.cleanup();
+});
+function cameraFixture() {
+    const cameraCatalog = clone(catalog), cameraSeed = clone(seed);
+    cameraCatalog.index.push({ key: 'location:1:charlie', kind: 'location', markerType: 'zone', floor: 1, title: 'Charlie' });
+    const beta = { ...clone(region), id: 'zone-beta', entityKey: 'location:1:beta', title: 'Zone Beta', vertices: square.map(point => ({ u: point.u + .3, v: point.v })) };
+    const charlie = { ...clone(region), id: 'zone-charlie', entityKey: 'location:1:charlie', title: 'Zone Charlie', vertices: square.map(point => ({ u: point.u + .6, v: point.v })) };
+    cameraSeed.floors[0].regions.push(beta, charlie);
+    return { p: page({ documentSeed: cameraSeed, nativeCatalog: cameraCatalog }), beta, charlie };
+}
+await test('selections during an active zoom queue only the newest region camera until zoomend', async () => {
+    const { p, charlie } = cameraFixture(); await p.init(); await p.api().select('zone-alpha');
+    const previousFits = p.calls.fits.length; p.map.fire('zoomstart');
+    await p.api().select('zone-beta'); await p.api().select('zone-charlie');
+    assert.equal(p.calls.fits.length, previousFits, 'an active CSS zoom must finish before a new camera fit');
+    assert.equal(p.calls.selections.at(-1), 'location:1:charlie');
+    assert.equal(p.w.document.querySelector('.map-region-choice.is-selected').dataset.regionId, charlie.id);
+    p.map.fire('zoomend'); assert.equal(p.calls.fits.length, previousFits + 1);
+    assert.deepEqual(clone(p.calls.fits.at(-1).bounds), charlie.vertices.map(point => p.bridge.getLatLng(point)));
+    assert.equal(p.calls.fits.at(-1).options.animate, true, 'ordinary public selection keeps its animation');
+    p.map.fire('zoomend'); assert.equal(p.calls.fits.length, previousFits + 1, 'a finished queue is not replayed'); p.cleanup();
+});
+await test('stale selection, floor changes, editor opening and abort cancel queued region cameras', async () => {
+    const { p } = cameraFixture(); await p.init(); await p.api().select('zone-alpha');
+    let fitCount = p.calls.fits.length;
+    p.map.fire('zoomstart'); await p.api().select('zone-beta'); p.emit('selection', p.entities['location:1:alpha']); p.map.fire('zoomend');
+    assert.equal(p.calls.fits.length, fitCount, 'a native selection supersedes the old queued region');
+    p.map.fire('zoomstart'); await p.api().select('zone-beta'); p.beginFloor(2); p.map.fire('zoomend');
+    assert.equal(p.calls.fits.length, fitCount, 'a queued camera cannot cross atlas floors');
+    p.completeFloor(); await p.floor(1);
+    p.map.fire('zoomstart'); await p.api().select('zone-beta'); p.api().editor.open('zone-alpha'); fitCount = p.calls.fits.length; p.map.fire('zoomend');
+    assert.equal(p.calls.fits.length, fitCount, 'opening the local editor discards a previously queued public camera');
+    p.api().editor.close(); p.map.fire('zoomstart'); await p.api().select('zone-charlie'); fitCount = p.calls.fits.length; p.controller.abort(); p.map.fire('zoomend');
+    assert.equal(p.calls.fits.length, fitCount, 'an aborted lifecycle cannot move the old map');
+    assert.equal(p.map.handlers.get('zoomstart')?.size || 0, 0); assert.equal(p.map.handlers.get('zoomend')?.size || 0, 0); p.cleanup();
+});
+await test('a queued region becoming pending, failed, hidden or deleted never fits after zoomend', async () => {
+    const { p } = cameraFixture(); await p.init(); await p.api().select('zone-alpha'); const fitCount = p.calls.fits.length;
+    for (const status of ['pending', 'error']) {
+        p.map.fire('zoomstart'); await p.api().select('zone-beta'); p.status(status); p.map.fire('zoomend');
+        assert.equal(p.calls.fits.length, fitCount, 'pending camera cannot reveal a region during overrides status ' + status); p.status('ready');
+    }
+    for (const unavailable of ['hidden', 'deleted']) {
+        p.map.fire('zoomstart'); await p.api().select('zone-beta'); p.entities['location:1:beta'].overrideState = unavailable; p.emit('markers'); p.map.fire('zoomend');
+        assert.equal(p.calls.fits.length, fitCount, 'pending camera cannot reveal a region whose override is ' + unavailable);
+        delete p.entities['location:1:beta'].overrideState; p.emit('markers');
+    }
+    p.cleanup();
+});
+await test('exact shared views replace queued region fits and are cancelled by URL, floor or selection changes', async () => {
+    const { p } = cameraFixture(); await p.init(); await p.api().select('zone-alpha'); const fitCount = p.calls.fits.length;
+    const center = [4200, 1230], zoom = -.75;
+    p.map.fire('zoomstart'); await p.api().select('zone-beta'); p.api().cancelCamera(); p.api().restoreView(center, zoom);
+    assert.equal(p.calls.views.length, 0, 'the exact shared view waits for the current zoom to finish');
+    p.map.fire('zoomend'); assert.equal(p.calls.views.length, 1); assert.deepEqual(p.calls.views[0].center, center); assert.equal(p.calls.views[0].zoom, zoom);
+    assert.equal(p.calls.fits.length, fitCount, 'the old region fit cannot overwrite the exact shared coordinates');
+    p.map.fire('zoomend'); assert.equal(p.calls.views.length, 1, 'the exact view is applied once');
+    p.map.fire('zoomstart'); p.api().cancelCamera(); p.api().restoreView(center, zoom); p.w.history.pushState(null, '', '/carte?floor=1&u=.5&v=.5'); p.map.fire('zoomend');
+    assert.equal(p.calls.views.length, 1, 'a changed URL supersedes the queued shared view');
+    p.map.fire('zoomstart'); p.api().cancelCamera(); p.api().restoreView(center, zoom); p.emit('selection', p.entities['location:1:charlie']); p.map.fire('zoomend');
+    assert.equal(p.calls.views.length, 1, 'a new entity selection supersedes the queued shared view');
+    p.map.fire('zoomstart'); p.api().cancelCamera(); p.api().restoreView(center, zoom); p.beginFloor(2); p.map.fire('zoomend');
+    assert.equal(p.calls.views.length, 1, 'a shared view cannot cross a changed atlas floor');
+    assert.equal(p.calls.fits.length, fitCount); p.cleanup();
 });
 await test('coordinate conversion preserves original atlas bounds and overlay selection fits geometry', async () => {
     const p = page({ reduced: true }), boundsBefore = JSON.stringify(p.bridge.catalog.floors); await p.init();
