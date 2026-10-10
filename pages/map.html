@@ -51,10 +51,10 @@
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
     <link rel="stylesheet" href="../css/components/world-experience.css?v=20261009phasea">
     <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
-    <link rel="stylesheet" href="../css/components/reference-map.css?v=20261010workspace1">
     <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
     <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
-    <link rel="stylesheet" href="/css/components/map-regions.css?v=20261010workspace1">
+    <link rel="stylesheet" href="/css/components/map-regions.css?v=20261010maprework2">
+    <link rel="stylesheet" href="../css/components/reference-map.css?v=20261010atlas2">
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -94,9 +94,14 @@
     <!-- Contenu principal -->
     <main id="main-content" class="map-container" role="main">
         <div class="map-header map-reference-hero">
-            <p class="map-breadcrumb"><a href="/">Accueil</a><span>›</span> Carte</p>
-            <h1 class="map-title">Carte d'Aincrad</h1>
-            <p class="map-subtitle">Explorez les paliers, découvrez les lieux et retrouvez les créatures, objets et donjons.</p>
+            <div class="map-heading-copy">
+                <p class="map-breadcrumb"><a href="/">Accueil</a><span aria-hidden="true">/</span><span>Carte</span></p>
+                <h1 class="map-title">Carte d'Aincrad</h1>
+            </div>
+            <div class="map-heading-meta">
+                <p class="map-subtitle">Explorez les paliers, découvrez les lieux et retrouvez les créatures, objets et donjons.</p>
+                <a id="map-admin-entry" href="/admin-carte" hidden>Administrer la carte</a>
+            </div>
         </div>
         
         <section id="map-workspace" class="map-workspace" aria-label="Carte interactive d'Aincrad">
@@ -134,7 +139,6 @@
             </div>
             
             <div class="map-actions">
-                <a id="map-admin-entry" href="/admin-carte" hidden>Administrer la carte</a>
                 <button id="map-filters-toggle" class="map-filters-toggle" type="button" aria-expanded="false" aria-controls="map-filter-rail">Filtres</button>
                 <button id="map-recenter" type="button">Recentrer</button>
                 <button id="map-fullscreen" type="button" aria-pressed="false">Plein écran</button>
@@ -146,7 +150,10 @@
             <aside id="map-filter-rail" class="map-filter-rail" aria-label="Filtres de la carte">
                 <div class="map-filter-heading">
                     <h2>Filtres</h2>
-                    <button id="map-filters-reset" type="button">Réinitialiser</button>
+                    <div class="map-filter-heading-actions">
+                        <button id="map-filters-reset" type="button">Réinitialiser</button>
+                        <button id="map-filters-close" class="map-filters-close" type="button" aria-label="Fermer les filtres"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
+                    </div>
                 </div>
                 <div id="map-filters" class="map-filters" aria-label="Repères affichés"></div>
                 <p id="map-filters-empty" class="map-filters-empty" hidden>Aucun repère disponible.</p>
@@ -166,6 +173,10 @@
             <div class="map-wrapper">
                 <div id="game-map" role="region" tabindex="0" aria-label="Carte du monde d'Aincrad" aria-describedby="map-keyboard-help"></div>
                 <p id="map-keyboard-help" class="sr-only">Flèches pour déplacer la carte, plus et moins pour zoomer, zéro pour recentrer.</p>
+                <div class="map-canvas-caption" aria-hidden="true">
+                    <span class="map-canvas-gesture"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M8 7l4-4 4 4M8 17l4 4 4-4M7 8l-4 4 4 4M17 8l4 4-4 4"></path></svg><span>Glissez pour explorer</span></span>
+                    <span class="map-canvas-note">Cliquez sur une zone pour ouvrir sa fiche.</span>
+                </div>
             </div>
             <aside id="map-panel" class="map-panel" aria-label="Détails de la sélection" hidden>
                 <div class="map-panel-actions">
@@ -198,7 +209,7 @@
     
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261010workspace1" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261010maprework2" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -209,8 +220,8 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/map-regions.js?v=20261010workspace1" defer></script>
-    <script src="../js/map.js?v=20261010workspace1" defer></script>
+    <script src="../js/map-regions.js?v=20261010maprework2" defer></script>
+    <script src="../js/map.js?v=20261010maprework2" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
     <script src="../js/global-search.js?v=20261009ux1" defer></script>

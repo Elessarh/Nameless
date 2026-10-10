@@ -1,0 +1,829 @@
+{
+  "stage": "after",
+  "base": "http://127.0.0.1:4173",
+  "browser": "148.0.7778.96",
+  "generatedAt": "2026-10-10T09:52:48.361Z",
+  "captures": [
+    {
+      "file": "after-public-region-selected-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-public-region-selected-360x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Azone-sanglier",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-public-region-selected-390x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Azone-sanglier",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-public-en-reduced-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-regions-360x844.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-admin-regions-390x844.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-admin-new-marker-390x844.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-admin-regions-768x1024.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-admin-regions-1280x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-regions-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-new-marker-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-regions-2560x1440.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-admin-anonymous-gate-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-workbench-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-zone-published-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-custom-marker-published-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-admin-regions-360x844.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-admin-touch-marker-editor-360x844.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-admin-regions-390x844.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-admin-touch-marker-editor-390x844.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-admin-shared-service-unavailable-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-studio-spa-return-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-studio-fullscreen-1920x1080.png",
+      "url": "http://127.0.0.1:4173/admin-carte/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "name": "admin-regions-360",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 360,
+      "height": 844,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "admin-regions-390",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "admin-new-marker-390",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "admin-regions-768",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "admin-regions-1280",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 1280,
+      "height": 1080,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "admin-regions-1920",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "admin-new-marker-1920",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    },
+    {
+      "name": "admin-regions-2560",
+      "url": "http://127.0.0.1:4173/admin-carte/?floor=1",
+      "width": 2560,
+      "height": 1440,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "placesStrip": false,
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp",
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-detail.webp"
+      ],
+      "mapReady": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "Original atlas and all fifteen map image variants are unchanged",
+      "passed": true,
+      "detail": {
+        "unchangedAssets": 15
+      }
+    },
+    {
+      "name": "The removed places-of-interest strip is absent from the public DOM",
+      "passed": true,
+      "detail": {
+        "removedFromMarkup": true
+      }
+    },
+    {
+      "name": "Twelve actual indicative regions remain independently clickable and keyboard selectable",
+      "passed": true,
+      "detail": {
+        "regions": 12,
+        "realEntityKeys": true,
+        "pointerAndKeyboard": true
+      }
+    },
+    {
+      "name": "Map query filters both regions and polygon geometry and clearing restores them",
+      "passed": true,
+      "detail": {
+        "matches": 1,
+        "empty": 0,
+        "clear": 12
+      }
+    },
+    {
+      "name": "Region layer toggle preserves the genuine map image",
+      "passed": true,
+      "detail": {
+        "sameOriginalAtlas": true
+      }
+    },
+    {
+      "name": "Search, exact entity selection and shared camera survive reload",
+      "passed": true,
+      "detail": {
+        "entity": "location:1:vallee-loups",
+        "cameraRestored": true
+      }
+    },
+    {
+      "name": "Keyboard floor switching offers only the three actual floor images",
+      "passed": true,
+      "detail": {
+        "floors": [
+          1,
+          2,
+          3
+        ],
+        "noInventedFloorRegions": true
+      }
+    },
+    {
+      "name": "SPA exit releases both maps and returning mounts one Leaflet instance",
+      "passed": true,
+      "detail": {
+        "releasedOnExit": true,
+        "singleInstanceOnReturn": true
+      }
+    },
+    {
+      "name": "360px public touch: filters, zone selection, bottom sheet and dismissal",
+      "passed": true,
+      "detail": {
+        "regionTap": true,
+        "sheetDismissed": true
+      }
+    },
+    {
+      "name": "390px public touch: filters, zone selection, bottom sheet and dismissal",
+      "passed": true,
+      "detail": {
+        "regionTap": true,
+        "sheetDismissed": true
+      }
+    },
+    {
+      "name": "FR/EN and reduced-motion preferences retain actual map selection",
+      "passed": true,
+      "detail": {
+        "english": true,
+        "reducedMotion": true,
+        "selectionRetained": true
+      }
+    },
+    {
+      "name": "admin-regions-360: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 360
+      }
+    },
+    {
+      "name": "admin-regions-390: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "admin-new-marker-390: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "admin-regions-768: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 768
+      }
+    },
+    {
+      "name": "admin-regions-1280: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 1280
+      }
+    },
+    {
+      "name": "admin-regions-1920: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "admin-new-marker-1920: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "admin-regions-2560: responsive protected workbench",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "A genuine anonymous session sees the admin gate and no private map",
+      "passed": true,
+      "detail": {
+        "privateControlsHidden": true
+      }
+    },
+    {
+      "name": "An authenticated ordinary member is denied administration",
+      "passed": true,
+      "detail": {
+        "memberDenied": true,
+        "noWrites": true
+      }
+    },
+    {
+      "name": "Only a verified admin opens the actual three-mode workbench",
+      "passed": true,
+      "detail": {
+        "modes": [
+          "regions",
+          "markers",
+          "atlas"
+        ],
+        "isolatedFixtureLabelVisible": true
+      }
+    },
+    {
+      "name": "Outline vertices move by keyboard, undo and redo; saving stays private to this administrator browser",
+      "passed": true,
+      "detail": {
+        "keyboardVertex": true,
+        "undoRedo": true,
+        "accountScopedDraft": true,
+        "noSharedWrite": true
+      }
+    },
+    {
+      "name": "Explicit zone publication writes the exact existing entity and validated outline to the isolated server",
+      "passed": true,
+      "detail": {
+        "entity": "location:1:zone-sanglier",
+        "revision": 1,
+        "exactAtlasIdentity": true
+      }
+    },
+    {
+      "name": "A stale zone revision is rejected and refreshing preserves the local draft",
+      "passed": true,
+      "detail": {
+        "conflictRejected": true,
+        "draftRetained": true,
+        "explicitRefresh": true
+      }
+    },
+    {
+      "name": "Hiding and restoring a zone affects the shared projection, with monotonic revision after reset",
+      "passed": true,
+      "detail": {
+        "hiddenGeometryPrivate": true,
+        "resetRevision": 4
+      }
+    },
+    {
+      "name": "A known marker can be moved with pointer, undone and redone without changing its source name",
+      "passed": true,
+      "detail": {
+        "pointerPlacement": true,
+        "sourceNamePreserved": true,
+        "undoRedo": true
+      }
+    },
+    {
+      "name": "Existing marker publication, hidden state, removal and restoration use isolated RPCs",
+      "passed": true,
+      "detail": {
+        "moved": true,
+        "hidden": true,
+        "removed": true,
+        "restored": true
+      }
+    },
+    {
+      "name": "A new named marker stays a draft until explicit publication and supports later deletion",
+      "passed": true,
+      "detail": {
+        "draftPrivate": true,
+        "publishedByExplicitAction": true,
+        "customName": true,
+        "delete": true
+      }
+    },
+    {
+      "name": "Atlas mode points to the actual source image and keyboard tool tabs switch mode",
+      "passed": true,
+      "detail": {
+        "actualAtlasLink": true,
+        "keyboardModeNavigation": true
+      }
+    },
+    {
+      "name": "Revoking the administrator role prevents any further shared writes and locks access",
+      "passed": true,
+      "detail": {
+        "roleRecheckedBeforeWrite": true,
+        "noWrites": true,
+        "privateWorkspaceLocked": true
+      }
+    },
+    {
+      "name": "360px administrator: all tool tabs and refresh are visible, touch editing and local save work",
+      "passed": true,
+      "detail": {
+        "touchDraft": true,
+        "noSharedWrites": true,
+        "toolBounds": [
+          {
+            "id": "",
+            "mode": "regions",
+            "left": 23,
+            "right": 125,
+            "width": 102,
+            "height": 45.640625
+          },
+          {
+            "id": "",
+            "mode": "markers",
+            "left": 129,
+            "right": 231,
+            "width": 102,
+            "height": 45.640625
+          },
+          {
+            "id": "",
+            "mode": "atlas",
+            "left": 235,
+            "right": 337,
+            "width": 102,
+            "height": 45.640625
+          },
+          {
+            "id": "workspace-refresh",
+            "left": 23,
+            "right": 337,
+            "width": 314,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "390px administrator: all tool tabs and refresh are visible, touch editing and local save work",
+      "passed": true,
+      "detail": {
+        "touchDraft": true,
+        "noSharedWrites": true,
+        "toolBounds": [
+          {
+            "id": "",
+            "mode": "regions",
+            "left": 23,
+            "right": 135,
+            "width": 112,
+            "height": 45.640625
+          },
+          {
+            "id": "",
+            "mode": "markers",
+            "left": 139,
+            "right": 251,
+            "width": 112,
+            "height": 45.640625
+          },
+          {
+            "id": "",
+            "mode": "atlas",
+            "left": 255,
+            "right": 367,
+            "width": 112,
+            "height": 45.640625
+          },
+          {
+            "id": "workspace-refresh",
+            "left": 23,
+            "right": 367,
+            "width": 344,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "Missing shared service explicitly disables publication while preserving administrator-local editing",
+      "passed": true,
+      "detail": {
+        "localEditorAvailable": true,
+        "publicationDisabled": true,
+        "truthfulServiceMessage": true
+      }
+    },
+    {
+      "name": "A pending publication blocks tool/floor/map editing and unlocks after the frozen intent commits",
+      "passed": true,
+      "detail": {
+        "editingFrozen": true,
+        "noEarlyWrite": true,
+        "exactIntentCommitted": true,
+        "unlockedAfterCommit": true
+      }
+    },
+    {
+      "name": "A region read failure remains explicit through layer toggle and language change",
+      "passed": true,
+      "detail": {
+        "failureVisible": true,
+        "retainedOnToggle": true,
+        "translatedOnLanguageChange": true
+      }
+    },
+    {
+      "name": "A new private marker survives reload and the New marker action restores its name and coordinates",
+      "passed": true,
+      "detail": {
+        "privateDraftRestored": true,
+        "nameAndCoordinatesRetained": true,
+        "noWrites": true
+      }
+    },
+    {
+      "name": "Publishing a saved local zone clears the stale local revision and the same zone can be published again after reload",
+      "passed": true,
+      "detail": {
+        "sameEntity": "location:1:zone-sanglier",
+        "staleLocalCopyRemoved": true,
+        "revisionAfterReload": 2
+      }
+    },
+    {
+      "name": "Switching from administrator A to B clears A marker, history and form before B can edit",
+      "passed": true,
+      "detail": {
+        "markerStateCleared": true,
+        "privateFormCleared": true,
+        "historyCleared": true,
+        "BDoesNotRestoreADraft": true
+      }
+    },
+    {
+      "name": "Private read refusal 42501 locks the workbench both on entry and after a successful commit, without a false failed-write message",
+      "passed": true,
+      "detail": {
+        "initialReadDenied": true,
+        "lockedAfterCommit": true,
+        "successfulWriteRetained": true,
+        "noFalseWriteFailure": true
+      }
+    },
+    {
+      "name": "Restoring a hidden zone resets visibility and reliability, and later edits are marked private",
+      "passed": true,
+      "detail": {
+        "resetVisibility": true,
+        "resetReliability": true,
+        "regionEditsPrivate": true,
+        "markerEditsPrivate": true
+      }
+    },
+    {
+      "name": "Temporary refresh failure never advertises a fresh revision or enables publication",
+      "passed": true,
+      "detail": {
+        "noFalseSuccess": true,
+        "draftPreserved": true,
+        "explicitRetry": true
+      }
+    },
+    {
+      "name": "Late initialization for account A cannot overwrite account B map bridge",
+      "passed": true,
+      "detail": {
+        "lateAResponseIgnored": true,
+        "BBridgeOperational": true
+      }
+    },
+    {
+      "name": "Leaflet layers retain positioning after real SPA navigation and names toggle affects the canvas",
+      "passed": true,
+      "detail": {
+        "spaLayoutCorrect": true,
+        "namesToggleWorks": true
+      }
+    },
+    {
+      "name": "A private point stays reachable, supports keyboard adjustment, and aligns in actual fullscreen",
+      "passed": true,
+      "detail": {
+        "keyboardFineAdjustment": true,
+        "fullscreen": {
+          "width": 1558,
+          "cachedWidth": 1558,
+          "height": 924,
+          "cachedHeight": 924,
+          "dx": 0,
+          "dy": 0
+        }
+      }
+    },
+    {
+      "name": "Importing a linked contour and undoing its entry change synchronize publication controls",
+      "passed": true,
+      "detail": {
+        "importEnablesPublication": true,
+        "undoRestoresEntryRevision": true
+      }
+    },
+    {
+      "name": "A late publication from account A never unfreezes an ongoing publication from B",
+      "passed": true,
+      "detail": {
+        "staleACompletionIgnored": true,
+        "BRemainsFrozenUntilOwnCommit": true
+      }
+    },
+    {
+      "name": "Actual public interaction clip is recorded",
+      "passed": true,
+      "detail": {
+        "file": "public-map-motion.webm",
+        "kind": "Actual local public map interactions; no remote writes"
+      }
+    },
+    {
+      "name": "Actual isolated administrator editing clip is recorded",
+      "passed": true,
+      "detail": {
+        "file": "admin-map-editor-motion.webm",
+        "kind": "Actual components with prominently labelled in-memory QA session; no production writes"
+      }
+    }
+  ],
+  "errors": [],
+  "external": [
+    {
+      "page": "public-read-error",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_regions",
+      "status": 500
+    }
+  ],
+  "cancellations": [],
+  "mapAssetHashes": {
+    "/assets/carte.webp": "e1cc3d07e5b6d199972b4cd1e53887d4d43abf2b724624e07acba6ea1b070098",
+    "/assets/map-preview/floor-1-desktop.webp": "ee175e318f403d95fac2a331eb45f4d5e9104d681509bfe6c647a4d832810499",
+    "/assets/map-preview/floor-1-mobile.webp": "dbf93b33fd660666e6629ebd805c4474f0be78814cde63d6e75b344e54126e8c",
+    "/assets/map-preview/floor-1-detail.webp": "269328b992f401f16927f1aea777271ed7822e01b20a4c461a2095a682c62456",
+    "/assets/Palier2-map.webp": "f960e1d6f13fbaf48666962edefd872cfadb1e9697cd353fd7ba3685813d373a",
+    "/assets/map-preview/floor-2-desktop.webp": "9f5a3dfb2dc752ea847b44f04f178a90ddd9a46cf7a469e4645723a8eeea7854",
+    "/assets/map-preview/floor-2-mobile.webp": "b8792f5cea8843b0566734b51660f182dd8aa12d1fdc472e237354fe8eb8ddae",
+    "/assets/map-preview/floor-2-detail.webp": "9320aa2b3337d4dd40e96123deb8532143222ee91830e8a5152803ce121ef12e",
+    "/assets/Palier3-map.webp": "f32479eb066dd57413bec92c19092ecf4c22be1435ebc82159ec1c2f6b80f8bf",
+    "/assets/map-preview/floor-3-desktop.webp": "69763e78a81fafe315149388dc46ecb4ff4b031d26a637724aefa8f99cd71f76",
+    "/assets/map-preview/floor-3-mobile.webp": "b1330a54e1d2e7b0bec6d99e290eec34c492f094a4185df81798fcc17ff63f37",
+    "/assets/map-preview/floor-3-detail.webp": "cfa513d516bbcb86099dc31dc1d9a06450ea1c9d53576261e9a717545b459c21",
+    "/assets/carte.png": "738741f1f63954dbcf9384f88a7e2b5717f0fd6fdbd4df1cf90735a390545011",
+    "/assets/Palier2-map.png": "135b89c6b930876cbb3c7d0ca2c780690eb416e8c3d224ccf43e9591cc200eb0",
+    "/assets/Palier3-map.png": "5f96cb240f31390f71199079e4fcee87427c695108ec644541d8f260e6f795c7"
+  },
+  "publicVideo": {
+    "file": "public-map-motion.webm",
+    "kind": "Actual local public map interactions; no remote writes"
+  },
+  "adminVideo": {
+    "file": "admin-map-editor-motion.webm",
+    "kind": "Actual components with prominently labelled in-memory QA session; no production writes"
+  }
+}

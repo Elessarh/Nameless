@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-10-10T09:38:28.910Z",
+  "checks": [
+    {
+      "width": 1920,
+      "overflow": false,
+      "atlas": {
+        "width": 736,
+        "height": 736
+      },
+      "drawerCloseKeyboardFocus": true,
+      "cameraPreservedOnCollapse": true,
+      "regionSelected": true,
+      "zoomReachableWithDetail": true
+    },
+    {
+      "width": 1280,
+      "overflow": false,
+      "atlas": {
+        "width": 520,
+        "height": 520
+      },
+      "drawerCloseKeyboardFocus": true,
+      "cameraPreservedOnCollapse": true,
+      "regionSelected": true,
+      "zoomReachableWithDetail": true
+    },
+    {
+      "width": 1024,
+      "overflow": false,
+      "atlas": {
+        "width": 368,
+        "height": 368
+      },
+      "drawerCloseKeyboardFocus": true,
+      "cameraPreservedOnCollapse": true,
+      "regionSelected": true,
+      "zoomReachableWithDetail": true
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "atlas": {
+        "width": 619,
+        "height": 618
+      },
+      "drawerCloseKeyboardFocus": true,
+      "cameraPreservedOnCollapse": true,
+      "regionSelected": true,
+      "zoomReachableWithDetail": true
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "atlas": {
+        "width": 310,
+        "height": 310
+      },
+      "drawerCloseKeyboardFocus": true,
+      "cameraPreservedOnCollapse": true,
+      "regionSelected": true,
+      "zoomReachableWithDetail": true,
+      "fullWidthSearch": true,
+      "touchSelection": true,
+      "progressiveDetail": true
+    },
+    {
+      "width": 360,
+      "overflow": false,
+      "atlas": {
+        "width": 310,
+        "height": 310
+      },
+      "drawerCloseKeyboardFocus": true,
+      "cameraPreservedOnCollapse": true,
+      "regionSelected": true,
+      "zoomReachableWithDetail": true,
+      "fullWidthSearch": true,
+      "touchSelection": true,
+      "progressiveDetail": true
+    }
+  ],
+  "errors": [],
+  "reducedMotion": true
+}

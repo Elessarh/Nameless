@@ -78,13 +78,13 @@
                 'css/vendor/leaflet-1.9.4.css?v=20261007a',
                 'css/components/map.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-map.css?v=20261010workspace1',
-                'css/components/map-regions.css?v=20261010workspace1'
+                'css/components/map-regions.css?v=20261010maprework2',
+                'css/components/reference-map.css?v=20261010maprework2'
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
-                'js/map-regions.js?v=20261010workspace1',
-                'js/map.js?v=20261010workspace1'
+                'js/map-regions.js?v=20261010maprework2',
+                'js/map.js?v=20261010maprework2'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -100,9 +100,9 @@
         publicRoute({
             id: 'admin-carte', path: '/admin-carte', source: 'pages/admin-carte.html', title: 'Atelier cartographique — Nameless',
             css: ['css/vendor/leaflet-1.9.4.css?v=20261007a', 'css/components/map.css?v=20261008hybrid',
-                'css/components/map-regions.css?v=20261010workspace1', 'css/components/map-workspace.css?v=20261010workspace1'],
-            scripts: ['js/vendor/leaflet-1.9.4.js?v=20261007a', 'js/map-regions.js?v=20261010workspace1',
-                'js/map.js?v=20261010workspace1', 'js/map-workspace.js?v=20261010workspace1'],
+                'css/components/map-regions.css?v=20261010maprework2', 'css/components/map-workspace.css?v=20261010maprework2'],
+            scripts: ['js/vendor/leaflet-1.9.4.js?v=20261007a', 'js/map-regions.js?v=20261010maprework2',
+                'js/map.js?v=20261010maprework2', 'js/map-workspace.js?v=20261010maprework2'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),
         publicRoute({

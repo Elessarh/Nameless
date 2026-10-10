@@ -1,0 +1,102 @@
+[
+  {
+    "width": 1920,
+    "overflow": 0,
+    "canvas": {
+      "x": 25,
+      "y": 248.03125,
+      "w": 1870,
+      "h": 812
+    },
+    "image": [
+      {
+        "x": 592,
+        "y": 286.03125,
+        "w": 736,
+        "h": 736
+      }
+    ],
+    "filterHidden": false,
+    "filtersToggleStyle": "flex"
+  },
+  {
+    "width": 1280,
+    "overflow": 0,
+    "canvas": {
+      "x": 25,
+      "y": 243,
+      "w": 1230,
+      "h": 632
+    },
+    "image": [
+      {
+        "x": 380,
+        "y": 299,
+        "w": 520,
+        "h": 520
+      }
+    ],
+    "filterHidden": false,
+    "filtersToggleStyle": "flex"
+  },
+  {
+    "width": 768,
+    "overflow": 0,
+    "canvas": {
+      "x": 11,
+      "y": 288.046875,
+      "w": 746,
+      "h": 705
+    },
+    "image": [
+      {
+        "x": 75,
+        "y": 331.046875,
+        "w": 619,
+        "h": 618
+      }
+    ],
+    "filterHidden": true,
+    "filtersToggleStyle": "flex"
+  },
+  {
+    "width": 390,
+    "overflow": 0,
+    "canvas": {
+      "x": 11,
+      "y": 296.9375,
+      "w": 368,
+      "h": 525
+    },
+    "image": [
+      {
+        "x": 40,
+        "y": 404.9375,
+        "w": 310,
+        "h": 310
+      }
+    ],
+    "filterHidden": true,
+    "filtersToggleStyle": "flex"
+  },
+  {
+    "width": 360,
+    "overflow": 0,
+    "canvas": {
+      "x": 11,
+      "y": 296.9375,
+      "w": 338,
+      "h": 525
+    },
+    "image": [
+      {
+        "x": 49,
+        "y": 428.9375,
+        "w": 261,
+        "h": 261
+      }
+    ],
+    "filterHidden": true,
+    "filtersToggleStyle": "flex"
+  }
+]

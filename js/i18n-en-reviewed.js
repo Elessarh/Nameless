@@ -475,3 +475,8 @@ Object.assign(window.NamelessTranslations.en, {
     "Administrer la carte": "Manage map",
     "Atelier cartographique": "Map workbench"
 });
+Object.assign(window.NamelessTranslations.en, {
+    "Fermer les filtres": "Close filters",
+    "Glissez pour explorer": "Drag to explore",
+    "Cliquez sur une zone pour ouvrir sa fiche.": "Select a region to view its details."
+});

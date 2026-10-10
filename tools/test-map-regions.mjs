@@ -365,6 +365,36 @@ await test('drawing, geometric error reporting, undo, redo and three-vertex dele
     p.w.document.querySelector('.map-region-vertex').dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Delete', bubbles: true }));
     assert.equal(p.api().editor.getDraft().vertices.length, 3); p.cleanup();
 });
+await test('outline tools progress from choosing a zone to drawing, closing and adjusting without active irrelevant actions', async () => {
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open('zone-alpha');
+    assert.equal(p.button('finish').hidden, true); assert.equal(p.button('finish').disabled, true);
+    assert.equal(p.w.document.querySelector('.map-region-identity').open, false);
+    const advanced = p.w.document.querySelector('.map-region-advanced'); assert.equal(advanced.open, false);
+    for (const action of ['import', 'export', 'reset', 'clear']) assert.equal(p.button(action).closest('details'), advanced);
+    assert.equal(p.w.document.querySelector('.map-region-vertex-actions').hidden, true);
+    p.button('new').click(); assert.equal(p.w.document.querySelector('.map-region-identity').open, true);
+    assert.equal(p.button('finish').hidden, false); assert.equal(p.button('finish').disabled, true);
+    assert.equal(p.button('edit').disabled, true); assert.equal(p.button('save').disabled, true);
+    square.slice(0, 2).forEach(point => p.click(point)); assert.equal(p.button('finish').disabled, true);
+    p.click(square[2]); assert.equal(p.button('finish').disabled, false); assert.equal(p.button('save').disabled, true);
+    p.button('finish').click(); assert.equal(p.button('finish').hidden, true); assert.equal(p.button('save').disabled, false);
+    p.button('undo').click(); assert.equal(p.button('finish').hidden, false); assert.equal(p.button('edit').disabled, true);
+    p.button('redo').click(); p.button('finish').click();
+    p.calls.markers.at(-3).fire('click'); assert.equal(p.w.document.querySelector('.map-region-vertex-actions').hidden, false);
+    assert.equal(p.button('add-vertex').disabled, false); assert.equal(p.button('delete-vertex').disabled, true);
+    p.cleanup();
+});
+await test('drawing mode does not allow adjustment shortcuts to mutate points until the outline is closed', async () => {
+    const p = page({ canEdit: true }); await p.init(); p.api().editor.open('zone-alpha'); p.button('draw').click();
+    const before = clone(p.api().editor.getDraft());
+    const handle = p.w.document.querySelector('.map-region-vertex');
+    handle.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    handle.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Delete', bubbles: true }));
+    assert.deepEqual(clone(p.api().editor.getDraft()), before);
+    p.button('finish').click();
+    p.w.document.querySelector('.map-region-vertex').dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    assert.equal(p.api().editor.getDraft().vertices[0].u, .101); p.cleanup();
+});
 await test('opening a contour fits above the mobile sheet without moving the map on vertex edits', async () => {
     const p = page({ reduced: true, canEdit: true }); await p.init();
     Object.defineProperty(p.w, 'innerWidth', { value: 390, configurable: true });
@@ -426,7 +456,7 @@ await test('floor changes cancel handles and pending imports while keeping saved
 await test('reopening and language changes do not stack controls, and Escape restores opener focus', async () => {
     const p = page({ canEdit: true }); await p.init(); const open = p.w.document.getElementById('map-regions-tools'); open.focus(); open.click();
     p.button('close').click(); assert.equal(p.w.document.activeElement, open); open.click(); p.language('en');
-    assert.equal(p.w.document.querySelector('.map-region-name').value, 'Zone Alpha'); assert.equal(p.button('save').textContent, 'Save locally');
+    assert.equal(p.w.document.querySelector('.map-region-name').value, 'Zone Alpha'); assert.equal(p.button('save').textContent, 'Save draft');
     p.button('clear').click(); square.forEach(point => p.click(point)); const before = p.api().editor.getDraft().vertices.length;
     p.button('undo').click(); assert.equal(p.api().editor.getDraft().vertices.length, before - 1, 'one click performs exactly one undo');
     p.w.document.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));

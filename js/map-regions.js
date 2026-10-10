@@ -252,12 +252,15 @@
             || state.selectionGeneration !== intent.generation) return;
         if (intent.type === 'view') {
             if (intent.href !== global.location.href) return;
-            state.bridge.map.stop?.(); state.bridge.map.setView(intent.center,intent.zoom,{animate:false}); return;
+            if (state.bridge.viewCamera) state.bridge.viewCamera(intent.center,intent.zoom,{animate:false});
+            else { state.bridge.map.stop?.(); state.bridge.map.setView(intent.center,intent.zoom,{animate:false}); }
+            return;
         }
         const region = records(state).find(item => item.id === intent.id);
         if (!region || state.selected !== intent.id || !available(state,region)) return;
-        state.bridge.map.stop?.();
-        state.bridge.map.fitBounds(intent.bounds, { padding: global.innerWidth <= 768 ? [28, 28] : [48, 48], maxZoom: 0, animate: !reduced(), duration: .45 });
+        const options = { padding: global.innerWidth <= 768 ? [28, 28] : [48, 48], maxZoom: 0, animate: !reduced(), duration: .45 };
+        if (state.bridge.fitCamera) state.bridge.fitCamera(intent.bounds, options);
+        else { state.bridge.map.stop?.(); state.bridge.map.fitBounds(intent.bounds, options); }
     }
     function requestCamera(state, region, generation) {
         state.pendingCamera = { id:region.id, floor:state.floor, generation,
@@ -319,22 +322,30 @@
         if (!state.editing) return;
         syncFields(state);
         const count = state.draft.vertices.length;
-        state.ui.vertex.textContent = state.vertex == null ? text('Aucun sommet sélectionné', 'No vertex selected')
+        state.ui.count.textContent = count + (count === 1 ? text(' point', ' point') : text(' points', ' points'));
+        state.ui.vertex.textContent = state.vertex == null ? text('Sélectionnez un point sur la carte pour l’ajuster.', 'Select a point on the map to adjust it.')
             : text('Sommet ', 'Vertex ') + (state.vertex + 1) + ' / ' + count;
         state.ui.instructions.textContent = state.mode === 'draw'
-            ? text('Touchez la carte pour placer chaque sommet, puis terminez le tracé.', 'Tap the map to place each vertex, then finish the outline.')
-            : text('Déplacez un sommet ou utilisez les flèches du clavier. Maj + flèche affine le déplacement.', 'Drag a vertex or use the arrow keys. Shift + arrow makes a smaller adjustment.');
+            ? count < 3
+                ? text('Cliquez sur la carte pour placer les points du contour. Trois points minimum.', 'Click the map to place the outline points. At least three are needed.')
+                : text('Continuez à placer des points ou fermez le contour pour l’ajuster.', 'Continue placing points or close the outline to adjust it.')
+            : text('Déplacez les points sur la carte. Les flèches du clavier permettent un ajustement précis.', 'Drag points on the map. Arrow keys allow precise adjustments.');
         for (const button of state.ui.host.querySelectorAll('[data-region-action]')) {
             const action = button.dataset.regionAction;
             button.classList.toggle('is-active', action === state.mode);
             if (['draw', 'edit'].includes(action)) button.setAttribute('aria-pressed', String(action === state.mode));
             if (action === 'undo') button.disabled = !state.history.canUndo;
             else if (action === 'redo') button.disabled = !state.history.canRedo;
-            else if (action === 'delete-vertex') button.disabled = count <= 3 || state.vertex == null;
-            else if (action === 'add-vertex') button.disabled = count < 2 || count >= MAX_VERTICES || state.vertex == null;
-            else if (action === 'finish') button.disabled = count < 3;
-            else if (action === 'save') button.disabled = count < 3;
+            else if (action === 'delete-vertex') button.disabled = state.mode !== 'edit' || count <= 3 || state.vertex == null;
+            else if (action === 'add-vertex') button.disabled = state.mode !== 'edit' || count < 2 || count >= MAX_VERTICES || state.vertex == null;
+            else if (action === 'finish') { button.hidden = state.mode !== 'draw'; button.disabled = state.mode !== 'draw' || count < 3; }
+            else if (action === 'edit') button.disabled = count < 3;
+            else if (action === 'save') button.disabled = state.mode !== 'edit' || count < 3;
+            else if (action === 'clear') button.disabled = count === 0;
         }
+        state.ui.finishControls.hidden = state.mode !== 'draw';
+        state.ui.vertexTools.hidden = state.mode !== 'edit' || state.vertex == null;
+        state.ui.vertex.hidden = state.mode !== 'edit';
         state.ui.host.dataset.mode = state.mode;
     }
     function clearDraftLayers(state) {
@@ -343,7 +354,7 @@
         state.handles = []; state.editLayers.clearLayers?.();
     }
     function changeVertex(state, index, point, focus = false) {
-        if (!floorReady(state) || state.draftFloor !== state.floor) return false;
+        if (!floorReady(state) || state.draftFloor !== state.floor || state.mode !== 'edit') return false;
         if (!position(point)) { errorMessage(state, new Error('vertices_bounds')); renderDraft(state); return false; }
         const draft = copy(state.draft); draft.vertices[index] = { u: point.u, v: point.v };
         commitDraft(state, draft, index);
@@ -392,7 +403,7 @@
         message(state, draft.vertices.length + ' sommets placés.', draft.vertices.length + ' vertices placed.');
     }
     function addVertex(state) {
-        if (!floorReady(state) || state.draftFloor !== state.floor) return false;
+        if (!floorReady(state) || state.draftFloor !== state.floor || state.mode !== 'edit') return false;
         const points = state.draft.vertices, index = state.vertex;
         if (index == null || points.length < 2 || points.length >= MAX_VERTICES) return false;
         const next = points[(index + 1) % points.length];
@@ -400,7 +411,7 @@
         commitDraft(state, draft, index + 1); state.handles[index + 1]?.getElement?.()?.focus(); return true;
     }
     function deleteVertex(state) {
-        if (!floorReady(state) || state.draftFloor !== state.floor) return false;
+        if (!floorReady(state) || state.draftFloor !== state.floor || state.mode !== 'edit') return false;
         if (state.vertex == null || state.draft.vertices.length <= 3) return false;
         const draft = copy(state.draft); draft.vertices.splice(state.vertex, 1);
         commitDraft(state, draft, Math.min(state.vertex, draft.vertices.length - 1));
@@ -412,6 +423,7 @@
         state.mode = value; renderEditorState(state); renderDraft(state); return true;
     }
     function finish(state) {
+        if (state.mode !== 'draw') return false;
         if (!mode(state, 'edit')) return false;
         message(state, 'Tracé fermé. Vérifiez les limites puis enregistrez dans ce navigateur.', 'Outline closed. Check the boundaries, then save in this browser.'); return true;
     }
@@ -452,7 +464,7 @@
             const base = records(state).find(region => region.id === state.draft?.id);
             state.draft = copy(base || blank(state)); state.history = createHistory(state.draft); state.vertex = null;
             state.mode = state.draft.vertices.length >= 3 ? 'edit' : 'draw';
-            renderPublic(state); populateSelectors(state); renderEditorState(state); renderDraft(state);
+            renderPublic(state); populateSelectors(state); renderEditorState(state); renderDraft(state); changed(state);
             message(state, 'La proposition d’origine est restaurée ; le contour local est retiré.', 'The original proposal is restored; the local outline was removed.'); return true;
         } catch (_) { message(state, 'La modification locale n’a pas pu être retirée.', 'The local edit could not be removed.'); return false; }
     }
@@ -465,7 +477,7 @@
             const incoming = validated.floors.find(item => item.floor === state.floor)?.regions || [];
             if (!incoming.length) { message(state, 'Aucun contour de ce fichier ne concerne le palier affiché.', 'No outline in this file belongs to the displayed floor.'); return false; }
             state.draft = copy(incoming[0]); state.history = createHistory(state.draft); state.vertex = null; state.mode = 'edit';
-            populateSelectors(state); renderEditorState(state); renderDraft(state);
+            populateSelectors(state); renderEditorState(state); renderDraft(state); changed(state);
             message(state, incoming.length + ' contours importés pour révision. Choisissez un contour puis enregistrez-le localement.', incoming.length + ' outlines imported for review. Choose an outline, then save it locally.'); return true;
         } catch (error) { errorMessage(state, error); return false; }
     }
@@ -502,30 +514,48 @@
     function editorMarkup(state) {
         state.editorController?.abort(); state.editorController = new AbortController();
         const host = state.ui.host; host.replaceChildren();
-        const head = node('div', 'map-region-editor-heading'); head.append(node('h2', '', text('Dessiner les limites', 'Draw the boundaries')));
+        const head = node('div', 'map-region-editor-heading'); head.append(node('h2', '', text('Modifier une zone', 'Edit a zone')));
         const close = node('button', 'map-region-editor-close', '×'); close.type = 'button'; close.dataset.regionAction = 'close'; close.setAttribute('aria-label', text('Fermer l’éditeur des contours', 'Close the outline editor')); head.append(close); host.append(head);
-        host.append(node('p', 'map-region-local-note', text('Contours indicatifs · modifications conservées dans ce navigateur uniquement.', 'Indicative outlines · edits are kept in this browser only.')));
-        function field(content, element) { const label = node('label', 'map-region-field'); label.append(node('span', '', content), element); host.append(label); return element; }
-        state.ui.selector = field(text('Contour', 'Outline'), node('select', 'map-region-selector'));
-        state.ui.name = field(text('Nom de la zone', 'Zone name'), node('input', 'map-region-name')); state.ui.name.type = 'text'; state.ui.name.maxLength = 120;
-        state.ui.entity = field(text('Fiche associée', 'Linked entry'), node('select', 'map-region-entity'));
-        const actions = [
-            ['new', 'Nouvelle zone', 'New zone'], ['draw', 'Tracer', 'Draw'], ['finish', 'Terminer le tracé', 'Finish outline'], ['edit', 'Déplacer les sommets', 'Move vertices'],
-            ['add-vertex', 'Ajouter après ce sommet', 'Add after this vertex'], ['delete-vertex', 'Supprimer ce sommet', 'Delete this vertex'],
-            ['undo', 'Annuler', 'Undo'], ['redo', 'Rétablir', 'Redo'], ['clear', 'Effacer le tracé', 'Clear outline'],
-            ['save', 'Enregistrer localement', 'Save locally'], ['reset', 'Restaurer la proposition', 'Restore proposal'], ['import', 'Importer JSON', 'Import JSON'], ['export', 'Exporter JSON', 'Export JSON']
-        ];
-        state.ui.instructions = node('p', 'map-region-instructions'); host.append(state.ui.instructions);
-        state.ui.vertex = node('p', 'map-region-current-vertex'); host.append(state.ui.vertex);
+        function field(parent, content, element) { const label = node('label', 'map-region-field'); label.append(node('span', '', content), element); parent.append(label); return element; }
+        function action(parent, value, fr, en, className = '') {
+            const button = node('button', 'nm-game-button ' + className, text(fr, en));
+            button.type = 'button'; button.dataset.regionAction = value; parent.append(button); return button;
+        }
+        const choice = node('div', 'map-region-selection');
+        state.ui.selector = field(choice, text('Zone à modifier', 'Zone to edit'), node('select', 'map-region-selector'));
+        action(choice, 'new', '+ Nouvelle', '+ New').setAttribute('aria-label', text('Créer une nouvelle zone', 'Create a new zone')); host.append(choice);
+        const identity = node('details', 'map-region-identity'); identity.append(node('summary', '', text('Nom et fiche associée', 'Name and linked entry')));
+        state.ui.name = field(identity, text('Nom de la zone', 'Zone name'), node('input', 'map-region-name')); state.ui.name.type = 'text'; state.ui.name.maxLength = 120;
+        state.ui.entity = field(identity, text('Fiche associée', 'Linked entry'), node('select', 'map-region-entity')); host.append(identity);
+        const toolbox = node('section', 'map-region-toolbox'); toolbox.setAttribute('aria-label', text('Modifier le contour', 'Edit the outline'));
+        const toolbar = node('div', 'map-region-tool-modes'); toolbar.setAttribute('role', 'group'); toolbar.setAttribute('aria-label', text('Outil du contour', 'Outline tool'));
+        action(toolbar, 'draw', 'Dessiner', 'Draw'); action(toolbar, 'edit', 'Ajuster', 'Adjust');
+        state.ui.count = node('span', 'map-region-point-count'); toolbar.append(state.ui.count); toolbox.append(toolbar);
+        state.ui.instructions = node('p', 'map-region-instructions'); toolbox.append(state.ui.instructions);
+        state.ui.finishControls = node('div', 'map-region-editor-actions map-region-finish-actions');
+        action(state.ui.finishControls, 'finish', 'Fermer le contour', 'Close outline', 'is-primary'); toolbox.append(state.ui.finishControls);
+        state.ui.vertex = node('p', 'map-region-current-vertex'); toolbox.append(state.ui.vertex);
+        state.ui.vertexTools = node('div', 'map-region-editor-actions map-region-vertex-actions');
+        action(state.ui.vertexTools, 'add-vertex', 'Ajouter un point', 'Add a point');
+        action(state.ui.vertexTools, 'delete-vertex', 'Supprimer le point', 'Delete point'); toolbox.append(state.ui.vertexTools);
+        const history = node('div', 'map-region-editor-actions map-region-history');
+        const undo = action(history, 'undo', '↶ Annuler', '↶ Undo'), redo = action(history, 'redo', '↷ Rétablir', '↷ Redo');
+        undo.title = text('Annuler la dernière modification (Ctrl + Z)', 'Undo the last change (Ctrl + Z)');
+        redo.title = text('Rétablir la modification (Ctrl + Maj + Z)', 'Redo the change (Ctrl + Shift + Z)');
+        toolbox.append(history); host.append(toolbox);
+        const draftControls = node('div', 'map-region-editor-actions map-region-draft-actions');
+        action(draftControls, 'save', 'Enregistrer le brouillon', 'Save draft'); host.append(draftControls);
+        host.append(node('p', 'map-region-local-note', text('Enregistrer conserve un brouillon privé dans ce navigateur. Publier rend les limites visibles sur le site.', 'Save keeps a private draft in this browser. Publish makes the boundaries visible on the site.')));
+        const advanced = node('details', 'map-region-advanced'); advanced.append(node('summary', '', text('Fichiers et restauration', 'Files and restore')));
         const controls = node('div', 'map-region-editor-actions');
-        for (const [action, fr, en] of actions) { const button = node('button', 'nm-game-button' + (action === 'save' ? ' is-primary' : ''), text(fr, en)); button.type = 'button'; button.dataset.regionAction = action; controls.append(button); }
-        host.append(controls);
+        action(controls, 'import', 'Importer JSON', 'Import JSON'); action(controls, 'export', 'Exporter JSON', 'Export JSON');
+        action(controls, 'reset', 'Restaurer la proposition', 'Restore proposal'); action(controls, 'clear', 'Effacer le contour', 'Clear outline'); advanced.append(controls); host.append(advanced);
         state.ui.file = node('input', 'map-region-file'); state.ui.file.type = 'file'; state.ui.file.accept = 'application/json,.json'; state.ui.file.hidden = true; host.append(state.ui.file);
         state.ui.message = node('p', 'map-region-message'); state.ui.message.setAttribute('role', 'status'); state.ui.message.setAttribute('aria-live', 'polite'); host.append(state.ui.message);
         listenEditor(state, host, 'click', event => {
             const action = event.target.closest('[data-region-action]')?.dataset.regionAction; if (!action || !state.editing) return;
             if (action === 'close') closeEditor(state);
-            else if (action === 'new') startDraft(state, blank(state));
+            else if (action === 'new') { startDraft(state, blank(state)); identity.open = true; state.ui.name.focus({ preventScroll: true }); }
             else if (action === 'draw' || action === 'edit') mode(state, action);
             else if (action === 'finish') finish(state);
             else if (action === 'add-vertex') addVertex(state);
@@ -568,32 +598,35 @@
         const coordinates = state.draft.vertices.map(point => state.bridge.getLatLng(point));
         if (coordinates.some(point => !point)) return;
         const sheetHeight = global.innerWidth <= 768 && !state.bridge.root?.classList.contains('map-admin-workspace') ? Math.max(0, state.ui.host.getBoundingClientRect().height || 0) : 0;
-        state.bridge.map.invalidateSize?.({ pan: false }); state.bridge.map.stop?.();
-        state.bridge.map.fitBounds(global.L.latLngBounds(coordinates), { paddingTopLeft: [20, 20], paddingBottomRight: [20, sheetHeight + 20], maxZoom: 0, animate: !reduced(), duration: .32 });
+        const bounds = global.L.latLngBounds(coordinates), options = { paddingTopLeft: [20, 20], paddingBottomRight: [20, sheetHeight + 20], maxZoom: 0, animate: !reduced(), duration: .32 };
+        if (state.bridge.fitCamera) state.bridge.fitCamera(bounds, options);
+        else { state.bridge.map.invalidateSize?.({ pan: true, animate: false }); state.bridge.map.stop?.(); state.bridge.map.fitBounds(bounds, options); }
     }
     function historyMove(state, direction) {
         if (!floorReady(state) || !state.editing || state.draftFloor !== state.floor) return false;
         state.draft = state.history[direction](); state.vertex = state.draft.vertices.length ? Math.min(state.vertex ?? 0, state.draft.vertices.length - 1) : null;
-        if (state.draft.vertices.length < 3) state.mode = 'draw'; renderEditorState(state); renderDraft(state); return true;
+        if (state.draft.vertices.length < 3) state.mode = 'draw'; renderEditorState(state); renderDraft(state); changed(state); return true;
     }
     function openEditor(state, id) {
         if (!floorReady(state) || !state.ui.host || state.bridge.canEditRegions?.() !== true) return false;
         state.pendingCamera = null;
+        state.bridge.cancelCamera?.();
         state.opener = document.activeElement; state.editing = true; state.importGeneration++;
         state.bridge.setRegionEditorMode?.(true); state.ui.host.hidden = false;
         state.bridge.root?.classList.add('has-region-editor');
         editorMarkup(state);
         startDraft(state, records(state).find(region => region.id === (id || state.selected)) || records(state)[0] || blank(state));
-        renderPublic(state); state.bridge.map.invalidateSize?.({ pan: false });
-        state.ui.name.focus({ preventScroll: true }); return true;
+        renderPublic(state); state.bridge.syncViewport?.();
+        state.ui.selector.focus({ preventScroll: true }); return true;
     }
     function closeEditor(state, restoreFocus = true) {
         if (!state.editing) return;
+        state.bridge.cancelCamera?.();
         state.editing = false; state.importGeneration++; state.imported = null; clearDraftLayers(state);
         state.editorController?.abort();
         state.bridge.setRegionEditorMode?.(false); state.ui.host.hidden = true; state.bridge.root?.classList.remove('has-region-editor');
-        renderPublic(state); state.bridge.map.invalidateSize?.({ pan: false });
-        if (restoreFocus) (state.opener?.isConnected ? state.opener : state.ui.open)?.focus?.();
+        renderPublic(state); state.bridge.syncViewport?.();
+        if (restoreFocus) (state.opener?.isConnected ? state.opener : state.ui.open)?.focus?.({ preventScroll: true });
     }
     function setFloor(state, value) {
         const id = Number(value?.floor ?? state.bridge.getFloor());
@@ -630,7 +663,7 @@
         const pane = bridge.map.getPane?.(state.pane) || bridge.map.createPane(state.pane); pane.style.zIndex = '450';
         const editPane = bridge.map.getPane?.(state.editPane) || bridge.map.createPane(state.editPane); editPane.style.zIndex = '650';
         state.layers = global.L.layerGroup().addTo(bridge.map); state.editLayers = global.L.layerGroup().addTo(bridge.map);
-        state.api = { select: id => select(state, id), focusByEntity:key => focusByEntity(state,key), restoreView:(center,zoom)=>restoreView(state,center,zoom), cancelCamera(){state.pendingCamera=null;}, findByEntity: key => floorReady(state) ? records(state).find(region => region.entityKey === key) || null : null,
+        state.api = { select: id => select(state, id), focusByEntity:key => focusByEntity(state,key), restoreView:(center,zoom)=>restoreView(state,center,zoom), cancelCamera(){state.pendingCamera=null;state.bridge.cancelCamera?.();}, findByEntity: key => floorReady(state) ? records(state).find(region => region.entityKey === key) || null : null,
             filter(value) { state.filter = normalizeFilter(value); renderPublic(state); },
             clearSelection() { state.selected = null; state.selectionGeneration++; state.pendingCamera = null; syncSelection(state); },
             getRegions: () => floorReady(state) ? copy(records(state)) : [],

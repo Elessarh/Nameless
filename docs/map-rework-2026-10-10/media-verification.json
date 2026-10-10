@@ -1,0 +1,39 @@
+{
+  "verificationDate": "2026-10-10",
+  "videos": [
+    {
+      "file": "public-map-motion.webm",
+      "durationSeconds": 11.12,
+      "width": 1920,
+      "height": 1080,
+      "codec": "VP8",
+      "framesPerSecond": 25,
+      "decodedFrameSeconds": 8,
+      "decodedFrameFile": "public-motion-verified-frame.png",
+      "decodeExitCode": 0,
+      "visuallyInspected": true
+    },
+    {
+      "file": "admin-map-editor-motion.webm",
+      "durationSeconds": 8.92,
+      "width": 1920,
+      "height": 1080,
+      "codec": "VP8",
+      "framesPerSecond": 25,
+      "decodedFrameSeconds": 6,
+      "decodedFrameFile": "admin-motion-verified-frame.png",
+      "decodeExitCode": 0,
+      "visuallyInspected": true,
+      "isolatedAuthenticationAndDatabase": true
+    }
+  ],
+  "finalCaptures": {
+    "waitAfterActionMilliseconds": 380,
+    "desktopPublicOverviewInspected": true,
+    "desktopNewMarkerInspected": true,
+    "mobileSelectedRegionInspected": true,
+    "mobileRegionEditorInspected": true,
+    "mobileNewMarkerInspected": true
+  },
+  "productionDatabaseWritesDuringBrowserVerification": 0
+}

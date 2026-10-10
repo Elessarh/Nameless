@@ -30,6 +30,9 @@ function surface(width) {
     assert.equal(d.querySelector('#map-floor-buttons button[aria-pressed="true"]').textContent, '01');
     assert.equal(d.getElementById('map-floor-previous').disabled, true); assert.equal(d.getElementById('map-floor-next').disabled, false);
     assert.equal(d.getElementById('map-filter-rail').hidden, false, 'Desktop exposes the filter rail');
+    assert.equal(d.getElementById('map-filters-toggle').getAttribute('aria-expanded'), 'true', 'Desktop drawer state is truthful');
+    d.getElementById('map-filters-toggle').click(); assert.equal(d.getElementById('map-filter-rail').hidden, true, 'Desktop filters can be collapsed');
+    d.getElementById('map-filters-toggle').click(); assert.equal(d.getElementById('map-filter-rail').hidden, false);
     assert.equal(d.getElementById('map-places'), null, 'The public atlas has no discovery strip');
     assert.equal(d.querySelector('.map-place-card'), null);
     assert.equal(bridge.getSelection(), null, 'Opening the atlas leaves the selection empty');
@@ -90,7 +93,8 @@ function surface(width) {
     assert.equal(rail.hidden, true); assert.equal(d.activeElement, toggle, 'Escape closes filters and returns focus to their trigger');
     toggle.click(); await bridge.selectEntity('creature:1'); assert.equal(rail.hidden, true, 'Selection clears the compact drawer to expose the chosen map reference');
     d.getElementById('map-panel-expand').click(); assert.equal(d.getElementById('map-panel-expand').getAttribute('aria-expanded'), 'true'); assert.equal(d.querySelector('main [inert]'), null);
-    p.w.innerWidth = 1024; p.w.dispatchEvent(new p.w.Event('resize')); assert.equal(rail.hidden, false); assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+    p.w.innerWidth = 1024; p.w.dispatchEvent(new p.w.Event('resize')); assert.equal(rail.hidden, true, 'Tablet filters remain a collapsible drawer'); assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+    p.w.innerWidth = 1280; p.w.dispatchEvent(new p.w.Event('resize')); assert.equal(rail.hidden, false); assert.equal(toggle.getAttribute('aria-expanded'), 'true');
     p.w.innerWidth = 360; p.w.dispatchEvent(new p.w.Event('resize')); assert.equal(rail.hidden, true, 'Returning to mobile starts with the drawer closed');
     for (const id of ['map-recenter','map-fullscreen','map-share','map-filters-toggle']) assert.ok(d.getElementById(id).getAttribute('aria-label'), 'Icon controls retain an accessible name');
     await p.init(); toggle.click(); assert.equal(toggle.getAttribute('aria-expanded'), 'true', 'Repeated init keeps one toggle listener');

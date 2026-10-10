@@ -92,6 +92,63 @@
         state.ui.status.textContent = message || ''; state.ui.status.hidden = !message;
     }
     function configOf(state, id = state.floor) { return state.catalog?.floors.find(floor => Number(floor.id) === Number(id)); }
+    function viewportSize(state) {
+        // Leaflet caches the size it sees at construction. A hidden admin gate or
+        // a stylesheet still loading must never become a permanent camera fit.
+        if (!state.map.getSize) return null;
+        return { width: state.ui.map.clientWidth, height: state.ui.map.clientHeight };
+    }
+    function overviewPadding(state) { return state.ui.map.clientWidth > 0 && state.ui.map.clientWidth <= 700 ? [12, 12] : [24, 24]; }
+    function syncViewport(state) {
+        if (!valid(state)) return false;
+        const size = viewportSize(state);
+        if (size && (size.width < 80 || size.height < 80)) { state.viewportReady = false; return false; }
+        const changed = size && (!state.viewportSize || size.width !== state.viewportSize.width || size.height !== state.viewportSize.height);
+        state.viewportReady = true;
+        state.viewportSize = size;
+        state.cameraApplying = true;
+        try {
+            // pan:true preserves the geographical center when the pixel origin
+            // changes. pan:false shifts it by half the viewport's size delta.
+            state.map.invalidateSize?.({ pan: true, animate: false });
+            const pending = state.pendingCamera;
+            if (pending && pending.floor === state.floor) {
+                state.pendingCamera = null; state.map.stop?.();
+                if (pending.kind === 'view') state.map.setView(pending.center, pending.zoom, pending.options);
+                else state.map.fitBounds(pending.bounds, state.cameraMode === 'atlas' ? { ...pending.options, padding: overviewPadding(state) } : pending.options);
+            } else if (changed && state.cameraMode === 'atlas') {
+                const config = configOf(state);
+                if (config) { state.map.stop?.(); state.map.fitBounds(config.bounds, { padding: overviewPadding(state), animate: false }); }
+            }
+        } finally { state.cameraApplying = false; }
+        saveState(state);
+        return true;
+    }
+    function scheduleViewport(state) {
+        if (!valid(state) || state.viewportFrame != null) return;
+        state.viewportFrame = global.requestAnimationFrame(() => { state.viewportFrame = null; syncViewport(state); });
+    }
+    function fitCamera(state, bounds, options = {}, mode = 'focus') {
+        if (!valid(state)) return false;
+        state.cameraMode = mode;
+        state.pendingCamera = { kind: 'bounds', floor: state.floor, bounds, options };
+        return syncViewport(state);
+    }
+    function viewCamera(state, center, zoom, options = {}) {
+        if (!valid(state)) return false;
+        state.cameraMode = 'focus';
+        state.pendingCamera = { kind: 'view', floor: state.floor, center, zoom, options };
+        return syncViewport(state);
+    }
+    function observeViewport(state) {
+        if (global.ResizeObserver) {
+            state.viewportObserver = new global.ResizeObserver(() => scheduleViewport(state));
+            state.viewportObserver.observe(state.ui.map);
+        }
+        // Also covers stylesheets activated by SPA navigation in older browsers.
+        document.addEventListener('load', event => { if (event.target?.matches?.('link[rel="stylesheet"]')) scheduleViewport(state); }, { capture: true, signal: state.controller.signal });
+        scheduleViewport(state);
+    }
     function relative(state, latlng, id = state.floor) {
         const config = configOf(state, id); if (!config) return null;
         const [[south, west], [north, east]] = config.bounds;
@@ -221,11 +278,11 @@
         }
     }
     function syncFilterDrawer(state) {
-        const compact = global.innerWidth <= 768;
-        if (!compact) state.filtersOpen = false;
-        state.ui.filterRail?.classList.toggle('is-open', compact && state.filtersOpen);
-        if (state.ui.filterRail) state.ui.filterRail.hidden = compact && !state.filtersOpen;
-        state.ui.filterToggle?.setAttribute('aria-expanded', String(compact && state.filtersOpen));
+        const desktop = global.innerWidth > 1100;
+        if (state.filterDesktop !== desktop) { state.filterDesktop = desktop; state.filtersOpen = desktop; }
+        state.ui.filterRail?.classList.toggle('is-open', state.filtersOpen);
+        if (state.ui.filterRail) state.ui.filterRail.hidden = !state.filtersOpen;
+        state.ui.filterToggle?.setAttribute('aria-expanded', String(state.filtersOpen));
     }
     function syncFloorControls(state) {
         const floors = state.catalog?.floors || [];
@@ -299,7 +356,7 @@
                 if (group.entities.length === 1) selectEntity(state, group.entities[0].key);
                 else {
                     showChoices(state, group.entities);
-                    if (group.coordinates.length > 1) state.map.fitBounds(group.coordinates, { padding: [48, 48], maxZoom: 0, animate: false });
+                    if (group.coordinates.length > 1) fitCamera(state, group.coordinates, { padding: [48, 48], maxZoom: 0, animate: false });
                 }
             });
             marker.addTo(state.markerLayer);
@@ -311,13 +368,14 @@
     function showPanel(state) {
         state.ui.panel.hidden = false; state.ui.workspace.classList.add('has-selection');
         // Preserve the logical map center when the detail rail changes its width.
-        state.map.invalidateSize?.({ pan: true, animate: false });
+        syncViewport(state); scheduleViewport(state);
     }
     function closePanel(state, update = true) {
         const restoreFocus = state.ui.panel.contains(document.activeElement);
+        state.pendingCamera = null;
         state.personalRegion = null;
         state.selected = null; state.pendingSelection = null; state.choiceKeys = null; state.ui.panel.hidden = true; state.ui.panel.classList.remove('is-expanded'); state.ui.expand.setAttribute('aria-expanded', 'false'); state.ui.workspace.classList.remove('has-selection');
-        renderMarkers(state); state.map.invalidateSize?.({ pan: false });
+        renderMarkers(state); syncViewport(state); scheduleViewport(state);
         if (update) updateUrl(state, null);
         emit(state, 'selection', null);
         if (restoreFocus) state.ui.map.focus({ preventScroll: true });
@@ -426,7 +484,7 @@
         }
         const href = localUrl(entity.url);
         if (href && !new URL(href).pathname.match(/^\/(carte|pages\/map\.html)$/)) { const link = node('a', 'map-page-link', text('Ouvrir la fiche', 'Open details')); link.href = href; overview.append(link); }
-        if (target.position) { const center = node('button', 'map-page-link', text('Voir sur la carte', 'View on map')); center.type = 'button'; listen(state, center, 'click', () => { state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 }); updateUrl(state, entity.key); }); overview.append(center); }
+        if (target.position) { const center = node('button', 'map-page-link', text('Voir sur la carte', 'View on map')); center.type = 'button'; listen(state, center, 'click', () => { viewCamera(state, target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 }); updateUrl(state, entity.key); }); overview.append(center); }
         const reverse = Object.values(state.data.entities).filter(other => other.key !== entity.key);
         relation(state, text('Lieu associé', 'Associated place'), [entity.placeKey, entity.positionRef], null, panes.places);
         if (entity.kind !== 'item') relation(state, text('Créatures', 'Creatures'), [...(entity.creatureKeys || []), ...reverse.filter(other => other.kind === 'creature' && (other.placeKey === entity.key || other.positionRef === entity.key)).map(other => other.key)], null, panes.creatures);
@@ -470,11 +528,11 @@
         if (url.href !== global.location.href) global.history[replace ? 'replaceState' : 'pushState'](null, '', url.pathname + url.search + url.hash);
         state.lastRoute = url.href;
     }
-    function recenter(state) { const config = configOf(state); if (config) state.map.fitBounds(config.bounds, { padding: [15, 15], animate: false }); }
+    function recenter(state) { const config = configOf(state); if (config) fitCamera(state, config.bounds, { padding: overviewPadding(state), animate: false }, 'atlas'); }
     function saveState(state) {
-        if (!valid(state) || !state.catalog) return;
+        if (!valid(state) || !state.catalog || !state.viewportReady || state.cameraApplying) return;
         const center = state.map.getCenter();
-        try { global.localStorage.setItem('ironOathMapState', JSON.stringify({ lat: center.lat, lng: center.lng, zoom: state.map.getZoom(), floor: state.floor })); } catch (_) { /* Optional preferences. */ }
+        try { global.localStorage.setItem(state.viewStorageKey, JSON.stringify({ version: 2, mode: state.cameraMode, lat: center.lat, lng: center.lng, zoom: state.map.getZoom(), floor: state.floor })); } catch (_) { /* Optional preferences. */ }
     }
     async function changeFloor(state, id, options = {}) {
         const config = configOf(state, id); if (!config || !valid(state)) return false;
@@ -510,7 +568,7 @@
         const region = global.NamelessMapRegions?.active?.findByEntity(key);
         const regionVisible = region && ['ready','archive'].includes(state.overridesStatus) && !['hidden','deleted','unavailable'].includes(entity.overrideState);
         if (regionVisible && options.center !== false) global.NamelessMapRegions.active.focusByEntity(key);
-        else if (target.position && options.center !== false) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 });
+        else if (target.position && options.center !== false) viewCamera(state, target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 });
         else if (state.overridesStatus === 'pending' && options.center !== false) state.pendingSelection = { key, intent };
         if (options.url !== false) updateUrl(state, key);
         emit(state, 'selection', entity); return true;
@@ -547,10 +605,12 @@
         let floor = Number(entry?.floor) || (configOf(state, requestedFloor) ? requestedFloor : 1);
         let saved = null;
         if (initial && !['floor', 'entity', 'location', 'creature', 'boss', 'guide', 'quest', 'x', 'y', 'q', 'u', 'v', 'zoom'].some(name => params.has(name))) {
-            try { saved = JSON.parse(global.localStorage.getItem('ironOathMapState')); } catch (_) { /* Optional preferences. */ }
+            try { saved = JSON.parse(global.localStorage.getItem(state.viewStorageKey)); } catch (_) { /* Optional preferences. */ }
             if (saved && configOf(state, saved.floor) && finite(saved.lat) && finite(saved.lng) && finite(saved.zoom, 20)) {
                 const bounds = configOf(state, saved.floor).maxBounds || configOf(state, saved.floor).bounds;
-                if (saved.lat >= bounds[0][0] && saved.lat <= bounds[1][0] && saved.lng >= bounds[0][1] && saved.lng <= bounds[1][1]) floor = Number(saved.floor); else saved = null;
+                // A legacy zero-size fit persisted zoom -5. Keep meaningful old
+                // cameras, but never restore the broken microscopic atlas.
+                if (saved.lat >= bounds[0][0] && saved.lat <= bounds[1][0] && saved.lng >= bounds[0][1] && saved.lng <= bounds[1][1] && (saved.version === 2 || saved.zoom > -5)) floor = Number(saved.floor); else saved = null;
             } else saved = null;
         }
         closePanel(state, false);
@@ -574,10 +634,10 @@
         if (!valid(state) || intent !== state.intent) return;
         if (camera) {
             state.pendingSelection = null; global.NamelessMapRegions?.active?.cancelCamera();
-            if (!global.NamelessMapRegions?.active?.restoreView(camera.center,camera.zoom)) state.map.setView(camera.center,camera.zoom,{animate:false});
+            if (!global.NamelessMapRegions?.active?.restoreView(camera.center,camera.zoom)) viewCamera(state,camera.center,camera.zoom,{animate:false});
         } else if (x != null && z != null) notice(state, text('Les coordonnées X/Z ne sont pas calibrées pour ce palier.', 'X/Z coordinates are not calibrated for this floor.'));
         else if (params.has('x') || params.has('y')) notice(state, text('Les coordonnées de ce lien sont invalides.', 'The coordinates in this link are invalid.'));
-        else if (saved) state.map.setView([saved.lat, saved.lng], Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), saved.zoom)), { animate: false });
+        else if (saved && saved.mode !== 'atlas') viewCamera(state,[saved.lat, saved.lng], Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), saved.zoom)), { animate: false });
         if (params.has('q')) { state.ui.search.value = params.get('q').slice(0, 200); renderSearch(state); }
     }
     async function reloadOverrides(state) {
@@ -608,7 +668,7 @@
         if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
         if (state.pendingSelection && state.pendingSelection.intent === state.intent && state.pendingSelection.key === state.selected) {
             const target = targetPosition(state, state.data?.entities[state.selected]);
-            if (target.position) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: false });
+            if (target.position) viewCamera(state,target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: false });
             state.pendingSelection = null;
         }
         emit(state, 'overrides', { status: state.overridesStatus, records: state.overrides });
@@ -638,7 +698,7 @@
         if (enabled && global.innerWidth <= 768 && !state.root.classList.contains('map-admin-workspace')) global.requestAnimationFrame(() => {
             if (valid(state) && state.regionEditorMode) state.ui.workspace.scrollIntoView({block:'start', behavior:reducedMotion() ? 'auto' : 'smooth'});
         });
-        state.map.invalidateSize?.({ pan: false });
+        syncViewport(state); scheduleViewport(state);
         emit(state, 'region-editor', state.regionEditorMode);
     }
     async function fullscreen(state) {
@@ -649,7 +709,7 @@
     }
     function syncFullscreen(state) {
         const enabled = document.fullscreenElement === state.ui.workspace || state.ui.workspace.classList.contains('is-fullscreen'); state.ui.fullscreen.setAttribute('aria-pressed', String(enabled));
-        controlLabel(state.ui.fullscreen, enabled ? text('Quitter le plein écran', 'Exit fullscreen') : text('Plein écran', 'Fullscreen'), 'fullscreen'); state.map.invalidateSize?.({ pan: false });
+        controlLabel(state.ui.fullscreen, enabled ? text('Quitter le plein écran', 'Exit fullscreen') : text('Plein écran', 'Fullscreen'), 'fullscreen'); syncViewport(state); scheduleViewport(state);
     }
     function translateUi(state) {
         if (!state.root.classList.contains('map-admin-workspace')) {
@@ -701,6 +761,7 @@
             event.preventDefault(); if (target) { target.focus(); target.click(); }
         });
         listen(state, ui.filterToggle, 'click', () => { state.filtersOpen = !state.filtersOpen; syncFilterDrawer(state); });
+        listen(state, ui.filterClose, 'click', () => { state.filtersOpen = false; syncFilterDrawer(state); ui.filterToggle?.focus({ preventScroll: true }); });
         listen(state, ui.filterReset, 'click', () => { for (const type of state.filters.keys()) state.filters.set(type, !type.startsWith('quest-')); if (ui.displayMarkers) ui.displayMarkers.checked = true; if (ui.displayNames) ui.displayNames.checked = true; state.root.classList.remove('map-hide-markers', 'map-hide-names'); renderFilters(state); renderMarkers(state); });
         listen(state, ui.displayMarkers, 'change', () => state.root.classList.toggle('map-hide-markers', !ui.displayMarkers.checked));
         listen(state, ui.displayNames, 'change', () => state.root.classList.toggle('map-hide-names', !ui.displayNames.checked));
@@ -731,11 +792,15 @@
             else if (!ui.panel.hidden && ui.workspace.contains(event.target)) { closePanel(state); ui.map.focus(); }
         });
         listen(state, document, 'fullscreenchange', () => syncFullscreen(state));
-        listen(state, global, 'resize', () => { syncFilterDrawer(state); state.map.invalidateSize?.({ pan: false }); });
+        listen(state, global, 'resize', () => { syncFilterDrawer(state); syncViewport(state); scheduleViewport(state); });
         listen(state, global, 'popstate', () => applyRoute(state)); listen(state, document, 'nameless:routechange', () => applyRoute(state));
         listen(state, document, 'nameless:languagechange', () => translateUi(state));
         listen(state, document, 'nameless:auth-changed', () => { reloadOverrides(state); adminCheck(state); });
         state.map.on('moveend', () => saveState(state)); state.map.on('zoomend', () => { state.detailCheck?.(); renderMarkers(state); saveState(state); });
+        const manualCamera = () => { if (!state.cameraApplying) { state.cameraMode = 'manual'; state.pendingCamera = null; } };
+        state.map.on('dragstart', manualCamera); state.map.on('zoomstart', manualCamera);
+        listen(state, ui.map, 'wheel', manualCamera);
+        listen(state, ui.map, 'keydown', event => { if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '-', '='].includes(event.key)) manualCamera(); });
         state.map.on('click', event => { if (state.editorMode) emit(state, 'click', { latlng: event.latlng, relative: relative(state, event.latlng) }); });
     }
     async function chooseFloor(state, id) {
@@ -751,10 +816,12 @@
         destroy();
         const main = container.closest('main') || root || document;
         const query = id => main.querySelector('#' + id);
-        const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), floorTitle: query('map-floor-title'), floorButtons: query('map-floor-buttons'), previous: query('map-floor-previous'), next: query('map-floor-next'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), filterRail: query('map-filter-rail'), filterToggle: query('map-filters-toggle'), filterReset: query('map-filters-reset'), filterEmpty: query('map-filters-empty'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), displayMarkers: query('map-display-markers'), displayNames: query('map-display-names'), legend: query('map-legend'), legendOpen: query('map-legend-open'), legendClose: query('map-legend-close'), legendTitle: query('map-legend-title'), legendContent: query('map-legend-content') },
+        const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), floorTitle: query('map-floor-title'), floorButtons: query('map-floor-buttons'), previous: query('map-floor-previous'), next: query('map-floor-next'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), filterRail: query('map-filter-rail'), filterToggle: query('map-filters-toggle'), filterClose: query('map-filters-close'), filterReset: query('map-filters-reset'), filterEmpty: query('map-filters-empty'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), displayMarkers: query('map-display-markers'), displayNames: query('map-display-names'), legend: query('map-legend'), legendOpen: query('map-legend-open'), legendClose: query('map-legend-close'), legendTitle: query('map-legend-title'), legendContent: query('map-legend-content') },
             root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), filtersOpen: false, markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', overridesDiagnostic: null, editorMode: false, regionEditorMode: false, events: new Map(), lastRoute: null };
         active = state;
         state.map = global.L.map(container, { crs: global.L.CRS.Simple, minZoom: -5, maxZoom: 3, zoom: -3, center: [2560, 2560], zoomControl: true, attributionControl: false, keyboard: true, zoomSnap: .25, zoomDelta: .5, maxBoundsViscosity: .5 });
+        state.cameraMode = 'atlas'; state.viewportReady = false; state.viewportFrame = null; state.pendingCamera = null;
+        state.viewStorageKey = main.classList.contains('map-admin-workspace') ? 'namelessMapWorkspaceView' : 'ironOathMapState';
         state.viewportZooming = false;
         state.map.on('zoomstart', () => { state.viewportZooming = true; });
         state.map.on('zoomend', () => { state.viewportZooming = false; });
@@ -763,6 +830,10 @@
             canEditRegions: () => options.canEdit?.() === true,
             getRegionDraftKey: () => options.regionDraftKey?.() || global.NamelessMapRegions?.STORAGE_KEY,
             getRegionRevision: key => options.regionRevision?.(key),
+            syncViewport: () => syncViewport(state),
+            cancelCamera: () => { state.pendingCamera = null; },
+            fitCamera: (bounds, options) => fitCamera(state, bounds, options),
+            viewCamera: (center, zoom, options) => viewCamera(state, center, zoom, options),
             closeSelection: () => closePanel(state, false), chooseFloor: id => chooseFloor(state, Number(id)),
             getFloor: () => state.floor, getData: () => state.data, getSelection: () => state.selected, getOverridesStatus: () => state.overridesStatus, getOverridesDiagnostic: () => state.overridesDiagnostic,
             selectEntity: (key, options) => selectEntity(state, key, options), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
@@ -774,7 +845,7 @@
         if (global.innerWidth <= 700 && !main.classList.contains('map-admin-workspace')) {
             state.ui.displayNames.checked = false; main.classList.add('map-hide-names');
         }
-        api.active = state.bridge; wire(state); translateUi(state);
+        api.active = state.bridge; wire(state); translateUi(state); observeViewport(state);
         state.ready = (async () => {
             try {
                 const catalog = await getCatalog(); if (!valid(state)) return null;
@@ -795,6 +866,9 @@
     function destroy() {
         const state = active; if (!state) return;
         active = null; api.active = null; state.controller.abort(); state.intent++; state.floorGeneration++; state.authGeneration++;
+        state.viewportObserver?.disconnect();
+        if (state.viewportFrame != null) global.cancelAnimationFrame(state.viewportFrame);
+        state.viewportFrame = null; state.pendingCamera = null;
         state.floorAnimation?.cancel(); state.floorAnimation = null; state.ui.legend?.close?.();
         global.NamelessMapAdmin?.destroy?.();
         global.NamelessMapRegions?.destroy?.();
