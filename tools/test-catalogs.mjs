@@ -162,10 +162,11 @@ function paletteIsolation(w, selector) {
     check(sidebar.inert === true && content.inert !== true, 'Closed mobile wiki sidebar does not disable the article');
     toggle.click();
     check(sidebar.classList.contains('open') && content.inert === true && d.activeElement === search && d.body.style.overflow === 'hidden', 'Mobile wiki sidebar focuses search and makes the article inert');
-    key(w, search, 'Tab', { shiftKey: true });
+    const firstWikiControl = sidebar.querySelector('a[href], button:not([disabled]), input:not([disabled])');
+    firstWikiControl.focus(); key(w, firstWikiControl, 'Tab', { shiftKey: true });
     check(d.activeElement === toggle, 'Mobile wiki sidebar wraps backward Tab to its close toggle');
     key(w, toggle, 'Tab');
-    check(d.activeElement === search, 'Mobile wiki sidebar wraps forward Tab to search');
+    check(d.activeElement === firstWikiControl, 'Mobile wiki sidebar wraps forward Tab to its first control');
     const palette = d.createElement('dialog'); palette.open = true;
     const field = d.createElement('input'); palette.appendChild(field); d.body.appendChild(palette); field.focus();
     const escape = new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }); field.dispatchEvent(escape);

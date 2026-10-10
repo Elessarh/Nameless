@@ -3,7 +3,6 @@
 .auth-page .auth-container { width: min(100%, 1080px); margin: 0 auto; }
 .auth-page .auth-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
 .auth-page .auth-card, .auth-page .guild-info { padding: 32px; border: 1px solid var(--nm-border); border-radius: var(--nm-radius); background: var(--nm-bg-secondary); }
-.auth-page .brand-emblem--auth { display: block; width: 88px; height: 88px; margin: 0 auto 20px; object-fit: contain; }
 .auth-page .auth-title { color: var(--nm-text); font: 500 clamp(1.5rem, 3vw, 2rem)/1.3 var(--font-title); text-align: center; letter-spacing: 0; margin: 0 0 12px; }
 .auth-page .auth-subtitle { margin: 0 0 28px; text-align: center; color: var(--nm-text-secondary); font-size: .92rem; }
 .auth-page .auth-info { color: var(--nm-text); font-size: .92rem; line-height: 1.7; margin-bottom: 20px; }

@@ -49,6 +49,7 @@
     <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
     <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
     <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
+    <link rel="stylesheet" href="/css/components/wiki-codex.css?v=20261010regions">
 </head>
 <body>
     <!-- Skip link -->
@@ -94,11 +95,14 @@
 
             <!-- Sidebar -->
             <aside class="wiki-sidebar" id="wiki-sidebar">
+                <a class="wiki-index-brand" href="#accueil" data-page="accueil">
+                    <span><strong>Le Codex</strong><small>Archives de Nameless</small></span>
+                </a>
                 <div class="wiki-search">
                     <div class="wiki-search-wrapper">
                         <span class="wiki-search-icon"><span class="nm-pixel-icon icon-search" aria-hidden="true"></span></span>
-                        <label for="wiki-search" class="visually-hidden">Rechercher dans le wiki</label>
-                        <input type="text" class="wiki-search-input" id="wiki-search" placeholder="Rechercher dans le wiki..." autocomplete="off">
+                        <label for="wiki-search" class="wiki-search-label">Trouver un guide</label>
+                        <input type="search" class="wiki-search-input" id="wiki-search" placeholder="Titre ou mot-clé…" autocomplete="off">
                         <div class="wiki-search-results" id="wiki-search-results"></div>
                     </div>
                 </div>
@@ -234,71 +238,56 @@
             </aside>
 
             <!-- Mobile toggle -->
-            <button class="wiki-sidebar-toggle" id="sidebar-toggle" aria-label="Ouvrir le menu wiki" aria-expanded="false" aria-controls="wiki-sidebar"><span class="wiki-menu-bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
+            <button class="wiki-sidebar-toggle" id="sidebar-toggle" aria-label="Ouvrir le menu wiki" aria-expanded="false" aria-controls="wiki-sidebar"><span class="wiki-menu-bars" aria-hidden="true"><span></span><span></span><span></span></span><span data-wiki-toggle-label>Guides</span></button>
 
             <!-- Content -->
             <div class="wiki-content">
 
                 <!-- ===== ACCUEIL ===== -->
                 <section class="wiki-page active" id="page-accueil">
-                    <div class="wiki-hero nm-scene-hero scene-wiki">
-                        <span class="nm-eyebrow">Codex &amp; archives</span>
-                        <h1>Wiki Nameless</h1>
-                        <p>Le savoir de la guilde Nameless réuni en un seul lieu — règles, classes, métiers, donjons et ressources d'Aincrad.</p>
-                    </div>
-                    <p>Tu trouveras ici toutes les informations nécessaires pour survivre et prospérer dans l'Aincrad.</p>
+                    <header class="wiki-codex-hero">
+                        <div class="wiki-codex-intro">
+                            <span class="wiki-kicker">Le savoir de la guilde</span>
+                            <h1>Codex d’Aincrad</h1>
+                            <p>Prépare ton aventure. Retrouve les guides de Nameless, des premiers pas aux donjons d’Aincrad.</p>
+                            <div class="wiki-codex-actions">
+                                <a class="nm-game-button nm-game-button--primary" href="#debuter" data-page="debuter"><svg class="reference-header-icon" aria-hidden="true"><use href="/assets/ui/reference-icons.svg#icon-map"></use></svg> Commencer l’aventure <span aria-hidden="true">→</span></a>
+                                <button class="nm-game-button" type="button" data-wiki-search><svg class="reference-header-icon" aria-hidden="true"><use href="/assets/ui/reference-icons.svg#icon-search"></use></svg> Trouver un guide</button>
+                            </div>
+                        </div>
+                        <div class="wiki-codex-index"><span><b data-wiki-guide-count>54</b> <span>guides à consulter</span></span><span>Règles · Classes · Exploration</span></div>
+                    </header>
 
-                    <h2><span class="nm-pixel-icon icon-book" aria-hidden="true"></span> Sections du Wiki</h2>
-                    <div class="wiki-stats-grid">
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="reglement-aincrad">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Règlement</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="premiers-pas">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Premiers Pas</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="systeme-classe">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Classes</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="races">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-user" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Races</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="ressources">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Ressources</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="metiers">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Métiers</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="donjons">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Donjons</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="housing">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-town" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Housing</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="economie">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Économie</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="guildes">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Guildes</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="faq">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">FAQ</div>
-                        </div>
-                        <div class="wiki-stat-item" style="cursor:pointer" data-goto="familier-monture">
-                            <div class="wiki-stat-label"><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span></div>
-                            <div class="wiki-stat-value" style="font-size:0.85rem">Familiers</div>
-                        </div>
+                    <div class="wiki-section-heading"><h2>Choisis ton chemin</h2><span>Les essentiels d’Aincrad</span></div>
+                    <div class="wiki-portals">
+                        <a class="wiki-portal wiki-portal--arrival" href="#premiers-pas" data-page="premiers-pas">
+                            <img class="wiki-portal-scene" src="/assets/reference-v2/home-castle-card-640.webp" srcset="/assets/reference-v2/home-castle-card-320.webp 320w, /assets/reference-v2/home-castle-card-640.webp 640w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 450px" width="640" height="200" alt="" decoding="async">
+                            <span class="wiki-portal-number" aria-hidden="true">01</span><span class="wiki-portal-copy"><span class="wiki-kicker">Entrer dans Aincrad</span><strong>Premiers Pas</strong><span>Installation, premiers repères et conseils pour débuter.</span><span class="wiki-portal-link">Ouvrir le guide <span aria-hidden="true">→</span></span></span>
+                        </a>
+                        <a class="wiki-portal wiki-portal--classes" href="#systeme-classe" data-page="systeme-classe">
+                            <img class="wiki-portal-scene" src="/assets/reference-v2/workshop-environment-640.webp" srcset="/assets/reference-v2/workshop-environment-320.webp 320w, /assets/reference-v2/workshop-environment-640.webp 640w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px" width="640" height="360" alt="" decoding="async">
+                            <span class="wiki-portal-number" aria-hidden="true">02</span><span class="wiki-portal-copy"><span class="wiki-kicker">Forger son personnage</span><strong>Classes &amp; Compétences</strong><span>Découvre les cinq classes et leurs styles de combat.</span><span class="wiki-portal-link">Explorer les classes <span aria-hidden="true">→</span></span></span>
+                        </a>
+                        <a class="wiki-portal wiki-portal--combat" href="#donjons" data-page="donjons">
+                            <img class="wiki-portal-scene" src="/assets/reference-v2/forest-environment-640.webp" srcset="/assets/reference-v2/forest-environment-320.webp 320w, /assets/reference-v2/forest-environment-640.webp 640w" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px" width="640" height="360" alt="" decoding="async">
+                            <img class="wiki-portal-creature" src="/assets/home/illfang-256.webp" width="256" height="256" alt="" decoding="async">
+                            <span class="wiki-portal-number" aria-hidden="true">03</span><span class="wiki-portal-copy"><span class="wiki-kicker">Préparer ses combats</span><strong>Donjons &amp; Aventure</strong><span>Donjons, boss de palier et règles d’exploration.</span><span class="wiki-portal-link">Préparer une sortie <span aria-hidden="true">→</span></span></span>
+                        </a>
                     </div>
+
+                    <div class="wiki-section-heading"><h2>Les autres chapitres</h2><span>Tout le codex, à portée de main</span></div>
+                    <nav class="wiki-categories" aria-label="Chapitres du codex">
+                        <a class="wiki-category" href="#reglement-aincrad" data-page="reglement-aincrad"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span><span><strong>Règlement</strong><small>Les règles de l’Aincrad et de la communauté.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#races" data-page="races"><span class="nm-pixel-icon icon-user" aria-hidden="true"></span><span><strong>Races</strong><small>Choisir les origines de ton personnage.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#ressources" data-page="ressources"><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span><span><strong>Ressources</strong><small>Récolte, matériaux et ressources du monde.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#metiers" data-page="metiers"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span><span><strong>Métiers</strong><small>Développer ton savoir-faire.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#housing" data-page="housing"><span class="nm-pixel-icon icon-town" aria-hidden="true"></span><span><strong>Housing</strong><small>Acquérir et gérer ta maison.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#economie" data-page="economie"><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span><span><strong>Économie</strong><small>Cols, banque et échanges entre joueurs.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#guildes" data-page="guildes"><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span><span><strong>Guildes</strong><small>Rangs, alliances et aventure en groupe.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#faq" data-page="faq"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span><span><strong>FAQ</strong><small>Les réponses aux questions fréquentes.</small></span><span aria-hidden="true">↗</span></a>
+                        <a class="wiki-category" href="#familier-monture" data-page="familier-monture"><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span><span><strong>Familiers</strong><small>Compagnons, montures et familiers.</small></span><span aria-hidden="true">↗</span></a>
+                    </nav>
+                    <div class="wiki-codex-footer"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span><p>Suivre l’évolution du monde</p><a href="#devlogs" data-page="devlogs">Devlogs <span aria-hidden="true">→</span></a><a href="#roadmap" data-page="roadmap">Roadmap <span aria-hidden="true">→</span></a></div>
                 </section>
 
                 <!-- ===== FAQ ===== -->
@@ -336,7 +325,7 @@
                     <div class="wiki-card">
                         <ul>
                             <li>Le choix de <strong>race est irréversible</strong> — choisis bien !</li>
-                            <li>La <strong>classe peut être changée</strong> mais avec un coût élevé en Cols.</li>
+                            <li><strong>La classe peut être changée</strong> mais avec un coût élevé en Cols.</li>
                             <li>Consulte les pages dédiées pour des conseils de build.</li>
                         </ul>
                     </div>
@@ -638,7 +627,7 @@
                     </div>
 
                     <div class="wiki-callout wiki-callout-info">
-                        Le <strong>changement de classe</strong> est possible mais coûte cher en Cols. Choisis bien dès le départ !
+                        <strong>Le changement de classe</strong> est possible mais coûte cher en Cols. Choisis bien dès le départ !
                     </div>
                 </section>
 
@@ -654,7 +643,7 @@
                         <li><strong>Passives :</strong> buffs permanents</li>
                     </ul>
                     <div class="wiki-callout wiki-callout-info">
-                        Le <strong>reset de compétences</strong> est possible moyennant un coût en Cols.
+                        <strong>Le reset de compétences</strong> est possible moyennant un coût en Cols.
                     </div>
                 </section>
 
@@ -1364,10 +1353,10 @@
                     <h2><span class="nm-pixel-icon icon-balance" aria-hidden="true"></span> Système d'Influence</h2>
                     <p>Plus votre guilde est puissante, plus vous pesez sur les votes. Calculé selon :</p>
                     <ul>
-                        <li>Le <strong>Niveau de Guilde</strong></li>
-                        <li>La <strong>Démographie</strong> (membres actifs)</li>
-                        <li>La <strong>Puissance Financière</strong></li>
-                        <li>Le <strong>Classement officiel</strong></li>
+                        <li><strong>Le Niveau de Guilde</strong></li>
+                        <li><strong>La Démographie</strong> (membres actifs)</li>
+                        <li><strong>La Puissance Financière</strong></li>
+                        <li><strong>Le Classement officiel</strong></li>
                     </ul>
                 </section>
 
@@ -1409,7 +1398,7 @@
 
     <!-- Scripts -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261009reference" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261010regions" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -1421,7 +1410,7 @@
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
-    <script src="../js/wiki.js?v=20261007a" defer></script>
+    <script src="../js/wiki.js?v=20261009codex2" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
     <script src="../js/global-search.js?v=20261009ux1" defer></script>
 </body>

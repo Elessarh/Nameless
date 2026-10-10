@@ -408,3 +408,65 @@ Object.assign(window.NamelessTranslations.en, {
     "Voir les quêtes": "View quests",
     "Ouvrir le wiki": "Open the wiki"
 });
+
+// Reviewed image-relative region controls; remote marker services stay separate.
+Object.assign(window.NamelessTranslations.en, {
+    'Tracer les zones': 'Draw zones',
+    'Contours des zones': 'Zone outlines',
+    'Chargement des contours…': 'Loading outlines…',
+    'Régions de ce palier': 'Regions on this floor',
+    'Éditeur des contours': 'Outline editor',
+    'Régions': 'Regions'
+});
+
+// Reviewed Aincrad codex copy. Game names remain unchanged.
+Object.assign(window.NamelessTranslations.en, {
+    "Le Codex": "The Codex",
+    "Archives de Nameless": "Nameless Archives",
+    "Trouver un guide": "Find a guide",
+    "Titre ou mot-clé…": "Title or keyword…",
+    "Rechercher dans le wiki": "Search the wiki",
+    "Codex d’Aincrad": "Aincrad Codex",
+    "Prépare ton aventure. Retrouve les guides de Nameless, des premiers pas aux donjons d’Aincrad.": "Prepare for your adventure. Find Nameless guides, from your first steps to Aincrad’s dungeons.",
+    "Commencer l’aventure": "Begin your adventure",
+    "guides à consulter": "guides to browse",
+    "Règles · Classes · Exploration": "Rules · Classes · Exploration",
+    "Choisis ton chemin": "Choose your path",
+    "Les essentiels d’Aincrad": "Aincrad essentials",
+    "Entrer dans Aincrad": "Enter Aincrad",
+    "Installation, premiers repères et conseils pour débuter.": "Setup, orientation and tips for getting started.",
+    "Ouvrir le guide": "Open the guide",
+    "Forger son personnage": "Build your character",
+    "Découvre les cinq classes et leurs styles de combat.": "Discover the five classes and their combat styles.",
+    "Explorer les classes": "Explore the classes",
+    "Préparer ses combats": "Prepare for combat",
+    "Donjons & Aventure": "Dungeons & Adventure",
+    "Donjons, boss de palier et règles d’exploration.": "Dungeons, floor bosses and exploration rules.",
+    "Préparer une sortie": "Prepare for a run",
+    "Les autres chapitres": "Other chapters",
+    "Tout le codex, à portée de main": "The whole codex at your fingertips",
+    "Chapitres du codex": "Codex chapters",
+    "Les règles de l’Aincrad et de la communauté.": "Aincrad and community rules.",
+    "Choisir les origines de ton personnage.": "Choose your character’s origins.",
+    "Récolte, matériaux et ressources du monde.": "Gathering, materials and world resources.",
+    "Développer ton savoir-faire.": "Develop your skills.",
+    "Acquérir et gérer ta maison.": "Acquire and manage your home.",
+    "Cols, banque et échanges entre joueurs.": "Cols, banking and player trading.",
+    "Rangs, alliances et aventure en groupe.": "Ranks, alliances and group adventures.",
+    "Les réponses aux questions fréquentes.": "Answers to frequently asked questions.",
+    "Compagnons, montures et familiers.": "Companions, mounts and pets.",
+    "Suivre l’évolution du monde": "Follow the world’s development",
+    "Audio & Vocal": "Audio & Voice",
+    "La Monnaie : Les Cols": "Currency: Cols",
+    "5. Triche & Exploit": "5. Cheating & Exploits",
+    "2 Donjons de Palier": "2 Floor Dungeons",
+    "Micro": "Microphone",
+    "IRRÉVERSIBLE": "IRREVERSIBLE",
+    "La classe peut être changée": "The class can be changed",
+    "Le changement de classe": "Changing class",
+    "Le reset de compétences": "Resetting skills",
+    "Le Niveau de Guilde": "Guild Level",
+    "La Démographie": "Demographics",
+    "La Puissance Financière": "Financial Strength",
+    "Le Classement officiel": "Official Ranking"
+});

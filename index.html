@@ -58,7 +58,7 @@
     <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
     <link rel="preload" as="image" href="/assets/reference-v2/home-environment-1672.webp" imagesrcset="/assets/reference-v2/home-environment-1280.webp 1280w, /assets/reference-v2/home-environment-1672.webp 1672w" imagesizes="100vw" fetchpriority="high" media="(min-width: 769px)">
     <link rel="preload" as="image" href="/assets/reference-v2/home-environment-mobile.webp" fetchpriority="high" media="(max-width: 768px)">
-    <link rel="stylesheet" href="/css/components/reference-home.css?v=20261009ux1">
+    <link rel="stylesheet" href="/css/components/reference-home.css?v=20261010regions">
 </head>
 <body class="home-page">
     <!-- Skip link pour l'accessibilité -->
@@ -112,7 +112,6 @@
                         <span class="home-hero-motes"><i></i><i></i><i></i><i></i></span>
                     </div>
                     <div class="home-hero-front" aria-hidden="true"></div>
-                    <div class="home-hero-banner" aria-hidden="true"><img src="/assets/brand/nameless-emblem-128.webp?v=20261009identity" srcset="/assets/brand/nameless-emblem-128.webp?v=20261009identity 1x, /assets/brand/nameless-emblem-256.webp?v=20261009identity 2x" alt="" width="96" height="96" decoding="async"></div>
                     <p class="home-scene-caption">Illustration d’ambiance</p>
                     <button type="button" class="nm-game-button home-motion" data-home-motion aria-pressed="false" aria-label="Pause du décor">
                         <svg class="home-icon home-motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>
@@ -169,7 +168,7 @@
                         <li>
                             <a class="home-entry home-entry--guild nm-game-frame" href="/espace-guilde" data-home-portal="guild">
                                 <svg class="home-portal-frame" viewBox="0 0 360 164" preserveAspectRatio="none" aria-hidden="true"><path d="M16 1h328l15 15v132l-15 15H16L1 148V16Z"/><path d="M9 35V21L21 9h23M316 9h23l12 12v14M9 129v14l12 12h23M316 155h23l12-12v-14"/></svg>
-                                <div class="home-portal-visual home-portal-visual--guild" aria-hidden="true"><img class="home-portal-emblem" src="/assets/brand/nameless-emblem-128.webp?v=20261009identity" srcset="/assets/brand/nameless-emblem-128.webp?v=20261009identity 1x, /assets/brand/nameless-emblem-256.webp?v=20261009identity 2x" alt="" width="96" height="96" loading="lazy" decoding="async"></div>
+                                <div class="home-portal-visual home-portal-visual--guild" aria-hidden="true"><svg class="home-portal-guild" viewBox="0 0 32 32"><use href="/assets/ui/reference-icons.svg#icon-guild"></use></svg></div>
                                 <div class="home-entry-copy"><svg class="home-icon home-entry-symbol" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-guild"></use></svg><h3>Guilde</h3><p>Retrouvez le planning et les annonces des membres.</p><svg class="home-icon home-entry-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></div>
                             </a>
                         </li>
@@ -194,12 +193,12 @@
 
             <section class="home-section home-guild" aria-labelledby="join-title">
                 <header class="home-section-head nm-game-divider"><h2 id="join-title">Notre guilde</h2><a class="home-text-link" href="/espace-guilde"><span>Voir la guilde</span><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a></header>
-                <div class="home-guild-card nm-game-frame"><div class="home-guild-banner" aria-hidden="true"><img src="/assets/brand/nameless-emblem-128.webp?v=20261009identity" srcset="/assets/brand/nameless-emblem-128.webp?v=20261009identity 1x, /assets/brand/nameless-emblem-256.webp?v=20261009identity 2x" alt="" width="96" height="96" loading="lazy" decoding="async"></div>
+                <div class="home-guild-card nm-game-frame">
                 <picture class="home-guild-scene" aria-hidden="true">
                     <img src="/assets/reference-v2/guild-environment-640.webp" srcset="/assets/reference-v2/guild-environment-320.webp 320w, /assets/reference-v2/guild-environment-640.webp 640w" sizes="(max-width: 768px) calc(100vw - 32px), 420px" alt="" width="640" height="360" loading="lazy" decoding="async">
                 </picture>
                 <div class="home-guild-copy">
-                    <div class="home-guild-identity"><img src="/assets/brand/nameless-emblem-64.webp?v=20261008sao" alt="" width="44" height="44" loading="lazy" decoding="async"><div><h3>Nameless</h3><span>Guilde sur SAO France</span></div></div>
+                    <div class="home-guild-identity"><div><h3>Nameless</h3><span>Guilde sur SAO France</span></div></div>
                     <p>Une communauté de joueurs réunie pour explorer Aincrad, partager ses découvertes et progresser ensemble dans l’aventure.</p>
                 <div class="home-guild-actions">
                     <a href="https://discord.gg/BwxjRmh6qK" class="nm-game-button home-action" target="_blank" rel="noopener noreferrer"><svg class="home-icon" aria-hidden="true"><use href="/assets/ui/reference-icons.svg#icon-discord"></use></svg><span>Rejoindre notre Discord</span><svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6m-9 3 9-9M10 4H4v16h16v-6"></path></svg></a>
@@ -222,7 +221,7 @@
 
     <!-- Scripts - ordre sécurité conservé -->
     <script src="js/i18n-en.js?v=20261008sao" defer></script>
-    <script src="js/i18n-en-reviewed.js?v=20261009reference" defer></script>
+    <script src="js/i18n-en-reviewed.js?v=20261010regions" defer></script>
     <script src="js/i18n-quests-en-reviewed.js?v=20261008sao" defer></script>
     <script src="js/i18n-game-en-reviewed.js?v=20261008sao" defer></script>
     <script src="js/i18n-information-en-reviewed.js?v=20261007a" defer></script>

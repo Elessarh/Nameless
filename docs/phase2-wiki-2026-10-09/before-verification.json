@@ -1,0 +1,793 @@
+{
+  "stage": "before",
+  "base": "http://127.0.0.1:4173",
+  "article": "/wiki/#debuter",
+  "browser": "148.0.7778.96",
+  "generatedAt": "2026-10-09T19:46:01.723Z",
+  "captures": [
+    {
+      "file": "before-home-360x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-360x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-home-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-home-768x1024.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-768x1024.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-home-1280x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-1280x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-full-1920.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-en-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "en"
+    },
+    {
+      "file": "before-home-2560x1440.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      },
+      "language": "fr"
+    },
+    {
+      "file": "before-article-2560x1440.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      },
+      "language": "fr"
+    }
+  ],
+  "layouts": [
+    {
+      "name": "home-360",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 360,
+      "viewportHeight": 844,
+      "scrollWidth": 360,
+      "activePage": "page-accueil",
+      "title": "Wiki Nameless",
+      "headingCount": 1,
+      "articleCharacters": 1752,
+      "language": "fr",
+      "sidebar": {
+        "x": -288,
+        "y": 55,
+        "width": 288,
+        "height": 789
+      },
+      "content": {
+        "x": 0,
+        "y": 80,
+        "width": 360,
+        "height": 1305.921875
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-360",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 360,
+      "viewportHeight": 844,
+      "scrollWidth": 360,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 4,
+      "articleCharacters": 1338,
+      "language": "fr",
+      "sidebar": {
+        "x": -288,
+        "y": 55,
+        "width": 288,
+        "height": 789
+      },
+      "content": {
+        "x": 0,
+        "y": 80,
+        "width": 360,
+        "height": 1640.921875
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-390",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "scrollWidth": 390,
+      "activePage": "page-accueil",
+      "title": "Wiki Nameless",
+      "headingCount": 1,
+      "articleCharacters": 1752,
+      "language": "fr",
+      "sidebar": {
+        "x": -288,
+        "y": 55,
+        "width": 288,
+        "height": 789
+      },
+      "content": {
+        "x": 0,
+        "y": 80,
+        "width": 390,
+        "height": 1305.921875
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-390",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "scrollWidth": 390,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 4,
+      "articleCharacters": 1338,
+      "language": "fr",
+      "sidebar": {
+        "x": -288,
+        "y": 55,
+        "width": 288,
+        "height": 789
+      },
+      "content": {
+        "x": 0,
+        "y": 80,
+        "width": 390,
+        "height": 1583.328125
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-768",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 768,
+      "viewportHeight": 1024,
+      "scrollWidth": 768,
+      "activePage": "page-accueil",
+      "title": "Wiki Nameless",
+      "headingCount": 1,
+      "articleCharacters": 1752,
+      "language": "fr",
+      "sidebar": {
+        "x": -288,
+        "y": 55,
+        "width": 288,
+        "height": 969
+      },
+      "content": {
+        "x": 0,
+        "y": 80,
+        "width": 768,
+        "height": 960
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-768",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 768,
+      "viewportHeight": 1024,
+      "scrollWidth": 768,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 4,
+      "articleCharacters": 1338,
+      "language": "fr",
+      "sidebar": {
+        "x": -288,
+        "y": 55,
+        "width": 288,
+        "height": 969
+      },
+      "content": {
+        "x": 0,
+        "y": 80,
+        "width": 768,
+        "height": 1261.828125
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-1280",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 1280,
+      "viewportHeight": 1080,
+      "scrollWidth": 1280,
+      "activePage": "page-accueil",
+      "title": "Wiki Nameless",
+      "headingCount": 1,
+      "articleCharacters": 1752,
+      "language": "fr",
+      "sidebar": {
+        "x": 0,
+        "y": 72,
+        "width": 288,
+        "height": 1008
+      },
+      "content": {
+        "x": 288,
+        "y": 72,
+        "width": 992,
+        "height": 1008
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-1280",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1280,
+      "viewportHeight": 1080,
+      "scrollWidth": 1280,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 4,
+      "articleCharacters": 1338,
+      "language": "fr",
+      "sidebar": {
+        "x": 0,
+        "y": 144,
+        "width": 288,
+        "height": 1008
+      },
+      "content": {
+        "x": 288,
+        "y": 72,
+        "width": 992,
+        "height": 1224.328125
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-1920",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-accueil",
+      "title": "Wiki Nameless",
+      "headingCount": 1,
+      "articleCharacters": 1752,
+      "language": "fr",
+      "sidebar": {
+        "x": 0,
+        "y": 72,
+        "width": 288,
+        "height": 1008
+      },
+      "content": {
+        "x": 288,
+        "y": 72,
+        "width": 1632,
+        "height": 1008
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-1920",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 4,
+      "articleCharacters": 1338,
+      "language": "fr",
+      "sidebar": {
+        "x": 0,
+        "y": 144,
+        "width": 288,
+        "height": 1008
+      },
+      "content": {
+        "x": 288,
+        "y": 72,
+        "width": 1632,
+        "height": 1224.328125
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "article-en-1920",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-debuter",
+      "title": "Start the adventure",
+      "headingCount": 4,
+      "articleCharacters": 1251,
+      "language": "en",
+      "sidebar": {
+        "x": 0,
+        "y": 144,
+        "width": 288,
+        "height": 1008
+      },
+      "content": {
+        "x": 288,
+        "y": 72,
+        "width": 1632,
+        "height": 1224.328125
+      },
+      "tocLinks": [
+        {
+          "text": "Step 1: Join the server",
+          "href": "#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Step 2: Create your character",
+          "href": "#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Step 3: Explore floor 1",
+          "href": "#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Step 4: Progress",
+          "href": "#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-2560",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 2560,
+      "viewportHeight": 1440,
+      "scrollWidth": 2560,
+      "activePage": "page-accueil",
+      "title": "Wiki Nameless",
+      "headingCount": 1,
+      "articleCharacters": 1752,
+      "language": "fr",
+      "sidebar": {
+        "x": 0,
+        "y": 72,
+        "width": 288,
+        "height": 1368
+      },
+      "content": {
+        "x": 288,
+        "y": 72,
+        "width": 2272,
+        "height": 1368
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-2560",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 2560,
+      "viewportHeight": 1440,
+      "scrollWidth": 2560,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 4,
+      "articleCharacters": 1338,
+      "language": "fr",
+      "sidebar": {
+        "x": 0,
+        "y": 72,
+        "width": 288,
+        "height": 1368
+      },
+      "content": {
+        "x": 288,
+        "y": 72,
+        "width": 2272,
+        "height": 1368
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    }
+  ],
+  "checks": [],
+  "errors": [],
+  "cancelledRequests": [],
+  "external": [],
+  "existingArticleIds": [
+    "page-accueil",
+    "page-faq",
+    "page-devlogs",
+    "page-roadmap",
+    "page-reglement-aincrad",
+    "page-reglement-discord",
+    "page-reglement-vocal",
+    "page-premiers-pas",
+    "page-debuter",
+    "page-audio-vocal",
+    "page-optimisation",
+    "page-boutique",
+    "page-vote",
+    "page-systeme-classe",
+    "page-systeme-competence",
+    "page-guerrier",
+    "page-assassin",
+    "page-mage",
+    "page-shaman",
+    "page-archer",
+    "page-equipement",
+    "page-races",
+    "page-ressources",
+    "page-ressources-monde",
+    "page-ressources-appropriees",
+    "page-metiers",
+    "page-mineur",
+    "page-bucheron",
+    "page-fermier",
+    "page-pecheur",
+    "page-chasseur",
+    "page-anti-ks",
+    "page-commerces",
+    "page-housing",
+    "page-housing-acquisition",
+    "page-housing-manager",
+    "page-economie",
+    "page-marche-guilde",
+    "page-banque",
+    "page-donjons",
+    "page-raids",
+    "page-alchimie",
+    "page-mort-temporaire",
+    "page-expedition",
+    "page-pk",
+    "page-worldboss",
+    "page-passe-heroique",
+    "page-familier-monture",
+    "page-guildes",
+    "page-type-guilde",
+    "page-fonctionnement-guilde",
+    "page-alliances",
+    "page-table-ronde",
+    "page-liste-guildes",
+    "page-aide"
+  ],
+  "existingNavigationTargets": [
+    "accueil",
+    "faq",
+    "devlogs",
+    "roadmap",
+    "reglement-aincrad",
+    "reglement-discord",
+    "reglement-vocal",
+    "premiers-pas",
+    "debuter",
+    "audio-vocal",
+    "optimisation",
+    "boutique",
+    "vote",
+    "systeme-classe",
+    "systeme-competence",
+    "guerrier",
+    "assassin",
+    "mage",
+    "shaman",
+    "archer",
+    "equipement",
+    "races",
+    "ressources",
+    "ressources-monde",
+    "ressources-appropriees",
+    "metiers",
+    "mineur",
+    "bucheron",
+    "fermier",
+    "pecheur",
+    "chasseur",
+    "anti-ks",
+    "commerces",
+    "housing",
+    "housing-acquisition",
+    "housing-manager",
+    "economie",
+    "marche-guilde",
+    "banque",
+    "donjons",
+    "raids",
+    "alchimie",
+    "mort-temporaire",
+    "expedition",
+    "pk",
+    "worldboss",
+    "passe-heroique",
+    "familier-monture",
+    "guildes",
+    "type-guilde",
+    "fonctionnement-guilde",
+    "alliances",
+    "table-ronde",
+    "liste-guildes",
+    "aide",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "premiers-pas",
+    "accueil",
+    "premiers-pas",
+    "accueil",
+    "premiers-pas",
+    "accueil",
+    "premiers-pas",
+    "accueil",
+    "premiers-pas",
+    "accueil",
+    "accueil",
+    "accueil",
+    "systeme-classe",
+    "accueil",
+    "systeme-classe",
+    "accueil",
+    "systeme-classe",
+    "accueil",
+    "systeme-classe",
+    "accueil",
+    "systeme-classe",
+    "accueil",
+    "systeme-classe",
+    "accueil",
+    "accueil",
+    "accueil",
+    "ressources",
+    "accueil",
+    "ressources",
+    "accueil",
+    "accueil",
+    "metiers",
+    "accueil",
+    "metiers",
+    "accueil",
+    "metiers",
+    "accueil",
+    "metiers",
+    "accueil",
+    "metiers",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "housing",
+    "accueil",
+    "housing",
+    "accueil",
+    "accueil",
+    "economie",
+    "accueil",
+    "economie",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "accueil",
+    "guildes",
+    "accueil",
+    "guildes",
+    "accueil",
+    "guildes",
+    "accueil",
+    "guildes",
+    "accueil",
+    "guildes",
+    "accueil"
+  ]
+}

@@ -1,0 +1,1057 @@
+{
+  "stage": "after",
+  "base": "http://127.0.0.1:4173",
+  "article": "/wiki/#debuter",
+  "browser": "148.0.7778.96",
+  "generatedAt": "2026-10-10T02:48:04.357Z",
+  "captures": [
+    {
+      "file": "after-home-360x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-360x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-768x1024.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-768x1024.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-1280x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-1280x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-full-1920.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-en-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "en"
+    },
+    {
+      "file": "after-home-2560x1440.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-2560x1440.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-anchor-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-sidebar-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-anchor-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-reduced-motion-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    }
+  ],
+  "layouts": [
+    {
+      "name": "home-360",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 360,
+      "viewportHeight": 844,
+      "scrollWidth": 360,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": -302,
+        "y": 64,
+        "width": 302,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 336,
+        "height": 2261.40625
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-360",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 360,
+      "viewportHeight": 844,
+      "scrollWidth": 360,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": -302,
+        "y": 64,
+        "width": 302,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 336,
+        "height": 1801.515625
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-390",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "scrollWidth": 390,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 366,
+        "height": 2237.125
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-390",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "scrollWidth": 390,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 366,
+        "height": 1801.515625
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-768",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 768,
+      "viewportHeight": 1024,
+      "scrollWidth": 768,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 960
+      },
+      "content": {
+        "x": 16,
+        "y": 100,
+        "width": 736,
+        "height": 1583
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-768",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 768,
+      "viewportHeight": 1024,
+      "scrollWidth": 768,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 960
+      },
+      "content": {
+        "x": 16,
+        "y": 100,
+        "width": 736,
+        "height": 1394.9375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-1280",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 1280,
+      "viewportHeight": 1080,
+      "scrollWidth": 1280,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": 16,
+        "y": 96,
+        "width": 224,
+        "height": 960
+      },
+      "content": {
+        "x": 262,
+        "y": 96,
+        "width": 1002,
+        "height": 1166
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-1280",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1280,
+      "viewportHeight": 1080,
+      "scrollWidth": 1280,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": 16,
+        "y": 96,
+        "width": 224,
+        "height": 960
+      },
+      "content": {
+        "x": 262,
+        "y": 96,
+        "width": 1002,
+        "height": 1212.34375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-1920",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": 80,
+        "y": 96,
+        "width": 248,
+        "height": 960
+      },
+      "content": {
+        "x": 356,
+        "y": 96,
+        "width": 1484,
+        "height": 1163
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-1920",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": 80,
+        "y": 96,
+        "width": 248,
+        "height": 960
+      },
+      "content": {
+        "x": 356,
+        "y": 96,
+        "width": 1484,
+        "height": 1227.609375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "article-en-1920",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-debuter",
+      "title": "Start the adventure",
+      "headingCount": 5,
+      "articleCharacters": 1465,
+      "language": "en",
+      "sidebar": {
+        "x": 80,
+        "y": 96,
+        "width": 248,
+        "height": 960
+      },
+      "content": {
+        "x": 356,
+        "y": 96,
+        "width": 1484,
+        "height": 1227.609375
+      },
+      "tocLinks": [
+        {
+          "text": "Step 1: Join the server",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Step 2: Create your character",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Step 3: Explore floor 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Step 4: Progress",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-2560",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 2560,
+      "viewportHeight": 1440,
+      "scrollWidth": 2560,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": 400,
+        "y": 96,
+        "width": 248,
+        "height": 1320
+      },
+      "content": {
+        "x": 676,
+        "y": 96,
+        "width": 1484,
+        "height": 1163
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-2560",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 2560,
+      "viewportHeight": 1440,
+      "scrollWidth": 2560,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": 400,
+        "y": 96,
+        "width": 248,
+        "height": 1320
+      },
+      "content": {
+        "x": 676,
+        "y": 96,
+        "width": 1484,
+        "height": 1227.609375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "home-360: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "activePage": "page-accueil"
+      }
+    },
+    {
+      "name": "article-360: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "activePage": "page-debuter"
+      }
+    },
+    {
+      "name": "home-390: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "activePage": "page-accueil"
+      }
+    },
+    {
+      "name": "article-390: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "activePage": "page-debuter"
+      }
+    },
+    {
+      "name": "home-768: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "activePage": "page-accueil"
+      }
+    },
+    {
+      "name": "article-768: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "activePage": "page-debuter"
+      }
+    },
+    {
+      "name": "home-1280: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 1280,
+        "activePage": "page-accueil"
+      }
+    },
+    {
+      "name": "article-1280: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 1280,
+        "activePage": "page-debuter"
+      }
+    },
+    {
+      "name": "home-1920: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 1920,
+        "activePage": "page-accueil"
+      }
+    },
+    {
+      "name": "article-1920: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 1920,
+        "activePage": "page-debuter"
+      }
+    },
+    {
+      "name": "article-en-1920: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 1920,
+        "activePage": "page-debuter"
+      }
+    },
+    {
+      "name": "home-2560: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 2560,
+        "activePage": "page-accueil"
+      }
+    },
+    {
+      "name": "article-2560: responsive bounds and visible images",
+      "passed": true,
+      "detail": {
+        "width": 2560,
+        "activePage": "page-debuter"
+      }
+    },
+    {
+      "name": "All existing articles and native category destinations are retained",
+      "passed": true,
+      "detail": {
+        "retainedArticles": 55,
+        "priorities": 3,
+        "secondaryCategories": 9
+      }
+    },
+    {
+      "name": "Category keyboard navigation and native modified-click work",
+      "passed": true,
+      "detail": {
+        "keyboard": true,
+        "nativeNewTab": true
+      }
+    },
+    {
+      "name": "Local search focuses once, finds a real article and supports keyboard/empty states",
+      "passed": true,
+      "detail": {
+        "uniqueLocalSearch": true,
+        "query": "Débuter",
+        "realArticle": "debuter",
+        "noMatch": true
+      }
+    },
+    {
+      "name": "Sidebar groups retain ARIA state; selected article remains accessible after scroll",
+      "passed": true,
+      "detail": {
+        "sidebar": 96,
+        "header": 73,
+        "pageY": 134,
+        "availableStickyRange": 267.609375,
+        "endBounds": {
+          "sidebarBottom": 708.609375,
+          "wikiBottom": 764.609375,
+          "scrollY": 615
+        }
+      }
+    },
+    {
+      "name": "Article TOC targets stable headings, moves focus and respects header offset",
+      "passed": true,
+      "detail": {
+        "links": [
+          {
+            "text": "Étape 1 : Rejoindre le serveur",
+            "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+          },
+          {
+            "text": "Étape 2 : Créer son personnage",
+            "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+          },
+          {
+            "text": "Étape 3 : Explorer le Palier 1",
+            "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+          },
+          {
+            "text": "Étape 4 : Progresser",
+            "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+          }
+        ],
+        "anchor": {
+          "heading": 95.96875,
+          "header": 73,
+          "id": "page-debuter-section-2",
+          "scrollY": 429,
+          "viewportHeight": 1080
+        },
+        "currentSection": "page-debuter-section-2",
+        "tocTop": 96
+      }
+    },
+    {
+      "name": "Real article subsections retain a nested TOC hierarchy",
+      "passed": true,
+      "detail": {
+        "realArticle": "devlogs",
+        "nestedSubsections": 6
+      }
+    },
+    {
+      "name": "Related links and previous/next use real articles, with history restored",
+      "passed": true,
+      "detail": {
+        "article": "debuter",
+        "previous": "premiers-pas",
+        "next": "audio-vocal",
+        "related": [
+          "premiers-pas",
+          "audio-vocal",
+          "optimisation"
+        ]
+      }
+    },
+    {
+      "name": "Direct article/anchor URLs and SPA search entry preserve the Wiki route",
+      "passed": true,
+      "detail": {
+        "directAnchor": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4",
+        "spaEntry": "/wiki#debuter",
+        "persistentHeader": true
+      }
+    },
+    {
+      "name": "FR/EN rebuilds article UI/search coherently and survives reload and SPA",
+      "passed": true,
+      "detail": {
+        "stableHeadingIds": [
+          "page-debuter-section-1",
+          "page-debuter-section-2",
+          "page-debuter-section-3",
+          "page-debuter-section-4",
+          ""
+        ],
+        "queryPreserved": true,
+        "locales": [
+          "fr",
+          "en"
+        ],
+        "persisted": true
+      }
+    },
+    {
+      "name": "An English-first SPA Wiki mount translates the actual index, TOC and search content",
+      "passed": true,
+      "detail": {
+        "freshLocale": "en",
+        "spaMount": true,
+        "realArticle": "guerrier",
+        "translatedSearchQuery": "key competencies",
+        "generatedControls": [
+          "TOC",
+          "category",
+          "related guides"
+        ]
+      }
+    },
+    {
+      "name": "Mobile sidebar opens with focus, traps keys, closes with Escape/overlay",
+      "passed": true,
+      "detail": {
+        "trappedFocus": true,
+        "escapeAndOverlayClose": true
+      }
+    },
+    {
+      "name": "Mobile local-search entry and article selection restore reading focus",
+      "passed": true,
+      "detail": {
+        "article": "debuter",
+        "readingFocus": true
+      }
+    },
+    {
+      "name": "Mobile global and Wiki menus stay usable without two open navigation layers",
+      "passed": true,
+      "detail": {
+        "globalAndWikiMenus": "exclusive"
+      }
+    },
+    {
+      "name": "Mobile article TOC, pagination and search controls meet touch target minimums",
+      "passed": true,
+      "detail": [
+        {
+          "class": "wiki-sidebar-toggle",
+          "width": 110,
+          "height": 48
+        },
+        {
+          "class": "active",
+          "width": 294,
+          "height": 44
+        },
+        {
+          "class": "",
+          "width": 294,
+          "height": 44
+        },
+        {
+          "class": "",
+          "width": 294,
+          "height": 44
+        },
+        {
+          "class": "",
+          "width": 294,
+          "height": 44
+        },
+        {
+          "class": "wiki-article-prev",
+          "width": 328,
+          "height": 83.03125
+        },
+        {
+          "class": "wiki-article-next",
+          "width": 328,
+          "height": 83.03125
+        }
+      ]
+    },
+    {
+      "name": "Reduced motion removes Wiki transitions and smooth anchor scrolling",
+      "passed": true,
+      "detail": [
+        {
+          "class": "",
+          "tag": "HTML",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        },
+        {
+          "class": "wiki-sidebar",
+          "tag": "ASIDE",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "transitionDuration": "0s"
+        },
+        {
+          "class": "wiki-sidebar-toggle",
+          "tag": "BUTTON",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        },
+        {
+          "class": "active",
+          "tag": "A",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "transitionDuration": "0s"
+        },
+        {
+          "class": "",
+          "tag": "A",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "transitionDuration": "0s"
+        },
+        {
+          "class": "",
+          "tag": "A",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "transitionDuration": "0s"
+        },
+        {
+          "class": "",
+          "tag": "A",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "0s",
+          "transitionDuration": "0s"
+        },
+        {
+          "class": "wiki-article-prev",
+          "tag": "A",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        },
+        {
+          "class": "wiki-article-next",
+          "tag": "A",
+          "scrollBehavior": "auto",
+          "animationName": "none",
+          "animationDuration": "1e-05s",
+          "transitionDuration": "1e-05s"
+        }
+      ]
+    },
+    {
+      "name": "Actual Wiki interactions are recorded in a short demonstration",
+      "passed": true,
+      "detail": {
+        "file": "phase2-wiki-motion.webm",
+        "durationSeconds": 17.76,
+        "actualInteractions": [
+          "category hover",
+          "local search",
+          "keyboard selection",
+          "article TOC",
+          "next article",
+          "FR/EN",
+          "breadcrumb return"
+        ]
+      }
+    },
+    {
+      "name": "No JavaScript errors or local resource failures",
+      "passed": true,
+      "detail": {
+        "errors": 0,
+        "cancelledRequests": 2
+      }
+    }
+  ],
+  "errors": [],
+  "cancelledRequests": [
+    {
+      "page": "wiki-1920",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+      "message": "net::ERR_ABORTED"
+    },
+    {
+      "page": "motion-demo",
+      "url": "http://127.0.0.1:4173/assets/brand/nameless-emblem-128.webp?v=20261009identity",
+      "message": "net::ERR_ABORTED"
+    }
+  ],
+  "external": []
+}

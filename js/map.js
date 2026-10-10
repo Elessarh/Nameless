@@ -270,7 +270,7 @@
         const sorted = [...groups.values()].sort((a, b) => Number(b.entities.some(entity => entity.key === selectedKey)) - Number(a.entities.some(entity => entity.key === selectedKey)));
         for (const group of sorted) {
             const point = state.map.latLngToLayerPoint?.(group.coord);
-            const cluster = !state.editorMode && point && clusters.find(other => other.point && Math.hypot(point.x - other.point.x, point.y - other.point.y) <= 36);
+            const cluster = !state.editorMode && !state.regionEditorMode && point && clusters.find(other => other.point && Math.hypot(point.x - other.point.x, point.y - other.point.y) <= 36);
             if (cluster) { cluster.entities.push(...group.entities); cluster.coordinates.push(group.coord); }
             else clusters.push({ ...group, entities: [...group.entities], coordinates: [group.coord], point });
         }
@@ -281,6 +281,7 @@
             const tooltip = node('span', '', group.entities.map(label).join(' · '));
             marker.bindTooltip?.(tooltip, { className: 'map-hover-tooltip', direction: 'top', offset: [0, -14], opacity: 1 });
             marker.on('click', () => {
+                if (state.regionEditorMode) { const position = { lat: group.coord[0], lng: group.coord[1] }; emit(state, 'region-click', { latlng: position, relative: relative(state, position) }); return; }
                 if (state.editorMode) { emit(state, 'marker', { entities: group.entities, marker, latlng: { lat: group.coord[0], lng: group.coord[1] } }); return; }
                 if (group.entities.length === 1) selectEntity(state, group.entities[0].key);
                 else {
@@ -300,6 +301,7 @@
     }
     function closePanel(state, update = true) {
         const restoreFocus = state.ui.panel.contains(document.activeElement);
+        state.personalRegion = null;
         state.selected = null; state.pendingSelection = null; state.choiceKeys = null; state.ui.panel.hidden = true; state.ui.panel.classList.remove('is-expanded'); state.ui.expand.setAttribute('aria-expanded', 'false'); state.ui.workspace.classList.remove('has-selection');
         renderMarkers(state); state.map.invalidateSize?.({ pan: false });
         renderPlaces(state);
@@ -308,6 +310,7 @@
         if (restoreFocus) state.ui.map.focus({ preventScroll: true });
     }
     function showChoices(state, entities) {
+        state.personalRegion = null;
         state.choiceKeys = entities.map(entity => entity.key); state.ui.content.replaceChildren(node('h2', '', text('Plusieurs repères à cet endroit', 'Several markers at this location')));
         for (const entity of entities) {
             const button = node('button', 'map-choice', label(entity)); button.type = 'button'; listen(state, button, 'click', () => selectEntity(state, entity.key));
@@ -394,6 +397,7 @@
         media.append(image); return media;
     }
     function renderPanel(state, entity) {
+        state.personalRegion = null;
         state.choiceKeys = null; state.ui.content.replaceChildren();
         const panes = { overview: node('div'), creatures: node('div'), items: node('div'), places: node('div') }; const overview = panes.overview;
         const head = node('div', 'map-entity-heading');
@@ -402,6 +406,11 @@
         if (entity.kind === 'location') { const preview = locationPreview(state, entity); if (preview) state.ui.content.append(preview); }
         if (entity.status === 'historical-unverified') overview.append(node('p', 'map-position-note', text('Documentation secondaire historique. Ces informations n’ont pas été vérifiées depuis les changements du serveur.', 'Historical side-quest documentation. This information has not been verified since the server changes.')));
         if (entity.description) overview.append(node('p', '', english() && entity.descriptionEn ? entity.descriptionEn : global.NamelessI18n?.translate?.(entity.description) || entity.description));
+        const outline = global.NamelessMapRegions?.active?.findByEntity(entity.key);
+        if (outline) {
+            overview.append(node('p', 'map-region-position-note', text('Contour indicatif : limites proposées, à valider en jeu.', 'Indicative outline: proposed boundaries to review in game.')));
+            if (outline.wikiUrl) { const guide = node('a', 'map-page-link', text('Lire le guide lié', 'Read the linked guide')); guide.href = outline.wikiUrl; overview.append(guide); }
+        }
         const target = targetPosition(state, entity);
         if (target.reference) {
             const prefix = entity.kind === 'creature' ? text('Zone associée : ', 'Associated zone: ')
@@ -472,6 +481,7 @@
     async function changeFloor(state, id, options = {}) {
         const config = configOf(state, id); if (!config || !valid(state)) return false;
         const generation = ++state.floorGeneration;
+        emit(state, 'floor-pending', { floor: Number(id) });
         state.floorAnimation?.cancel(); state.floorAnimation = null;
         state.floor = Number(id); state.rawData = null; state.data = null; state.ui.floor.value = String(id); syncFloorControls(state); clearMarkers(state); renderFilters(state);
         state.map.setMaxBounds?.(config.maxBounds || config.bounds); recenter(state); mountImage(state, config);
@@ -498,10 +508,24 @@
         if (!entity) { notice(state, text('La fiche de ce repère n’est pas disponible sur ce palier.', 'This marker entry is not available on this floor.')); return false; }
         state.selected = key; hideSearch(state); state.filtersOpen = false; syncFilterDrawer(state); renderMarkers(state); renderPanel(state, entity); renderPlaces(state);
         const target = targetPosition(state, entity);
-        if (target.position && options.center !== false) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 });
+        const region = global.NamelessMapRegions?.active?.findByEntity(key);
+        const regionVisible = region && ['ready','archive'].includes(state.overridesStatus) && !['hidden','deleted','unavailable'].includes(entity.overrideState);
+        if (regionVisible && options.center !== false) state.map.fitBounds(region.vertices.map(vertex => latlng(state, vertex)), { padding: [24, 24], maxZoom: 0, animate: !reducedMotion(), duration: .45 });
+        else if (target.position && options.center !== false) state.map.setView(target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 });
         else if (state.overridesStatus === 'pending' && options.center !== false) state.pendingSelection = { key, intent };
         if (options.url !== false) updateUrl(state, key);
         emit(state, 'selection', entity); return true;
+    }
+    function showPersonalRegion(state, region, options = {}) {
+        if (!valid(state) || !region?.id) return;
+        state.personalRegion = region; state.selected = null; state.pendingSelection = null; state.choiceKeys = null;
+        state.ui.content.replaceChildren(node('span', 'map-kind', text('Zone personnelle', 'Personal zone')), node('h2', '', label(region)),
+            node('p', '', text('Contour indicatif conservé sur cet appareil.', 'Indicative outline kept on this device.')),
+            node('p', '', text('Exporte le fichier JSON pour partager ce contour. La vue de la carte peut être partagée séparément.', 'Export the JSON file to share this outline. The map view can be shared separately.')));
+        const edit = node('button', 'map-page-link', text('Modifier le contour', 'Edit outline')); edit.type = 'button';
+        listen(state, edit, 'click', () => global.NamelessMapRegions?.active?.editor.open(region.id)); state.ui.content.append(edit);
+        showPanel(state); renderMarkers(state); renderPlaces(state);
+        if (options.url !== false) updateUrl(state, null);
     }
     function findAlias(state, params) {
         const floor = Number(params.get('floor'));
@@ -563,9 +587,11 @@
             const records = Array.isArray(response.data) ? response.data : response.data?.records || [];
             if (state.overridesStatus === 'error' && state.floor !== 3) notice(state, '');
             state.overridesStatus = 'ready'; state.overrides = records; lastGoodOverrides = records;
+            state.overridesDiagnostic = null;
         } catch (error) {
             if (!valid(state) || generation !== state.overrideGeneration) return { status: 'stale' };
             const missing = error?.code === 'PGRST202' || /could not find.*function|function.*does not exist/i.test(error?.message || '');
+            state.overridesDiagnostic = { code: String(error?.code || ''), missing };
             state.overridesStatus = missing ? 'archive' : 'error'; state.overrides = missing ? [] : lastGoodOverrides || [];
             if (!missing) notice(state, text('Les modifications de repères sont indisponibles. Réessayez dans quelques instants.', 'Marker updates are unavailable. Please try again shortly.'));
         }
@@ -591,7 +617,7 @@
                 if (!adminScriptPromise) adminScriptPromise = new Promise((resolve, reject) => {
                     const existing = document.querySelector('script[data-map-admin]');
                     if (existing) { existing.addEventListener('load', resolve, { once: true }); existing.addEventListener('error', reject, { once: true }); return; }
-                    const script = node('script'); script.src = '/js/map-admin.js?v=20261008map2'; script.dataset.mapAdmin = 'true'; script.onload = resolve; script.onerror = () => { script.remove(); adminScriptPromise = null; reject(new Error('admin module')); }; document.head.append(script);
+                    const script = node('script'); script.src = '/js/map-admin.js?v=20261010regions'; script.dataset.mapAdmin = 'true'; script.onload = resolve; script.onerror = () => { script.remove(); adminScriptPromise = null; reject(new Error('admin module')); }; document.head.append(script);
                 });
                 await adminScriptPromise;
             }
@@ -601,8 +627,19 @@
         } catch (_) { if (valid(state) && generation === state.authGeneration) notice(state, text('L’éditeur de carte ne peut pas être chargé.', 'The map editor could not be loaded.')); }
     }
     function setEditorMode(state, enabled) {
+        if (enabled && state.regionEditorMode) global.NamelessMapRegions?.active?.editor.close();
         state.editorMode = !!enabled; state.ui.workspace.classList.toggle('map-editor-active', state.editorMode); renderMarkers(state);
         emit(state, 'editor', state.editorMode);
+    }
+    function setRegionEditorMode(state, enabled) {
+        state.regionEditorMode = !!enabled;
+        if (enabled) { global.NamelessMapAdmin?.suspend?.(); setEditorMode(state, false); }
+        state.ui.workspace.classList.toggle('is-region-editing', state.regionEditorMode);
+        if (enabled && global.innerWidth <= 768) global.requestAnimationFrame(() => {
+            if (valid(state) && state.regionEditorMode) state.ui.workspace.scrollIntoView({block:'start', behavior:reducedMotion() ? 'auto' : 'smooth'});
+        });
+        state.map.invalidateSize?.({ pan: false });
+        emit(state, 'region-editor', state.regionEditorMode);
     }
     async function fullscreen(state) {
         if (document.fullscreenElement === state.ui.workspace) { await document.exitFullscreen?.(); return; }
@@ -640,16 +677,17 @@
         syncFloorControls(state); syncFilterDrawer(state); syncFullscreen(state); renderFilters(state); renderMarkers(state); renderSearch(state); renderPlaces(state);
         if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
         else if (state.choiceKeys) showChoices(state, state.choiceKeys.map(key => state.data.entities[key]).filter(Boolean));
+        else if (state.personalRegion) showPersonalRegion(state, state.personalRegion, {url:false});
     }
     function wire(state) {
         const ui = state.ui;
-        listen(state, ui.search, 'input', () => renderSearch(state));
+        listen(state, ui.search, 'input', () => { renderSearch(state); global.NamelessMapRegions?.active?.filter(ui.search.value); });
         listen(state, ui.search, 'keydown', event => { if (event.key === 'ArrowDown' && !ui.results.hidden) { event.preventDefault(); ui.results.querySelector('button')?.focus(); } });
         listen(state, ui.results, 'keydown', event => {
             const buttons = [...ui.results.querySelectorAll('button')]; const index = buttons.indexOf(document.activeElement);
             if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); buttons[(index + (event.key === 'ArrowDown' ? 1 : -1) + buttons.length) % buttons.length]?.focus(); }
         });
-        listen(state, ui.clear, 'click', () => { ui.search.value = ''; renderSearch(state); ui.search.focus(); });
+        listen(state, ui.clear, 'click', () => { ui.search.value = ''; renderSearch(state); global.NamelessMapRegions?.active?.filter(''); ui.search.focus(); });
         listen(state, document, 'pointerdown', event => { if (!ui.search.closest('.map-search-container').contains(event.target)) hideSearch(state); });
         listen(state, ui.floor, 'change', () => chooseFloor(state, Number(ui.floor.value)));
         const adjacentFloor = direction => { const floors = state.catalog?.floors || []; const index = floors.findIndex(floor => Number(floor.id) === state.floor); const next = floors[index + direction]; if (next) chooseFloor(state, Number(next.id)); };
@@ -679,12 +717,12 @@
         listen(state, ui.expand, 'click', () => { const enabled = ui.panel.classList.toggle('is-expanded'); ui.expand.setAttribute('aria-expanded', String(enabled)); ui.expand.textContent = enabled ? text('Voir moins', 'Show less') : text('Voir plus', 'Show more'); });
         listen(state, ui.share, 'click', async () => {
             updateUrl(state, state.selected, true, true);
-            try { await global.navigator.clipboard.writeText(global.location.href); notice(state, text('Lien de la carte copié.', 'Map link copied.')); }
+            try { await global.navigator.clipboard.writeText(global.location.href); notice(state, state.personalRegion ? text('Vue de la carte copiée. Exporte le JSON pour transmettre le contour local.', 'Map view copied. Export JSON to send the local outline.') : text('Lien de la carte copié.', 'Map link copied.')); }
             catch (_) { notice(state, text('Le lien à partager est dans la barre d’adresse.', 'The share link is in the address bar.')); }
         });
         listen(state, ui.map, 'keydown', event => { if (event.key === '0' && !event.ctrlKey && !event.metaKey && !event.altKey && !document.querySelector('dialog[open], [role="dialog"][aria-modal="true"]') && !event.target.matches('input, textarea, select')) { event.preventDefault(); recenter(state); } });
         listen(state, document, 'keydown', event => {
-            if (event.key !== 'Escape' || document.querySelector('dialog[open], [role="dialog"][aria-modal="true"]')) return;
+            if (event.defaultPrevented || state.regionEditorMode || event.key !== 'Escape' || document.querySelector('dialog[open], [role="dialog"][aria-modal="true"]')) return;
             if (!ui.results.hidden) { hideSearch(state); ui.search.focus(); }
             else if (state.filtersOpen) { state.filtersOpen = false; syncFilterDrawer(state); ui.filterToggle?.focus(); }
             else if (ui.workspace.classList.contains('is-fullscreen')) { ui.workspace.classList.remove('is-fullscreen'); syncFullscreen(state); }
@@ -713,12 +751,15 @@
         const main = container.closest('main') || root || document;
         const query = id => main.querySelector('#' + id);
         const state = { controller: new AbortController(), ui: { map: container, workspace: query('map-workspace'), floor: query('floor-select'), floorTitle: query('map-floor-title'), floorButtons: query('map-floor-buttons'), previous: query('map-floor-previous'), next: query('map-floor-next'), search: query('map-search-input'), results: query('map-search-results'), clear: query('map-search-clear'), filters: query('map-filters'), filterRail: query('map-filter-rail'), filterToggle: query('map-filters-toggle'), filterReset: query('map-filters-reset'), filterEmpty: query('map-filters-empty'), status: query('map-route-status'), panel: query('map-panel'), content: query('map-panel-content'), expand: query('map-panel-expand'), close: query('map-panel-close'), recenter: query('map-recenter'), fullscreen: query('map-fullscreen'), share: query('map-share'), admin: query('map-admin-tools'), displayMarkers: query('map-display-markers'), displayNames: query('map-display-names'), legend: query('map-legend'), legendOpen: query('map-legend-open'), legendClose: query('map-legend-close'), legendTitle: query('map-legend-title'), legendContent: query('map-legend-content'), places: query('map-places'), placesList: query('map-places-list'), placesTitle: query('map-places-title'), placesToggle: query('map-places-toggle'), placesDescription: query('map-places-description') },
-            root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), filtersOpen: false, markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', editorMode: false, events: new Map(), lastRoute: null };
+            root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), filtersOpen: false, markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', overridesDiagnostic: null, editorMode: false, regionEditorMode: false, events: new Map(), lastRoute: null };
         active = state;
         state.map = global.L.map(container, { crs: global.L.CRS.Simple, minZoom: -5, maxZoom: 3, zoom: -3, center: [2560, 2560], zoomControl: true, attributionControl: false, keyboard: true, zoomSnap: .25, zoomDelta: .5, maxBoundsViscosity: .5 });
         state.markerLayer = global.L.layerGroup().addTo(state.map);
         state.bridge = { map: state.map, root: main, signal: state.controller.signal, catalog: null,
-            getFloor: () => state.floor, getData: () => state.data, getOverridesStatus: () => state.overridesStatus, selectEntity: key => selectEntity(state, key), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
+            getFloor: () => state.floor, getData: () => state.data, getSelection: () => state.selected, getOverridesStatus: () => state.overridesStatus, getOverridesDiagnostic: () => state.overridesDiagnostic,
+            selectEntity: (key, options) => selectEntity(state, key, options), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
+            showRegion: region => showPersonalRegion(state, region),
+            setRegionEditorMode: enabled => setRegionEditorMode(state, enabled), isRegionEditorActive: () => state.regionEditorMode,
             getLatLng: value => value && finite(value.u, 1) && finite(value.v, 1) && value.u >= 0 && value.v >= 0 ? latlng(state, value) : null,
             on: (event, fn) => { if (!state.events.has(event)) state.events.set(event, new Set()); state.events.get(event).add(fn); return () => state.events.get(event)?.delete(fn); } };
         api.active = state.bridge; wire(state); translateUi(state);
@@ -728,6 +769,8 @@
                 state.catalog = catalog; state.bridge.catalog = catalog; renderFloorControls(state);
                 await Promise.all([applyRoute(state, true), reloadOverrides(state)]); if (!valid(state)) return null;
                 if (!state.selected) { const place = Object.values(state.data?.entities || {}).find(entity => entity.kind === 'location' && targetPosition(state, entity).position); if (place) await selectEntity(state, place.key, { center: false, url: false }); }
+                await global.NamelessMapRegions?.init?.(state.bridge); if (!valid(state)) return null;
+                if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
                 adminCheck(state); return state.bridge;
             } catch (_) { if (valid(state)) notice(state, text('La carte ne peut pas être chargée. Réessayez.', 'The map could not be loaded. Please try again.')); return null; }
         })();
@@ -738,6 +781,7 @@
         active = null; api.active = null; state.controller.abort(); state.intent++; state.floorGeneration++; state.authGeneration++;
         state.floorAnimation?.cancel(); state.floorAnimation = null; state.ui.legend?.close?.();
         global.NamelessMapAdmin?.destroy?.();
+        global.NamelessMapRegions?.destroy?.();
         if (document.fullscreenElement === state.ui.workspace) document.exitFullscreen?.().catch?.(() => {});
         state.ui.workspace?.classList.remove('is-fullscreen'); state.filtersOpen = false; syncFilterDrawer(state); clearOverlays(state); clearMarkers(state);
         state.fullImages.forEach(record => { state.map.removeLayer(record.overlay); record.overlay.off?.(); }); state.fullImages.clear();

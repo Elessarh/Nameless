@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="../css/components/reference-map.css?v=20261009phasea">
     <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
     <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
+    <link rel="stylesheet" href="/css/components/map-regions.css?v=20261010regions">
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -133,6 +134,7 @@
             </div>
             
             <div class="map-actions">
+                <button id="map-regions-tools" type="button" aria-expanded="false" aria-controls="map-regions-editor">Tracer les zones</button>
                 <button id="map-filters-toggle" class="map-filters-toggle" type="button" aria-expanded="false" aria-controls="map-filter-rail">Filtres</button>
                 <button id="map-recenter" type="button">Recentrer</button>
                 <button id="map-fullscreen" type="button" aria-pressed="false">Plein écran</button>
@@ -156,7 +158,13 @@
                     <legend>Affichage</legend>
                     <label class="map-filter"><input id="map-display-markers" type="checkbox" checked><span>Marqueurs</span></label>
                     <label class="map-filter"><input id="map-display-names" type="checkbox" checked><span>Noms des lieux</span></label>
+                    <label class="map-filter"><input id="map-regions-toggle" type="checkbox" checked><span>Contours des zones</span></label>
                 </fieldset>
+                <section class="map-regions-index" aria-label="Régions de ce palier">
+                    <h3>Régions</h3>
+                    <p id="map-region-status" class="map-region-status" role="status" data-i18n-ignore>Chargement des contours…</p>
+                    <div id="map-region-list" class="map-region-list" data-i18n-ignore></div>
+                </section>
                 <button id="map-legend-open" class="map-legend-open" type="button">◇ Légende de la carte</button>
             </aside>
             <div class="map-wrapper">
@@ -170,6 +178,7 @@
                 </div>
                 <div id="map-panel-content" class="map-panel-content"></div>
             </aside>
+            <aside id="map-regions-editor" class="map-regions-editor" aria-label="Éditeur des contours" data-i18n-ignore hidden></aside>
         </div>
         <dialog id="map-legend" class="map-legend-dialog" aria-labelledby="map-legend-title">
             <div class="map-legend-heading"><h2 id="map-legend-title">Légende de la carte</h2><button id="map-legend-close" type="button" aria-label="Fermer la légende">×</button></div>
@@ -198,7 +207,7 @@
     
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261009reference" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261010regions" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -209,7 +218,8 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/map.js?v=20261009phasea" defer></script>
+    <script src="../js/map-regions.js?v=20261010regions" defer></script>
+    <script src="../js/map.js?v=20261010regions" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
     <script src="../js/global-search.js?v=20261009ux1" defer></script>

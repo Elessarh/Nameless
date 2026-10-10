@@ -1,0 +1,590 @@
+{
+  "stage": "after",
+  "captures": [
+    {
+      "file": "after-home-360x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-360x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-768x1024.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-768x1024.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-1280x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-1280x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-full-1920.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-en-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "language": "en"
+    },
+    {
+      "file": "after-home-2560x1440.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      },
+      "language": "fr"
+    },
+    {
+      "file": "after-article-2560x1440.png",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      },
+      "language": "fr"
+    }
+  ],
+  "layouts": [
+    {
+      "name": "home-360",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 360,
+      "viewportHeight": 844,
+      "scrollWidth": 360,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": -302,
+        "y": 64,
+        "width": 302,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 336,
+        "height": 2261.40625
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-360",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 360,
+      "viewportHeight": 844,
+      "scrollWidth": 360,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": -302,
+        "y": 64,
+        "width": 302,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 336,
+        "height": 1801.515625
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-390",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "scrollWidth": 390,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 366,
+        "height": 2237.125
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-390",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 390,
+      "viewportHeight": 844,
+      "scrollWidth": 390,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 780
+      },
+      "content": {
+        "x": 12,
+        "y": 94,
+        "width": 366,
+        "height": 1801.515625
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-768",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 768,
+      "viewportHeight": 1024,
+      "scrollWidth": 768,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 960
+      },
+      "content": {
+        "x": 16,
+        "y": 100,
+        "width": 736,
+        "height": 1583
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-768",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 768,
+      "viewportHeight": 1024,
+      "scrollWidth": 768,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": -304,
+        "y": 64,
+        "width": 304,
+        "height": 960
+      },
+      "content": {
+        "x": 16,
+        "y": 100,
+        "width": 736,
+        "height": 1394.9375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-1280",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 1280,
+      "viewportHeight": 1080,
+      "scrollWidth": 1280,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": 16,
+        "y": 96,
+        "width": 224,
+        "height": 960
+      },
+      "content": {
+        "x": 262,
+        "y": 96,
+        "width": 1002,
+        "height": 1166
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-1280",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1280,
+      "viewportHeight": 1080,
+      "scrollWidth": 1280,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": 16,
+        "y": 96,
+        "width": 224,
+        "height": 960
+      },
+      "content": {
+        "x": 262,
+        "y": 96,
+        "width": 1002,
+        "height": 1212.34375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-1920",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": 80,
+        "y": 96,
+        "width": 248,
+        "height": 960
+      },
+      "content": {
+        "x": 356,
+        "y": 96,
+        "width": 1484,
+        "height": 1163
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-1920",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": 80,
+        "y": 96,
+        "width": 248,
+        "height": 960
+      },
+      "content": {
+        "x": 356,
+        "y": 96,
+        "width": 1484,
+        "height": 1227.609375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "article-en-1920",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 1920,
+      "viewportHeight": 1080,
+      "scrollWidth": 1920,
+      "activePage": "page-debuter",
+      "title": "Start the adventure",
+      "headingCount": 5,
+      "articleCharacters": 1465,
+      "language": "en",
+      "sidebar": {
+        "x": 80,
+        "y": 96,
+        "width": 248,
+        "height": 960
+      },
+      "content": {
+        "x": 356,
+        "y": 96,
+        "width": 1484,
+        "height": 1227.609375
+      },
+      "tocLinks": [
+        {
+          "text": "Step 1: Join the server",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Step 2: Create your character",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Step 3: Explore floor 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Step 4: Progress",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    },
+    {
+      "name": "home-2560",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewportWidth": 2560,
+      "viewportHeight": 1440,
+      "scrollWidth": 2560,
+      "activePage": "page-accueil",
+      "title": "Codex d’Aincrad",
+      "headingCount": 2,
+      "articleCharacters": 2111,
+      "language": "fr",
+      "sidebar": {
+        "x": 400,
+        "y": 96,
+        "width": 248,
+        "height": 1320
+      },
+      "content": {
+        "x": 676,
+        "y": 96,
+        "width": 1484,
+        "height": 1163
+      },
+      "tocLinks": [],
+      "brokenImages": []
+    },
+    {
+      "name": "article-2560",
+      "url": "http://127.0.0.1:4173/wiki/#debuter",
+      "viewportWidth": 2560,
+      "viewportHeight": 1440,
+      "scrollWidth": 2560,
+      "activePage": "page-debuter",
+      "title": "Débuter l'aventure",
+      "headingCount": 5,
+      "articleCharacters": 1574,
+      "language": "fr",
+      "sidebar": {
+        "x": 400,
+        "y": 96,
+        "width": 248,
+        "height": 1320
+      },
+      "content": {
+        "x": 676,
+        "y": 96,
+        "width": 1484,
+        "height": 1227.609375
+      },
+      "tocLinks": [
+        {
+          "text": "Étape 1 : Rejoindre le serveur",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-1"
+        },
+        {
+          "text": "Étape 2 : Créer son personnage",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-2"
+        },
+        {
+          "text": "Étape 3 : Explorer le Palier 1",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-3"
+        },
+        {
+          "text": "Étape 4 : Progresser",
+          "href": "http://127.0.0.1:4173/wiki/#debuter/page-debuter-section-4"
+        }
+      ],
+      "brokenImages": []
+    }
+  ]
+}

@@ -139,8 +139,8 @@
             rows.forEach(function (member) {
                 var row = el('div', 'hq-member');
                 var image = el('img'); image.alt = ''; image.loading = 'lazy';
-                image.src = member.minecraft_username && /^[A-Za-z0-9_]{3,16}$/.test(member.minecraft_username) ? 'https://mc-heads.net/avatar/' + encodeURIComponent(member.minecraft_username) + '/32' : '/assets/brand/nameless-emblem-64.webp';
-                listen(s, image, 'error', function () { if (!image.src.includes('/assets/brand/')) image.src = '/assets/brand/nameless-emblem-64.webp'; });
+                image.src = member.minecraft_username && /^[A-Za-z0-9_]{3,16}$/.test(member.minecraft_username) ? 'https://mc-heads.net/avatar/' + encodeURIComponent(member.minecraft_username) + '/32' : '/assets/ui/player-avatar.svg';
+                listen(s, image, 'error', function () { if (!image.src.includes('/assets/ui/player-avatar.svg')) image.src = '/assets/ui/player-avatar.svg'; });
                 row.appendChild(image);
                 var name = el('span', 'hq-member-name', member.minecraft_username || member.username); name.appendChild(el('small', '', member.role === 'admin' ? tr('Administration') : tr('Membre'))); row.appendChild(name);
                 if (member.classe) row.appendChild(el('span', '', tr(member.classe)));

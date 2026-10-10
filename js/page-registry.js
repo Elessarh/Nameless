@@ -42,7 +42,7 @@
             'css/components/mmorpg-kit.css?v=20261008sao',
             'css/components/home.css?v=20261009premium',
             'css/components/home-premium.css?v=20261009phase1',
-            'css/components/reference-home.css?v=20261009ux1'
+            'css/components/reference-home.css?v=20261010regions'
         ],
         scripts: [
             'js/home-carousel.js?v=20261009premium'
@@ -78,11 +78,13 @@
                 'css/vendor/leaflet-1.9.4.css?v=20261007a',
                 'css/components/map.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-map.css?v=20261009phasea'
+                'css/components/reference-map.css?v=20261009phasea',
+                'css/components/map-regions.css?v=20261010regions'
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
-                'js/map.js?v=20261009phasea'
+                'js/map-regions.js?v=20261010regions',
+                'js/map.js?v=20261010regions'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -176,10 +178,11 @@
             css: [
                 'css/components/pixel-icons.css?v=20261007a',
                 'css/components/wiki.css?v=20261008hybrid',
-                'css/components/page-hero.css?v=20261008hybrid'
+                'css/components/page-hero.css?v=20261008hybrid',
+                'css/components/wiki-codex.css?v=20261010regions'
             ],
             scripts: [
-                'js/wiki.js?v=20261007a'
+                'js/wiki.js?v=20261009codex2'
             ],
             init: function (root) {
                 if (global.NamelessWikiPage && typeof global.NamelessWikiPage.init === 'function') {
@@ -198,7 +201,7 @@
             source: 'pages/connexion.html',
             title: 'Connexion - Nameless',
             css: [
-                'css/components/connexion.css?v=20261008hybrid'
+                'css/components/connexion.css?v=20261010regions'
             ],
             scripts: [],
             init: function (root) {
@@ -279,7 +282,7 @@
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/guild-expeditions.js?v=20261009hq',
+                'js/guild-expeditions.js?v=20261010regions',
                 'js/espace-guilde.js?v=20261009hq',
                 'js/guild-chat.js?v=20261008hybrid',
                 'js/guild-dm.js?v=20261007a'

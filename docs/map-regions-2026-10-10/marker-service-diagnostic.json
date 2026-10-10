@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-10-10T03:25:40.787Z",
+  "method": "read-only RPC POST using the existing public browser configuration",
+  "rpc": "read_map_marker_overrides",
+  "http": 404,
+  "code": "PGRST202",
+  "message": "Could not find the function public.read_map_marker_overrides without parameters in the schema cache",
+  "conclusion": "The remote marker read service is absent. Existing calibrated atlas/catalogue fallback remains intact; remote marker editing stays disabled. Region proposals and explicit local contour saves use a separate image-relative document and do not write to Supabase."
+}

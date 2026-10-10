@@ -44,7 +44,7 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
     }
     const en = translations.window.NamelessTranslations.en;
     const entries = [];
-    const add = entry => entries.push({...entry, titleEn: en[entry.title] || entry.title, summaryEn: en[entry.summary] || entry.summary});
+    const add = entry => entries.push({...entry, titleEn: entry.titleEn || en[entry.title] || entry.title, summaryEn: entry.summaryEn || en[entry.summary] || entry.summary});
     const creatures = literalArray(read('js/bestiaire.js'), 'creaturesData').map(projectCreature);
     const assetUrl = value => {
         const url = new URL(String(value), 'https://nameless-sao.fr/pages/bestiaire.html');
@@ -73,13 +73,25 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
         add({kind: 'quest', id: step.id, title: clean(step.querySelector('h4')?.textContent), url: '/quetes?quest=' + encodeURIComponent(step.id),
             summary: 'Palier ' + section.dataset.tier + ' · Secondaire historique non vérifiée', status: HISTORICAL_QUEST_STATUS, ...mapMetadata('guide:' + step.id), keywords: clean(step.textContent).slice(0, 450)});
     });
-    const wiki = new JSDOM(read('pages/wiki.html')).window.document;
-    wiki.querySelectorAll('.wiki-page').forEach(article => {
-        const title = clean(article.querySelector('h1')?.textContent);
-        const id = article.id.replace(/^page-/, '');
-        add({kind: 'wiki', id, title, url: '/wiki#' + id, summary: clean(article.querySelector('p')?.textContent).slice(0, 160),
-            keywords: clean(Array.from(article.querySelectorAll('h2,h3')).map(h => h.textContent).join(' '))});
-    });
+    const wikiDom = new JSDOM(read('pages/wiki.html'), {url: 'https://nameless-sao.fr/wiki', runScripts: 'outside-only'});
+    try {
+        const wiki = wikiDom.window.document;
+        const articles = Array.from(wiki.querySelectorAll('.wiki-page')).map(article => ({article,
+            id: article.id.replace(/^page-/, ''), title: clean(article.querySelector('h1')?.textContent),
+            summary: clean(article.querySelector('p')?.textContent).slice(0, 160),
+            keywords: clean(Array.from(article.querySelectorAll('h2,h3')).map(h => h.textContent).join(' '))}));
+        // Use the browser's reviewed vocabulary and inline-text handling before
+        // clipping summaries. A clipped source sentence cannot match the exact
+        // catalogue, and a second translator would drift on terms like Professions.
+        wikiDom.window.NamelessTranslations = translations.window.NamelessTranslations;
+        wikiDom.window.eval(read('js/i18n.js'));
+        wikiDom.window.NamelessI18n.setLanguage('en');
+        articles.forEach(({article, id, title, summary, keywords}) => {
+            add({kind: 'wiki', id, title, url: '/wiki#' + id, summary, keywords,
+                titleEn: clean(article.querySelector('h1')?.textContent),
+                summaryEn: clean(article.querySelector('p')?.textContent).slice(0, 160)});
+        });
+    } finally { wikiDom.window.close(); }
     for (const [name, kind] of [['villesData', 'location'], ['donjonsData', 'location'], ['marchandsData', 'npc'], ['monstresData', 'location']]) {
         mapSource[name].forEach((point, i) => add({kind, id: name + '-' + i, title: point.name,
             summary: 'Carte · Palier 1', keywords: point.description || '', ...mapMetadata('location:1:' + point.id), url: mapEntries.get('location:1:' + point.id).mapUrl}));

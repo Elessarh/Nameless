@@ -113,7 +113,8 @@
         if (/rate_limited/.test(message)) show(state, 'Trop de modifications. Réessayez dans une minute.', 'Too many changes. Try again in a minute.');
         else if (/backend_not_ready/.test(message)) {
             state.ready = false; setMode(state, false);
-            show(state, 'L’édition nécessite le service de repères disponible.', 'Editing requires the marker service to be available.');
+            if (state.bridge.getOverridesDiagnostic?.()?.missing) show(state, 'Le service de repères n’est pas configuré : la fonction de lecture est absente. Les migrations 004/005 et le registre doivent être installés avant l’édition distante.', 'The marker service is not configured: its read function is missing. Migrations 004/005 and the registry must be installed before remote editing.');
+            else show(state, 'L’édition nécessite le service de repères disponible.', 'Editing requires the marker service to be available.');
         }
         else if (/session|admin_required/.test(message)) {
             state.ready = false;
@@ -201,7 +202,7 @@
         } else state.preview?.setLatLng(latlng);
     }
     function placeDraft(state, latlng) {
-        if (!isActive(state) || !state.mode || state.pending || !state.selected) return;
+        if (!isActive(state) || !state.mode || state.pending || !state.selected || state.bridge.isRegionEditorActive?.()) return;
         const position = state.bridge.getRelative(latlng);
         if (!validPosition(position)) {
             if (state.preview && state.draftLatLng) state.preview.setLatLng(state.draftLatLng);
@@ -342,5 +343,5 @@
         await loadFloor(state);
         return isActive(state) && state.ready;
     }
-    global.NamelessMapAdmin = { init, destroy };
+    global.NamelessMapAdmin = { init, destroy, suspend() { if (active) setMode(active, false); } };
 })(window);

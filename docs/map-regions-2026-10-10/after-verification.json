@@ -1,0 +1,1098 @@
+{
+  "stage": "after",
+  "base": "http://127.0.0.1:4173",
+  "browser": "148.0.7778.96",
+  "generatedAt": "2026-10-10T03:47:13.502Z",
+  "captures": [
+    {
+      "file": "after-map-360x844.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-home-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-wiki-390x844.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-connexion-390x844.png",
+      "url": "http://127.0.0.1:4173/connexion/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-map-390x844.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-map-768x1024.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-map-1280x1080.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-wiki-1920x1080.png",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-connexion-1920x1080.png",
+      "url": "http://127.0.0.1:4173/connexion/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-map-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-map-2560x1440.png",
+      "url": "http://127.0.0.1:4173/carte/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-region-selected-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-editor-360x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-region-selected-360x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Azone-sanglier",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-editor-390x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-region-selected-390x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Azone-sanglier",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-editor-en-reduced-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "name": "map-360",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 360,
+      "height": 844,
+      "scrollWidth": 360,
+      "title": "Carte d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp"
+      ],
+      "mapReady": true,
+      "privateEditor": false
+    },
+    {
+      "name": "home-390",
+      "url": "http://127.0.0.1:4173/",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "title": "Explorez Aincrad, ensemble",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [],
+      "mapReady": false,
+      "privateEditor": false
+    },
+    {
+      "name": "wiki-390",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "title": "Codex d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [],
+      "mapReady": false,
+      "privateEditor": false
+    },
+    {
+      "name": "connexion-390",
+      "url": "http://127.0.0.1:4173/connexion/",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "title": "Connexion à Nameless",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [],
+      "mapReady": false,
+      "privateEditor": false
+    },
+    {
+      "name": "map-390",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "title": "Carte d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp"
+      ],
+      "mapReady": true,
+      "privateEditor": false
+    },
+    {
+      "name": "map-768",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 768,
+      "height": 1024,
+      "scrollWidth": 768,
+      "title": "Carte d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true,
+      "privateEditor": false
+    },
+    {
+      "name": "map-1280",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 1280,
+      "height": 1080,
+      "scrollWidth": 1280,
+      "title": "Carte d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true,
+      "privateEditor": false
+    },
+    {
+      "name": "home-1920",
+      "url": "http://127.0.0.1:4173/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "title": "Explorez Aincrad, ensemble",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [],
+      "mapReady": false,
+      "privateEditor": false
+    },
+    {
+      "name": "wiki-1920",
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "title": "Codex d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [],
+      "mapReady": false,
+      "privateEditor": false
+    },
+    {
+      "name": "connexion-1920",
+      "url": "http://127.0.0.1:4173/connexion/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "title": "Connexion à Nameless",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [],
+      "mapReady": false,
+      "privateEditor": false
+    },
+    {
+      "name": "map-1920",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "title": "Carte d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true,
+      "privateEditor": false
+    },
+    {
+      "name": "map-2560",
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 2560,
+      "height": 1440,
+      "scrollWidth": 2560,
+      "title": "Carte d’Aincrad",
+      "visibleLogos": [
+        {
+          "src": "http://127.0.0.1:4173/assets/brand/nameless-emblem-64.webp?v=20261009identity",
+          "width": 48,
+          "height": 48
+        }
+      ],
+      "brokenImages": [],
+      "mapImages": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ],
+      "mapReady": true,
+      "privateEditor": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "map-360: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "home-390: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "wiki-390: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "connexion-390: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "map-390: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 390,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "map-768: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "map-1280: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 1280,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "home-1920: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 1920,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "wiki-1920: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 1920,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "connexion-1920: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 1920,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "map-1920: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 1920,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "map-2560: responsive and image integrity",
+      "passed": true,
+      "detail": {
+        "width": 2560,
+        "visibleLogos": 1
+      }
+    },
+    {
+      "name": "Original map images and display variants remain byte-for-byte intact",
+      "passed": true,
+      "detail": {
+        "unchangedAssets": 15
+      }
+    },
+    {
+      "name": "Logo restraint across public home, Wiki, login and map",
+      "passed": true,
+      "detail": [
+        {
+          "page": "map-360",
+          "logos": 1
+        },
+        {
+          "page": "home-390",
+          "logos": 1
+        },
+        {
+          "page": "wiki-390",
+          "logos": 1
+        },
+        {
+          "page": "connexion-390",
+          "logos": 1
+        },
+        {
+          "page": "map-390",
+          "logos": 1
+        },
+        {
+          "page": "map-768",
+          "logos": 1
+        },
+        {
+          "page": "map-1280",
+          "logos": 1
+        },
+        {
+          "page": "home-1920",
+          "logos": 1
+        },
+        {
+          "page": "wiki-1920",
+          "logos": 1
+        },
+        {
+          "page": "connexion-1920",
+          "logos": 1
+        },
+        {
+          "page": "map-1920",
+          "logos": 1
+        },
+        {
+          "page": "map-2560",
+          "logos": 1
+        }
+      ]
+    },
+    {
+      "name": "Public map retains genuine authentication gates",
+      "passed": true,
+      "detail": {
+        "privateAdminHidden": true,
+        "privateGuildGated": true
+      }
+    },
+    {
+      "name": "Secondary pages also retain a single public logo",
+      "passed": true,
+      "detail": [
+        {
+          "route": "/bestiaire/",
+          "logos": 1
+        },
+        {
+          "route": "/items/",
+          "logos": 1
+        },
+        {
+          "route": "/profil/",
+          "logos": 1
+        },
+        {
+          "route": "/espace-guilde/",
+          "logos": 1
+        },
+        {
+          "route": "/quetes/",
+          "logos": 1
+        },
+        {
+          "route": "/conditions/",
+          "logos": 1
+        },
+        {
+          "route": "/confidentialite/",
+          "logos": 1
+        },
+        {
+          "route": "/admin-dashboard/",
+          "logos": 1
+        }
+      ]
+    },
+    {
+      "name": "Map search, selection and share retain actual entity identity",
+      "passed": true,
+      "detail": {
+        "entity": "location:1:vallee-loups",
+        "shareRouteRestored": true
+      }
+    },
+    {
+      "name": "Twelve honest indicative contours reuse real existing zone entries",
+      "passed": true,
+      "detail": {
+        "regions": 12,
+        "allIndicative": true,
+        "realEntityKeys": true
+      }
+    },
+    {
+      "name": "Polygon hover, pointer selection and equivalent keyboard list",
+      "passed": true,
+      "detail": {
+        "pointerRegion": "zone-sanglier",
+        "keyboardEntity": "location:1:vallee-loups",
+        "visibleIndicativeTooltip": true
+      }
+    },
+    {
+      "name": "Contour visibility toggle hides shapes without changing the map image",
+      "passed": true,
+      "detail": {
+        "toggle": true,
+        "sameOriginalImage": true
+      }
+    },
+    {
+      "name": "Existing map search filters polygons and list, and clear restores all proposals",
+      "passed": true,
+      "detail": {
+        "queryMatchesShapesAndList": true,
+        "emptyState": true,
+        "clearRestoresAll": true
+      }
+    },
+    {
+      "name": "Only real floors, keyboard switching and original floor images",
+      "passed": true,
+      "detail": {
+        "floors": [
+          1,
+          2,
+          3
+        ],
+        "imageOnlyFloorHonest": true
+      }
+    },
+    {
+      "name": "Map SPA exit releases Leaflet and re-entry mounts once",
+      "passed": true,
+      "detail": {
+        "destroyedOnExit": true,
+        "oneMapOnReturn": true
+      }
+    },
+    {
+      "name": "Local contour editor traces pointer vertices, finishes, undoes and redoes",
+      "passed": true,
+      "detail": {
+        "pointerVertices": 4,
+        "finish": true,
+        "undoRedo": true
+      }
+    },
+    {
+      "name": "Escape in a superimposed legend preserves the underlying outline draft",
+      "passed": true,
+      "detail": {
+        "legendClosed": true,
+        "editorAndDraftRetained": true
+      }
+    },
+    {
+      "name": "Vertices support actual dragging, fine keyboard movement, insertion and deletion",
+      "passed": true,
+      "detail": {
+        "drag": true,
+        "keyboardFineStep": 0.0001,
+        "insertDelete": true,
+        "minimumThreeProtected": true
+      }
+    },
+    {
+      "name": "Save is browser-local, export is real JSON and malformed import leaves draft intact",
+      "passed": true,
+      "detail": {
+        "localOnly": true,
+        "actualDownload": "nameless-contours-indicatifs.json",
+        "invalidRejectedAtomically": true,
+        "validImportStillNeedsSave": true
+      }
+    },
+    {
+      "name": "Saved local outline survives reload and original proposal can be restored",
+      "passed": true,
+      "detail": {
+        "reloadPersistence": true,
+        "localReset": true,
+        "escapeFocusReturned": true
+      }
+    },
+    {
+      "name": "360px touch: editor, selected outline, Escape and tap targets",
+      "passed": true,
+      "detail": {
+        "touchActions": [
+          {
+            "action": "close",
+            "width": 47.765625,
+            "height": 56.046875
+          },
+          {
+            "action": "new",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "draw",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "width": 304,
+            "height": 44
+          },
+          {
+            "action": "edit",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "add-vertex",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "delete-vertex",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "undo",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "redo",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "clear",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "save",
+            "width": 304,
+            "height": 44
+          },
+          {
+            "action": "reset",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "import",
+            "width": 148,
+            "height": 44
+          },
+          {
+            "action": "export",
+            "width": 148,
+            "height": 44
+          }
+        ],
+        "actualEntitySelected": true
+      }
+    },
+    {
+      "name": "390px touch: editor, selected outline, Escape and tap targets",
+      "passed": true,
+      "detail": {
+        "touchActions": [
+          {
+            "action": "close",
+            "width": 47.765625,
+            "height": 56.046875
+          },
+          {
+            "action": "new",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "draw",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "width": 334,
+            "height": 44
+          },
+          {
+            "action": "edit",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "add-vertex",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "delete-vertex",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "undo",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "redo",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "clear",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "save",
+            "width": 334,
+            "height": 44
+          },
+          {
+            "action": "reset",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "import",
+            "width": 163,
+            "height": 44
+          },
+          {
+            "action": "export",
+            "width": 163,
+            "height": 44
+          }
+        ],
+        "actualEntitySelected": true
+      }
+    },
+    {
+      "name": "Reduced-motion preference and language change keep contour state coherent",
+      "passed": true,
+      "detail": {
+        "reducedMotion": true,
+        "realEnglishLabels": true,
+        "draftRetained": true
+      }
+    },
+    {
+      "name": "Actual public interaction clip is recorded",
+      "passed": true,
+      "detail": {
+        "file": "map-regions-motion.webm",
+        "kind": "actual local public proposed outlines and unsaved editor draft; no remote writes"
+      }
+    }
+  ],
+  "errors": [],
+  "external": [
+    {
+      "page": "capture-360",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-360",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-390",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-390",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-768",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-768",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-1280",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-1280",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-1920",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-1920",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-2560",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "capture-2560",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "desktop-behavior",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "touch-360",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "touch-360",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "touch-390",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "touch-390",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "reduced-motion-language",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "reduced-motion-language",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "motion-recording",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    },
+    {
+      "page": "motion-recording",
+      "url": "https://iwrvdntlrjnoqzbwbsfm.supabase.co/rest/v1/rpc/read_map_marker_overrides",
+      "status": 404
+    }
+  ],
+  "cancellations": [],
+  "mapAssetHashes": {
+    "/assets/carte.webp": "e1cc3d07e5b6d199972b4cd1e53887d4d43abf2b724624e07acba6ea1b070098",
+    "/assets/map-preview/floor-1-desktop.webp": "ee175e318f403d95fac2a331eb45f4d5e9104d681509bfe6c647a4d832810499",
+    "/assets/map-preview/floor-1-mobile.webp": "dbf93b33fd660666e6629ebd805c4474f0be78814cde63d6e75b344e54126e8c",
+    "/assets/map-preview/floor-1-detail.webp": "269328b992f401f16927f1aea777271ed7822e01b20a4c461a2095a682c62456",
+    "/assets/Palier2-map.webp": "f960e1d6f13fbaf48666962edefd872cfadb1e9697cd353fd7ba3685813d373a",
+    "/assets/map-preview/floor-2-desktop.webp": "9f5a3dfb2dc752ea847b44f04f178a90ddd9a46cf7a469e4645723a8eeea7854",
+    "/assets/map-preview/floor-2-mobile.webp": "b8792f5cea8843b0566734b51660f182dd8aa12d1fdc472e237354fe8eb8ddae",
+    "/assets/map-preview/floor-2-detail.webp": "9320aa2b3337d4dd40e96123deb8532143222ee91830e8a5152803ce121ef12e",
+    "/assets/Palier3-map.webp": "f32479eb066dd57413bec92c19092ecf4c22be1435ebc82159ec1c2f6b80f8bf",
+    "/assets/map-preview/floor-3-desktop.webp": "69763e78a81fafe315149388dc46ecb4ff4b031d26a637724aefa8f99cd71f76",
+    "/assets/map-preview/floor-3-mobile.webp": "b1330a54e1d2e7b0bec6d99e290eec34c492f094a4185df81798fcc17ff63f37",
+    "/assets/map-preview/floor-3-detail.webp": "cfa513d516bbcb86099dc31dc1d9a06450ea1c9d53576261e9a717545b459c21",
+    "/assets/carte.png": "738741f1f63954dbcf9384f88a7e2b5717f0fd6fdbd4df1cf90735a390545011",
+    "/assets/Palier2-map.png": "135b89c6b930876cbb3c7d0ca2c780690eb416e8c3d224ccf43e9591cc200eb0",
+    "/assets/Palier3-map.png": "5f96cb240f31390f71199079e4fcee87427c695108ec644541d8f260e6f795c7"
+  },
+  "video": {
+    "file": "map-regions-motion.webm",
+    "kind": "actual local public proposed outlines and unsaved editor draft; no remote writes",
+    "durationSeconds": 13.24,
+    "width": 1920,
+    "height": 1080,
+    "fps": 25,
+    "decodedProofFrame": "motion-frame-06.png"
+  }
+}

@@ -16,6 +16,16 @@ if (output !== path.join(root, '_site') || path.dirname(output) !== root) throw 
 fs.rmSync(output, {recursive: true, force: true, maxRetries: 3, retryDelay: 100});
 fs.mkdirSync(output, {recursive: true});
 const mapGraph = writeMapGraph({root});
+// Region outlines are a separate, image-relative source document. Only the
+// reviewed public seed is compiled; browser drafts never enter the build.
+const regionDocument = JSON.parse(fs.readFileSync(path.join(root, 'data/map-regions.json'), 'utf8'));
+const regionValidator = new JSDOM('', {url: 'https://nameless-sao.fr/carte', runScripts: 'outside-only'});
+try {
+    regionValidator.window.eval(fs.readFileSync(path.join(root, 'js/map-regions.js'), 'utf8'));
+    const checkedRegions = regionValidator.window.NamelessMapRegions.validateDocument(
+        regionValidator.window.JSON.parse(JSON.stringify(regionDocument)), mapGraph.catalog);
+    fs.writeFileSync(path.join(root, 'assets/map/regions.json'), JSON.stringify(checkedRegions));
+} finally { regionValidator.window.close(); }
 for (const name of ['assets', 'css', 'js', 'pages']) fs.cpSync(path.join(root, name), path.join(output, name), {recursive: true});
 for (const name of ['index.html', '404.html', 'CNAME', '.nojekyll']) fs.copyFileSync(path.join(root, name), path.join(output, name));
 const registry = {window:{}};
