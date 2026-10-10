@@ -58,6 +58,8 @@ html[data-world-atmosphere] body:has(> .wiki-visual-shell) { overflow-x:clip; }
 .wiki-portal::after { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg,#05111b00 0%,#05111b99 42%,#061721f2 82%); pointer-events:none; }
 .wiki-portal-scene { position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; object-position:50% 32%; transition:transform 260ms cubic-bezier(.16,1,.3,1); }
 .wiki-portal--classes .wiki-portal-scene { object-position:65% 45%; }
+.wiki-portal--classes { background:radial-gradient(ellipse at 78% 32%,#54717845,transparent 60%),linear-gradient(140deg,#1e3742,#0c1b26); }
+.wiki-portal-emblem { position:absolute; right:8%; top:22px; width:110px; height:110px; z-index:-1; color:#d4b880; fill:none; stroke:currentColor; stroke-width:.6; opacity:.5; }
 .wiki-portal-creature { position:absolute; top:8px; right:14px; z-index:-1; width:130px; height:130px; object-fit:contain; filter:drop-shadow(0 8px 12px #0009); }
 .wiki-portal-number { position:absolute; top:16px; left:22px; font:500 .64rem/1 var(--font-text); letter-spacing:.12em; color:#fff2d1; text-shadow:0 1px 8px #021019; padding:6px; border:1px solid #cfb77f6b; background:#04131cb8; }
 .wiki-portal-copy { display:flex; flex-direction:column; gap:10px; }

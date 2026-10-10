@@ -1,0 +1,260 @@
+{
+  "date": "2026-10-11",
+  "method": "Codex in-app browser via cua_repl; read-only DOM checks and UI screenshots",
+  "views": [
+    {
+      "label": "items-desktop",
+      "artSources": [
+        "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(90, 126, 147, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v4/workshop-1280.webp\"), none",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/workshop-1280.webp\")"
+      ],
+      "height": 720,
+      "nativeImages": [
+        "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9desDechus.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9deXalZirith.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9Halloween.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9Overall.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/CristaldePotion.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/CristalDHalloween.png?v=items-cleaned-20261007"
+      ],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "visibleBroken": [],
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "home-desktop",
+      "artSources": [
+        "http://127.0.0.1:4173/assets/art-v4/aincrad-1672.webp",
+        "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/forest-320.webp\")"
+      ],
+      "height": 1080,
+      "nativeImages": [
+        "http://127.0.0.1:4173/assets/items/Ressources/Gel%C3%A9edeSlime.png",
+        "http://127.0.0.1:4173/assets/items/Consommables/PotiondeVieI.png",
+        "http://127.0.0.1:4173/assets/items/Ressources/Gel%C3%A9edeSlime.png",
+        "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png",
+        "http://127.0.0.1:4173/assets/items/Consommables/PotiondeVieI.png"
+      ],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/",
+      "visibleBroken": [],
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "bestiary-desktop",
+      "artSources": [
+        "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(56, 123, 119, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v4/forest-1280.webp\"), none",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/forest-1280.webp\"), none"
+      ],
+      "height": 720,
+      "nativeImages": [
+        "http://127.0.0.1:4173/assets/mobs/Gorbel.png",
+        "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png",
+        "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif",
+        "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png",
+        "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png",
+        "http://127.0.0.1:4173/assets/mobs/Sangliers.png",
+        "http://127.0.0.1:4173/assets/mobs/Mage%20Sylvestre.avif",
+        "http://127.0.0.1:4173/assets/mobs/Mini%20Tr%C3%A9ant.avif",
+        "http://127.0.0.1:4173/assets/mobs/Tr%C3%A9ant%20Elite.avif",
+        "http://127.0.0.1:4173/assets/mobs/Guerrier%20Tr%C3%A9ant.avif",
+        "http://127.0.0.1:4173/assets/mobs/Gardien%20Colossal.avif",
+        "http://127.0.0.1:4173/assets/mobs/Loup%20Sinistre%20Blanc.png"
+      ],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "visibleBroken": [],
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "guild-desktop",
+      "artSources": [
+        "linear-gradient(0deg, rgba(4, 17, 27, 0.937), rgba(4, 17, 27, 0.9) 58%, rgba(4, 17, 27, 0.88)), url(\"http://127.0.0.1:4173/assets/art-v4/guild-1280.webp\")",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/guild-1280.webp\")"
+      ],
+      "height": 720,
+      "nativeImages": [],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "visibleBroken": [],
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "wiki-desktop",
+      "artSources": [
+        "http://127.0.0.1:4173/assets/art-v4/aincrad-960.webp",
+        "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(61, 112, 119, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v4/aincrad-1280.webp\"), none"
+      ],
+      "height": 720,
+      "nativeImages": [],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "visibleBroken": [],
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "map-desktop",
+      "artSources": [],
+      "height": 720,
+      "nativeImages": [],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "visibleBroken": [],
+      "width": 1280,
+      "errors": [],
+      "atlasImages": [
+        {
+          "complete": true,
+          "naturalWidth": 1600,
+          "src": "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+        }
+      ]
+    },
+    {
+      "label": "home-mobile",
+      "artSources": [
+        "http://127.0.0.1:4173/assets/art-v4/aincrad-mobile.webp",
+        "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/forest-320.webp\")"
+      ],
+      "height": 844,
+      "nativeImages": [
+        "http://127.0.0.1:4173/assets/items/Ressources/Gel%C3%A9edeSlime.png",
+        "http://127.0.0.1:4173/assets/items/Consommables/PotiondeVieI.png",
+        "http://127.0.0.1:4173/assets/items/Ressources/Gel%C3%A9edeSlime.png",
+        "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png",
+        "http://127.0.0.1:4173/assets/items/Consommables/PotiondeVieI.png"
+      ],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "bestiary-mobile",
+      "artSources": [
+        "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(56, 123, 119, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v4/forest-640.webp\"), none",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/forest-640.webp\")"
+      ],
+      "height": 844,
+      "nativeImages": [
+        "http://127.0.0.1:4173/assets/mobs/Gorbel.png",
+        "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png",
+        "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif",
+        "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png",
+        "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png",
+        "http://127.0.0.1:4173/assets/mobs/Sangliers.png",
+        "http://127.0.0.1:4173/assets/mobs/Mage%20Sylvestre.avif",
+        "http://127.0.0.1:4173/assets/mobs/Mini%20Tr%C3%A9ant.avif",
+        "http://127.0.0.1:4173/assets/mobs/Tr%C3%A9ant%20Elite.avif",
+        "http://127.0.0.1:4173/assets/mobs/Guerrier%20Tr%C3%A9ant.avif",
+        "http://127.0.0.1:4173/assets/mobs/Gardien%20Colossal.avif",
+        "http://127.0.0.1:4173/assets/mobs/Loup%20Sinistre%20Blanc.png"
+      ],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "items-mobile",
+      "artSources": [
+        "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(90, 126, 147, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v4/workshop-640.webp\"), none",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/workshop-640.webp\")"
+      ],
+      "height": 844,
+      "nativeImages": [
+        "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9desDechus.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9deXalZirith.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9Halloween.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9Overall.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/CristaldePotion.png?v=items-cleaned-20261007",
+        "http://127.0.0.1:4173/assets/items/Consommables/CristalDHalloween.png?v=items-cleaned-20261007"
+      ],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "guild-mobile",
+      "artSources": [
+        "linear-gradient(0deg, rgba(4, 17, 27, 0.937), rgba(4, 17, 27, 0.9) 58%, rgba(4, 17, 27, 0.88)), url(\"http://127.0.0.1:4173/assets/art-v4/guild-640.webp\")",
+        "url(\"http://127.0.0.1:4173/assets/art-v4/guild-640.webp\")"
+      ],
+      "height": 844,
+      "nativeImages": [],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "wiki-mobile",
+      "artSources": [
+        "http://127.0.0.1:4173/assets/art-v4/aincrad-960.webp",
+        "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(61, 112, 119, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v4/aincrad-960.webp\"), none"
+      ],
+      "height": 844,
+      "nativeImages": [],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "map-mobile",
+      "artSources": [],
+      "height": 844,
+      "nativeImages": [],
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": [],
+      "atlasImages": [
+        {
+          "src": "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp",
+          "complete": true,
+          "naturalWidth": 768
+        }
+      ]
+    }
+  ]
+}

@@ -16,6 +16,12 @@ export function isPublishedQuest(quest) {
     return (quest.type ?? quest.category) === 'secondaire';
 }
 
+// The historical quest document is retained separately, but the interactive
+// atlas and public search never publish its quests, guides or derived NPCs.
+export function isPublishedMapEntity(entity) {
+    return !['historical-unverified', 'archived'].includes(entity?.status);
+}
+
 export function projectMapSource(source) {
     return {...source, questData: source.questData.filter(isPublishedQuest), questDataFloor2: source.questDataFloor2.filter(isPublishedQuest)};
 }

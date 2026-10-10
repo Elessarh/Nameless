@@ -100,12 +100,12 @@ const frenchResidue = /\b(accueil|aucun|aucune|araignée|araignées|bientôt|bou
 const knownBadEnglish = /Master Epistle|Contact details|\bDonjon\b|\bPalier\b|\bPlums?\b|\bSpices\b|\bArteon\b|\bVirlon\b|Scale \d selected|Frossed|Corrected Plums|Skin Thickness|Bouleau log|Scratch Scratch|Spider Poisoned|\bElementary\b|Copper dust|Giant culvert|From Spider|\bWin \d/i;
 const referenceLabels = {
     'pages/bestiaire.html': [
-        ['.catalogue-detail-empty h2', null, 'Le codex d’Aincrad', 'The Aincrad codex'],
+        ['label[for="bes-search"]', null, 'Rechercher une créature', 'Find a creature'],
         ['[data-catalog-view="grid"]', 'aria-label', 'Vue grille', 'Grid view'],
         ['.catalogue-detail-slot', 'aria-label', 'Fiche de la créature', 'Creature details']
     ],
     'pages/items.html': [
-        ['.catalogue-detail-empty h2', null, 'L’inventaire d’Aincrad', 'The Aincrad inventory'],
+        ['.catalogue-detail-slot', 'aria-label', 'Fiche de l’objet', 'Item details'],
         ['#it-source option[value="known"]', null, 'Butins du bestiaire', 'Bestiary drops'],
         ['#it-source', 'aria-label', 'Filtrer par source', 'Filter by source']
     ],

@@ -24,7 +24,7 @@
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../css/tokens.css?v=20261008sao">
     <link rel="stylesheet" href="../css/style.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/items.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/items.css?v=20261010phase3native">
     <link rel="stylesheet" href="../css/components/page-hero.css?v=20261008hybrid">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=20261008hybrid">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -44,8 +44,8 @@
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="../css/components/global-search.css?v=20261009ux1">
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261009phasea">
-    <link rel="stylesheet" href="../css/components/reference-catalogs.css?v=20261009phasea">
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011anime4">
+    <link rel="stylesheet" href="../css/components/reference-catalogs.css?v=20261011anime4">
     <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
     <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
     <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
@@ -95,12 +95,9 @@
         </section>
 
         <div class="catalogue-layout">
-        <aside class="items-filters" aria-label="Recherche et filtres des objets">
-            <div class="catalogue-filter-title"><strong>Filtres</strong><button type="button" class="items-reset catalogue-reset" id="it-reset">Réinitialiser</button></div>
-            <div class="items-search">
-                <label for="it-search">Rechercher un objet</label>
-                <input type="search" id="it-search" placeholder="Nom ou catégorie…" autocomplete="off" maxlength="200">
-            </div>
+        <button type="button" class="catalogue-filter-backdrop" hidden tabindex="-1" aria-label="Fermer les filtres"></button>
+        <aside class="items-filters" id="it-filters" aria-label="Recherche et filtres des objets">
+            <div class="catalogue-filter-title"><strong>Filtres</strong><button type="button" class="items-reset catalogue-reset" id="it-reset">Réinitialiser</button><button type="button" class="catalogue-filter-close" id="it-filter-close" aria-label="Fermer les filtres">×</button></div>
             <details class="catalogue-filters" id="it-filter-details" open>
             <summary>Filtres des objets</summary>
             <div class="items-filter-group">
@@ -125,6 +122,11 @@
 
         <div class="catalogue-results">
         <div class="catalogue-toolbar">
+            <button type="button" class="catalogue-filter-toggle" id="it-filter-toggle" aria-controls="it-filters" aria-expanded="false">Filtres <span id="it-filter-toggle-count" hidden></span></button>
+            <div class="items-search catalogue-search">
+                <label for="it-search">Rechercher un objet</label>
+                <input type="search" id="it-search" placeholder="Nom ou catégorie…" autocomplete="off" maxlength="200">
+            </div>
             <p class="items-count catalogue-count" id="it-count" role="status"></p>
             <div class="catalogue-sort"><label for="it-sort">Trier par</label><select id="it-sort">
                 <option value="catalogue">Ordre du catalogue</option>
@@ -158,7 +160,7 @@
             </div>
         </nav>
         </div>
-        <aside class="catalogue-detail-slot" aria-label="Fiche de l’objet"><div class="catalogue-detail-empty"><span aria-hidden="true">◇</span><h2>L’inventaire d’Aincrad</h2><p>Sélectionnez un objet pour consulter sa rareté et ses sources connues.</p></div></aside>
+        <aside class="catalogue-detail-slot" aria-label="Fiche de l’objet"></aside>
         </div>
     </main>
 
@@ -172,7 +174,7 @@
 
     <!-- Scripts -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261010regions" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261011anime4" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -184,8 +186,8 @@
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
     <script src="../js/items-catalog-hdv.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261009ux1" defer></script>
-    <script src="../js/items.js?v=20261009phasea" defer></script>
+    <script src="../js/global-search.js?v=20261010phase3native" defer></script>
+    <script src="../js/items.js?v=20261010phase3native" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
 </body>

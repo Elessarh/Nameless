@@ -58,8 +58,8 @@ function surface(width) {
     assert.equal(bridge.getSelection(), null); assert.equal(d.getElementById('map-panel').hidden, true);
     d.activeElement.dispatchEvent(new p.w.KeyboardEvent('keydown', {key:'Home',bubbles:true,cancelable:true}));
     await waitFor(() => bridge.getData()?.floor === 1);
-    const archive = d.querySelector('[data-marker-type="quest-secondary"]'); archive.checked = true; archive.dispatchEvent(new p.w.Event('change'));
-    d.getElementById('map-filters-reset').click(); assert.equal(d.querySelector('[data-marker-type="quest-secondary"]').checked, false, 'Reset keeps unverified archives off by default');
+    assert.equal(d.querySelector('[data-marker-type="quest-secondary"]'), null, 'The retired side-quest filter is absent');
+    d.getElementById('map-filters-reset').click(); assert.equal(d.querySelector('[data-marker-type="quest-secondary"]'), null, 'Reset cannot restore archived quests');
     await bridge.selectEntity('creature:1');
     d.querySelector('[data-panel-tab="items"]').click(); assert.equal(d.getElementById('map-panel-pane-items').hidden, false); assert.equal(d.getElementById('map-panel-pane-overview').hidden, true, 'Tab selection exposes documented drop relations');
     d.querySelector('[data-panel-tab="items"]').dispatchEvent(new p.w.KeyboardEvent('keydown', {key:'ArrowRight',bubbles:true,cancelable:true})); assert.equal(d.activeElement.dataset.panelTab, 'places', 'Detail tabs support keyboard navigation');
@@ -69,8 +69,8 @@ function surface(width) {
     Object.defineProperties(pixel, {naturalWidth:{value:24},naturalHeight:{value:24}}); pixel.dispatchEvent(new p.w.Event('load'));
     assert.equal(pixel.style.width, '48px'); assert.equal(pixel.style.height, '48px', 'Small item sprites scale by whole pixels');
     assert.match(d.getElementById('map-panel-content').textContent, /position exacte.*inconnue/, 'Artwork never turns a zone reference into an invented creature spawn');
-    const secondary = Object.values(bridge.getData().entities).find(entity => entity.kind === 'guide' && entity.status === 'historical-unverified');
-    await bridge.selectEntity(secondary.key); assert.match(d.getElementById('map-panel-content').textContent, /Archive non vérifiée/);
+    assert.ok(!Object.values(bridge.getData().entities).some(entity => entity.status === 'historical-unverified'), 'No archived guide survives in the real runtime');
+    assert.equal(await bridge.selectEntity('guide:p1-secondaire-varn'), false, 'Retired guide selection is rejected');
     await bridge.selectEntity('location:1:ville-depart'); assert.equal(d.querySelector('.map-entity-heading img'), null, 'Locations without source artwork do not receive an invented image');
     assert.ok(d.querySelector('.map-location-preview').style.backgroundImage.includes('floor-1-desktop.webp'), 'Selected location previews retain the calibrated atlas');
     assert.equal(p.errors.length, 0, p.errors.map(String).join('\n')); p.destroy();
@@ -101,4 +101,4 @@ function surface(width) {
     p.w.NamelessMapPage.destroy(); toggle.click(); assert.equal(toggle.getAttribute('aria-expanded'), 'false', 'Destroy removes mobile drawer listeners');
     assert.equal(d.getElementById('game-map').querySelectorAll('.leaflet-marker-icon').length, 0); assert.equal(p.errors.length, 0, p.errors.map(String).join('\n')); p.dom.window.close();
 }
-console.log('Hybrid map passed: clear public atlas, actual floor shortcuts, keyboard, filter rail/drawer, nonmodal mobile, genuine thumbnails, archives and Leaflet lifecycle.');
+console.log('Hybrid map passed: public atlas without archived quests, actual floor shortcuts, keyboard, drawers, genuine thumbnails and Leaflet lifecycle.');

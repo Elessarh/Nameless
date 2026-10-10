@@ -166,11 +166,13 @@ for (const kind of ['creature', 'item']) {
     const gridId = creature ? 'creatures-grid' : 'items-grid';
     const fieldId = creature ? 'bes-category' : 'it-category';
     const chipsId = creature ? 'bes-active-filters' : 'it-active-filters';
-    const modal = d.querySelector(selector);
+    check(!d.querySelector('.catalogue-has-selection') && !d.querySelector(selector), kind + ' gives the catalogue full space until a real selection');
+    d.querySelector(creature ? '.creature-card' : '.item-card').click();
+    let modal = d.querySelector(selector);
     check(modal && modal.dataset.panelMode === 'rail' && modal.getAttribute('role') === 'region' && !modal.hasAttribute('aria-modal'), kind + ' opens a persistent nonmodal desktop detail rail');
     check(d.querySelector('.catalogue-detail-slot').contains(modal), kind + ' detail occupies the actual third catalogue column');
-    check(d.querySelector('.catalogue-layout').children[2] === d.querySelector('.catalogue-detail-slot'), kind + ' detail slot is the third layout column beside filters and results');
-    check(d.body.style.overflow === '' && d.activeElement === d.body && !d.querySelector('[inert]'), kind + ' default desktop selection leaves page scroll and focus available');
+    check([...d.querySelector('.catalogue-layout').children].filter(child => !child.classList.contains('catalogue-filter-backdrop'))[2] === d.querySelector('.catalogue-detail-slot'), kind + ' detail slot follows the filter and result columns, excluding the fixed backdrop');
+    check(d.body.style.overflow === '' && !d.querySelector('[inert]'), kind + ' explicit desktop selection leaves page scroll and surrounding controls available');
     const tab = new w.KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
     const search = d.getElementById(creature ? 'bes-search' : 'it-search'); search.focus(); search.dispatchEvent(tab);
     check(!tab.defaultPrevented && d.activeElement === search, kind + ' desktop rail cannot trap focus from the filter rail');
@@ -190,6 +192,8 @@ for (const kind of ['creature', 'item']) {
     check(chip && chip.getAttribute('aria-label'), kind + ' active filter provides a named remove control'); chip.click();
     equal(ids(s, kind), original, kind + ' removing the chip restores the original first page');
     check(!choice.checked && !d.getElementById(chipsId).children.length, kind + ' removing a chip also clears its checkbox');
+    d.querySelector(creature ? '.creature-card' : '.item-card').click();
+    modal = d.querySelector(selector);
     const nextTab = modal.querySelector('[data-detail-tab="' + (creature ? 'zones' : 'sources') + '"]'); nextTab.click();
     const activePanel = d.getElementById(nextTab.getAttribute('aria-controls'));
     check(nextTab.getAttribute('aria-selected') === 'true' && !activePanel.hidden && activePanel.querySelector(creature ? '.creature-map-location' : '.item-sources'), kind + ' detail tab reveals the same actual source/zone section');
@@ -225,7 +229,10 @@ for (const kind of ['creature', 'item']) {
         const id = new URL(link.href).searchParams.get('item');
         check(index.some(entry => entry.kind === 'item' && entry.id === id && entry.sources.some(source => sourceUrls.has(source.url))), 'Every related item shares an actual recorded source with the selected item');
     }
-    check(d.querySelector('.catalogue-tooltip[aria-hidden="true"] img').getAttribute('src') === d.querySelector('.item-image').getAttribute('src'), 'The item tooltip retains the same native catalogue sprite');
+    d.querySelector('.modal-close').click();
+    const tooltipCard = d.querySelector('.item-card'); tooltipCard.focus();
+    const tooltip = d.querySelector('#item-tooltip');
+    check(tooltip && tooltip.getAttribute('role') === 'tooltip' && !tooltip.hidden && tooltip.textContent.includes(tooltipCard.querySelector('.item-name').textContent), 'The native item tooltip exposes the exact catalogue name to keyboard users');
     close(s);
 }
 console.log('Hybrid catalogue regressions: ' + checks + ' checks passed for actual data, filters, sorting, pagination and mobile disclosure lifecycles.');

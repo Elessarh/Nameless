@@ -1,9 +1,9 @@
 /* Guild headquarters. Kept inside this route because SPA styles persist. */
 .guilde-container.guild-hq{max-width:1540px;padding:0 26px 70px;color:#c5d1d1;--hq-gold:#c9ab76;--hq-border:#b194666e;--hq-panel:#07151ef0;background:linear-gradient(180deg,#05101814,#05101835 62%,#05101894)}
-html[data-world-atmosphere='guild'] body:has(.guild-hq)::before{background:linear-gradient(0deg,#04111bbd,#04111b6b 58%,#04111b47),url('../../assets/reference-v2/guild-environment-1280.webp') center 46%/cover no-repeat;filter:saturate(.8)}
+html[data-world-atmosphere='guild'] body:has(.guild-hq)::before{background:linear-gradient(0deg,#04111bef,#04111be6 58%,#04111be0),url('../../assets/art-v4/guild-1280.webp') 68% 50%/cover no-repeat;filter:saturate(.8)}
 html[data-world-atmosphere='guild'] body:has(.guild-hq)::after{background:radial-gradient(ellipse 74% 35% at 50% 76%,#b58b5924,transparent 74%),url('../../assets/ui/world-stone.svg') 0 0/128px 128px repeat;opacity:.28}
 .guild-hq .guild-hall{position:relative;isolation:isolate;min-height:285px;padding:95px 26px 27px;margin:0 -26px;overflow:hidden;border-bottom:1px solid var(--hq-border);background:#1b1714}
-.guild-hq .guild-hall::before{content:'';position:absolute;inset:0;z-index:-2;background:url('../../assets/reference-v2/guild-environment-1280.webp') center 48%/cover;filter:saturate(.83)}
+.guild-hq .guild-hall::before{content:'';position:absolute;inset:0;z-index:-2;background:url('../../assets/art-v4/guild-1280.webp') 68% 50%/cover;filter:saturate(.83)}
 .guild-hq .guild-hall::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#061119bc,transparent 80%),linear-gradient(90deg,#081018c7,transparent 65%),radial-gradient(ellipse at 78% 30%,#d5b27c12,transparent 66%)}
 .guild-hq .guild-hall h1{font:400 clamp(2rem,3vw,3rem)/1.15 Georgia,serif;color:#f2e5ce;margin:0 0 12px;text-shadow:0 3px 15px #000}
 .guild-hq .guild-hall p{font-size:.86rem;line-height:1.6;margin:0;color:#d7d5cf;max-width:65ch}
@@ -25,8 +25,8 @@ html[data-world-atmosphere='guild'] body:has(.guild-hq)::after{background:radial
 .guild-hq .hq-event:hover,.guild-hq .hq-event:focus-visible{border-color:#d0ad71;transform:translateY(-2px);box-shadow:0 5px 15px #0005}
 .guild-hq .hq-event[data-selected='true']{border-color:#e0bd83;box-shadow:inset 0 0 0 1px #c4a16a33,0 0 17px #b7934b25;background:#162831}
 .guild-hq .hq-event-art{display:grid;place-items:center;min-height:80px;border:1px solid #9e896166;background:url('../../assets/home/sao-map-256.webp') center/cover}
-.guild-hq .hq-event[data-type='raid'] .hq-event-art{background-image:url('../../assets/home/aincrad-minecraft-960.webp')}
-.guild-hq .hq-event[data-type='reunion'] .hq-event-art{background-image:url('../../assets/home/sao-guild-256.webp')}
+.guild-hq .hq-event[data-type='raid'] .hq-event-art{background-image:url('../../assets/map-preview/floor-2-desktop.webp')}
+.guild-hq .hq-event[data-type='reunion'] .hq-event-art{background-image:url('../../assets/ui/world-stone.svg')}
 .guild-hq .hq-event-copy strong{display:block;color:#e4e5de;font-size:.8rem;font-weight:500;margin:0 0 7px;overflow-wrap:anywhere}
 .guild-hq .hq-event-copy p{margin:4px 0;color:#8ea7b2;font-size:.69rem;line-height:1.5}
 .guild-hq .hq-event-roles{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:.65rem;color:#b2c5c7}
@@ -93,5 +93,5 @@ html[data-world-atmosphere='guild'] body:has(.guild-hq)::after{background:radial
 @media(max-width:1023px){.guild-hq .guilde-two-columns,.guild-hq .guild-overview-row{grid-template-columns:minmax(0,1.4fr) minmax(260px,1fr)}.guild-hq .hq-event{grid-template-columns:70px minmax(0,1fr)}.guild-hq .hq-event-side{grid-column:2;flex-direction:row}.guild-hq .hq-members-full{grid-template-columns:repeat(2,minmax(0,1fr))}.guild-hq .hq-quick{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:700px){.guilde-container.guild-hq{padding:0 16px 90px}.guild-hq .guild-hall{margin:0 -16px;padding:100px 20px 28px;min-height:290px}.guild-hq .guild-hq-tabs{margin-bottom:18px}.guild-hq .guild-hq-tab{min-width:116px;padding-inline:15px}.guild-hq .guilde-two-columns,.guild-hq .guild-overview-row{grid-template-columns:1fr;gap:16px;margin-bottom:16px}.guild-hq .hq-panel{padding:16px}.guild-hq .hq-calendar-grid > span,.guild-hq .hq-day{min-height:42px}.guild-hq .hq-members-full{grid-template-columns:1fr}.guild-hq .hq-form-row{grid-template-columns:1fr}.guild-hq .guild-resource-links{grid-template-columns:1fr}.guild-hq .hq-dialog{padding:22px 18px}.guild-hq .hq-signup-actions .hq-button{flex:1}.guild-hq .hq-private-gate{padding:23px}.guild-hq .hq-event{grid-template-columns:73px minmax(0,1fr);gap:11px}.guild-hq .hq-event-roles{gap:10px}}
 @media(prefers-reduced-motion:reduce){.guild-hq .hq-dialog[open]{animation:none}.guild-hq .hq-event{transition:none}.guild-hq .hq-event:hover{transform:none}}
-@media(max-width:700px){html[data-world-atmosphere='guild'] body:has(.guild-hq)::before{background-image:linear-gradient(0deg,#04111bd6,#04111b6b 58%,#04111b47),url('../../assets/reference-v2/guild-environment-640.webp');background-position:center,56% 46%}.guild-hq .guild-hall::before{background-image:url('../../assets/reference-v2/guild-environment-640.webp')}}
+@media(max-width:700px){html[data-world-atmosphere='guild'] body:has(.guild-hq)::before{background-image:linear-gradient(0deg,#04111bef,#04111be6 58%,#04111be0),url('../../assets/art-v4/guild-640.webp');background-position:center,68% 50%}.guild-hq .guild-hall::before{background-image:url('../../assets/art-v4/guild-640.webp')}}
 @media(forced-colors:active){html[data-world-atmosphere='guild'] body:has(.guild-hq)::before,html[data-world-atmosphere='guild'] body:has(.guild-hq)::after,.guild-hq .guild-hall::before,.guild-hq .guild-hall::after{display:none}.guild-hq,.guild-hq .hq-panel,.guild-hq .hq-private-gate{background:Canvas}}

@@ -24,7 +24,7 @@
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../css/tokens.css?v=20261008sao">
     <link rel="stylesheet" href="../css/style.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/bestiaire.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/bestiaire.css?v=20261010phase3native">
     <link rel="stylesheet" href="../css/components/page-hero.css?v=20261008hybrid">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=20261008hybrid">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -44,8 +44,8 @@
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="../css/components/global-search.css?v=20261009ux1">
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261009phasea">
-    <link rel="stylesheet" href="../css/components/reference-catalogs.css?v=20261009phasea">
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011anime4">
+    <link rel="stylesheet" href="../css/components/reference-catalogs.css?v=20261011anime4">
     <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
     <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
     <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
@@ -95,12 +95,8 @@
         </section>
 
         <div class="catalogue-layout">
-        <aside class="bes-filters" aria-label="Recherche et filtres du bestiaire">
-            <div class="catalogue-filter-title"><strong>Filtres</strong><button type="button" class="catalogue-reset" id="bes-reset">Réinitialiser</button></div>
-            <div class="bes-search">
-                <label for="bes-search">Rechercher une créature</label>
-                <input type="search" id="bes-search" placeholder="Nom, type ou zone…" autocomplete="off" maxlength="200">
-            </div>
+        <aside class="bes-filters" id="bes-filter-drawer" aria-label="Recherche et filtres du bestiaire">
+            <div class="catalogue-filter-title"><strong>Filtres</strong><button type="button" class="catalogue-filter-close" id="bes-filter-close" aria-label="Fermer les filtres">×</button><button type="button" class="catalogue-reset" id="bes-reset">Réinitialiser</button></div>
             <details class="catalogue-filters" id="bes-filter-details" open>
             <summary>Filtres du bestiaire</summary>
             <div class="bes-filter-group">
@@ -126,6 +122,11 @@
 
         <div class="catalogue-results">
         <div class="catalogue-toolbar">
+            <div class="bes-search catalogue-search">
+                <label for="bes-search">Rechercher une créature</label>
+                <input type="search" id="bes-search" placeholder="Nom, type ou zone…" autocomplete="off" maxlength="200">
+            </div>
+            <button type="button" class="catalogue-filter-toggle" id="bes-filter-toggle" aria-expanded="false" aria-controls="bes-filter-drawer">Filtres</button>
             <p id="bes-count" class="catalogue-count" role="status"></p>
             <div class="catalogue-sort"><label for="bes-sort">Trier par</label><select id="bes-sort">
                 <option value="catalogue">Ordre du codex</option>
@@ -159,8 +160,9 @@
             </div>
         </nav>
         </div>
-        <aside class="catalogue-detail-slot" aria-label="Fiche de la créature"><div class="catalogue-detail-empty"><span aria-hidden="true">✧</span><h2>Le codex d’Aincrad</h2><p>Sélectionnez une créature pour découvrir sa zone et ses butins.</p></div></aside>
+        <aside class="catalogue-detail-slot" aria-label="Fiche de la créature"></aside>
         </div>
+        <button type="button" class="catalogue-filter-backdrop" aria-label="Fermer les filtres" tabindex="-1" hidden></button>
     </main>
 
     <footer class="site-footer" role="contentinfo">
@@ -173,7 +175,7 @@
 
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261010regions" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261011anime4" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -184,8 +186,8 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/global-search.js?v=20261009ux1" defer></script>
-    <script src="../js/bestiaire.js?v=20261009phasea" defer></script>
+    <script src="../js/global-search.js?v=20261010phase3native" defer></script>
+    <script src="../js/bestiaire.js?v=20261010phase3native" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
 </body>

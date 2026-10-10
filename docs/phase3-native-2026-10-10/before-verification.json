@@ -1,0 +1,314 @@
+{
+  "stage": "before",
+  "generatedAt": "2026-10-10T13:09:40.540Z",
+  "checks": [
+    {
+      "name": "home layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "bestiary layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "items layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "map layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "home layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "bestiary layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "items layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "map layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "home layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "bestiary layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "items layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "map layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    }
+  ],
+  "captures": [
+    {
+      "file": "before-home-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "before-bestiary-390x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "before-items-390x844.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "before-map-390x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "before-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "before-bestiary-1920x1080.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "before-items-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "before-map-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "before-home-2560x1440.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "before-bestiary-2560x1440.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "before-items-2560x1440.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "before-map-2560x1440.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "name": "home-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "home-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "home-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    }
+  ],
+  "errors": [],
+  "loadedGeneratedArt": [
+    "http://127.0.0.1:4173/assets/reference-v2/home-environment-mobile.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-320.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/home-castle-card-320.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/guild-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/workshop-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/home-environment-1672.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-320.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/home-castle-card-320.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/guild-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-1280.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/workshop-environment-1280.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/workshop-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/home-environment-1672.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-320.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/home-castle-card-320.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/guild-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-1280.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/forest-environment-640.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/workshop-environment-1280.webp",
+    "http://127.0.0.1:4173/assets/reference-v2/workshop-environment-640.webp"
+  ]
+}

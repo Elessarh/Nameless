@@ -124,6 +124,8 @@
         "Retrouvez le planning et les annonces des membres.": "Find members' schedules and announcements.",
         "À explorer": "Explore",
         "Illustration d’ambiance": "Atmospheric illustration",
+        "Illustration d’Aincrad": "Aincrad illustration",
+        "Atlas du palier 1": "Floor 1 atlas",
         "Voir le bestiaire": "Browse the bestiary",
         "Ressource": "Resource",
         "Consommable": "Consumable",

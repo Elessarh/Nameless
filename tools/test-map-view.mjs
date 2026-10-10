@@ -312,4 +312,35 @@ function page({ url = '/carte', mobile = false, rpc, waits = {}, stored, deniedS
     assert.equal(p.w.document.activeElement, search, 'Closing details from another control does not steal its focus');
     p.cleanup();
 }
-console.log('Map view: lazy floors, async navigation, truthful positions, URLs and margins, progressive images on all floors, visual groups, overrides, keyboard/focus and lifecycle passed.');
+{
+    // Simulate an old deployed JSON catalogue and old published overrides, not
+    // just the new build: none may revive the removed side-quest archive.
+    const oldQuest = { ...location('quest:1:secondary-varn', 1, 'Ancienne quête Varn', .4, .4, 'quest-secondary'), kind: 'quest', status: 'historical-unverified' };
+    const oldGuide = { ...oldQuest, key: 'guide:p1-secondaire-varn', id: 'p1-secondaire-varn', kind: 'guide', title: 'Ancien guide Varn', url: '/quetes?quest=p1-secondaire-varn' };
+    const oldNpc = { ...oldQuest, key: 'npc:1:varn', id: 'varn', kind: 'npc', title: 'Ancien PNJ Varn', markerType: 'npc', status: 'archived' };
+    const noStatusGuide = { ...oldGuide, key: 'guide:p2-secondaire-minutiare', id: 'p2-secondaire-minutiare', status: undefined };
+    const linked = { ...location('location:1:linked', 1, 'Lieu actuel', .8, .2), guideKeys: [oldGuide.key], relatedKeys: [oldQuest.key, oldNpc.key], url: oldGuide.url };
+    const extras = [oldQuest, oldGuide, oldNpc, noStatusGuide, linked];
+    const p = page({ extraEntities: extras, rpc: name => ({data: name === 'read_map_marker_overrides' ? extras.slice(0, 4).map(entity => ({entity_key: entity.key, floor: 1, state: 'visible', marker_type: entity.markerType, u: .4, v: .4})) : [], error: null}) });
+    const bridge = await p.init(), d = p.w.document;
+    for (const entry of extras.slice(0, 4)) {
+        assert.ok(!bridge.catalog.index.some(entity => entity.key === entry.key), 'An old catalogue cannot expose ' + entry.key);
+        assert.ok(!bridge.catalog.registry.some(entity => entity.key === entry.key));
+        assert.equal(bridge.getData().entities[entry.key], undefined, 'Old floor and override data cannot expose ' + entry.key);
+        assert.equal(await bridge.selectEntity(entry.key), false, 'Direct API selection rejects retired identity');
+    }
+    assert.equal(d.querySelector('[data-marker-type="quest-secondary"]'), null, 'No archive filter can be re-enabled');
+    const search = d.getElementById('map-search-input'); search.value = 'Varn'; search.dispatchEvent(new p.w.Event('input'));
+    assert.equal(d.querySelector('.search-result-item'), null, 'Local search excludes archives across all cached floors');
+    await bridge.selectEntity(linked.key);
+    assert.ok(!d.querySelector('.map-relation[data-entity-key^="guide:"], .map-relation[data-entity-key^="quest:"], .map-relation[data-entity-key^="npc:"]'), 'Place panels have no indirect route into archived quests');
+    assert.ok(![...d.querySelectorAll('.map-page-link[href]')].some(link => new URL(link.href).pathname.includes('quetes')), 'A stale source URL cannot link to the retired quest document');
+    for (const route of ['/carte?floor=1&entity=quest%3A1%3Asecondary-varn', '/carte?floor=1&quest=secondary-varn', '/carte?floor=1&guide=p1-secondaire-varn', '/carte?floor=1&entity=npc%3A1%3Avarn']) {
+        p.route(route); await tick();
+        assert.equal(bridge.getSelection(), null); assert.equal(d.getElementById('map-panel').hidden, true, 'A bookmarked archive cannot reopen details');
+        assert.match(d.getElementById('map-route-status').textContent, /plus disponible/);
+        assert.equal(new URL(p.w.location.href).search, '?floor=1', 'Stale target is removed from the current/shareable URL');
+    }
+    p.cleanup();
+}
+console.log('Map view: archived cache/override/search/relationships/deep links blocked; current floors, positions, camera, keyboard and lifecycle passed.');

@@ -8,7 +8,7 @@
     const TYPE_LABELS = {
         town: ['Villes', 'Towns'], dungeon: ['Donjons', 'Dungeons'], zone: ['Zones', 'Zones'],
         merchant: ['Marchands', 'Merchants'], 'quest-primary': ['Quêtes principales', 'Main quests'],
-        'quest-secondary': ['Secondaires (archives)', 'Side quests (archives)'], npc: ['PNJ', 'NPCs'],
+        'quest-secondary': ['Quêtes secondaires', 'Side quests'], npc: ['PNJ', 'NPCs'],
         teleporter: ['Téléporteurs', 'Teleporters'], boss: ['Boss', 'Bosses'], creature: ['Créatures', 'Creatures']
     };
     const KIND_LABELS = { location: ['Lieu', 'Location'], quest: ['Quête', 'Quest'], guide: ['Guide', 'Guide'], npc: ['PNJ', 'NPC'], creature: ['Créature', 'Creature'], item: ['Ressource', 'Resource'] };
@@ -35,7 +35,26 @@
     function label(entity) { return english() && entity.titleEn ? entity.titleEn : entity.title || entity.id || entity.key; }
     function typeLabel(type) { const value = TYPE_LABELS[type] || ['Repères', 'Markers']; return text(...value); }
     function kindLabel(kind) { return text(...(KIND_LABELS[kind] || ['Lieu', 'Location'])); }
-    function entryKind(entity) { const kind = entity.markerType === 'boss' ? text('Boss', 'Boss') : kindLabel(entity.kind); return entity.status === 'historical-unverified' ? kind + text(' · Archive non vérifiée', ' · Unverified archive') : kind; }
+    function entryKind(entity) { return entity.markerType === 'boss' ? text('Boss', 'Boss') : kindLabel(entity.kind); }
+    function publicEntity(entity) {
+        if (!entity || ['historical-unverified', 'archived'].includes(entity.status)) return false;
+        // Old JSON without a status must not revive retired legacy identities.
+        return !/^(?:guide:p[12]-(?:principale|secondaire)-|quest:[12]:(?:secondary-|quest-|floor2-quest-))/.test(entity.key || '');
+    }
+    function publicCatalog(catalog) {
+        const index = (catalog.index || []).filter(publicEntity), keys = new Set(index.map(entity => entity.key));
+        return { ...catalog, index, registry: (catalog.registry || []).filter(entity => keys.has(entity.key)) };
+    }
+    function publicFloor(data) {
+        const entities = Object.fromEntries(Object.entries(data.entities || {}).filter(([, entity]) => publicEntity(entity)));
+        const retired = new Set(Object.keys(data.entities || {}).filter(key => !entities[key]));
+        for (const entity of Object.values(entities)) {
+            for (const field of ['relatedKeys', 'creatureKeys', 'guideKeys']) entity[field] = (entity[field] || []).filter(key => !retired.has(key));
+            if (retired.has(entity.positionRef)) entity.positionRef = null;
+            if (retired.has(entity.placeKey)) entity.placeKey = null;
+        }
+        return { ...data, entities, points: (data.points || []).filter(key => entities[key]) };
+    }
     function node(tag, className, content) {
         const element = document.createElement(tag);
         if (className) element.className = className;
@@ -58,6 +77,10 @@
         try { const url = new URL(value, global.location.href); return url.origin === global.location.origin && /^(https?:)$/.test(url.protocol) ? url.href : null; }
         catch (_) { return null; }
     }
+    function publicDetailsUrl(value) {
+        const href = localUrl(value);
+        return href && !/^\/(?:quetes\/?|pages\/quetes\.html)$/.test(new URL(href).pathname) ? href : null;
+    }
     function normalize(value) { return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
     function client() { return global.supabase && typeof global.supabase.rpc === 'function' ? global.supabase : null; }
     async function fetchJson(url) {
@@ -66,12 +89,12 @@
         return response.json();
     }
     function getCatalog() {
-        if (!catalogPromise) catalogPromise = fetchJson('/assets/map/catalog.json').catch(error => { catalogPromise = null; throw error; });
+        if (!catalogPromise) catalogPromise = fetchJson('/assets/map/catalog.json').then(publicCatalog).catch(error => { catalogPromise = null; throw error; });
         return catalogPromise;
     }
     function floorData(config) {
         const id = Number(config.id);
-        if (!FLOOR_CACHE.has(id)) FLOOR_CACHE.set(id, fetchJson(config.dataUrl || '/assets/map/floor-' + id + '.json').catch(error => { FLOOR_CACHE.delete(id); throw error; }));
+        if (!FLOOR_CACHE.has(id)) FLOOR_CACHE.set(id, fetchJson(config.dataUrl || '/assets/map/floor-' + id + '.json').then(publicFloor).catch(error => { FLOOR_CACHE.delete(id); throw error; }));
         return FLOOR_CACHE.get(id);
     }
     function valid(state) { return active === state && !state.controller.signal.aborted; }
@@ -398,11 +421,11 @@
         const unique = [...new Set((keys || []).filter(key => key && key !== state.selected))]; if (!unique.length) return;
         const list = node('ul', 'map-relations');
         for (const key of unique) {
-            const entity = state.data.entities[key] || state.catalog.index.find(entry => entry.key === key); if (!entity) continue;
+            const entity = state.data.entities[key] || state.catalog.index.find(entry => entry.key === key); if (!publicEntity(entity)) continue;
             const item = node('li'); const button = node('button', 'map-relation', null); button.type = 'button'; button.dataset.entityKey = key;
             const image = entityImage(state, entity, 'map-relation-image'); if (image) button.append(image);
             const info = node('span', 'map-relation-info'); info.append(node('span', 'map-relation-title', label(entity)));
-            const note = [entity.status === 'historical-unverified' ? text('Archive non vérifiée', 'Unverified archive') : '', suffixes?.[key] || ''].filter(Boolean).join(' · ');
+            const note = suffixes?.[key] || '';
             if (note) info.append(node('small', '', note));
             button.append(info, node('span', 'map-relation-arrow', '›'));
             listen(state, button, 'click', () => selectEntity(state, key)); item.append(button); list.append(item);
@@ -453,6 +476,7 @@
         media.append(image); return media;
     }
     function renderPanel(state, entity) {
+        if (!publicEntity(entity)) { closePanel(state, false); return; }
         state.personalRegion = null;
         state.choiceKeys = null; state.ui.content.replaceChildren();
         const panes = { overview: node('div'), creatures: node('div'), items: node('div'), places: node('div') }; const overview = panes.overview;
@@ -460,12 +484,12 @@
         const image = entityImage(state, entity, 'map-entity-image'); if (image) head.append(image);
         const title = node('div'); title.append(node('span', 'map-kind', entryKind(entity) + ' · ' + text('Palier ', 'Floor ') + state.floor), node('h2', '', label(entity))); head.append(title); state.ui.content.append(head);
         if (entity.kind === 'location') { const preview = locationPreview(state, entity); if (preview) state.ui.content.append(preview); }
-        if (entity.status === 'historical-unverified') overview.append(node('p', 'map-position-note', text('Documentation secondaire historique. Ces informations n’ont pas été vérifiées depuis les changements du serveur.', 'Historical side-quest documentation. This information has not been verified since the server changes.')));
         if (entity.description) overview.append(node('p', '', english() && entity.descriptionEn ? entity.descriptionEn : global.NamelessI18n?.translate?.(entity.description) || entity.description));
         const outline = global.NamelessMapRegions?.active?.findByEntity(entity.key);
         if (outline) {
             overview.append(node('p', 'map-region-position-note', outline.status === 'verified' ? text('Limites vérifiées par les administrateurs.', 'Boundaries verified by administrators.') : text('Contour indicatif : limites proposées, à valider en jeu.', 'Indicative outline: proposed boundaries to review in game.')));
-            if (outline.wikiUrl) { const guide = node('a', 'map-page-link', text('Lire le guide lié', 'Read the linked guide')); guide.href = outline.wikiUrl; overview.append(guide); }
+            const guideUrl = publicDetailsUrl(outline.wikiUrl);
+            if (guideUrl) { const guide = node('a', 'map-page-link', text('Lire le guide lié', 'Read the linked guide')); guide.href = guideUrl; overview.append(guide); }
         }
         const target = targetPosition(state, entity);
         if (target.reference) {
@@ -482,15 +506,15 @@
             if (coords.x != null) overview.append(node('p', 'map-coordinates', 'X ' + Math.round(coords.x) + ' · Z ' + Math.round(coords.z)));
             else overview.append(node('p', 'map-position-note', text('Coordonnées du jeu non calibrées pour ce palier.', 'Game coordinates are not calibrated for this floor.')));
         }
-        const href = localUrl(entity.url);
+        const href = publicDetailsUrl(entity.url);
         if (href && !new URL(href).pathname.match(/^\/(carte|pages\/map\.html)$/)) { const link = node('a', 'map-page-link', text('Ouvrir la fiche', 'Open details')); link.href = href; overview.append(link); }
         if (target.position) { const center = node('button', 'map-page-link', text('Voir sur la carte', 'View on map')); center.type = 'button'; listen(state, center, 'click', () => { viewCamera(state, target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 }); updateUrl(state, entity.key); }); overview.append(center); }
         const reverse = Object.values(state.data.entities).filter(other => other.key !== entity.key);
         relation(state, text('Lieu associé', 'Associated place'), [entity.placeKey, entity.positionRef], null, panes.places);
         if (entity.kind !== 'item') relation(state, text('Créatures', 'Creatures'), [...(entity.creatureKeys || []), ...reverse.filter(other => other.kind === 'creature' && (other.placeKey === entity.key || other.positionRef === entity.key)).map(other => other.key)], null, panes.creatures);
         const guides = new Set([...(entity.guideKeys || []), ...reverse.filter(other => other.kind === 'guide' && (other.placeKey === entity.key || other.positionRef === entity.key)).map(other => other.key)]);
-        const archivedQuests = reverse.filter(other => other.kind === 'quest' && (other.placeKey === entity.key || other.positionRef === entity.key) && !other.guideKeys?.some(key => guides.has(key)));
-        relation(state, text('Quêtes et guides', 'Quests and guides'), [...guides, ...archivedQuests.map(other => other.key)], Object.fromEntries(archivedQuests.map(other => [other.key, text('repère de quête archivé', 'archived quest marker')])), overview);
+        const quests = reverse.filter(other => other.kind === 'quest' && (other.placeKey === entity.key || other.positionRef === entity.key) && !other.guideKeys?.some(key => guides.has(key)));
+        relation(state, text('Quêtes et guides', 'Quests and guides'), [...guides, ...quests.map(other => other.key)], null, overview);
         const areaCreatures = entity.kind === 'location' ? reverse.filter(other => other.kind === 'creature' && (other.placeKey === entity.key || other.positionRef === entity.key || entity.creatureKeys?.includes(other.key))) : [];
         const drops = [...(entity.drops || []), ...areaCreatures.flatMap(creature => creature.drops || [])];
         const rates = Object.fromEntries(drops.filter(drop => drop.itemKey).map(drop => [drop.itemKey, drop.rate != null && entity.kind === 'creature' ? String(drop.rate) + ' %' : '']));
@@ -556,7 +580,7 @@
     async function selectEntity(state, key, options = {}) {
         if (!valid(state) || !state.catalog) return false;
         if (options.url !== false) state.explicitCamera = false;
-        const entry = state.catalog.index.find(entity => entity.key === key); if (!entry) { notice(state, text('Ce repère est introuvable.', 'This marker could not be found.')); return false; }
+        const entry = state.catalog.index.find(entity => entity.key === key); if (!publicEntity(entry)) { notice(state, text('Ce repère est introuvable.', 'This marker could not be found.')); return false; }
         const intent = options.intent ?? ++state.intent;
         const targetFloor = Number(entry.floor) || state.floor;
         if (state.floor !== targetFloor || !state.data) { if (!(await changeFloor(state, targetFloor))) return false; }
@@ -628,8 +652,10 @@
         if (camera) global.NamelessMapRegions?.active?.cancelCamera();
         if (key) await selectEntity(state, key, { intent, url: false, center:!camera });
         else if (['entity', 'location', 'creature', 'boss', 'guide', 'quest'].some(name => params.has(name))) {
-            const archivedMain = ['entity', 'guide', 'quest'].some(name => /(?:^|:)p[12]-principale-/.test(params.get(name) || ''));
-            notice(state, archivedMain ? text('Cette ancienne quête principale a été archivée. Son parcours obsolète n’est plus publié.', 'This former main quest has been archived. Its obsolete walkthrough is no longer published.') : text('Ce repère est introuvable.', 'This marker could not be found.'));
+            notice(state, text('Ce repère n’est plus disponible sur la carte.', 'This marker is no longer available on the map.'));
+            // Remove the stale target so sharing or returning through SPA history
+            // cannot keep an obsolete quest as the current map selection.
+            updateUrl(state, null, false, true);
         }
         if (!valid(state) || intent !== state.intent) return;
         if (camera) {

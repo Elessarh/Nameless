@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
-import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, assertNoCombatFields} from './public-content-policy.mjs';
+import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
 const { JSDOM } = require('jsdom');
@@ -315,7 +315,18 @@ function compile({ root = defaultRoot } = {}) {
             return { name: drop.name, itemKey: item?.key || null, rate: Number.isFinite(drop.rate) ? drop.rate : null };
         });
     });
+    // Keep historical evidence in the private compiler audit, never in the
+    // shipped catalogue, marker registry or a current place's related links.
+    const excludedHistorical = [...entities.values()].filter(entity => !isPublishedMapEntity(entity));
+    audit.excludedHistoricalEntities = excludedHistorical.map(({key, kind, status}) => ({key, kind, status}));
+    for (const entity of excludedHistorical) {
+        entities.delete(entity.key); delete floors[entity.floor].entities[entity.key];
+    }
+    for (const floor of Object.values(floors)) floor.points = floor.points.filter(key => entities.has(key));
     for (const entity of entities.values()) {
+        if (entity.positionRef && !entities.has(entity.positionRef)) entity.positionRef = null;
+        if (entity.placeKey && !entities.has(entity.placeKey)) entity.placeKey = null;
+        for (const field of ['relatedKeys', 'creatureKeys', 'guideKeys']) entity[field] = entity[field].filter(key => entities.has(key));
         for (const field of ['relatedKeys', 'creatureKeys', 'guideKeys']) entity[field] = unique(entity[field]);
         if (!entity.position && entity.positionRef === entity.key) entity.positionRef = null;
         for (const reference of [entity.positionRef, entity.placeKey, ...entity.relatedKeys, ...entity.creatureKeys, ...entity.guideKeys].filter(Boolean)) {
@@ -329,8 +340,8 @@ function compile({ root = defaultRoot } = {}) {
         keywords: clean([entity.description, entity.npc, entity.category, ...entity.sources.map(source => source.location || source.city || ''), ...entity.drops.map(drop => drop.name)].join(' ')) })), registry };
     audit.counts = { entities: entities.size, byKind: Object.fromEntries(['location', 'quest', 'guide', 'npc', 'creature', 'item'].map(kind => [kind, [...entities.values()].filter(entity => entity.kind === kind).length])),
         floors: Object.fromEntries(Object.values(floors).map(floor => [floor.floor, { entities: Object.keys(floor.entities).length, defaultPoints: floor.points.length }])), registry: registry.length,
-        guidesByCategory: Object.fromEntries(['1:principale', '1:secondaire', '2:principale', '2:secondaire'].map(key => [key, guides.filter(guide => guide.floor + ':' + guide.category === key).length])) };
-    audit.legacyFavorites = audit.legacyFavorites.filter((entry, index, all) => all.findIndex(other => other.key === entry.key && JSON.stringify(other.globalIds) === JSON.stringify(entry.globalIds)) === index);
+        guidesByCategory: Object.fromEntries(['1:principale', '1:secondaire', '2:principale', '2:secondaire'].map(key => [key, guides.filter(guide => entities.has(guide.key) && guide.floor + ':' + guide.category === key).length])) };
+    audit.legacyFavorites = audit.legacyFavorites.filter((entry, index, all) => entities.has(entry.key) && all.findIndex(other => other.key === entry.key && JSON.stringify(other.globalIds) === JSON.stringify(entry.globalIds)) === index);
     const graph = { catalog, floors, registry };
     assertNoCombatFields(graph);
     return { graph, audit };

@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import {createRequire} from 'node:module';
 import {bossSlug} from './build-boss-pages.mjs';
 import {createMapGraph} from './build-map-graph.mjs';
-import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, assertNoCombatFields} from './public-content-policy.mjs';
+import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
@@ -69,7 +69,7 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
     quests.querySelectorAll('.quest-step').forEach(step => {
         if (!step.id) throw new Error('Quest is missing a permanent ID');
         const section = step.closest('.quest-section');
-        if (section.dataset.category !== 'secondaire') return;
+        if (section.dataset.category !== 'secondaire' || !isPublishedMapEntity({status: section.dataset.status})) return;
         add({kind: 'quest', id: step.id, title: clean(step.querySelector('h4')?.textContent), url: '/quetes?quest=' + encodeURIComponent(step.id),
             summary: 'Palier ' + section.dataset.tier + ' · Secondaire historique non vérifiée', status: HISTORICAL_QUEST_STATUS, ...mapMetadata('guide:' + step.id), keywords: clean(step.textContent).slice(0, 450)});
     });
@@ -104,6 +104,7 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
             if (npcKeys.has(key)) return;
             npcKeys.add(key);
             const target = mapGraph.catalog.index.find(entry => entry.kind === 'npc' && entry.floor === floor && normalize(entry.title) === normalize(point.npc));
+            if (!target || !isPublishedMapEntity(target)) return;
             add({kind: 'npc', id: key, title: point.npc, summary: 'Secondaire historique non vérifiée · Palier ' + floor, status: HISTORICAL_QUEST_STATUS, keywords: point.name,
                 ...(target ? mapMetadata(target.key) : {}), url: target?.mapUrl || '/carte?floor=' + floor + '&q=' + encodeURIComponent(point.npc)});
         });
@@ -114,7 +115,7 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
         if (seen.has(key)) throw new Error('Duplicate search entry: ' + key);
         seen.add(key);
     }
-    const index = {version: 1, entries};
+    const index = {version: 1, entries: entries.filter(isPublishedMapEntity)};
     assertNoCombatFields(index);
     return index;
 }

@@ -8,7 +8,13 @@ const require=createRequire(import.meta.url);
 const {PGlite}=require('@electric-sql/pglite');
 const root=path.resolve(import.meta.dirname,'..');
 const sql=fs.readFileSync(path.join(root,'docs/supabase/SAO_NAMELESS_MAP_WORKSPACE_008.sql'),'utf8');
+const entitySeed=fs.readFileSync(path.join(root,'docs/supabase/SAO_NAMELESS_MAP_ENTITY_SEED_005.sql'),'utf8');
+const publicationSeed=fs.readFileSync(path.join(root,'docs/supabase/SAO_NAMELESS_MAP_PUBLICATION_SEED_006.sql'),'utf8');
 const graph=createMapGraph({root});
+const currentKeys=new Set(graph.registry.map(entity=>entity.key));
+const historicalSeed=[...sql.matchAll(/^\s*\('([^']+)','(location|quest|guide|npc|creature)',([123]),'([^']+)',true\)[,]?\s*$/gm)]
+  .map(([,entity_key,kind,floor,marker_type])=>({entity_key,kind,floor:Number(floor),marker_type}));
+let retiredKeys=[],retiredMarker;
 const baseline=JSON.parse(fs.readFileSync(path.join(root,'data/map-regions.json'),'utf8'));
 const ADMIN='11111111-1111-4111-8111-111111111111',MEMBER='22222222-2222-4222-8222-222222222222';
 const key='location:1:ville-depart',region=baseline.floors[0].regions[0];
@@ -38,6 +44,7 @@ const saveCustom=(revision=0,state='draft',entityKey=null,overrides={})=>{
 };
 const publicRegions=()=>anon(()=>db.query('select * from public.read_map_regions()'));
 const publicCustom=()=>anon(()=>db.query('select * from public.read_map_custom_markers()'));
+const publicMarkers=async()=> (await anon(()=>db.query('select * from public.read_map_marker_overrides()'))).rows;
 try{
   // Deliberately minimal prerequisites: migrations 004, 005 and 006 are absent.
   await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;
@@ -48,14 +55,37 @@ try{
       select coalesce((select role from public.user_profiles where id=auth.uid()),'visiteur')$$;
     revoke all on function public.current_user_role() from public,anon;grant execute on function public.current_user_role() to authenticated;`);
   await db.query('insert into public.user_profiles values($1,\'admin\'),($2,\'membre\')',[ADMIN,MEMBER]);
-  await test('standalone migration needs no 004/005/006 services and seeds only current public catalogue identities',async()=>{
+  await test('immutable standalone migration installs its historical 269-identity baseline without 004/005/006 services',async()=>{
     await db.exec(sql);
     const registry=(await db.query('select * from public.map_entity_registry')).rows;
-    assert.equal(registry.length,graph.registry.length);
-    assert.deepEqual(registry.map(r=>r.entity_key).sort(),graph.registry.map(r=>r.key).sort());
+    assert.equal(historicalSeed.length,269, 'Migration 008 retains the catalogue embedded when it was applied');
+    assert.equal(registry.length,historicalSeed.length);
+    assert.deepEqual(registry.map(({entity_key,kind,floor,marker_type})=>({entity_key,kind,floor,marker_type})).sort((a,b)=>a.entity_key.localeCompare(b.entity_key)),historicalSeed.sort((a,b)=>a.entity_key.localeCompare(b.entity_key)));
+    assert.ok(graph.registry.every(entity=>registry.some(row=>row.entity_key===entity.key)), 'Every current identity is already present in the historic baseline');
     assert.ok(registry.every(r=>r.published));
     assert.deepEqual((await workspace()).maps.map(row=>[row.floor,row.image_id]),baseline.floors.map(row=>[row.floor,row.imageId]));
     assert.equal(await scalar("select to_regprocedure('public.consume_write_budget(uuid,text,integer,integer,integer)')::text as value"),null);
+  });
+  await test('current additive 005/006 seeds retain all historical rows while publishing only the 93 current identities',async()=>{
+    retiredKeys=historicalSeed.filter(entity=>!currentKeys.has(entity.entity_key)).map(entity=>entity.entity_key);
+    assert.equal(currentKeys.size,93);assert.equal(retiredKeys.length,176);
+    const retiredKey=retiredKeys.find(entity=>entity.startsWith('quest:'));
+    const retired=historicalSeed.find(entity=>entity.entity_key===retiredKey);
+    await db.query('insert into public.map_marker_overrides(entity_key,floor,marker_type,state,u,v,revision,created_by,updated_by) values($1,$2,$3,\'visible\',.61,.72,7,$4,$4)',[retiredKey,retired.floor,retired.marker_type,ADMIN]);
+    retiredMarker=(await db.query('select * from public.map_marker_overrides where entity_key=$1',[retiredKey])).rows[0];
+    await db.exec(entitySeed);await db.exec(publicationSeed);
+    const registry=(await db.query('select * from public.map_entity_registry')).rows;
+    assert.equal(registry.length,historicalSeed.length, 'The projection never deletes the historical registry');
+    assert.deepEqual(registry.filter(row=>row.published).map(row=>row.entity_key).sort(),[...currentKeys].sort());
+    assert.ok(registry.filter(row=>retiredKeys.includes(row.entity_key)).every(row=>!row.published));
+    assert.deepEqual((await db.query('select * from public.map_marker_overrides where entity_key=$1',[retiredKey])).rows[0],retiredMarker, 'Private archived placement, author, coordinates and revision survive');
+    const publicRegistry=(await anon(()=>db.query('select entity_key from public.map_entity_registry'))).rows;
+    assert.deepEqual(publicRegistry.map(row=>row.entity_key).sort(),[...currentKeys].sort(), 'Anonymous registry access excludes all historical quests, guides and NPCs');
+    const tombstones=(await publicMarkers()).filter(row=>retiredKeys.includes(row.entity_key));
+    assert.equal(tombstones.length,176);
+    assert.ok(tombstones.every(row=>row.state==='hidden'&&row.id===null&&row.u===null&&row.v===null), 'Historical override readers expose no retired placement coordinates or authors');
+    assert.deepEqual((await workspace()).registry.map(row=>row.entity_key).sort(),[...currentKeys].sort(), 'Administrator editing choices use only the current published registry');
+    await assert.rejects(saveMarker(7,'visible',.2,.3,retiredKey,retired.marker_type),/map_unknown_entity/);
   });
   await test('anonymous/member/missing-session clients cannot read private workspace or write through RPC or direct table',async()=>{
     await assert.rejects(anon(()=>db.query('select public.map_workspace_read()')),/permission denied/);
@@ -80,23 +110,23 @@ try{
     assert.equal('created_by' in result.record,false);assert.equal('updated_by' in result.record,false);
     const stored=(await db.query('select * from public.map_marker_overrides where entity_key=$1',[key])).rows[0];
     assert.equal(stored.created_by,ADMIN);assert.equal(stored.updated_by,ADMIN);
-    const readback=(await anon(()=>db.query('select * from public.read_map_marker_overrides()'))).rows[0];
+    const readback=(await publicMarkers()).find(row=>row.entity_key===key);
     assert.deepEqual(Object.keys(readback).sort(),['id','entity_key','floor','marker_type','state','u','v'].sort());
     assert.equal(readback.u,.2);assert.equal(readback.v,.3);
   });
   await test('marker hide and delete suppress baseline without disclosing hidden coordinates',async()=>{
     await saveMarker(1,'hidden',.77,.88);
-    let row=(await anon(()=>db.query('select * from public.read_map_marker_overrides()'))).rows[0];
+    let row=(await publicMarkers()).find(row=>row.entity_key===key);
     assert.equal(row.state,'hidden');assert.equal(row.u,null);assert.equal(row.v,null);
     await saveMarker(2,'deleted',null,null);
-    row=(await anon(()=>db.query('select * from public.read_map_marker_overrides()'))).rows[0];
+    row=(await publicMarkers()).find(row=>row.entity_key===key);
     assert.equal(row.state,'deleted');assert.equal(row.u,null);
   });
   await test('optimistic revisions reject stale first saves, updates, resets and reset→recreate ABA',async()=>{
     await assert.rejects(saveMarker(0),/map_revision_conflict/);
     await assert.rejects(resetMarker(2),/map_revision_conflict/);
     const reset=await resetMarker(3);assert.deepEqual(reset,{revision:4,reset:true});
-    assert.equal((await anon(()=>db.query('select * from public.read_map_marker_overrides()'))).rows.length,0);
+    assert.equal((await publicMarkers()).filter(row=>row.entity_key===key).length,0);
     const entry=(await workspace()).registry.find(r=>r.entity_key===key);assert.equal(entry.marker_revision,4);
     await assert.rejects(saveMarker(0),/map_revision_conflict/);
     const updated=await saveMarker(4);assert.equal(updated.revision,5);
@@ -216,6 +246,13 @@ try{
     assert.equal(await scalar('select minute_attempts as value from nameless_private.map_workspace_limits where subject=$1',[ADMIN]),budget);
     assert.equal(await scalar('select role as value from public.user_profiles where id=$1',[MEMBER]),'membre');
     assert.equal(await scalar("select published as value from public.map_entity_registry where entity_key='location:1:hanaka'"),false);
+    const retired=(await db.query('select entity_key,published from public.map_entity_registry where entity_key=any($1::text[])',[retiredKeys])).rows;
+    assert.equal(retired.length,176);assert.ok(retired.every(row=>!row.published), 'Reapplying immutable 008 cannot reactivate archived identities');
+    assert.deepEqual((await db.query('select * from public.map_marker_overrides where entity_key=$1',[retiredMarker.entity_key])).rows[0],retiredMarker, 'Reapply preserves the private historical placement exactly');
+    const publicRegistry=(await anon(()=>db.query('select entity_key from public.map_entity_registry'))).rows;
+    assert.ok(publicRegistry.every(row=>currentKeys.has(row.entity_key)), 'Reapply exposes no historical identity through the anonymous registry');
+    const hidden=(await publicMarkers()).filter(row=>retiredKeys.includes(row.entity_key));
+    assert.equal(hidden.length,176);assert.ok(hidden.every(row=>row.state==='hidden'&&row.id===null&&row.u===null&&row.v===null));
   });
   await test('legacy 005/006 records and publication gates survive upgrading without hardening 004',async()=>{
     const legacy=new PGlite();

@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { createMapGraph, writeMapGraph } from './build-map-graph.mjs';
-import {isPublishedQuest, HISTORICAL_QUEST_STATUS, assertNoCombatFields} from './public-content-policy.mjs';
+import {isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
@@ -22,11 +22,12 @@ const check = (condition, message) => { assert.ok(condition, message); checks++;
 
 assert.deepEqual(Object.keys(graph).sort(), ['catalog', 'floors', 'registry']);
 assert.equal(graph.catalog.version, 1);
-assert.equal(byKind('guide').length, 58);
+assert.equal(byKind('guide').length, 0);
 assert.equal(byKind('creature').length, 60);
 assert.equal(byKind('item').length, 104);
 assert.equal(byKind('location').length, 33);
-assert.equal(byKind('quest').length, 59);
+assert.equal(byKind('quest').length, 0);
+assert.equal(byKind('npc').length, 0);
 assertNoCombatFields(graph);
 assert.equal(all.length, byKey.size, 'Stable keys are unique');
 assert.equal(graph.catalog.index.length, all.length);
@@ -84,8 +85,8 @@ assert.deepEqual(graph.floors[3].points, []);
 const expectedPoints = [];
 for (const [table, floor, kind] of [['villesData', 1, 'location'], ['donjonsData', 1, 'location'], ['marchandsData', 1, 'location'], ['monstresData', 1, 'location'], ['questData', 1, 'quest'], ['questDataFloor2', 2, 'quest']]) {
     for (const original of source[table]) {
-        if (kind === 'quest' && !isPublishedQuest(original)) {
-            assert.ok(!byKey.has(kind + ':' + floor + ':' + original.id), 'Main quest is archived before graph derivation');
+        if (kind === 'quest') {
+            assert.ok(!byKey.has(kind + ':' + floor + ':' + original.id), 'Historical quest never enters the public graph');
             continue;
         }
         const key = kind + ':' + floor + ':' + original.id, entity = byKey.get(key);
@@ -102,31 +103,20 @@ for (const [table, floor, kind] of [['villesData', 1, 'location'], ['donjonsData
     }
 }
 assert.deepEqual(Object.values(graph.floors).flatMap(floor => floor.points), expectedPoints);
-assert.equal(expectedPoints.length, 92);
+assert.equal(expectedPoints.length, 33);
 
 const dom = new JSDOM(fs.readFileSync(path.join(root, 'pages/quetes.html'), 'utf8'));
 const steps = [...dom.window.document.querySelectorAll('.quest-step')];
-let positionedGuides = 0;
 for (const step of steps) {
-    const guide = byKey.get('guide:' + step.id);
-    check(Boolean(guide), 'Every HTML guide ID survives');
-    assert.equal(guide.category, step.closest('.quest-section').dataset.category);
-    assert.equal(guide.floor, Number(step.closest('.quest-section').dataset.tier));
-    const coordinate = step.querySelector('.coordinates');
-    if (coordinate) {
-        assert.deepEqual([guide.position.x, guide.position.z], [Number(coordinate.dataset.x), Number(coordinate.dataset.y)]);
-        positionedGuides++;
-    } else assert.equal(guide.position, null, 'Missing HTML coordinates stay unknown');
-    check(!expectedPoints.includes(guide.key), 'Derived guide coordinates never add default pins');
+    check(!byKey.has('guide:' + step.id), 'Historical HTML guide is omitted from public map data');
 }
-assert.equal(positionedGuides, steps.filter(step => step.querySelector('.coordinates')).length);
-assert.ok(positionedGuides > 40, 'Historical secondary coordinate links are still checked');
+assert.equal(steps.length, 58, 'Retired guide source remains recoverable');
 dom.window.close();
 
 for (const entity of all) {
     assert.equal(graph.floors[entity.floor].entities[entity.key], entity);
     assert.ok(entity.sources.length, 'Every entity has source evidence');
-    if (['quest', 'guide', 'npc'].includes(entity.kind)) assert.equal(entity.status, HISTORICAL_QUEST_STATUS, 'Secondary evidence never claims to be current');
+    check(isPublishedMapEntity(entity), 'No archived entity is shipped');
     for (const reference of [entity.positionRef, entity.placeKey, ...entity.relatedKeys, ...entity.creatureKeys, ...entity.guideKeys].filter(Boolean)) {
         check(byKey.has(reference), 'Reference exists: ' + reference);
         assert.equal(byKey.get(reference).floor, entity.floor, 'Linked entities are on the same floor');
@@ -156,15 +146,11 @@ for (const creature of byKind('creature')) {
         assert.equal(place.kind, 'location'); check(place.creatureKeys.includes(creature.key), 'Zone-to-creature relation is reciprocal');
     }
 }
-for (const slug of ['varn']) {
-    const npc = byKey.get('npc:1:' + slug);
-    assert.equal(npc.positionRef, null, 'Conflicting NPC coordinates have no preferred reference');
-    check(new Set(npc.sources.filter(source => source.coordinates).map(source => source.coordinates.join(','))).size > 1, 'All conflicting coordinate evidence survives');
+for (const slug of ['varn', 'saya', 'haruto', 'mephisto', 'ramoon', 'malrik', 'virel']) assert.equal(byKey.has('npc:1:' + slug), false, 'Archived NPC cannot become a current public point');
+for (const place of byKind('location')) {
+    assert.deepEqual(place.guideKeys, [], 'Current places have no archive guide shortcuts');
+    check(!place.relatedKeys.some(key => /^(?:quest|guide|npc):/.test(key)), 'Current place relations contain no historical quest entry');
 }
-assert.equal(byKey.get('npc:1:varn').placeKey, 'location:1:ville-depart', 'HTML city membership is independent of coordinate disagreement');
-assert.equal(byKey.get('npc:1:saya').placeKey, 'location:1:valhat', 'Explicit Valhat/Valhatt alias links city guides');
-assert.equal(byKey.get('npc:1:haruto').placeKey, null, 'Sans Village Fixe does not acquire a city by proximity');
-for (const slug of ['mephisto', 'ramoon', 'malrik', 'virel']) assert.equal(byKey.has('npc:1:' + slug), false, 'Main-only NPC is archived before public derivation');
 
 // Each individual drop keeps its own rate, and only exact normalized item names match.
 const itemNames = new Set();
@@ -204,7 +190,9 @@ try {
     assert.deepEqual(JSON.parse(fs.readFileSync(path.join(fixture, 'public/assets/map/catalog.json'), 'utf8')), graph.catalog);
     for (const floor of Object.values(graph.floors)) assert.deepEqual(JSON.parse(fs.readFileSync(path.join(fixture, 'public/assets/map/floor-' + floor.floor + '.json'), 'utf8')), floor);
     const audit = JSON.parse(fs.readFileSync(path.join(fixture, 'docs/map-exploration-2026-10-08/graph-audit.json'), 'utf8'));
-    assert.equal(audit.counts.byKind.guide, 58);
+    assert.equal(audit.counts.byKind.guide, 0);
+    assert.equal(audit.excludedHistoricalEntities.length, 176, 'All 59 quests, 58 guides and 59 derived NPCs are excluded');
+    assert.ok(audit.excludedHistoricalEntities.every(entry => !graph.catalog.index.some(entity => entity.key === entry.key)));
     assert.deepEqual(audit.unmatchedDrops, [], 'Every current drop has an exact or explicitly evidenced catalogue identity');
     assert.deepEqual(audit.itemAliasEvidence[0].matches.map(match => match.creatureKey), ['creature:22', 'creature:45']);
     assert.equal(audit.legacyFavorites.find(entry => entry.key === 'location:1:ville-depart').globalIds[0], 'location:villesData-0');
@@ -219,4 +207,4 @@ try {
     if (!resolved.startsWith(temporaryRoot) || !path.basename(resolved).startsWith('nameless-map-graph-')) throw new Error('Unsafe temporary fixture cleanup');
     fs.rmSync(resolved, { recursive: true, force: true });
 }
-console.log('Map graph tests passed: ' + checks + ' checks, 58 historical secondary guides, 60 creatures, 104 items, 92 preserved public default points.');
+console.log('Map graph tests passed: ' + checks + ' checks, 176 archived identities excluded, 60 creatures, 104 items and 33 current default points preserved.');

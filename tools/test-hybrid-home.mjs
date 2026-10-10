@@ -83,8 +83,16 @@ const art = JSON.parse(read('docs/hybrid-mmorpg-2026-10-08/home-art-manifest.jso
 const minecraftArt = JSON.parse(read('docs/sao-minecraft-home-2026-10-08/asset-manifest.json'));
 const heroArt = JSON.parse(read('docs/definitive-hybrid-2026-10-09/hero-manifest.json'));
 const referenceArt = JSON.parse(read('assets/reference-v2/asset-manifest.json'));
+const reviewedArt = JSON.parse(read('assets/art-v4/asset-manifest.json'));
 const derivedImages = new Map();
 const fileHash = name => createHash('sha256').update(fs.readFileSync(path.join(root, name))).digest('hex');
+for (const record of reviewedArt.artwork) {
+    assert.equal(fileHash(record.source.path), record.source.sha256);
+    for (const output of record.outputs) {
+        assert.equal(fileHash(output.path), output.sha256);
+        derivedImages.set(output.path, output);
+    }
+}
 for (const source of referenceArt.sources) assert.equal(fileHash(source.path), source.sha256, 'Reference sources remain intact');
 for (const output of referenceArt.exports) {
     assert.equal(fileHash(output.path), output.sha256);
@@ -184,11 +192,11 @@ for (const output of heroArt.outputs) {
         assert.equal(parseFloat(support.style.getPropertyValue('--sprite-height')), Number(sprite.getAttribute('height')) * 2, 'Featured inventory sprites use a crisp integer vertical scale');
     }
     const hero = main.querySelector('.home-hero-scene img');
-    assert.equal(hero.getAttribute('src'), '/assets/reference-v2/home-environment-1672.webp');
+    assert.equal(hero.getAttribute('src'), '/assets/art-v4/aincrad-1672.webp');
     assert.equal(hero.getAttribute('fetchpriority'), 'high');
-    assert.equal(main.querySelector('.home-scene-caption').textContent, 'Illustration d’ambiance', 'The hero interpretation is not presented as an official server location');
+    assert.equal(main.querySelector('.home-scene-caption').textContent, 'Illustration d’Aincrad', 'Generated scenery is described as an illustration');
     assert.equal(hero.getAttribute('loading'), null, 'The hero must load immediately');
-    assert.ok(doc.head.querySelector('link[rel="preload"][href="/assets/reference-v2/home-environment-mobile.webp"]'));
+    assert.ok(doc.head.querySelector('link[rel="preload"][href="/assets/art-v4/aincrad-mobile.webp"]'));
     for (const image of main.querySelectorAll('img')) {
         const relative = decodeURIComponent(new URL(image.src).pathname).slice(1);
         const filename = path.join(root, relative);

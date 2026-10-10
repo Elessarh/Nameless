@@ -90,6 +90,45 @@
  .creature-zone { font-size: .75rem; }
  .drops-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Phase 3: actual multi-choice controls and progressive catalogue details. */
+.bestiaire-container.bestiary-page .catalogue-filter-section > summary { display: flex; align-items: center; gap: .5rem; min-height: 44px; margin: 0; padding: .25rem 0; list-style: none; cursor: pointer; }
+.bestiaire-container.bestiary-page .catalogue-filter-section > summary::-webkit-details-marker { display: none; }
+.bestiaire-container.bestiary-page .catalogue-filter-section > summary::after { content: '+'; margin-left: auto; color: var(--nm-gold); font-size: 1.1rem; }
+.bestiaire-container.bestiary-page .catalogue-filter-section[open] > summary::after { content: '−'; }
+.bestiaire-container.bestiary-page .catalogue-filter-selected-count { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 .25rem; color: var(--nm-gold-light); border: 1px solid var(--nm-hairline); border-radius: 3px; font-size: .6875rem; font-variant-numeric: tabular-nums; }
+.bestiaire-container.bestiary-page .catalogue-filter-options { max-height: 280px; overflow-y: auto; scrollbar-width: thin; }
+.bestiaire-container.bestiary-page .catalogue-filter-option { min-height: 44px; gap: 9px; line-height: 1.45; }
+.bestiaire-container.bestiary-page .catalogue-filter-option input { width: 16px; height: 16px; min-height: 16px; flex-basis: 16px; }
+.bestiaire-container.bestiary-page .catalogue-filter-search { min-height: 44px; margin: 3px 0 7px; }
+.bestiaire-container.bestiary-page .catalogue-filter-option[hidden], .bestiaire-container.bestiary-page .catalogue-filter-selected-count[hidden], .bestiaire-container.bestiary-page .catalogue-filter-backdrop[hidden] { display: none !important; }
+.bestiaire-container.bestiary-page .catalogue-filter-section > summary::before { display: none; }
+.bestiaire-container.bestiary-page .catalogue-filter-close, .bestiaire-container.bestiary-page .catalogue-filter-toggle { display: none; }
+.bestiaire-container.bestiary-page .catalogue-search { flex: 1 1 200px; }
+.bestiaire-container.bestiary-page .catalogue-search input { width: 100%; min-height: 44px; padding: .625rem .75rem; border: 1px solid var(--nm-border-control); border-radius: 3px; color: var(--nm-text); background: var(--nm-bg); font: inherit; font-size: .8125rem; }
+.bestiaire-container.bestiary-page .catalogue-search label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.bestiaire-container.bestiary-page .catalogue-detail-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+.bestiaire-container.bestiary-page .catalogue-detail-actions :is(button,a) { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 10px; border: 1px solid var(--nm-border-control); border-radius: 3px; font: inherit; font-size: .75rem; color: var(--nm-link); background: var(--nm-bg-secondary); text-decoration: none; cursor: pointer; }
+.bestiaire-container.bestiary-page .catalogue-share-status { width: 100%; font-size: .75rem; color: var(--nm-text-secondary); }
+.bestiaire-container.bestiary-page .catalogue-share-url { width: 100%; min-width: 0; min-height: 44px; padding: 8px; color: var(--nm-text); border: 1px solid var(--nm-border-control); background: var(--nm-bg); font: inherit; font-size: .75rem; }
+.bestiary-tooltip { position: fixed; z-index: 190; display: flex; flex-direction: column; gap: 5px; width: 230px; max-width: calc(100vw - 16px); padding: 12px 14px; border: 1px solid var(--nm-hairline); border-radius: 4px; color: var(--nm-text-secondary); background: #06171e; box-shadow: 0 8px 24px #0006; pointer-events: none; font: 400 .75rem/1.5 var(--font-text); animation: codex-panel 160ms var(--nm-ease); }
+.bestiary-tooltip[hidden] { display: none !important; }
+.bestiary-tooltip strong { color: var(--nm-text-bright); font-size: .875rem; }
+@media (max-width: 768px) {
+ .bestiaire-container.bestiary-page .catalogue-filter-toggle { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 12px; border: 1px solid var(--nm-border-control); border-radius: 3px; color: var(--nm-text); background: var(--nm-bg-secondary); font: inherit; font-size: .8125rem; cursor: pointer; }
+ .bestiaire-container.bestiary-page .bes-filters { display: none; }
+ .bestiaire-container.bestiary-page.catalogue-filters-open { position: relative; z-index: calc(var(--nm-z-dialog) + 1); }
+ .bestiaire-container.bestiary-page.catalogue-filters-open .catalogue-layout { isolation: auto; }
+ .bestiaire-container.bestiary-page.catalogue-filters-open .bes-filters { display: flex; position: fixed; z-index: var(--nm-z-dialog); inset: 0 auto 0 0; width: min(360px,calc(100vw - 28px)); height: 100dvh; max-height: 100dvh; padding: 18px; overflow-y: auto; overscroll-behavior: contain; border-radius: 0; background: #071b25 !important; box-shadow: 8px 0 40px #0009; animation: codex-panel 200ms var(--nm-ease); }
+ .bestiaire-container.bestiary-page .catalogue-filter-close { display: inline-grid; place-items: center; width: 44px; height: 44px; margin-left: auto; border: 1px solid var(--nm-border-control); border-radius: 3px; color: var(--nm-text); background: var(--nm-bg); font-size: 1.5rem; cursor: pointer; }
+ .bestiaire-container.bestiary-page .catalogue-filter-title { flex-wrap: wrap; }
+ .bestiaire-container.bestiary-page .catalogue-filter-title .catalogue-reset { width: 100%; text-align: left; min-height: 44px; }
+ .bestiaire-container.bestiary-page .catalogue-filter-backdrop { position: fixed; z-index: calc(var(--nm-z-dialog) - 1); inset: 0; width: 100vw; height: 100dvh; border: 0; background: #000a; cursor: pointer; }
+ .bestiaire-container.bestiary-page .catalogue-filters > summary { display: none; }
+ .bestiaire-container.bestiary-page .bes-filter-group { display: block; padding-top: 0; }
+ .bestiaire-container.bestiary-page .catalogue-search { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .bestiary-tooltip, .bestiaire-container.bestiary-page.catalogue-filters-open .bes-filters { animation: none; } }
 @media (max-width: 340px) { .creatures-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .creature-modal .modal-content { animation: none; } }
 

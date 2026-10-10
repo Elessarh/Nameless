@@ -1,0 +1,767 @@
+{
+  "stage": "after",
+  "generatedAt": "2026-10-10T22:54:28.260Z",
+  "checks": [
+    {
+      "name": "home layout 360",
+      "passed": true,
+      "detail": {
+        "width": 360
+      }
+    },
+    {
+      "name": "bestiary layout 360",
+      "passed": true,
+      "detail": {
+        "width": 360
+      }
+    },
+    {
+      "name": "items layout 360",
+      "passed": true,
+      "detail": {
+        "width": 360
+      }
+    },
+    {
+      "name": "map layout 360",
+      "passed": true,
+      "detail": {
+        "width": 360
+      }
+    },
+    {
+      "name": "home layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "bestiary layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "items layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "map layout 390",
+      "passed": true,
+      "detail": {
+        "width": 390
+      }
+    },
+    {
+      "name": "home layout 768",
+      "passed": true,
+      "detail": {
+        "width": 768
+      }
+    },
+    {
+      "name": "bestiary layout 768",
+      "passed": true,
+      "detail": {
+        "width": 768
+      }
+    },
+    {
+      "name": "items layout 768",
+      "passed": true,
+      "detail": {
+        "width": 768
+      }
+    },
+    {
+      "name": "map layout 768",
+      "passed": true,
+      "detail": {
+        "width": 768
+      }
+    },
+    {
+      "name": "home layout 1280",
+      "passed": true,
+      "detail": {
+        "width": 1280
+      }
+    },
+    {
+      "name": "bestiary layout 1280",
+      "passed": true,
+      "detail": {
+        "width": 1280
+      }
+    },
+    {
+      "name": "items layout 1280",
+      "passed": true,
+      "detail": {
+        "width": 1280
+      }
+    },
+    {
+      "name": "map layout 1280",
+      "passed": true,
+      "detail": {
+        "width": 1280
+      }
+    },
+    {
+      "name": "home layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "bestiary layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "items layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "map layout 1920",
+      "passed": true,
+      "detail": {
+        "width": 1920
+      }
+    },
+    {
+      "name": "home layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "bestiary layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "items layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "map layout 2560",
+      "passed": true,
+      "detail": {
+        "width": 2560
+      }
+    },
+    {
+      "name": "Bestiary starts with all 60 records and no empty detail rail",
+      "passed": true
+    },
+    {
+      "name": "Bestiary category union and type intersection retain exact real records",
+      "passed": true
+    },
+    {
+      "name": "Bestiary selection, source tabs, native drops and close animation",
+      "passed": true
+    },
+    {
+      "name": "Bestiary root SPA navigation clears an old query",
+      "passed": true
+    },
+    {
+      "name": "Items start with 104 originals and combine category and rarity groups",
+      "passed": true
+    },
+    {
+      "name": "Item tooltips show exact names, fit viewport and dismiss with Escape",
+      "passed": true
+    },
+    {
+      "name": "Real item sources navigate to creature and calibrated map",
+      "passed": true
+    },
+    {
+      "name": "Map panels, query and old bookmarks never expose archived quests",
+      "passed": true
+    },
+    {
+      "name": "Global palette refuses archived quest and guide records",
+      "passed": true,
+      "detail": {
+        "entries": 252
+      }
+    },
+    {
+      "name": "Actual SPA cycles remove tooltips and preserve one fresh catalogue",
+      "passed": true
+    },
+    {
+      "name": "bestiary 360: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "bestiary 360: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "drop-item"
+      }
+    },
+    {
+      "name": "items 360: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "items 360: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "catalogue-share-url"
+      }
+    },
+    {
+      "name": "bestiary 390: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "bestiary 390: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "drop-item"
+      }
+    },
+    {
+      "name": "items 390: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "items 390: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "catalogue-share-url"
+      }
+    },
+    {
+      "name": "English and reduced motion keep real item details and source navigation",
+      "passed": true,
+      "detail": {
+        "animation": "none",
+        "transition": "0s"
+      }
+    },
+    {
+      "name": "Retired generated scenery is never loaded by any reviewed route",
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "file": "after-home-360x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-360x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-360x844.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-map-360x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-home-390x844.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-390x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-390x844.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-map-390x844.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-home-768x1024.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-bestiary-768x1024.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-items-768x1024.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-map-768x1024.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      }
+    },
+    {
+      "file": "after-home-1280x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-bestiary-1280x1080.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-1280x1080.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-map-1280x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1280,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-home-1920x1080.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-bestiary-1920x1080.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-map-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-home-2560x1440.png",
+      "url": "http://127.0.0.1:4173/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-bestiary-2560x1440.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-items-2560x1440.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-map-2560x1440.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 2560,
+        "height": 1440
+      }
+    },
+    {
+      "file": "after-bestiary-selected-1920x1080.png",
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-reset-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-selected-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items?item=gelee_slime",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-map-no-archives-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-bestiary-drawer-360x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-details-360x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-drawer-360x844.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-details-360x844.png",
+      "url": "http://127.0.0.1:4173/items/?item=anneau_faucheuse",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-drawer-390x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-details-390x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-drawer-390x844.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-details-390x844.png",
+      "url": "http://127.0.0.1:4173/items/?item=anneau_faucheuse",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-en-reduced-390x844.png",
+      "url": "http://127.0.0.1:4173/items/?item=gelee_slime",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "name": "home-360",
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-360",
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-360",
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-360",
+      "width": 360,
+      "scrollWidth": 360,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "home-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-390",
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "home-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-768",
+      "width": 768,
+      "scrollWidth": 768,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "home-1280",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-1280",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-1280",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-1280",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "home-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-1920",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "home-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    },
+    {
+      "name": "bestiary-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "items-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 12
+    },
+    {
+      "name": "map-2560",
+      "width": 2560,
+      "scrollWidth": 2560,
+      "brokenImages": [],
+      "selected": false,
+      "cards": 0
+    }
+  ],
+  "errors": [],
+  "loadedGeneratedArt": []
+}

@@ -1,0 +1,270 @@
+{
+  "version": 1,
+  "date": "2026-10-11",
+  "mode": "built-in image_gen",
+  "prompts": "docs/sao-reference-art-2026-10-11/prompts.json",
+  "usage": "decorative environments only; native gameplay assets preserved",
+  "artwork": [
+    {
+      "key": "aincrad",
+      "origin": "AI-generated illustration",
+      "source": {
+        "path": "assets/art-v4/aincrad-source.png",
+        "sha256": "c2dab16c5c61d8101ce27aa21da07c346c03bd8dc145f18e7017cee3e84e71e0",
+        "dimensions": [
+          1672,
+          941
+        ]
+      },
+      "review": {
+        "approved": true,
+        "checks": [
+          "coherent modular architecture",
+          "readable silhouettes",
+          "no logo or text",
+          "consistent palette",
+          "separate from native game records"
+        ]
+      },
+      "outputs": [
+        {
+          "path": "assets/art-v4/aincrad-1672.webp",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "1bbc7841c637a2a3339401ac88034ef37e7d9db9021cee6afc4ad07eb2f6daf3",
+          "bytes": 231856,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/aincrad-1280.webp",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "sha256": "cc632381ebf9f62c5773355e9db1c5b02b29fe51d954fcfcb75b6a8d3a616677",
+          "bytes": 160994,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/aincrad-960.webp",
+          "dimensions": [
+            960,
+            540
+          ],
+          "sha256": "cdb2d823d424a80cd27a6d54166c8e2cffc0045277f283d621d5d1cc82a72b74",
+          "bytes": 110212,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/aincrad-mobile.webp",
+          "dimensions": [
+            640,
+            675
+          ],
+          "sha256": "84cb465d8c71653cb8b248288b6b78ce04650ce81bbd1213a12825e61a8ab439",
+          "bytes": 72382,
+          "crop": [
+            780,
+            0,
+            1672,
+            941
+          ]
+        }
+      ]
+    },
+    {
+      "key": "forest",
+      "origin": "AI-generated illustration",
+      "source": {
+        "path": "assets/art-v4/forest-source.png",
+        "sha256": "dcfead24f8fafdca8eefc32fc39bd06f68eb4cd289421eaa71da1ff23b78bb04",
+        "dimensions": [
+          1672,
+          941
+        ]
+      },
+      "review": {
+        "approved": true,
+        "checks": [
+          "coherent modular architecture",
+          "readable silhouettes",
+          "no logo or text",
+          "consistent palette",
+          "separate from native game records"
+        ]
+      },
+      "outputs": [
+        {
+          "path": "assets/art-v4/forest-1280.webp",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "sha256": "4408bad418f6da62f50fe77340b73f7f31af94161d86c425d92bf26991afd843",
+          "bytes": 250302,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/forest-960.webp",
+          "dimensions": [
+            960,
+            540
+          ],
+          "sha256": "933af8d7ccc0e4fc86b7d1f8e1765784c3447ab336b1230a15add3eaf4274924",
+          "bytes": 164022,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/forest-640.webp",
+          "dimensions": [
+            640,
+            360
+          ],
+          "sha256": "b3cde1b6a75610ee19f3afb5c30a761d08fc44c7ef8e6262435ee88deecf2df9",
+          "bytes": 83914,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/forest-320.webp",
+          "dimensions": [
+            320,
+            180
+          ],
+          "sha256": "bb5ea0480d2d40aceed2a3c50dbf5ab0bae3a3c78c7dda7025173e9f0b799f6d",
+          "bytes": 23658,
+          "crop": null
+        }
+      ]
+    },
+    {
+      "key": "guild",
+      "origin": "AI-generated illustration",
+      "source": {
+        "path": "assets/art-v4/guild-source.png",
+        "sha256": "c4305b3abc90284b3f0a3d2837d397f4a36b935d0660b3f62003f633b473bdb3",
+        "dimensions": [
+          1672,
+          941
+        ]
+      },
+      "review": {
+        "approved": true,
+        "checks": [
+          "coherent modular architecture",
+          "readable silhouettes",
+          "no logo or text",
+          "consistent palette",
+          "separate from native game records"
+        ]
+      },
+      "outputs": [
+        {
+          "path": "assets/art-v4/guild-1280.webp",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "sha256": "e8f79550ae8396a1dda92a3b15f562a5e8de9baa425e2839b0bf06ac8ca9a600",
+          "bytes": 102462,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/guild-960.webp",
+          "dimensions": [
+            960,
+            540
+          ],
+          "sha256": "9f9cbd867250ef9981588f8dfb932a6317e809fcbab09ef60d2f86e67821cc0f",
+          "bytes": 65402,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/guild-640.webp",
+          "dimensions": [
+            640,
+            360
+          ],
+          "sha256": "d021e31cef1d0057826ff7c095a68a29f176f0ea2b0c942ef87ef0b5dd65bf70",
+          "bytes": 33884,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/guild-320.webp",
+          "dimensions": [
+            320,
+            180
+          ],
+          "sha256": "57559a3657d0307aff79e5babe7af071bbc3d2377e96699bd7e8259491e488c3",
+          "bytes": 11044,
+          "crop": null
+        }
+      ]
+    },
+    {
+      "key": "workshop",
+      "origin": "AI-generated illustration",
+      "source": {
+        "path": "assets/art-v4/workshop-source.png",
+        "sha256": "06443b627d525feea49f443a496e08bd83ec3c5445f6e325db6e106e14a75099",
+        "dimensions": [
+          1672,
+          941
+        ]
+      },
+      "review": {
+        "approved": true,
+        "checks": [
+          "coherent modular architecture",
+          "readable silhouettes",
+          "no logo or text",
+          "consistent palette",
+          "separate from native game records"
+        ]
+      },
+      "outputs": [
+        {
+          "path": "assets/art-v4/workshop-1280.webp",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "sha256": "36b3a7d280ea66d298c25a50d3838a46096099c52fead87fa79117a406a870ab",
+          "bytes": 90246,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/workshop-960.webp",
+          "dimensions": [
+            960,
+            540
+          ],
+          "sha256": "ef843ccbc1a6befac2a1e79cdedb01f7b1243228959d69c43dd9f5234eb77568",
+          "bytes": 59190,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/workshop-640.webp",
+          "dimensions": [
+            640,
+            360
+          ],
+          "sha256": "85e943cf780580fb0f0c1983340bce240a41907e6b903a885c53ab887a370590",
+          "bytes": 29952,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v4/workshop-320.webp",
+          "dimensions": [
+            320,
+            180
+          ],
+          "sha256": "25b903b34495365d857e075b31a885c9ec80b5fa7f452870515b8e0cbb263f03",
+          "bytes": 8862,
+          "crop": null
+        }
+      ]
+    }
+  ]
+}

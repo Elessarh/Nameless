@@ -1,0 +1,192 @@
+{
+  "date": "2026-10-10T23:15:20.833Z",
+  "layouts": [
+    {
+      "name": "home",
+      "file": "home-360.png",
+      "width": 360,
+      "scrollWidth": 360,
+      "broken": [],
+      "hero": "http://127.0.0.1:4173/assets/art-v3/aincrad-mobile.webp",
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "bestiary",
+      "file": "bestiary-360.png",
+      "width": 360,
+      "scrollWidth": 360,
+      "broken": [],
+      "headerBackground": "url(\"http://127.0.0.1:4173/assets/art-v3/forest-640.webp\")",
+      "nativeMap": []
+    },
+    {
+      "name": "items",
+      "file": "items-360.png",
+      "width": 360,
+      "scrollWidth": 360,
+      "broken": [],
+      "headerBackground": "url(\"http://127.0.0.1:4173/assets/art-v3/workshop-640.webp\")",
+      "nativeMap": []
+    },
+    {
+      "name": "guild",
+      "file": "guild-360.png",
+      "width": 360,
+      "scrollWidth": 360,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "wiki",
+      "file": "wiki-360.png",
+      "width": 360,
+      "scrollWidth": 360,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "map",
+      "file": "map-360.png",
+      "width": 360,
+      "scrollWidth": 360,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-mobile.webp"
+      ]
+    },
+    {
+      "name": "home",
+      "file": "home-768.png",
+      "width": 768,
+      "scrollWidth": 768,
+      "broken": [],
+      "hero": "http://127.0.0.1:4173/assets/art-v3/aincrad-mobile.webp",
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "bestiary",
+      "file": "bestiary-768.png",
+      "width": 768,
+      "scrollWidth": 768,
+      "broken": [],
+      "headerBackground": "url(\"http://127.0.0.1:4173/assets/art-v3/forest-640.webp\")",
+      "nativeMap": []
+    },
+    {
+      "name": "items",
+      "file": "items-768.png",
+      "width": 768,
+      "scrollWidth": 768,
+      "broken": [],
+      "headerBackground": "url(\"http://127.0.0.1:4173/assets/art-v3/workshop-640.webp\")",
+      "nativeMap": []
+    },
+    {
+      "name": "guild",
+      "file": "guild-768.png",
+      "width": 768,
+      "scrollWidth": 768,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "wiki",
+      "file": "wiki-768.png",
+      "width": 768,
+      "scrollWidth": 768,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "map",
+      "file": "map-768.png",
+      "width": 768,
+      "scrollWidth": 768,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ]
+    },
+    {
+      "name": "home",
+      "file": "home-1920.png",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "broken": [],
+      "hero": "http://127.0.0.1:4173/assets/art-v3/aincrad-1672.webp",
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "bestiary",
+      "file": "bestiary-1920.png",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "broken": [],
+      "headerBackground": "url(\"http://127.0.0.1:4173/assets/art-v3/forest-1280.webp\"), none",
+      "nativeMap": []
+    },
+    {
+      "name": "items",
+      "file": "items-1920.png",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "broken": [],
+      "headerBackground": "url(\"http://127.0.0.1:4173/assets/art-v3/workshop-1280.webp\")",
+      "nativeMap": []
+    },
+    {
+      "name": "guild",
+      "file": "guild-1920.png",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "wiki",
+      "file": "wiki-1920.png",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": []
+    },
+    {
+      "name": "map",
+      "file": "map-1920.png",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "broken": [],
+      "headerBackground": "none",
+      "nativeMap": [
+        "http://127.0.0.1:4173/assets/map-preview/floor-1-desktop.webp"
+      ]
+    }
+  ],
+  "errors": [],
+  "retiredArt": [],
+  "artRequests": [
+    "http://127.0.0.1:4173/assets/art-v3/aincrad-mobile.webp",
+    "http://127.0.0.1:4173/assets/art-v3/forest-320.webp",
+    "http://127.0.0.1:4173/assets/art-v3/guild-640.webp",
+    "http://127.0.0.1:4173/assets/art-v3/forest-640.webp",
+    "http://127.0.0.1:4173/assets/art-v3/workshop-640.webp",
+    "http://127.0.0.1:4173/assets/art-v3/aincrad-960.webp",
+    "http://127.0.0.1:4173/assets/art-v3/guild-960.webp",
+    "http://127.0.0.1:4173/assets/art-v3/guild-1280.webp",
+    "http://127.0.0.1:4173/assets/art-v3/aincrad-1672.webp",
+    "http://127.0.0.1:4173/assets/art-v3/forest-1280.webp",
+    "http://127.0.0.1:4173/assets/art-v3/workshop-1280.webp",
+    "http://127.0.0.1:4173/assets/art-v3/aincrad-1280.webp"
+  ]
+}

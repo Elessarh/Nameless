@@ -1,0 +1,214 @@
+{
+  "stage": "after",
+  "generatedAt": "2026-10-10T22:53:55.833Z",
+  "checks": [
+    {
+      "name": "Bestiary starts with all 60 records and no empty detail rail",
+      "passed": true
+    },
+    {
+      "name": "Bestiary category union and type intersection retain exact real records",
+      "passed": true
+    },
+    {
+      "name": "Bestiary selection, source tabs, native drops and close animation",
+      "passed": true
+    },
+    {
+      "name": "Bestiary root SPA navigation clears an old query",
+      "passed": true
+    },
+    {
+      "name": "Items start with 104 originals and combine category and rarity groups",
+      "passed": true
+    },
+    {
+      "name": "Item tooltips show exact names, fit viewport and dismiss with Escape",
+      "passed": true
+    },
+    {
+      "name": "Real item sources navigate to creature and calibrated map",
+      "passed": true
+    },
+    {
+      "name": "Map panels, query and old bookmarks never expose archived quests",
+      "passed": true
+    },
+    {
+      "name": "Global palette refuses archived quest and guide records",
+      "passed": true,
+      "detail": {
+        "entries": 252
+      }
+    },
+    {
+      "name": "Actual SPA cycles remove tooltips and preserve one fresh catalogue",
+      "passed": true
+    },
+    {
+      "name": "bestiary 360: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "bestiary 360: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "drop-item"
+      }
+    },
+    {
+      "name": "items 360: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "items 360: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "catalogue-share-url"
+      }
+    },
+    {
+      "name": "bestiary 390: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "bestiary 390: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "drop-item"
+      }
+    },
+    {
+      "name": "items 390: a real filter drawer isolates content and restores focus",
+      "passed": true
+    },
+    {
+      "name": "items 390: compact details and clipboard fallback remain keyboard contained",
+      "passed": true,
+      "detail": {
+        "last": "catalogue-share-url"
+      }
+    },
+    {
+      "name": "English and reduced motion keep real item details and source navigation",
+      "passed": true,
+      "detail": {
+        "animation": "none",
+        "transition": "0s"
+      }
+    },
+    {
+      "name": "Retired generated scenery is never loaded by any reviewed route",
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "file": "after-bestiary-selected-1920x1080.png",
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-reset-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-items-selected-1920x1080.png",
+      "url": "http://127.0.0.1:4173/items?item=gelee_slime",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-map-no-archives-1920x1080.png",
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "file": "after-bestiary-drawer-360x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-details-360x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=1",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-drawer-360x844.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-details-360x844.png",
+      "url": "http://127.0.0.1:4173/items/?item=anneau_faucheuse",
+      "viewport": {
+        "width": 360,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-drawer-390x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-bestiary-details-390x844.png",
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-drawer-390x844.png",
+      "url": "http://127.0.0.1:4173/items/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-details-390x844.png",
+      "url": "http://127.0.0.1:4173/items/?item=anneau_faucheuse",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "file": "after-items-en-reduced-390x844.png",
+      "url": "http://127.0.0.1:4173/items/?item=gelee_slime",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "layouts": [],
+  "errors": [],
+  "loadedGeneratedArt": []
+}

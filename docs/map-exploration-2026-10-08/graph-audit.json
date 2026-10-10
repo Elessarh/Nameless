@@ -89,35 +89,35 @@
     }
   ],
   "counts": {
-    "entities": 373,
+    "entities": 197,
     "byKind": {
       "location": 33,
-      "quest": 59,
-      "guide": 58,
-      "npc": 59,
+      "quest": 0,
+      "guide": 0,
+      "npc": 0,
       "creature": 60,
       "item": 104
     },
     "floors": {
       "1": {
-        "entities": 325,
-        "defaultPoints": 76
+        "entities": 197,
+        "defaultPoints": 33
       },
       "2": {
-        "entities": 48,
-        "defaultPoints": 16
+        "entities": 0,
+        "defaultPoints": 0
       },
       "3": {
         "entities": 0,
         "defaultPoints": 0
       }
     },
-    "registry": 269,
+    "registry": 93,
     "guidesByCategory": {
       "1:principale": 0,
-      "1:secondaire": 42,
+      "1:secondaire": 0,
       "2:principale": 0,
-      "2:secondaire": 16
+      "2:secondaire": 0
     }
   },
   "coordinateConflicts": [
@@ -534,102 +534,6 @@
       "table": "monstresData",
       "index": 11,
       "originalId": "citadelle-glace"
-    },
-    {
-      "key": "npc:2:minutiare",
-      "globalIds": [
-        "npc:2-minutiare"
-      ]
-    },
-    {
-      "key": "npc:2:shii",
-      "globalIds": [
-        "npc:2-shii"
-      ]
-    },
-    {
-      "key": "npc:2:charles",
-      "globalIds": [
-        "npc:2-charles"
-      ]
-    },
-    {
-      "key": "npc:2:ifa",
-      "globalIds": [
-        "npc:2-ifa"
-      ]
-    },
-    {
-      "key": "npc:2:ife",
-      "globalIds": [
-        "npc:2-ife"
-      ]
-    },
-    {
-      "key": "npc:2:sissou",
-      "globalIds": [
-        "npc:2-sissou"
-      ]
-    },
-    {
-      "key": "npc:2:frank",
-      "globalIds": [
-        "npc:2-frank"
-      ]
-    },
-    {
-      "key": "npc:2:poris",
-      "globalIds": [
-        "npc:2-poris"
-      ]
-    },
-    {
-      "key": "npc:2:chasseur-de-dragon",
-      "globalIds": [
-        "npc:2-chasseur de dragon"
-      ]
-    },
-    {
-      "key": "npc:2:itamii",
-      "globalIds": [
-        "npc:2-itamii"
-      ]
-    },
-    {
-      "key": "npc:2:baraka",
-      "globalIds": [
-        "npc:2-baraka"
-      ]
-    },
-    {
-      "key": "npc:2:mansa",
-      "globalIds": [
-        "npc:2-mansa"
-      ]
-    },
-    {
-      "key": "npc:2:nora",
-      "globalIds": [
-        "npc:2-nora"
-      ]
-    },
-    {
-      "key": "npc:2:samaeltvs",
-      "globalIds": [
-        "npc:2-samaeltvs"
-      ]
-    },
-    {
-      "key": "npc:2:elyen",
-      "globalIds": [
-        "npc:2-elyen"
-      ]
-    },
-    {
-      "key": "npc:2:havca",
-      "globalIds": [
-        "npc:2-havca"
-      ]
     }
   ],
   "coordinateNotes": [
@@ -638,5 +542,887 @@
     "HTML guide coordinates are retained independently of legacy quest coordinates. Evidence is recorded in sources.",
     "NPC coordinates are references to existing guides/quests. Conflicting evidence has no unique positionRef.",
     "P3 uses the actual 1274×1513 image extent and has no game coordinate reference or entity."
+  ],
+  "excludedHistoricalEntities": [
+    {
+      "key": "quest:1:secondary-varn",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-nacht",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-milla",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-inari",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-orin",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-rikyu",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-bunta",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-meiko",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-saria",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-tilda",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-lila",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-genzo",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-bartok",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-greta",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-therra",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-toban",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-rina",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-maya",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-michelle",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-martine",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-elwyn",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-louise",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-phares",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-zebulgarath",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-saya",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-ayaka",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-daiki",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-jean",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-corentin",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-fira",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-yannis",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-gilmar",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-tomoko",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-pierre",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-romeo",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-emilie",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-juliette",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-luc",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-sam",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-monique",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-gilbert",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-horace",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:1:secondary-haruto",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-1",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-2",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-3",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-4",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-5",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-6",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-7",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-8",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-9",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-10",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-11",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-12",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-13",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-14",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-15",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "quest:2:floor2-secondary-16",
+      "kind": "quest",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-varn",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-milla",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-inari",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-orin",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-rikyu",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-bunta",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-meiko",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-saria",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-tilda",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-lila",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-genzo",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-bartok",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-greta",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-soeur-therra",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-toban",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-rina",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-maya",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-michelle",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-martine",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-elwyn",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-louise",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-phares",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-zebulgarath",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-saya",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-ayaka",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-daiki",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-jean",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-corentin",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-fira",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-yannis",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-gilmar",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-tomoko",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-pierre",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-romeo",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-emilie",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-juliette",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-luc",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-sam",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-monique",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-gilbert",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-horace",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p1-secondaire-haruto",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-minutiare",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-shii",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-elyen",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-charles",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-ifa",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-ife",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-sissou",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-frank",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-poris",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-itamii",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-baraka",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-mansa",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-nora",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-chasseur-de-dragon",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-samaeltvs",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "guide:p2-secondaire-havca",
+      "kind": "guide",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:varn",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:milla",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:inari",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:orin",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:rikyu",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:bunta",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:meiko",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:saria",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:tilda",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:lila",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:genzo",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:bartok",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:greta",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:soeur-therra",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:toban",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:rina",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:maya",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:michelle",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:martine",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:elwyn",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:louise",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:phares",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:zebulgarath",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:saya",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:ayaka",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:daiki",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:jean",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:corentin",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:fira",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:yannis",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:gilmar",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:tomoko",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:pierre",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:romeo",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:emilie",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:juliette",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:luc",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:sam",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:monique",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:gilbert",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:horace",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:haruto",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:minutiare",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:shii",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:elyen",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:charles",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:ifa",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:ife",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:sissou",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:frank",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:poris",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:itamii",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:baraka",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:mansa",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:nora",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:chasseur-de-dragon",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:samaeltvs",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:2:havca",
+      "kind": "npc",
+      "status": "historical-unverified"
+    },
+    {
+      "key": "npc:1:nacht",
+      "kind": "npc",
+      "status": "historical-unverified"
+    }
   ]
 }

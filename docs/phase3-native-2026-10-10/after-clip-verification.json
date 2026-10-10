@@ -1,0 +1,25 @@
+{
+  "stage": "after",
+  "generatedAt": "2026-10-10T22:44:58.801Z",
+  "checks": [
+    {
+      "name": "Actual catalogue interactions are recorded",
+      "passed": true,
+      "detail": {
+        "file": "phase3-native-motion-1791672306895.webm",
+        "kind": "Actual local guest catalogue interactions; no remote writes"
+      }
+    }
+  ],
+  "captures": [],
+  "layouts": [],
+  "errors": [],
+  "loadedGeneratedArt": [],
+  "video": {
+    "file": "phase3-native-motion-1791672306895.webm",
+    "kind": "Actual local guest catalogue interactions; no remote writes",
+    "durationSeconds": 7.96,
+    "width": 1280,
+    "height": 720
+  }
+}

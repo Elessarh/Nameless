@@ -50,12 +50,10 @@ oldDom.window.close(); publicDom.window.close();
 const graph = createMapGraph({root}), index = createSearchIndex({mapGraph:graph});
 const entities = Object.values(graph.floors).flatMap(floor=>Object.values(floor.entities));
 assertNoCombatFields(graph); assertNoCombatFields(index);
-for (const entity of entities.filter(entity=>['quest','guide','npc'].includes(entity.kind))) {
-    check(entity.status===HISTORICAL_QUEST_STATUS, 'Remaining quest-related evidence is marked unverified: ' + entity.key);
-    check(entity.markerType!=='quest-primary' && entity.category!=='principale', 'No principal quest survives projection: ' + entity.key);
-}
-for (const entry of index.entries.filter(entry=>entry.kind==='quest')) check(entry.status===HISTORICAL_QUEST_STATUS && !entry.id.includes('-principale-'), 'Search indexes separately marked secondary archives only');
-assert.equal(index.entries.filter(entry=>entry.kind==='quest').length,58);
+check(!entities.some(entity=>['quest','guide','npc'].includes(entity.kind)), 'Retired quest actors and guides stay outside the atlas');
+assert.equal(index.entries.filter(entry=>entry.kind==='quest').length,0);
+check(!index.entries.some(entry=>entry.status===HISTORICAL_QUEST_STATUS), 'Archives cannot enter public search');
+check(!entities.some(entity=>entity.status===HISTORICAL_QUEST_STATUS), 'Archives cannot enter map markers or relationships');
 for (const primary of raw.questData.filter(entry=>entry.type==='principale')) check(!graph.floors[1].entities['quest:1:' + primary.id], 'Old main raw ID is omitted');
 for (const primary of raw.questDataFloor2.filter(entry=>entry.type==='principale')) check(!graph.floors[2].entities['quest:2:' + primary.id], 'Old floor-two main raw ID is omitted');
 for (const entry of index.entries.filter(entry=>['item','creature','boss'].includes(entry.kind))) check(entry.image.startsWith('/assets/'), 'Search thumbnails use original local project assets');
@@ -66,6 +64,7 @@ if (fs.existsSync(output)) {
     for (const file of ['assets/map/catalog.json','assets/map/floor-1.json','assets/map/floor-2.json','assets/search-index.json']) {
         const data=JSON.parse(fs.readFileSync(path.join(output,file),'utf8')); assertNoCombatFields(data);
         check(!JSON.stringify(data).includes('p1-principale-') && !JSON.stringify(data).includes('p2-principale-'), 'Published JSON excludes superseded walkthrough IDs');
+        check(!JSON.stringify(data).includes(HISTORICAL_QUEST_STATUS) && !JSON.stringify(data).includes('p1-secondaire-') && !JSON.stringify(data).includes('p2-secondaire-'), 'Shipped map and public search cannot expose archived side quests');
     }
 }
 

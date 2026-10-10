@@ -47,9 +47,13 @@
             }).then(function (data) {
                 if (data.version !== 1 || !Array.isArray(data.entries)) throw new Error('Invalid index');
                 entries = data.entries.filter(function (entry) {
-                    return entry && groups[entry.kind] && typeof entry.id === 'string' && typeof entry.title === 'string'
+                    return entry && !['historical-unverified', 'archived'].includes(entry.status)
+                        && groups[entry.kind] && typeof entry.id === 'string' && typeof entry.title === 'string'
                         && typeof entry.url === 'string' && (/^\/(bestiaire|items|quetes|carte|wiki)(?:[?#]|$)/.test(entry.url) || /^\/boss\/[a-z0-9-]+$/.test(entry.url));
                 });
+                var publicIds = new Set(entries.map(entityKey));
+                favorites = favorites.filter(function (id) {return publicIds.has(id);});
+                try {localStorage.setItem(key, JSON.stringify(favorites));} catch (_) { /* Optional preferences. */ }
                 return entries;
             }).catch(function (error) {indexPromise = null; throw error;});
         }
@@ -137,10 +141,6 @@
                 var category = document.createElement('span'); category.className = 'nm-search-result-category'; category.textContent = groups[kind][english() ? 1 : 0];
                 content.appendChild(category);
                 if (entry.summary) {var description = document.createElement('span'); description.className = 'nm-search-result-description'; description.textContent = english() ? entry.summaryEn || entry.summary : entry.summary; content.appendChild(description);}
-                if (entry.status === 'historical-unverified') {
-                    var archiveStatus = document.createElement('span'); archiveStatus.className = 'nm-search-result-description';
-                    archiveStatus.textContent = label('Archive secondaire non vérifiée', 'Unverified side-quest archive'); content.appendChild(archiveStatus);
-                }
                 link.appendChild(content);
                 var arrow = document.createElement('span'); arrow.className = 'nm-search-result-arrow'; arrow.appendChild(icon('arrow')); link.appendChild(arrow);
                 link.addEventListener('click', function () {dialog.close();});

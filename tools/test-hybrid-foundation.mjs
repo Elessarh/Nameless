@@ -51,6 +51,7 @@ const {window} = dom;
 window.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
 window.HTMLDialogElement.prototype.close = function () { this.open = false; this.dispatchEvent(new window.Event('close')); };
 let requests = 0;
+window.localStorage.setItem('nameless-public-favorites-v1', JSON.stringify(['npc:archive', 'boss:illfang']));
 window.fetch = async () => { requests++; return {ok:true, json:async () => ({version:1, entries:[
     {kind:'boss', id:'illfang', title:'Illfang', url:'/boss/illfang', image:'/assets/brand/boss-illfang.webp'},
     {kind:'item', id:'potion', title:'Potion', url:'/items?item=potion', image:'https://example.com/tracker.png'},
@@ -70,12 +71,14 @@ assert.equal(window.document.querySelector('.nm-search-group-count').textContent
 input.value = 'Potion'; input.dispatchEvent(new window.Event('input'));
 assert.ok(!window.document.querySelector('.nm-search-thumbnail'), 'Remote result artwork is rejected');
 input.value = 'Archive'; input.dispatchEvent(new window.Event('input'));
-assert.ok(window.document.querySelector('.nm-search-result').textContent.includes('Archive secondaire non vérifiée'), 'Historical results carry an explicit status');
+assert.equal(window.document.querySelector('.nm-search-result'), null, 'Historical cached entries cannot appear in public search');
+assert.deepEqual(JSON.parse(window.localStorage.getItem('nameless-public-favorites-v1')), ['boss:illfang'], 'Retired saved favorites are removed when the public catalogue loads');
+input.value = 'Potion'; input.dispatchEvent(new window.Event('input'));
 input.dispatchEvent(new window.KeyboardEvent('keydown', {key:'ArrowDown', bubbles:true}));
 assert.equal(window.document.activeElement.tagName, 'A', 'Keyboard moves into a real result');
 window.document.querySelector('.nm-search-star').click();
-assert.deepEqual(JSON.parse(window.localStorage.getItem('nameless-public-favorites-v1')), ['npc:archive'], 'Favorites retain their public identity');
+assert.deepEqual(JSON.parse(window.localStorage.getItem('nameless-public-favorites-v1')), ['boss:illfang', 'item:potion'], 'Current favorites retain their public identity');
 window.document.querySelector('.nm-search-close').click();
 assert.equal(window.document.activeElement, trigger, 'Closing restores keyboard focus');
 dom.window.close();
-console.log('Hybrid foundations passed: shared palette AA contrast, form/focus contrast, shell contracts, lazy search, actual counts, image restrictions, archive status, keyboard and favorites.');
+console.log('Hybrid foundations passed: shared palette AA contrast, lazy search, actual counts, original artwork, archive exclusion, keyboard and current favorites.');

@@ -55,7 +55,7 @@ body.home-page .home-entry > picture{height:116px;border-bottom-color:#ab906d50}
 body.home-page .home-entry > picture::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#07172180,transparent 55%);pointer-events:none}
 body.home-page .home-entry-art{transition:transform 650ms var(--home-ease),filter 220ms}
 body.home-page .home-entry-art--map{object-position:50% 46%}
-body.home-page .home-entry > .home-native-creature{background:linear-gradient(90deg,#071a22aa,#09202955),url('../../assets/ui/world-canopy.svg') center bottom/cover,url('../../assets/home/aincrad-minecraft-960.webp') 9% 80%/950px auto}
+body.home-page .home-entry > .home-native-creature{background:linear-gradient(90deg,#071a22aa,#09202955),url('../../assets/ui/world-canopy.svg') center bottom/cover,url('../../assets/ui/world-canopy.svg') 9% 80%/950px auto}
 body.home-page .home-entry-creature{position:relative;z-index:1;width:148px;height:130px;margin-top:12px;filter:drop-shadow(0 8px 9px #0009);transition:transform 400ms var(--home-ease)}
 body.home-page .home-item-sprites{gap:19px;height:116px;border-bottom-color:#ab906d50;background:linear-gradient(90deg,#0e141b7a,#111b2580),url('../../assets/home/items-512.webp') center 59%/cover}
 body.home-page .home-item-sprites > span{width:57px;height:62px;background:#05131dcc;border-color:#a087584f;box-shadow:0 5px 14px #0005,inset 0 1px 0 #ead3a017;transform:rotate(-6deg);transition:transform 350ms var(--home-ease)}

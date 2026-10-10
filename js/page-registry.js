@@ -41,8 +41,8 @@
         css: [
             'css/components/mmorpg-kit.css?v=20261008sao',
             'css/components/home.css?v=20261009premium',
-            'css/components/home-premium.css?v=20261009phase1',
-            'css/components/reference-home.css?v=20261010regions'
+            'css/components/home-premium.css?v=20261010phase3native',
+            'css/components/reference-home.css?v=20261011anime4'
         ],
         scripts: [
             'js/home-carousel.js?v=20261009premium'
@@ -84,7 +84,7 @@
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
                 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261010maprework2'
+                'js/map.js?v=20261010phase3native'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -102,7 +102,7 @@
             css: ['css/vendor/leaflet-1.9.4.css?v=20261007a', 'css/components/map.css?v=20261008hybrid',
                 'css/components/map-regions.css?v=20261010maprework2', 'css/components/map-workspace.css?v=20261010maprework2'],
             scripts: ['js/vendor/leaflet-1.9.4.js?v=20261007a', 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261010maprework2', 'js/map-workspace.js?v=20261010maprework2'],
+                'js/map.js?v=20261010phase3native', 'js/map-workspace.js?v=20261010maprework2'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),
         publicRoute({
@@ -111,12 +111,12 @@
             source: 'pages/bestiaire.html',
             title: 'Bestiaire - Nameless',
             css: [
-                'css/components/bestiaire.css?v=20261008hybrid',
+                'css/components/bestiaire.css?v=20261010phase3native',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-catalogs.css?v=20261009phasea'
+                'css/components/reference-catalogs.css?v=20261011anime4'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261009phasea'
+                'js/bestiaire.js?v=20261010phase3native'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -135,13 +135,13 @@
             source: 'pages/items.html',
             title: "Catalogue d'Items - Nameless",
             css: [
-                'css/components/items.css?v=20261008hybrid',
+                'css/components/items.css?v=20261010phase3native',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-catalogs.css?v=20261009phasea'
+                'css/components/reference-catalogs.css?v=20261011anime4'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261009phasea'
+                'js/items.js?v=20261010phase3native'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
@@ -187,7 +187,7 @@
                 'css/components/pixel-icons.css?v=20261007a',
                 'css/components/wiki.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/wiki-codex.css?v=20261010regions'
+                'css/components/wiki-codex.css?v=20261010phase3native'
             ],
             scripts: [
                 'js/wiki.js?v=20261009codex2'
@@ -285,7 +285,7 @@
                 'css/components/guild-chat.css?v=20261008hybrid',
                 'css/components/guild-dm.css?v=20261008hybrid',
                 'css/components/guilde-nameless.css?v=20261008hybrid',
-                'css/components/guild-reference.css?v=20261009phasea'
+                'css/components/guild-reference.css?v=20261011anime4'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',

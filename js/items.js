@@ -26,6 +26,13 @@
     var previousOverflow = '';
     var sourceItems = new Set();
     var sourceFiltersReady = false;
+    var selectedFilters = { 'it-category': new Set(), 'it-rarity': new Set(), 'it-source': new Set() };
+    var tooltipCard = null;
+    var tooltipDismissedCard = null;
+    var drawerReturnFocus = null;
+    var drawerOverflow = '';
+    var drawerInert = [];
+    var spriteObserver = null;
 
     function normalizeSearch(value) {
         return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
@@ -50,6 +57,30 @@
 
     function itemUi(fr, en) { return window.NamelessI18n && typeof window.NamelessI18n.getLanguage === 'function' && window.NamelessI18n.getLanguage() === 'en' ? en : fr; }
     function compactPanel() { return window.innerWidth <= 980; }
+
+    function itemPage() { return document.querySelector('.items-page'); }
+
+    function filterValue(item, id) {
+        return id === 'it-category' ? item.category : id === 'it-rarity' ? item.rarity : sourceItems.has(item.id) ? 'known' : 'unknown';
+    }
+
+    function passesItemFilters(item, exceptField) {
+        var search = document.getElementById('it-search');
+        var query = normalizeSearch(search && search.value || '');
+        if (query && ![item.name, item.category, item.categoryLabel].some(function (value) { return matchesQuery(value, query); })) return false;
+        return Object.keys(selectedFilters).every(function (id) {
+            if (id === exceptField || (id === 'it-source' && !sourceFiltersReady)) return true;
+            var values = selectedFilters[id];
+            return !values.size || values.has(filterValue(item, id));
+        });
+    }
+
+    function syncLegacyFilters() {
+        Object.keys(selectedFilters).forEach(function (id) {
+            var field = document.getElementById(id);
+            if (field) field.value = Array.from(selectedFilters[id])[0] || '';
+        });
+    }
 
     function syncItemPanelMode() {
         var modal = document.querySelector('.item-modal');
@@ -77,7 +108,8 @@
     function setupFilterChoices() {
         var group = document.querySelector('.items-page .items-filter-group');
         if (!group) return;
-        group.querySelectorAll('.catalogue-filter-section').forEach(function (section) { section.remove(); });
+        var openGroups = {};
+        group.querySelectorAll('.catalogue-filter-section').forEach(function (section) { openGroups[section.dataset.filterGroup] = section.open; section.remove(); });
         group.querySelectorAll('label, select').forEach(function (field) { field.classList.add('catalogue-native-field'); });
         var definitions = [
             ['it-category', 'Catégories', 'Categories', function (item) { return item.category; }],
@@ -87,16 +119,19 @@
         definitions.forEach(function (definition) {
             var id = definition[0], select = document.getElementById(id);
             if (!select) return;
-            var section = document.createElement('fieldset'); section.className = 'catalogue-filter-section';
-            var title = document.createElement('legend'); title.textContent = itemUi(definition[1], definition[2]); section.appendChild(title);
+            var section = document.createElement('details'); section.className = 'catalogue-filter-section'; section.dataset.filterGroup = id;
+            section.open = openGroups[id] !== undefined ? openGroups[id] : id !== 'it-source';
+            var title = document.createElement('summary'); title.appendChild(document.createTextNode(itemUi(definition[1], definition[2])));
+            var selectedCount = document.createElement('span'); selectedCount.className = 'catalogue-filter-selected-count'; selectedCount.dataset.selectedCount = id; title.appendChild(selectedCount); section.appendChild(title);
+            var options = document.createElement('div'); options.className = 'catalogue-filter-options'; section.appendChild(options);
             Array.from(select.options).filter(function (option) { return option.value; }).forEach(function (option) {
                 var countValue = allItems.filter(function (item) { return definition[3](item) === option.value; }).length;
                 if (!countValue) return;
                 var row = document.createElement('label'); row.className = 'catalogue-filter-option';
-                var input = document.createElement('input'); input.type = 'checkbox'; input.dataset.filterField = id; input.value = option.value; input.checked = select.value === option.value;
+                var input = document.createElement('input'); input.type = 'checkbox'; input.dataset.filterField = id; input.value = option.value; input.checked = selectedFilters[id].has(option.value);
                 var name = document.createElement('span'); name.textContent = displayName(option.textContent);
-                var count = document.createElement('span'); count.textContent = String(countValue);
-                row.append(input, name, count); section.appendChild(row);
+                var count = document.createElement('span'); count.className = 'catalogue-filter-result-count'; count.textContent = String(countValue);
+                row.append(input, name, count); options.appendChild(row);
             });
             group.appendChild(section);
         });
@@ -104,18 +139,36 @@
 
     function syncFilterChoices() {
         document.querySelectorAll('.items-page [data-filter-field]').forEach(function (input) {
-            input.checked = document.getElementById(input.dataset.filterField).value === input.value;
+            var id = input.dataset.filterField;
+            input.checked = selectedFilters[id].has(input.value);
+            var count = allItems.filter(function (item) { return filterValue(item, id) === input.value && passesItemFilters(item, id); }).length;
+            input.disabled = !count && !input.checked;
+            input.parentElement.classList.toggle('is-unavailable', !count);
+            input.parentElement.lastElementChild.textContent = String(count);
+        });
+        document.querySelectorAll('.items-page .catalogue-filter-section').forEach(function (section) {
+            var count = selectedFilters[section.dataset.filterGroup].size;
+            var badge = section.querySelector('.catalogue-filter-selected-count');
+            badge.textContent = count ? String(count) : ''; badge.hidden = !count;
         });
         var chips = document.getElementById('it-active-filters');
         if (!chips) return;
         chips.replaceChildren();
         ['it-search', 'it-category', 'it-rarity', 'it-source'].forEach(function (id) {
             var field = document.getElementById(id);
-            if (!field || !field.value) return;
-            var label = field.tagName === 'SELECT' ? field.options[field.selectedIndex].textContent : field.value;
-            var button = document.createElement('button'); button.type = 'button'; button.className = 'catalogue-filter-chip'; button.dataset.clearFilter = id; button.textContent = displayName(label) + ' ×';
-            button.setAttribute('aria-label', itemUi('Retirer le filtre ', 'Remove filter ') + displayName(label)); chips.appendChild(button);
+            if (!field) return;
+            var values = id === 'it-search' ? field.value ? [field.value] : [] : Array.from(selectedFilters[id]);
+            values.forEach(function (value) {
+                var option = field.tagName === 'SELECT' ? Array.from(field.options).find(function (entry) { return entry.value === value; }) : null;
+                var label = option ? option.textContent : value;
+                var button = document.createElement('button'); button.type = 'button'; button.className = 'catalogue-filter-chip'; button.dataset.clearFilter = id; button.dataset.filterValue = value; button.textContent = displayName(label) + ' ×';
+                button.setAttribute('aria-label', itemUi('Retirer le filtre ', 'Remove filter ') + displayName(label)); chips.appendChild(button);
+            });
         });
+        syncLegacyFilters();
+        var active = Object.values(selectedFilters).reduce(function (sum, values) { return sum + values.size; }, 0);
+        var toggleCount = document.getElementById('it-filter-toggle-count');
+        if (toggleCount) { toggleCount.textContent = active ? String(active) : ''; toggleCount.hidden = !active; }
     }
 
     function loadSourceFilters() {
@@ -124,7 +177,7 @@
         window.NamelessGlobalSearch.getIndex().then(function (entries) {
             if (signal.aborted || !document.querySelector('.items-page')) return;
             sourceItems = new Set(entries.filter(function (entry) { return entry.kind === 'item' && Array.isArray(entry.sources) && entry.sources.some(validBestiarySource); }).map(function (entry) { return entry.id; }));
-            sourceFiltersReady = true; setupFilterChoices(); syncFilterChoices();
+            sourceFiltersReady = true; setupFilterChoices(); applyFilters();
         }).catch(function () { /* Catalogue filters remain usable without the source index. */ });
     }
 
@@ -140,11 +193,19 @@
         history.replaceState(history.state, '', url.href);
     }
 
-    function applyItemUrl() {
+    function applyItemUrl(event) {
         var params = new URLSearchParams(window.location.search);
         var query = params.get('q');
         var search = document.getElementById('it-search');
-        if (query !== null && search) { search.value = query.slice(0, 200); applyFilters(); }
+        if (query !== null && search) search.value = query.slice(0, 200);
+        else if (event && search) search.value = '';
+        ['category', 'rarity', 'source'].forEach(function (name) {
+            var fieldId = 'it-' + name;
+            var select = document.getElementById(fieldId);
+            var allowed = new Set(Array.from(select ? select.options : []).map(function (option) { return option.value; }).filter(Boolean));
+            selectedFilters[fieldId] = new Set(params.getAll(name).filter(function (value) { return allowed.has(value); }));
+        });
+        applyFilters();
         var id = params.get('item');
         if (id && allItems.some(function (item) { return item.id === id; })) openItemModal(id, false);
         else closeModal(false);
@@ -153,6 +214,70 @@
     function cleanCategory(name) {
         // "💍 Accessoires" -> "Accessoires"
         return String(name || '').replace(/^\S+\s+/, '').trim() || String(name || '');
+    }
+
+    function setFilterDrawer(open, restoreFocus) {
+        var page = itemPage(), filters = document.querySelector('.items-page .items-filters');
+        var toggle = document.getElementById('it-filter-toggle'), close = document.getElementById('it-filter-close');
+        if (!page || !filters) {
+            if (!open && drawerInert.length) {
+                drawerInert.forEach(function (entry) { entry[0].inert = entry[1]; }); drawerInert = [];
+                document.body.style.overflow = drawerOverflow; drawerReturnFocus = null;
+            }
+            return;
+        }
+        open = !!open && window.innerWidth <= 768;
+        var wasOpen = page.classList.contains('catalogue-filters-open');
+        page.classList.toggle('catalogue-filters-open', open);
+        if (toggle) toggle.setAttribute('aria-expanded', String(open));
+        filters.inert = window.innerWidth <= 768 && !open;
+        if (open) { filters.setAttribute('role', 'dialog'); filters.setAttribute('aria-modal', 'true'); }
+        else { filters.removeAttribute('role'); filters.removeAttribute('aria-modal'); }
+        var backdrop = document.querySelector('.items-page .catalogue-filter-backdrop'); if (backdrop) backdrop.hidden = !open;
+        if (open && !wasOpen) {
+            drawerReturnFocus = document.activeElement; drawerOverflow = document.body.style.overflow;
+            drawerInert = [document.querySelector('body > header'), document.querySelector('.items-hero'), document.querySelector('.items-page .catalogue-results'), document.querySelector('body > footer')].filter(Boolean).map(function (element) { var value = element.inert; element.inert = true; return [element, value]; });
+            document.body.style.overflow = 'hidden';
+            if (close) close.focus();
+        } else if (!open && wasOpen) {
+            drawerInert.forEach(function (entry) { entry[0].inert = entry[1]; }); drawerInert = [];
+            document.body.style.overflow = drawerOverflow;
+            if (restoreFocus !== false && drawerReturnFocus && drawerReturnFocus.isConnected) drawerReturnFocus.focus();
+            drawerReturnFocus = null;
+        }
+    }
+
+    function hideItemTooltip() {
+        var tooltip = document.getElementById('item-tooltip');
+        if (tooltip) tooltip.hidden = true;
+        if (tooltipCard) tooltipCard.removeAttribute('aria-describedby');
+        tooltipCard = null;
+    }
+
+    function positionItemTooltip() {
+        var tooltip = document.getElementById('item-tooltip');
+        if (!tooltip || tooltip.hidden || !tooltipCard || !tooltipCard.isConnected) return;
+        var anchor = tooltipCard.getBoundingClientRect(), box = tooltip.getBoundingClientRect(), margin = 12;
+        var width = window.innerWidth, height = window.innerHeight;
+        var left = Math.max(margin, Math.min(width - box.width - margin, anchor.left + (anchor.width - box.width) / 2));
+        var top = anchor.top - box.height - 9;
+        if (top < margin) top = anchor.bottom + 9;
+        top = Math.max(margin, Math.min(height - box.height - margin, top));
+        tooltip.style.left = Math.round(left) + 'px'; tooltip.style.top = Math.round(top) + 'px';
+    }
+
+    function showItemTooltip(card) {
+        if (!card || card === tooltipDismissedCard || document.querySelector('.item-modal[style*="flex"]') || itemPage()?.classList.contains('catalogue-filters-open')) return;
+        var item = allItems.find(function (entry) { return entry.id === card.dataset.id; }); if (!item) return;
+        hideItemTooltip(); tooltipCard = card;
+        var tooltip = document.getElementById('item-tooltip');
+        if (!tooltip) {
+            tooltip = document.createElement('div'); tooltip.id = 'item-tooltip'; tooltip.className = 'catalogue-tooltip inventory-tooltip'; tooltip.setAttribute('role', 'tooltip'); document.body.appendChild(tooltip);
+        }
+        tooltip.replaceChildren();
+        var name = document.createElement('strong'), category = document.createElement('span'), rarity = document.createElement('span');
+        name.textContent = displayName(item.name); category.textContent = displayName(item.categoryLabel); rarity.textContent = displayName(rarityMeta(item.rarity).label);
+        tooltip.append(name, category, rarity); tooltip.hidden = false; card.setAttribute('aria-describedby', tooltip.id); positionItemTooltip();
     }
 
     function initItems(root) {
@@ -169,7 +294,6 @@
         applyFromBestiaire();   // pré-remplit la recherche si venu d'un drop (validé)
         applyFilters();
         applyItemUrl();
-        if (!compactPanel() && !new URLSearchParams(window.location.search).has('item') && filtered.length) openItemModal(filtered[0].id, false, false);
         loadSourceFilters();
         document.addEventListener('nameless:routechange', applyItemUrl, { signal: controller.signal });
         document.addEventListener('nameless:languagechange', function () {
@@ -180,7 +304,10 @@
     }
 
     function destroyItems() {
+        setFilterDrawer(false, false);
+        hideItemTooltip(); document.getElementById('item-tooltip')?.remove();
         if (controller) { controller.abort(); controller = null; }
+        if (spriteObserver) { spriteObserver.disconnect(); spriteObserver = null; }
         var modal = document.querySelector('.item-modal');
         if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
         if (modal && modal.dataset.panelMode === 'sheet' && modal.style.display === 'flex') document.body.style.overflow = previousOverflow;
@@ -190,6 +317,9 @@
         currentPage = 1;
         totalPages = 1;
         sourceItems = new Set(); sourceFiltersReady = false;
+        selectedFilters = { 'it-category': new Set(), 'it-rarity': new Set(), 'it-source': new Set() };
+        tooltipDismissedCard = null;
+        itemPage()?.classList.remove('catalogue-has-selection');
     }
 
     window.NamelessItemsPage = { init: initItems, destroy: destroyItems };
@@ -220,6 +350,7 @@
                     rarity: item.rarity || 'common',
                     category: group.name,
                     categoryLabel: cleanCategory(group.name),
+                    description: typeof item.description === 'string' ? item.description : '',
                     image: '../assets/items/' + item.image + '?v=items-cleaned-20261007'
                 });
             });
@@ -284,6 +415,12 @@
         window.addEventListener('resize', function () {
             document.querySelectorAll('.item-image.is-pixel-art, .item-modal-media img.is-pixel-art').forEach(sizePixelArtImage);
         }, { signal: controller.signal });
+        if (typeof window.ResizeObserver === 'function') {
+            spriteObserver = new window.ResizeObserver(function () {
+                document.querySelectorAll('.item-image.is-pixel-art, .item-modal-media img.is-pixel-art').forEach(sizePixelArtImage);
+            });
+            var grid = document.getElementById('items-grid'); if (grid) spriteObserver.observe(grid);
+        }
     }
 
     function setupListeners() {
@@ -294,12 +431,18 @@
         var choices = document.querySelector('.items-page .items-filter-group');
         if (choices) choices.addEventListener('change', function (event) {
             var input = event.target.closest('[data-filter-field]'); if (!input) return;
-            var select = document.getElementById(input.dataset.filterField); if (select) { select.value = input.checked ? input.value : ''; applyFilters(); }
+            var values = selectedFilters[input.dataset.filterField];
+            if (input.checked) values.add(input.value); else values.delete(input.value);
+            applyFilters();
         }, opts);
         var chips = document.getElementById('it-active-filters');
         if (chips) chips.addEventListener('click', function (event) {
             var button = event.target.closest('[data-clear-filter]'); if (!button) return;
-            var field = document.getElementById(button.dataset.clearFilter); if (field) { field.value = ''; applyFilters(); }
+            var field = document.getElementById(button.dataset.clearFilter);
+            if (field) {
+                if (selectedFilters[field.id]) selectedFilters[field.id].delete(button.dataset.filterValue); else field.value = '';
+                applyFilters();
+            }
         }, opts);
         var view = document.querySelector('.items-page .catalogue-view');
         if (view) view.addEventListener('click', function (event) {
@@ -308,10 +451,11 @@
             view.querySelectorAll('button').forEach(function (control) { control.setAttribute('aria-pressed', String(control === button)); });
         }, opts);
         var cat = document.getElementById('it-category');
-        if (cat) cat.addEventListener('change', applyFilters, opts);
+        function legacyFilter(event) { selectedFilters[event.target.id] = new Set(event.target.value ? [event.target.value] : []); applyFilters(); }
+        if (cat) cat.addEventListener('change', legacyFilter, opts);
         var rar = document.getElementById('it-rarity');
-        if (rar) rar.addEventListener('change', applyFilters, opts);
-        var source = document.getElementById('it-source'); if (source) source.addEventListener('change', applyFilters, opts);
+        if (rar) rar.addEventListener('change', legacyFilter, opts);
+        var source = document.getElementById('it-source'); if (source) source.addEventListener('change', legacyFilter, opts);
         var sort = document.getElementById('it-sort');
         if (sort) sort.addEventListener('change', applyFilters, opts);
         var reset = document.getElementById('it-reset');
@@ -320,21 +464,40 @@
             if (cat) cat.value = '';
             if (rar) rar.value = '';
             if (source) source.value = '';
+            Object.keys(selectedFilters).forEach(function (id) { selectedFilters[id].clear(); });
             if (sort) sort.value = 'catalogue';
-            var url = new URL(window.location.href); url.searchParams.delete('q'); history.replaceState(history.state, '', url.href);
+            var url = new URL(window.location.href); ['q', 'category', 'rarity', 'source'].forEach(function (key) { url.searchParams.delete(key); }); history.replaceState(history.state, '', url.href);
             applyFilters();
         }, opts);
         var filterDetails = document.getElementById('it-filter-details');
         var compactFilters = window.innerWidth <= 768;
         if (filterDetails) filterDetails.open = !compactFilters;
+        setFilterDrawer(false, false);
+        document.getElementById('it-filter-toggle')?.addEventListener('click', function () { if (filterDetails) filterDetails.open = true; hideItemTooltip(); setFilterDrawer(true); }, opts);
+        document.getElementById('it-filter-close')?.addEventListener('click', function () { setFilterDrawer(false); }, opts);
+        document.querySelector('.items-page .catalogue-filter-backdrop')?.addEventListener('click', function () { setFilterDrawer(false); }, opts);
         window.addEventListener('resize', function () {
             var compact = window.innerWidth <= 768;
             if (filterDetails && compact !== compactFilters) { filterDetails.open = !compact; compactFilters = compact; }
+            if (!compact) setFilterDrawer(false);
+            else if (!itemPage()?.classList.contains('catalogue-filters-open')) setFilterDrawer(false, false);
+            hideItemTooltip();
             syncItemPanelMode();
         }, opts);
 
         var grid = document.getElementById('items-grid');
         if (grid) {
+            grid.addEventListener('pointerover', function (event) {
+                if (event.pointerType === 'touch') return;
+                var card = event.target.closest('.item-card[data-id]');
+                if (card && !card.contains(event.relatedTarget)) { tooltipDismissedCard = null; showItemTooltip(card); }
+            }, opts);
+            grid.addEventListener('pointerout', function (event) {
+                var card = event.target.closest('.item-card[data-id]');
+                if (card && !card.contains(event.relatedTarget)) { tooltipDismissedCard = null; if (document.activeElement !== card) hideItemTooltip(); }
+            }, opts);
+            grid.addEventListener('focusin', function (event) { showItemTooltip(event.target.closest('.item-card[data-id]')); }, opts);
+            grid.addEventListener('focusout', function (event) { var card = event.target.closest('.item-card[data-id]'); if (card && !card.contains(event.relatedTarget)) { tooltipDismissedCard = null; hideItemTooltip(); } }, opts);
             grid.addEventListener('click', function (e) {
                 var card = e.target.closest('.item-card[data-id]');
                 if (card) openItemModal(card.dataset.id);
@@ -345,6 +508,7 @@
                 if (card) { e.preventDefault(); openItemModal(card.dataset.id); }
             }, opts);
         }
+        window.addEventListener('scroll', hideItemTooltip, { capture: true, signal: controller.signal });
 
         var prev = document.getElementById('items-prev-page');
         if (prev) prev.addEventListener('click', function () { if (currentPage > 1) { currentPage--; render(); scrollTop(); } }, opts);
@@ -368,11 +532,24 @@
         }, opts);
         document.addEventListener('keydown', function (e) {
             if (e.target.closest && e.target.closest('dialog[open]')) return;
+            if (itemPage()?.classList.contains('catalogue-filters-open')) {
+                if (e.key === 'Escape') { e.preventDefault(); setFilterDrawer(false); return; }
+                if (e.key === 'Tab') {
+                    var drawer = document.querySelector('.items-page .items-filters');
+                    var fields = Array.from(drawer.querySelectorAll('button:not([disabled]), input:not([disabled]), summary, select')).filter(function (field) { return !field.closest('[hidden]') && !field.classList.contains('catalogue-native-field') && !Array.from(drawer.querySelectorAll('details:not([open])')).some(function (details) { return details.contains(field) && field !== details.querySelector('summary'); }); });
+                    var start = fields[0], end = fields[fields.length - 1];
+                    if (e.shiftKey && (document.activeElement === start || !drawer.contains(document.activeElement))) { e.preventDefault(); end?.focus(); }
+                    else if (!e.shiftKey && (document.activeElement === end || !drawer.contains(document.activeElement))) { e.preventDefault(); start?.focus(); }
+                }
+                return;
+            }
+            var tooltip = document.getElementById('item-tooltip');
+            if (e.key === 'Escape' && tooltip && !tooltip.hidden) { e.preventDefault(); tooltipDismissedCard = tooltipCard; hideItemTooltip(); return; }
             var modal = document.querySelector('.item-modal');
             if (!modal || modal.style.display === 'none') return;
             if (e.key === 'Escape' && (compactPanel() || modal.contains(e.target))) { e.preventDefault(); closeModal(); }
             if (e.key === 'Tab' && compactPanel()) {
-                var controls = Array.from(modal.querySelectorAll('button, a[href], [tabindex="0"]')).filter(function (control) { return !control.closest('[hidden]') && control.tabIndex !== -1; });
+                var controls = Array.from(modal.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')).filter(function (control) { return !control.disabled && control.type !== 'hidden' && !control.closest('[hidden]') && control.tabIndex >= 0 && (typeof control.checkVisibility !== 'function' || control.checkVisibility()); });
                 var first = controls[0], last = controls[controls.length - 1];
                 if (!first) return;
                 if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
@@ -399,18 +576,7 @@
     }
 
     function applyFilters() {
-        var q = normalizeSearch(document.getElementById('it-search') && document.getElementById('it-search').value || '');
-        var cat = (document.getElementById('it-category') && document.getElementById('it-category').value) || '';
-        var rar = (document.getElementById('it-rarity') && document.getElementById('it-rarity').value) || '';
-        var source = (document.getElementById('it-source') && document.getElementById('it-source').value) || '';
-
-        filtered = allItems.filter(function (i) {
-            var matchSearch = !q || [i.name, i.category, i.categoryLabel].some(function (value) { return matchesQuery(value, q); });
-            var matchCat = !cat || i.category === cat;
-            var matchRar = !rar || i.rarity === rar;
-            var matchSource = !source || !sourceFiltersReady || (source === 'known' ? sourceItems.has(i.id) : !sourceItems.has(i.id));
-            return matchSearch && matchCat && matchRar && matchSource;
-        });
+        filtered = allItems.filter(function (item) { return passesItemFilters(item); });
         var sort = document.getElementById('it-sort') && document.getElementById('it-sort').value || 'catalogue';
         var byName = function (a, b) { return displayName(a.name).localeCompare(displayName(b.name), currentLocale(), { sensitivity: 'base', numeric: true }) || a.id.localeCompare(b.id); };
         var rarityOrder = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 };
@@ -427,6 +593,7 @@
     function render() {
         var grid = document.getElementById('items-grid');
         if (!grid) return;
+        hideItemTooltip();
         grid.innerHTML = '';
 
         totalPages = Math.max(1, Math.ceil(filtered.length / itemsPerPage));
@@ -438,8 +605,8 @@
         if (filtered.length === 0) {
             var empty = document.createElement('div');
             empty.className = 'items-empty';
-            var h = document.createElement('h3'); h.textContent = 'Aucun item trouvé';
-            var p = document.createElement('p'); p.textContent = 'Modifie ta recherche ou tes filtres.';
+            var h = document.createElement('h3'); h.textContent = itemUi('Aucun objet trouvé', 'No items found');
+            var p = document.createElement('p'); p.textContent = itemUi('Modifiez votre recherche ou vos filtres.', 'Adjust your search or filters.');
             empty.appendChild(h); empty.appendChild(p);
             grid.appendChild(empty);
             updatePagination();
@@ -467,7 +634,7 @@
         card.dataset.selectedLabel = itemUi('Sélectionné', 'Selected');
         card.tabIndex = 0;
         card.setAttribute('role', 'button');
-        card.setAttribute('aria-label', 'Voir ' + item.name);
+        card.setAttribute('aria-label', itemUi('Voir ', 'View ') + displayName(item.name));
         if (compactPanel()) card.setAttribute('aria-haspopup', 'dialog');
         card.setAttribute('aria-controls', 'item-dialog'); card.setAttribute('aria-expanded', String(card.classList.contains('is-selected')));
 
@@ -483,7 +650,7 @@
         media.appendChild(img);
         var badge = document.createElement('span');
         badge.className = 'item-rarity-badge ' + meta.cls;
-        badge.textContent = meta.label;
+        badge.textContent = displayName(meta.label);
         media.appendChild(badge);
         card.appendChild(media);
 
@@ -491,24 +658,22 @@
         body.className = 'item-body';
         var name = document.createElement('h2');
         name.className = 'item-name';
-        name.textContent = item.name;
+        name.textContent = displayName(item.name);
         body.appendChild(name);
         var catChip = document.createElement('span');
         catChip.className = 'item-cat';
-        catChip.textContent = item.categoryLabel;
+        catChip.textContent = displayName(item.categoryLabel);
         body.appendChild(catChip);
         card.appendChild(body);
-        var tooltip = document.createElement('span'); tooltip.className = 'catalogue-tooltip'; tooltip.setAttribute('aria-hidden', 'true');
-        var icon = document.createElement('img'); icon.src = item.image; icon.alt = ''; icon.loading = 'lazy'; icon.dataset.fallback = 'item'; tooltip.appendChild(icon);
-        var tooltipInfo = document.createElement('span'), tooltipName = document.createElement('strong'), tooltipCategory = document.createElement('span'), tooltipRarity = document.createElement('span');
-        tooltipName.textContent = displayName(item.name); tooltipCategory.textContent = displayName(item.categoryLabel); tooltipRarity.textContent = displayName(meta.label); tooltipInfo.append(tooltipName, tooltipCategory, tooltipRarity); tooltip.appendChild(tooltipInfo); card.appendChild(tooltip);
-
         return card;
     }
 
     function openItemModal(id, updateUrl, moveFocus = true) {
         var item = allItems.filter(function (i) { return i.id === id; })[0];
         if (!item) return;
+        hideItemTooltip();
+        setFilterDrawer(false, false);
+        itemPage()?.classList.add('catalogue-has-selection');
         var meta = rarityMeta(item.rarity);
 
         var modal = document.querySelector('.item-modal');
@@ -526,7 +691,7 @@
         var close = document.createElement('button');
         close.type = 'button';
         close.className = 'modal-close';
-        close.setAttribute('aria-label', 'Fermer');
+        close.setAttribute('aria-label', itemUi('Fermer la fiche', 'Close details'));
         close.textContent = '×';
         setItemSelection(id);
         content.appendChild(close);
@@ -545,26 +710,44 @@
         var h2 = document.createElement('h2');
         h2.className = 'item-modal-name';
         h2.id = 'item-dialog-title';
-        h2.textContent = item.name;
+        h2.textContent = displayName(item.name);
         info.appendChild(h2);
 
         var badges = document.createElement('div');
         badges.className = 'item-modal-badges';
         var rb = document.createElement('span');
         rb.className = 'item-chip ' + meta.cls;
-        rb.textContent = meta.label;
+        rb.textContent = displayName(meta.label);
         badges.appendChild(rb);
         var cb = document.createElement('span');
         cb.className = 'item-chip chip-cat';
-        cb.textContent = item.categoryLabel;
+        cb.textContent = displayName(item.categoryLabel);
         badges.appendChild(cb);
         info.appendChild(badges);
+        var overview = document.createElement('div'); overview.className = 'item-overview';
+        var description = document.createElement('p'); description.className = 'item-detail-description';
+        description.textContent = item.description ? displayName(item.description) : itemUi('Aucune description renseignée dans le catalogue.', 'No description recorded in the catalogue.'); overview.appendChild(description);
+        var facts = document.createElement('section'); facts.className = 'item-verified-facts';
+        var factsTitle = document.createElement('h3'); factsTitle.textContent = itemUi('Informations du catalogue', 'Catalogue information'); facts.appendChild(factsTitle);
+        var properties = document.createElement('dl');
+        [[itemUi('Catégorie', 'Category'), displayName(item.categoryLabel)], [itemUi('Rareté', 'Rarity'), displayName(meta.label)]].forEach(function (value) { var term = document.createElement('dt'), detail = document.createElement('dd'); term.textContent = value[0]; detail.textContent = value[1]; properties.append(term, detail); });
+        facts.appendChild(properties); overview.appendChild(facts);
 
         var sources = document.createElement('section'); sources.className = 'item-sources';
         var sourcesTitle = document.createElement('h3'); sourcesTitle.textContent = itemUi('Sources d’obtention', 'Known sources'); sources.appendChild(sourcesTitle);
         var sourceStatus = document.createElement('p'); sourceStatus.textContent = itemUi('Sources non renseignées.', 'Sources not recorded.'); sources.appendChild(sourceStatus);
         content.appendChild(info);
-        var detailTabs = installItemDetailTabs(content, id, sources);
+        var detailTabs = installItemDetailTabs(content, id, sources, overview);
+        var share = document.createElement('div'); share.className = 'item-share catalogue-detail-actions';
+        var shareButton = document.createElement('button'); shareButton.type = 'button'; shareButton.className = 'item-share-button catalogue-share'; shareButton.textContent = itemUi('Copier le lien de la fiche', 'Copy link to details');
+        var shareInput = document.createElement('input'); shareInput.className = 'catalogue-share-url'; shareInput.type = 'url'; shareInput.readOnly = true; shareInput.hidden = true; shareInput.setAttribute('aria-label', itemUi('Lien de la fiche', 'Link to details'));
+        var shareStatus = document.createElement('span'); shareStatus.className = 'item-share-status catalogue-share-status'; shareStatus.setAttribute('role', 'status');
+        shareButton.addEventListener('click', async function () {
+            var url = new URL('/items', window.location.origin); url.searchParams.set('item', id); shareInput.value = url.href;
+            try { if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable'); await navigator.clipboard.writeText(url.href); if (shareStatus.isConnected) shareStatus.textContent = itemUi('Lien copié.', 'Link copied.'); }
+            catch (_) { if (!shareInput.isConnected) return; shareInput.hidden = false; shareInput.focus(); shareInput.select(); shareStatus.textContent = itemUi('Copiez le lien sélectionné.', 'Copy the selected link.'); }
+        }, { signal: controller.signal });
+        share.append(shareButton, shareInput, shareStatus); content.appendChild(share);
 
         if (window.NamelessGlobalSearch && typeof window.NamelessGlobalSearch.getIndex === 'function') {
             var sourceSignal = controller && controller.signal;
@@ -577,7 +760,7 @@
                 if (!currentSources()) return;
                 var entry = entries.find(function (candidate) { return candidate.kind === 'item' && candidate.id === id; });
                 var knownSources = entry && Array.isArray(entry.sources) ? entry.sources : [];
-                sourceStatus.textContent = knownSources.length ? '' : 'Aucune source confirmée dans le bestiaire.';
+                sourceStatus.textContent = knownSources.length ? '' : itemUi('Aucune source confirmée dans le bestiaire.', 'No confirmed sources in the bestiary.');
                 if (!knownSources.length) return;
                 var list = document.createElement('ul');
                 knownSources.forEach(function (source) {
@@ -587,11 +770,11 @@
                     if (url.origin !== window.location.origin || url.pathname !== '/bestiaire' || !/^\d+$/.test(url.searchParams.get('creature') || '')) return;
                     var row = document.createElement('li'); var link = document.createElement('a');
                     link.href = url.pathname + url.search;
-                    link.textContent = source.title + (/^[1-3]$/.test(String(source.floor)) ? ' — Palier ' + source.floor : '');
+                    link.textContent = displayName(source.title) + (/^[1-3]$/.test(String(source.floor)) ? itemUi(' — Palier ', ' — Floor ') + source.floor : '');
                     row.appendChild(link);
                     if (typeof source.location === 'string' && source.location.trim()) {
                         var zone = document.createElement('span'); zone.className = 'item-source-zone';
-                        zone.textContent = ' — ' + source.location;
+                        zone.textContent = ' — ' + displayName(source.location);
                         row.appendChild(zone);
                     }
                     if (typeof source.mapUrl === 'string') {
@@ -601,30 +784,31 @@
                             && mapUrl.searchParams.get('entity') === 'creature:' + url.searchParams.get('creature')
                             && /^[1-3]$/.test(String(source.floor)) && mapUrl.searchParams.get('floor') === String(source.floor)) {
                             var mapLink = document.createElement('a'); mapLink.className = 'item-source-map-link';
-                            mapLink.href = mapUrl.pathname + mapUrl.search; mapLink.textContent = 'Voir sur la carte';
+                            mapLink.href = mapUrl.pathname + mapUrl.search; mapLink.textContent = itemUi('Voir sur la carte', 'View on map');
                             row.appendChild(document.createTextNode(' · ')); row.appendChild(mapLink);
                         }
                     }
                     list.appendChild(row);
                 });
                 if (list.children.length) { sourceStatus.remove(); sources.appendChild(list); }
-                else sourceStatus.textContent = 'Aucune source confirmée dans le bestiaire.';
+                else sourceStatus.textContent = itemUi('Aucune source confirmée dans le bestiaire.', 'No confirmed sources in the bestiary.');
                 var sourceUrls = new Set(knownSources.filter(validBestiarySource).map(function (source) { return source.url; }));
                 var related = entries.filter(function (candidate) {
                     return candidate.kind === 'item' && candidate.id !== id && allItems.some(function (record) { return record.id === candidate.id; }) && Array.isArray(candidate.sources) && candidate.sources.some(function (source) { return validBestiarySource(source) && sourceUrls.has(source.url); });
                 });
                 if (related.length) detailTabs.related(related.slice(0, 6));
-            }).catch(function () { if (currentSources()) sourceStatus.textContent = 'Sources temporairement indisponibles.'; });
+            }).catch(function () { if (currentSources()) sourceStatus.textContent = itemUi('Sources temporairement indisponibles.', 'Sources temporarily unavailable.'); });
         }
 
         modal.appendChild(content);
         modal.style.display = 'flex';
         syncItemPanelMode();
+        if (spriteObserver) spriteObserver.observe(media);
         if (updateUrl !== false) updateItemUrl(id);
         if (moveFocus) close.focus();
     }
 
-    function installItemDetailTabs(content, id, sources) {
+    function installItemDetailTabs(content, id, sources, overview) {
         var bar = document.createElement('div'); bar.className = 'catalogue-detail-tabs'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', itemUi('Détails de l’objet', 'Item details'));
         var panels = new Map(), buttons = new Map();
         content.appendChild(bar);
@@ -634,6 +818,7 @@
             return panel;
         }
         addTab('overview', 'Aperçu', 'Overview'); addTab('sources', 'Sources', 'Sources');
+        panels.get('overview').appendChild(overview);
         function activate(key, focus) {
             panels.forEach(function (panel, name) { panel.hidden = name !== key; });
             buttons.forEach(function (button, name) { button.setAttribute('aria-selected', String(name === key)); button.tabIndex = name === key ? 0 : -1; });
@@ -666,7 +851,8 @@
             var finish = function () {
                 modal.style.display = 'none'; if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = previousOverflow;
                 delete modal.dataset.item;
-                if (modalReturnFocus && modalReturnFocus.isConnected) modalReturnFocus.focus();
+                itemPage()?.classList.remove('catalogue-has-selection');
+                if (modalReturnFocus && modalReturnFocus.isConnected) { tooltipDismissedCard = modalReturnFocus; modalReturnFocus.focus(); }
                 modalReturnFocus = null;
             };
             if (updateUrl === false || !window.NamelessReferenceShell) { window.NamelessReferenceShell?.cancelPanelClose(modal); finish(); }
@@ -691,7 +877,7 @@
             else {
                 var s = (currentPage - 1) * itemsPerPage + 1;
                 var e = Math.min(currentPage * itemsPerPage, total);
-                info.textContent = 'Affichage de ' + s + '-' + e + ' sur ' + total + ' items';
+                info.textContent = itemUi('Affichage de ', 'Showing ') + s + '–' + e + itemUi(' sur ', ' of ') + total + itemUi(' objets', ' items');
             }
         }
         if (prev) prev.disabled = currentPage <= 1;
