@@ -185,7 +185,7 @@
     :is(.bestiary-page:where(:has(.catalogue-layout)),.items-page) :is(.creatures-grid,.items-grid),:is(.bestiary-page:where(:has(.catalogue-layout)),.items-page).catalogue-has-selection :is(.creatures-grid,.items-grid) { grid-template-columns: repeat(2,minmax(0,1fr)); }
     .bestiary-page:where(:has(.catalogue-layout)) .creature-media { height:144px; }
     :is(.bestiary-page:where(:has(.catalogue-layout)),.items-page) .catalogue-sort { flex-direction: row; }
-    :is(.bestiary-page:where(:has(.catalogue-layout)),.items-page) .catalogue-sort label { display: none; }
+    :is(.bestiary-page:where(:has(.catalogue-layout)),.items-page) .catalogue-sort label { display: inline-block; }
     :is(.bestiary-page:where(:has(.catalogue-layout)),.items-page) .catalogue-sort select { width: 152px; }
     :is(.bestiary-page:where(:has(.catalogue-layout)),.items-page) .catalogue-count { font-size: 12px; }
     :is(.bestiary-page:where(:has(.catalogue-layout)),.items-page) .catalogue-filter-title .catalogue-reset { min-height: 30px; }

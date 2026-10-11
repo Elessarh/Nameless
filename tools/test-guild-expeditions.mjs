@@ -69,9 +69,30 @@ function page({missing = false, role = 'membre'} = {}) {
     [...dialog.querySelectorAll('button')].find(button=>button.textContent==='Me désinscrire').click();await tick();await tick();
     assert.equal(p.tables.guild_event_attendance.length,0,'Unregistration uses the persisted service');
     assert.match(dialog.querySelector('.hq-feedback').textContent,/Désinscription/);
-    root.querySelector('[data-guild-dialog-close]').click();
-    assert.equal(w.document.activeElement.dataset.eventId,EVENT,'Closing after refresh returns focus to the current event card');
+    assert.equal(card.isConnected,false,'Registration and unregistration replace the original event card');
+    const currentCard=root.querySelector('#planning-list [data-event-id="'+EVENT+'"]');
+    w.matchMedia=()=>({matches:false});
+    dialog.dispatchEvent(new w.Event('cancel',{cancelable:true}));
+    assert.equal(dialog.open,true,'Escape keeps focus in the native dialog during its exit');
+    await new Promise(resolve=>setTimeout(resolve,175));
+    assert.equal(dialog.open,false);
+    assert.equal(w.document.activeElement,currentCard,'Escape after mutation/refresh returns focus to the current visible event card rather than BODY');
     const reads=p.reads.length;w.NamelessGuildExpeditions.destroy();root.querySelector('[data-guild-refresh]').click();await tick();assert.equal(p.reads.length,reads,'Destroyed route stops requests');dom.window.close();
+}
+{
+    const p=page();await p.w.NamelessGuildExpeditions.init(p.root,p.options);
+    p.root.querySelector('[data-hq-tab="expeditions"]').click();
+    const card=p.root.querySelector('#hq-expeditions [data-event-id]');card.focus();card.click();await tick();
+    const dialog=p.root.querySelector('dialog'),search=p.root.querySelector('[data-guild-event-search]');
+    search.value='Aucun événement correspondant';search.dispatchEvent(new p.w.Event('input',{bubbles:true}));
+    p.root.querySelector('[data-guild-dialog-close]').click();
+    assert.equal(p.w.document.activeElement,search,'If the opener disappears from the active expedition filter, closing uses its visible search control');
+    search.value='';search.dispatchEvent(new p.w.Event('input',{bubbles:true}));
+    p.root.querySelector('#hq-expeditions [data-event-id]').click();await tick();
+    const palette=p.w.document.createElement('dialog');palette.open=true;const query=p.w.document.createElement('input');palette.appendChild(query);p.w.document.body.appendChild(palette);query.focus();
+    dialog.close();
+    assert.equal(p.w.document.activeElement,query,'Closing a background guild dialog never takes focus from another open native palette');
+    p.w.NamelessGuildExpeditions.destroy();p.dom.window.close();
 }
 {
     const p=page({missing:true,role:'admin'});await p.w.NamelessGuildExpeditions.init(p.root,p.options);

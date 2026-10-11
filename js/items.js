@@ -352,6 +352,7 @@
         if (controller) { controller.abort(); controller = null; }
         if (spriteObserver) { spriteObserver.disconnect(); spriteObserver = null; }
         var modal = document.querySelector('.item-modal');
+        if (modal) window.NamelessReferenceShell?.cancelPanelClose?.(modal);
         if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
         if (sheetWasActive || (modal && modal.dataset.panelMode === 'sheet' && modal.style.display === 'flex')) document.body.style.overflow = previousOverflow;
         modalReturnFocus = null;
@@ -474,6 +475,13 @@
 
     function setupListeners() {
         var opts = { signal: controller.signal };
+        document.addEventListener('close', function (event) {
+            if (event.target.tagName !== 'DIALOG' || document.querySelector('dialog[open]')) return;
+            var modal = document.querySelector('.item-modal');
+            // A locale rebuild can replace the native palette's old opener.
+            // Keep the underlying sheet focused when that palette closes.
+            if (modal && modal.style.display === 'flex' && compactPanel() && !modal.contains(document.activeElement)) modal.querySelector('.modal-close')?.focus({ preventScroll: true });
+        }, { capture: true, signal: controller.signal });
 
         var search = document.getElementById('it-search');
         if (search) search.addEventListener('input', applyFilters, opts);
@@ -734,8 +742,9 @@
         var modal = document.querySelector('.item-modal');
         if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; modal.id = 'item-dialog'; (document.querySelector('.items-page .catalogue-detail-slot') || document.body).appendChild(modal); }
         window.NamelessReferenceShell?.cancelPanelClose(modal);
+        var hadPanelFocus = modal.contains(document.activeElement);
         if (modal.style.display !== 'flex') { modalReturnFocus = document.activeElement; previousOverflow = document.body.style.overflow; }
-        if (moveFocus && !modal.contains(document.activeElement)) modalReturnFocus = document.activeElement;
+        if (moveFocus && !hadPanelFocus) modalReturnFocus = document.activeElement;
         modal.setAttribute('aria-labelledby', 'item-dialog-title');
         modal.dataset.item = id;
         modal.dataset.rarity = item.rarity;
@@ -880,7 +889,7 @@
         syncItemPanelMode();
         if (spriteObserver) spriteObserver.observe(media);
         if (updateUrl !== false) updateItemUrl(id);
-        if (moveFocus) close.focus();
+        if ((moveFocus || hadPanelFocus) && !document.activeElement.closest?.('dialog[open]')) close.focus();
     }
 
     function installItemDetailTabs(content, id, sources, overview) {

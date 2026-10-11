@@ -90,6 +90,33 @@
         const record=s.shared?.registry?.find(r=>r.entity_key===key);
         return Number(record?.[kind+'_revision']||0);
     }
+    function regionPublicationHelp(s, key, name, publish) {
+        const host=s.root.querySelector('#workspace-region-publication');if(!host)return;
+        let help=host.querySelector('#workspace-region-help');
+        if(!help){help=el('p','workspace-region-help');help.id='workspace-region-help';help.dataset.i18nIgnore='';host.querySelector('h3')?.after(help);}
+        const english=global.NamelessI18n?.getLanguage?.()==='en';
+        const text=key?(english?'The public zone name comes from its linked entry.':'Le nom public de la zone reprend celui de la fiche associée.'):(english?'Link a zone entry to publish these boundaries.':'Associez une fiche de zone pour publier ces limites.');
+        if(help.textContent!==text)help.textContent=text;
+        publish?.setAttribute('aria-describedby',help.id);
+        if(name){const descriptions=(name.getAttribute('aria-describedby')||'').split(/\s+/).filter(id=>id&&id!==help.id);if(key)descriptions.push(help.id);if(descriptions.length)name.setAttribute('aria-describedby',descriptions.join(' '));else name.removeAttribute('aria-describedby');}
+    }
+    function translateRegionPublication(s) {
+        const host=s.root.querySelector('#workspace-region-publication');
+        if(!host||typeof global.NamelessI18n?.translate!=='function')return;
+        if(!s.publicationLabels){
+            s.publicationLabels=[];
+            const walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);let node;
+            while((node=walker.nextNode())){
+                let ignored=false;for(let parent=node.parentElement;parent&&parent!==host;parent=parent.parentElement)if(parent.hasAttribute('data-i18n-ignore')){ignored=true;break;}
+                if(!ignored&&node.nodeValue.trim())s.publicationLabels.push([node,node.nodeValue]);
+            }
+        }
+        // Translate only this static panel: the map keeps its source-data guard.
+        for(const [node,source] of s.publicationLabels){
+            const next=source.match(/^\s*/)[0]+global.NamelessI18n.translate(source)+source.match(/\s*$/)[0];
+            if(node.nodeValue!==next)node.nodeValue=next;
+        }
+    }
     function regionChanged(s) {
         if(!canEdit(s))return;
         const draft=global.NamelessMapRegions.active?.editor.getDraft();
@@ -103,6 +130,7 @@
         }
         const name=s.root.querySelector('.map-region-name'); if(name)name.readOnly=!!key;
         const publish=s.root.querySelector('#workspace-region-publish'); if(publish)publish.disabled=!s.serverReady||s.busy||!key;
+        regionPublicationHelp(s,key,name,publish);
         const snapshot=JSON.stringify(draft);if(s.regionSnapshot&&snapshot!==s.regionSnapshot)markDraft(s);s.regionSnapshot=snapshot;
     }
     async function publishRegion(s) {
@@ -298,13 +326,14 @@
         s.api={getState:()=>({authorized:canEdit(s),serverReady:s.serverReady,mode:s.mode,busy:s.busy,marker:clone(s.marker),regionRevision:s.regionRevision}),mode:value=>setMode(s,value),selectMarker:key=>loadMarker(s,key),newMarker:()=>newMarker(s),moveMarker:value=>moveMarker(s,value),saveLocal:()=>saveMarkerLocal(s),publishMarker:()=>publishMarker(s),publishRegion:()=>publishRegion(s),resetRegion:()=>resetRegion(s),resetMarker:()=>resetMarker(s),refresh:()=>refreshShared(s)};
         on(s,document,'nameless:auth-changed',()=>authorize(s));on(s,main.querySelector('#workspace-retry'),'click',()=>authorize(s));
         on(s,main,'nameless:region-draft',()=>regionChanged(s));
+        on(s,document,'nameless:languagechange',()=>{translateRegionPublication(s);queueMicrotask(()=>{if(canEdit(s)&&s.mode==='regions')regionChanged(s);});});
         on(s,main.querySelector('#workspace-region-publish'),'click',()=>publishRegion(s));on(s,main.querySelector('#workspace-region-reset'),'click',()=>resetRegion(s));
         for(const id of ['workspace-region-status','workspace-region-visible'])on(s,main.querySelector('#'+id),'change',()=>markDraft(s));
         on(s,main.querySelector('#workspace-refresh'),'click',()=>s.api.refresh().catch(error=>message(s,errorText(error))));
         on(s,main.querySelector('#workspace-labels-toggle'),'click',event=>{const names=main.querySelector('#map-display-names');if(!canEdit(s)||!names)return;names.checked=!names.checked;names.dispatchEvent(new Event('change',{bubbles:true}));event.currentTarget.setAttribute('aria-pressed',String(names.checked));});
         for(const button of main.querySelectorAll('[data-workspace-mode]'))on(s,button,'click',()=>setMode(s,button.dataset.workspaceMode));
         on(s,main.querySelector('.workspace-tool-tabs'),'keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;const buttons=[...main.querySelectorAll('[data-workspace-mode]')],index=buttons.indexOf(event.target);if(index<0)return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:-1)+3)%3;buttons[next].click();buttons[next].focus();});
-        await authorize(s);return s.api;
+        translateRegionPublication(s);await authorize(s);return s.api;
     }
     async function refreshShared(s) {
         if(s.busy||!canEdit(s))return false;const uid=s.uid,generation=s.authGeneration;

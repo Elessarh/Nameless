@@ -3,17 +3,21 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { JSDOM } from 'jsdom';
+import {createMapQaBackend} from './map-qa-backend.mjs';
 
 const workspace = path.resolve(import.meta.dirname, '..');
 const built = path.join(workspace, '_site');
 const port = Number(process.argv.find(value => value.startsWith('--port='))?.slice(7) || 4181);
 if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid QA port.');
 const routes = new Map([['/qa/guild', 'espace-guilde'], ['/qa/profile', 'profil'], ['/qa/admin', 'admin-dashboard']]);
+const mapQa = process.argv.includes('--map') ? await createMapQaBackend(workspace) : null;
+if (mapQa) {routes.set('/qa/map','carte');routes.set('/qa/map-admin','admin-carte');}
 const scripts = new Set([
     'i18n-en.js', 'i18n-en-reviewed.js', 'i18n-quests-en-reviewed.js', 'i18n-game-en-reviewed.js',
     'i18n-information-en-reviewed.js', 'i18n.js', 'guild-date-utils.js', 'cache-manager.js', 'security-utils.js',
     'navbar-mobile.js', 'global-search.js', 'reference-shell.js', 'world-atmosphere.js', 'guild-expeditions.js', 'espace-guilde.js', 'profil.js', 'admin-dashboard.js', 'guild-chat.js', 'guild-dm.js'
 ]);
+const mapScripts = new Set([...scripts,'leaflet-1.9.4.js','supabase-2.117.2.min.js','map.js','map-regions.js','map-workspace.js']);
 const csp = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
 const headers = {
     'Content-Security-Policy': csp, 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer',
@@ -115,19 +119,27 @@ const boot = `(() => {
  });
 })();`;
 
-function fixture(name) {
+function fixture(name, params = new URLSearchParams()) {
     const dom = new JSDOM(fs.readFileSync(path.join(built, name, 'index.html'), 'utf8'));
     const doc = dom.window.document;
+    const isMap = name === 'carte' || name === 'admin-carte';
+    const allowed = isMap ? mapScripts : scripts;
+    const role = params.get('role') || 'admin';
     for (const meta of doc.querySelectorAll('meta[http-equiv="Content-Security-Policy"]')) meta.content = csp;
     for (const script of [...doc.scripts]) {
         const file = path.basename((script.getAttribute('src') || '').split('?')[0]);
-        if (!scripts.has(file)) script.remove();
-        else script.setAttribute('src', '/js/' + file);
+        if (!allowed.has(file)) script.remove();
+        else script.setAttribute('src', '/js/' + (['leaflet-1.9.4.js','supabase-2.117.2.min.js'].includes(file)?'vendor/':'') + file);
     }
-    const bootScript = doc.createElement('script'); bootScript.src = '/qa/boot.js'; bootScript.defer = true;
-    doc.head.append(bootScript);
-    // Deferred boot must precede the application modules while DOMContentLoaded sees all helpers.
-    const firstScript = doc.querySelector('script'); if (firstScript !== bootScript) firstScript.before(bootScript);
+    const bootScript = doc.createElement('script'); bootScript.src = isMap ? '/qa/map-boot.js?role='+encodeURIComponent(role) : '/qa/boot.js'; bootScript.defer = true;
+    if(isMap) {
+        // The real SDK loads first; only its URL/session point at this local SQL adapter.
+        (doc.querySelector('script[src="/js/map-regions.js"]') || doc.querySelector('script[src="/js/map.js"]')).before(bootScript);
+    } else {
+        doc.head.append(bootScript);
+        // Deferred boot must precede the application modules while DOMContentLoaded sees all helpers.
+        const firstScript = doc.querySelector('script'); if (firstScript !== bootScript) firstScript.before(bootScript);
+    }
     for (const element of doc.querySelectorAll('[href], [src]')) {
         for (const attribute of ['href', 'src']) {
             const value = element.getAttribute(attribute);
@@ -135,12 +147,12 @@ function fixture(name) {
         }
     }
     for (const anchor of doc.querySelectorAll('a[href]')) {
-        const alias = {'/espace-guilde':'/qa/guild','/profil':'/qa/profile','/admin-dashboard':'/qa/admin'}[anchor.getAttribute('href')];
+        const alias = {'/espace-guilde':'/qa/guild','/profil':'/qa/profile','/admin-dashboard':'/qa/admin',...(isMap?{'/carte':'/qa/map?role=visiteur','/admin-carte':'/qa/map-admin?role='+encodeURIComponent(role)}:{})}[anchor.getAttribute('href')];
         if (alias) anchor.href = alias;
     }
     const style = doc.createElement('link'); style.rel = 'stylesheet'; style.href = '/qa/fixture.css'; doc.head.append(style);
     const banner = doc.createElement('aside'); banner.className = 'qa-fixture-banner'; banner.setAttribute('aria-label', 'Prévisualisation isolée');
-    banner.innerHTML = 'Prévisualisation QA · données fictives, avatar de test · aucune API réelle <a href="/qa/guild">Guilde</a><a href="/qa/profile">Profil</a><a href="/qa/admin">Administration</a>';
+    banner.innerHTML = isMap ? 'QA carte isolée · session fictive · SQL réel en mémoire · aucune publication distante <a href="/qa/map?role=visiteur">Carte publique QA</a><a href="/qa/map-admin?role='+encodeURIComponent(role)+'">Atelier QA</a>' : 'Prévisualisation QA · données fictives, avatar de test · aucune API réelle <a href="/qa/guild">Guilde</a><a href="/qa/profile">Profil</a><a href="/qa/admin">Administration</a>';
     doc.querySelector('header').after(banner);
     doc.title = 'QA isolée — ' + doc.title;
     const html = '<!doctype html>\n' + doc.documentElement.outerHTML;
@@ -151,7 +163,7 @@ const types = {'.css':'text/css; charset=utf-8','.js':'text/javascript; charset=
 function builtFile(url) {
     const extension = path.extname(url).toLowerCase();
     if (url.startsWith('/css/') && extension !== '.css') return null;
-    if (url.startsWith('/js/') && (!scripts.has(path.basename(url)) || extension !== '.js')) return null;
+    if (url.startsWith('/js/') && (!(mapQa?mapScripts:scripts).has(path.basename(url)) || extension !== '.js')) return null;
     if (url.startsWith('/assets/') && !['.json','.png','.webp','.jpg','.jpeg','.svg','.woff2','.woff','.mp3'].includes(extension)) return null;
     if (!/^\/(css|js|assets)\//.test(url)) return null;
     const folder = url.split('/')[1];
@@ -161,13 +173,15 @@ function builtFile(url) {
 }
 
 if (!fs.existsSync(built)) throw new Error('Root must build the site before starting QA fixtures.');
-http.createServer((request, response) => {
-    let pathname;
-    try { pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname); }
+const server = http.createServer(async(request, response) => {
+    let pathname, url;
+    try { url = new URL(request.url, 'http://127.0.0.1'); pathname = decodeURIComponent(url.pathname); }
     catch { response.writeHead(400, headers); response.end(); return; }
+    if(mapQa && pathname.startsWith('/qa-api/')) {await mapQa.handle(request,response,url,headers);return;}
     let body; let type;
-    if (routes.has(pathname)) { body = fixture(routes.get(pathname)); type = 'text/html; charset=utf-8'; }
+    if (routes.has(pathname)) { body = fixture(routes.get(pathname), url.searchParams); type = 'text/html; charset=utf-8'; }
     else if (pathname === '/qa/boot.js') { body = boot; type = types['.js']; }
+    else if (mapQa && pathname === '/qa/map-boot.js') { body = mapQa.boot(url.searchParams.get('role')||'admin'); type = types['.js']; }
     else if (pathname === '/qa/fixture.css') { body = fixtureCss; type = types['.css']; }
     else {
         const file = builtFile(pathname);
@@ -177,4 +191,8 @@ http.createServer((request, response) => {
     }
     response.writeHead(200, {...headers,'Content-Type':type});
     response.end(request.method === 'HEAD' ? undefined : body);
-}).listen(port, '127.0.0.1', () => console.log('Isolated UI QA fixtures: http://127.0.0.1:'+port+'/qa/guild · /qa/profile · /qa/admin'));
+}).listen(port, '127.0.0.1', () => console.log('Isolated UI QA fixtures: http://127.0.0.1:'+port+'/qa/guild · /qa/profile · /qa/admin'+(mapQa?' · /qa/map?role=visiteur · /qa/map-admin?role=admin (real local SQL)':'')));
+if(mapQa) {
+    async function shutdown() {server.close();await mapQa.close();process.exit(0);}
+    process.once('SIGINT',shutdown);process.once('SIGTERM',shutdown);
+}

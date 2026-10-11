@@ -1,0 +1,476 @@
+{
+  "date": "2026-10-11",
+  "environment": "Local build on 127.0.0.1:4173; public views",
+  "productionDeployed": false,
+  "checks": [
+    {
+      "label": "after-profile-1920",
+      "atmosphere": {
+        "bottom": 1080,
+        "height": 1008,
+        "left": 0,
+        "right": 1920,
+        "top": 72,
+        "width": 1920,
+        "x": 0,
+        "y": 72
+      },
+      "broken": [],
+      "focus": null,
+      "height": 1080,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 1920
+    },
+    {
+      "label": "search-arrow-focus",
+      "focusText": "IllfangBossDonjon Kobold · Palier 1",
+      "href": "/boss/illfang"
+    },
+    {
+      "label": "after-search-illfang-1920",
+      "atmosphere": {
+        "bottom": 1080,
+        "height": 1008,
+        "left": 0,
+        "right": 1920,
+        "top": 72,
+        "width": 1920,
+        "x": 0,
+        "y": 72
+      },
+      "broken": [],
+      "focus": null,
+      "height": 1080,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 1920
+    },
+    {
+      "label": "search-escape",
+      "focus": "Rechercher sur Nameless (Ctrl+K)",
+      "open": false
+    },
+    {
+      "label": "after-bestiary-1920",
+      "atmosphere": {
+        "bottom": 1080,
+        "height": 1008,
+        "left": 0,
+        "right": 1910,
+        "top": 72,
+        "width": 1910,
+        "x": 0,
+        "y": 72
+      },
+      "broken": [],
+      "focus": null,
+      "height": 1080,
+      "image": "http://127.0.0.1:4173/assets/art-v4/forest-1280.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 1920
+    },
+    {
+      "label": "after-bestiary-detail-1920",
+      "atmosphere": {
+        "bottom": 1080,
+        "height": 1008,
+        "left": 0,
+        "right": 1910,
+        "top": 72,
+        "width": 1910,
+        "x": 0,
+        "y": 72
+      },
+      "broken": [],
+      "focus": "Fermer la fiche",
+      "height": 1080,
+      "image": "http://127.0.0.1:4173/assets/art-v4/forest-1280.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=2",
+      "width": 1920
+    },
+    {
+      "label": "bestiary-escape-focus",
+      "focus": "Voir Gorbel"
+    },
+    {
+      "label": "after-bestiary-filters-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": "bes-filter-close",
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/forest-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 390
+    },
+    {
+      "label": "bestiary-filter-close",
+      "focus": "bes-filter-toggle",
+      "sortLabelDisplay": "none",
+      "sortName": "Trier par"
+    },
+    {
+      "label": "after-menu-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": null,
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/forest-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 390
+    },
+    {
+      "label": "after-map-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": null,
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/carte/",
+      "width": 390
+    },
+    {
+      "label": "after-map-selection-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": null,
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups",
+      "width": 390
+    },
+    {
+      "label": "after-map-1920",
+      "atmosphere": {
+        "bottom": 1080,
+        "height": 1008,
+        "left": 0,
+        "right": 1910,
+        "top": 72,
+        "width": 1910,
+        "x": 0,
+        "y": 72
+      },
+      "broken": [],
+      "focus": null,
+      "height": 1080,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 1920
+    },
+    {
+      "label": "after-wiki-1920",
+      "atmosphere": {
+        "bottom": 1080,
+        "height": 1008,
+        "left": 0,
+        "right": 1910,
+        "top": 72,
+        "width": 1910,
+        "x": 0,
+        "y": 72
+      },
+      "broken": [],
+      "focus": null,
+      "height": 1080,
+      "image": "http://127.0.0.1:4173/assets/art-v6/archives-1672.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 1920
+    },
+    {
+      "label": "after-wiki-guides-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": "wiki-search",
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v6/archives-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 390
+    },
+    {
+      "label": "after-search-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": "nm-global-query",
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v6/archives-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 390
+    },
+    {
+      "label": "after-items-deeplink-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": "Fermer la fiche",
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/workshop-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/items/?item=potion_mana",
+      "width": 390
+    },
+    {
+      "label": "before-items-sheet-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": "Fermer la fiche",
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/workshop-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/items/?item=potion_mana",
+      "width": 390
+    },
+    {
+      "label": "after-home-1920",
+      "atmosphere": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      "broken": [],
+      "focus": null,
+      "height": 1080,
+      "image": "",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/",
+      "width": 1920
+    },
+    {
+      "label": "after-settings-1920",
+      "atmosphere": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      "broken": [],
+      "focus": null,
+      "height": 1080,
+      "image": "",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/",
+      "width": 1920
+    },
+    {
+      "label": "after-guild-public-1920",
+      "atmosphere": {
+        "bottom": 1080,
+        "height": 1008,
+        "left": 0,
+        "right": 1920,
+        "top": 72,
+        "width": 1920,
+        "x": 0,
+        "y": 72
+      },
+      "broken": [],
+      "focus": "main-content",
+      "height": 1080,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/espace-guilde",
+      "width": 1920
+    },
+    {
+      "label": "after-guild-public-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": "main-content",
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/espace-guilde",
+      "width": 390
+    },
+    {
+      "label": "after-guild-public-en-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": null,
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/espace-guilde",
+      "width": 390
+    },
+    {
+      "label": "after-bestiary-sheet-390",
+      "atmosphere": {
+        "bottom": 844,
+        "height": 780,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "broken": [],
+      "focus": "Fermer la fiche",
+      "height": 844,
+      "image": "http://127.0.0.1:4173/assets/art-v4/forest-640.webp",
+      "overflow": false,
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=2",
+      "width": 390
+    }
+  ],
+  "interactions": [
+    "Global search Ctrl+K, ArrowDown, Escape and trigger focus restoration",
+    "Search navigation to potion_mana deep link",
+    "Item and bestiary mobile sheets isolate header, catalogue and audio; native search above sheet remains usable",
+    "Escape from search returns to sheet close; Escape from card-opened detail restores original card",
+    "Resize item sheet from 390 to 1920 releases header/audio inert, back to390 restores isolation",
+    "Mobile filters and navigation isolate audio and restore previous inert states",
+    "Mobile sort has accessible Trier par label",
+    "Map region selection, expanded detail and floor2/floor1 navigation",
+    "Codex mobile index and search",
+    "Public guild FR/EN, restored to FR",
+    "Ambience animation pause/resume, audio remains off",
+    "Item categories Accessories, Weapons and Consumables verified in English filters/cards, French restored"
+  ],
+  "automatedTests": {
+    "items": 89,
+    "bestiary": 86,
+    "referenceShell": "PASS",
+    "searchRouter": "PASS",
+    "memberUI": "PASS",
+    "worldTransitions": "PASS",
+    "worldAtmosphere": "PASS",
+    "hybridCatalogues": 144,
+    "referenceCatalogues": 52,
+    "wikiCodex": 65,
+    "hybridHome": "PASS",
+    "i18nDOM": "PASS",
+    "phaseDProfile": 47,
+    "phaseDGuild": 69,
+    "build": "13 routes,18 boss pages,252 search entries"
+  },
+  "limits": [
+    "Reduced motion verified in automated tests and CSS, not OS setting emulation",
+    "No Lighthouse score; asset byte comparison only",
+    "Static screenshots do not demonstrate animation timing"
+  ],
+  "mobileSheetInspection": {
+    "itemHeaderInert": true,
+    "itemAudioInert": true,
+    "itemSheetInsideInertAncestor": false,
+    "itemAriaModal": "true",
+    "desktopHeaderInert": false,
+    "desktopAudioInert": false,
+    "desktopAriaModal": null,
+    "itemSearchEscapeFocus": "Fermer la fiche",
+    "bestiarySearchEscapeFocus": "Fermer la fiche",
+    "bestiaryCardEscapeFocus": "Voir Petit Slime",
+    "mobileBestiarySortAccessibleName": "Trier par"
+  }
+}

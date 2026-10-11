@@ -1,0 +1,43 @@
+/* Real map workspace/regions/Leaflet DOM. Auth and reads are isolated; no writes. */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {JSDOM,VirtualConsole} from 'jsdom';
+const root=path.resolve(import.meta.dirname,'..'),read=file=>fs.readFileSync(path.join(root,file),'utf8');
+const errors=[],output=new VirtualConsole();output.on('jsdomError',error=>errors.push(error));
+const dom=new JSDOM(read('pages/admin-carte.html'),{url:'https://nameless-sao.fr/admin-carte?floor=1',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:output});
+const w=dom.window,d=w.document,catalog=JSON.parse(read('assets/map/catalog.json'));
+let language='fr',checks=0;const calls=[];
+const check=(value,message)=>{assert.ok(value,message);checks++;};
+w.NamelessSpaRouter={controlsLifecycle:true};w.NamelessI18n={getLanguage:()=>language};w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};
+w.fetch=async input=>({ok:true,json:async()=>JSON.parse(read(new URL(String(input),w.location.href).pathname.slice(1)))});
+w.supabase={auth:{getUser:async()=>({data:{user:{id:'11111111-1111-4111-8111-111111111111'}},error:null})},rpc:async name=>{
+    calls.push(name);return {data:name==='current_user_role'?'admin':name==='map_workspace_read'?{registry:catalog.registry.map(row=>({entity_key:row.key,marker_revision:0,region_revision:0})),markers:[],regions:[],custom_markers:[],maps:[]}:[],error:null};
+}};
+const map=d.getElementById('game-map');Object.defineProperties(map,{clientWidth:{value:900},clientHeight:{value:600}});map.getBoundingClientRect=()=>({top:0,left:0,bottom:600,right:900,width:900,height:600});
+w.SVGSVGElement.prototype.createSVGRect=()=>({});
+for(const file of ['js/vendor/leaflet-1.9.4.js','js/map-regions.js','js/map.js','js/map-workspace.js'])w.eval(read(file));
+try {
+    await w.NamelessMapWorkspace.init(d);
+    const firstName=d.querySelector('.map-region-name'),originalKey=d.querySelector('.map-region-entity').value;
+    const help=()=>d.getElementById('workspace-region-help'),publish=d.getElementById('workspace-region-publish');
+    check(w.NamelessMapWorkspace.active.getState().authorized&&originalKey,'A real administrator workspace opens an existing linked outline');
+    check(firstName.readOnly && help().textContent==='Le nom public de la zone reprend celui de la fiche associée.','Linked-zone naming explains why the actual field is read-only');
+    check(firstName.getAttribute('aria-describedby')===help().id && publish.getAttribute('aria-describedby')===help().id,'The contextual note describes the actual name and publication controls');
+    check(!publish.disabled,'An associated current zone retains its existing publication action');
+    language='en';d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));await Promise.resolve();
+    const englishName=d.querySelector('.map-region-name');
+    check(englishName!==firstName && englishName.readOnly && englishName.getAttribute('aria-describedby')===help().id,'Language rebuilding restores the read-only state and description on the replacement native name field');
+    check(help().textContent==='The public zone name comes from its linked entry.' && help().hasAttribute('data-i18n-ignore'),'Contextual linked-entry guidance follows English without the global translator rewriting it');
+    d.querySelector('[data-region-action="new"]').click();
+    check(!d.querySelector('.map-region-name').readOnly && !d.querySelector('.map-region-name').hasAttribute('aria-describedby'),'A personal zone keeps an editable name without an inaccurate linked-entry description');
+    check(publish.disabled && help().textContent==='Link a zone entry to publish these boundaries.','A personal zone explains why publication is unavailable');
+    language='fr';d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));await Promise.resolve();
+    check(publish.disabled && help().textContent==='Associez une fiche de zone pour publier ces limites.','An unassociated zone keeps its publication explanation when returning to French');
+    const selection=d.querySelector('.map-region-entity');selection.value=originalKey;selection.dispatchEvent(new w.Event('change',{bubbles:true}));
+    check(d.querySelector('.map-region-name').readOnly && !publish.disabled && help().textContent==='Le nom public de la zone reprend celui de la fiche associée.','Linking a real existing entry replaces the disabled-publication explanation with the source-name guidance');
+    check(d.querySelectorAll('#workspace-region-help').length===1,'Changes of selection and language reuse one contextual publication note');
+    check(!calls.some(name=>/^map_workspace_(save|reset|delete)/.test(name)),'Selection, naming guidance and translation never publish or mutate backend state');
+    check(errors.length===0,errors.map(String).join('\n'));
+} finally {w.NamelessMapWorkspace.destroy();w.NamelessMapRegions.destroy();w.NamelessMapPage.destroy();w.close();}
+console.log('Map workspace UI: '+checks+' checks passed for linked names, explanatory publication gating and FR/EN rebuilds; no mutations.');

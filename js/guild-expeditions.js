@@ -243,14 +243,34 @@
         if (s.closeTimer) global.clearTimeout(s.closeTimer);
         s.closeTimer = null; s.dialog.classList.remove('is-closing');
         s.returnFocus = trigger || document.activeElement;
-        if (!s.dialog.open) s.dialog.showModal();
+        if (!s.dialog.open) { s.focusRestoredForClose = false; s.dialog.showModal(); }
+    }
+    function usableReturnTarget(s, target) {
+        return !!target && target.isConnected && !target.disabled && !s.dialog.contains(target)
+            && !target.closest('[hidden], [inert]')
+            && (typeof target.checkVisibility !== 'function' || target.checkVisibility());
+    }
+    function restoreDialogFocus(s) {
+        if (!valid(s) || s.dialog.open || document.querySelector('dialog[open]')) return;
+        var trigger = s.returnFocus;
+        if (!usableReturnTarget(s, trigger)) trigger = Array.from(s.root.querySelectorAll('[data-event-id]')).find(function (button) { return button.dataset.eventId === s.returnEventId && usableReturnTarget(s, button); });
+        if (!usableReturnTarget(s, trigger)) trigger = s.root.querySelector('[data-guild-event-search]');
+        if (!usableReturnTarget(s, trigger)) trigger = s.root.querySelector('[data-hq-tab][aria-selected="true"]');
+        if (usableReturnTarget(s, trigger)) { s.returnFocus = trigger; trigger.focus({ preventScroll: true }); }
+    }
+    function finishDialogClose(s) {
+        // Native close events arrive on a later task. Restore the current
+        // opener immediately, after refreshed cards have replaced the old one.
+        s.focusRestoredForClose = true;
+        s.dialog.close(); s.dialog.classList.remove('is-closing');
+        restoreDialogFocus(s);
     }
     function closeDialog(s) {
         if (!s.dialog.open || s.dialog.classList.contains('is-closing')) return;
         s.dialogRequest++;
-        if (!global.matchMedia || global.matchMedia('(prefers-reduced-motion: reduce)').matches) { s.dialog.close(); return; }
+        if (!global.matchMedia || global.matchMedia('(prefers-reduced-motion: reduce)').matches) { finishDialogClose(s); return; }
         s.dialog.classList.add('is-closing');
-        s.closeTimer = global.setTimeout(function () { s.closeTimer = null; if (valid(s)) { s.dialog.close(); s.dialog.classList.remove('is-closing'); } }, 155);
+        s.closeTimer = global.setTimeout(function () { s.closeTimer = null; if (valid(s)) finishDialogClose(s); }, 155);
     }
     async function openEvent(s, event, trigger) {
         var request = ++s.dialogRequest; s.selectedEvent = event.id; s.returnEventId = event.id; var wasOpen = s.dialog.open;
@@ -376,10 +396,10 @@
         listen(s, root.querySelector('[data-guild-dialog-close]'), 'click', function () { closeDialog(s); });
         listen(s, s.dialog, 'cancel', function (event) { event.preventDefault(); closeDialog(s); });
         listen(s, s.dialog, 'close', function () {
-            s.dialogRequest++; var trigger = s.returnFocus;
-            if (!trigger || !trigger.isConnected) trigger = Array.from(root.querySelectorAll('[data-event-id]')).find(function (button) { return button.dataset.eventId === s.returnEventId && !button.closest('[data-hq-panel]').hidden; });
-            if (!trigger) trigger = root.querySelector('[data-hq-tab][aria-selected="true"]');
-            if (trigger && trigger.isConnected) trigger.focus();
+            if (s.dialog.open) return;
+            s.dialogRequest++;
+            if (!s.focusRestoredForClose) restoreDialogFocus(s);
+            s.focusRestoredForClose = false;
         });
         listen(s, document, 'nameless:languagechange', function () { renderEvents(s); renderCalendar(s); renderMembers(s); updateSetup(s); });
         switchTab(s, 'overview'); renderCalendar(s);

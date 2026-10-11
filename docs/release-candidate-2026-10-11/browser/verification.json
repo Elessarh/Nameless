@@ -1,0 +1,223 @@
+{
+  "date": "2026-10-11",
+  "productionDeployed": false,
+  "liveWrites": [
+    "Profile saved with existing values; no character value changed"
+  ],
+  "isolatedBackends": {
+    "map": {
+      "port": 4184,
+      "sql": "008 plus seeds005/006",
+      "storage": "PGlite memory",
+      "realClient": true
+    },
+    "guild": {
+      "port": 4185,
+      "sql": "007",
+      "storage": "PGlite memory",
+      "realClient": true
+    }
+  },
+  "checks": [
+    {
+      "case": "bestiary_drop_to_item",
+      "pass": true,
+      "url": "http://127.0.0.1:4173/items/?item=gelee_slime"
+    },
+    {
+      "case": "item_source_to_bestiary",
+      "pass": true,
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=2"
+    },
+    {
+      "case": "bestiary_to_map_keyboard",
+      "pass": true,
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=creature%3A2"
+    },
+    {
+      "case": "bestiary_to_map_pointer",
+      "pass": true,
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=creature%3A2"
+    },
+    {
+      "case": "microsoft_oauth_return_profile",
+      "pass": true,
+      "path": "/pages/profil.html",
+      "visibleProfileLoaded": true
+    },
+    {
+      "case": "live_profile_save_unchanged_values",
+      "pass": true
+    },
+    {
+      "case": "live_profile_persistence_after_reload",
+      "pass": true,
+      "sameValues": true
+    },
+    {
+      "case": "deep_404_styles_and_spa_return",
+      "pass": true,
+      "path": "/inconnue/recette/",
+      "returnedTo": "http://127.0.0.1:4173/wiki/"
+    },
+    {
+      "case": "live_admin_workspace_access",
+      "pass": true,
+      "productionWrites": false
+    },
+    {
+      "case": "qa_region_edit_undo_redo_save_reload_publish",
+      "pass": true,
+      "backend": "SQL008 PGlite memory via actual SDK",
+      "productionWrites": false
+    },
+    {
+      "case": "qa_region_publication_visible_to_visitor",
+      "pass": true,
+      "visibleLabel": "Zone Sanglier Vérifié"
+    },
+    {
+      "case": "qa_custom_marker_create_position_save_publish",
+      "pass": true,
+      "productionWrites": false
+    },
+    {
+      "case": "qa_marker_visible_search_and_detail",
+      "pass": true
+    },
+    {
+      "case": "qa_marker_hidden_removed_from_public_search",
+      "pass": true
+    },
+    {
+      "case": "qa_map_editor_member_denied",
+      "pass": true
+    },
+    {
+      "case": "qa_guild_signup_role_checklist_persist",
+      "pass": true,
+      "backend": "SQL007 PGlite memory via actual SDK"
+    },
+    {
+      "case": "qa_guild_unsubscribe",
+      "pass": true
+    },
+    {
+      "case": "qa_guild_admin_create_event",
+      "pass": true,
+      "parisDate": "2026-10-15 20:00",
+      "capacity": 2
+    },
+    {
+      "case": "qa_guild_admin_event_persistence",
+      "pass": true
+    },
+    {
+      "case": "live_guild_read_available",
+      "pass": true,
+      "eventsCreated": 0
+    },
+    {
+      "case": "qa_guild_player_denied",
+      "pass": true
+    },
+    {
+      "case": "qa_map_mobile_390_help_locale_readonly",
+      "pass": true,
+      "width": 390,
+      "mapWidth": 354,
+      "overflow": false
+    },
+    {
+      "case": "qa_guild_close_focus_after_list_rebuild",
+      "pass": true,
+      "focusedTag": "BUTTON",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "case": "inventory_48_native_proportions",
+      "pass": true,
+      "measurements": [
+        {
+          "count": 48,
+          "nameSize": "15px",
+          "native": [
+            46,
+            47
+          ],
+          "overflow": false,
+          "pageSize": "48",
+          "pixelScale": "2",
+          "rendered": [
+            92,
+            94
+          ],
+          "rendering": "pixelated",
+          "support": [
+            228.65625,
+            128
+          ],
+          "width": 1920
+        },
+        {
+          "count": 48,
+          "nameSize": "15px",
+          "native": [
+            46,
+            47
+          ],
+          "overflow": false,
+          "pageSize": "48",
+          "pixelScale": "2",
+          "rendered": [
+            92,
+            94
+          ],
+          "rendering": "pixelated",
+          "support": [
+            185.59375,
+            128
+          ],
+          "width": 1280
+        },
+        {
+          "count": 48,
+          "nameSize": "15px",
+          "native": [
+            46,
+            47
+          ],
+          "overflow": false,
+          "pageSize": "48",
+          "pixelScale": "2",
+          "rendered": [
+            92,
+            94
+          ],
+          "rendering": "pixelated",
+          "support": [
+            170.5,
+            128
+          ],
+          "width": 390
+        }
+      ]
+    },
+    {
+      "case": "items_drawer_390_settled",
+      "pass": true,
+      "left": 0,
+      "width": 360,
+      "height": 844,
+      "closeTarget": 44,
+      "focusRestored": "it-filter-toggle"
+    }
+  ],
+  "limitations": [
+    "OAuth callback verified on localhost, production-domain allowlist not inspected",
+    "Guild and map test writes only target local SQL fixtures",
+    "Native Playwright layout test is reserved for complete CI; this session uses CUA browser checks",
+    "One native ViewTransition abort diagnostic observed during navigation; route fallback and subsequent pointer/keyboard navigation succeeded"
+  ]
+}

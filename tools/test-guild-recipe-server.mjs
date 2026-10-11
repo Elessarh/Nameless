@@ -1,0 +1,60 @@
+/* Isolated HTTP, delivered SDK and actual migration 007; no remote services. */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import {createGuildRecipeServer} from './serve-guild-recipe.mjs';
+
+const root=path.resolve(import.meta.dirname,'..');
+const recipe=await createGuildRecipeServer({root});
+let checks=0;
+const check=(value,message)=>{assert.ok(value,message);checks++;};
+const sandbox={fetch,Headers,Request,Response,URL,URLSearchParams,AbortController,TextEncoder,TextDecoder,setTimeout,clearTimeout,setInterval,clearInterval,console,crypto:globalThis.crypto,WebSocket:globalThis.WebSocket};
+sandbox.window=sandbox;sandbox.self=sandbox;vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(root,'js/vendor/supabase-2.117.2.min.js'),'utf8'),sandbox);
+function client(actor){let stored=actor?JSON.stringify(actor.session):null;return sandbox.supabase.createClient(recipe.origin+'/qa-api','QA_LOCAL_ANON_ONLY',{auth:{storage:{getItem:()=>stored,setItem:(_key,value)=>{stored=value},removeItem:()=>{stored=null}},storageKey:'qa-'+(actor?.mode||'visitor'),persistSession:true,autoRefreshToken:false,detectSessionInUrl:false}});}
+const [adminActor,memberActor,playerActor,peerActor]=recipe.actors;
+const admin=client(adminActor),member=client(memberActor),player=client(playerActor),peer=client(peerActor);
+try{
+    const html=await (await fetch(recipe.origin+'/qa/guild?role=membre')).text();
+    check(html.includes('SQL 007 réel en mémoire')&&!html.includes('supabase-public-config.js')&&!html.includes('auth-supabase.js'),'QA frontend excludes real project configuration and identifies fictional in-memory data');
+    check(html.indexOf('/js/vendor/supabase-2.117.2.min.js')<html.indexOf('/qa/guild-boot.js'),'The real bundled SDK loads before the isolated session boot');
+    const auth=await member.auth.getUser();check(!auth.error&&auth.data.user.id===memberActor.user.id,'The shipped SDK validates the local member session over HTTP');
+    check((await member.rpc('current_user_role')).data==='membre','Membership comes from the SQL role function');
+    const events=await member.from('guild_planning').select('*').gte('date_event',new Date().toISOString()).order('date_event',{ascending:true}).limit(100);
+    check(!events.error&&events.data.length===1&&events.data[0].id===recipe.eventId&&events.data[0].capacity===4,'The SDK reads the future event created by migration 007, including actual capacity');
+    const directory=await member.from('user_profiles').select('id,username,role').in('role',['membre','admin']).order('username');
+    check(!directory.error&&directory.data.length===3,'The HTTP adapter preserves the member directory filter and SQL read policy');
+    const checklist=await member.from('guild_event_checklist').select('id,label,sort_order').eq('event_id',recipe.eventId).order('sort_order');
+    check(!checklist.error&&checklist.data.length===2,'Preparation entries come from the real SQL creation RPC');
+    check(!(await member.rpc('guild_event_register',{target_event:recipe.eventId,requested_role:'Tank'})).error,'Registration invokes the real checked SQL RPC');
+    let attendance=await member.from('guild_event_attendance').select('*').eq('event_id',recipe.eventId);
+    check(!attendance.error&&attendance.data.length===1&&attendance.data[0].group_role==='Tank','Registration is persisted across HTTP reads');
+    const full=await peer.rpc('guild_event_register',{target_event:recipe.eventId,requested_role:'Tank'});
+    check(full.error&&/role_full/.test(full.error.message),'Role capacity errors are SQL failures returned through the real SDK');
+    check(!(await member.rpc('guild_event_register',{target_event:recipe.eventId,requested_role:'Support'})).error,'Changing your role succeeds under actual own-capacity rules');
+    attendance=await member.from('guild_event_attendance').select('*').eq('event_id',recipe.eventId);
+    check(attendance.data.length===1&&attendance.data[0].group_role==='Support','A role change updates one persisted registration');
+    check(!(await member.rpc('guild_event_set_check',{target_checklist:checklist.data[0].id,completed:true})).error,'A checked preparation is persisted by migration 007');
+    const ownChecks=await member.from('guild_event_checks').select('*').eq('user_id',memberActor.user.id);
+    check(ownChecks.data.length===1&&ownChecks.data[0].done===true,'Reloading preparation reads the actual saved check');
+    const peerChecks=await peer.from('guild_event_checks').select('*');
+    check(!peerChecks.error&&peerChecks.data.length===0,'SQL RLS keeps another member preparation private');
+    const denied=await player.rpc('guild_event_register',{target_event:recipe.eventId,requested_role:'DPS'});
+    check(denied.error&&/guild_access_denied/.test(denied.error.message),'A player session cannot register through the HTTP adapter');
+    const playerReads=await player.from('guild_planning').select('*');
+    check(!playerReads.error&&playerReads.data.length===0,'A nonmember cannot read private events');
+    const deniedCreate=await member.rpc('guild_event_create',{event_title:'QA denied',event_date:recipe.eventDate,event_type:'raid',event_description:'',event_config:{},preparation:[]});
+    check(deniedCreate.error&&/admin_required/.test(deniedCreate.error.message),'Creation remains admin-only in the real SQL');
+    const created=await admin.rpc('guild_event_create',{event_title:'QA · Création admin',event_date:recipe.eventDate,event_type:'reunion',event_description:'Recette locale seulement',event_config:{capacity:2},preparation:['QA préparation admin']});
+    check(!created.error&&typeof created.data==='string','Admin creation uses the actual shipped RPC parameter shape');
+    const createdRow=await member.from('guild_planning').select('*').eq('id',created.data).single();
+    check(!createdRow.error&&createdRow.data.titre==='QA · Création admin','An admin-created event appears in the member HTTP reader');
+    check(!(await member.rpc('guild_event_unregister',{target_event:recipe.eventId})).error,'Unregistration executes migration 007');
+    attendance=await member.from('guild_event_attendance').select('*').eq('event_id',recipe.eventId);
+    check(!attendance.error&&attendance.data.length===0,'Unregistration is reflected after reloading');
+    const chatWrite=await member.from('guild_chat').insert({message:'QA disallowed'});
+    check(chatWrite.error&&chatWrite.error.code==='QA_OUTSIDE_RECIPE','The recipe never permits chat writes');
+    await member.auth.signOut();check((await member.auth.getSession()).data.session===null,'Local sign-out clears only the isolated SDK session');
+}finally{await recipe.close();}
+console.log('Guild recipe HTTP: '+checks+' checks passed with actual migration 007 and the delivered Supabase SDK; no remote writes.');

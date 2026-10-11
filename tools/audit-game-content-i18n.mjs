@@ -3,26 +3,49 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+import {fileURLToPath} from 'node:url';
+import ts from 'typescript';
 
 const root = path.resolve(import.meta.dirname, '..');
 const read = (relative) => fs.readFileSync(path.join(root, relative), 'utf8');
 const errors = [];
 
-function extractLiteralFields(relativeFile, fields) {
-    const source = read(relativeFile);
-    const values = new Set();
-    for (const field of fields) {
-        const expression = new RegExp(`\\b${field}\\s*:\\s*(['"])((?:\\\\.|(?!\\1).)*)\\1`, 'g');
-        let match;
-        while ((match = expression.exec(source))) {
-            try {
-                values.add(vm.runInNewContext(match[1] + match[2] + match[1]));
-            } catch {
-                errors.push(`${relativeFile}: unreadable ${field} literal at offset ${match.index}.`);
-            }
-        }
+export function collectCatalogText(source, catalogueName, fields) {
+    const file = ts.createSourceFile('catalogue.js', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+    if (file.parseDiagnostics.length) throw new Error('Catalogue source has invalid JavaScript syntax.');
+    const declarations = [];
+    function findDeclaration(node) {
+        if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.name.text === catalogueName) declarations.push(node);
+        ts.forEachChild(node, findDeclaration);
     }
+    findDeclaration(file);
+    if (declarations.length !== 1) throw new Error(`Expected one ${catalogueName} catalogue declaration.`);
+    const literal = declarations[0].initializer;
+    if (!literal || (!ts.isArrayLiteralExpression(literal) && !ts.isObjectLiteralExpression(literal))) throw new Error(`${catalogueName} must be a static array or object literal.`);
+    const selected = new Set(fields);
+    const values = new Set();
+    function collect(node) {
+        if (ts.isSpreadAssignment(node) || ts.isSpreadElement(node)) throw new Error(`${catalogueName} contains a dynamic spread that cannot be reviewed statically.`);
+        if (ts.isPropertyAssignment(node)) {
+            const propertyName = ts.isComputedPropertyName(node.name) ? node.name.expression : node.name;
+            if (ts.isComputedPropertyName(node.name) && !ts.isStringLiteral(propertyName)) throw new Error(`${catalogueName} contains a dynamic property name that cannot be reviewed statically.`);
+            const name = ts.isIdentifier(propertyName) || ts.isStringLiteral(propertyName) ? propertyName.text : null;
+            if (selected.has(name)) {
+                if (!ts.isStringLiteral(node.initializer) && !ts.isNoSubstitutionTemplateLiteral(node.initializer)) throw new Error(`${catalogueName}: ${name} must be a static string literal.`);
+                values.add(node.initializer.text);
+            }
+        } else if (ts.isShorthandPropertyAssignment(node) && selected.has(node.name.text)) {
+            throw new Error(`${catalogueName}: ${node.name.text} must be a static string literal.`);
+        }
+        ts.forEachChild(node, collect);
+    }
+    collect(literal);
     return values;
+}
+
+function extractLiteralFields(relativeFile, catalogueName, fields) {
+    try { return collectCatalogText(read(relativeFile), catalogueName, fields); }
+    catch (error) { errors.push(`${relativeFile}: ${error.message}`); return new Set(); }
 }
 
 function captureReviewed(relativeFile) {
@@ -40,8 +63,9 @@ function captureReviewed(relativeFile) {
     return { keys, catalogue };
 }
 
-const bestiaryValues = extractLiteralFields('js/bestiaire.js', ['name', 'type', 'description', 'location']);
-const itemValues = extractLiteralFields('js/items-catalog-hdv.js', ['name']);
+function runAudit() {
+const bestiaryValues = extractLiteralFields('js/bestiaire.js', 'creaturesData', ['name', 'type', 'description', 'location']);
+const itemValues = extractLiteralFields('js/items-catalog-hdv.js', 'itemsCatalog', ['name']);
 const gameValues = new Set([...bestiaryValues, ...itemValues]);
 const { keys: reviewedKeys, catalogue } = captureReviewed('js/i18n-game-en-reviewed.js');
 
@@ -73,3 +97,6 @@ if (errors.length) {
 } else {
     console.log(`Game-content i18n audit passed: ${bestiaryValues.size} Bestiary values and ${itemValues.size} Item values explicitly reviewed (${gameValues.size} unique).`);
 }
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) runAudit();

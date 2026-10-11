@@ -1,0 +1,193 @@
+{
+  "checkedAt": "2026-10-11T15:49:35.967Z",
+  "candidate": {
+    "bootstrap": "20261011release1",
+    "sharedAssets": "20261011phasee3",
+    "catalogueCssAndReviewedTranslations": "20261011phasee4",
+    "indexBuiltAt": "2026-10-11T15:46:46.942Z",
+    "artifactBytes": 153149847,
+    "mapWorkspaceAndGuildExpeditions": "20261011release1"
+  },
+  "status": "pass",
+  "routes": {
+    "count": 13,
+    "checks": [
+      {
+        "path": "/",
+        "exists": true
+      },
+      {
+        "path": "/confidentialite",
+        "exists": true
+      },
+      {
+        "path": "/conditions",
+        "exists": true
+      },
+      {
+        "path": "/carte",
+        "exists": true
+      },
+      {
+        "path": "/admin-carte",
+        "exists": true
+      },
+      {
+        "path": "/bestiaire",
+        "exists": true
+      },
+      {
+        "path": "/items",
+        "exists": true
+      },
+      {
+        "path": "/quetes",
+        "exists": true
+      },
+      {
+        "path": "/wiki",
+        "exists": true
+      },
+      {
+        "path": "/connexion",
+        "exists": true
+      },
+      {
+        "path": "/profil",
+        "exists": true
+      },
+      {
+        "path": "/admin-dashboard",
+        "exists": true
+      },
+      {
+        "path": "/espace-guilde",
+        "exists": true
+      }
+    ],
+    "bossCount": 18,
+    "htmlDocuments": 44
+  },
+  "references": {
+    "method": "Résolution locale de src/href/srcset des documents HTML, url() des CSS, références de cartes compilées et liens/images de chaque entrée de recherche; contrôle de présence dans _site.",
+    "uniqueLocalPaths": 322,
+    "mapResourceReferences": 15,
+    "indexedLinks": 509,
+    "missing": []
+  },
+  "nested404": {
+    "base": "https://nameless-sao.fr/inconnue/profonde/",
+    "relativeResourcesUnderMissingPath": [],
+    "resourcesChecked": 27,
+    "correctedPaths": [
+      "/css/components/mmorpg-kit.css",
+      "/css/components/world-experience.css",
+      "/js/world-atmosphere.js"
+    ]
+  },
+  "cache": {
+    "registryBootstrapCount": 6,
+    "allRegistryBootstrapsRelease1": true,
+    "sourceMatches": [
+      {
+        "path": "404.html",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "index.html",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/items.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/bestiaire.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/page-registry.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/reference-shell.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/global-search.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/supabase-public-config.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/i18n-en-reviewed.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "css/components/reference-catalogs.css",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/guild-expeditions.js",
+        "builtMatchesSource": true
+      },
+      {
+        "path": "js/map-workspace.js",
+        "builtMatchesSource": true
+      }
+    ]
+  },
+  "publicData": {
+    "searchEntries": 252,
+    "archivedOrUnverifiedIndexEntries": 0,
+    "qaMarkers": {
+      "method": "Recherche de marqueurs exacts de fixtures connues dans HTML/JS/JSON; recherche de chemins fixture/qa et exclusion des répertoires outils/docs/backend.",
+      "matchingFiles": [],
+      "fixturePaths": [],
+      "forbiddenRootEntries": []
+    }
+  },
+  "publication": {
+    "workflow": ".github/workflows/deploy-pages.yml",
+    "trigger": "push main ou workflow_dispatch",
+    "steps": [
+      "npm ci",
+      "npm test",
+      "npm run build",
+      "upload _site",
+      "deploy GitHub Pages"
+    ],
+    "deployed": false
+  },
+  "limits": [
+    "Inspection du candidat local; aucune requête HTTP de production ou action de publication effectuée.",
+    "Les références dynamiques construites arbitrairement par JavaScript ne sont pas toutes énumérées; les ressources de carte et de recherche compilées sont contrôlées.",
+    "Aucun test de parcours déjà vert de phase E n’a été réexécuté.",
+    "La recette OAuth réelle sur l’aperçu local et les lectures live guilde/admin sont rapportées par le parent; allowlist OAuth du domaine production, DNS et configuration GitHub Pages distante non inspectés ici.",
+    "Le contrôle QA vérifie les fixtures connues et les fichiers publiés; il ne constitue pas une preuve exhaustive sur toute donnée textuelle."
+  ],
+  "recipeCorrectionReview": {
+    "modules": [
+      "js/guild-expeditions.js",
+      "js/map-workspace.js"
+    ],
+    "method": "Lecture ciblée des diff et des régressions nouvelles: retour focus après reconstruction/fermeture, palette native et explication readonly reconstruite en FR/EN.",
+    "concreteIssues": [],
+    "newRegressionExecuted": "tools/test-map-workspace-ui.mjs: 13 checks PASS, données isolées et aucune écriture Supabase",
+    "guildRegressionInspected": [
+      "Carte d’expédition remplacée après inscription/désinscription et retour vers son remplaçant",
+      "Ouvreur éliminé par filtre: retour vers recherche visible",
+      "Autre palette native ouverte: aucune reprise de focus par la guilde"
+    ]
+  },
+  "liveValidation": {
+    "source": "Recette CUA observée par le parent de cette tâche, rapportée le 11 octobre 2026",
+    "microsoftOAuthRealSupabaseOnLocalPreview": true,
+    "returnToRealProfile": true,
+    "unchangedProfileSaveAndReload": true,
+    "guildAndAdminLiveReadsAccessible": true,
+    "productionDomainOAuthAllowlistInspected": false
+  }
+}

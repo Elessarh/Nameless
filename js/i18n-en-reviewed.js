@@ -42,6 +42,9 @@
         "Sélectionnez un objet": "Select an item",
         "Choisissez une carte pour consulter sa fiche.": "Choose a card to view its details.",
         "Arme": "Weapon",
+        "Armes": "Weapons",
+        "Accessoires": "Accessories",
+        "Consommables": "Consumables",
         "Lieu · Palier 1": "Place · Floor 1",
         "Explorez les paliers, découvrez les lieux et retrouvez les créatures, objets et donjons.": "Explore the floors, discover locations and find creatures, items and dungeons.",
         "Voir la guilde": "View the guild",
@@ -504,4 +507,18 @@ Object.assign(window.NamelessTranslations.en, {
     "Fermer les filtres": "Close filters",
     "Glissez pour explorer": "Drag to explore",
     "Cliquez sur une zone pour ouvrir sa fiche.": "Select a region to view its details."
+});
+
+// Static administrator region publication controls; source names and IDs stay unchanged.
+Object.assign(window.NamelessTranslations.en, {
+    "Fiabilité des limites": "Boundary confidence",
+    "Indicatives · à valider en jeu": "Indicative · check in game",
+    "Vérifiées par l’administration": "Verified by administrators",
+    "Brouillon partagé · invisible au public": "Shared draft · hidden from visitors",
+    "Afficher la zone sur la carte publique": "Show this zone on the public map",
+    "Publier la zone": "Publish zone",
+    "Publier la zone ↗": "Publish zone ↗",
+    "Restaurer la version d’origine": "Restore the original version",
+    "Retire la modification publiée et rétablit les limites proposées par le site.": "Remove the published change and restore the site's proposed boundaries.",
+    "Restaurer les limites d’origine": "Restore original boundaries"
 });

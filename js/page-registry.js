@@ -39,7 +39,7 @@
         // a démarré sur une route propre servie par 404.html (fallback SPA),
         // dont le <head> ne contient pas les styles/scripts de l'accueil.
         css: [
-            'css/components/mmorpg-kit.css?v=20261011phasee2',
+            'css/components/mmorpg-kit.css?v=20261011phasee3',
             'css/components/home.css?v=20261009premium',
             'css/components/home-premium.css?v=20261010phase3native',
             'css/components/reference-home.css?v=20261011anime4'
@@ -102,7 +102,7 @@
             css: ['css/vendor/leaflet-1.9.4.css?v=20261007a', 'css/components/map.css?v=20261008hybrid',
                 'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261010maprework2'],
             scripts: ['js/vendor/leaflet-1.9.4.js?v=20261007a', 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261010phase3native', 'js/map-workspace.js?v=20261010maprework2'],
+                'js/map.js?v=20261010phase3native', 'js/map-workspace.js?v=20261011release1'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),
         publicRoute({
@@ -113,10 +113,10 @@
             css: [
                 'css/components/bestiaire.css?v=20261011phasec4',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011phasee2'
+                'css/components/reference-catalogs.css?v=20261011phasee4'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261011phasee2'
+                'js/bestiaire.js?v=20261011phasee3'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -137,11 +137,11 @@
             css: [
                 'css/components/items.css?v=20261011phasec4',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011phasee2'
+                'css/components/reference-catalogs.css?v=20261011phasee4'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261011phasec4'
+                'js/items.js?v=20261011phasee3'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
@@ -290,9 +290,9 @@
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/guild-expeditions.js?v=20261011phased3',
+                'js/guild-expeditions.js?v=20261011release1',
                 'js/espace-guilde.js?v=20261011phased3',
-                'js/guild-chat.js?v=20261011phasee2',
+                'js/guild-chat.js?v=20261011phasee3',
                 'js/guild-dm.js?v=20261007a'
             ],
             init: function (root) {

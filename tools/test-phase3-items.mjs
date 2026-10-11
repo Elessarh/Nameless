@@ -93,6 +93,21 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     s.close();
 }
 {
+    const s = surface(1440), { d, w } = s;
+    d.querySelector('.item-card').click();
+    const modal = d.querySelector('.item-modal'), oldClose = modal.querySelector('.modal-close'); oldClose.focus();
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    check(d.activeElement === modal.querySelector('.modal-close') && d.activeElement !== oldClose, 'A desktop language rebuild preserves focus inside its rebuilt detail rail');
+    const search = d.getElementById('it-search'); search.focus();
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    equal(d.activeElement, search, 'A desktop detail rebuild never steals focus from an active background control');
+    let cancellations = 0;
+    w.NamelessReferenceShell = { cancelPanelClose(panel) { equal(panel, modal, 'Destroy cancels the actual active detail panel'); cancellations++; } };
+    w.NamelessItemsPage.destroy();
+    equal(cancellations, 1, 'SPA teardown cancels any pending exit before removing the detail DOM');
+    s.close();
+}
+{
     const s = surface(390), { d, w } = s;
     const audio = d.createElement('div'); audio.className = 'nm-audio-dock'; audio.inert = false; d.body.appendChild(audio);
     const card = d.querySelector('.item-card'); card.getBoundingClientRect = () => ({ left: 355, right: 405, top: 1, bottom: 51, width: 50, height: 50 });
@@ -136,7 +151,12 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     palette.setAttribute('open', ''); const query = palette.querySelector('input'); query.focus();
     d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
     check(d.activeElement === query && !palette.inert, 'A native search palette stays usable and keeps focus while the sheet rebuilds for language');
-    palette.removeAttribute('open'); modal.querySelector('.modal-close').focus();
+    palette.removeAttribute('open'); query.blur(); palette.dispatchEvent(new w.Event('close'));
+    equal(d.activeElement, modal.querySelector('.modal-close'), 'Closing a native palette returns focus to the sheet after its old opener was rebuilt');
+    const otherDialog = d.createElement('dialog'); otherDialog.setAttribute('open', ''); otherDialog.innerHTML = '<input aria-label="Another dialog">'; d.body.appendChild(otherDialog); otherDialog.querySelector('input').focus();
+    palette.dispatchEvent(new w.Event('close'));
+    equal(d.activeElement, otherDialog.querySelector('input'), 'A native dialog closing never steals focus from another open native dialog');
+    otherDialog.remove(); modal.querySelector('.modal-close').focus();
     d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
     check(header.inert && audio.inert && filters.inert && modal.contains(d.activeElement), 'Language rebuild never releases the background or strands focus outside its sheet');
     w.innerWidth = 1440; w.dispatchEvent(new w.Event('resize'));

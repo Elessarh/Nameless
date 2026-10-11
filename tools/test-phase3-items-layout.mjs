@@ -3,15 +3,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import { pathToFileURL } from 'node:url';
+import { chromium } from 'playwright';
 const root = path.resolve(import.meta.dirname, '..');
-const profile = process.env.USERPROFILE || '';
-let playwright;
-try { playwright = await import('playwright'); }
-catch { playwright = await import(pathToFileURL(process.env.NAMELESS_PLAYWRIGHT_MODULE || path.join(profile, '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs')).href); }
-const cache = path.join(process.env.LOCALAPPDATA || path.join(profile, 'AppData/Local'), 'ms-playwright');
-const installed = fs.existsSync(cache) ? fs.readdirSync(cache).filter(name => /^chromium-\d+$/.test(name)).sort((a, b) => Number(b.split('-')[1]) - Number(a.split('-')[1])).map(name => path.join(cache, name, 'chrome-win64/chrome.exe')).find(file => fs.existsSync(file)) : null;
-const browser = await playwright.chromium.launch({ ...(process.env.NAMELESS_CHROMIUM || installed ? { executablePath: process.env.NAMELESS_CHROMIUM || installed } : {}) });
+const browser = await chromium.launch(process.env.NAMELESS_CHROMIUM ? { executablePath: process.env.NAMELESS_CHROMIUM } : {});
 const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
 let checks = 0;
 try {
