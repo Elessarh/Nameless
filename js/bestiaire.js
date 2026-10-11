@@ -786,7 +786,7 @@ let selectedCreature = null;
 
 // État de la pagination
 let currentPage = 1;
-let itemsPerPage = 12;
+let itemsPerPage = 48;
 let totalPages = 1;
 
 // Cycle de vie SPA (nettoyage des écouteurs)
@@ -1056,7 +1056,7 @@ function initBestiary(root) {
     destroyBestiary();
     if (!document.getElementById('creatures-grid')) return;
     besController = new AbortController();
-    itemsPerPage = parseInt(document.getElementById('items-per-page')?.value, 10) || 12;
+    itemsPerPage = parseInt(document.getElementById('items-per-page')?.value, 10) || 48;
     populateDynamicFilters();
     setupBestiaryFilterChoices();
     setupImageFallback();
@@ -1223,7 +1223,7 @@ function setupEventListeners() {
     const next = document.getElementById('next-page');
     if (next) next.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; renderCreatures(); scrollTop(); } }, opts);
     const ipp = document.getElementById('items-per-page');
-    if (ipp) ipp.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value, 10) || 12; currentPage = 1; renderCreatures(); }, opts);
+    if (ipp) ipp.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value, 10) || 48; currentPage = 1; renderCreatures(); }, opts);
     const nums = document.getElementById('pagination-numbers');
     if (nums) nums.addEventListener('click', (e) => {
         const b = e.target.closest('[data-page]');

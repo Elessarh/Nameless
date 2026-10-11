@@ -22,7 +22,7 @@
 :root[data-world-atmosphere='forest'] { --world-light: 56, 123, 119; --world-warm: 49, 83, 77; --world-scene: url('../../assets/art-v4/forest-1280.webp'); --world-scene-position: 64% 50%; }
 :root[data-world-atmosphere='armory'] { --world-light: 90, 126, 147; --world-warm: 174, 112, 51; --world-scene: url('../../assets/art-v4/workshop-1280.webp'); --world-scene-position: 66% 58%; }
 :root[data-world-atmosphere='guild'] { --world-light: 119, 102, 76; --world-warm: 181, 118, 55; --world-scene: url('../../assets/art-v4/guild-1280.webp'); --world-scene-position: 68% 50%; }
-:root[data-world-atmosphere='dungeon'] { --world-light: 71, 118, 144; --world-warm: 42, 83, 92; --world-scene: url('../../assets/home/sao-city-1600.webp'); --world-scene-position: 48% 43%; --world-scene-filter: grayscale(.88) hue-rotate(165deg) saturate(.55); }
+:root[data-world-atmosphere='dungeon'] { --world-light: 71, 118, 144; --world-warm: 42, 83, 92; --world-scene: url('../../assets/art-v5/kobold-arena-1280.webp'); --world-scene-position: center 72%; --world-scene-filter: none; }
 html[data-world-atmosphere] body { position: relative; isolation: isolate; background-color: var(--nm-bg); }
 html[data-world-atmosphere] body::before, html[data-world-atmosphere] body::after {
     content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -44,6 +44,15 @@ html[data-world-atmosphere='forest'] body::after {
     opacity: .23;
 }
 html[data-world-atmosphere='armory'] body::after { background: radial-gradient(ellipse 64% 42% at 14% 42%,rgba(var(--world-warm),.34),transparent 73%),repeating-linear-gradient(125deg,transparent 0 80px,rgba(137,170,181,.08) 81px 82px),var(--world-material) 0 0 / 128px 128px repeat; }
+/* The catalogue banner owns its illustration; the inventory sits on a calm surface. */
+html[data-world-atmosphere] body:has(:is(.bestiary-page,.items-page) > .nm-scene-hero)::before {
+    background: radial-gradient(ellipse 75% 40% at 70% 18%,rgba(var(--world-light),.11),transparent 76%),#04151c;
+    filter: none;
+}
+html[data-world-atmosphere] body:has(:is(.bestiary-page,.items-page) > .nm-scene-hero)::after {
+    background: var(--world-material) 0 0 / 128px 128px repeat;
+    opacity: .1;
+}
 html[data-world-atmosphere='dungeon'] :is(.quetes-container.page-visual-shell,.bestiary-page.page-visual-shell) { background: linear-gradient(180deg,#06131e52,#0510197d); }
 html[data-world-atmosphere='dungeon'] .boss-fact { background: linear-gradient(145deg,#122d3ce8,#071520f5); border-color: #607b8270; box-shadow: 0 12px 35px #0005,inset 0 1px 0 #accad014; }
 html[data-world-atmosphere='dungeon'] .boss-fact .modal-media { background: radial-gradient(ellipse at 50% 80%,#38687555,transparent 68%),var(--world-material) 0 0 / 128px 128px repeat,#071520 !important; }
@@ -153,7 +162,7 @@ html[data-world-hidden='true'] :is(.home-hero-mist,.home-hero-light), html[data-
     :root[data-world-atmosphere='forest'] { --world-scene: url('../../assets/art-v4/forest-640.webp'); }
     :root[data-world-atmosphere='armory'] { --world-scene: url('../../assets/art-v4/workshop-640.webp'); }
     :root[data-world-atmosphere='guild'] { --world-scene: url('../../assets/art-v4/guild-640.webp'); }
-    :root[data-world-atmosphere='dungeon'] { --world-scene: url('../../assets/home/sao-city-960.webp'); }
+    :root[data-world-atmosphere='dungeon'] { --world-scene: url('../../assets/art-v5/kobold-arena-640.webp'); }
     html[data-world-atmosphere] body::after { opacity: .24; }
     .home-page .home-hero::after { background: linear-gradient(180deg,transparent 100px,rgba(3,11,18,.85) 230px,rgba(3,11,18,.98) 290px); }
     .home-page .home-hero-environment { height: 290px; }

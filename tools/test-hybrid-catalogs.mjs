@@ -40,6 +40,42 @@ function allPages(s, kind) {
 function byName(a, b) { return a.name.localeCompare(b.name, 'fr', { sensitivity: 'base', numeric: true }) || String(a.id).localeCompare(String(b.id)); }
 function close(s) { s.api.destroy(); s.dom.window.close(); }
 
+// Exercise the actual catalogue render and controls, including the shorter last
+// page and a filter applied while the user is on a later page.
+for (const kind of ['creature', 'item']) {
+    const s = surface(kind), { d, data } = s;
+    const creature = kind === 'creature';
+    const sizeId = creature ? 'items-per-page' : 'items-per-page-select';
+    const next = d.getElementById(creature ? 'next-page' : 'items-next-page');
+    const prev = d.getElementById(creature ? 'prev-page' : 'items-prev-page');
+    const numbers = d.getElementById(creature ? 'pagination-numbers' : 'items-pagination-numbers');
+    const expectedIds = records => records.map(record => String(record.id));
+    equal(d.getElementById(sizeId).value, '48', kind + ' page-size control starts at 48');
+    equal(ids(s, kind), expectedIds(data.slice(0, 48)), kind + ' first page displays the first 48 real records');
+    equal(numbers.querySelectorAll('button').length, Math.ceil(data.length / 48), kind + ' default page controls cover the actual full catalogue');
+    while (!next.disabled) next.click();
+    equal(ids(s, kind), expectedIds(data.slice(Math.floor((data.length - 1) / 48) * 48)), kind + ' last default page contains precisely the remaining records');
+    check(next.disabled && !prev.disabled, kind + ' final page disables forward navigation and permits returning');
+    for (const size of [12, 24, 36]) {
+        field(s, sizeId, String(size));
+        equal(ids(s, kind), expectedIds(data.slice(0, size)), kind + ' choosing ' + size + ' deliberately changes the actual first page');
+        check(prev.disabled, kind + ' choosing ' + size + ' returns to page one');
+        next.click();
+        equal(ids(s, kind), expectedIds(data.slice(size, size * 2)), kind + ' next page respects the deliberate ' + size + ' setting');
+    }
+    field(s, sizeId, '24');
+    while (!next.disabled) next.click();
+    const category = [...new Set(data.map(record => record.category))].sort((a, b) => data.filter(record => record.category === b).length - data.filter(record => record.category === a).length)[0];
+    const filtered = data.filter(record => record.category === category);
+    field(s, creature ? 'bes-category' : 'it-category', category);
+    equal(ids(s, kind), expectedIds(filtered.slice(0, 24)), kind + ' filtering from a later page returns to the first matching records');
+    check(prev.disabled, kind + ' filtered pagination starts on page one');
+    equal(allPages(s, kind), expectedIds(filtered), kind + ' filtered pages contain each matching record once');
+    field(s, sizeId, '48');
+    equal(ids(s, kind), expectedIds(filtered.slice(0, 48)), kind + ' returning to 48 preserves the active category filter');
+    close(s);
+}
+
 {
     const s = surface('creature'), { d, data } = s;
     equal(data.length, 60, 'The codex retains the actual 60 creature records');
@@ -48,7 +84,7 @@ function close(s) { s.api.destroy(); s.dom.window.close(); }
     check(d.querySelector('#bes-filter-details').open, 'Desktop opens the filter rail');
     const unknownZone = d.querySelector('#bes-zone option[value="???"]');
     if (unknownZone) check(unknownZone.textContent === 'Zone non renseignée', 'Unknown zone is labelled honestly without changing its data value');
-    equal(ids(s, 'creature'), data.slice(0, 12).map(c => String(c.id)), 'Default order preserves the established codex order');
+    equal(ids(s, 'creature'), data.slice(0, 48).map(c => String(c.id)), 'Default order preserves the established codex order');
     field(s, 'bes-sort', 'name-asc');
     equal(allPages(s, 'creature'), [...data].sort(byName).map(c => String(c.id)), 'Name ascending applies across every page without duplicates');
     field(s, 'bes-sort', 'name-desc');
@@ -63,7 +99,7 @@ function close(s) { s.api.destroy(); s.dom.window.close(); }
     field(s, 'bes-search', 'zzzz-no-known-creature', 'input');
     check(d.querySelector('.bes-empty') && !ids(s, 'creature').length && d.querySelector('#pagination-container').style.display === 'none', 'Empty search has a truthful state and no dangling page controls');
     s.w.history.replaceState({}, '', '/bestiaire?q=zzzz'); d.getElementById('bes-reset').click();
-    equal(ids(s, 'creature'), data.slice(0, 12).map(c => String(c.id)), 'Reset restores the entire original codex on page one');
+    equal(ids(s, 'creature'), data.slice(0, 48).map(c => String(c.id)), 'Reset restores the entire original codex on page one');
     check(!new URL(s.w.location.href).searchParams.has('q'), 'Reset clears the legacy search query so re-entry cannot restore an obsolete filter');
     const card = d.querySelector('.creature-card'); card.focus(); card.click();
     check(card.classList.contains('is-selected') && d.querySelector('.creature-modal').style.display === 'flex', 'Opening a creature gives the selected card a visible state');
@@ -74,7 +110,7 @@ function close(s) { s.api.destroy(); s.dom.window.close(); }
 {
     const s = surface('item'), { d, data } = s;
     equal(data.length, 104, 'The inventory retains every supplied item');
-    equal(ids(s, 'item'), data.slice(0, 12).map(c => c.id), 'Default item order preserves the catalogue source');
+    equal(ids(s, 'item'), data.slice(0, 48).map(c => c.id), 'Default item order preserves the catalogue source');
     field(s, 'it-sort', 'name-asc');
     equal(allPages(s, 'item'), [...data].sort(byName).map(c => c.id), 'Item name ascending sorts across all pages');
     field(s, 'it-sort', 'name-desc');
@@ -90,7 +126,7 @@ function close(s) { s.api.destroy(); s.dom.window.close(); }
     field(s, 'it-search', 'no-known-item-zzzz', 'input');
     check(d.querySelector('.items-empty') && d.querySelector('#items-pagination-container').style.display === 'none', 'An empty inventory filter suppresses pagination');
     s.w.history.replaceState({}, '', '/items?q=zzzz'); d.getElementById('it-reset').click();
-    equal(ids(s, 'item'), data.slice(0, 12).map(c => c.id), 'Item reset restores the original catalogue and sort');
+    equal(ids(s, 'item'), data.slice(0, 48).map(c => c.id), 'Item reset restores the original catalogue and sort');
     check(!new URL(s.w.location.href).searchParams.has('q'), 'Item reset clears the inherited search URL');
     field(s, 'items-per-page-select', '24');
     equal(ids(s, 'item').length, 24, 'Per-page selection changes the actual inventory render');
@@ -143,7 +179,7 @@ for (const kind of ['creature', 'item']) {
     const compareVisible = (a, b) => w.NamelessI18n.translate(a.name).localeCompare(w.NamelessI18n.translate(b.name), w.NamelessI18n.getLocale(), { sensitivity: 'base', numeric: true }) || String(a.id).localeCompare(String(b.id));
     equal(allPages(s, kind), [...data].sort(compareVisible).map(record => String(record.id)), 'English ' + kind + ' order matches translated names and en-GB collation');
     field(s, sortId, 'name-asc'); w.NamelessI18n.apply(d.getElementById('main-content'));
-    equal([...d.querySelectorAll(kind === 'creature' ? '.creature-name' : '.item-name')].map(node => node.textContent), [...data].sort(compareVisible).slice(0, 12).map(record => w.NamelessI18n.translate(record.name)), 'Visible English ' + kind + ' names appear in the tested order');
+    equal([...d.querySelectorAll(kind === 'creature' ? '.creature-name' : '.item-name')].map(node => node.textContent), [...data].sort(compareVisible).slice(0, 48).map(record => w.NamelessI18n.translate(record.name)), 'Visible English ' + kind + ' names appear in the tested order');
     const card = d.querySelector(kind === 'creature' ? '.creature-card' : '.item-card'); card.focus(); card.click();
     const modal = d.querySelector(kind === 'creature' ? '.creature-modal' : '.item-modal');
     const identity = modal.dataset[kind === 'creature' ? 'creature' : 'item'], url = w.location.href;

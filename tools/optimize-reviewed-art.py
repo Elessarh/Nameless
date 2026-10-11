@@ -7,27 +7,29 @@ import argparse
 
 ROOT = Path(__file__).resolve().parent.parent
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--series', choices=('art-v3', 'art-v4'), default='art-v3')
+parser.add_argument('--series', choices=('art-v3', 'art-v4', 'art-v5'), default='art-v3')
 series = parser.parse_args().series
 DEST = ROOT / 'assets' / series
-PROMPTS = ('docs/sao-reference-art-2026-10-11/prompts.json' if series == 'art-v4'
-           else 'docs/art-direction-2026-10-11/prompts.json')
+PROMPTS = {'art-v3': 'docs/art-direction-2026-10-11/prompts.json',
+           'art-v4': 'docs/sao-reference-art-2026-10-11/prompts.json',
+           'art-v5': 'docs/catalogue-backgrounds-2026-10-11/prompts.json'}[series]
 
 def sha(file):
     return hashlib.sha256(file.read_bytes()).hexdigest()
 
 records = []
-for key in ('aincrad', 'forest', 'guild', 'workshop'):
+for key in (('kobold-arena',) if series == 'art-v5' else ('aincrad', 'forest', 'guild', 'workshop')):
     source = DEST / f'{key}-source.png'
     with Image.open(source) as image:
         image = image.convert('RGB')
         record = {'key': key, 'origin': 'AI-generated illustration',
                   'source': {'path': source.relative_to(ROOT).as_posix(),
                              'sha256': sha(source), 'dimensions': list(image.size)},
-                  'review': {'approved': True, 'checks': ['coherent modular architecture',
+                  'review': {'approved': True, 'checks': ['coherent drafted architecture',
                             'readable silhouettes', 'no logo or text', 'consistent palette',
                             'separate from native game records']}, 'outputs': []}
-        widths = (1672, 1280, 960) if key == 'aincrad' else (1280, 960, 640, 320)
+        widths = ((1672, 1280, 960) if key == 'aincrad' else
+                  (1672, 1280, 960, 640) if key == 'kobold-arena' else (1280, 960, 640, 320))
         for width in widths:
             assert width <= image.width
             resized = image.resize((width, round(image.height * width / image.width)), Image.Resampling.LANCZOS)

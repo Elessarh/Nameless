@@ -1,0 +1,179 @@
+{
+  "date": "2026-10-11",
+  "method": "Codex in-app browser via cua_repl; UI pagination and read-only DOM checks",
+  "checks": [
+    {
+      "label": "bestiary-1280",
+      "bodyBackground": "radial-gradient(75% 40% at 70% 18%, rgba(56, 123, 119, 0.11), rgba(0, 0, 0, 0) 76%), none",
+      "cards": 48,
+      "height": 720,
+      "hero": {
+        "background": "url(\"http://127.0.0.1:4173/assets/art-v5/kobold-arena-1672.webp\"), none",
+        "position": "50% 72%, 0% 0%",
+        "size": "cover, auto",
+        "width": 1270
+      },
+      "overflow": false,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "visibleBroken": [],
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "bestiary-1920",
+      "bodyBackground": "radial-gradient(75% 40% at 70% 18%, rgba(56, 123, 119, 0.11), rgba(0, 0, 0, 0) 76%), none",
+      "cards": 48,
+      "height": 1080,
+      "hero": {
+        "background": "url(\"http://127.0.0.1:4173/assets/art-v5/kobold-arena-1672.webp\"), none",
+        "position": "50% 72%, 0% 0%",
+        "size": "cover, auto",
+        "width": 1910
+      },
+      "overflow": false,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "visibleBroken": [],
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "items-1920",
+      "bodyBackground": "radial-gradient(75% 40% at 70% 18%, rgba(90, 126, 147, 0.11), rgba(0, 0, 0, 0) 76%), none",
+      "cards": 48,
+      "height": 1080,
+      "hero": {
+        "background": "url(\"http://127.0.0.1:4173/assets/art-v4/workshop-1280.webp\"), none",
+        "position": "64% 58%, 0% 0%",
+        "size": "cover, auto",
+        "width": 1910
+      },
+      "overflow": false,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "visibleBroken": [],
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "items-360",
+      "bodyBackground": "radial-gradient(75% 40% at 70% 18%, rgba(90, 126, 147, 0.11), rgba(0, 0, 0, 0) 76%), none",
+      "cards": 48,
+      "height": 844,
+      "hero": {
+        "background": "url(\"http://127.0.0.1:4173/assets/art-v4/workshop-640.webp\"), none",
+        "position": "64% 58%, 0% 0%",
+        "size": "cover, auto",
+        "width": 350
+      },
+      "overflow": false,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "bestiary-360",
+      "bodyBackground": "radial-gradient(75% 40% at 70% 18%, rgba(56, 123, 119, 0.11), rgba(0, 0, 0, 0) 76%), none",
+      "cards": 48,
+      "height": 844,
+      "hero": {
+        "background": "url(\"http://127.0.0.1:4173/assets/art-v5/kobold-arena-640.webp\"), none",
+        "position": "50% 72%, 0% 0%",
+        "size": "cover, auto",
+        "width": 350
+      },
+      "overflow": false,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "bestiary-last-page",
+      "cards": 12,
+      "pagination": [
+        "Affichage de 49-60 sur 60 créatures"
+      ],
+      "perPage": "48"
+    },
+    {
+      "label": "boss-360",
+      "bodyBackground": "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(71, 118, 144, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v5/kobold-arena-640.webp\"), none",
+      "cards": 0,
+      "height": 844,
+      "hero": null,
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/boss/illfang/",
+      "visibleBroken": [],
+      "width": 360,
+      "errors": []
+    },
+    {
+      "label": "bestiary-768",
+      "bodyBackground": "radial-gradient(75% 40% at 70% 18%, rgba(56, 123, 119, 0.11), rgba(0, 0, 0, 0) 76%), none",
+      "cards": 48,
+      "height": 1024,
+      "hero": {
+        "background": "url(\"http://127.0.0.1:4173/assets/art-v5/kobold-arena-640.webp\"), none",
+        "position": "50% 72%, 0% 0%",
+        "size": "cover, auto",
+        "width": 758
+      },
+      "overflow": false,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "visibleBroken": [],
+      "width": 768,
+      "errors": []
+    },
+    {
+      "label": "items-768",
+      "bodyBackground": "radial-gradient(75% 40% at 70% 18%, rgba(90, 126, 147, 0.11), rgba(0, 0, 0, 0) 76%), none",
+      "cards": 48,
+      "height": 1024,
+      "hero": {
+        "background": "url(\"http://127.0.0.1:4173/assets/art-v4/workshop-640.webp\"), none",
+        "position": "64% 58%, 0% 0%",
+        "size": "cover, auto",
+        "width": 758
+      },
+      "overflow": false,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "visibleBroken": [],
+      "width": 768,
+      "errors": []
+    },
+    {
+      "label": "boss-1920",
+      "bodyBackground": "linear-gradient(rgba(3, 13, 20, 0.2), rgba(3, 13, 20, 0.47) 48%, rgba(3, 13, 20, 0.69)), radial-gradient(880px 620px at 84% 34%, rgba(71, 118, 144, 0.16), rgba(0, 0, 0, 0) 76%), url(\"http://127.0.0.1:4173/assets/art-v5/kobold-arena-1280.webp\"), none",
+      "cards": 0,
+      "height": 1080,
+      "hero": null,
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/boss/illfang/",
+      "visibleBroken": [],
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "items-last-page",
+      "cards": 8,
+      "perPage": "48",
+      "method": "Observed after clicking Page 3 in the live 104-item catalogue"
+    }
+  ]
+}

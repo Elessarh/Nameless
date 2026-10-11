@@ -19,7 +19,7 @@
     var allItems = [];
     var filtered = [];
     var currentPage = 1;
-    var itemsPerPage = 12;
+    var itemsPerPage = 48;
     var totalPages = 1;
     var controller = null;
     var modalReturnFocus = null;
@@ -285,7 +285,7 @@
         if (typeof itemsCatalog === 'undefined') return;
         if (!document.getElementById('items-grid')) return;
         controller = new AbortController();
-        itemsPerPage = parseInt(document.getElementById('items-per-page-select')?.value, 10) || 12;
+        itemsPerPage = parseInt(document.getElementById('items-per-page-select')?.value, 10) || 48;
         loadItems();
         populateCategoryFilter();
         setupFilterChoices();
@@ -515,7 +515,7 @@
         var next = document.getElementById('items-next-page');
         if (next) next.addEventListener('click', function () { if (currentPage < totalPages) { currentPage++; render(); scrollTop(); } }, opts);
         var ipp = document.getElementById('items-per-page-select');
-        if (ipp) ipp.addEventListener('change', function (e) { itemsPerPage = parseInt(e.target.value, 10) || 12; currentPage = 1; render(); }, opts);
+        if (ipp) ipp.addEventListener('change', function (e) { itemsPerPage = parseInt(e.target.value, 10) || 48; currentPage = 1; render(); }, opts);
         var nums = document.getElementById('items-pagination-numbers');
         if (nums) nums.addEventListener('click', function (e) {
             var b = e.target.closest('[data-page]');

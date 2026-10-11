@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "date": "2026-10-11",
+  "mode": "built-in image_gen",
+  "prompts": "docs/catalogue-backgrounds-2026-10-11/prompts.json",
+  "usage": "decorative environments only; native gameplay assets preserved",
+  "artwork": [
+    {
+      "key": "kobold-arena",
+      "origin": "AI-generated illustration",
+      "source": {
+        "path": "assets/art-v5/kobold-arena-source.png",
+        "sha256": "11ba217b03dd93ac9c961e10fc392eaeefc7107d3c28733407e01a5180eea394",
+        "dimensions": [
+          1672,
+          941
+        ]
+      },
+      "review": {
+        "approved": true,
+        "checks": [
+          "coherent drafted architecture",
+          "readable silhouettes",
+          "no logo or text",
+          "consistent palette",
+          "separate from native game records"
+        ]
+      },
+      "outputs": [
+        {
+          "path": "assets/art-v5/kobold-arena-1672.webp",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "94f8b66df0775740ea41237a27b8b409dc5d1e7cb2c89d0e7339ad77e2355bbb",
+          "bytes": 96708,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v5/kobold-arena-1280.webp",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "sha256": "df6df2fcfb97f60a986097c80eb38b719fbb2962dad9bbb7d6ac33f887b2f863",
+          "bytes": 64884,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v5/kobold-arena-960.webp",
+          "dimensions": [
+            960,
+            540
+          ],
+          "sha256": "04bf65fb936a70a85d65ecb521e57f5ffc06be7bd0bed20a082b9fc011f041e9",
+          "bytes": 39348,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v5/kobold-arena-640.webp",
+          "dimensions": [
+            640,
+            360
+          ],
+          "sha256": "7381f8ea7653e1b231c97b970558784897c963763cd0551851a4280bf611ae92",
+          "bytes": 19122,
+          "crop": null
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 :is(.bestiary-page,.items-page).page-visual-shell {
     --page-content-width: 1680px;
     --catalogue-scene: url('../../assets/home/illfang-256.webp');
+    --catalogue-backdrop: url('../../assets/art-v5/kobold-arena-1672.webp');
+    --catalogue-backdrop-position: center 72%;
     --catalogue-card-scene: none;
     --catalogue-line: rgba(207,171,112,.38);
     --catalogue-panel: rgba(4,20,28,.94);
@@ -9,23 +11,22 @@
     padding: 0 0 44px !important;
     background: linear-gradient(180deg,transparent var(--catalogue-surface-start),#04151ced var(--catalogue-surface-start),#04151cf2),radial-gradient(ellipse 65% 45% at 38% 48%,rgba(14,62,65,.12),transparent 72%);
 }
-.items-page.page-visual-shell { --catalogue-scene: url('../../assets/items/Consommables/PotiondeVieI.png'); --catalogue-card-scene: none; background: linear-gradient(180deg,transparent var(--catalogue-surface-start),#04151ced var(--catalogue-surface-start),#04151cf2),radial-gradient(ellipse 54% 48% at 72% 35%,rgba(138,90,43,.13),transparent 75%); }
+.items-page.page-visual-shell { --catalogue-scene: url('../../assets/items/Consommables/PotiondeVieI.png'); --catalogue-backdrop: url('../../assets/art-v4/workshop-1280.webp'); --catalogue-backdrop-position: 64% 58%; --catalogue-card-scene: none; background: linear-gradient(180deg,transparent var(--catalogue-surface-start),#04151ced var(--catalogue-surface-start),#04151cf2),radial-gradient(ellipse 54% 48% at 72% 35%,rgba(138,90,43,.13),transparent 75%); }
 :is(.bestiary-page,.items-page) > .nm-scene-hero {
     width: 100%; max-width: none; min-height: 178px; overflow: hidden;
     padding: 22px max(24px,calc((100vw - 1680px)/2)) 25px !important;
     margin-bottom: 0; isolation: isolate;
-    background: url('../../assets/art-v4/forest-1280.webp') right 50% / auto 410px no-repeat,#0b1d26;
+    background: var(--catalogue-backdrop) var(--catalogue-backdrop-position) / cover no-repeat,#0b1d26;
 }
-.items-page > .nm-scene-hero { background-image: url('../../assets/art-v4/workshop-1280.webp'); background-position: right 66%; }
-/* Paintings stay on the banner; the separate pseudo-layer keeps native sprites crisp. */
+/* A full-width painting fades beneath the text; native sprites sit above that fade. */
 :is(.bestiary-page,.items-page) > .nm-scene-hero::before {
-    content: '' !important; position: absolute; inset: 0; z-index: -2;
+    content: '' !important; position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background: var(--catalogue-scene) 82% 60% / auto 166px no-repeat,radial-gradient(ellipse at 80% 65%,#647e6940,transparent 44%);
 }
 .items-page > .nm-scene-hero::before { background: url('../../assets/items/Ressources/Gel%C3%A9edeSlime.png') 74% 50%/94px 96px no-repeat,var(--catalogue-scene) 85% 50%/94px 98px no-repeat; image-rendering:pixelated; }
 :is(.bestiary-page,.items-page) > .nm-scene-hero::after {
-    content: '' !important; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(90deg,rgba(2,12,18,.93),rgba(2,12,18,.36) 46%,rgba(2,12,18,.08)),linear-gradient(0deg,#0310179c,transparent 58%);
+    content: '' !important; position: absolute; inset: 0; z-index: -2; pointer-events: none;
+    background: linear-gradient(90deg,#02131bf5,#03151bcf 28%,#04151c4d 57%,#04151c14 82%),linear-gradient(0deg,#04151c,transparent 72%);
 }
 :is(.bestiary-page,.items-page) .catalogue-layout { position: relative; isolation: isolate; padding-top: 20px; }
 :is(.bestiary-page,.items-page) .catalogue-layout::before { content: ''; position: absolute; z-index: -1; pointer-events: none; inset: 0 -24px -20px; background: radial-gradient(ellipse 68% 36% at 48% 26%,rgba(var(--world-light),.13),transparent 78%),url('../../assets/ui/world-stone.svg') 0 0 / 128px 128px repeat; opacity: .52; }
@@ -226,12 +227,17 @@
 :is(.bestiary-page,.items-page) .catalogue-filter-option[hidden] { display:none; }
 .catalogue-tooltip[hidden] { display:none!important; }
 @media(max-width:768px) {
- .bestiary-page > .nm-scene-hero { background-image:url('../../assets/art-v4/forest-640.webp'); background-size:auto 310px; }
- .items-page > .nm-scene-hero { background-image:url('../../assets/art-v4/workshop-640.webp'); background-size:auto 310px; }
+ .bestiary-page.page-visual-shell { --catalogue-backdrop:url('../../assets/art-v5/kobold-arena-640.webp'); }
+ .items-page.page-visual-shell { --catalogue-backdrop:url('../../assets/art-v4/workshop-640.webp'); }
  .items-page > .nm-scene-hero::before { background:none; }
  .bestiary-page > .nm-scene-hero::before { background-position:92% 65%; background-size:auto 126px,auto; }
  :is(.bestiary-page,.items-page) .catalogue-toolbar .catalogue-search { flex-basis:100%; }
  :is(.bestiary-page,.items-page) :is(.catalogue-filter-option,.catalogue-filter-section>summary) { min-height:44px; }
  :is(.bestiary-page,.items-page) :is(.bes-filter-group,.items-filter-group) { display:block; padding-top:0; }
  .items-page .item-media { height:122px; }
+}
+@media(max-width:480px) {
+ .bestiary-page > .nm-scene-hero { min-height:188px; }
+ .bestiary-page > .nm-scene-hero .bes-subtitle { max-width:calc(100% - 132px); }
+ .bestiary-page > .nm-scene-hero::before { background-position:right 17px bottom 20px,center; background-size:126px 126px,auto; }
 }

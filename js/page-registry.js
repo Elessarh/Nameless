@@ -113,10 +113,10 @@
             css: [
                 'css/components/bestiaire.css?v=20261010phase3native',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-catalogs.css?v=20261011anime4'
+                'css/components/reference-catalogs.css?v=20261011catalogue5b'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261010phase3native'
+                'js/bestiaire.js?v=20261011catalogue5'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -137,11 +137,11 @@
             css: [
                 'css/components/items.css?v=20261010phase3native',
                 'css/components/page-hero.css?v=20261008hybrid',
-                'css/components/reference-catalogs.css?v=20261011anime4'
+                'css/components/reference-catalogs.css?v=20261011catalogue5b'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261010phase3native'
+                'js/items.js?v=20261011catalogue5'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {

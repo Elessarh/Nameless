@@ -1,5 +1,7 @@
 # Fonds inspirés de SAO Minecraft — 11 octobre 2026
 
+Le bandeau du Bestiaire, les raccords de fond et la pagination ont ensuite été corrigés dans [la passe des catalogues](../catalogue-backgrounds-2026-10-11/README.md). La forêt est conservée pour les ambiances d’exploration ; Illfang dispose désormais d’une salle de boss.
+
 La référence demandée est [la page française de SAO Minecraft](https://saominecraft.com/fr). Son accueil utilise un décor peint dans une direction anime ; d’autres sections montrent des rendus du jeu Minecraft. La nouvelle série reprend cette combinaison : environnements peints en 2D et illustrations natives pour les créatures, objets et cartes.
 
 ## Sources finales
