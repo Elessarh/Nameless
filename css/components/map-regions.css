@@ -1,135 +1,12 @@
-/* Public atlas composition. The original map and indicative polygon data stay
-   untouched; administrative editing uses its own workspace. */
-html[data-world-atmosphere] body:has(> main.map-container:not(.map-admin-workspace))::before {
-    background: radial-gradient(ellipse at 78% 0,#23475344,transparent 54%),#06141d;
-    filter: none;
-}
-html[data-world-atmosphere] body:has(> main.map-container:not(.map-admin-workspace))::after {
-    background: url('../../assets/ui/world-stone.svg') 0 0/160px 160px;
-    opacity: .055;
-}
-.map-container:not(.map-admin-workspace) {
-    width: calc(100% - 64px);
-    max-width: 2200px;
-    padding: 0 0 28px;
-}
-.map-container:not(.map-admin-workspace) .map-reference-hero {
-    min-height: 105px;
-    margin: 0;
-    padding: 17px 5px 20px;
-}
-.map-container:not(.map-admin-workspace) .map-breadcrumb { margin: 0 0 10px; }
-.map-container:not(.map-admin-workspace) .map-workspace {
-    height: calc(100dvh - var(--nm-header-height) - 132px);
-    min-height: 620px;
-    max-height: 1100px;
-}
-.map-container:not(.map-admin-workspace) .map-controls-container {
-    min-height: 68px;
-    padding: 11px 16px;
-    gap: 18px;
-}
-.map-container:not(.map-admin-workspace) .map-search-container {
-    flex: 1 1 auto;
-    max-width: 470px;
-    margin-inline: auto;
-}
-.map-container:not(.map-admin-workspace) .map-actions { margin-left: auto; gap: 7px; }
-.map-container:not(.map-admin-workspace) .map-actions button {
-    min-height: 44px;
-    padding: 8px 12px;
-    font-size: .72rem;
-    border-radius: 4px;
-}
-.map-container:not(.map-admin-workspace) .map-filter-rail {
-    display: flex;
-    flex-direction: column;
-    width: 236px;
-    flex-basis: 236px;
-    padding: 10px 16px 20px;
-}
-.map-container:not(.map-admin-workspace) .map-filter-rail[hidden] { display: none!important; }
-.map-container:not(.map-admin-workspace) .map-filter-heading { order: 0; padding-bottom: 9px; }
-.map-container:not(.map-admin-workspace) .map-regions-index { order: 1; margin: 19px 0 0; }
-.map-container:not(.map-admin-workspace) .map-display-options {
-    order: 2;
-    margin: 20px 0 0;
-    padding: 18px 0 0;
-    border: 0;
-    border-top: 1px solid var(--atlas-line);
-}
-.map-container:not(.map-admin-workspace) .map-display-options legend { padding: 0 0 8px; }
-.map-container:not(.map-admin-workspace) #map-filters {
-    order: 3;
-    gap: 18px;
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid var(--atlas-line);
-}
-.map-container:not(.map-admin-workspace) #map-filters-empty { order: 4; }
-.map-container:not(.map-admin-workspace) #map-legend-open { order: 5; margin-top: 20px; flex-shrink: 0; }
-.map-container:not(.map-admin-workspace) .map-filter { min-height: 44px; font-size: .74rem; }
-.map-container:not(.map-admin-workspace) .map-regions-index h3 {
-    margin: 0 0 8px;
-    color: #e9d9b9;
-    font: 500 .98rem/1.35 var(--font-title);
-}
-.map-container:not(.map-admin-workspace) .map-region-status {
-    margin: 0 0 13px;
-    color: #9eb7bc;
-    font-size: .65rem;
-    line-height: 1.7;
-}
-.map-container:not(.map-admin-workspace) .map-region-list { display: grid; gap: 2px; }
-.map-container:not(.map-admin-workspace) .map-region-list button.map-region-choice {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 9px;
-    width: 100%;
-    min-height: 44px;
-    padding: 10px 9px 10px 11px;
-    border: 1px solid transparent;
-    border-bottom-color: #74949322;
-    border-radius: 3px;
-    color: #c6d4d5;
-    background: transparent;
-    text-align: left;
-    font-size: .71rem;
-    line-height: 1.45;
-    transition: background-color 160ms,border-color 160ms,color 160ms;
-}
-.map-container:not(.map-admin-workspace) .map-region-choice > span { min-width: 0; font-size: .71rem; }
-.map-container:not(.map-admin-workspace) .map-region-choice small {
-    flex: 0 0 auto;
-    max-width: 62px;
-    padding: 2px 4px;
-    border-radius: 3px;
-    background: #19353b5c;
-    color: #9bafb0;
-    font-size: .52rem;
-    line-height: 1.4;
-}
-.map-container:not(.map-admin-workspace) .map-region-list .map-region-choice:hover {
-    color: #ecdfc7;
-    background: #17343c7a;
-    border-color: #9cac8845;
-}
-.map-container:not(.map-admin-workspace) .map-region-choice[aria-pressed='true'] {
-    color: #f3dfb6;
-    background: linear-gradient(90deg,#b7985b23,#8f7b4b0c),#102a32;
-    border-color: #bda36c5c;
-    box-shadow: inset 2px 0 0 #d5b982;
-}
-.map-container:not(.map-admin-workspace) .map-region-choice[aria-pressed='true'] small { color: #d8c79e; background: #8e78492a; }
-.map-region-outline { outline: none; transition: stroke-width 120ms,fill-opacity 120ms; cursor: pointer; }
-.map-region-outline:focus-visible { stroke: #fff1c6; stroke-width: 4; filter: drop-shadow(0 0 4px #e2c892); }
+/* Region geometry and administrator handles. Public composition lives in reference-map.css; PageAtmosphere owns the page scenery. */
+.map-region-outline { outline: none; transition: stroke 160ms,stroke-width 160ms,fill-opacity 160ms; cursor: pointer; }
+.map-region-outline:hover { stroke-width: 2.5; }
+.map-region-outline:focus-visible { stroke: #fff1c6; stroke-width: 4; }
 .map-region-tooltip {
     padding: 9px 12px;
-    border: 1px solid #c0a47388;
-    border-radius: 4px;
-    background: #071821f5;
+    border: 1px solid #bba47a9c;
+    border-radius: 3px;
+    background: #132932f5;
     color: #f2dfb5;
     font: 500 .78rem/1.4 var(--font-text);
     box-shadow: 0 6px 18px #0005;
@@ -187,86 +64,13 @@ html[data-world-atmosphere] body:has(> main.map-container:not(.map-admin-workspa
 .map-container :is(.map-region-choice,.map-region-editor-actions button,.map-region-editor-close):focus-visible { outline:2px solid #f0d19a; outline-offset:3px; }
 .map-container :is(.map-panel,.map-regions-editor) { flex-shrink:0; }
 
-@media (max-width:1300px) {
-    .map-container:not(.map-admin-workspace) { width: calc(100% - 32px); }
-    .map-container:not(.map-admin-workspace) .map-filter-rail { width: 220px; flex-basis: 220px; padding-inline: 13px; }
-    .map-container:not(.map-admin-workspace) .map-actions button { padding-inline: 10px; }
-    .map-container:not(.map-admin-workspace) .map-controls-container { gap: 11px; padding-inline: 12px; }
-}
-@media (min-width:769px) and (max-width:1050px) {
-    .map-container:not(.map-admin-workspace) .map-controls-container { display: grid; grid-template-columns: auto minmax(0,1fr); }
-    .map-container:not(.map-admin-workspace) .map-actions { grid-column: 1/-1; justify-content: flex-end; width: 100%; }
-    .map-container:not(.map-admin-workspace) .map-search-container { width: 100%; margin: 0; }
-    .map-container:not(.map-admin-workspace) .map-filter-rail { width: 210px; flex-basis: 210px; }
-    .map-container:not(.map-admin-workspace) .map-reference-hero { column-gap: 25px; grid-template-columns: minmax(0,1fr) minmax(220px,340px); }
-}
+
 @media (max-width:768px) {
-    .map-container:not(.map-admin-workspace) { width: calc(100% - 20px); padding-bottom: 22px; }
-    .map-container:not(.map-admin-workspace) .map-reference-hero { min-height: 104px; padding: 14px 6px; }
-    .map-container:not(.map-admin-workspace) .map-breadcrumb { margin-bottom: 8px; }
-    .map-container:not(.map-admin-workspace) .map-title { font-size: 1.75rem; }
-    .map-container:not(.map-admin-workspace) .map-subtitle { margin-top: 6px; max-width: 54ch; font-size: .73rem; line-height: 1.55; }
-    .map-container:not(.map-admin-workspace) .map-workspace {
-        /* A circular atlas needs a canvas proportionate to screen width.
-           Filling a tall phone viewport only adds empty space above the map. */
-        height: clamp(560px,calc(100vw + 200px),850px);
-        min-height: 560px;
-        max-height: 850px;
-        scroll-margin-top: calc(var(--nm-header-height) + 12px);
-    }
-    .map-container:not(.map-admin-workspace) .map-controls-container { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 8px; }
-    .map-container:not(.map-admin-workspace) .map-floor-navigation { width: 100%; gap: 3px; }
-    .map-container:not(.map-admin-workspace) .map-floor-buttons { display: flex; margin-left: 2px; padding-left: 0; border-left: 0; }
-    .map-container:not(.map-admin-workspace) .map-search-container { width: 100%; max-width: none; margin: 0; }
-    .map-container:not(.map-admin-workspace) .map-search-input { font-size: 16px; }
-    .map-container:not(.map-admin-workspace) .map-actions { width: 100%; display: flex; margin: 0; gap: 6px; }
-    .map-container:not(.map-admin-workspace) .map-actions button {
-        flex: 1;
-        width: auto;
-        min-width: 44px;
-        min-height: 44px;
-        height: 44px;
-        padding: 8px 4px;
-        gap: 5px;
-        font-size: .64rem;
-    }
-    .map-container:not(.map-admin-workspace) .map-actions .map-control-label {
-        position: static;
-        width: auto;
-        height: auto;
-        clip: auto;
-        white-space: nowrap;
-    }
-    .map-container:not(.map-admin-workspace) .map-filter-rail {
-        position: absolute;
-        inset: 8px auto 8px 8px;
-        width: min(270px,calc(100% - 16px));
-        height: auto;
-        max-height: none;
-        padding: 10px 15px 20px;
-        z-index: 1100;
-        border: 1px solid #b99b656b;
-        border-radius: 6px;
-        background: #0a1c27fb;
-        box-shadow: 12px 0 30px #0006;
-    }
-    .map-container:not(.map-admin-workspace) .map-region-choice > span { font-size: .78rem; }
-    .map-container:not(.map-admin-workspace) .map-region-choice small { font-size: .57rem; }
-    .map-container .map-regions-editor { position:absolute; inset:auto 0 0; width:100%; max-width:none; height:330px; max-height:58%; z-index:1200; padding:14px 16px; border:1px solid #c0a47385; box-shadow:0 -14px 28px #0007; }
-    .map-region-editor-heading { margin-bottom:8px; }
-    .map-region-local-note { margin-bottom:13px; padding:9px; }
-    .map-container .map-region-field { margin-bottom:10px; }
-    .map-container .map-regions-editor input { font-size:16px; }
-}
-@media (max-width:399px) {
-    .map-container:not(.map-admin-workspace) .map-actions .map-control-label {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0,0,0,0);
-        white-space: nowrap;
-    }
+ .map-container .map-regions-editor { position:absolute; inset:auto 0 0; width:100%; max-width:none; height:330px; max-height:58%; z-index:1200; padding:14px 16px; border:1px solid #c0a47385; box-shadow:0 -14px 28px #0007; }
+ .map-region-editor-heading { margin-bottom:8px; }
+ .map-region-local-note { margin-bottom:13px; padding:9px; }
+ .map-container .map-region-field { margin-bottom:10px; }
+ .map-container .map-regions-editor input { font-size:16px; }
 }
 @media (prefers-reduced-motion:reduce) {
     .map-region-outline,.map-region-vertex,.map-container .map-region-choice { transition:none!important; animation:none!important; }

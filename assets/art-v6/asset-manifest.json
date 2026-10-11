@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "date": "2026-10-11",
+  "mode": "built-in image_gen",
+  "prompts": "docs/rework-2.0-2026-10-11/prompts.json",
+  "usage": "decorative environments only; native gameplay assets preserved",
+  "artwork": [
+    {
+      "key": "archives",
+      "origin": "AI-generated illustration",
+      "source": {
+        "path": "assets/art-v6/archives-source.png",
+        "sha256": "931647086425882c099790b23b7f9c913bae6bda2f00d37054a415b7114e07a5",
+        "dimensions": [
+          1672,
+          941
+        ]
+      },
+      "review": {
+        "approved": true,
+        "checks": [
+          "coherent drafted architecture",
+          "readable silhouettes",
+          "no logo or text",
+          "consistent palette",
+          "separate from native game records"
+        ]
+      },
+      "outputs": [
+        {
+          "path": "assets/art-v6/archives-1672.webp",
+          "dimensions": [
+            1672,
+            941
+          ],
+          "sha256": "f89718587ca4f925b0e24de2f77e31efa95ef5c4430b1ab2b2668a3fc91e298b",
+          "bytes": 139208,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v6/archives-1280.webp",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "sha256": "981956cc6a404cea50c7ee284251e1176c44239135752ea146e3c72594be4b71",
+          "bytes": 93902,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v6/archives-960.webp",
+          "dimensions": [
+            960,
+            540
+          ],
+          "sha256": "f018ff7114a3f285d910a6dc73432f2dea2389ead22a2ab37e9b9bfbc55bd382",
+          "bytes": 59524,
+          "crop": null
+        },
+        {
+          "path": "assets/art-v6/archives-640.webp",
+          "dimensions": [
+            640,
+            360
+          ],
+          "sha256": "75fab8dae7df6677ecb7723b3c656bc0b387be6aef910cc4da8c06ef058d10a2",
+          "bytes": 30370,
+          "crop": null
+        }
+      ]
+    }
+  ]
+}

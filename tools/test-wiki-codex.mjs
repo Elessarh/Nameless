@@ -88,6 +88,45 @@ function surface(hash = '', width = 1920) {
 }
 
 {
+    const { dom, w, d } = surface();
+    w.NamelessWikiPage.init(d);
+    const field = d.querySelector('#wiki-codex-query');
+    const panel = d.querySelector('#wiki-codex-results');
+    const sidebarField = d.querySelector('#wiki-search');
+    check([...d.querySelectorAll('#page-accueil .wiki-portals a')].map(link => link.pathname).join() === '/carte,/bestiaire,/items,/espace-guilde', 'The four main Codex paths open the real map, creature, item and guild routes');
+    check(d.querySelector('.wiki-content').dataset.wikiView === 'index', 'The wider overview is distinct from an article reading surface');
+    const header = d.querySelector('.wiki-nav-group-header');
+    const children = d.getElementById(header.getAttribute('aria-controls'));
+    check(header.getAttribute('aria-expanded') === 'false' && children.hidden, 'Guide categories start folded with an accessible controlled section');
+    header.click();
+    check(header.getAttribute('aria-expanded') === 'true' && !children.hidden, 'Opening a guide category reveals its genuine article links');
+    field.value = 'classe'; field.dispatchEvent(new w.Event('input')); await pause(130);
+    check(panel.querySelector('button').dataset.page === 'systeme-classe', 'French class search prioritizes the class guide over articles that only mention classes');
+    field.value = 'systeme de classe'; field.dispatchEvent(new w.Event('input')); await pause(130);
+    check(panel.querySelector('button').dataset.page === 'systeme-classe', 'Exact title matching remains accent insensitive');
+    field.value = 'guerrier'; field.dispatchEvent(new w.Event('input')); await pause(130);
+    check(panel.querySelector('[data-page="guerrier"]') && sidebarField.getAttribute('aria-expanded') === 'false', 'The prominent home search queries the real article index without opening the sidebar');
+    check(panel.querySelector('button').dataset.page === 'guerrier', 'An exact class guide title ranks ahead of incidental content matches');
+    key(w, field, 'ArrowDown');
+    check(d.activeElement === panel.querySelector('button'), 'Home search results can be reached by keyboard');
+    key(w, d.activeElement, 'Escape');
+    check(d.activeElement === field && field.getAttribute('aria-expanded') === 'false', 'Escape from a home result closes its popup and restores its own field');
+    field.value = 'reglement'; field.dispatchEvent(new w.Event('input')); await pause(130);
+    const resultId = panel.querySelector('button').dataset.page;
+    field.closest('form').dispatchEvent(new w.Event('submit', { bubbles: true, cancelable: true }));
+    check(w.location.hash === '#' + resultId && d.querySelector('#page-' + resultId).classList.contains('active') && d.activeElement === d.querySelector('#page-' + resultId + ' h1'), 'Submitting the home search opens its first current result and focuses the article title');
+    check(field.value === '' && !panel.classList.contains('active') && d.querySelector('.wiki-content').dataset.wikiView === 'article', 'Opening a guide clears the home popup and selects the article reading surface');
+    route(w, '#accueil');
+    field.value = 'aucun-guide-xyz';
+    field.closest('form').dispatchEvent(new w.Event('submit', { bubbles: true, cancelable: true }));
+    check(w.location.hash === '#accueil' && panel.querySelector('.is-empty').textContent === 'Aucun guide trouvé', 'Submitting an empty home query keeps the overview and reports the real empty state');
+    field.value = 'mage'; field.dispatchEvent(new w.Event('input'));
+    w.NamelessWikiPage.destroy(); await pause(130);
+    check(!panel.querySelector('[data-page="mage"]'), 'Destroying the view also cancels delayed home search');
+    dom.window.close();
+}
+
+{
     const { dom, w, d, observers } = surface('#faq');
     w.NamelessWikiPage.init(d);
     const faq = d.querySelector('#page-faq');
@@ -126,6 +165,11 @@ function surface(hash = '', width = 1920) {
     w.NamelessI18n.setLanguage('en');
     search.value = 'warrior'; search.dispatchEvent(new w.Event('input')); await pause(130);
     check(d.querySelector('#wiki-search-results [data-page="guerrier"]')?.textContent.includes('Warrior'), 'Language switching rebuilds local search from translated source titles');
+    const homeSearch = d.querySelector('#wiki-codex-query');
+    homeSearch.value = 'warrior'; homeSearch.dispatchEvent(new w.Event('input')); await pause(130);
+    check(d.querySelector('#wiki-codex-results [data-page="guerrier"]')?.textContent.includes('Warrior'), 'The main Codex search follows the English article index too');
+    homeSearch.value = 'class'; homeSearch.dispatchEvent(new w.Event('input')); await pause(130);
+    check(d.querySelector('#wiki-codex-results button').dataset.page === 'systeme-classe', 'English class search also prioritizes the translated class guide');
     check(warrior.querySelector('.wiki-article-label').textContent !== frenchCategory && warrior.querySelector('.wiki-toc strong').textContent === 'On this page', 'Categories and dynamic reading controls follow English without stale French labels');
     check(warrior.querySelector('.wiki-article-prev small').textContent === 'Previous guide' && warrior.querySelector('.wiki-related h2').textContent === 'Continue reading', 'Related and previous/next controls follow the current locale');
     check(Array.from(warrior.querySelectorAll('.wiki-toc a')).every((link, index) => link.dataset.section === ids[index] && link.textContent === text(warrior.querySelector('.wiki-article-body #' + ids[index]))), 'English TOC projection retains IDs and uses current source heading labels');

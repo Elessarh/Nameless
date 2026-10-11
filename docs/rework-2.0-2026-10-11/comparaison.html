@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nameless — Phases A et B, avant / après</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:28px;background:#0b141b;color:#ddd7cb;font:15px/1.6 system-ui,sans-serif}main{max-width:1680px;margin:auto}h1{font:500 30px/1.3 Georgia,serif;color:#e8d4ad}h2{font:500 23px/1.4 Georgia,serif;margin:30px 0 14px}a{color:#d3be91}p{max-width:90ch;color:#b6c4ca}.mode{position:absolute;opacity:0}.switch{display:inline-block;cursor:pointer;padding:9px 18px;border:1px solid #65767d;margin:8px 4px 20px 0}.mode:focus-visible+.switch{outline:2px solid #d3be91;outline-offset:3px}.mode:checked+.switch{color:#151b20;background:#d3be91}.pairs{display:grid;grid-template-columns:1fr 1fr;gap:18px}.pair{min-width:0}.pair img{display:block;width:100%;height:auto;border:1px solid #52616a}.pair b{display:block;padding:8px 12px;background:#132932;color:#e8d4ad}.mobile{display:none}.mobile img{max-width:390px;margin:auto}.mobile .pair{background:#101e27}.desktop{display:block}#mobile:checked~.desktop{display:none}#mobile:checked~.mobile{display:block}details{margin:24px 0}summary{cursor:pointer;color:#d3be91;min-height:44px;padding:10px 0}details img{max-width:100%;height:auto}footer{margin-top:32px;padding-top:20px;border-top:1px solid #35454a}@media(max-width:720px){body{padding:16px}.pairs{grid-template-columns:1fr}h1{font-size:24px}}
+</style><main>
+<h1>Nameless — validation des phases A et B</h1>
+<p>Fonds pleine page, accueil du Codex et interface cartographique. Captures du site local, sans données inventées. Le corbeau validé est conservé. La refonte détaillée des catalogues, de la guilde et du profil reste pour les phases suivantes.</p>
+<input class="mode" type="radio" name="view" id="desktop" checked><label class="switch" for="desktop">1920 × 1080</label>
+<input class="mode" type="radio" name="view" id="mobile"><label class="switch" for="mobile">Mobile 390 px</label>
+<div class="desktop">
+<h2>Explorer / Codex</h2><div class="pairs"><div class="pair"><b>Avant</b><a href="browser/before-wiki-1920.png"><img src="browser/before-wiki-1920.png" alt="Codex avant, bureau"></a></div><div class="pair"><b>Après</b><a href="browser/after-wiki-1920.png"><img src="browser/after-wiki-1920.png" alt="Codex après, bureau"></a></div></div>
+<h2>Carte — vue d’ensemble</h2><div class="pairs"><div class="pair"><b>Avant</b><a href="browser/before-map-1920.png"><img src="browser/before-map-1920.png" alt="Carte avant, bureau"></a></div><div class="pair"><b>Après</b><a href="browser/after-map-1920.png"><img src="browser/after-map-1920.png" alt="Carte après, bureau"></a></div></div>
+</div>
+<div class="mobile">
+<h2>Explorer / Codex</h2><div class="pairs"><div class="pair"><b>Avant</b><a href="browser/before-wiki-390.png"><img src="browser/before-wiki-390.png" alt="Codex avant, mobile"></a></div><div class="pair"><b>Après</b><a href="browser/after-wiki-390.png"><img src="browser/after-wiki-390.png" alt="Codex après, mobile"></a></div></div>
+<h2>Carte — vue d’ensemble</h2><div class="pairs"><div class="pair"><b>Avant</b><a href="browser/before-map-390.png"><img src="browser/before-map-390.png" alt="Carte avant, mobile"></a></div><div class="pair"><b>Après</b><a href="browser/after-map-390.png"><img src="browser/after-map-390.png" alt="Carte après, mobile"></a></div></div>
+</div>
+<details><summary>Voir une région sélectionnée et sa fiche</summary><img src="browser/after-map-region-1920.png" alt="Vallée des Loups sélectionnée, atlas réel et fiche contextuelle"></details>
+<details><summary>Voir la lecture d’un article</summary><img src="browser/after-wiki-article-1920.png" alt="Guide Système de Classe avec largeur de lecture limitée"></details>
+<footer><p>Contrôles : fonds hors conteneur et sans interception, absence de débordement, recherche FR/EN, menu Guides et Échap, filtres repliables, sélection de région, atlas et modèles natifs préservés. Build et régressions ciblées validés.</p><p>Une illustration complémentaire d’archives a été générée avec image_gen intégré : <a href="../../assets/art-v6/archives-source.png">source PNG</a> · <a href="prompts.json">prompt et provenance</a>. Les autres décors sont réutilisés.</p></footer>
+</main></html>

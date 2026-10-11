@@ -1,5 +1,5 @@
-/* Shared application pages. Illustrations belong to the relevant content,
-   while filters, catalogues and navigation retain opaque readable surfaces. */
+/* Shared content shell. Environmental illustrations belong to PageAtmosphere;
+   reading panels and controls retain their own contrast surfaces. */
 .nm-scene-hero {
     position: relative; text-align: left;
     padding: var(--nm-space-6) 0 !important;
@@ -16,7 +16,7 @@
     --page-content-width: 1200px;
     position: relative; isolation: isolate; min-height: calc(100dvh - var(--nm-header-height));
     width: 100%; margin: 0; padding: var(--nm-space-5) 0 var(--nm-space-8);
-    background: var(--nm-bg);
+    background: transparent;
 }
 .page-visual-shell::before, .page-visual-shell::after { content: none; }
 .page-visual-shell > * { position: relative; }

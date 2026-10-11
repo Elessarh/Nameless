@@ -1,0 +1,456 @@
+{
+  "date": "2026-10-11",
+  "scope": "Phases A and B only",
+  "logo": "Current raven confirmed by user",
+  "method": "Codex in-app browser via cua_repl; viewport screenshots and read-only DOM; local UI interactions",
+  "checks": [
+    {
+      "label": "before-wiki-1920",
+      "atmosphere": [],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 1920,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "before-map-1920",
+      "atmosphere": [],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 1920,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "before-map-390",
+      "atmosphere": [],
+      "broken": [],
+      "height": 844,
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 390,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "before-wiki-390",
+      "atmosphere": [],
+      "broken": [],
+      "height": 844,
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 390,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "after-wiki-390",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v6/archives-640.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 844,
+            "height": 780,
+            "left": 0,
+            "right": 380,
+            "top": 64,
+            "width": 380,
+            "x": 0,
+            "y": 64
+          }
+        }
+      ],
+      "broken": [],
+      "height": 844,
+      "overflow": false,
+      "page": "wiki",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 390,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "after-wiki-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v6/archives-1672.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1910,
+            "top": 72,
+            "width": 1910,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "wiki",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/wiki/",
+      "width": 1920,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "after-wiki-article-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v6/archives-1672.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1910,
+            "top": 72,
+            "width": 1910,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "wiki",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/wiki/#systeme-classe",
+      "width": 1920,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "after-map-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1910,
+            "top": 72,
+            "width": 1910,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "carte",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 1920,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "after-map-region-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1910,
+            "top": 72,
+            "width": 1910,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "carte",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups",
+      "width": 1920,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "after-map-region-390",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 844,
+            "height": 780,
+            "left": 0,
+            "right": 380,
+            "top": 64,
+            "width": 380,
+            "x": 0,
+            "y": 64
+          }
+        }
+      ],
+      "broken": [],
+      "height": 844,
+      "overflow": false,
+      "page": "carte",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1&entity=location%3A1%3Avallee-loups",
+      "width": 390,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "after-map-390",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/guild-640.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 844,
+            "height": 780,
+            "left": 0,
+            "right": 380,
+            "top": 64,
+            "width": 380,
+            "x": 0,
+            "y": 64
+          }
+        }
+      ],
+      "broken": [],
+      "height": 844,
+      "overflow": false,
+      "page": "carte",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/carte/?floor=1",
+      "width": 390,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "foundation-bestiary-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/forest-1280.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1910,
+            "top": 72,
+            "width": 1910,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "bestiaire",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 1920,
+      "world": "forest",
+      "errors": []
+    },
+    {
+      "label": "foundation-items-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/workshop-1280.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1910,
+            "top": 72,
+            "width": 1910,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "items",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 1920,
+      "world": "armory",
+      "errors": []
+    },
+    {
+      "label": "foundation-home-1920",
+      "atmosphere": [
+        {
+          "art": "",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0,
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "home",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/",
+      "width": 1920,
+      "world": "aincrad",
+      "errors": []
+    },
+    {
+      "label": "foundation-items-390",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/workshop-640.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 844,
+            "height": 780,
+            "left": 0,
+            "right": 380,
+            "top": 64,
+            "width": 380,
+            "x": 0,
+            "y": 64
+          }
+        }
+      ],
+      "broken": [],
+      "height": 844,
+      "overflow": false,
+      "page": "items",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 390,
+      "world": "armory",
+      "errors": []
+    },
+    {
+      "label": "foundation-bestiary-390",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/forest-640.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 844,
+            "height": 780,
+            "left": 0,
+            "right": 380,
+            "top": 64,
+            "width": 380,
+            "x": 0,
+            "y": 64
+          }
+        }
+      ],
+      "broken": [],
+      "height": 844,
+      "overflow": false,
+      "page": "bestiaire",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 390,
+      "world": "forest",
+      "errors": []
+    },
+    {
+      "label": "foundation-guild-public-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1920,
+            "top": 72,
+            "width": 1920,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "espace-guilde",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "width": 1920,
+      "world": "guild",
+      "errors": []
+    },
+    {
+      "label": "foundation-profile-public-1920",
+      "atmosphere": [
+        {
+          "art": "http://127.0.0.1:4173/assets/art-v4/guild-1280.webp",
+          "pointerEvents": "none",
+          "rect": {
+            "bottom": 1080,
+            "height": 1008,
+            "left": 0,
+            "right": 1920,
+            "top": 72,
+            "width": 1920,
+            "x": 0,
+            "y": 72
+          }
+        }
+      ],
+      "broken": [],
+      "height": 1080,
+      "overflow": false,
+      "page": "profil",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 1920,
+      "world": "guild",
+      "errors": []
+    }
+  ],
+  "interactions": [
+    "Wiki query class in English returns Class system first",
+    "Wiki mobile drawer opens, Escape closes and restores sidebar-toggle focus",
+    "Region selection shows original atlas/detail and keeps scrollY=0 when clicked without tool centering",
+    "Map filter sections collapse",
+    "Region detail closes",
+    "Native catalogues retain 48 per page"
+  ]
+}

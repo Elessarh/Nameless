@@ -31,6 +31,10 @@
         const sidebarOverlay = scope.querySelector('#sidebar-overlay');
         const searchInput = scope.querySelector('#wiki-search');
         const searchResults = scope.querySelector('#wiki-search-results');
+        const searchSurfaces = [
+            { field: searchInput, results: searchResults },
+            { field: scope.querySelector('#wiki-codex-query'), results: scope.querySelector('#wiki-codex-results') }
+        ].filter(surface => surface.field && surface.results);
         const navContainer = scope.querySelector('#wiki-nav');
         const wikiContent = scope.querySelector('.wiki-content');
         const allPages = Array.from(scope.querySelectorAll('.wiki-page'));
@@ -213,7 +217,7 @@
             scope.querySelectorAll('[data-wiki-guide-count]').forEach(count => { count.textContent = String(searchIndex.length); });
             if (activeArticle) setActiveSection(activeArticle, activeSection);
             updateSidebarToggle();
-            if (searchInput?.value.trim().length >= 2) performSearch();
+            searchSurfaces.forEach(surface => { if (surface.field.value.trim().length >= 2) performSearch(surface); });
         }
 
         allPages.forEach(prepareArticle);
@@ -234,6 +238,7 @@
             const section = sectionId ? document.getElementById(sectionId) : null;
             const heading = section && target.querySelector('.wiki-article-body')?.contains(section) ? section : target.querySelector('h1');
             allPages.forEach(page => page.classList.toggle('active', page === target));
+            if (wikiContent) wikiContent.dataset.wikiView = pageId === 'accueil' ? 'index' : 'article';
             activeArticle = target;
             // TOC entries have a location state of their own, rather than duplicate page states.
             scope.querySelectorAll('[data-page]:not([data-section])').forEach(link => {
@@ -290,28 +295,41 @@
             }, opts);
         });
 
-        scope.querySelectorAll('.wiki-nav-group-header').forEach(header => {
+        scope.querySelectorAll('.wiki-nav-group-header').forEach((header, index) => {
+            const children = header.parentElement.querySelector('.wiki-nav-group-children');
+            if (children) {
+                if (!children.id) children.id = 'wiki-index-group-' + (index + 1);
+                header.setAttribute('aria-controls', children.id);
+            }
             expandGroup(header.parentElement, false);
             header.addEventListener('click', () => expandGroup(header.parentElement, header.getAttribute('aria-expanded') !== 'true'), opts);
         });
 
-        function closeSearch(restoreFocus = false) {
+        function closeSearch(restoreFocus = false, surface = searchSurfaces[0]) {
+            if (!surface) return;
             // Focusing the field may rerender results; hide them after that focus event.
-            if (restoreFocus) searchInput?.focus();
-            searchResults?.classList.remove('active');
-            searchInput?.setAttribute('aria-expanded', 'false');
+            if (restoreFocus) surface.field.focus();
+            surface.results.classList.remove('active');
+            surface.field.setAttribute('aria-expanded', 'false');
         }
 
-        function performSearch() {
-            if (!searchInput || !searchResults) return;
-            const query = normalizeSearch(searchInput.value);
-            searchResults.replaceChildren();
-            if (query.length < 2) { closeSearch(); return; }
-            const results = searchIndex.filter(item => normalizeSearch(item.title).includes(query) || item.text.includes(query)).slice(0, 10);
+        function performSearch(surface = searchSurfaces[0]) {
+            if (!surface) return;
+            const { field, results: resultsPanel } = surface;
+            const query = normalizeSearch(field.value);
+            resultsPanel.replaceChildren();
+            if (query.length < 2) { closeSearch(false, surface); return; }
+            const results = searchIndex.map((item, index) => {
+                const title = normalizeSearch(item.title);
+                const rank = title === query ? 0 : title.startsWith(query) ? 1 : title.includes(query) ? 2 : item.text.includes(query) ? 3 : 4;
+                return { item, rank, index };
+            }).filter(result => result.rank < 4)
+                .sort((left, right) => left.rank - right.rank || left.index - right.index)
+                .slice(0, 10).map(result => result.item);
             if (!results.length) {
                 const empty = generated('div', 'wiki-search-result-item is-empty');
                 empty.textContent = t('Aucun guide trouvé', 'No guides found');
-                searchResults.appendChild(empty);
+                resultsPanel.appendChild(empty);
             }
             results.forEach(result => {
                 const item = generated('button', 'wiki-search-result-item');
@@ -325,40 +343,51 @@
                 item.addEventListener('click', event => {
                     event.preventDefault();
                     navigateTo(result.id);
-                    closeSearch();
-                    searchInput.value = '';
+                    closeSearch(false, surface);
+                    field.value = '';
                 }, opts);
                 item.addEventListener('keydown', event => {
                     if (event.key === 'ArrowDown') { event.preventDefault(); (item.nextElementSibling || item).focus(); }
-                    if (event.key === 'ArrowUp') { event.preventDefault(); (item.previousElementSibling || searchInput).focus(); }
-                    if (event.key === 'Escape') { event.preventDefault(); closeSearch(true); }
+                    if (event.key === 'ArrowUp') { event.preventDefault(); (item.previousElementSibling || field).focus(); }
+                    if (event.key === 'Escape') { event.preventDefault(); closeSearch(true, surface); }
                 }, opts);
-                searchResults.appendChild(item);
+                resultsPanel.appendChild(item);
             });
-            searchResults.classList.add('active');
-            searchInput.setAttribute('aria-expanded', 'true');
+            resultsPanel.classList.add('active');
+            field.setAttribute('aria-expanded', 'true');
         }
 
-        if (searchInput) {
-            searchInput.setAttribute('aria-controls', 'wiki-search-results');
-            searchInput.setAttribute('aria-expanded', 'false');
-            searchInput.addEventListener('input', () => {
+        searchSurfaces.forEach(surface => {
+            const { field, results } = surface;
+            field.setAttribute('aria-controls', results.id);
+            field.setAttribute('aria-expanded', 'false');
+            field.addEventListener('input', () => {
                 clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(performSearch, 100);
+                searchTimeout = setTimeout(() => performSearch(surface), 100);
             }, opts);
-            searchInput.addEventListener('focus', () => { if (searchInput.value.trim().length >= 2) performSearch(); }, opts);
-            searchInput.addEventListener('keydown', event => {
-                if (event.key === 'Escape' && searchResults?.classList.contains('active')) { event.preventDefault(); closeSearch(); }
+            field.addEventListener('focus', () => {
+                searchSurfaces.filter(other => other !== surface).forEach(other => closeSearch(false, other));
+                if (field.value.trim().length >= 2) performSearch(surface);
+            }, opts);
+            field.addEventListener('keydown', event => {
+                if (event.key === 'Escape' && results.classList.contains('active')) { event.preventDefault(); closeSearch(false, surface); }
                 if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-                    const results = searchResults?.querySelectorAll('button');
-                    if (!results?.length || !searchResults.classList.contains('active')) return;
+                    const controls = results.querySelectorAll('button');
+                    if (!controls.length || !results.classList.contains('active')) return;
                     event.preventDefault();
-                    results[event.key === 'ArrowUp' ? results.length - 1 : 0].focus();
+                    controls[event.key === 'ArrowUp' ? controls.length - 1 : 0].focus();
                 }
             }, opts);
-        }
+            field.closest('form')?.addEventListener('submit', event => {
+                event.preventDefault();
+                performSearch(surface);
+                results.querySelector('button[data-page]')?.click();
+            }, opts);
+        });
         document.addEventListener('click', event => {
-            if (!event.target.closest('.wiki-search-wrapper')) closeSearch();
+            searchSurfaces.forEach(surface => {
+                if (!surface.field.closest('.wiki-search-wrapper')?.contains(event.target)) closeSearch(false, surface);
+            });
         }, opts);
 
         function updateSidebarToggle() {

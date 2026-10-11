@@ -13,7 +13,7 @@
 
     <!-- Open Graph -->
     <!-- Theme & Favicon -->
-    <meta name="theme-color" content="#030B12">
+    <meta name="theme-color" content="#0B141B">
     <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg?v=20261008logo">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=20261008logo">
     <link rel="icon" type="image/png" sizes="192x192" href="/assets/brand/favicon-192.png?v=20261008logo">
@@ -22,11 +22,11 @@
     <link rel="stylesheet" href="../css/fonts.css?v=20261007a">
     <link rel="preload" href="../assets/fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="../css/tokens.css?v=20261008sao">
+    <link rel="stylesheet" href="../css/tokens.css?v=20261011ux2e">
     <link rel="stylesheet" href="../css/style.css?v=20261008sao">
     <link rel="stylesheet" href="../css/components/pixel-icons.css?v=20261007a">
     <link rel="stylesheet" href="../css/components/wiki.css?v=20261008hybrid">
-    <link rel="stylesheet" href="../css/components/page-hero.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/page-hero.css?v=20261011ux2e">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=20261008hybrid">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="index, follow">
@@ -45,11 +45,11 @@
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
     <link rel="stylesheet" href="../css/components/global-search.css?v=20261009ux1">
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011catalogue5">
-    <script src="../js/world-atmosphere.js?v=20261009world" defer></script>
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011ux2e">
+    <script src="../js/world-atmosphere.js?v=20261011ux2e" defer></script>
     <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
     <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
-    <link rel="stylesheet" href="/css/components/wiki-codex.css?v=20261010phase3native">
+    <link rel="stylesheet" href="/css/components/wiki-codex.css?v=20261011ux2e">
 </head>
 <body>
     <!-- Skip link -->
@@ -106,13 +106,11 @@
                         <div class="wiki-search-results" id="wiki-search-results"></div>
                     </div>
                 </div>
-                <nav class="wiki-nav" id="wiki-nav">
+                <nav class="wiki-nav" id="wiki-nav" aria-label="Navigation du codex">
                     <ul>
                         <!-- Accueil -->
                         <li class="wiki-nav-item"><a href="#accueil" data-page="accueil" class="active"><span class="nav-emoji"><span class="nm-pixel-icon icon-town" aria-hidden="true"></span></span> Accueil</a></li>
-                        <li class="wiki-nav-item"><a href="#faq" data-page="faq"><span class="nav-emoji"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span></span> FAQ</a></li>
-                        <li class="wiki-nav-item"><a href="#devlogs" data-page="devlogs"><span class="nav-emoji"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span></span> Devlogs</a></li>
-                        <li class="wiki-nav-item"><a href="#roadmap" data-page="roadmap"><span class="nav-emoji"><span class="nm-pixel-icon icon-map" aria-hidden="true"></span></span> Roadmap 2025–2026</a></li>
+                        <li class="wiki-nav-caption">Guides d’Aincrad</li>
 
                         <!-- Règlement -->
                         <li class="wiki-nav-group">
@@ -232,6 +230,10 @@
                         </li>
 
                         <!-- Support -->
+                        <li class="wiki-nav-caption">Informations du monde</li>
+                        <li class="wiki-nav-item"><a href="#faq" data-page="faq"><span class="nav-emoji"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span></span> FAQ</a></li>
+                        <li class="wiki-nav-item"><a href="#devlogs" data-page="devlogs"><span class="nav-emoji"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span></span> Devlogs</a></li>
+                        <li class="wiki-nav-item"><a href="#roadmap" data-page="roadmap"><span class="nav-emoji"><span class="nm-pixel-icon icon-map" aria-hidden="true"></span></span> Roadmap 2025–2026</a></li>
                         <li class="wiki-nav-item"><a href="#aide" data-page="aide"><span class="nav-emoji"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span></span> Besoin d'aide ?</a></li>
                     </ul>
                 </nav>
@@ -249,43 +251,44 @@
                         <div class="wiki-codex-intro">
                             <span class="wiki-kicker">Le savoir de la guilde</span>
                             <h1>Codex d’Aincrad</h1>
-                            <p>Prépare ton aventure. Retrouve les guides de Nameless, des premiers pas aux donjons d’Aincrad.</p>
+                            <p>Les lieux, les créatures et les savoirs d’Aincrad, réunis dans les archives de Nameless.</p>
+                            <form class="wiki-codex-search wiki-search-wrapper" role="search" aria-label="Rechercher dans les guides">
+                                <label class="wiki-search-label" for="wiki-codex-query">Rechercher dans les guides</label>
+                                <div class="wiki-codex-search-field">
+                                    <svg class="reference-header-icon" aria-hidden="true"><use href="/assets/ui/reference-icons.svg#icon-search"></use></svg>
+                                    <input class="wiki-search-input" id="wiki-codex-query" type="search" placeholder="Classe, donjon, règle du jeu…" autocomplete="off">
+                                    <button type="submit" aria-label="Ouvrir le premier guide trouvé"><span aria-hidden="true">→</span></button>
+                                </div>
+                                <div class="wiki-search-results" id="wiki-codex-results"></div>
+                            </form>
                             <div class="wiki-codex-actions">
                                 <a class="nm-game-button nm-game-button--primary" href="#debuter" data-page="debuter"><svg class="reference-header-icon" aria-hidden="true"><use href="/assets/ui/reference-icons.svg#icon-map"></use></svg> Commencer l’aventure <span aria-hidden="true">→</span></a>
-                                <button class="nm-game-button" type="button" data-wiki-search><svg class="reference-header-icon" aria-hidden="true"><use href="/assets/ui/reference-icons.svg#icon-search"></use></svg> Trouver un guide</button>
+                                <button class="nm-game-button" type="button" data-wiki-search><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span> Parcourir les guides</button>
                             </div>
                         </div>
                         <div class="wiki-codex-index"><span><b data-wiki-guide-count>54</b> <span>guides à consulter</span></span><span>Règles · Classes · Exploration</span></div>
                     </header>
 
-                    <div class="wiki-section-heading"><h2>Choisis ton chemin</h2><span>Les essentiels d’Aincrad</span></div>
-                    <div class="wiki-portals">
-                        <a class="wiki-portal wiki-portal--arrival" href="#premiers-pas" data-page="premiers-pas">
-                            <img class="wiki-portal-scene" src="/assets/art-v4/aincrad-960.webp" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 450px" width="960" height="540" alt="" decoding="async">
-                            <span class="wiki-portal-number" aria-hidden="true">01</span><span class="wiki-portal-copy"><span class="wiki-kicker">Entrer dans Aincrad</span><strong>Premiers Pas</strong><span>Installation, premiers repères et conseils pour débuter.</span><span class="wiki-portal-link">Ouvrir le guide <span aria-hidden="true">→</span></span></span>
-                        </a>
-                        <a class="wiki-portal wiki-portal--classes" href="#systeme-classe" data-page="systeme-classe">
-                            <svg class="wiki-portal-emblem" viewBox="0 0 24 24" aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-items"></use></svg>
-                            <span class="wiki-portal-number" aria-hidden="true">02</span><span class="wiki-portal-copy"><span class="wiki-kicker">Forger son personnage</span><strong>Classes &amp; Compétences</strong><span>Découvre les cinq classes et leurs styles de combat.</span><span class="wiki-portal-link">Explorer les classes <span aria-hidden="true">→</span></span></span>
-                        </a>
-                        <a class="wiki-portal wiki-portal--combat" href="#donjons" data-page="donjons">
-                            <img class="wiki-portal-scene" src="/assets/map-preview/floor-2-desktop.webp" sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px" width="1400" height="1546" alt="" decoding="async">
-                            <img class="wiki-portal-creature" src="/assets/home/illfang-256.webp" width="256" height="256" alt="" decoding="async">
-                            <span class="wiki-portal-number" aria-hidden="true">03</span><span class="wiki-portal-copy"><span class="wiki-kicker">Préparer ses combats</span><strong>Donjons &amp; Aventure</strong><span>Donjons, boss de palier et règles d’exploration.</span><span class="wiki-portal-link">Préparer une sortie <span aria-hidden="true">→</span></span></span>
-                        </a>
-                    </div>
+                    <section class="wiki-codex-paths" aria-labelledby="wiki-paths-title">
+                        <div class="wiki-section-heading"><h2 id="wiki-paths-title">Explorer par catégories</h2><span>Les essentiels d’Aincrad</span></div>
+                        <nav class="wiki-portals" aria-label="Explorer Aincrad">
+                            <a class="wiki-portal" href="/carte"><span class="wiki-portal-icon"><span class="nm-pixel-icon icon-map" aria-hidden="true"></span></span><span class="wiki-portal-copy"><strong>Carte d’Aincrad</strong><span>Les paliers, les régions et leurs lieux.</span><span class="wiki-portal-link">Explorer la carte <span aria-hidden="true">→</span></span></span></a>
+                            <a class="wiki-portal" href="/bestiaire"><span class="wiki-portal-icon"><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span></span><span class="wiki-portal-copy"><strong>Bestiaire</strong><span>Les créatures et leurs butins connus.</span><span class="wiki-portal-link">Ouvrir le bestiaire <span aria-hidden="true">→</span></span></span></a>
+                            <a class="wiki-portal" href="/items"><span class="wiki-portal-icon"><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span></span><span class="wiki-portal-copy"><strong>Objets</strong><span>Équipements, consommables et ressources.</span><span class="wiki-portal-link">Consulter les objets <span aria-hidden="true">→</span></span></span></a>
+                            <a class="wiki-portal" href="/espace-guilde"><span class="wiki-portal-icon"><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span></span><span class="wiki-portal-copy"><strong>Guilde</strong><span>Le quartier général de Nameless.</span><span class="wiki-portal-link">Ouvrir le quartier général <span aria-hidden="true">→</span></span></span></a>
+                        </nav>
+                    </section>
 
-                    <div class="wiki-section-heading"><h2>Les autres chapitres</h2><span>Tout le codex, à portée de main</span></div>
+                    <div class="wiki-section-heading"><h2>Guides d’Aincrad</h2><span>Tout le codex, à portée de main</span></div>
                     <nav class="wiki-categories" aria-label="Chapitres du codex">
+                        <a class="wiki-category" href="#premiers-pas" data-page="premiers-pas"><span class="nm-pixel-icon icon-bolt" aria-hidden="true"></span><span><strong>Premiers Pas</strong><small>Installation et premiers repères.</small></span><span aria-hidden="true">→</span></a>
+                        <a class="wiki-category" href="#systeme-classe" data-page="systeme-classe"><span class="nm-pixel-icon icon-sword" aria-hidden="true"></span><span><strong>Classes &amp; Compétences</strong><small>Classes et styles de combat.</small></span><span aria-hidden="true">→</span></a>
+                        <a class="wiki-category" href="#donjons" data-page="donjons"><span class="nm-pixel-icon icon-castle" aria-hidden="true"></span><span><strong>Donjons &amp; Aventure</strong><small>Donjons, boss de palier et exploration.</small></span><span aria-hidden="true">→</span></a>
                         <a class="wiki-category" href="#reglement-aincrad" data-page="reglement-aincrad"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span><span><strong>Règlement</strong><small>Les règles de l’Aincrad et de la communauté.</small></span><span aria-hidden="true">↗</span></a>
-                        <a class="wiki-category" href="#races" data-page="races"><span class="nm-pixel-icon icon-user" aria-hidden="true"></span><span><strong>Races</strong><small>Choisir les origines de ton personnage.</small></span><span aria-hidden="true">↗</span></a>
                         <a class="wiki-category" href="#ressources" data-page="ressources"><span class="nm-pixel-icon icon-gem" aria-hidden="true"></span><span><strong>Ressources</strong><small>Récolte, matériaux et ressources du monde.</small></span><span aria-hidden="true">↗</span></a>
                         <a class="wiki-category" href="#metiers" data-page="metiers"><span class="nm-pixel-icon icon-craft" aria-hidden="true"></span><span><strong>Métiers</strong><small>Développer ton savoir-faire.</small></span><span aria-hidden="true">↗</span></a>
-                        <a class="wiki-category" href="#housing" data-page="housing"><span class="nm-pixel-icon icon-town" aria-hidden="true"></span><span><strong>Housing</strong><small>Acquérir et gérer ta maison.</small></span><span aria-hidden="true">↗</span></a>
                         <a class="wiki-category" href="#economie" data-page="economie"><span class="nm-pixel-icon icon-coin" aria-hidden="true"></span><span><strong>Économie</strong><small>Cols, banque et échanges entre joueurs.</small></span><span aria-hidden="true">↗</span></a>
-                        <a class="wiki-category" href="#guildes" data-page="guildes"><span class="nm-pixel-icon icon-guild" aria-hidden="true"></span><span><strong>Guildes</strong><small>Rangs, alliances et aventure en groupe.</small></span><span aria-hidden="true">↗</span></a>
                         <a class="wiki-category" href="#faq" data-page="faq"><span class="nm-pixel-icon icon-help" aria-hidden="true"></span><span><strong>FAQ</strong><small>Les réponses aux questions fréquentes.</small></span><span aria-hidden="true">↗</span></a>
-                        <a class="wiki-category" href="#familier-monture" data-page="familier-monture"><span class="nm-pixel-icon icon-beast" aria-hidden="true"></span><span><strong>Familiers</strong><small>Compagnons, montures et familiers.</small></span><span aria-hidden="true">↗</span></a>
                     </nav>
                     <div class="wiki-codex-footer"><span class="nm-pixel-icon icon-scroll" aria-hidden="true"></span><p>Suivre l’évolution du monde</p><a href="#devlogs" data-page="devlogs">Devlogs <span aria-hidden="true">→</span></a><a href="#roadmap" data-page="roadmap">Roadmap <span aria-hidden="true">→</span></a></div>
                 </section>
@@ -1398,7 +1401,7 @@
 
     <!-- Scripts -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261011anime4" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261011ux2e" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -1410,7 +1413,7 @@
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
     <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
-    <script src="../js/wiki.js?v=20261009codex2" defer></script>
+    <script src="../js/wiki.js?v=20261011ux2e" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
     <script src="../js/global-search.js?v=20261010phase3native" defer></script>
 </body>

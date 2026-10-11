@@ -4,18 +4,18 @@
    because CSS custom properties cannot be used as media query conditions. */
 :root {
     color-scheme: dark;
-    --nm-bg: #030B12;
-    --nm-bg-secondary: #07131B;
-    --nm-surface: #0A1923;
+    --nm-bg: #0B141B;
+    --nm-bg-secondary: #10212B;
+    --nm-surface: #132932;
     --nm-panel: var(--nm-surface);
-    --nm-surface-raised: #112632;
+    --nm-surface-raised: #1B303B;
     --nm-border: #35454A;
     --nm-border-control: #65767D;
     --nm-gold: #BBA47A;
     --nm-gold-light: #D3BE91;
     --nm-gold-dark: #86734E;
     --nm-text: #DDD7CB;
-    --nm-text-secondary: #94A3AB;
+    --nm-text-secondary: #ADB9BE;
     --nm-muted: var(--nm-text-secondary);
     --nm-text-bright: #F1EBDD;
     --nm-teal: #477C80;

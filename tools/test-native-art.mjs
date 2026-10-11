@@ -11,7 +11,7 @@ assert.equal(hash(city.source.path),city.source.sha256,'Native Minecraft source 
 for(const output of city.outputs)assert.equal(hash(output.path),output.sha256,'Native view variants stay intact');
 const home=fs.readFileSync('index.html','utf8');
 const exports=new Set();
-const series=['art-v4','art-v5'];
+const series=['art-v4','art-v5','art-v6'];
 for(const name of series){
 const reviewed=JSON.parse(fs.readFileSync('assets/'+name+'/asset-manifest.json'));
 assert.equal(reviewed.mode,'built-in image_gen');
@@ -30,7 +30,7 @@ for(const record of reviewed.artwork){
     }
 }
 }
-for(const file of files)for(const match of fs.readFileSync(file,'utf8').matchAll(/assets\/art-v(?:4|5)\/[a-z0-9-]+\.(?:webp|png)/g)){
+for(const file of [...files,'js/world-atmosphere.js'])for(const match of fs.readFileSync(file,'utf8').matchAll(/assets\/art-v(?:4|5|6)\/[a-z0-9-]+\.(?:webp|png)/g)){
     assert.ok(exports.has(match[0]),'Pages only load optimized reviewed derivatives: '+file+' '+match[0]);
 }
 assert.ok(home.includes('/assets/art-v4/aincrad-1672.webp'));
@@ -38,4 +38,4 @@ assert.ok(home.includes('/assets/art-v4/aincrad-mobile.webp'));
 assert.ok(home.includes('Illustration d’Aincrad'));
 const css=fs.readFileSync('css/components/reference-catalogs.css','utf8');
 assert.ok(css.includes('--catalogue-card-scene: none'),'Inventory backgrounds remain readable and do not repeat scenery');
-console.log('Art policy: '+files.length+' page/style sources exclude retired scenery; five reviewed generated environments, twenty optimized derivatives; native city sources intact.');
+console.log('Art policy: '+files.length+' page/style sources exclude retired scenery; six reviewed generated environments, twenty-four optimized derivatives; native city sources intact.');

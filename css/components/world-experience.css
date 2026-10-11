@@ -44,6 +44,53 @@ html[data-world-atmosphere='forest'] body::after {
     opacity: .23;
 }
 html[data-world-atmosphere='armory'] body::after { background: radial-gradient(ellipse 64% 42% at 14% 42%,rgba(var(--world-warm),.34),transparent 73%),repeating-linear-gradient(125deg,transparent 0 80px,rgba(137,170,181,.08) 81px 82px),var(--world-material) 0 0 / 128px 128px repeat; }
+/* PageAtmosphere is independent of route widths, scroll height and card stacks. */
+html[data-world-shell='true'] body::before,
+html[data-world-shell='true'] body::after { content:none!important; }
+html[data-world-shell='true'] .page-visual-shell { background:transparent!important; }
+/* Catalogue headers retain text, while the one page environment supplies the art. */
+html[data-world-shell='true'] :is(.bestiary-page,.items-page) > .nm-scene-hero { background:transparent; }
+html[data-world-shell='true'] :is(.bestiary-page,.items-page) > .nm-scene-hero::before,
+html[data-world-shell='true'] :is(.bestiary-page,.items-page) > .nm-scene-hero::after { content:none!important; }
+html[data-world-shell='true'] :is(.bestiary-page,.items-page) > .nm-scene-hero > p { max-width:65ch; }
+html[data-world-shell='true'] .guild-hq .guild-hall { background:transparent; }
+html[data-world-shell='true'] .guild-hq .guild-hall::before,
+html[data-world-shell='true'] .guild-hq .guild-hall::after { content:none!important; }
+.nm-page-atmosphere {
+    --atmosphere-position:64% 50%;
+    --atmosphere-art-opacity:.82;
+    position:fixed; inset:var(--nm-header-height) 0 0; z-index:-1;
+    overflow:hidden; isolation:isolate; pointer-events:none;
+    background:var(--nm-bg); contain:layout paint;
+}
+.nm-page-atmosphere * { pointer-events:none; }
+.nm-page-atmosphere > * { position:absolute; inset:0; display:block; }
+.nm-page-atmosphere__scene img {
+    display:block; width:100%; height:100%; object-fit:cover;
+    object-position:var(--atmosphere-position); opacity:var(--atmosphere-art-opacity);
+}
+.nm-page-atmosphere__light {
+    background:radial-gradient(ellipse 60% 55% at 80% 18%,rgba(var(--world-light),.15),transparent 76%);
+}
+.nm-page-atmosphere__mist {
+    background:radial-gradient(ellipse 90% 22% at 65% 95%,#24414c38,transparent 76%),var(--world-material) 0 0/180px 180px repeat;
+    opacity:.1;
+}
+.nm-page-atmosphere__veil {
+    background:linear-gradient(90deg,#0b141bd9,#0b141b94 28%,#0b141b3d 72%),linear-gradient(180deg,#0b141b08,#0b141b33 52%,#0b141b8c);
+}
+html[data-world-page='home'] .nm-page-atmosphere { display:none; }
+html[data-world-page='wiki'] .nm-page-atmosphere { --atmosphere-position:70% 45%; --atmosphere-art-opacity:.94; }
+html[data-world-page='carte'] .nm-page-atmosphere { --atmosphere-position:68% 45%; --atmosphere-art-opacity:.44; }
+html[data-world-page='carte'] .nm-page-atmosphere__veil { background:linear-gradient(180deg,#0b141b59,#0b141ba6 52%,#0b141bd9); }
+html[data-world-page='wiki'] .nm-page-atmosphere__veil { background:linear-gradient(90deg,#0b141bd9,#0b141b8c 30%,#0b141b1a 78%),linear-gradient(180deg,#0b141b14,#0b141b4d 58%,#0b141bb3); }
+@media(max-width:768px) {
+    .nm-page-atmosphere { --atmosphere-position:72% 50%; }
+    html[data-world-page='wiki'] .nm-page-atmosphere { --atmosphere-position:76% 42%; }
+    .nm-page-atmosphere__veil { background:linear-gradient(180deg,#0b141b59,#0b141bb3 45%,#0b141bd9); }
+    html[data-world-page='wiki'] .nm-page-atmosphere__veil { background:linear-gradient(180deg,#0b141b52,#0b141b99 48%,#0b141be0); }
+}
+@media(forced-colors:active) { .nm-page-atmosphere { display:none; } }
 /* The catalogue banner owns its illustration; the inventory sits on a calm surface. */
 html[data-world-atmosphere] body:has(:is(.bestiary-page,.items-page) > .nm-scene-hero)::before {
     background: radial-gradient(ellipse 75% 40% at 70% 18%,rgba(var(--world-light),.11),transparent 76%),#04151c;
