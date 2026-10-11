@@ -9,13 +9,14 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 let checks = 0;
 const check = (value, message) => { assert.ok(value, message); checks++; };
 const equal = (value, expected, message) => { assert.deepEqual(value, expected, message); checks++; };
-function surface(width = 1280, query = '', index = null) {
+function surface(width = 1280, query = '', index = null, beforeInit = null) {
     const dom = new JSDOM(read('pages/bestiaire.html'), { url: 'https://nameless-sao.fr/bestiaire' + query, runScripts: 'outside-only', pretendToBeVisual: true });
     const w = dom.window;
     Object.defineProperty(w, 'innerWidth', { value: width, writable: true });
     w.NamelessSpaRouter = { controlsLifecycle: true };
     if (index) w.NamelessGlobalSearch = { getIndex: typeof index === 'function' ? index : () => Promise.resolve(index) };
     w.scrollTo = () => {}; w.matchMedia = () => ({ matches: true });
+    beforeInit?.(w.document, w);
     w.eval(read('js/bestiaire.js') + '\nwindow.__records = JSON.stringify(creaturesData);');
     w.NamelessBestiaryPage.init(w.document);
     return { dom, w, d: w.document, data: JSON.parse(w.__records) };
@@ -140,7 +141,8 @@ function close(s) { s.w.NamelessBestiaryPage.destroy(); s.dom.window.close(); }
 {
     const s = surface(390), { d, w } = s;
     check(d.getElementById('bes-filter-drawer').inert === true, 'The closed mobile filter rail is inert before any drawer interaction');
-    const background = [d.querySelector('body > header'), d.querySelector('.bes-hero'), d.querySelector('.catalogue-results'), d.querySelector('body > footer')];
+    const audio = d.createElement('div'); audio.className = 'nm-audio-dock'; audio.inert = false; d.body.appendChild(audio);
+    const background = [d.querySelector('body > header'), d.querySelector('.bes-hero'), d.querySelector('.catalogue-results'), d.querySelector('body > footer'), audio];
     background[0].inert = true;
     const backgroundBefore = background.map(element => element.inert);
     const toggle = d.getElementById('bes-filter-toggle'); toggle.focus(); toggle.click();
@@ -213,4 +215,87 @@ function close(s) { s.w.NamelessBestiaryPage.destroy(); s.dom.window.close(); }
     close(s);
 }
 
-console.log('Phase 3 bestiary regressions: ' + checks + ' checks passed for union filters, compact details, accessible tooltips and mobile drawer lifecycles.');
+{
+    const s = surface(1280), { d, w } = s;
+    const audio = d.createElement('div'); audio.className = 'nm-audio-dock'; audio.inert = false; audio.appendChild(d.createElement('button')); d.body.appendChild(audio);
+    const palette = d.createElement('dialog'); palette.id = 'qa-search-palette'; const search = d.createElement('input'); palette.appendChild(search); d.body.appendChild(palette);
+    const header = d.querySelector('body > header'); header.inert = true; header.setAttribute('inert', 'preserved');
+    const background = [header, d.querySelector('.bes-hero'), d.querySelector('.bes-filters'), d.querySelector('.catalogue-results'), d.querySelector('body > footer'), audio];
+    const original = background.map(element => ({ inert: element.inert, attribute: element.getAttribute('inert') }));
+    d.body.style.overflow = 'clip';
+    const card = d.querySelector('.creature-card[data-id="1"]'); card.focus(); card.click();
+    const modal = d.querySelector('.creature-modal');
+    equal(background.map(element => ({ inert: element.inert, attribute: element.getAttribute('inert') })), original, 'Desktop detail rails preserve usable background controls and pre-existing inert states');
+    equal(d.body.style.overflow, 'clip', 'The desktop rail keeps the actual existing page scroll setting');
+    w.innerWidth = 980; w.dispatchEvent(new w.Event('resize'));
+    check(modal.getAttribute('aria-modal') === 'true' && background.every(element => element.inert === true && element.hasAttribute('inert')), 'The inclusive 980px sheet boundary isolates header, catalogue, filters, footer and audio');
+    check(modal.parentElement === d.querySelector('.catalogue-detail-slot') && !modal.closest('[inert]'), 'The sheet stays in its original detail slot without inheriting inert from any ancestor');
+    check(!palette.inert && !palette.hasAttribute('inert'), 'Native command palettes stay eligible for showModal while the sheet is open');
+    w.innerWidth = 981; w.dispatchEvent(new w.Event('resize'));
+    equal(background.map(element => ({ inert: element.inert, attribute: element.getAttribute('inert') })), original, 'Crossing back to a desktop rail restores the exact saved inert properties and attribute values');
+    check(!modal.hasAttribute('aria-modal') && d.body.style.overflow === 'clip' && d.querySelector('.bes-filters').inert === false, 'Desktop resizing releases modal semantics, scroll and the normal filter rail');
+    w.innerWidth = 900; w.dispatchEvent(new w.Event('resize'));
+    palette.open = true; search.focus();
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    check(d.activeElement === search && modal.style.display === 'flex' && background.every(element => element.inert === true), 'Language rebuilding keeps background isolation and does not steal focus from an open native palette');
+    const paletteEscape = key(s, search, 'Escape');
+    check(!paletteEscape.defaultPrevented && modal.style.display === 'flex', 'The sheet does not intercept Escape intended for a native palette');
+    const otherPalette = d.createElement('dialog'); const otherSearch = d.createElement('input'); otherPalette.appendChild(otherSearch); d.body.appendChild(otherPalette); otherPalette.open = true; otherSearch.focus();
+    palette.open = false; palette.dispatchEvent(new w.Event('close'));
+    check(d.activeElement === otherSearch, 'Closing one native palette does not steal focus from another native dialog that remains open');
+    otherPalette.open = false; otherSearch.blur(); otherPalette.dispatchEvent(new w.Event('close'));
+    check(d.activeElement === d.querySelector('.modal-close'), 'Closing a native palette returns focus inside the rebuilt sheet when its former opener no longer exists');
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    check(modal.contains(d.activeElement) && background.every(element => element.inert === true), 'A focused sheet control replaced by language rebuilding receives an available internal focus target');
+    w.history.replaceState({}, '', '/bestiaire?creature=2'); d.dispatchEvent(new w.CustomEvent('nameless:routechange'));
+    check(d.querySelector('.modal-name').textContent === 'Petit Slime' && modal.contains(d.activeElement) && background.every(element => element.inert === true), 'Selecting another creature through a same-route URL keeps the sheet focus and background isolated');
+    d.querySelector('.modal-close').click();
+    equal(background.map(element => ({ inert: element.inert, attribute: element.getAttribute('inert') })), original, 'Closing a rebuilt and reopened sheet restores its original background state rather than the temporarily inert state');
+    check(d.body.style.overflow === 'clip' && d.activeElement === d.querySelector('.creature-card[data-id="1"]'), 'Closing returns focus to the original actual opener after same-route selection and restores scroll');
+    close(s);
+}
+
+{
+    const s = surface(390, '?creature=53'), { d, w } = s;
+    const modal = d.querySelector('.creature-modal');
+    const audio = d.createElement('div'); audio.className = 'nm-audio-dock'; audio.inert = false; d.body.appendChild(audio);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    check(audio.inert === true && audio.hasAttribute('inert') && !modal.closest('[inert]'), 'A dock mounted after an initial deep-linked sheet is isolated without blocking the sheet');
+    d.querySelector('.modal-close').click();
+    check(audio.inert === false && !audio.hasAttribute('inert') && d.body.style.overflow === '', 'Closing restores the original state of an audio dock that mounted during the sheet');
+    const later = d.createElement('div'); later.className = 'nm-audio-dock'; later.inert = false; d.body.appendChild(later);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    check(later.inert === false && !later.hasAttribute('inert'), 'The background observer stops when the sheet closes');
+    const card = d.querySelector('.creature-card[data-id="1"]'); card.focus(); card.click();
+    w.innerWidth = 1280; w.dispatchEvent(new w.Event('resize'));
+    check(audio.inert === false && later.inert === false && d.querySelector('.bes-filters').inert === false, 'Resizing an open mobile sheet exposes the desktop filter rail and both audio controls');
+    w.innerWidth = 390; w.dispatchEvent(new w.Event('resize'));
+    d.querySelector('.bestiary-page').remove();
+    w.NamelessBestiaryPage.destroy();
+    check(audio.inert === false && later.inert === false && !d.querySelector('body > header').hasAttribute('inert') && d.body.style.overflow === '', 'SPA teardown after the old route DOM disappeared releases outside background controls and scroll');
+    s.dom.window.close();
+}
+
+{
+    const s = surface(390, '', null, d => { d.body.style.overflow = 'clip'; }), { d, w } = s;
+    let pending = null;
+    w.NamelessReferenceShell = {
+        cancelPanelClose: panel => { if (pending?.panel === panel) pending = null; panel.removeAttribute('data-reference-closing'); },
+        closePanel: (panel, finish) => { panel.setAttribute('data-reference-closing', ''); pending = { panel, finish }; }
+    };
+    const card = d.querySelector('.creature-card[data-id="1"]'); card.focus(); card.click();
+    d.querySelector('.modal-close').click();
+    check(d.querySelector('.creature-modal').hasAttribute('data-reference-closing') && d.querySelector('body > header').inert === true && d.body.style.overflow === 'hidden', 'The real exit period retains sheet isolation until the finish callback');
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    check(pending && d.querySelector('body > header').inert === true, 'Changing language during the exit preserves its pending callback and modal isolation');
+    const finish = pending.finish; pending = null; finish();
+    check(!d.querySelector('body > header').hasAttribute('inert') && d.body.style.overflow === 'clip', 'The exit completion releases background interaction and the prior scroll setting');
+    d.querySelector('.creature-card[data-id="1"]').click(); d.querySelector('.modal-close').click();
+    w.history.replaceState({}, '', '/bestiaire?creature=2'); d.dispatchEvent(new w.CustomEvent('nameless:routechange'));
+    check(pending === null && d.querySelector('.modal-name').textContent === 'Petit Slime' && d.querySelector('body > header').inert === true, 'Reopening cancels the former exit and keeps the replacement sheet isolated');
+    d.querySelector('.modal-close').click(); w.NamelessBestiaryPage.destroy();
+    check(pending === null && !d.querySelector('body > header').hasAttribute('inert') && d.body.style.overflow === 'clip', 'Destroy cancels a pending exit and releases modal isolation before removing the sheet');
+    s.dom.window.close();
+}
+
+console.log('Phase 3 bestiary regressions: ' + checks + ' checks passed for union filters, compact details, accessible tooltips and modal sheet/drawer lifecycles.');

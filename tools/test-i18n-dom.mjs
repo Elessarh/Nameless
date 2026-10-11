@@ -133,6 +133,8 @@ for (const page of entryPages) {
     // Headquarters keeps its reviewed copy beside the optional expedition module.
     // The actual entry page loads this module before DOMContentLoaded/i18n boot.
     if (page === 'pages/espace-guilde.html') scripts.push('js/guild-expeditions.js');
+    // Character-sheet labels are explicit FR/EN pairs owned by the profile module.
+    if (page === 'pages/profil.html') scripts.push('js/profil.js');
     scripts.push('js/i18n.js');
     for (const script of scripts) pageWindow.eval(read(script));
     pageWindow.document.dispatchEvent(new pageWindow.Event('DOMContentLoaded'));
@@ -157,6 +159,7 @@ for (const page of entryPages) {
             assertEqual(attribute ? element.getAttribute(attribute) : element.textContent, language === 'fr' ? french : english, `${page} ${selector} ${language} reference label`);
         }
     }
+    pageWindow.NamelessProfilePage?.destroy();
 }
 
 console.log(`DOM i18n test passed: dynamic popups, coordinates, FR/EN/FR switching and ${entryPages.length} English entry pages.`);

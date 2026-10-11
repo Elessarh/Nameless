@@ -10,6 +10,7 @@
     global.NamelessTranslations.en = global.NamelessTranslations.en || {};
 
     Object.assign(global.NamelessTranslations.en, {
+        "Renseigner ma présence": "Record my attendance",
         "Navigation du codex": "Codex navigation",
         "Guides d’Aincrad": "Aincrad guides",
         "Informations du monde": "World information",

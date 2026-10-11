@@ -47,8 +47,9 @@
         var img=layer.querySelector('img'), source=layer.querySelector('source');
         if (page==='home') {img.removeAttribute('src'); source.removeAttribute('srcset'); return;}
         var art=scenes[page] || scenes[theme];
-        if (img.getAttribute('src')!==art[0]) img.setAttribute('src',art[0]);
+        // Let picture choose its mobile source before activating the fallback image.
         if (source.getAttribute('srcset')!==art[1]) source.setAttribute('srcset',art[1]);
+        if (img.getAttribute('src')!==art[0]) img.setAttribute('src',art[0]);
     }
     function visibility() { root.dataset.worldHidden = String(!!document.hidden); }
     global.NamelessWorldAtmosphere = {sync:sync};

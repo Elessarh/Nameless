@@ -94,6 +94,7 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
 }
 {
     const s = surface(390), { d, w } = s;
+    const audio = d.createElement('div'); audio.className = 'nm-audio-dock'; audio.inert = false; d.body.appendChild(audio);
     const card = d.querySelector('.item-card'); card.getBoundingClientRect = () => ({ left: 355, right: 405, top: 1, bottom: 51, width: 50, height: 50 });
     const original = w.HTMLElement.prototype.getBoundingClientRect;
     w.HTMLElement.prototype.getBoundingClientRect = function () { return this.id === 'item-tooltip' ? { width: 250, height: 90 } : original.call(this); };
@@ -109,12 +110,47 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     check(modal.contains(d.activeElement) && d.activeElement !== close, 'Mobile dialog contains keyboard focus');
     close.click();
     const toggle = d.getElementById('it-filter-toggle'); toggle.focus(); toggle.click();
-    check(d.querySelector('.items-page').classList.contains('catalogue-filters-open') && d.activeElement.id === 'it-filter-close' && d.querySelector('.catalogue-results').inert, 'Mobile filter drawer focuses its close button and isolates the underlying results');
+    check(d.querySelector('.items-page').classList.contains('catalogue-filters-open') && d.activeElement.id === 'it-filter-close' && d.querySelector('.catalogue-results').inert && audio.inert, 'Mobile filter drawer focuses its close button and isolates the underlying results and audio controls');
     d.getElementById('it-filter-close').dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
-    check(!d.querySelector('.items-page').classList.contains('catalogue-filters-open') && d.activeElement === toggle && !d.querySelector('.catalogue-results').inert && d.body.style.overflow === '', 'Drawer Escape restores focus, inert state and scroll');
+    check(!d.querySelector('.items-page').classList.contains('catalogue-filters-open') && d.activeElement === toggle && !d.querySelector('.catalogue-results').inert && !audio.inert && d.body.style.overflow === '', 'Drawer Escape restores focus, inert state, audio controls and scroll');
     toggle.click(); w.innerWidth = 1440; w.dispatchEvent(new w.Event('resize'));
     check(!d.querySelector('.items-page').classList.contains('catalogue-filters-open') && !d.querySelector('.items-filters').inert && d.body.style.overflow === '', 'Desktop resize releases the drawer cleanly');
     s.close(); check(!d.getElementById('item-tooltip'), 'SPA destruction removes the tooltip and its controller');
+}
+{
+    const s = surface(390), { d, w } = s;
+    const header = d.querySelector('header'), hero = d.querySelector('.items-hero'), results = d.querySelector('.catalogue-results'), filters = d.querySelector('.items-filters'), footer = d.querySelector('footer');
+    footer.inert = true;
+    const audio = d.createElement('div'); audio.className = 'nm-audio-dock'; audio.inert = false;
+    const palette = d.createElement('dialog'); palette.id = 'nameless-global-search'; palette.innerHTML = '<input aria-label="Search">'; d.body.appendChild(palette);
+    d.body.style.overflow = 'clip';
+    const opener = d.querySelector('.item-card'), openerId = opener.dataset.id; opener.focus(); opener.click();
+    const modal = d.querySelector('.item-modal');
+    check([header, hero, results, filters, footer].every(element => element.inert), 'The sheet isolates all background branches, including header and catalogue');
+    d.body.appendChild(audio); await new Promise(resolve => setTimeout(resolve, 0));
+    check(audio.inert, 'An audio dock mounted after the deep-linked sheet also becomes inert');
+    check(!modal.inert && !modal.parentElement.inert && !d.querySelector('.catalogue-layout').inert && !d.querySelector('main').inert && !palette.inert, 'Neither sheet ancestors nor native dialogs receive explicit inert');
+    const secondId = [...d.querySelectorAll('.item-card')][1].dataset.id;
+    w.history.replaceState({}, '', '/items?item=' + secondId); d.dispatchEvent(new w.CustomEvent('nameless:routechange'));
+    check(modal.dataset.item === secondId && header.inert && audio.inert && modal.contains(d.activeElement), 'Selecting another real item through its route preserves sheet isolation and focus');
+    palette.setAttribute('open', ''); const query = palette.querySelector('input'); query.focus();
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    check(d.activeElement === query && !palette.inert, 'A native search palette stays usable and keeps focus while the sheet rebuilds for language');
+    palette.removeAttribute('open'); modal.querySelector('.modal-close').focus();
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    check(header.inert && audio.inert && filters.inert && modal.contains(d.activeElement), 'Language rebuild never releases the background or strands focus outside its sheet');
+    w.innerWidth = 1440; w.dispatchEvent(new w.Event('resize'));
+    check(modal.dataset.panelMode === 'rail' && !header.inert && !hero.inert && !results.inert && !filters.inert && !audio.inert && footer.inert && d.body.style.overflow === 'clip', 'Desktop resize restores the original inert values and current desktop filter baseline');
+    header.querySelector('a').focus(); w.innerWidth = 900; w.dispatchEvent(new w.Event('resize'));
+    check(modal.dataset.panelMode === 'sheet' && header.inert && filters.inert && modal.contains(d.activeElement), 'Tablet resize reinstates sheet isolation and moves background focus into the sheet');
+    modal.querySelector('.modal-close').click();
+    check(!header.inert && !hero.inert && !results.inert && !filters.inert && !audio.inert && footer.inert && d.body.style.overflow === 'clip', 'Closing restores each baseline rather than clearing pre-existing inert');
+    equal(d.activeElement, d.querySelector('.item-card[data-id="' + openerId + '"]'), 'A related route selection retains the rebuilt original opener for return focus');
+    w.innerWidth = 390; w.dispatchEvent(new w.Event('resize')); d.querySelector('.item-card').click();
+    check(filters.inert && header.inert, 'Reopening on mobile recaptures the closed filter baseline');
+    d.querySelector('main').remove(); w.NamelessItemsPage.destroy();
+    check(!header.inert && !audio.inert && footer.inert && d.body.style.overflow === 'clip', 'SPA destruction restores external background and scroll even after the sheet DOM was detached');
+    s.close();
 }
 {
     const index = JSON.parse(read('assets/search-index.json')).entries;

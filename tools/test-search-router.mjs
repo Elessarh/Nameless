@@ -60,6 +60,27 @@ assert.equal(window.document.querySelector('.nm-search-favorite-count').textCont
 assert.ok(window.document.querySelector('.nm-search-empty'),'Removing the last favorite shows the real empty state');
 assert.equal(window.document.activeElement,window.document.querySelector('.nm-search-favorites'),'Removing a focused favorite keeps keyboard focus in the palette');
 window.document.querySelector('.nm-search-close').click();assert.equal(window.document.activeElement,trigger);
+// Search shares the panel exit while keeping its native dialog trap active.
+let pendingClose;
+window.NamelessReferenceShell = {
+    closePanel(panel, finish) {panel.dataset.referenceClosing = 'true'; pendingClose = () => {panel.removeAttribute('data-reference-closing'); finish();};},
+    cancelPanelClose(panel) {panel.removeAttribute('data-reference-closing'); pendingClose = null;}
+};
+trigger.click();
+const searchDialog = window.document.getElementById('nameless-global-search');
+input.value = 'Illfang';
+input.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));
+assert.equal(searchDialog.open,true,'Escape preserves the modal trap through its exit');
+assert.equal(searchDialog.dataset.referenceClosing,'true');
+window.document.dispatchEvent(new window.KeyboardEvent('keydown',{key:'k',ctrlKey:true,bubbles:true,cancelable:true}));
+assert.equal(searchDialog.open,true,'Ctrl+K can reopen an exiting search without losing its original opener');
+assert.equal(searchDialog.hasAttribute('data-reference-closing'),false);
+assert.equal(pendingClose,null,'Reopening cancels the pending exit');
+assert.equal(window.document.activeElement,input);
+window.document.querySelector('.nm-search-close').click();
+pendingClose();
+assert.equal(searchDialog.open,false);
+assert.equal(window.document.activeElement,trigger,'Completed exit restores the original opener');
 // SPA same-route query changes, metadata and failed loads.
 window.NamelessPageRegistry = {normalize:p=>p,get:p=>p==='/items'?{id:'items',path:'/items',source:'pages/items.html',scripts:[],css:[]}:null};
 window.history.replaceState({},'','/items');

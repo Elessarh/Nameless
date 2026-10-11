@@ -11,9 +11,9 @@
     --world-ease-out: cubic-bezier(.16, 1, .3, 1);
     --world-ease-return: cubic-bezier(.4, 0, .2, 1);
     --world-duration-press: 90ms;
-    --world-duration-response: 150ms;
-    --world-duration-panel: 220ms;
-    --world-duration-route: 240ms;
+    --world-duration-response: var(--nm-duration-hover);
+    --world-duration-panel: var(--nm-duration-panel);
+    --world-duration-route: var(--nm-duration-navigation);
     --world-offset-panel: 8px;
     --world-offset-press: 1px;
     --world-environment-opacity: .22;
@@ -56,6 +56,7 @@ html[data-world-shell='true'] :is(.bestiary-page,.items-page) > .nm-scene-hero >
 html[data-world-shell='true'] .guild-hq .guild-hall { background:transparent; }
 html[data-world-shell='true'] .guild-hq .guild-hall::before,
 html[data-world-shell='true'] .guild-hq .guild-hall::after { content:none!important; }
+html[data-world-shell='true'] :is(.guild-hq .guild-hall,.profil-container .profil-hero) > .nm-eyebrow { text-align:start; }
 .nm-page-atmosphere {
     --atmosphere-position:64% 50%;
     --atmosphere-art-opacity:.82;
@@ -119,10 +120,10 @@ html[data-world-atmosphere] :is(.nm-game-button, .nm-button, .nm-search-trigger)
     box-shadow: inset 0 1px 0 rgba(221,215,203,.1), 0 2px 0 rgba(0,0,0,.45);
     transition: transform var(--world-duration-response) var(--world-ease-out), border-color var(--world-duration-response), background-color var(--world-duration-response), box-shadow var(--world-duration-response);
 }
-html[data-world-atmosphere] :is(.nm-game-button, .nm-button, .nm-search-trigger):is(:hover,:focus-visible) {
+html[data-world-atmosphere] :is(.nm-game-button, .nm-button, .nm-search-trigger):not(:disabled):not([aria-disabled='true']):is(:hover,:focus-visible) {
     box-shadow: inset 0 1px 0 rgba(211,190,145,.25), 0 3px 12px rgba(0,0,0,.26);
 }
-html[data-world-atmosphere] :is(.nm-game-button, .nm-button, .nm-search-trigger):active:not(:disabled) { transform: translateY(var(--world-offset-press)); transition-duration: var(--world-duration-press); }
+html[data-world-atmosphere] :is(.nm-game-button, .nm-button, .nm-search-trigger):active:not(:disabled):not([aria-disabled='true']) { transform: translateY(var(--world-offset-press)); transition-duration: var(--world-duration-press); }
 html[data-world-atmosphere] :is(.nm-search-dialog[open], .creature-modal .modal-content, .item-modal .modal-content) {
     animation: world-panel-enter var(--world-duration-panel) var(--world-ease-out) both;
     border-top-color: var(--nm-gold-dark);

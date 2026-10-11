@@ -1,0 +1,463 @@
+{
+  "date": "2026-10-11",
+  "phase": "D",
+  "captures": [
+    {
+      "label": "before-guild-public-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 742.5625,
+        "height": 670.5625,
+        "left": 190,
+        "right": 1730,
+        "top": 72,
+        "width": 1540,
+        "x": 190,
+        "y": 72
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "before-guild-public-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 862.9375,
+        "height": 798.9375,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "before-profile-public-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 483.96875,
+        "height": 419.96875,
+        "left": 0,
+        "right": 390,
+        "top": 64,
+        "width": 390,
+        "x": 0,
+        "y": 64
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "before-profile-public-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 494.375,
+        "height": 422.375,
+        "left": 400,
+        "right": 1520,
+        "top": 72,
+        "width": 1120,
+        "x": 400,
+        "y": 72
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "before-guild-empty-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 1487.796875,
+        "height": 1375.296875,
+        "left": 185,
+        "right": 1725,
+        "top": 112.5,
+        "width": 1540,
+        "x": 185,
+        "y": 112.5
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4182/qa/guild?empty=1",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "before-guild-empty-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 2305.921875,
+        "height": 2181.921875,
+        "left": 0,
+        "right": 380,
+        "top": 124,
+        "width": 380,
+        "x": 0,
+        "y": 124
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4182/qa/guild?empty=1",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "before-profile-linked-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 1444.28125,
+        "height": 1320.28125,
+        "left": 0,
+        "right": 380,
+        "top": 124,
+        "width": 380,
+        "x": 0,
+        "y": 124
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4182/qa/profile?identity=linked",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "before-profile-linked-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 895.4375,
+        "height": 782.9375,
+        "left": 395,
+        "right": 1515,
+        "top": 112.5,
+        "width": 1120,
+        "x": 395,
+        "y": 112.5
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4182/qa/profile?identity=linked",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-profile-linked-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 1000.078125,
+        "height": 887.578125,
+        "left": 335,
+        "right": 1575,
+        "top": 112.5,
+        "width": 1240,
+        "x": 335,
+        "y": 112.5
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4183/qa/profile?identity=linked",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-profile-linked-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 1372.421875,
+        "height": 1248.421875,
+        "left": 0,
+        "right": 380,
+        "top": 124,
+        "width": 380,
+        "x": 0,
+        "y": 124
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4183/qa/profile?identity=linked",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-guild-empty-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 2354.265625,
+        "height": 2230.265625,
+        "left": 0,
+        "right": 380,
+        "top": 124,
+        "width": 380,
+        "x": 0,
+        "y": 124
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4183/qa/guild?empty=1",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-guild-empty-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 1490.375,
+        "height": 1377.875,
+        "left": 185,
+        "right": 1725,
+        "top": 112.5,
+        "width": 1540,
+        "x": 185,
+        "y": 112.5
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4183/qa/guild?empty=1",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-guild-day-768",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1024,
+      "main": {
+        "bottom": 1520.71875,
+        "height": 2292.21875,
+        "left": 0,
+        "right": 758,
+        "top": -771.5,
+        "width": 758,
+        "x": 0,
+        "y": -771.5
+      },
+      "overflow": false,
+      "scrollY": 876,
+      "url": "http://127.0.0.1:4183/qa/guild",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "label": "after-profile-public-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 573.171875,
+        "height": 509.171875,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-profile-public-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 538.28125,
+        "height": 466.28125,
+        "left": 340,
+        "right": 1580,
+        "top": 72,
+        "width": 1240,
+        "x": 340,
+        "y": 72
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/profil/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-guild-public-1920",
+      "atmosphere": true,
+      "broken": [],
+      "height": 1080,
+      "main": {
+        "bottom": 595.90625,
+        "height": 523.90625,
+        "left": 190,
+        "right": 1730,
+        "top": 72,
+        "width": 1540,
+        "x": 190,
+        "y": 72
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-guild-public-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 656.71875,
+        "height": 592.71875,
+        "left": 0,
+        "right": 380,
+        "top": 64,
+        "width": 380,
+        "x": 0,
+        "y": 64
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/espace-guilde/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-profile-missing-390",
+      "atmosphere": true,
+      "broken": [],
+      "height": 844,
+      "main": {
+        "bottom": 1495,
+        "height": 1371,
+        "left": 0,
+        "right": 380,
+        "top": 124,
+        "width": 380,
+        "x": 0,
+        "y": 124
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4183/qa/profile?role=membre&character=missing",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-profile-linked-1280",
+      "atmosphere": true,
+      "broken": [],
+      "height": 900,
+      "main": {
+        "bottom": 1000.078125,
+        "height": 887.578125,
+        "left": 15,
+        "right": 1255,
+        "top": 112.5,
+        "width": 1240,
+        "x": 15,
+        "y": 112.5
+      },
+      "overflow": false,
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4183/qa/profile?identity=linked",
+      "width": 1280,
+      "errors": []
+    }
+  ],
+  "interactions": {
+    "profileDraftAcrossLocale": {
+      "class": "Mage",
+      "level": "42",
+      "savedBeforeSave": {
+        "class": "Warrior",
+        "level": "40"
+      }
+    },
+    "profileSaveIsolated": {
+      "class": "Mage",
+      "level": "42",
+      "feedback": "Changes saved successfully!"
+    },
+    "invalidLevel": {
+      "input": "1.5",
+      "savedLevelUnchanged": "42",
+      "feedback": "Enter a whole-number level from 1 to 100."
+    },
+    "accountDisclosure": true,
+    "missingCharacter": {
+      "class": "Non renseignée",
+      "level": "Non renseigné",
+      "adminVisible": false,
+      "minecraftLinkActionOpensForm": true
+    },
+    "guildCreateDialog": {
+      "admin": true,
+      "escapeRestoresOpener": true
+    },
+    "memberAdministrationActionsVisible": false,
+    "planningFailurePersistsAfter": [
+      "month change",
+      "locale change",
+      "filter edit"
+    ],
+    "calendar768": {
+      "gridColumns": 1,
+      "sideColumn": 1,
+      "horizontalOverflow": false
+    },
+    "publicSignInStates": true
+  },
+  "tests": {
+    "profile": 47,
+    "guild": 69,
+    "memberUi": "pass",
+    "hybridGuild": "pass",
+    "guildExpeditions": "pass",
+    "i18nDom": "13 pages passed",
+    "worldAtmosphere": "13 shells passed",
+    "build": "13 routes, 18 boss pages, 252 search entries"
+  },
+  "limitations": [
+    "Member screenshots use isolated QA records and a local test avatar; production Minecraft avatar remains unchanged.",
+    "No production deployment."
+  ],
+  "productionDeployed": false
+}

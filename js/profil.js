@@ -6,6 +6,7 @@
 let localUserProfile = null;
 let profileInitToken = 0;
 let minecraftLookupController = null;
+let profileLanguageBound = false;
 const MINECRAFT_USERNAME_PATTERN = /^[A-Za-z0-9_]{3,16}$/;
 const MINECRAFT_UUID_PATTERN = /^[0-9a-f]{32}$/i;
 const PROFILE_CLASSES = ['Shaman', 'Mage', 'Assassin', 'Guerrier', 'Archer'];
@@ -16,6 +17,12 @@ document.addEventListener('DOMContentLoaded', initProfilePage);
 // Attendre que l'authentification soit prête ET que l'utilisateur soit connecté
 async function initProfilePage() {
     const token = ++profileInitToken;
+    bindProfileTools();
+    if (!profileLanguageBound) {
+        document.addEventListener('nameless:languagechange', updateProfileLanguage);
+        profileLanguageBound = true;
+    }
+    updateProfileLanguage();
 
     if (!await waitForAuthAndUser(token)) return;
 
@@ -28,6 +35,113 @@ function destroyProfilePage() {
     localUserProfile = null;
     if (minecraftLookupController) minecraftLookupController.abort();
     minecraftLookupController = null;
+    if (profileLanguageBound) document.removeEventListener('nameless:languagechange', updateProfileLanguage);
+    profileLanguageBound = false;
+}
+
+function profileIsEnglish() {
+    return window.NamelessI18n ? window.NamelessI18n.getLanguage() === 'en' : document.documentElement.lang === 'en';
+}
+
+function profileLabel(french, english) {
+    return profileIsEnglish() ? english : french;
+}
+
+function profileClassLabel(value) {
+    const english = { Shaman: 'Shaman', Mage: 'Mage', Assassin: 'Assassin', Guerrier: 'Warrior', Archer: 'Archer' };
+    return profileIsEnglish() && english[value] ? english[value] : value;
+}
+
+// Messages belong to this route. Usernames, UUIDs and saved class values stay unchanged.
+const PROFILE_MESSAGES = {
+    'Vous devez être connecté pour voir votre profil.': 'Sign in to view your character and manage your profile.',
+    'Impossible de charger votre profil. Veuillez reessayer.': 'Unable to load your profile. Please try again.',
+    'Impossible de creer votre fiche joueur. Veuillez reessayer.': 'Unable to create your player profile. Please try again.',
+    'Une erreur technique est survenue.': 'A technical error occurred. Please try again.',
+    'Le niveau doit être entre 1 et 100.': 'Enter a whole-number level from 1 to 100.',
+    'Choisissez une classe valide.': 'Choose a valid class.',
+    'Reconnectez-vous pour sauvegarder votre profil.': 'Sign in again to save your profile.',
+    'Impossible de sauvegarder vos modifications.': 'Unable to save your changes. Please try again.',
+    'Modifications sauvegardées avec succès !': 'Changes saved successfully!',
+    'Minecraft détecté : profil public associé à ton compte.': 'Minecraft detected: public profile linked to your account.',
+    'Minecraft non lié.': 'Minecraft not linked.',
+    'Recherche du profil Minecraft...': 'Looking up the Minecraft profile…',
+    'Profil public trouvé. Sauvegarde en cours...': 'Public profile found. Saving…',
+    'Pseudo Minecraft invalide. Utilise 3 à 16 caractères : lettres, chiffres ou underscore.': 'Invalid Minecraft username. Use 3 to 16 letters, numbers or underscores.',
+    'Pseudo Minecraft introuvable.': 'Minecraft username not found.',
+    'Service public Minecraft indisponible pour le moment.': 'The public Minecraft service is temporarily unavailable.',
+    'Réponse Minecraft publique invalide.': 'Invalid response from the public Minecraft service.',
+    'Ce profil Minecraft est déjà associé à un autre compte.': 'This Minecraft profile is already linked to another account.',
+    'L’association Minecraft est momentanément indisponible. Contactez un administrateur.': 'Minecraft linking is temporarily unavailable. Contact an administrator.',
+    'Impossible d’associer ce pseudo Minecraft.': 'Unable to link this Minecraft username.'
+};
+
+function setProfileMessage(id, french) {
+    const element = document.getElementById(id);
+    if (!element) return;
+    element.dataset.profileMessage = french;
+    element.textContent = profileLabel(french, PROFILE_MESSAGES[french] || (window.NamelessI18n ? window.NamelessI18n.translate(french) : french));
+}
+
+function updateCharacterSummary(profile) {
+    if (!profile) return;
+    const savedClass = typeof profile.classe === 'string' ? profile.classe.trim() : '';
+    const savedLevel = Number(profile.niveau);
+    const hasLevel = profile.niveau !== null && profile.niveau !== undefined && profile.niveau !== '' && Number.isInteger(savedLevel) && savedLevel >= 1 && savedLevel <= 100;
+    setText('profile-class-summary', savedClass ? profileClassLabel(savedClass) : profileLabel('Non renseignée', 'Not set'));
+    setText('profile-level-summary', hasLevel ? String(savedLevel) : profileLabel('Non renseigné', 'Not set'));
+    setText('profile-character-state', savedClass && hasLevel ? profileLabel('Classe et niveau sauvegardés.', 'Saved class and level.') : profileLabel('Complétez les informations de votre personnage ci-dessous.', 'Complete your character information below.'));
+}
+
+function updateProfileLanguage() {
+    const root = document.getElementById('main-content');
+    if (!root || !root.classList.contains('profil-container')) return;
+    root.querySelectorAll('[data-profile-fr]').forEach(element => {
+        // A linking request owns its busy label until it completes.
+        if ((element.id === 'minecraft-link-btn' || element.id === 'save-profile-btn') && element.disabled) return;
+        element.textContent = profileLabel(element.dataset.profileFr, element.dataset.profileEn);
+    });
+    root.querySelectorAll('[data-profile-aria-fr]').forEach(element => element.setAttribute('aria-label', profileLabel(element.dataset.profileAriaFr, element.dataset.profileAriaEn)));
+    root.querySelectorAll('[data-profile-message]').forEach(element => setProfileMessage(element.id, element.dataset.profileMessage));
+    const select = document.getElementById('profile-classe');
+    if (select) select.querySelectorAll('option').forEach(option => {
+        option.textContent = option.value ? profileClassLabel(option.value) : profileLabel('Choisir une classe', 'Choose a class');
+    });
+    if (localUserProfile) {
+        updateCharacterSummary(localUserProfile);
+        renderProfileAccount(localUserProfile);
+        setText('profile-role', getRoleLabel((localUserProfile.role || 'joueur').trim()));
+        setText('mc-display-name', getMinecraftDisplayName(localUserProfile));
+    }
+    const linkButton = document.getElementById('minecraft-link-btn');
+    if (linkButton && linkButton.disabled) linkButton.textContent = profileLabel('Association…', 'Linking…');
+    const saveButton = document.getElementById('save-profile-btn');
+    if (saveButton && saveButton.disabled) saveButton.textContent = profileLabel('Sauvegarde…', 'Saving…');
+}
+
+function bindProfileTools() {
+    const accountLink = document.getElementById('profile-account-link');
+    if (accountLink && !accountLink.dataset.profileToolBound) {
+        accountLink.addEventListener('click', () => { const account = document.getElementById('profile-account'); if (account) account.open = true; });
+        accountLink.dataset.profileToolBound = 'true';
+    }
+    const minecraftLink = document.getElementById('profile-minecraft-link-action');
+    if (minecraftLink && !minecraftLink.dataset.profileToolBound) {
+        minecraftLink.addEventListener('click', () => {
+            const account = document.getElementById('profile-account');
+            if (account) account.open = true;
+        });
+        minecraftLink.dataset.profileToolBound = 'true';
+    }
+    const retry = document.getElementById('profile-retry-btn');
+    if (retry && !retry.dataset.profileToolBound) {
+        retry.addEventListener('click', () => {
+            setElementDisplay('error-content', 'none');
+            setElementDisplay('loading', 'block');
+            initProfilePage();
+        });
+        retry.dataset.profileToolBound = 'true';
+    }
 }
 
 function navigateToConnexion() {
@@ -83,20 +197,23 @@ function getDefaultUsername() {
 }
 
 function getMinecraftDisplayName(profile) {
-    if (!profile) return 'Compte Microsoft connecté';
+    if (!profile) return profileLabel('Compte Microsoft connecté', 'Microsoft account connected');
     if (profile.minecraft_username) return profile.minecraft_username;
-    if (profile.minecraft_uuid) return 'Minecraft détecté';
-    return 'Compte Microsoft connecté';
+    if (typeof window.getPublicProfileName === 'function') {
+        const publicName = window.getPublicProfileName(profile);
+        return publicName === 'Compte Microsoft' ? profileLabel('Compte Microsoft', 'Microsoft account') : publicName;
+    }
+    if (profile.username && !/^Joueur_[A-Za-z0-9]{6}$/.test(profile.username)) return profile.username;
+    if (profile.minecraft_uuid) return profileLabel('Minecraft détecté', 'Minecraft detected');
+    return profileLabel('Compte Microsoft connecté', 'Microsoft account connected');
 }
 
 function getMinecraftUsernameValue(profile) {
-    if (!profile) return 'Non renseigné';
-    return profile.minecraft_username || 'Non renseigné';
+    return profile && profile.minecraft_username ? profile.minecraft_username : profileLabel('Non renseigné', 'Not set');
 }
 
 function getMinecraftUuidValue(profile) {
-    if (!profile) return 'Non renseigné';
-    return profile.minecraft_uuid || 'Non renseigné';
+    return profile && profile.minecraft_uuid ? profile.minecraft_uuid : profileLabel('Non renseigné', 'Not set');
 }
 
 function hasMinecraftIdentity(profile) {
@@ -106,8 +223,8 @@ function hasMinecraftIdentity(profile) {
 function getMinecraftStatusValue(profile) {
     // Il n'existe pas de vérification officielle Microsoft -> Minecraft :
     // seul le profil public compte. Deux états : détecté ou non lié.
-    if (hasMinecraftIdentity(profile)) return 'Minecraft détecté';
-    return 'Minecraft non lié';
+    if (hasMinecraftIdentity(profile)) return profileLabel('Minecraft détecté', 'Minecraft detected');
+    return profileLabel('Minecraft non lié', 'Minecraft not linked');
 }
 
 function getMinecraftAvatarKey(profile) {
@@ -132,7 +249,7 @@ function bindMinecraftAvatarFallback(avatarSection, avatarImg, titleFallback) {
         avatarImg.removeAttribute('src');
         avatarImg.alt = '';
         if (avatarSection) avatarSection.style.display = 'none';
-        if (titleFallback) titleFallback.style.display = 'block';
+        setElementDisplay('profile-avatar-empty', 'block');
     });
 
     avatarImg.dataset.minecraftAvatarFallbackBound = 'true';
@@ -160,7 +277,7 @@ function hasMinecraftLinkReturnState() {
 }
 
 function setMinecraftLinkStatus(message) {
-    setText('minecraft-link-status', message);
+    setProfileMessage('minecraft-link-status', message);
 }
 
 function normalizeMinecraftUsername(value) {
@@ -180,7 +297,7 @@ function setMinecraftLinkBusy(isBusy) {
     if (input) input.disabled = isBusy;
     if (button) {
         button.disabled = isBusy;
-        button.textContent = isBusy ? 'Association...' : 'Associer ce pseudo';
+        button.textContent = isBusy ? profileLabel('Association…', 'Linking…') : profileLabel('Associer ce pseudo', 'Link this username');
     }
 }
 
@@ -454,25 +571,25 @@ function displayProfile(profile) {
 
     var hasMinecraftProfile = hasMinecraftIdentity(profile);
 
-    setText('profile-microsoft-state', 'Compte Microsoft connecté');
-    setText('profile-minecraft-state', getMinecraftStatusValue(profile));
-    setText('profile-minecraft-username', getMinecraftUsernameValue(profile));
-    setText('profile-minecraft-uuid', getMinecraftUuidValue(profile));
+    renderProfileAccount(profile);
     if (displayNameEl) displayNameEl.textContent = mcUsername;
-    if (titleFallback) titleFallback.style.display = 'none';
+    if (titleFallback) titleFallback.style.display = hasMinecraftProfile ? 'none' : 'block';
 
     if (avatarSection && avatarImg && hasMinecraftProfile) {
         bindMinecraftAvatarFallback(avatarSection, avatarImg, titleFallback);
         avatarImg.src = 'https://mc-heads.net/avatar/' + encodeURIComponent(avatarKey) + '/128';
         avatarImg.alt = mcUsername;
         avatarSection.style.display = 'flex';
+        setElementDisplay('profile-avatar-empty', 'none');
     } else if (avatarSection && avatarImg) {
         avatarImg.removeAttribute('src');
         avatarImg.alt = '';
         avatarSection.style.display = 'none';
+        setElementDisplay('profile-avatar-empty', 'block');
     }
 
     setElementDisplay('minecraft-link-info', hasMinecraftProfile ? 'none' : 'block');
+    setElementDisplay('profile-minecraft-link-action', hasMinecraftProfile ? 'none' : 'inline-flex');
     prepareMinecraftPublicLink(profile, hasMinecraftProfile);
 
     // Afficher le rôle avec le bon badge
@@ -484,24 +601,29 @@ function displayProfile(profile) {
     
     // Afficher classe et niveau
     const classSelect = document.getElementById('profile-classe');
-    const currentClass = typeof profile.classe === 'string' ? profile.classe : 'Guerrier';
+    const currentClass = typeof profile.classe === 'string' ? profile.classe : '';
     classSelect.querySelectorAll('option[data-profile-current-class]').forEach((option) => option.remove());
     if (!PROFILE_CLASSES.includes(currentClass)) {
         const option = document.createElement('option');
         option.value = currentClass;
-        option.textContent = currentClass || 'Non renseignée';
+        option.textContent = currentClass || profileLabel('Choisir une classe', 'Choose a class');
         option.dataset.profileCurrentClass = 'true';
         classSelect.appendChild(option);
     }
     classSelect.value = currentClass;
-    document.getElementById('profile-niveau').value = profile.niveau || 1;
+    const levelInput = document.getElementById('profile-niveau');
+    const storedLevel = Number(profile.niveau);
+    levelInput.value = profile.niveau !== null && profile.niveau !== undefined && profile.niveau !== '' && Number.isInteger(storedLevel) && storedLevel >= 1 && storedLevel <= 100 ? String(storedLevel) : '';
+    levelInput.removeAttribute('aria-invalid');
+    classSelect.removeAttribute('aria-invalid');
+    updateCharacterSummary(profile);
     
     // Afficher le bouton Dashboard si admin
     const dashboardBtn = document.getElementById('dashboard-btn');
     
     if (dashboardBtn) {
         if (role === 'admin') {
-            dashboardBtn.style.setProperty('display', 'inline-block', 'important');
+            dashboardBtn.style.setProperty('display', 'flex', 'important');
         } else {
             dashboardBtn.style.setProperty('display', 'none', 'important');
         }
@@ -512,20 +634,13 @@ function displayProfile(profile) {
     
     if (guildeBtn) {
         if (role === 'membre' || role === 'admin') {
-            guildeBtn.style.setProperty('display', 'inline-block', 'important');
+            guildeBtn.style.setProperty('display', 'flex', 'important');
         } else {
             guildeBtn.style.setProperty('display', 'none', 'important');
         }
     }
     
-    // Formater la date de création
-    if (profile.created_at) {
-        const date = new Date(profile.created_at);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('profile-created').textContent = date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
-    } else {
-        document.getElementById('profile-created').textContent = 'Date inconnue';
-    }
+    updateProfileLanguage();
     
     // Ajouter l'event listener pour le bouton de sauvegarde
     const saveBtn = document.getElementById('save-profile-btn');
@@ -536,14 +651,24 @@ function displayProfile(profile) {
     
 }
 
+function renderProfileAccount(profile) {
+    setText('profile-microsoft-state', profileLabel('Compte Microsoft connecté', 'Microsoft account connected'));
+    setText('profile-minecraft-state', getMinecraftStatusValue(profile));
+    setText('profile-minecraft-username', getMinecraftUsernameValue(profile));
+    setText('profile-minecraft-uuid', getMinecraftUuidValue(profile));
+    const date = profile.created_at ? new Date(profile.created_at) : null;
+    const locale = window.NamelessI18n ? window.NamelessI18n.getLocale() : profileIsEnglish() ? 'en-GB' : 'fr-FR';
+    setText('profile-created', date && !Number.isNaN(date.getTime()) ? date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' }) : profileLabel('Date inconnue', 'Unknown date'));
+}
+
 // Obtenir le label du role en francais.
 function getRoleLabel(role) {
     const labels = {
-        'joueur': 'Joueur',
-        'membre': 'Membre',
-        'admin': 'Administrateur'
+        'joueur': profileLabel('Joueur', 'Player'),
+        'membre': profileLabel('Membre', 'Member'),
+        'admin': profileLabel('Administrateur', 'Administrator')
     };
-    return labels[role] || 'Joueur';
+    return labels[role] || labels.joueur;
 }
 
 // Sauvegarder les modifications du profil
@@ -552,34 +677,43 @@ async function saveProfileChanges() {
     const saveBtn = document.getElementById('save-profile-btn');
     if (!saveBtn || saveBtn.disabled) return;
     try {
-        const classe = document.getElementById('profile-classe').value;
-        const niveau = Number(document.getElementById('profile-niveau').value);
+        const classSelect = document.getElementById('profile-classe');
+        const levelInput = document.getElementById('profile-niveau');
+        const classe = classSelect.value;
+        const niveau = Number(levelInput.value);
+        classSelect.removeAttribute('aria-invalid');
+        levelInput.removeAttribute('aria-invalid');
         
         // Valider le niveau
         if (!Number.isInteger(niveau) || niveau < 1 || niveau > 100) {
+            levelInput.setAttribute('aria-invalid', 'true');
+            levelInput.focus();
             showError('Le niveau doit être entre 1 et 100.');
             return;
         }
         
-        const unchangedClass = localUserProfile && classe === localUserProfile.classe;
-        if (!unchangedClass && !PROFILE_CLASSES.includes(classe)) { showError('Choisissez une classe valide.'); return; }
+        const unchangedClass = !!classe && localUserProfile && classe === localUserProfile.classe;
+        if (!unchangedClass && !PROFILE_CLASSES.includes(classe)) { classSelect.setAttribute('aria-invalid', 'true'); classSelect.focus(); showError('Choisissez une classe valide.'); return; }
         if (!window.currentUser) { showError('Reconnectez-vous pour sauvegarder votre profil.'); return; }
+        const userId = window.currentUser.id;
         saveBtn.disabled = true;
         saveBtn.setAttribute('aria-busy', 'true');
+        saveBtn.textContent = profileLabel('Sauvegarde…', 'Saving…');
         const changes = { niveau: niveau };
         if (!unchangedClass) changes.classe = classe;
         // Mettre à jour le profil
         const { error } = await supabase
             .from('user_profiles')
             .update(changes)
-            .eq('id', window.currentUser.id);
+            .eq('id', userId);
+
+        if (token !== profileInitToken || !window.currentUser || window.currentUser.id !== userId) return;
         
         if (error) {
             showError('Impossible de sauvegarder vos modifications.');
             return;
         }
         
-        if (token !== profileInitToken) return;
         showSuccess('Modifications sauvegardées avec succès !');
         
         // Invalider le cache du profil
@@ -596,6 +730,7 @@ async function saveProfileChanges() {
     } finally {
         saveBtn.disabled = false;
         saveBtn.removeAttribute('aria-busy');
+        saveBtn.textContent = profileLabel('Sauvegarder les modifications', 'Save changes');
     }
 }
 
@@ -606,20 +741,29 @@ function showError(message) {
     if (loading) loading.style.display = 'none';
     
     const feedback = document.getElementById('profile-feedback');
-    if (feedback) { feedback.textContent = message; feedback.className = 'profile-feedback error'; }
+    if (feedback) { setProfileMessage('profile-feedback', message); feedback.className = 'profile-feedback error'; }
     const content = document.getElementById('profil-content');
     if (!content || content.style.display === 'none') {
         const errorContent = document.getElementById('error-content');
         const errorText = document.getElementById('error-text');
-        if (errorText) errorText.textContent = message;
+        if (errorText) setProfileMessage('error-text', message);
         if (errorContent) errorContent.style.display = 'block';
+        const signedIn = !!window.currentUser;
+        setElementDisplay('profile-login-btn', signedIn ? 'none' : 'inline-flex');
+        setElementDisplay('profile-retry-btn', signedIn ? 'flex' : 'none');
+        const title = document.getElementById('profile-error-title');
+        if (title) {
+            title.dataset.profileFr = signedIn ? 'Profil indisponible' : 'Retrouvez votre personnage';
+            title.dataset.profileEn = signedIn ? 'Profile unavailable' : 'Return to your character';
+            title.textContent = profileLabel(title.dataset.profileFr, title.dataset.profileEn);
+        }
     }
 }
 
 // Afficher un message de succès
 function showSuccess(message) {
     const feedback = document.getElementById('profile-feedback');
-    if (feedback) { feedback.textContent = message; feedback.className = 'profile-feedback success'; }
+    if (feedback) { setProfileMessage('profile-feedback', message); feedback.className = 'profile-feedback success'; }
 }
 
 })();

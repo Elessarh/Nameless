@@ -16,7 +16,7 @@
 .nm-game-frame:where(a, button) {
     transition: border-color var(--nm-duration-select) var(--nm-ease);
 }
-.nm-game-frame:where(a, button):is(:hover, :focus-visible) {
+.nm-game-frame:where(a, button):not(:disabled):not([aria-disabled='true']):is(:hover, :focus-visible) {
     border-color: var(--nm-gold);
 }
 .nm-game-panel {
@@ -44,7 +44,7 @@
         background-color var(--nm-duration-hover) var(--nm-ease),
         border-color var(--nm-duration-hover) var(--nm-ease);
 }
-.nm-game-button:is(:hover, :focus-visible) {
+.nm-game-button:not(:disabled):not([aria-disabled='true']):is(:hover, :focus-visible) {
     border-color: var(--nm-gold-light);
     background: var(--nm-surface);
     color: var(--nm-text-bright);
@@ -54,7 +54,7 @@
     background: var(--nm-gold);
     color: var(--nm-bg);
 }
-.nm-game-button--primary:is(:hover, :focus-visible) {
+.nm-game-button--primary:not(:disabled):not([aria-disabled='true']):is(:hover, :focus-visible) {
     background: var(--nm-gold-light);
     color: var(--nm-bg);
 }

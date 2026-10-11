@@ -14,6 +14,7 @@
         "Événements du mois": "Events this month", "Dernières annonces": "Latest announcements", "Chargement des annonces…": "Loading announcements…",
         "Membres de la guilde": "Guild members", "Chargement de l’annuaire…": "Loading member directory…", "Membres enregistrés dans la guilde.": "Registered guild members.",
         "Accès rapides": "Quick access", "Guide de la guilde": "Guild guide", "Voir les objectifs ›": "View objectives ›", "Chargement des objectifs…": "Loading objectives…",
+        "Renseigner ma présence": "Record my attendance",
         "Créer une expédition": "Create expedition", "Rechercher une expédition…": "Search expeditions…", "Rechercher une expédition": "Search expeditions",
         "Tous les types": "All types", "Actualiser": "Refresh", "Annuaire des membres": "Member directory", "Gérer les membres ›": "Manage members ›",
         "Rechercher un membre…": "Search members…", "Rechercher un membre": "Search members", "Objectifs et ressources": "Objectives and resources", "Administrer ›": "Administration ›",
@@ -35,14 +36,37 @@
         "Date et heure · Paris": "Date and time · Paris", "Palier (facultatif)": "Floor (optional)", "Lieu (facultatif)": "Location (optional)", "Places (facultatif)": "Slots (optional)",
         "Capacité totale (facultatif)": "Total capacity (optional)", "Checklist · une ligne par préparation": "Checklist · one preparation per line", "Publier l’expédition": "Publish expedition",
         "Les places par rôle et les checklists attendent l’activation du service de guilde.": "Role slots and checklists are awaiting guild service activation.",
-        "Cette date n’existe pas dans le fuseau de Paris.": "This date does not exist in the Paris time zone.", "Choisissez une date future.": "Choose a future date.", "Publication…": "Publishing…"
+        "Cette date n’existe pas dans le fuseau de Paris.": "This date does not exist in the Paris time zone.", "Choisissez une date future.": "Choose a future date.", "Publication…": "Publishing…",
+        "Les prochaines sorties apparaîtront ici dès leur publication.": "Upcoming outings will appear here when published.",
+        "Essayez un autre nom ou retirez le filtre de type.": "Try a different name or clear the type filter.",
+        "Effacer les filtres": "Clear filters", "Consulter le guide": "Read the guide", "Réessayer": "Try again",
+        "L’annuaire présente les comptes ayant accès à la guilde.": "The directory shows accounts with guild access.",
+        "Essayez un autre pseudo pour retrouver un membre.": "Try a different username to find a member.",
+        "Effacer la recherche": "Clear search", "Voir le planning": "View schedule"
     });
     var state = null;
     var typeLabels = { raid: 'Raid', reunion: 'Réunion', event: 'Événement', pvp: 'PvP', construction: 'Construction', autre: 'Autre' };
     var statusLabels = { open: 'Ouverte', preparing: 'En préparation', closed: 'Fermée', cancelled: 'Annulée' };
     var roles = ['Tank', 'DPS', 'Support'];
     function el(tag, className, text) { var node = document.createElement(tag); if (className) node.className = className; if (text != null) node.textContent = text; return node; }
-    function empty(target, text) { target.replaceChildren(el('div', 'hq-empty', text)); }
+    function icon(name) {
+        var paths = { calendar: 'M4 5h16v16H4zM8 2v6m8-6v6M4 11h16m-11 5h6', members: 'M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6m-14 15v-3a5 5 0 0 1 10 0v3m4-7a5 5 0 0 1 6 5v3', retry: 'M20 7v5h-5M4 17v-5h5M6 7a7 7 0 0 1 12-2l2 2M4 17l2 2a7 7 0 0 0 12-2', raid: 'm5 3 12 14m-1-14L4 15m-1 1 5 5m8-5 5 5M4 20l4-4m8 0 4 4', reunion: 'M4 5h16v11H9l-5 4z', event: 'm12 3 2.5 5 5.5.8-4 4 .9 5.7-4.9-2.7-4.9 2.7.9-5.7-4-4L9.5 8z', construction: 'm3 21 8-8m-4-5 6 6m-4-6 6-6 7 7-6 6' };
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('focusable', 'false');
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); path.setAttribute('d', paths[name] || paths.calendar); svg.appendChild(path); return svg;
+    }
+    function empty(target, text, options) {
+        options = options || {};
+        var box = el('div', 'hq-empty'); box.appendChild(icon(options.icon || 'calendar')); box.appendChild(el('strong', '', text));
+        if (options.description) box.appendChild(el('p', '', tr(options.description)));
+        if (options.action) {
+            var action = el(options.href ? 'a' : 'button', 'hq-button hq-empty-action', tr(options.action));
+            if (options.href) action.href = options.href;
+            else { action.type = 'button'; listen(options.state, action, 'click', options.onClick); }
+            box.appendChild(action);
+        }
+        target.replaceChildren(box);
+    }
     function tr(text) { return global.NamelessI18n ? global.NamelessI18n.translate(text) : text; }
     function locale() { return global.NamelessI18n ? global.NamelessI18n.getLocale() : 'fr-FR'; }
     function key(date) { return global.NamelessGuildDates.dateKey(date); }
@@ -67,7 +91,7 @@
     function eventCard(s, event) {
         var button = el('button', 'hq-event'); button.type = 'button'; button.dataset.type = event.type_event;
         button.setAttribute('aria-haspopup', 'dialog'); button.dataset.eventId = event.id; button.dataset.selected = String(s.selectedEvent === event.id);
-        var art = el('span', 'hq-event-art'); art.setAttribute('aria-hidden', 'true');
+        var art = el('span', 'hq-event-art'); art.setAttribute('aria-hidden', 'true'); art.appendChild(icon(event.type_event === 'pvp' ? 'raid' : event.type_event));
         var copy = el('span', 'hq-event-copy'); copy.appendChild(el('strong', '', event.titre));
         var where = [tr(typeLabels[event.type_event] || event.type_event)];
         if (event.floor != null) where.unshift(tr('Palier') + ' ' + event.floor);
@@ -91,12 +115,25 @@
     }
     function renderEvents(s) {
         if (!valid(s)) return;
+        var create = s.root.querySelector('[data-guild-create]');
+        if (create) create.hidden = s.role !== 'admin' || s.planningError;
         var query = (s.root.querySelector('[data-guild-event-search]').value || '').trim().toLocaleLowerCase();
         var type = s.root.querySelector('[data-guild-event-type]').value;
         s.root.querySelectorAll('[data-guild-events]').forEach(function (list) {
+            if (s.planningError) {
+                empty(list, tr('Le planning n’a pas pu être chargé. Utilisez Actualiser pour réessayer.'), { icon: 'retry', action: 'Réessayer', state: s, onClick: function () { refresh(s); } });
+                return;
+            }
             var rows = list.dataset.guildEvents === 'upcoming' ? s.upcoming.slice(0, 3) : s.upcoming.filter(function (event) { return (!type || event.type_event === type) && (!query || (event.titre + ' ' + (event.location || '') + ' ' + (event.description || '')).toLocaleLowerCase().includes(query)); });
             list.replaceChildren();
-            if (!rows.length) empty(list, tr('Aucune expédition publiée pour cette sélection.'));
+            if (!rows.length) {
+                var filtered = list.dataset.guildEvents !== 'upcoming' && !!(query || type);
+                var options = { icon: 'calendar', description: filtered ? 'Essayez un autre nom ou retirez le filtre de type.' : 'Les prochaines sorties apparaîtront ici dès leur publication.', state: s };
+                if (filtered) { options.action = 'Effacer les filtres'; options.onClick = function () { s.root.querySelector('[data-guild-event-search]').value = ''; s.root.querySelector('[data-guild-event-type]').value = ''; renderEvents(s); s.root.querySelector('[data-guild-event-search]').focus(); }; }
+                else if (s.role === 'admin') { options.action = 'Créer une expédition'; options.onClick = function (event) { openCreate(s, event.currentTarget); }; }
+                else { options.action = 'Consulter le guide'; options.href = '/wiki'; }
+                empty(list, tr('Aucune expédition publiée pour cette sélection.'), options);
+            }
             else rows.forEach(function (event) { list.appendChild(eventCard(s, event)); });
         });
     }
@@ -125,7 +162,10 @@
         var rows = s.root.querySelector('#hq-day-events'); rows.replaceChildren();
         if (s.selectedDay) s.monthEvents.filter(function (event) { return key(event.date_event) === s.selectedDay; }).forEach(function (event) { rows.appendChild(eventCard(s, event)); });
         grid.setAttribute('aria-busy', String(!!s.monthLoading));
-        s.root.querySelector('#hq-calendar-note').textContent = s.monthLoading ? tr('Chargement du calendrier…') : s.calendarError ? tr('Le calendrier n’a pas pu être chargé.') : s.monthEvents.length ? tr('Sélectionnez un jour marqué pour voir ses expéditions.') : tr('Aucun événement publié ce mois-ci.');
+        var note = s.root.querySelector('#hq-calendar-note');
+        note.replaceChildren();
+        if (!s.monthLoading && !s.monthEvents.length) note.appendChild(icon('calendar'));
+        note.appendChild(document.createTextNode(s.monthLoading ? tr('Chargement du calendrier…') : s.calendarError ? tr('Le calendrier n’a pas pu être chargé.') : s.monthEvents.length ? tr('Sélectionnez un jour marqué pour voir ses expéditions.') : tr('Aucun événement publié ce mois-ci.')));
     }
     function renderMembers(s) {
         if (!valid(s)) return;
@@ -135,7 +175,13 @@
             var rows = s.members.filter(function (member) { return ((member.minecraft_username || '') + ' ' + (member.username || '')).toLocaleLowerCase().includes(query); });
             if (list.dataset.guildMembers === 'preview') rows = s.members.slice(0, 5);
             list.replaceChildren();
-            if (!rows.length) { empty(list, s.memberError ? tr('L’annuaire n’a pas pu être chargé.') : tr('Aucun membre pour cette sélection.')); return; }
+            if (!rows.length) {
+                var filtered = !!query && list.dataset.guildMembers !== 'preview';
+                var options = { icon: s.memberError ? 'retry' : 'members', description: filtered ? 'Essayez un autre pseudo pour retrouver un membre.' : 'L’annuaire présente les comptes ayant accès à la guilde.', state: s };
+                if (s.memberError) { options.action = 'Réessayer'; options.onClick = function () { refresh(s); }; }
+                else if (filtered) { options.action = 'Effacer la recherche'; options.onClick = function () { s.root.querySelector('[data-guild-member-search]').value = ''; renderMembers(s); s.root.querySelector('[data-guild-member-search]').focus(); }; }
+                empty(list, s.memberError ? tr('L’annuaire n’a pas pu être chargé.') : tr('Aucun membre pour cette sélection.'), options); return;
+            }
             rows.forEach(function (member) {
                 var row = el('div', 'hq-member');
                 var image = el('img'); image.alt = ''; image.loading = 'lazy';
@@ -186,11 +232,11 @@
         var members = results[1].status === 'fulfilled' ? results[1].value : { error: true };
         var attendance = results[2].status === 'fulfilled' ? results[2].value : { error: true };
         s.services = !attendance.error;
+        s.planningError = !!planning.error;
         s.upcoming = planning.error ? [] : planning.data || []; s.members = members.error ? [] : members.data || []; s.memberError = !!members.error;
         if (s.services) await loadAttendance(s);
         if (!valid(s) || request !== s.refreshRequest) return;
         renderEvents(s); renderMembers(s); updateSetup(s);
-        if (planning.error) s.root.querySelectorAll('[data-guild-events]').forEach(function (list) { empty(list, tr('Le planning n’a pas pu être chargé. Utilisez Actualiser pour réessayer.')); });
         await loadMonth(s);
     }
     function showDialog(s, trigger) {
@@ -308,7 +354,7 @@
         destroy();
         if (!root || !root.matches('[data-guild-hq]') || !options || !options.client || !options.user || !['membre', 'admin'].includes(options.role)) return;
         var today = key(new Date()).split('-');
-        var s = { root: root, client: options.client, user: options.user, role: options.role, controller: new AbortController(), month: new Date(Date.UTC(Number(today[0]), Number(today[1]) - 1, 1)), monthRequest: 0, dialogRequest: 0, refreshRequest: 0, attendanceRequest: 0, services: false, upcoming: [], monthEvents: [], members: [], attendance: [], selectedDay: null, dialog: root.querySelector('#guild-event-dialog') };
+        var s = { root: root, client: options.client, user: options.user, role: options.role, controller: new AbortController(), month: new Date(Date.UTC(Number(today[0]), Number(today[1]) - 1, 1)), monthRequest: 0, dialogRequest: 0, refreshRequest: 0, attendanceRequest: 0, planningError: false, services: false, upcoming: [], monthEvents: [], members: [], attendance: [], selectedDay: null, dialog: root.querySelector('#guild-event-dialog') };
         state = s;
         if (global.NamelessI18n) global.NamelessI18n.apply(root);
         root.querySelectorAll('[data-hq-tab]').forEach(function (button) {

@@ -21,7 +21,7 @@
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../css/tokens.css?v=20261011ux2e">
     <link rel="stylesheet" href="../css/style.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/guilde.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/guilde.css?v=20261011phased3">
     <link rel="stylesheet" href="../css/components/activity-wall.css?v=20261008hybrid">
     <link rel="stylesheet" href="../css/components/guild-chat.css?v=20261008hybrid">
     <link rel="stylesheet" href="../css/components/guild-dm.css?v=20261008hybrid">
@@ -43,13 +43,13 @@
     <meta name="twitter:title" content="Espace guilde — Nameless">
     <meta name="twitter:description" content="Espace privé de la guilde Nameless — accès réservé aux membres.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/global-search.css?v=20261009ux1">
-    <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011ux2e">
-    <link rel="stylesheet" href="../css/components/guild-reference.css?v=20261011anime4">
-    <script src="../js/world-atmosphere.js?v=20261011ux2e" defer></script>
-    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
-    <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261011phasee2">
+    <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261011phasee2">
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011phasee2">
+    <link rel="stylesheet" href="../css/components/guild-reference.css?v=20261011phased3">
+    <script src="../js/world-atmosphere.js?v=20261011phasee2" defer></script>
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261011phasee2">
+    <script src="/js/reference-shell.js?v=20261011phasee2" defer></script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
@@ -91,18 +91,55 @@
 <div id="loading" class="loading" role="status" aria-live="polite"><p>Ouverture du quartier général…</p></div>
 <div id="guilde-content" style="display: none;"><nav class="guild-hq-tabs" role="tablist" aria-label="Quartier général"><button class="guild-hq-tab" id="hq-tab-overview" role="tab" aria-controls="hq-overview" aria-selected="true" tabindex="0" data-hq-tab="overview">Aperçu</button><button class="guild-hq-tab" id="hq-tab-expeditions" role="tab" aria-controls="hq-expeditions" aria-selected="false" tabindex="-1" data-hq-tab="expeditions">Expéditions</button><button class="guild-hq-tab" id="hq-tab-members" role="tab" aria-controls="hq-members" aria-selected="false" tabindex="-1" data-hq-tab="members">Membres</button><button class="guild-hq-tab" id="hq-tab-resources" role="tab" aria-controls="hq-resources" aria-selected="false" tabindex="-1" data-hq-tab="resources">Ressources</button><button class="guild-hq-tab" id="hq-tab-settings" role="tab" aria-controls="hq-settings" aria-selected="false" tabindex="-1" data-hq-tab="settings">Paramètres</button></nav>
 <div id="hq-overview" role="tabpanel" aria-labelledby="hq-tab-overview" data-hq-panel="overview">
-<div class="guilde-two-columns"><div class="guilde-right-column"><div class="hq-panel-head"><h2>Prochaines expéditions</h2><button type="button" data-hq-go="expeditions">Voir toutes ›</button></div><div id="planning-list" class="hq-events" data-guild-events="upcoming"><div class="hq-empty">Chargement des événements publiés…</div></div></div>
-<section class="hq-panel" aria-labelledby="hq-calendar-title"><div class="hq-panel-head"><h2 id="hq-calendar-title">Calendrier</h2></div><div class="hq-calendar-nav"><button type="button" class="hq-square" data-calendar-offset="-1" aria-label="Mois précédent">‹</button><strong id="hq-month-label"></strong><button type="button" class="hq-square" data-calendar-offset="1" aria-label="Mois suivant">›</button></div><div id="hq-calendar" class="hq-calendar-grid" aria-label="Événements du mois"></div><p id="hq-calendar-note" class="hq-calendar-note" role="status"></p><div id="hq-day-events" class="hq-events"></div></section></div>
-<div class="guild-overview-row"><section class="hq-panel"><div class="hq-panel-head"><h2>Dernières annonces</h2></div><div class="activity-wall-container"><div class="activity-wall-header"><h2 class="activity-wall-title">Annonces de la guilde</h2></div><div id="activity-wall-content" class="activity-wall-content"><div class="hq-empty">Chargement des annonces…</div></div></div></section>
-<section class="hq-panel"><div class="hq-panel-head"><h2>Membres de la guilde <span data-guild-member-count></span></h2><button type="button" data-hq-go="members">Voir tous ›</button></div><div class="hq-members" data-guild-members="preview"><div class="hq-empty">Chargement de l’annuaire…</div></div><p class="hq-calendar-note">Membres enregistrés dans la guilde.</p></section></div>
-<div class="guild-overview-row"><section class="hq-panel"><div class="hq-panel-head"><h2>Accès rapides</h2></div><nav class="hq-quick" aria-label="Accès rapides"><a href="/carte"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-map"></use></svg>Carte d’Aincrad</a><a href="/bestiaire"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-bestiary"></use></svg>Bestiaire</a><a href="/items"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-items"></use></svg>Objets</a><button type="button" data-hq-go="expeditions"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-guild"></use></svg>Planning</button><button type="button" data-hq-go="resources"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-items"></use></svg>Ressources</button><a href="/wiki"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-guild"></use></svg>Guide de la guilde</a></nav></section>
-<section class="hq-panel"><div class="hq-panel-head"><h2>Objectifs de la semaine</h2><button type="button" data-hq-go="resources">Voir les objectifs ›</button></div><div id="hq-objective-preview" class="hq-empty">Chargement des objectifs…</div></section></div></div>
+<div class="guilde-two-columns">
+    <div class="guilde-right-column">
+        <section class="hq-panel" aria-labelledby="hq-upcoming-title">
+            <div class="hq-panel-head"><h2 id="hq-upcoming-title">Prochaines expéditions</h2><button type="button" data-hq-go="expeditions">Voir toutes ›</button></div>
+            <div id="planning-list" class="hq-events" data-guild-events="upcoming"><div class="hq-empty">Chargement des événements publiés…</div></div>
+        </section>
+        <section class="hq-panel" aria-labelledby="hq-announcements-title">
+            <div class="hq-panel-head"><h2 id="hq-announcements-title">Dernières annonces</h2><a href="/admin-dashboard" data-guild-admin data-guild-announcement-admin hidden>Administration</a></div>
+            <div class="activity-wall-container"><div class="activity-wall-header"><h2 class="activity-wall-title">Annonces de la guilde</h2></div><div id="activity-wall-content" class="activity-wall-content"><div class="hq-empty">Chargement des annonces…</div></div></div>
+        </section>
+        <section class="hq-panel" aria-labelledby="hq-quick-title">
+            <div class="hq-panel-head"><h2 id="hq-quick-title">Accès rapides</h2></div>
+            <nav class="hq-quick" aria-label="Accès rapides">
+                <a href="/carte"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-map"></use></svg>Carte d’Aincrad</a>
+                <a href="/bestiaire"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-bestiary"></use></svg>Bestiaire</a>
+                <a href="/items"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-items"></use></svg>Objets</a>
+                <button type="button" data-hq-go="expeditions"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-guild"></use></svg>Planning</button>
+                <button type="button" data-hq-go="resources"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-items"></use></svg>Ressources</button>
+                <a href="/wiki"><svg aria-hidden="true"><use href="/assets/ui/nameless-icons.svg#icon-guild"></use></svg>Guide de la guilde</a>
+            </nav>
+        </section>
+    </div>
+    <div class="guild-side-column">
+        <section class="hq-panel" aria-labelledby="hq-calendar-title">
+            <div class="hq-panel-head"><h2 id="hq-calendar-title">Calendrier</h2><span class="hq-timezone">Paris</span></div>
+            <div class="hq-calendar-nav"><button type="button" class="hq-square" data-calendar-offset="-1" aria-label="Mois précédent">‹</button><strong id="hq-month-label"></strong><button type="button" class="hq-square" data-calendar-offset="1" aria-label="Mois suivant">›</button></div>
+            <div id="hq-calendar" class="hq-calendar-grid" aria-label="Événements du mois"></div><p id="hq-calendar-note" class="hq-calendar-note" role="status"></p><div id="hq-day-events" class="hq-events"></div>
+        </section>
+        <section class="hq-panel" aria-labelledby="hq-members-title">
+            <div class="hq-panel-head"><h2 id="hq-members-title">Membres <span data-guild-member-count></span></h2><button type="button" data-hq-go="members">Voir tous ›</button></div>
+            <div class="hq-members" data-guild-members="preview"><div class="hq-empty">Chargement de l’annuaire…</div></div><p class="hq-calendar-note">Membres enregistrés dans la guilde.</p>
+            <button type="button" class="hq-button hq-attendance-link" data-hq-go="settings">Renseigner ma présence</button>
+        </section>
+        <section class="hq-panel" aria-labelledby="hq-objectives-title">
+            <div class="hq-panel-head"><h2 id="hq-objectives-title">Objectifs de la semaine</h2><button type="button" data-hq-go="resources">Voir tous ›</button></div><div id="hq-objective-preview"><div class="hq-empty">Chargement des objectifs…</div></div>
+        </section>
+    </div>
+</div></div>
 <section id="hq-expeditions" role="tabpanel" aria-labelledby="hq-tab-expeditions" data-hq-panel="expeditions" hidden class="hq-panel"><div class="hq-panel-head"><h2>Expéditions</h2><button type="button" class="hq-button" data-guild-create hidden>Créer une expédition</button></div><div class="hq-toolbar"><input type="search" data-guild-event-search placeholder="Rechercher une expédition…" aria-label="Rechercher une expédition"><select data-guild-event-type aria-label="Type d’événement"><option value="">Tous les types</option><option value="raid">Raid</option><option value="reunion">Réunion</option><option value="event">Événement</option><option value="pvp">PvP</option><option value="construction">Construction</option><option value="autre">Autre</option></select><button type="button" class="hq-button" data-guild-refresh>Actualiser</button></div><div class="hq-events" data-guild-events="all"></div><p class="hq-feedback" data-guild-setup role="status"></p></section>
 <section id="hq-members" role="tabpanel" aria-labelledby="hq-tab-members" data-hq-panel="members" hidden class="hq-panel"><div class="hq-panel-head"><h2>Annuaire des membres</h2><a href="/admin-dashboard" data-guild-admin hidden>Gérer les membres ›</a></div><div class="hq-toolbar"><input type="search" data-guild-member-search placeholder="Rechercher un membre…" aria-label="Rechercher un membre"></div><div class="hq-members-full" data-guild-members="all"></div></section>
-<section id="hq-resources" role="tabpanel" aria-labelledby="hq-tab-resources" data-hq-panel="resources" hidden class="hq-panel"><div class="hq-panel-head"><h2>Objectifs et ressources</h2><a href="/admin-dashboard" data-guild-admin hidden>Administrer ›</a></div><div id="objectives-list"><div class="no-data">Aucun objectif défini</div></div><nav class="guild-resource-links" aria-label="Ressources de la guilde"><a href="/carte">Carte d’Aincrad</a><a href="/wiki">Guides et informations</a><a href="/items">Catalogue d’objets</a></nav></section>
+<section id="hq-resources" role="tabpanel" aria-labelledby="hq-tab-resources" data-hq-panel="resources" hidden class="hq-panel"><div class="hq-panel-head"><h2>Objectifs et ressources</h2><a href="/admin-dashboard" data-guild-admin data-guild-objectives-admin hidden>Administration</a></div><div id="objectives-list"><div class="no-data">Aucun objectif défini</div></div><nav class="guild-resource-links" aria-label="Ressources de la guilde"><a href="/carte">Carte d’Aincrad</a><a href="/wiki">Guides et informations</a><a href="/items">Catalogue d’objets</a></nav></section>
 <section id="hq-settings" role="tabpanel" aria-labelledby="hq-tab-settings" data-hq-panel="settings" hidden class="hq-panel"><div class="hq-panel-head"><h2>Personnage et présence</h2><a href="/profil">Modifier mon profil ›</a></div><p class="guild-section-copy">Renseignez votre statut pour l’appel du jour.</p><div class="appel-actions"><button id="mark-presence-btn" class="appel-btn present-btn">Marquer ma présence</button><button id="mark-absence-btn" class="appel-btn absent-btn">Déclarer une absence</button></div><p id="presence-feedback" class="presence-feedback" role="status" aria-live="polite"></p><div id="presence-list" class="presence-grid"><div class="no-data">Chargement des présences…</div></div></section>
 </div>
-<div id="access-denied" class="guilde-denied hq-private-gate" style="display: none;"><h2>Bienvenue au quartier général</h2><p id="access-denied-text">Cet espace est réservé aux membres de la guilde Nameless.</p><p class="guilde-denied-hint">Connectez-vous avec votre compte membre pour retrouver les expéditions, le calendrier et les échanges de la guilde.</p><a href="/connexion" class="hq-button">Connexion à la guilde</a> <a href="https://discord.gg/BwxjRmh6qK" class="hq-button" target="_blank" rel="noopener noreferrer">Rejoindre Discord</a></div>
+<div id="access-denied" class="guilde-denied hq-private-gate" style="display: none;">
+    <svg class="hq-gate-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 10h14v11H5zM8 10V6a4 4 0 0 1 8 0v4M12 14v3"></path></svg>
+    <h2>Bienvenue au quartier général</h2><p id="access-denied-text">Cet espace est réservé aux membres de la guilde Nameless.</p>
+    <p class="guilde-denied-hint" data-guild-gate-hint>Connectez-vous avec votre compte membre pour retrouver les expéditions, le calendrier et les échanges de la guilde.</p>
+    <div class="hq-gate-actions"><a href="/connexion" class="hq-button" data-guild-gate-login>Connexion à la guilde</a><a href="/profil" class="hq-button" data-guild-gate-profile hidden>Mon profil</a><a href="https://discord.gg/BwxjRmh6qK" class="hq-button" target="_blank" rel="noopener noreferrer">Rejoindre Discord</a></div>
+</div>
 <dialog class="hq-dialog" id="guild-event-dialog" aria-labelledby="guild-event-dialog-title"><button type="button" class="hq-square hq-close" data-guild-dialog-close aria-label="Fermer la fiche">×</button><div data-guild-dialog-content></div></dialog>
     <!-- Bouton flottant pour le chat -->
     <button class="chat-float-button" id="chat-toggle-btn" aria-label="Ouvrir le chat de la guilde" style="display: none;" aria-controls="guild-chat">
@@ -226,7 +263,7 @@
 
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261011ux2e" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261011phased3" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -239,12 +276,12 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/guild-expeditions.js?v=20261010regions" defer></script>
-    <script src="../js/espace-guilde.js?v=20261009hq" defer></script>
-    <script src="../js/guild-chat.js?v=20261008hybrid" defer></script>
+    <script src="../js/guild-expeditions.js?v=20261011phased3" defer></script>
+    <script src="../js/espace-guilde.js?v=20261011phased3" defer></script>
+    <script src="../js/guild-chat.js?v=20261011phasee2" defer></script>
     <script src="../js/guild-dm.js?v=20261007a" defer></script>
-    <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261011phasee2" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
-    <script src="../js/global-search.js?v=20261010phase3native" defer></script>
+    <script src="../js/global-search.js?v=20261011phasee2" defer></script>
 </body>
 </html>

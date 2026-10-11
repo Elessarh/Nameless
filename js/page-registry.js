@@ -39,7 +39,7 @@
         // a démarré sur une route propre servie par 404.html (fallback SPA),
         // dont le <head> ne contient pas les styles/scripts de l'accueil.
         css: [
-            'css/components/mmorpg-kit.css?v=20261008sao',
+            'css/components/mmorpg-kit.css?v=20261011phasee2',
             'css/components/home.css?v=20261009premium',
             'css/components/home-premium.css?v=20261010phase3native',
             'css/components/reference-home.css?v=20261011anime4'
@@ -113,10 +113,10 @@
             css: [
                 'css/components/bestiaire.css?v=20261011phasec4',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011phasec4'
+                'css/components/reference-catalogs.css?v=20261011phasee2'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261011phasec4'
+                'js/bestiaire.js?v=20261011phasee2'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -137,7 +137,7 @@
             css: [
                 'css/components/items.css?v=20261011phasec4',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011phasec4'
+                'css/components/reference-catalogs.css?v=20261011phasee2'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
@@ -229,12 +229,12 @@
             source: 'pages/profil.html',
             title: 'Mon profil - Nameless',
             css: [
-                'css/components/profil.css?v=20261008hybrid'
+                'css/components/profil.css?v=20261011phased3'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/profil.js?v=20261008hybrid'
+                'js/profil.js?v=20261011phased3'
             ],
             init: function (root) {
                 if (global.NamelessProfilePage && typeof global.NamelessProfilePage.init === 'function') {
@@ -280,19 +280,19 @@
             aliases: ['/espace-guilde.html'],
             title: 'Espace guilde - Nameless',
             css: [
-                'css/components/guilde.css?v=20261008hybrid',
+                'css/components/guilde.css?v=20261011phased3',
                 'css/components/activity-wall.css?v=20261008hybrid',
                 'css/components/guild-chat.css?v=20261008hybrid',
                 'css/components/guild-dm.css?v=20261008hybrid',
                 'css/components/guilde-nameless.css?v=20261008hybrid',
-                'css/components/guild-reference.css?v=20261011anime4'
+                'css/components/guild-reference.css?v=20261011phased3'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/guild-expeditions.js?v=20261010regions',
-                'js/espace-guilde.js?v=20261009hq',
-                'js/guild-chat.js?v=20261008hybrid',
+                'js/guild-expeditions.js?v=20261011phased3',
+                'js/espace-guilde.js?v=20261011phased3',
+                'js/guild-chat.js?v=20261011phasee2',
                 'js/guild-dm.js?v=20261007a'
             ],
             init: function (root) {

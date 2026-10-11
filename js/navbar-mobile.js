@@ -34,14 +34,15 @@ class MobileNavbar {
                 event.preventDefault();
                 this.closeMenu(true);
             } else if (event.key === 'Tab') {
-                const focusable = [...this.header.querySelectorAll('a[href], button:not([disabled])')]
-                    .filter((element) => element.getClientRects().length);
+                const focusable = [...this.header.querySelectorAll('a[href], button:not([disabled]), summary, [tabindex]')]
+                    .filter((element) => element.tabIndex >= 0 && !element.closest('[inert]') && element.getClientRects().length);
                 const first = focusable[0];
                 const last = focusable[focusable.length - 1];
-                if (event.shiftKey && document.activeElement === first) {
+                const outside = !this.header.contains(document.activeElement);
+                if (event.shiftKey && (document.activeElement === first || outside)) {
                     event.preventDefault();
                     last?.focus();
-                } else if (!event.shiftKey && document.activeElement === last) {
+                } else if (!event.shiftKey && (document.activeElement === last || outside)) {
                     event.preventDefault();
                     first?.focus();
                 }
@@ -68,7 +69,7 @@ class MobileNavbar {
         this.updateMenuLabel();
         this.savedOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
-        this.inertElements = [...document.querySelectorAll('main, footer')].map((element) => ({ element, inert: element.inert }));
+        this.inertElements = [...document.querySelectorAll('main, footer, .nm-audio-dock')].map((element) => ({ element, inert: element.inert }));
         this.inertElements.forEach(({ element }) => { element.inert = true; });
         this.navMenu.querySelector('a[href], button:not([disabled])')?.focus();
     }

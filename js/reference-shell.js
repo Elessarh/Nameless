@@ -5,7 +5,7 @@
 if(global.NamelessReferenceShell)return;
 var sprite='/assets/ui/reference-icons.svg',emblem='/assets/brand/nameless-emblem-128.webp';
 var menu=null,accountMenu=null,notifications=null,notificationGeneration=0,dialogId=0,indicatorFrame=0,accountCleared=false;
-var closingPanels=new WeakMap();
+var closingPanels=new Map();
 var dialogOpeners=new WeakMap();
 function reducedMotion(){return !!global.matchMedia?.('(prefers-reduced-motion: reduce)').matches;}
 function cancelPanelClose(panel){var pending=closingPanels.get(panel);if(!pending)return;closingPanels.delete(panel);pending.animation.cancel();panel.removeAttribute('data-reference-closing');}
@@ -16,10 +16,18 @@ if(!panel||closingPanels.has(panel))return;
 var surface=panel.querySelector('.modal-content')||panel;
 if(reducedMotion()||typeof surface.animate!=='function'){finish();return;}
 var offset=panel.tagName==='DIALOG'||panel.dataset.panelMode==='sheet'?'translateY(16px)':'translateX(22px)';
-var animation=surface.animate([{opacity:1,transform:'none'},{opacity:0,transform:offset}],{duration:160,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
-var pending={animation:animation};closingPanels.set(panel,pending);panel.dataset.referenceClosing='true';
-animation.finished.then(function(){if(closingPanels.get(panel)!==pending)return;closingPanels.delete(panel);panel.removeAttribute('data-reference-closing');if(panel.isConnected)finish();animation.cancel();},function(){});
+// Escape can arrive during the entrance: leave from the rendered position,
+// rather than first snapping the panel to its fully open frame.
+var style=global.getComputedStyle(surface),opacity=parseFloat(style.opacity);
+var animation=surface.animate([{opacity:Number.isFinite(opacity)?opacity:1,transform:style.transform||'none'},{opacity:0,transform:offset}],{duration:160,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
+var pending={animation:animation,complete:function(){if(closingPanels.get(panel)!==pending)return;closingPanels.delete(panel);panel.removeAttribute('data-reference-closing');if(panel.isConnected)finish();animation.cancel();}};
+closingPanels.set(panel,pending);panel.dataset.referenceClosing='true';
+// An externally cancelled animation must not leave the panel stuck closing.
+// Intentional reopening removes this entry first, so it never runs the finish.
+animation.finished.then(pending.complete,pending.complete);
 }
+var motionPreference=global.matchMedia?.('(prefers-reduced-motion: reduce)');
+motionPreference?.addEventListener?.('change',function(event){if(event.matches)Array.from(closingPanels.values()).forEach(function(pending){pending.complete();});});
 function closeDialog(d){if(d.open)closePanel(d,function(){d.close();});}
 function updateIndicator(link){
 var nav=document.querySelector('.header .nav-menu');if(!nav)return;
@@ -69,10 +77,13 @@ var logout=el('button','reference-account-logout',t('Se déconnecter','Sign out'
 if(focusedHref)Array.from(links.querySelectorAll('a')).find(function(a){return a.getAttribute('href')===focusedHref;})?.focus();else if(focusedLogout)logout.focus();
 }
 function syncAccountButton(){var button=document.querySelector('.reference-account-trigger'),source=document.querySelector('#username');if(!button||!source)return;button.replaceChildren();var avatar=accountCleared?null:source.querySelector('img');button.appendChild(avatar?avatar.cloneNode(true):icon('user'));button.appendChild(el('span','',(!accountCleared&&source.textContent)||t('Joueur','Player')));button.appendChild(el('span','reference-account-chevron','⌄'));button.setAttribute('aria-label',t('Ouvrir le menu du compte','Open account menu'));}
-async function renderNotifications(){
-if(!notifications)notifications=dialog(t('Annonces de la guilde','Guild announcements'));notifications.querySelector('h2').textContent=t('Annonces de la guilde','Guild announcements');var previous=notifications.querySelector('.reference-notification-list');if(previous)previous.remove();var list=el('ul','reference-notification-list');notifications.appendChild(list);var generation=++notificationGeneration;
-function note(message,href,caption){list.replaceChildren();var li=el('li');li.appendChild(el('p','',message));if(href){var a=el('a','',caption);a.href=href;a.addEventListener('click',function(){notifications.close();});li.appendChild(a);}list.appendChild(li);}
-note(t('Chargement des annonces…','Loading announcements…'));
+async function renderNotifications(preserveFocus){
+if(!notifications)notifications=dialog(t('Annonces de la guilde','Guild announcements'));notifications.querySelector('h2').textContent=t('Annonces de la guilde','Guild announcements');notifications.querySelector('.reference-dialog-close').setAttribute('aria-label',t('Fermer','Close'));var previous=notifications.querySelector('.reference-notification-list');var list=preserveFocus&&previous?previous:el('ul','reference-notification-list');if(previous&&previous!==list){var wasFocused=previous.contains(document.activeElement);previous.remove();if(wasFocused&&notifications.open)notifications.querySelector('.reference-dialog-close').focus();}if(!list.isConnected)notifications.appendChild(list);var generation=++notificationGeneration;
+function clearList(){var active=document.activeElement,key=list.contains(active)?active.dataset.notificationKey||active.getAttribute('href'):null;list.replaceChildren();list.setAttribute('aria-busy','false');return key;}
+function restoreListFocus(key){if(!key||!notifications.open)return;var link=Array.from(list.querySelectorAll('a')).find(function(a){return (a.dataset.notificationKey||a.getAttribute('href'))===key;});(link||list.querySelector('a')||notifications.querySelector('.reference-dialog-close')).focus();}
+function note(message,href,caption){var focused=clearList();var li=el('li');var text=el('p','',message);text.setAttribute('role','status');li.appendChild(text);if(href){var a=el('a','',caption);a.href=href;a.addEventListener('click',function(){notifications.close();});li.appendChild(a);}list.appendChild(li);restoreListFocus(focused);}
+if(!preserveFocus)note(t('Chargement des annonces…','Loading announcements…'));
+list.setAttribute('aria-busy','true');
 var db=global.supabase;
 if(!db?.auth?.getUser){note(t('Connectez-vous pour consulter les annonces de votre guilde.','Sign in to read your guild announcements.'),'/connexion',t('Connexion','Sign in'));return;}
 try{
@@ -83,7 +94,7 @@ if(role.error||!['membre','admin'].includes(role.data)){note(t('Les annonces son
 var response=await db.from('guild_activity_wall').select('*').order('created_at',{ascending:false}).limit(8);if(generation!==notificationGeneration)return;
 if(response.error)throw response.error;
 if(!response.data?.length){note(t('Aucune annonce publiée pour le moment.','No announcements have been published yet.'));return;}
-list.replaceChildren();response.data.forEach(function(record){var li=el('li');var a=el('a','',record.titre||record.title||t('Annonce de la guilde','Guild announcement'));a.href='/espace-guilde';a.addEventListener('click',function(){notifications.close();});li.appendChild(a);var content=record.contenu||record.content||record.message||record.description;if(content)li.appendChild(el('p','',String(content).slice(0,260)));if(record.created_at){var time=el('time','',new Intl.DateTimeFormat(en()?'en-GB':'fr-FR',{dateStyle:'medium',timeZone:'Europe/Paris'}).format(new Date(record.created_at)));time.dateTime=record.created_at;li.appendChild(time);}list.appendChild(li);});
+var focused=clearList();response.data.forEach(function(record,index){var li=el('li');var a=el('a','',record.titre||record.title||t('Annonce de la guilde','Guild announcement'));a.href='/espace-guilde';a.dataset.notificationKey=record.id!=null?'id:'+String(record.id):String(record.created_at||'')+':'+String(record.titre||record.title||'')+':'+index;a.addEventListener('click',function(){notifications.close();});li.appendChild(a);var content=record.contenu||record.content||record.message||record.description;if(content)li.appendChild(el('p','',String(content).slice(0,260)));if(record.created_at){var time=el('time','',new Intl.DateTimeFormat(en()?'en-GB':'fr-FR',{dateStyle:'medium',timeZone:'Europe/Paris'}).format(new Date(record.created_at)));time.dateTime=record.created_at;li.appendChild(time);}list.appendChild(li);});restoreListFocus(focused);
 }catch(_){if(generation===notificationGeneration)note(t('Les annonces ne peuvent pas être chargées. Réessayez en ouvrant la fenêtre.','Announcements could not be loaded. Reopen this window to retry.'));}
 }
 function upgrade(){
@@ -101,7 +112,7 @@ scheduleIndicator();
 global.NamelessReferenceShell={upgrade:upgrade,closePanel:closePanel,cancelPanelClose:cancelPanelClose};
 document.addEventListener('nameless:routechange',function(){upgrade();if(menu?.open)menu.close();if(accountMenu?.open)accountMenu.close();if(notifications?.open)notifications.close();});
 document.addEventListener('nameless:auth-changed',function(event){notificationGeneration++;if(event.detail&&Object.prototype.hasOwnProperty.call(event.detail,'user'))accountCleared=!event.detail.user;var accountFocused=document.activeElement.matches('.reference-account-trigger');if(accountMenu?.open)accountMenu.close();else if(accountCleared&&accountFocused)focusSignInAfterAuth();accountMenu?.querySelector('.reference-account-content')?.remove();syncAccountButton();if(notifications?.open)renderNotifications();});
-document.addEventListener('nameless:languagechange',function(){upgrade();if(menu?.open)renderMenu();if(accountMenu?.open)renderAccount();if(notifications?.open)renderNotifications();document.querySelector('.reference-notifications-trigger')?.setAttribute('aria-label',t('Annonces de la guilde','Guild announcements'));});
+document.addEventListener('nameless:languagechange',function(){upgrade();if(menu?.open)renderMenu();if(accountMenu?.open)renderAccount();if(notifications?.open)renderNotifications(true);document.querySelector('.reference-notifications-trigger')?.setAttribute('aria-label',t('Annonces de la guilde','Guild announcements'));});
 document.addEventListener('close',function(event){if(!event.target.id)return;document.querySelectorAll('[aria-controls="'+event.target.id+'"]').forEach(function(button){button.setAttribute('aria-expanded','false');});},true);
 global.addEventListener('resize',function(){scheduleIndicator();});
 document.addEventListener('pointerover',function(event){var link=event.target.closest?.('.header .nav-menu a');if(link)updateIndicator(link);});

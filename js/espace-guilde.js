@@ -6,8 +6,85 @@ let guildInitToken = 0;
 let guildAuthListeners = null;
 let guildMemberId = null;
 let guildResumeCommunications = false;
+let guildRole = null;
+let guildViewData = { objectives: null, activities: null };
+window.NamelessTranslations = window.NamelessTranslations || {};
+window.NamelessTranslations.en = window.NamelessTranslations.en || {};
+Object.assign(window.NamelessTranslations.en, {
+    'Aucune annonce publiée': 'No announcements published',
+    'Les nouvelles de la guilde apparaîtront ici dès leur publication.': 'Guild news will appear here when published.',
+    'Publier une annonce': 'Publish announcement', 'Consulter le guide': 'Read the guide',
+    'Ouvrir l’administration': 'Open administration',
+    'Aucun objectif cette semaine': 'No objectives this week',
+    'Les objectifs de la semaine seront affichés ici lorsqu’ils auront été définis.': 'Weekly objectives will appear here once they have been defined.',
+    'Gérer les objectifs': 'Manage objectives', 'Consulter les guides': 'Read the guides',
+    'Aucune présence renseignée': 'No attendance recorded',
+    'Renseignez votre présence ou votre absence pour l’appel du jour.': 'Record your attendance or absence for today’s roll call.',
+    'Votre compte est connecté. Contactez l’équipe sur Discord pour faire vérifier votre accès à la guilde.': 'Your account is signed in. Contact the team on Discord to have your guild access checked.',
+    'Vous devez être connecté pour accéder à l\'espace guilde.': 'Sign in to access the guild headquarters.',
+    'Cet espace est réservé aux membres de Nameless. Contactez un administrateur si vous avez déjà rejoint la guilde.': 'This space is reserved for Nameless members. Contact an administrator if you have already joined the guild.',
+    'Impossible de vérifier votre accès. Réessayez dans un instant.': 'Your access could not be verified. Try again shortly.',
+    'Erreur de chargement du planning.': 'The schedule could not be loaded.',
+    'Erreur technique lors du chargement du planning.': 'The schedule could not be loaded.',
+    'Erreur de chargement des objectifs.': 'The objectives could not be loaded.',
+    'Erreur technique lors du chargement des objectifs.': 'The objectives could not be loaded.',
+    'Erreur de chargement du mur d’activité.': 'Announcements could not be loaded.',
+    'Erreur technique lors du chargement du mur d’activité.': 'Announcements could not be loaded.',
+    'Erreur de chargement des présences': 'Attendance could not be loaded',
+    'Erreur de chargement des profils': 'Member profiles could not be loaded',
+    'Erreur technique lors du chargement': 'The information could not be loaded',
+    'Votre présence est enregistrée pour aujourd’hui.': 'Your attendance has been recorded for today.',
+    'Votre absence est enregistrée pour aujourd’hui.': 'Your absence has been recorded for today.',
+    'Impossible d’enregistrer votre statut. Réessayez dans un instant.': 'Your status could not be saved. Try again shortly.',
+    'Présent': 'Present', 'Absent': 'Absent', 'En mission': 'On a mission', 'Joueur inconnu': 'Unknown player',
+    'À l\'instant': 'Just now', 'Par': 'By', 'Progression': 'Progress', 'Statut': 'Status'
+});
+function guildTr(text) { return window.NamelessI18n ? window.NamelessI18n.translate(text) : text; }
+function guildEmpty(target, title, description, iconName, action) {
+    if (!target) return;
+    const box = document.createElement('div'); box.className = 'hq-empty';
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('focusable', 'false');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', iconName === 'announcements' ? 'M4 10h4l11-5v14L8 14H4zM6 14l2 7h4l-2-6' : iconName === 'presence' ? 'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21v-2a8 8 0 0 1 16 0v2' : 'M5 4h14v17H5zM9 9h6m-6 4h6m-6 4h4');
+    svg.appendChild(path); box.appendChild(svg);
+    const heading = document.createElement('strong'); heading.textContent = guildTr(title); box.appendChild(heading);
+    const copy = document.createElement('p'); copy.textContent = guildTr(description); box.appendChild(copy);
+    if (action) { const link = document.createElement('a'); link.className = 'hq-button hq-empty-action'; link.href = action.href; link.textContent = guildTr(action.label); box.appendChild(link); }
+    target.replaceChildren(box);
+}
+function updateObjectivePreview() {
+    const preview = document.getElementById('hq-objective-preview');
+    const objectives = document.getElementById('objectives-list');
+    if (preview && objectives) {
+        const children = [...objectives.children].slice(0, 1);
+        if (children.length) preview.replaceChildren(...children.map(node => node.cloneNode(true)));
+        else preview.textContent = objectives.textContent;
+    }
+}
+function refreshGuildLanguage() {
+    const gateText = document.getElementById('access-denied-text');
+    if (gateText?.dataset.guildMessage) gateText.textContent = guildTr(gateText.dataset.guildMessage);
+    updateGuildGate();
+    if (!guildMemberId || guildMemberId !== window.currentUser?.id) return;
+    if (guildViewData.objectives) { displayObjectives(guildViewData.objectives); updateObjectivePreview(); }
+    if (guildViewData.activities) displayActivityWall(guildViewData.activities);
+    document.querySelectorAll('.presence-status[data-status]').forEach(node => { node.textContent = formatPresenceStatus(node.dataset.status); });
+    if (document.getElementById('presence-list')?.dataset.empty === 'true') renderEmptyPresence();
+}
+function updateGuildGate() {
+    const signedIn = !!window.currentUser;
+    const login = document.querySelector('[data-guild-gate-login]'); if (login) login.hidden = signedIn;
+    const profile = document.querySelector('[data-guild-gate-profile]'); if (profile) profile.hidden = !signedIn;
+    const hint = document.querySelector('[data-guild-gate-hint]');
+    if (hint) hint.textContent = guildTr(signedIn ? 'Votre compte est connecté. Contactez l’équipe sur Discord pour faire vérifier votre accès à la guilde.' : 'Connectez-vous avec votre compte membre pour retrouver les expéditions, le calendrier et les échanges de la guilde.');
+}
+function renderEmptyPresence() { guildEmpty(document.getElementById('presence-list'), 'Aucune présence renseignée', 'Renseignez votre présence ou votre absence pour l’appel du jour.', 'presence'); }
 
 function clearPrivateGuildContent() {
+    guildRole = null;
+    guildViewData = { objectives: null, activities: null };
+    document.getElementById('presence-list')?.removeAttribute('data-empty');
     const content = document.getElementById('guilde-content');
     if (content) content.style.display = 'none';
     const ids = ['planning-list', 'objectives-list', 'presence-list', 'presence-feedback', 'activity-wall-content',
@@ -106,6 +183,7 @@ async function initGuildPage() {
     if (guildAuthListeners) guildAuthListeners.abort();
     guildAuthListeners = new AbortController();
     document.addEventListener('nameless:auth-changed', onGuildAuthChanged, { signal: guildAuthListeners.signal });
+    document.addEventListener('nameless:languagechange', refreshGuildLanguage, { signal: guildAuthListeners.signal });
     // console.log('[GUILDE] Initialisation de l espace guilde...');
     
     // Cacher le lien "Guilde" du menu (on est déjà sur la page)
@@ -141,6 +219,8 @@ async function initGuildPage() {
 function destroyGuildPage() {
     guildInitToken++;
     guildMemberId = null;
+    guildRole = null;
+    guildViewData = { objectives: null, activities: null };
     guildResumeCommunications = false;
     if (guildAuthListeners) guildAuthListeners.abort();
     guildAuthListeners = null;
@@ -222,6 +302,7 @@ async function checkMemberAccess(token) {
         
         if (role === 'membre' || role === 'admin') {
             guildMemberId = window.currentUser.id;
+            guildRole = role;
             // console.log('[OK] Acces autorise - Role:', role);
             await loadGuildeData(token, role);
             if (token !== guildInitToken) return;
@@ -258,7 +339,8 @@ function showAccessDenied(message) {
     if (content) content.style.display = 'none';
     if (denied) denied.style.display = 'block';
     const deniedText = document.getElementById('access-denied-text');
-    if (deniedText && message) deniedText.textContent = message;
+    if (deniedText && message) { deniedText.dataset.guildMessage = message; deniedText.textContent = guildTr(message); }
+    updateGuildGate();
 }
 
 // Charger toutes les données de la guilde
@@ -280,15 +362,7 @@ async function loadGuildeData(token, role) {
     ]);
     
     if (token !== guildInitToken) return;
-    const objectivePreview = document.getElementById('hq-objective-preview');
-    const objectives = document.getElementById('objectives-list');
-    if (objectivePreview && objectives) {
-        const first = objectives.querySelector('.objective-item');
-        if (first) {
-            objectivePreview.classList.remove('hq-empty');
-            objectivePreview.replaceChildren(first.cloneNode(true));
-        } else objectivePreview.textContent = objectives.textContent.trim();
-    }
+    updateObjectivePreview();
     // Event listeners pour les boutons d'appel
     const presenceBtn = document.getElementById('mark-presence-btn');
     const absenceBtn = document.getElementById('mark-absence-btn');
@@ -328,7 +402,7 @@ async function loadPlanning(token = guildInitToken) {
             // console.error('[ERREUR] Erreur chargement planning:', error);
             logGuildWarning('planning_load_failed', error);
             const container = document.getElementById('planning-list');
-            if (token === guildInitToken && container) container.textContent = 'Erreur de chargement du planning.';
+            if (token === guildInitToken && container) container.textContent = guildTr('Erreur de chargement du planning.');
             return;
         }
         
@@ -345,7 +419,7 @@ async function loadPlanning(token = guildInitToken) {
         // console.error('[ERREUR]:', error);
         logGuildWarning('planning_load_failed', error);
         const container = document.getElementById('planning-list');
-        if (token === guildInitToken && container) container.textContent = 'Erreur technique lors du chargement du planning.';
+        if (token === guildInitToken && container) container.textContent = guildTr('Erreur technique lors du chargement du planning.');
     }
 }
 
@@ -354,7 +428,7 @@ function displayPlanning(data) {
     if (!container) return;
     
     if (!data || data.length === 0) {
-        container.innerHTML = '<div class="no-data">Aucun evenement planifie</div>';
+        guildEmpty(container, 'Aucune expédition publiée pour cette sélection.', 'Les prochaines sorties apparaîtront ici dès leur publication.', 'objectives', { href: '/wiki', label: 'Consulter le guide' });
         return;
     }
     
@@ -397,7 +471,7 @@ async function loadObjectives(token = guildInitToken) {
             // console.error('[ERREUR] Erreur chargement objectifs:', error);
             logGuildWarning('objectives_load_failed', error);
             const container = document.getElementById('objectives-list');
-            if (token === guildInitToken && container) container.textContent = 'Erreur de chargement des objectifs.';
+            if (token === guildInitToken && container) container.textContent = guildTr('Erreur de chargement des objectifs.');
             return;
         }
         
@@ -414,16 +488,19 @@ async function loadObjectives(token = guildInitToken) {
         // console.error('[ERREUR]:', error);
         logGuildWarning('objectives_load_failed', error);
         const container = document.getElementById('objectives-list');
-        if (token === guildInitToken && container) container.textContent = 'Erreur technique lors du chargement des objectifs.';
+        if (token === guildInitToken && container) container.textContent = guildTr('Erreur technique lors du chargement des objectifs.');
     }
 }
 
 function displayObjectives(data) {
     const container = document.getElementById('objectives-list');
     if (!container) return;
+    guildViewData.objectives = data || [];
+    const administration = document.querySelector('[data-guild-objectives-admin]');
+    if (administration) administration.hidden = guildRole !== 'admin' || !data?.length;
     
     if (!data || data.length === 0) {
-        container.innerHTML = '<div class="no-data">Aucun objectif defini pour cette semaine</div>';
+        guildEmpty(container, 'Aucun objectif cette semaine', 'Les objectifs de la semaine seront affichés ici lorsqu’ils auront été définis.', 'objectives', guildRole === 'admin' ? { href: '/admin-dashboard', label: 'Ouvrir l’administration' } : { href: '/wiki', label: 'Consulter les guides' });
         return;
     }
     
@@ -434,12 +511,12 @@ function displayObjectives(data) {
         <article class="objective-item">
             <h3 class="item-title">${escapeHtml(obj.titre)}</h3>
             <div class="item-description">${escapeHtml(obj.description || '')}</div>
-            <div class="objective-progress-label"><span>Progression</span><strong>${progression}%</strong></div>
-            <div class="progress-bar" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progression}">
+            <div class="objective-progress-label"><span>${guildTr('Progression')}</span><strong>${progression}%</strong></div>
+            <div class="progress-bar" role="progressbar" aria-label="${guildTr('Progression')}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progression}">
                 <div class="progress-fill" style="width: ${progression}%"></div>
             </div>
             <div class="objective-status">
-                Statut: ${escapeHtml(formatStatus(obj.statut))}
+                ${guildTr('Statut')}: ${escapeHtml(formatStatus(obj.statut))}
             </div>
         </article>
     `;
@@ -448,6 +525,8 @@ function displayObjectives(data) {
 
 // ========== PRÉSENCE ==========
 async function loadPresence(token = guildInitToken) {
+    if (token !== guildInitToken) return;
+    document.getElementById('presence-list')?.removeAttribute('data-empty');
     try {
         const today = window.NamelessGuildDates.dateKey();
         
@@ -464,7 +543,7 @@ async function loadPresence(token = guildInitToken) {
             // console.error('[ERREUR] Erreur chargement presences:', presencesError);
             const container = document.getElementById('presence-list');
             if (token !== guildInitToken || !container) return;
-            container.innerHTML = '<div class="no-data">Erreur de chargement des presences</div>';
+            container.textContent = guildTr('Erreur de chargement des présences');
             return;
         }
         
@@ -472,12 +551,13 @@ async function loadPresence(token = guildInitToken) {
         
         const container = document.getElementById('presence-list');
         if (token !== guildInitToken || !container) return;
+        container.dataset.empty = String(!presences || presences.length === 0);
         const ownPresence = (presences || []).find((entry) => entry.user_id === window.currentUser?.id);
         document.getElementById('mark-presence-btn')?.setAttribute('aria-pressed', ownPresence?.statut === 'present' ? 'true' : 'false');
         document.getElementById('mark-absence-btn')?.setAttribute('aria-pressed', ownPresence?.statut === 'absent' ? 'true' : 'false');
         
         if (!presences || presences.length === 0) {
-            container.innerHTML = '<div class="no-data">Aucune presence enregistree aujourd hui</div>';
+            renderEmptyPresence();
             return;
         }
         
@@ -491,7 +571,7 @@ async function loadPresence(token = guildInitToken) {
         if (profilesError) {
             // console.error('[ERREUR] Erreur chargement profils:', profilesError);
             const container = document.getElementById('presence-list');
-            if (token === guildInitToken) container.innerHTML = '<div class="no-data">Erreur de chargement des profils</div>';
+            if (token === guildInitToken) container.textContent = guildTr('Erreur de chargement des profils');
             return;
         }
         
@@ -522,6 +602,7 @@ async function loadPresence(token = guildInitToken) {
 
             const statusEl = document.createElement('span');
             statusEl.className = 'presence-status status-' + safeStatut;
+            statusEl.dataset.status = presence.statut;
             statusEl.textContent = formatPresenceStatus(presence.statut);
             card.appendChild(statusEl);
 
@@ -534,7 +615,7 @@ async function loadPresence(token = guildInitToken) {
         // console.error('[ERREUR]:', error);
         const container = document.getElementById('presence-list');
         if (token === guildInitToken && container) {
-            container.innerHTML = '<div class="no-data">Erreur technique lors du chargement</div>';
+            container.textContent = guildTr('Erreur technique lors du chargement');
         }
     }
 }
@@ -548,7 +629,7 @@ async function markPresence(statut = 'present') {
     const buttons = [...document.querySelectorAll('.appel-actions button')];
     const feedback = document.getElementById('presence-feedback');
     buttons.forEach((button) => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
-    if (feedback) feedback.textContent = 'Enregistrement…';
+    if (feedback) feedback.textContent = guildTr('Enregistrement…');
     try {
         const { error } = await supabase.from('guild_presence').upsert({
             user_id: window.currentUser.id,
@@ -557,10 +638,10 @@ async function markPresence(statut = 'present') {
         }, { onConflict: 'user_id,date_presence' });
         if (token !== guildInitToken) return;
         if (error) throw error;
-        if (feedback) feedback.textContent = statut === 'present' ? 'Votre présence est enregistrée pour aujourd’hui.' : 'Votre absence est enregistrée pour aujourd’hui.';
+        if (feedback) feedback.textContent = guildTr(statut === 'present' ? 'Votre présence est enregistrée pour aujourd’hui.' : 'Votre absence est enregistrée pour aujourd’hui.');
         await loadPresence(token);
     } catch (error) {
-        if (token === guildInitToken && feedback) feedback.textContent = 'Impossible d’enregistrer votre statut. Réessayez dans un instant.';
+        if (token === guildInitToken && feedback) feedback.textContent = guildTr('Impossible d’enregistrer votre statut. Réessayez dans un instant.');
     } finally {
         if (markingPresence === token) {
             markingPresence = null;
@@ -577,13 +658,13 @@ async function markPresence(statut = 'present') {
 //    Joueur_xxxxxx généré à l'inscription Microsoft) ;
 // 3. « Joueur inconnu » sinon. Jamais d'email.
 function getPresenceDisplayName(profile) {
-    if (!profile) return 'Joueur inconnu';
+    if (!profile) return guildTr('Joueur inconnu');
     if (profile.minecraft_username) return profile.minecraft_username;
 
     const username = String(profile.username || '').trim();
     if (username && !/^Joueur_[A-Za-z0-9]{6}$/.test(username)) return username;
 
-    return 'Joueur inconnu';
+    return guildTr('Joueur inconnu');
 }
 
 function formatDate(dateString) {
@@ -609,7 +690,7 @@ function formatEventType(type) {
         'construction': 'Construction',
         'autre': 'Autre'
     };
-    return types[type] || type;
+    return guildTr(types[type] || type);
 }
 
 function formatStatus(status) {
@@ -618,7 +699,7 @@ function formatStatus(status) {
         'termine': 'Terminé',
         'abandonne': 'Abandonné'
     };
-    return statuses[status] || status;
+    return guildTr(statuses[status] || status);
 }
 
 function formatPresenceStatus(status) {
@@ -627,7 +708,7 @@ function formatPresenceStatus(status) {
         'absent': 'Absent',
         'en_mission': 'En mission'
     };
-    return statuses[status] || status;
+    return guildTr(statuses[status] || status);
 }
 
 function escapeHtml(text) {
@@ -666,7 +747,7 @@ async function loadActivityWall(token = guildInitToken) {
             // console.error('[ERREUR] Erreur chargement activités:', error);
             logGuildWarning('activity_wall_load_failed', error);
             const container = document.getElementById('activity-wall-content');
-            if (token === guildInitToken && container) container.textContent = 'Erreur de chargement du mur d’activité.';
+            if (token === guildInitToken && container) container.textContent = guildTr('Erreur de chargement du mur d’activité.');
             return;
         }
         
@@ -683,20 +764,19 @@ async function loadActivityWall(token = guildInitToken) {
         // console.error('[ERREUR] Erreur mur d\'activité:', error);
         logGuildWarning('activity_wall_load_failed', error);
         const container = document.getElementById('activity-wall-content');
-        if (token === guildInitToken && container) container.textContent = 'Erreur technique lors du chargement du mur d’activité.';
+        if (token === guildInitToken && container) container.textContent = guildTr('Erreur technique lors du chargement du mur d’activité.');
     }
 }
 
 async function displayActivityWall(activities, token = guildInitToken) {
     const container = document.getElementById('activity-wall-content');
     if (!container || token !== guildInitToken) return;
+    guildViewData.activities = activities || [];
+    const administration = document.querySelector('[data-guild-announcement-admin]');
+    if (administration) administration.hidden = guildRole !== 'admin' || !activities?.length;
     
     if (!activities || activities.length === 0) {
-        container.innerHTML = `
-            <div class="no-activities">
-                <p class="no-activities-text">Aucune activité pour le moment</p>
-            </div>
-        `;
+        guildEmpty(container, 'Aucune annonce publiée', 'Les nouvelles de la guilde apparaîtront ici dès leur publication.', 'announcements', guildRole === 'admin' ? { href: '/admin-dashboard', label: 'Ouvrir l’administration' } : { href: '/wiki', label: 'Consulter le guide' });
         return;
     }
     
@@ -718,7 +798,7 @@ async function displayActivityWall(activities, token = guildInitToken) {
             <div class="activity-post-content">${escapeHtml(activity.contenu)}</div>
             ${safeImg ? `<img src="${escapeHtml(safeImg)}" alt="${escapeHtml(activity.titre)}" class="activity-post-image" loading="lazy" decoding="async">` : ''}
             <div class="activity-post-footer">
-                <span class="activity-post-author">Par ${escapeHtml(activity.author_name || 'Admin')}</span>
+                <span class="activity-post-author">${guildTr('Par')} ${escapeHtml(activity.author_name || 'Admin')}</span>
                 <span class="activity-post-type type-${safeType}">${escapeHtml(formatActivityType(activity.type))}</span>
             </div>
         </div>
@@ -735,10 +815,11 @@ function formatActivityDate(dateString) {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
     
-    if (minutes < 1) return 'À l\'instant';
-    if (minutes < 60) return `Il y a ${minutes} min`;
-    if (hours < 24) return `Il y a ${hours}h`;
-    if (days < 7) return `Il y a ${days}j`;
+    const english = window.NamelessI18n?.getLanguage() === 'en';
+    if (minutes < 1) return guildTr('À l\'instant');
+    if (minutes < 60) return english ? `${minutes} min ago` : `Il y a ${minutes} min`;
+    if (hours < 24) return english ? `${hours}h ago` : `Il y a ${hours}h`;
+    if (days < 7) return english ? `${days}d ago` : `Il y a ${days}j`;
     
     const options = { day: 'numeric', month: 'long', year: 'numeric' };
     return date.toLocaleDateString(window.NamelessI18n ? window.NamelessI18n.getLocale() : 'fr-FR', options);
@@ -751,7 +832,7 @@ function formatActivityType(type) {
         'info': 'Information',
         'victoire': 'Victoire'
     };
-    return types[type] || 'Annonce';
+    return guildTr(types[type] || 'Annonce');
 }
 
 })();

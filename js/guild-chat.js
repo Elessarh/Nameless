@@ -550,7 +550,7 @@ window.replyToMessage = function(messageId) {
     chatInput.focus();
     
     // Scroll vers l'input si nécessaire
-    chatInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    chatInput.scrollIntoView({ behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
 };
 
 // Annuler la réponse

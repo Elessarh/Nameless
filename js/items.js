@@ -24,6 +24,8 @@
     var controller = null;
     var modalReturnFocus = null;
     var previousOverflow = '';
+    var sheetInert = new Map();
+    var sheetObserver = null;
     var sourceItems = new Set();
     var sourceFiltersReady = false;
     var selectedFilters = { 'it-category': new Set(), 'it-rarity': new Set(), 'it-source': new Set() };
@@ -82,17 +84,55 @@
         });
     }
 
+    function releaseItemSheetIsolation() {
+        if (sheetObserver) { sheetObserver.disconnect(); sheetObserver = null; }
+        sheetInert.forEach(function (inert, element) { element.inert = inert; });
+        sheetInert.clear();
+    }
+
+    function syncItemSheetIsolation(modal, active) {
+        if (!active) { releaseItemSheetIsolation(); return; }
+        // The sheet lives inside its desktop detail slot. Isolate sibling
+        // branches at every level, never a parent that contains the sheet.
+        var background = new Set(), branch = modal;
+        while (branch && branch !== document.body) {
+            var parent = branch.parentElement;
+            if (!parent) break;
+            Array.from(parent.children).forEach(function (element) {
+                // Native dialogs already isolate the document while open;
+                // explicit inert would prevent Ctrl+K from opening its palette.
+                if (element !== branch && element instanceof HTMLElement && !/^(DIALOG|SCRIPT|STYLE|LINK)$/.test(element.tagName)) background.add(element);
+            });
+            branch = parent;
+        }
+        sheetInert.forEach(function (inert, element) {
+            if (!background.has(element)) { element.inert = inert; sheetInert.delete(element); }
+        });
+        background.forEach(function (element) {
+            if (!sheetInert.has(element)) sheetInert.set(element, element.inert);
+            element.inert = true;
+        });
+        if (!sheetObserver) {
+            // Persistent controls such as the audio dock can mount after the
+            // catalogue's initial deep link opens its sheet.
+            sheetObserver = new MutationObserver(function () { if (controller && !controller.signal.aborted) syncItemPanelMode(); });
+            sheetObserver.observe(document.body, { childList: true });
+        }
+    }
+
     function syncItemPanelMode() {
         var modal = document.querySelector('.item-modal');
-        if (!modal) return;
+        if (!modal) { if (sheetInert.size) document.body.style.overflow = previousOverflow; releaseItemSheetIsolation(); return; }
         var compact = compactPanel(), wasSheet = modal.dataset.panelMode === 'sheet';
         modal.dataset.panelMode = compact ? 'sheet' : 'rail';
         modal.setAttribute('role', compact ? 'dialog' : 'region');
         if (compact) modal.setAttribute('aria-modal', 'true'); else modal.removeAttribute('aria-modal');
         if (modal.style.display === 'flex') {
-            if (compact) document.body.style.overflow = 'hidden';
+            if (compact) { if (!wasSheet) previousOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden'; }
             else if (wasSheet) document.body.style.overflow = previousOverflow;
         }
+        syncItemSheetIsolation(modal, compact && modal.style.display === 'flex');
+        if (compact && modal.style.display === 'flex' && !modal.contains(document.activeElement) && !document.activeElement.closest?.('dialog[open]')) modal.querySelector('.modal-close')?.focus({ preventScroll: true });
         document.querySelectorAll('.item-card').forEach(function (card) {
             if (compact) card.setAttribute('aria-haspopup', 'dialog'); else card.removeAttribute('aria-haspopup');
         });
@@ -236,7 +276,7 @@
         var backdrop = document.querySelector('.items-page .catalogue-filter-backdrop'); if (backdrop) backdrop.hidden = !open;
         if (open && !wasOpen) {
             drawerReturnFocus = document.activeElement; drawerOverflow = document.body.style.overflow;
-            drawerInert = [document.querySelector('body > header'), document.querySelector('.items-hero'), document.querySelector('.items-page .catalogue-results'), document.querySelector('body > footer')].filter(Boolean).map(function (element) { var value = element.inert; element.inert = true; return [element, value]; });
+            drawerInert = [document.querySelector('body > header'), document.querySelector('.items-hero'), document.querySelector('.items-page .catalogue-results'), document.querySelector('body > footer'), document.querySelector('.nm-audio-dock')].filter(Boolean).map(function (element) { var value = element.inert; element.inert = true; return [element, value]; });
             document.body.style.overflow = 'hidden';
             if (close) close.focus();
         } else if (!open && wasOpen) {
@@ -305,13 +345,15 @@
     }
 
     function destroyItems() {
+        var sheetWasActive = sheetInert.size > 0;
+        releaseItemSheetIsolation();
         setFilterDrawer(false, false);
         hideItemTooltip(); document.getElementById('item-tooltip')?.remove();
         if (controller) { controller.abort(); controller = null; }
         if (spriteObserver) { spriteObserver.disconnect(); spriteObserver = null; }
         var modal = document.querySelector('.item-modal');
         if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
-        if (modal && modal.dataset.panelMode === 'sheet' && modal.style.display === 'flex') document.body.style.overflow = previousOverflow;
+        if (sheetWasActive || (modal && modal.dataset.panelMode === 'sheet' && modal.style.display === 'flex')) document.body.style.overflow = previousOverflow;
         modalReturnFocus = null;
         allItems = [];
         filtered = [];
@@ -484,6 +526,9 @@
         document.getElementById('it-filter-close')?.addEventListener('click', function () { setFilterDrawer(false); }, opts);
         document.querySelector('.items-page .catalogue-filter-backdrop')?.addEventListener('click', function () { setFilterDrawer(false); }, opts);
         window.addEventListener('resize', function () {
+            // Restore the old filter baseline before its responsive controller
+            // updates it, then capture the new baseline if this stays a sheet.
+            releaseItemSheetIsolation();
             var compact = window.innerWidth <= 768;
             if (filterDetails && compact !== compactFilters) { filterDetails.open = !compact; compactFilters = compact; }
             if (!compact) setFilterDrawer(false);
@@ -690,7 +735,7 @@
         if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; modal.id = 'item-dialog'; (document.querySelector('.items-page .catalogue-detail-slot') || document.body).appendChild(modal); }
         window.NamelessReferenceShell?.cancelPanelClose(modal);
         if (modal.style.display !== 'flex') { modalReturnFocus = document.activeElement; previousOverflow = document.body.style.overflow; }
-        if (moveFocus) modalReturnFocus = document.activeElement;
+        if (moveFocus && !modal.contains(document.activeElement)) modalReturnFocus = document.activeElement;
         modal.setAttribute('aria-labelledby', 'item-dialog-title');
         modal.dataset.item = id;
         modal.dataset.rarity = item.rarity;
@@ -882,6 +927,7 @@
         var modal = document.querySelector('.item-modal');
         if (modal && modal.style.display !== 'none') {
             var finish = function () {
+                releaseItemSheetIsolation();
                 modal.style.display = 'none'; if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = previousOverflow;
                 delete modal.dataset.item;
                 itemPage()?.classList.remove('catalogue-has-selection');

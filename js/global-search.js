@@ -171,9 +171,14 @@
             (replacement || favoriteFilter).focus();
         }
     }
+    function closeSearch() {
+        if (!dialog.open) return;
+        if (global.NamelessReferenceShell?.closePanel) global.NamelessReferenceShell.closePanel(dialog, function () {dialog.close();});
+        else dialog.close();
+    }
     async function open() {
-        opener = document.activeElement;
-        if (!dialog.open) dialog.showModal();
+        global.NamelessReferenceShell?.cancelPanelClose?.(dialog);
+        if (!dialog.open) {opener = document.activeElement; dialog.showModal();}
         input.focus();
         loading = !entries.length;
         render();
@@ -195,7 +200,7 @@
         var header = document.createElement('div'); header.className = 'nm-search-heading';
         var eyebrow = document.createElement('span'); eyebrow.className = 'nm-search-eyebrow'; eyebrow.textContent = label('Codex d’Aincrad','Aincrad codex');
         var heading = document.createElement('h2'); heading.id = 'nm-search-title'; heading.textContent = label('Rechercher dans Nameless','Search Nameless');
-        var close = document.createElement('button'); close.type = 'button'; close.className = 'nm-search-close'; close.appendChild(icon('close')); close.setAttribute('aria-label',label('Fermer la recherche','Close search')); close.addEventListener('click',function () {dialog.close();});
+        var close = document.createElement('button'); close.type = 'button'; close.className = 'nm-search-close'; close.appendChild(icon('close')); close.setAttribute('aria-label',label('Fermer la recherche','Close search')); close.addEventListener('click',closeSearch);
         header.appendChild(eyebrow); header.appendChild(heading); header.appendChild(close);
         var query = document.createElement('div'); query.className = 'nm-search-query';
         var inputLabel = document.createElement('label'); inputLabel.htmlFor = 'nm-global-query'; inputLabel.textContent = label('Boss, objet, créature, PNJ, lieu ou guide','Boss, item, creature, NPC, place or guide');
@@ -217,15 +222,16 @@
         status = document.createElement('p'); status.setAttribute('role','status'); status.className = 'nm-search-status';
         list = document.createElement('div'); list.className = 'nm-search-results'; list.setAttribute('aria-label',label('Résultats','Results'));
         [header,query,toolbar,status,list,note].forEach(function (el) {dialog.appendChild(el);}); document.body.appendChild(dialog);
-        dialog.addEventListener('close', function () {if (opener && opener.isConnected) opener.focus();});
-        dialog.addEventListener('click', function (event) {if (event.target === dialog) {var rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();}});
+        dialog.addEventListener('close', function () {global.NamelessReferenceShell?.cancelPanelClose?.(dialog); if (opener && opener.isConnected) opener.focus({preventScroll: true});});
+        dialog.addEventListener('cancel', function (event) {event.preventDefault(); closeSearch();});
+        dialog.addEventListener('click', function (event) {if (event.target === dialog) {var rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeSearch();}});
         dialog.addEventListener('keydown', function (event) {
             // A search input consumes native Escape to clear its value. Close the
             // dialog explicitly so the advertised shortcut works with a query too.
             if (event.key === 'Escape') {
                 event.preventDefault();
                 event.stopPropagation();
-                dialog.close();
+                closeSearch();
                 return;
             }
             if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
@@ -236,7 +242,7 @@
             links[next].focus();
         });
         document.addEventListener('keydown', function (event) {
-            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {event.preventDefault(); dialog.open ? dialog.close() : open();}
+            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {event.preventDefault(); dialog.open && !dialog.hasAttribute('data-reference-closing') ? closeSearch() : open();}
         });
         document.addEventListener('nameless:languagechange', function () {
             eyebrow.textContent = label('Codex d’Aincrad','Aincrad codex');

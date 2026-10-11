@@ -1,0 +1,46 @@
+{
+  "method": "Local asset sizes; no Lighthouse score or simulated loading time",
+  "thumbnail": {
+    "beforeBytes": 624658,
+    "afterBytes": 141166,
+    "savedBytes": 483492,
+    "reductionPercent": 77
+  },
+  "sharedResources": [
+    {
+      "path": "js/reference-shell.js",
+      "rawBytes": 20693,
+      "gzipBytes": 5985
+    },
+    {
+      "path": "js/global-search.js",
+      "rawBytes": 23021,
+      "gzipBytes": 6364
+    },
+    {
+      "path": "js/world-atmosphere.js",
+      "rawBytes": 3541,
+      "gzipBytes": 1283
+    },
+    {
+      "path": "js/navbar-mobile.js",
+      "rawBytes": 4903,
+      "gzipBytes": 1399
+    },
+    {
+      "path": "css/components/reference-shell.css",
+      "rawBytes": 15134,
+      "gzipBytes": 3587
+    },
+    {
+      "path": "css/components/global-search.css",
+      "rawBytes": 10302,
+      "gzipBytes": 2698
+    },
+    {
+      "path": "css/components/world-experience.css",
+      "rawBytes": 21509,
+      "gzipBytes": 5004
+    }
+  ]
+}

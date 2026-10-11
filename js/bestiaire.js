@@ -793,6 +793,9 @@ let totalPages = 1;
 let besController = null;
 let besModalReturnFocus = null;
 let besPreviousOverflow = '';
+const besSheetInert = new Map();
+let besSheetScrollLocked = false;
+let besSheetObserver = null;
 const besFilterValues = new Map(['bes-palier', 'bes-category', 'bes-type', 'bes-zone'].map(id => [id, new Set()]));
 let besFilterReturnFocus = null;
 let besFilterOverflow = '';
@@ -829,18 +832,55 @@ function besUi(fr, en) {
 
 function besCompactPanel() { return window.innerWidth <= 980; }
 
+function releaseBestiarySheetIsolation() {
+    besSheetObserver?.disconnect();
+    besSheetObserver = null;
+    besSheetInert.forEach((state, element) => {
+        element.inert = state.inert;
+        if (state.attribute === null) element.removeAttribute('inert');
+        else element.setAttribute('inert', state.attribute);
+    });
+    besSheetInert.clear();
+    if (besSheetScrollLocked) document.body.style.overflow = besPreviousOverflow;
+    besSheetScrollLocked = false;
+}
+
+function syncBestiarySheetIsolation(modal, active) {
+    if (!active || !modal.isConnected) { releaseBestiarySheetIsolation(); return; }
+    if (!besSheetScrollLocked) besPreviousOverflow = document.body.style.overflow;
+    // Isolate siblings along the sheet's ancestry, never its slot or ancestors.
+    // Native dialogs remain available in the top layer (for example Ctrl+K).
+    for (let branch = modal; branch?.parentElement; branch = branch.parentElement) {
+        const parent = branch.parentElement;
+        [...parent.children].forEach(element => {
+            if (element === branch || element.matches('script,style,link,dialog')) return;
+            if (!besSheetInert.has(element)) besSheetInert.set(element, { inert: element.inert, attribute: element.getAttribute('inert') });
+            element.inert = true;
+            element.setAttribute('inert', '');
+        });
+        if (parent === document.body) break;
+    }
+    document.body.style.overflow = 'hidden';
+    besSheetScrollLocked = true;
+    // The audio dock may mount after a directly opened creature sheet.
+    if (!besSheetObserver) {
+        besSheetObserver = new MutationObserver(syncBestiaryPanelMode);
+        besSheetObserver.observe(document.body, { childList: true });
+    }
+}
+
 function syncBestiaryPanelMode() {
     const modal = document.querySelector('.creature-modal');
-    if (!modal) return;
+    if (!modal) { releaseBestiarySheetIsolation(); return; }
     const compact = besCompactPanel();
-    const wasSheet = modal.dataset.panelMode === 'sheet';
     modal.dataset.panelMode = compact ? 'sheet' : 'rail';
     modal.setAttribute('role', compact ? 'dialog' : 'region');
     if (compact) modal.setAttribute('aria-modal', 'true');
     else modal.removeAttribute('aria-modal');
-    if (modal.style.display === 'flex') {
-        if (compact) document.body.style.overflow = 'hidden';
-        else if (wasSheet) document.body.style.overflow = besPreviousOverflow;
+    const sheetOpen = compact && modal.style.display === 'flex';
+    syncBestiarySheetIsolation(modal, sheetOpen);
+    if (sheetOpen && !modal.contains(document.activeElement) && !document.activeElement.closest('dialog[open]')) {
+        modal.querySelector('.modal-close')?.focus({ preventScroll: true });
     }
     document.querySelectorAll('.creature-card').forEach(card => {
         if (compact) card.setAttribute('aria-haspopup', 'dialog');
@@ -870,7 +910,7 @@ function setBestiaryFiltersOpen(open, restoreFocus = true) {
     if (rail) rail.inert = window.innerWidth <= 768 && !active;
     if (active) {
         if (!wasOpen) {
-            besFilterInert = [document.querySelector('body > header'), page.querySelector('.bes-hero'), page.querySelector('.catalogue-results'), document.querySelector('body > footer')].filter(Boolean).map(element => {
+            besFilterInert = [document.querySelector('body > header'), page.querySelector('.bes-hero'), page.querySelector('.catalogue-results'), document.querySelector('body > footer'), ...document.querySelectorAll('.nm-audio-dock')].filter(Boolean).map(element => {
                 const inert = element.inert; element.inert = true; return [element, inert];
             });
         }
@@ -1075,6 +1115,7 @@ function initBestiary(root) {
 }
 
 function destroyBestiary() {
+    releaseBestiarySheetIsolation();
     setBestiaryFiltersOpen(false, false);
     hideBestiaryTooltip();
     if (besTooltip) besTooltip.remove();
@@ -1082,8 +1123,8 @@ function destroyBestiary() {
     besTooltipDismissed = null;
     if (besController) { besController.abort(); besController = null; }
     const modal = document.querySelector('.creature-modal');
+    if (modal) window.NamelessReferenceShell?.cancelPanelClose(modal);
     if (modal && modal.parentNode) modal.parentNode.removeChild(modal);
-    if (modal?.dataset.panelMode === 'sheet' && modal.style.display === 'flex') document.body.style.overflow = besPreviousOverflow;
     besModalReturnFocus = null;
     selectedCreature = null;
     document.querySelector('.bestiary-page')?.classList.remove('catalogue-has-selection');
@@ -1195,11 +1236,19 @@ function setupEventListeners() {
     if (filterDetails) filterDetails.open = !compactFilters;
     window.addEventListener('resize', () => {
         hideBestiaryTooltip();
+        releaseBestiarySheetIsolation();
         const compact = window.innerWidth <= 768;
         if (!compact || !document.querySelector('.bestiary-page')?.classList.contains('catalogue-filters-open')) setBestiaryFiltersOpen(false, false);
         if (filterDetails && compact !== compactFilters) { filterDetails.open = !compact; compactFilters = compact; }
         syncBestiaryPanelMode();
     }, opts);
+    document.addEventListener('close', event => {
+        if (event.target.tagName !== 'DIALOG' || document.querySelector('dialog[open]')) return;
+        const modal = document.querySelector('.creature-modal');
+        if (modal?.dataset.panelMode === 'sheet' && modal.style.display === 'flex' && !modal.contains(document.activeElement)) {
+            modal.querySelector('.modal-close')?.focus({ preventScroll: true });
+        }
+    }, { ...opts, capture: true });
 
     // Grille: délégation clic -> ouvrir le modal (data-id)
     const grid = document.getElementById('creatures-grid');
@@ -1393,7 +1442,7 @@ function buildCard(creature) {
 function openCreatureModal(id, updateUrl, moveFocus = true) {
     const creature = creaturesData.find(c => c.id === id);
     if (!creature) return;
-    setBestiaryFiltersOpen(false, false);
+    if (!besSheetInert.size) setBestiaryFiltersOpen(false, false);
     hideBestiaryTooltip();
     selectedCreature = creature;
 
@@ -1404,9 +1453,10 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
         modal.id = 'creature-dialog';
         (document.querySelector('.bestiary-page .catalogue-detail-slot') || document.body).appendChild(modal);
     }
+    const hadPanelFocus = modal.contains(document.activeElement);
     window.NamelessReferenceShell?.cancelPanelClose(modal);
     if (modal.style.display !== 'flex') { besModalReturnFocus = document.activeElement; besPreviousOverflow = document.body.style.overflow; }
-    if (moveFocus) besModalReturnFocus = document.activeElement;
+    if (moveFocus && !hadPanelFocus) besModalReturnFocus = document.activeElement;
     modal.setAttribute('aria-labelledby', 'creature-dialog-title');
     modal.dataset.creature = String(id);
     modal.innerHTML = '';
@@ -1445,7 +1495,7 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
     const badges = document.createElement('div');
     badges.className = 'modal-badges';
     badges.appendChild(makeChip(getCategoryDisplay(creature.category), 'chip-' + creature.category));
-    badges.appendChild(makeChip(creature.type, 'chip-type'));
+    if (besNormalize(creature.type) !== 'creature' && besNormalize(creature.type) !== besNormalize(getCategoryDisplay(creature.category))) badges.appendChild(makeChip(creature.type, 'chip-type'));
     badges.appendChild(makeChip(besUi('Palier ', 'Floor ') + creature.palier, 'chip-palier'));
     info.appendChild(badges);
     const actions = document.createElement('div'); actions.className = 'catalogue-detail-actions';
@@ -1568,7 +1618,7 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
     modal.style.display = 'flex';
     syncBestiaryPanelMode();
     if (updateUrl !== false) updateCreatureUrl(id);
-    if (moveFocus) close.focus();
+    if (moveFocus || hadPanelFocus) close.focus();
 }
 
 function installBestiaryDetailTabs(content, id, description, zones, drops) {
@@ -1658,7 +1708,7 @@ function closeModal(updateUrl) {
             delete modal.dataset.creature;
             selectedCreature = null;
             setBestiarySelection(null);
-            if (modal.dataset.panelMode === 'sheet') document.body.style.overflow = besPreviousOverflow;
+            releaseBestiarySheetIsolation();
             if (besModalReturnFocus && besModalReturnFocus.isConnected) besModalReturnFocus.focus();
             else document.getElementById('bes-search')?.focus({ preventScroll: true });
             besModalReturnFocus = null;
@@ -1666,7 +1716,7 @@ function closeModal(updateUrl) {
         if (updateUrl === false || !window.NamelessReferenceShell) { window.NamelessReferenceShell?.cancelPanelClose(modal); finish(); }
         else window.NamelessReferenceShell.closePanel(modal, finish);
     }
-    else { selectedCreature = null; setBestiarySelection(null); }
+    else { releaseBestiarySheetIsolation(); selectedCreature = null; setBestiarySelection(null); }
     if (updateUrl !== false) updateCreatureUrl(null);
 }
 

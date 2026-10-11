@@ -21,7 +21,7 @@
     <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../css/tokens.css?v=20261011ux2e">
     <link rel="stylesheet" href="../css/style.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/profil.css?v=20261008hybrid">
+    <link rel="stylesheet" href="../css/components/profil.css?v=20261011phased3">
     <link rel="stylesheet" href="../css/components/audio-player.css?v=20261008hybrid">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="robots" content="noindex, follow">
@@ -38,12 +38,12 @@
     <meta name="twitter:title" content="Mon profil — Nameless">
     <meta name="twitter:description" content="Votre profil Nameless — pseudo Minecraft, rôle, classe, niveau et progression.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/global-search.css?v=20261009ux1">
-    <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261008sao">
-    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011ux2e">
-    <script src="../js/world-atmosphere.js?v=20261011ux2e" defer></script>
-    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261009ux1">
-    <script src="/js/reference-shell.js?v=20261009ux1" defer></script>
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261011phasee2">
+    <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261011phasee2">
+    <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011phasee2">
+    <script src="../js/world-atmosphere.js?v=20261011phasee2" defer></script>
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261011phasee2">
+    <script src="/js/reference-shell.js?v=20261011phasee2" defer></script>
 </head>
 <body class="profil-page">
     <!-- Skip link pour l'accessibilité -->
@@ -82,107 +82,122 @@
 
     <!-- Contenu principal -->
     <main id="main-content" class="profil-container" role="main">
-        <section class="profil-hero">
-            <span class="nm-eyebrow">Compte et personnage</span>
-            <h1>Mon profil</h1>
+        <section class="profil-hero" data-i18n-ignore>
+            <span class="nm-eyebrow" data-profile-fr="Fiche de personnage" data-profile-en="Character sheet">Fiche de personnage</span>
+            <h1 data-profile-fr="Mon profil" data-profile-en="My profile">Mon profil</h1>
+            <p data-profile-fr="Votre identité en Aincrad, votre classe et vos accès." data-profile-en="Your identity in Aincrad, your class and your tools.">Votre identité en Aincrad, votre classe et vos accès.</p>
         </section>
 
-        <div id="loading" class="profil-loading" role="status" aria-live="polite">
+        <div id="loading" class="profil-loading" role="status" aria-live="polite" data-i18n-ignore>
             <div class="profil-spinner" aria-hidden="true"></div>
-            <p>Chargement de votre profil…</p>
+            <p data-profile-fr="Chargement de votre profil…" data-profile-en="Loading your profile…">Chargement de votre profil…</p>
         </div>
 
         <div id="profil-content" style="display: none;">
-            <!-- Carte joueur -->
-            <div class="player-card">
+            <!-- L'identité du personnage précède les paramètres du compte. -->
+            <section class="player-card" aria-label="Votre personnage" data-profile-aria-fr="Votre personnage" data-profile-aria-en="Your character" data-i18n-ignore>
                 <div class="player-card-head">
+                    <div class="player-portrait">
                     <div id="mc-avatar-section" class="mc-avatar-section" style="display: none;">
-                        <img id="mc-avatar-img" class="mc-avatar-img" src="" alt="Avatar Minecraft" width="80" height="80">
+                        <img id="mc-avatar-img" class="mc-avatar-img" alt="Avatar Minecraft" width="128" height="128" decoding="async">
+                    </div>
+                    <div id="profile-avatar-empty" class="profile-avatar-empty"><span aria-hidden="true">?</span><p data-profile-fr="Avatar non disponible" data-profile-en="Avatar unavailable">Avatar non disponible</p></div>
                     </div>
                     <div class="player-identity">
+                        <span class="player-identity-kicker" data-profile-fr="Aincrad · profil enregistré" data-profile-en="Aincrad · saved profile">Aincrad · profil enregistré</span>
                         <h2 id="mc-display-name" class="mc-display-name"></h2>
-                        <span id="profil-title-fallback" class="player-fallback">Mon profil</span>
+                        <span id="profil-title-fallback" class="player-fallback" data-profile-fr="Profil Minecraft non associé" data-profile-en="Minecraft profile not linked">Profil Minecraft non associé</span>
                         <div class="player-role-line">
-                            <span id="profile-role" class="role-badge role-joueur">Joueur</span>
+                            <span id="profile-role" class="role-badge role-joueur" data-profile-fr="Joueur" data-profile-en="Player">Joueur</span>
                         </div>
+                        <a id="profile-minecraft-link-action" href="#minecraft-link-info" class="profile-minecraft-link-action" style="display: none;" data-profile-fr="Associer Minecraft" data-profile-en="Link Minecraft">Associer Minecraft</a>
                     </div>
                 </div>
-                <div class="player-actions">
-                    <a href="/admin-dashboard" id="dashboard-btn" class="player-btn player-btn-admin" style="display: none;">Administration</a>
-                    <a href="/espace-guilde" id="guilde-btn" class="player-btn" style="display: none;">Quartier général</a>
+                <div class="player-summary-panel">
+                    <dl class="character-summary">
+                        <div><dt data-profile-fr="Classe" data-profile-en="Class">Classe</dt><dd id="profile-class-summary">—</dd></div>
+                        <div><dt data-profile-fr="Niveau" data-profile-en="Level">Niveau</dt><dd id="profile-level-summary">—</dd></div>
+                    </dl>
+                    <p id="profile-character-state" class="profile-character-state"></p>
                 </div>
-            </div>
+            </section>
 
-            <!-- Informations -->
-            <p id="profile-feedback" class="profile-feedback" role="status" aria-live="polite"></p>
-            <div class="profile-details"><section class="profil-info" aria-label="Informations du profil">
-                <h3 class="profil-section-title">Identité du compte</h3>
-                <div class="info-grid">
-                    <div class="info-row">
-                        <span class="info-label">Compte Microsoft</span>
-                        <span class="info-value" id="profile-microsoft-state">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Minecraft</span>
-                        <span class="info-value" id="profile-minecraft-state">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Pseudo Minecraft</span>
-                        <span class="info-value" id="profile-minecraft-username">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">UUID Minecraft</span>
-                        <span class="info-value" id="profile-minecraft-uuid">-</span>
-                    </div>
-
-
-                    <div class="info-row">
-                        <span class="info-label">Membre depuis</span>
-                        <span class="info-value" id="profile-created">-</span>
-                    </div>
-                </div>
-
-            </section><section class="profil-info profile-character" aria-labelledby="profile-character-title"><h3 id="profile-character-title" class="profil-section-title">Personnage</h3><p class="profile-section-copy">Votre classe et votre niveau renseignés sur le profil.</p><div class="info-grid"><div class="info-row">
-                        <label class="info-label" for="profile-classe">Classe</label>
+            <p id="profile-feedback" class="profile-feedback" role="status" aria-live="polite" data-i18n-ignore></p>
+            <div class="profile-details">
+                <section class="profil-info profile-character" aria-labelledby="profile-character-title" data-i18n-ignore>
+                    <div class="profile-section-head"><span class="profile-section-number" aria-hidden="true">02</span><h3 id="profile-character-title" class="profil-section-title" data-profile-fr="Mon personnage" data-profile-en="My character">Mon personnage</h3></div>
+                    <p class="profile-section-copy" data-profile-fr="Renseignez votre classe et votre niveau. Le résumé affiche les valeurs sauvegardées." data-profile-en="Set your class and level. The summary shows your saved values.">Renseignez votre classe et votre niveau. Le résumé affiche les valeurs sauvegardées.</p>
+                    <div class="character-edit-grid"><div class="character-field">
+                        <label class="info-label" for="profile-classe" data-profile-fr="Classe" data-profile-en="Class">Classe</label>
                         <span class="info-value">
                             <select id="profile-classe" class="profile-select">
                                 <option value="Shaman">Shaman</option>
                                 <option value="Mage">Mage</option>
                                 <option value="Assassin">Assassin</option>
-                                <option value="Guerrier" selected="">Guerrier</option>
+                                <option value="Guerrier">Guerrier</option>
                                 <option value="Archer">Archer</option>
                             </select>
                         </span>
-                    </div><div class="info-row">
-                        <label class="info-label" for="profile-niveau">Niveau</label>
+                    </div><div class="character-field">
+                        <label class="info-label" for="profile-niveau" data-profile-fr="Niveau" data-profile-en="Level">Niveau</label>
                         <span class="info-value">
-                            <input type="number" id="profile-niveau" class="profile-input" step="1" required="" min="1" max="100" value="1">
+                            <input type="number" id="profile-niveau" class="profile-input" step="1" required="" min="1" max="100" aria-describedby="profile-level-help">
                         </span>
-                    </div></div><div class="profil-save-row">
-                    <button id="save-profile-btn" class="save-profile-btn">Sauvegarder les modifications</button>
-                </div></section></div>
+                        <span id="profile-level-help" class="profile-field-help" data-profile-fr="De 1 à 100" data-profile-en="From 1 to 100">De 1 à 100</span>
+                    </div></div>
+                    <div class="profil-save-row"><button id="save-profile-btn" class="save-profile-btn" type="button" data-profile-fr="Sauvegarder les modifications" data-profile-en="Save changes">Sauvegarder les modifications</button></div>
+                </section>
+                <aside class="profil-info profile-tools" aria-labelledby="profile-tools-title" data-i18n-ignore>
+                    <div class="profile-section-head"><span class="profile-section-number" aria-hidden="true">03</span><h3 id="profile-tools-title" class="profil-section-title" data-profile-fr="Mes accès" data-profile-en="My tools">Mes accès</h3></div>
+                    <div class="player-actions">
+                        <a href="/espace-guilde" id="guilde-btn" class="player-btn player-btn-guild" style="display: none;"><span data-profile-fr="Quartier général" data-profile-en="Headquarters">Quartier général</span><span aria-hidden="true">↗</span></a>
+                        <a href="/wiki" class="player-btn"><span data-profile-fr="Explorer le codex" data-profile-en="Explore the codex">Explorer le codex</span><span aria-hidden="true">↗</span></a>
+                        <a href="/carte" class="player-btn"><span data-profile-fr="Carte d’Aincrad" data-profile-en="Map of Aincrad">Carte d’Aincrad</span><span aria-hidden="true">↗</span></a>
+                        <a href="#profile-account" class="player-btn" id="profile-account-link"><span data-profile-fr="Paramètres du compte" data-profile-en="Account settings">Paramètres du compte</span><span aria-hidden="true">↓</span></a>
+                        <a href="/admin-dashboard" id="dashboard-btn" class="player-btn player-btn-admin" style="display: none;"><span data-profile-fr="Administration" data-profile-en="Administration">Administration</span><span aria-hidden="true">↗</span></a>
+                    </div>
+                </aside>
+            </div>
 
-            <section id="minecraft-link-info" class="minecraft-link-info" aria-label="Liaison Minecraft" style="display: none;">
+            <details id="profile-account" class="profile-account" data-i18n-ignore>
+                <summary><span data-profile-fr="Identité et paramètres du compte" data-profile-en="Account identity and settings">Identité et paramètres du compte</span><span class="profile-account-summary-note" data-profile-fr="Microsoft · Minecraft" data-profile-en="Microsoft · Minecraft">Microsoft · Minecraft</span></summary>
+                <div class="profile-account-body">
+                <section class="profil-info profile-account-info" aria-label="Informations du profil" data-profile-aria-fr="Informations du profil" data-profile-aria-en="Profile information">
+                    <h3 class="profil-section-title" data-profile-fr="Identité du compte" data-profile-en="Account identity">Identité du compte</h3>
+                    <dl class="info-grid">
+                        <div class="info-row"><dt class="info-label" data-profile-fr="Compte Microsoft" data-profile-en="Microsoft account">Compte Microsoft</dt><dd class="info-value" id="profile-microsoft-state">—</dd></div>
+                        <div class="info-row"><dt class="info-label">Minecraft</dt><dd class="info-value" id="profile-minecraft-state">—</dd></div>
+                        <div class="info-row"><dt class="info-label" data-profile-fr="Pseudo Minecraft" data-profile-en="Minecraft username">Pseudo Minecraft</dt><dd class="info-value" id="profile-minecraft-username">—</dd></div>
+                        <div class="info-row"><dt class="info-label">UUID Minecraft</dt><dd class="info-value profile-uuid" id="profile-minecraft-uuid">—</dd></div>
+                        <div class="info-row"><dt class="info-label" data-profile-fr="Membre depuis" data-profile-en="Member since">Membre depuis</dt><dd class="info-value" id="profile-created">—</dd></div>
+                    </dl>
+                </section>
+
+            <section id="minecraft-link-info" class="minecraft-link-info" aria-label="Liaison Minecraft" data-profile-aria-fr="Liaison Minecraft" data-profile-aria-en="Minecraft link" style="display: none;">
                 <div>
-                    <h3 class="profil-section-title">Associer ton pseudo Minecraft</h3>
-                    <p id="minecraft-link-status" class="minecraft-link-status" role="status" aria-live="polite">Minecraft non lié</p>
-                    <p class="minecraft-link-copy">Entre ton pseudo exact pour afficher ton UUID et ton avatar Minecraft.</p>
-                    <p class="minecraft-link-warning">Cette étape associe le profil public Minecraft (pseudo, UUID, avatar). Ce n'est pas une preuve de possession du compte.</p>
+                    <h3 class="profil-section-title" data-profile-fr="Associer ton pseudo Minecraft" data-profile-en="Link your Minecraft username">Associer ton pseudo Minecraft</h3>
+                    <p id="minecraft-link-status" class="minecraft-link-status" role="status" aria-live="polite" data-profile-message="Minecraft non lié.">Minecraft non lié</p>
+                    <p class="minecraft-link-copy" data-profile-fr="Entre ton pseudo exact pour afficher ton UUID et ton avatar Minecraft." data-profile-en="Enter your exact username to show your Minecraft UUID and avatar.">Entre ton pseudo exact pour afficher ton UUID et ton avatar Minecraft.</p>
+                    <p class="minecraft-link-warning" data-profile-fr="Cette étape associe le profil public Minecraft (pseudo, UUID, avatar). Ce n'est pas une preuve de possession du compte." data-profile-en="This links a public Minecraft profile (username, UUID, avatar). It does not verify account ownership.">Cette étape associe le profil public Minecraft (pseudo, UUID, avatar). Ce n'est pas une preuve de possession du compte.</p>
                     <form id="minecraft-link-form" class="minecraft-link-form" novalidate="">
-                        <label class="minecraft-link-label" for="minecraft-username-input">Pseudo Minecraft</label>
+                        <label class="minecraft-link-label" for="minecraft-username-input" data-profile-fr="Pseudo Minecraft" data-profile-en="Minecraft username">Pseudo Minecraft</label>
                         <div class="minecraft-link-controls">
                             <input id="minecraft-username-input" class="minecraft-link-input" type="text" autocomplete="off" inputmode="text" minlength="3" maxlength="16" pattern="[A-Za-z0-9_]{3,16}">
-                            <button id="minecraft-link-btn" class="save-profile-btn minecraft-link-submit" type="submit">Associer ce pseudo</button>
+                            <button id="minecraft-link-btn" class="save-profile-btn minecraft-link-submit" type="submit" data-profile-fr="Associer ce pseudo" data-profile-en="Link this username">Associer ce pseudo</button>
                         </div>
                     </form>
                 </div>
             </section>
+                </div>
+            </details>
 
         </div>
 
-        <div id="error-content" class="profil-error" role="alert" style="display: none;">
-            <h2>Erreur</h2>
-            <p id="error-text">Une erreur est survenue lors du chargement du profil.</p>
+        <div id="error-content" class="profil-error" role="alert" style="display: none;" data-i18n-ignore>
+            <span class="nm-eyebrow" data-profile-fr="Fiche personnelle" data-profile-en="Personal profile">Fiche personnelle</span>
+            <h2 id="profile-error-title" data-profile-fr="Profil indisponible" data-profile-en="Profile unavailable">Profil indisponible</h2>
+            <p id="error-text" data-profile-fr="Une erreur est survenue lors du chargement du profil." data-profile-en="Unable to load your profile.">Une erreur est survenue lors du chargement du profil.</p>
+            <div class="profile-error-actions"><a id="profile-login-btn" href="/connexion" class="save-profile-btn" data-profile-fr="Se connecter" data-profile-en="Sign in">Se connecter</a><button id="profile-retry-btn" class="player-btn" type="button" style="display: none;" data-profile-fr="Réessayer" data-profile-en="Try again">Réessayer</button><a href="/wiki" class="player-btn" data-profile-fr="Explorer le codex" data-profile-en="Explore the codex">Explorer le codex</a></div>
         </div>
     </main>
 
@@ -197,7 +212,7 @@
 
     <!-- Scripts - Chargement optimisé -->
     <script src="../js/i18n-en.js?v=20261008hybrid" defer></script>
-    <script src="../js/i18n-en-reviewed.js?v=20261011ux2e" defer></script>
+    <script src="../js/i18n-en-reviewed.js?v=20261011phased3" defer></script>
     <script src="../js/i18n-quests-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-game-en-reviewed.js?v=20261008hybrid" defer></script>
     <script src="../js/i18n-information-en-reviewed.js?v=20261007a" defer></script>
@@ -205,14 +220,14 @@
     <script src="../js/vendor/supabase-2.117.2.min.js?v=20261007a" defer></script>
     <script src="../js/performance-monitor.js?v=20261007a" defer></script>
     <script src="../js/guild-date-utils.js?v=20261007a" defer></script>
-    <script src="../js/navbar-mobile.js?v=20261008hybrid" defer></script>
+    <script src="../js/navbar-mobile.js?v=20261011phasee2" defer></script>
     <script src="../js/supabase-public-config.js?v=20261007a" defer></script>
     <script src="../js/db-guard.js?v=20261007a" defer></script>
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/profil.js?v=20261008hybrid" defer></script>
+    <script src="../js/profil.js?v=20261011phased3" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
-    <script src="../js/global-search.js?v=20261010phase3native" defer></script>
+    <script src="../js/global-search.js?v=20261011phasee2" defer></script>
 </body>
 </html>

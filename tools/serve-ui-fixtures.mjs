@@ -6,12 +6,13 @@ import { JSDOM } from 'jsdom';
 
 const workspace = path.resolve(import.meta.dirname, '..');
 const built = path.join(workspace, '_site');
-const port = 4181;
+const port = Number(process.argv.find(value => value.startsWith('--port='))?.slice(7) || 4181);
+if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid QA port.');
 const routes = new Map([['/qa/guild', 'espace-guilde'], ['/qa/profile', 'profil'], ['/qa/admin', 'admin-dashboard']]);
 const scripts = new Set([
     'i18n-en.js', 'i18n-en-reviewed.js', 'i18n-quests-en-reviewed.js', 'i18n-game-en-reviewed.js',
     'i18n-information-en-reviewed.js', 'i18n.js', 'guild-date-utils.js', 'cache-manager.js', 'security-utils.js',
-    'navbar-mobile.js', 'global-search.js', 'reference-shell.js', 'guild-expeditions.js', 'espace-guilde.js', 'profil.js', 'admin-dashboard.js', 'guild-chat.js', 'guild-dm.js'
+    'navbar-mobile.js', 'global-search.js', 'reference-shell.js', 'world-atmosphere.js', 'guild-expeditions.js', 'espace-guilde.js', 'profil.js', 'admin-dashboard.js', 'guild-chat.js', 'guild-dm.js'
 ]);
 const csp = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';";
 const headers = {
@@ -26,8 +27,12 @@ const boot = `(() => {
  const now = new Date();
  const userId = '11111111-1111-4111-8111-111111111111';
  const peerId = '22222222-2222-4222-8222-222222222222';
- const source = '/assets/brand/nameless-emblem-256.webp';
- const current = {id:userId, username:'QA Commandant', role:'admin', classe:'Guerrier', niveau:40, minecraft_uuid:null, minecraft_username:null, created_at:'2026-01-01T12:00:00.000Z'};
+ const source = '/assets/ui/player-avatar.svg';
+ const scenario = new URLSearchParams(location.search);
+ const role = ['admin','membre','joueur'].includes(scenario.get('role')) ? scenario.get('role') : 'admin';
+ const current = {id:userId, username:'QA Commandant', role, classe:'Guerrier', niveau:40, minecraft_uuid:null, minecraft_username:null, created_at:'2026-01-01T12:00:00.000Z'};
+ if (scenario.get('identity') === 'linked') { current.minecraft_username='QA_Commandant'; current.minecraft_uuid=userId.replaceAll('-',''); }
+ if (scenario.get('character') === 'missing') { current.classe=null; current.niveau=null; }
  const tables = {
   user_profiles:[current,{id:peerId,username:'QA Éclaireur',role:'membre',classe:'Archer',niveau:32,minecraft_uuid:null,minecraft_username:null,created_at:'2026-02-01T12:00:00.000Z'}],
   guild_planning:[{id:'33333333-3333-4333-8333-333333333333',titre:'QA Préparation de sortie',description:'Exemple fictif réservé au contrôle de mise en page. Aucune sortie réelle.',type_event:'reunion',date_event:new Date(now.getTime()+86400000).toISOString(),created_at:now.toISOString()}],
@@ -36,6 +41,8 @@ const boot = `(() => {
   guild_activity_wall:[{id:'55555555-5555-4555-8555-555555555555',titre:'QA Note de préparation',contenu:'Publication fictive. Cette prévisualisation utilise les composants réels avec des données isolées en mémoire.',type:'annonce',image_url:null,created_at:now.toISOString(),created_by:userId}],
   guild_chat:[]
  };
+ const empty = scenario.get('empty') === '1';
+ if (empty) for (const name of ['guild_planning','guild_objectives','guild_presence','guild_activity_wall']) tables[name]=[];
  const writes = [];
  const session = {access_token:'QA-NOT-REAL',user:{id:userId,user_metadata:{},app_metadata:{}}};
  window.currentUser = session.user; window.userProfile = current; window.namelessAuthReady = true;
@@ -56,6 +63,7 @@ const boot = `(() => {
    insert(value){operation='insert';payload=value;return q},update(value){operation='update';payload=value;return q},
    upsert(value){operation='upsert';payload=value;return q},delete(){operation='delete';return q},
    then(resolve,reject){
+    if(scenario.get('fail')==='planning'&&table==='guild_planning'&&!operation)return Promise.resolve({data:null,error:{code:'QA_READ_UNAVAILABLE',message:'Planning read unavailable in isolated QA'}}).then(resolve,reject);
     const all=tables[table]||(tables[table]=[]);const match=row=>filters.every(fn=>fn(row));
     if(operation){
      writes.push({table,operation,payload});
@@ -77,7 +85,7 @@ const boot = `(() => {
  const channel = () => {const value={on(){return value},subscribe(){return value},unsubscribe(){return ok(null)}};return value};
  window.supabase = {
   auth:{getUser:()=>ok({user:session.user}),getSession:()=>ok({session}),signOut:()=>ok(null),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}})},
-  rpc: name => name==='current_user_role'?ok('admin'):ok(null),from:query,channel,removeChannel:()=>ok(null),
+  rpc: name => name==='current_user_role'?ok(role):ok(null),from:query,channel,removeChannel:()=>ok(null),
   functions:{invoke:async(_name,{body})=>{
    writes.push({operation:'edge-action',payload:body});
    const target=tables.user_profiles.find(row=>row.id===body.target_user_id);
@@ -97,8 +105,10 @@ const boot = `(() => {
  function localImages(){if(typeof document==='undefined'||!document)return;for(const image of document.querySelectorAll('img[src]')){try{if(new URL(image.getAttribute('src'),location.href).origin!==location.origin)image.src=source}catch{image.src=source}}}
  new MutationObserver(localImages).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});
  document.addEventListener('DOMContentLoaded',()=>{
-  const week=window.NamelessGuildDates.isoWeek(now);tables.guild_objectives[0].semaine_numero=week.week;tables.guild_objectives[0].annee=week.year;
-  tables.guild_presence.push({id:'66666666-6666-4666-8666-666666666666',user_id:peerId,date_presence:window.NamelessGuildDates.dateKey(now),statut:'present',created_at:now.toISOString()});
+  const week=window.NamelessGuildDates.isoWeek(now);
+  if (!empty) { tables.guild_objectives[0].semaine_numero=week.week; tables.guild_objectives[0].annee=week.year;
+   tables.guild_presence.push({id:'66666666-6666-4666-8666-666666666666',user_id:peerId,date_presence:window.NamelessGuildDates.dateKey(now),statut:'present',created_at:now.toISOString()}); }
+  window.NamelessWorldAtmosphere?.sync(location.pathname==='/qa/guild'?'espace-guilde':location.pathname==='/qa/profile'?'profil':'admin-dashboard');
   document.getElementById('login-link')?.style.setProperty('display','none');document.getElementById('user-info')?.style.setProperty('display','flex');
   const username=document.getElementById('username');if(username)username.textContent=current.username;
   document.getElementById('logout-btn')?.addEventListener('click',()=>{window.alert('Prévisualisation QA : aucune session réelle à déconnecter.')});localImages();
@@ -106,7 +116,7 @@ const boot = `(() => {
 })();`;
 
 function fixture(name) {
-    const dom = new JSDOM(fs.readFileSync(path.join(workspace, 'pages', name + '.html'), 'utf8'));
+    const dom = new JSDOM(fs.readFileSync(path.join(built, name, 'index.html'), 'utf8'));
     const doc = dom.window.document;
     for (const meta of doc.querySelectorAll('meta[http-equiv="Content-Security-Policy"]')) meta.content = csp;
     for (const script of [...doc.scripts]) {
@@ -130,7 +140,7 @@ function fixture(name) {
     }
     const style = doc.createElement('link'); style.rel = 'stylesheet'; style.href = '/qa/fixture.css'; doc.head.append(style);
     const banner = doc.createElement('aside'); banner.className = 'qa-fixture-banner'; banner.setAttribute('aria-label', 'Prévisualisation isolée');
-    banner.innerHTML = 'Prévisualisation QA · données fictives · aucune API réelle <a href="/qa/guild">Guilde</a><a href="/qa/profile">Profil</a><a href="/qa/admin">Administration</a>';
+    banner.innerHTML = 'Prévisualisation QA · données fictives, avatar de test · aucune API réelle <a href="/qa/guild">Guilde</a><a href="/qa/profile">Profil</a><a href="/qa/admin">Administration</a>';
     doc.querySelector('header').after(banner);
     doc.title = 'QA isolée — ' + doc.title;
     const html = '<!doctype html>\n' + doc.documentElement.outerHTML;
@@ -167,4 +177,4 @@ http.createServer((request, response) => {
     }
     response.writeHead(200, {...headers,'Content-Type':type});
     response.end(request.method === 'HEAD' ? undefined : body);
-}).listen(port, '127.0.0.1', () => console.log('Isolated UI QA fixtures: http://127.0.0.1:4181/qa/guild · /qa/profile · /qa/admin'));
+}).listen(port, '127.0.0.1', () => console.log('Isolated UI QA fixtures: http://127.0.0.1:'+port+'/qa/guild · /qa/profile · /qa/admin'));
