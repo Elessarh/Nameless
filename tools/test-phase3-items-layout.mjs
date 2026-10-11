@@ -57,5 +57,43 @@ try {
     assert.equal(await page.locator('#it-filter-toggle').isVisible(), false, 'Desktop hides the redundant drawer toggle'); checks++;
     assert.equal(await page.locator('#it-filter-close').isVisible(), false, 'Desktop hides the drawer-only close target'); checks++;
     assert.equal(await page.locator('.catalogue-filter-backdrop').isVisible(), false, 'Desktop has no overlay backdrop'); checks++;
+    for (const width of [1920, 1280, 390]) {
+        await page.setViewportSize({ width, height: 844 });
+        await page.waitForFunction(() => {
+            const image = document.querySelector('.item-image');
+            return document.querySelector('main').getBoundingClientRect().width >= innerWidth - 48 && image && image.complete && image.naturalWidth > 0 && Number(image.dataset.pixelScale) >= 2;
+        });
+        const inventory = await page.locator('.item-card').first().evaluate(card => {
+            const image = card.querySelector('.item-image'), badge = card.querySelector('.item-rarity-badge');
+            const imageBounds = image.getBoundingClientRect(), mediaBounds = image.parentElement.getBoundingClientRect(), cardBounds = card.getBoundingClientRect(), badgeBounds = badge.getBoundingClientRect();
+            const categoryBounds = card.querySelector('.item-cat').getBoundingClientRect();
+            return { count: document.querySelectorAll('.item-card').length, pageSize: document.getElementById('items-per-page-select').value, factor: Number(image.dataset.pixelScale), nativeWidth: image.naturalWidth, nativeHeight: image.naturalHeight, imageWidth: imageBounds.width, imageHeight: imageBounds.height, imageBottom: imageBounds.bottom, mediaWidth: mediaBounds.width, mediaHeight: mediaBounds.height, badgeWidth: badgeBounds.width, badgeTop: badgeBounds.top, metaCenters: [categoryBounds.top + categoryBounds.height / 2, badgeBounds.top + badgeBounds.height / 2], badgeRight: badgeBounds.right, cardRight: cardBounds.right, cardWidth: cardBounds.width, mainWidth: document.querySelector('main').getBoundingClientRect().width, gridWidth: card.parentElement.getBoundingClientRect().width, layoutWidth: document.querySelector('.catalogue-layout').getBoundingClientRect().width, inner: innerWidth, nameSize: Number.parseFloat(getComputedStyle(card.querySelector('.item-name')).fontSize), rendering: getComputedStyle(image).imageRendering, overflow: document.documentElement.scrollWidth > innerWidth };
+        });
+        assert.equal(inventory.count, 48, width + ': real inventory starts with 48 elements'); checks++;
+        assert.equal(inventory.pageSize, '48', width + ': the pagination control agrees with visible native records'); checks++;
+        assert.ok(Number.isInteger(inventory.factor) && inventory.factor >= 2 && inventory.factor <= 3, width + ': small native sprites have a readable integer enlargement'); checks++;
+        assert.equal(inventory.imageWidth, inventory.nativeWidth * inventory.factor, width + ': CSS preserves the exact native image width'); checks++;
+        assert.equal(inventory.imageHeight, inventory.nativeHeight * inventory.factor, width + ': CSS preserves the exact native image height'); checks++;
+        assert.ok(inventory.imageWidth <= inventory.mediaWidth && inventory.imageHeight <= inventory.mediaHeight, width + ': the entire PNG canvas fits its inventory support ' + JSON.stringify(inventory)); checks++;
+        assert.ok(inventory.badgeWidth < inventory.cardWidth - 12, width + ': the rarity badge wraps its label rather than becoming a full-width ribbon'); checks++;
+        assert.ok(inventory.badgeTop >= inventory.imageBottom, width + ': the rarity badge never covers the native image canvas'); checks++;
+        assert.ok(Math.abs(inventory.metaCenters[0] - inventory.metaCenters[1]) < 1, width + ': Accessories and Legendary fit the same metadata row'); checks++;
+        assert.ok(inventory.badgeRight <= inventory.cardRight - 5, width + ': the compact badge stays within the card’s inset'); checks++;
+        assert.ok(inventory.nameSize >= 15, width + ': item names remain readable in the denser grid'); checks++;
+        assert.equal(inventory.rendering, 'pixelated', width + ': native pixels are not smoothed'); checks++;
+        assert.equal(inventory.overflow, false, width + ': the denser inventory remains within the viewport'); checks++;
+    }
+    await page.locator('.item-card').first().click();
+    await page.waitForFunction(() => {
+        const image = document.querySelector('.item-modal-media img');
+        return image && image.complete && Number(image.dataset.pixelScale) === 3;
+    });
+    const detail = await page.locator('.item-modal-media img').evaluate(image => {
+        const bounds = image.getBoundingClientRect(), support = image.parentElement.getBoundingClientRect();
+        return { width: bounds.width, height: bounds.height, nativeWidth: image.naturalWidth, nativeHeight: image.naturalHeight, supportWidth: support.width, supportHeight: support.height };
+    });
+    assert.deepEqual([detail.width, detail.height], [detail.nativeWidth * 3, detail.nativeHeight * 3], 'The contextual sheet displays a small native sprite at exact 3x dimensions'); checks++;
+    assert.ok(detail.width <= detail.supportWidth && detail.height <= detail.supportHeight, 'The enlarged detail preserves the complete transparent canvas without clipping'); checks++;
+    await page.keyboard.press('Escape');
     console.log('Phase 3 item drawer native layout: ' + checks + ' checks passed.');
 } finally { await browser.close(); }

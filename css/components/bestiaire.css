@@ -56,6 +56,8 @@
 .creature-map-location p { color: var(--nm-text-secondary); font-size: .8125rem; line-height: 1.5; }
 .creature-map-link { display: inline-flex; min-height: 44px; align-items: center; padding: .5rem .875rem; color: var(--nm-gold-light); border: 1px solid var(--nm-hairline); border-radius: var(--nm-radius-sm); text-decoration: none; font-size: .875rem; }
 .creature-map-link:hover { border-color: var(--nm-gold); background: var(--nm-surface-raised); }
+.creature-zone-link { color: var(--nm-link); text-decoration: underline; text-decoration-color: var(--nm-border-control); text-underline-offset: 3px; }
+.creature-zone-link:hover { color: var(--nm-gold-light); text-decoration-color: currentColor; }
 .modal-section { margin-top: var(--nm-space-5); padding-top: var(--nm-space-4); border-top: 1px solid var(--nm-border); }
 .modal-section-title { margin: 0 0 var(--nm-space-4); color: var(--nm-gold-light); font: 500 1.0625rem/1.4 var(--font-title); }
 .modal-desc { margin: 0; color: var(--nm-text); font-size: .9375rem; line-height: 1.7; }

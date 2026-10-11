@@ -1,0 +1,1591 @@
+{
+  "date": "2026-10-11",
+  "phase": "C",
+  "captures": [
+    {
+      "label": "before-items-1920",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 198.09375,
+        "width": 149.328125
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            46,
+            47
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            46,
+            46
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            47,
+            48
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            48,
+            48
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            47,
+            46
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "149.328px 149.328px 149.328px 149.344px 149.328px 149.328px 149.344px 149.328px 149.328px",
+      "height": 1080,
+      "overflow": false,
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "before-bestiary-1920",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 234.484375,
+        "width": 195.421875
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            193.421875,
+            163
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            193.421875,
+            163
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            193.4375,
+            163
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            193.421875,
+            163
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            193.4375,
+            163
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            193.421875,
+            163
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "195.422px 195.422px 195.438px 195.422px 195.438px 195.422px 195.438px",
+      "height": 1080,
+      "overflow": false,
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "before-bestiary-390",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 225.484375,
+        "width": 172.5
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            170.5,
+            154
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            170.5,
+            154
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            170.5,
+            154
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            170.5,
+            154
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            170.5,
+            154
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            170.5,
+            154
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "172.5px 172.5px",
+      "height": 844,
+      "overflow": false,
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "before-items-390",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 180.546875,
+        "width": 172.5
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            46,
+            47
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            46,
+            46
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            47,
+            48
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            48,
+            48
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            47,
+            46
+          ],
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "172.5px 172.5px",
+      "height": 844,
+      "overflow": false,
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-items-390",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 222.296875,
+        "width": 172.5
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            92,
+            94
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            92,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            94,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            96,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            94,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "172.5px 172.5px",
+      "height": 844,
+      "overflow": false,
+      "panelMode": "sheet",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-items-1920",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 222.296875,
+        "width": 230.65625
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            92,
+            94
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            92,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            94,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            96,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            94,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "230.656px 230.672px 230.672px 230.656px 230.672px 230.672px",
+      "height": 1080,
+      "overflow": false,
+      "panelMode": "rail",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-bestiary-1920",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 252,
+        "width": 230.65625
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            228.65625,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            228.671875,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            228.671875,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            228.65625,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            228.671875,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            228.671875,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "230.656px 230.672px 230.672px 230.656px 230.672px 230.672px",
+      "height": 1080,
+      "overflow": false,
+      "panelMode": "rail",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-bestiary-detail-1920",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 252,
+        "width": 261
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            259,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            259,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            259,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            259,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            259,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            259,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "261px 261px 261px 261px",
+      "height": 1080,
+      "overflow": false,
+      "panelMode": "rail",
+      "panelWidth": 344,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=12",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-items-detail-1920",
+      "broken": [],
+      "cards": 1,
+      "firstCard": {
+        "height": 222.296875,
+        "width": 261
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            94,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Ressources/Gel%C3%A9edeSlime.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "261px 261px 261px 261px",
+      "height": 1080,
+      "overflow": false,
+      "panelMode": "rail",
+      "panelWidth": 344,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/?item=gelee_slime",
+      "width": 1920,
+      "errors": []
+    },
+    {
+      "label": "after-items-detail-1280",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 222.296875,
+        "width": 199.328125
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            92,
+            94
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            92,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            94,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            96,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            94,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "199.328px 199.328px 199.328px",
+      "height": 900,
+      "overflow": false,
+      "panelMode": "rail",
+      "panelWidth": 344,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/?item=anneau_faucheuse",
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "after-items-list-1280",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 146,
+        "width": 622
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            92,
+            94
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            92,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            94,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            96,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            94,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "622px",
+      "height": 900,
+      "overflow": false,
+      "panelMode": "rail",
+      "panelWidth": 344,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/?item=anneau_faucheuse",
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "after-items-detail-390",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 222.296875,
+        "width": 172.5
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            92,
+            94
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            92,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            94,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            96,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            94,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "172.5px 172.5px",
+      "height": 844,
+      "overflow": false,
+      "panelMode": "sheet",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 141,
+      "url": "http://127.0.0.1:4173/items/?item=anneau_faucheuse",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-bestiary-390",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 244,
+        "width": 172.5
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "172.5px 172.5px",
+      "height": 844,
+      "overflow": false,
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-bestiary-detail-390",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 244,
+        "width": 172.5
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            170.5,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "172.5px 172.5px",
+      "height": 844,
+      "overflow": false,
+      "panelMode": "sheet",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 89,
+      "url": "http://127.0.0.1:4173/bestiaire/?creature=1",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "label": "after-bestiary-768",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 252,
+        "width": 237.328125
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            235.328125,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            235.328125,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            235.328125,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            235.328125,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            235.328125,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            235.328125,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "237.328px 237.328px 237.328px",
+      "height": 1024,
+      "overflow": false,
+      "panelMode": "sheet",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "label": "after-bestiary-1280",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 252,
+        "width": 187.59375
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            185.59375,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            185.59375,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            185.609375,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            185.59375,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            185.609375,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            185.59375,
+            151
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "187.594px 187.594px 187.609px 187.594px 187.609px",
+      "height": 900,
+      "overflow": false,
+      "panelMode": "rail",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 1280,
+      "errors": []
+    },
+    {
+      "label": "after-bestiary-320",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 244,
+        "width": 286
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            740,
+            814
+          ],
+          "rendered": [
+            284,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Gorbel.png"
+        },
+        {
+          "natural": [
+            483,
+            400
+          ],
+          "rendered": [
+            284,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Petit%20Slime.png"
+        },
+        {
+          "natural": [
+            494,
+            318
+          ],
+          "rendered": [
+            284,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Guerrier%20Slime.avif"
+        },
+        {
+          "natural": [
+            478,
+            575
+          ],
+          "rendered": [
+            284,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Soigneur.png"
+        },
+        {
+          "natural": [
+            324,
+            304
+          ],
+          "rendered": [
+            284,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Slime%20Magicien.png"
+        },
+        {
+          "natural": [
+            576,
+            576
+          ],
+          "rendered": [
+            284,
+            143
+          ],
+          "src": "http://127.0.0.1:4173/assets/mobs/Sangliers.png"
+        }
+      ],
+      "grid": "286px",
+      "height": 720,
+      "overflow": false,
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/bestiaire/",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "label": "after-items-320",
+      "broken": [],
+      "cards": 48,
+      "firstCard": {
+        "height": 222.296875,
+        "width": 286
+      },
+      "firstSprites": [
+        {
+          "natural": [
+            46,
+            47
+          ],
+          "rendered": [
+            92,
+            94
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudelaFaucheuse.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            46
+          ],
+          "rendered": [
+            92,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/AnneaudeL%C3%A9viathan.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            48
+          ],
+          "rendered": [
+            94,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/Anneaudepacte.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            46,
+            44
+          ],
+          "rendered": [
+            92,
+            88
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Accessoires/CollierdeAragorn.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            48,
+            48
+          ],
+          "rendered": [
+            96,
+            96
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Armes/BatonduSorcierduShaman.png?v=items-cleaned-20261007"
+        },
+        {
+          "natural": [
+            47,
+            46
+          ],
+          "rendered": [
+            94,
+            92
+          ],
+          "scale": "2",
+          "src": "http://127.0.0.1:4173/assets/items/Consommables/Cl%C3%A9delafor%C3%AAt.png?v=items-cleaned-20261007"
+        }
+      ],
+      "grid": "286px",
+      "height": 720,
+      "overflow": false,
+      "panelMode": "sheet",
+      "panelWidth": 0,
+      "perPage": "48",
+      "scrollY": 0,
+      "url": "http://127.0.0.1:4173/items/",
+      "width": 320,
+      "errors": []
+    }
+  ],
+  "interactions": {
+    "defaultPerPage": 48,
+    "mobileEscapeRestoresFocus": true,
+    "mobileDrawerUnionCategories": {
+      "selected": [
+        "Accessoires",
+        "Armes"
+      ],
+      "results": 5
+    },
+    "bestiaryKeyboardTooltip": true,
+    "localeSwitch": "FR/EN",
+    "closeDuringLocaleSwitch": {
+      "bestiary": "closed, selection cleared, focus restored to rebuilt card",
+      "items": "closed, selection cleared, focus restored to rebuilt card"
+    },
+    "listWithSelection": {
+      "items1280": "1 column, no horizontal overflow",
+      "bestiary1280": "1 column, no horizontal overflow"
+    },
+    "realLinks": [
+      "/carte?floor=1&entity=location%3A1%3Avallee-loups",
+      "/items?item=fourrure_loup",
+      "/carte?floor=1&entity=location%3A1%3Amarecage-putride"
+    ],
+    "bossSourcePortraits": [
+      "/assets/mobs/Gorbel.png",
+      "/assets/mobs/leviathan.png"
+    ]
+  },
+  "tests": {
+    "hybrid": 144,
+    "bestiary": 61,
+    "items": 71,
+    "catalogueDom": 52,
+    "itemsNativeLayout": 72,
+    "bossBuild": 204,
+    "i18nDom": "pass",
+    "nativeArt": "pass",
+    "immutableItemPngs": 104,
+    "build": "13 routes, 18 boss pages, 252 search entries"
+  },
+  "productionDeployed": false
+}

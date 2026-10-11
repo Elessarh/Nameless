@@ -30,6 +30,10 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     check(!d.querySelector('.item-modal') && !d.querySelector('.catalogue-has-selection'), 'Initial inventory uses its full catalogue area without selecting an arbitrary record');
     check(!d.querySelector('.catalogue-detail-slot').children.length, 'The unused detail slot contains no empty panel');
     equal(data.length, 104, 'All 104 native item records are preserved');
+    equal(d.querySelectorAll('.item-card').length, 48, 'The initial inventory actually renders 48 native items');
+    equal(d.getElementById('items-per-page-select').value, '48', 'The default 48 item page agrees with its control');
+    check([...d.querySelectorAll('.item-card')].every(card => card.dataset.rarity === data.find(item => item.id === card.dataset.id).rarity), 'Rarity accents use each item’s recorded rarity');
+    check([...d.querySelectorAll('.item-card')].every(card => card.querySelector('.item-card-meta .item-cat') && card.querySelector('.item-card-meta .item-rarity-badge') && !card.querySelector('.item-media .item-rarity-badge')), 'Category and rarity sit below the native sprite in a dedicated metadata row');
     equal(allIds(s), data.map(item => item.id), 'Every item appears once through native pagination');
     d.getElementById('it-reset').click();
     const categories = [...new Set(data.map(item => item.category))].slice(0, 2);
@@ -52,6 +56,7 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     d.getElementById('it-reset').click(); const card = d.querySelector('.item-card'); card.focus(); card.click();
     const modal = d.querySelector('.item-modal');
     check(d.querySelector('.items-page').classList.contains('catalogue-has-selection') && modal.dataset.panelMode === 'rail', 'Only a real item selection opens the desktop rail');
+    equal(modal.dataset.rarity, data[0].rarity, 'The selected detail inherits its real rarity');
     check(modal.querySelector('.item-detail-description').textContent.includes('Aucune description'), 'Missing native descriptions are stated honestly');
     equal([...modal.querySelectorAll('.item-verified-facts dd')].map(node => node.textContent), [data[0].category.replace(/^\S+\s+/, ''), 'Légendaire'], 'The facts section only contains verified category and rarity');
     check(!modal.querySelector('.modal-stats, .item-damage, .item-defense'), 'No combat statistics or invented item characteristics are rendered');
@@ -60,6 +65,31 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     check(modal.querySelector('.item-share input').value.endsWith('/items?item=' + data[0].id) && !modal.querySelector('.item-share input').hidden, 'Unavailable clipboard offers a selectable native permalink');
     modal.querySelector('.modal-close').click();
     check(!d.querySelector('.items-page').classList.contains('catalogue-has-selection') && d.activeElement === card && !d.querySelector('[aria-expanded="true"].item-card'), 'Close clears selection, releases the rail and restores the actual opener');
+    s.close();
+}
+{
+    const s = surface(), { d, w } = s;
+    // Read the actual immutable PNG dimensions, not a duplicated asset table.
+    // JSDOM supplies the media geometry while the real load handler sizes it.
+    const verifyImage = (image, width, height, expectedScale) => {
+        const bytes = fs.readFileSync(path.join(root, decodeURIComponent(new URL(image.src).pathname).slice(1)));
+        equal(bytes.subarray(1, 4).toString(), 'PNG', 'The fixture is an actual native PNG');
+        const nativeWidth = bytes.readUInt32BE(16), nativeHeight = bytes.readUInt32BE(20);
+        Object.defineProperties(image, { naturalWidth: { value: nativeWidth, configurable: true }, naturalHeight: { value: nativeHeight, configurable: true } });
+        Object.defineProperties(image.parentElement, { clientWidth: { value: width, configurable: true }, clientHeight: { value: height, configurable: true } });
+        image.dispatchEvent(new w.Event('load'));
+        equal(Number(image.dataset.pixelScale), expectedScale, 'The real load handler chooses the largest supported integer factor');
+        equal([Number.parseInt(image.style.getPropertyValue('--item-image-width')), Number.parseInt(image.style.getPropertyValue('--item-image-height'))], [nativeWidth * expectedScale, nativeHeight * expectedScale], 'Displayed PNG dimensions preserve both proportions at an integer scale');
+    };
+    const ring = d.querySelector('.item-card[data-id="anneau_faucheuse"] .item-image');
+    verifyImage(ring, 200, 128, 2);
+    // A 49px sprite must no longer fall back to 1x because of the old 32px inset.
+    d.getElementById('items-next-page').click();
+    const fur = d.querySelector('.item-card[data-id="fourrure_loup"] .item-image');
+    check(!!fur, 'A real 49px source is present on the next native page');
+    verifyImage(fur, 200, 128, 2);
+    d.getElementById('it-reset').click(); d.querySelector('.item-card').click();
+    verifyImage(d.querySelector('.item-modal-media img'), 320, 176, 3);
     s.close();
 }
 {
@@ -94,11 +124,68 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     const modal = d.querySelector('.item-modal');
     check(modal && modal.dataset.item === 'gelee_slime', 'Direct links select exactly the requested item');
     check(modal.querySelector('.item-sources a[href^="/bestiaire?creature="]') && modal.querySelector('.item-source-map-link'), 'Confirmed sources maintain native item to creature to map links');
+    equal(modal.querySelectorAll('.item-source-row').length, index.find(entry => entry.kind === 'item' && entry.id === 'gelee_slime').sources.length, 'The compact source rows preserve every confirmed creature');
+    equal(modal.querySelectorAll('.item-source-portrait').length, modal.querySelectorAll('.item-source-row').length, 'Every indexed source has its real portrait, including Gorbel classified as a boss');
+    check([...modal.querySelectorAll('.item-source-portrait')].every(image => image.getAttribute('src').startsWith('/assets/mobs/')), 'Source portraits come exclusively from the native creature index');
+    const region = modal.querySelector('.item-source-region-link');
+    check(region && new URL(region.href).searchParams.get('entity') === 'location:1:marecage-putride', 'The source region links to the existing swamp location, rather than inventing a region');
+    const sourceMap = modal.querySelector('.item-source-map-link');
+    check(sourceMap.getAttribute('aria-label').includes('Gorbel') && sourceMap.querySelector('svg[aria-hidden="true"]'), 'Compact map actions retain a named accessible target');
     choose(s, 'it-source', 'known').click(); choose(s, 'it-source', 'unknown').click();
     equal(new Set(allIds(s)), new Set(data.filter(item => ['common', 'rare'].includes(item.rarity)).map(item => item.id)), 'Selecting both source groups includes all records matching the other filters');
     field(s, 'it-search', 'Slime');
     w.history.replaceState({}, '', '/items'); d.dispatchEvent(new w.CustomEvent('nameless:routechange'));
     check(modal.style.display === 'none' && !d.querySelector('.catalogue-has-selection') && !d.querySelectorAll('[data-filter-field]:checked').length && !d.getElementById('it-search').value, 'Same-route root navigation clears prior record and filter selections');
+    s.close();
+}
+{
+    const index = JSON.parse(read('assets/search-index.json')).entries;
+    const s = surface(1440, '?item=fourrure_loup', index), { d, data } = s;
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const modal = d.querySelector('.item-modal'), relatedTab = modal.querySelector('[data-detail-tab="related"]');
+    check(!!relatedTab, 'A related-items tab appears only for recorded items sharing a confirmed creature source');
+    const sourceUrls = new Set(index.find(entry => entry.kind === 'item' && entry.id === 'fourrure_loup').sources.map(source => source.url));
+    const relatedLinks = [...modal.querySelectorAll('.catalogue-related-item')];
+    check(relatedLinks.length > 0 && relatedLinks.length <= 6, 'The contextual list stays compact without fabricated filler');
+    check(relatedLinks.every(link => {
+        const id = new URL(link.href).searchParams.get('item'), record = data.find(item => item.id === id), indexed = index.find(entry => entry.kind === 'item' && entry.id === id);
+        return record && indexed.sources.some(source => sourceUrls.has(source.url)) && link.dataset.rarity === record.rarity && link.querySelector('.item-related-label small').textContent === record.category.replace(/^\S+\s+/, '') && link.querySelector('.item-related-sprite .item-related-image');
+    }), 'Related links preserve real provenance, category, rarity and native sprite supports');
+    relatedTab.click();
+    check(relatedTab.getAttribute('aria-selected') === 'true' && !modal.querySelector('[data-catalogue-tab-panel="related"]').hidden && modal.querySelector('[data-catalogue-tab-panel="overview"]').hidden, 'The compact related list opens in the existing accessible tab model');
+    s.close();
+}
+{
+    const index = JSON.parse(read('assets/search-index.json')).entries;
+    const s = surface(1440, '?item=coeur_nautherion', index), { d } = s;
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const source = d.querySelector('.item-source-creature[href="/bestiaire?creature=56"]'), boss = index.find(entry => entry.kind === 'boss' && entry.id === '56');
+    check(source && boss && source.querySelector('.item-source-portrait'), 'Heart of Nautherion renders its confirmed Leviathan boss portrait');
+    equal(source.querySelector('img').getAttribute('src'), boss.image, 'The boss portrait is the exact native indexed Leviathan image');
+    const map = new URL(d.querySelector('.item-source-map-link').href);
+    equal([map.searchParams.get('entity'), map.searchParams.get('floor')], ['creature:56', '1'], 'Adding a boss portrait preserves the existing source identifier and floor');
+    s.close();
+}
+for (const width of [1440, 390]) {
+    const s = surface(width), { d, w } = s;
+    let pendingClose = null, cancellations = 0;
+    w.NamelessReferenceShell = {
+        cancelPanelClose(panel) { cancellations++; panel.removeAttribute('data-reference-closing'); pendingClose = null; },
+        closePanel(panel, finish) { panel.dataset.referenceClosing = 'true'; pendingClose = () => { panel.removeAttribute('data-reference-closing'); pendingClose = null; finish(); }; }
+    };
+    const opener = d.querySelector('.item-card'), openerId = opener.dataset.id;
+    opener.focus(); opener.click();
+    const modal = d.querySelector('.item-modal'), previousCancellations = cancellations;
+    modal.querySelector('.modal-close').click();
+    check(modal.hasAttribute('data-reference-closing') && modal.style.display === 'flex' && pendingClose, width + ': a deferred exit retains its live panel until completion');
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    w.innerWidth = width === 1440 ? 390 : 1440; w.dispatchEvent(new w.Event('resize'));
+    equal(cancellations, previousCancellations, width + ': language rebuild and viewport resize never cancel or reopen a closing panel');
+    check(!d.querySelector('.item-card.is-selected, .item-card[aria-expanded="true"]'), width + ': rebuilding the grid during exit does not recreate a selected-card ghost');
+    check(modal.hasAttribute('data-reference-closing') && pendingClose, width + ': the original deferred exit remains pending');
+    pendingClose();
+    check(modal.style.display === 'none' && !modal.dataset.item && !d.querySelector('.catalogue-has-selection') && !d.querySelector('.item-card.is-selected'), width + ': the original completion releases the panel and its selection');
+    check(d.body.style.overflow === '' && d.activeElement === d.querySelector('.item-card[data-id="' + openerId + '"]'), width + ': completion restores scrolling and the actual rebuilt opener');
     s.close();
 }
 console.log('Phase 3 item inventory: ' + checks + ' checks passed.');

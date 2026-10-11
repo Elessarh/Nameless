@@ -9,11 +9,12 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 let checks = 0;
 const check = (value, message) => { assert.ok(value, message); checks++; };
 const equal = (value, expected, message) => { assert.deepEqual(value, expected, message); checks++; };
-function surface(width = 1280, query = '') {
+function surface(width = 1280, query = '', index = null) {
     const dom = new JSDOM(read('pages/bestiaire.html'), { url: 'https://nameless-sao.fr/bestiaire' + query, runScripts: 'outside-only', pretendToBeVisual: true });
     const w = dom.window;
     Object.defineProperty(w, 'innerWidth', { value: width, writable: true });
     w.NamelessSpaRouter = { controlsLifecycle: true };
+    if (index) w.NamelessGlobalSearch = { getIndex: typeof index === 'function' ? index : () => Promise.resolve(index) };
     w.scrollTo = () => {}; w.matchMedia = () => ({ matches: true });
     w.eval(read('js/bestiaire.js') + '\nwindow.__records = JSON.stringify(creaturesData);');
     w.NamelessBestiaryPage.init(w.document);
@@ -31,6 +32,11 @@ function close(s) { s.w.NamelessBestiaryPage.destroy(); s.dom.window.close(); }
 {
     const s = surface(), { d, data } = s;
     check(!d.querySelector('.creature-modal') && !d.querySelector('.bestiary-page').classList.contains('catalogue-has-selection'), 'A fresh bestiary gives catalogue space to its records without an empty detail rail');
+    equal([...d.querySelectorAll('.creature-card')].map(card => Number(card.dataset.id)), data.slice(0, 48).map(creature => creature.id), 'The initial page presents the first 48 native records directly');
+    equal(d.getElementById('items-per-page').value, '48', 'The visible page size control agrees with the 48 rendered records');
+    equal([...d.querySelectorAll('.creature-card')].map(card => card.querySelector('.chip-category').textContent), data.slice(0, 48).map(creature => ({boss: 'Boss', elite: 'Élite', creature: 'Créature'})[creature.category]), 'Every visible card identifies its actual category rather than inventing a rarity');
+    check([1, 2, 5].every(id => !d.querySelector('.creature-card[data-id="' + id + '"] .chip-type')) && d.querySelector('.creature-card[data-id="6"] .chip-type').textContent === 'Bête', 'Compact type badges omit generic Créature labels for bosses, creatures and elites while retaining meaningful native Bête types');
+    equal(d.querySelector('.creature-card[data-id="6"] .creature-zone').textContent, data.find(creature => creature.id === 6).location, 'The compact zone label comes directly from its creature record');
     check(d.querySelectorAll('.catalogue-filter-section').length === 4 && d.querySelectorAll('.catalogue-filter-section > summary').length === 4, 'All four logical groups are real keyboard accessible disclosures');
     choice(s, 'bes-category', 'boss').click(); choice(s, 'bes-category', 'elite').click();
     equal(allIds(s), data.filter(creature => ['boss', 'elite'].includes(creature.category)).map(creature => creature.id), 'Category choices use a real union instead of overwriting each other');
@@ -66,6 +72,69 @@ function close(s) { s.w.NamelessBestiaryPage.destroy(); s.dom.window.close(); }
     s.w.NamelessBestiaryPage.destroy();
     check(!tooltip.isConnected, 'Unmounting the SPA route removes tooltip DOM and listeners');
     s.dom.window.close();
+}
+
+{
+    const index = JSON.parse(read('assets/search-index.json')).entries;
+    const s = surface(1280, '?creature=1', index), { d } = s;
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const source = index.find(entry => entry.kind === 'location' && entry.title === 'Marécage putride');
+    equal(d.querySelector('.creature-zone-link')?.getAttribute('href'), source.mapUrl, 'A real source zone becomes a direct map relation in the selected creature panel');
+    const drop = [...d.querySelectorAll('.drop-item')].find(link => link.dataset.item === 'Gelée de Slime');
+    const item = index.find(entry => entry.kind === 'item' && entry.sources?.some(source => source.url === '/bestiaire?creature=1') && entry.dropNames?.includes('Gelée de Slime'));
+    equal(drop.getAttribute('href'), '/items?item=' + item.id, 'Known drops retain their exact catalogue identities while the source zone is linked');
+    d.querySelector('[data-detail-tab="zones"]').click();
+    check(!d.querySelector('[data-catalogue-tab-panel="zones"]').hidden && d.querySelector('[data-catalogue-tab-panel="zones"] .creature-zone-link'), 'The zone relation follows the active zone tab without becoming duplicated');
+    d.querySelector('[data-detail-tab="overview"]').click();
+    equal(d.querySelectorAll('.creature-zone-link').length, 1, 'Returning to overview moves the existing region relation instead of accumulating duplicate links');
+    close(s);
+}
+
+{
+    const index = JSON.parse(read('assets/search-index.json')).entries;
+    for (const replacement of ['https://foreign.example/carte?floor=1&entity=location:1:marecage-putride', '/carte?floor=2&entity=location:2:marecage-putride', '/carte?floor=1&entity=creature:1']) {
+        const altered = index.map(entry => entry.kind === 'location' && entry.title === 'Marécage putride' ? {...entry, mapUrl: replacement} : entry);
+        const s = surface(1280, '?creature=1', altered);
+        await new Promise(resolve => setTimeout(resolve, 0));
+        check(!s.d.querySelector('.creature-zone-link') && s.d.querySelector('.modal-stat-value').textContent === 'Marécage putride', 'A foreign, wrong-floor or wrong-kind region URL stays plain source text: ' + replacement);
+        close(s);
+    }
+}
+
+{
+    const index = JSON.parse(read('assets/search-index.json')).entries;
+    const pending = [];
+    const s = surface(1280, '', () => new Promise(resolve => pending.push(resolve))), { d } = s;
+    d.querySelector('.creature-card[data-id="1"]').click();
+    d.querySelector('.creature-card[data-id="2"]').click();
+    pending[1](index); await new Promise(resolve => setTimeout(resolve, 0));
+    pending[0](index); await new Promise(resolve => setTimeout(resolve, 0));
+    check(d.querySelector('.modal-name').textContent === 'Petit Slime' && d.querySelectorAll('.creature-zone-link').length === 1 && !d.querySelector('.catalogue-complete-link'), 'A late lookup for a former boss cannot alter the newer creature selection or duplicate its zone relation');
+    close(s);
+}
+
+{
+    const s = surface(), { d, w } = s;
+    let finishClose = null, cancelled = 0;
+    w.NamelessReferenceShell = {
+        cancelPanelClose: () => { cancelled++; },
+        closePanel: (panel, finish) => {
+            panel.setAttribute('data-reference-closing', '');
+            finishClose = () => { panel.removeAttribute('data-reference-closing'); finish(); };
+        }
+    };
+    const card = d.querySelector('.creature-card[data-id="1"]'); card.focus(); card.click();
+    const panel = d.querySelector('.creature-modal');
+    const cancellationsBeforeClose = cancelled;
+    d.querySelector('.modal-close').click();
+    check(panel.hasAttribute('data-reference-closing') && panel.style.display === 'flex', 'A deferred panel animation leaves the closing selection visible until its real completion callback');
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    equal(cancelled, cancellationsBeforeClose, 'Changing language during close does not cancel the pending close or reopen the selected creature');
+    check(panel.hasAttribute('data-reference-closing'), 'Language changes preserve the actual closing state until the animation completes');
+    finishClose();
+    check(panel.style.display === 'none' && !d.querySelector('.bestiary-page').classList.contains('catalogue-has-selection') && !w.location.search.includes('creature='), 'The deferred close still clears the selected panel and its URL after the language event');
+    check(d.activeElement === d.querySelector('.creature-card[data-id="1"]'), 'Completing close restores focus to the matching card rerendered by the language change');
+    close(s);
 }
 
 {

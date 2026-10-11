@@ -277,6 +277,7 @@
         tooltip.replaceChildren();
         var name = document.createElement('strong'), category = document.createElement('span'), rarity = document.createElement('span');
         name.textContent = displayName(item.name); category.textContent = displayName(item.categoryLabel); rarity.textContent = displayName(rarityMeta(item.rarity).label);
+        tooltip.dataset.rarity = item.rarity;
         tooltip.append(name, category, rarity); tooltip.hidden = false; card.setAttribute('aria-describedby', tooltip.id); positionItemTooltip();
     }
 
@@ -299,7 +300,7 @@
         document.addEventListener('nameless:languagechange', function () {
             setupFilterChoices(); applyFilters();
             var modal = document.querySelector('.item-modal');
-            if (modal && modal.style.display === 'flex' && modal.dataset.item) openItemModal(modal.dataset.item, false, false);
+            if (modal && modal.style.display === 'flex' && modal.dataset.item && !modal.hasAttribute('data-reference-closing')) openItemModal(modal.dataset.item, false, false);
         }, { signal: controller.signal });
     }
 
@@ -376,12 +377,17 @@
 
     function sizePixelArtImage(img) {
         var media = img.parentElement;
-        if (!media) return;
-        // Uniquement 1x ou 2x : chaque pixel source reste un carré net.
-        var scale = Math.max(1, Math.min(2, Math.floor(Math.min(
-            (media.clientWidth - 32) / img.naturalWidth,
-            (media.clientHeight - 32) / img.naturalHeight
+        if (!media || !img.naturalWidth || !img.naturalHeight) return;
+        // Agrandissement entier uniquement : ni lissage, ni détourage à la volée.
+        // 24px de marge totale laisse les sprites de 49px atteindre 2x dans
+        // les supports compacts ; les fiches peuvent les présenter à 3x.
+        var gutter = Number.parseFloat(window.getComputedStyle(media).getPropertyValue('--item-sprite-gutter'));
+        if (!Number.isFinite(gutter)) gutter = 24;
+        var scale = Math.max(1, Math.min(3, Math.floor(Math.min(
+            (media.clientWidth - gutter) / img.naturalWidth,
+            (media.clientHeight - gutter) / img.naturalHeight
         ))));
+        img.dataset.pixelScale = String(scale);
         img.style.setProperty('--item-image-width', img.naturalWidth * scale + 'px');
         img.style.setProperty('--item-image-height', img.naturalHeight * scale + 'px');
     }
@@ -408,16 +414,17 @@
                 t.removeAttribute('height');
                 t.style.removeProperty('--item-image-width');
                 t.style.removeProperty('--item-image-height');
+                delete t.dataset.pixelScale;
                 t.src = FALLBACK_IMG;
                 t.classList.add('is-fallback');
             }
         }, { capture: true, signal: controller.signal });
         window.addEventListener('resize', function () {
-            document.querySelectorAll('.item-image.is-pixel-art, .item-modal-media img.is-pixel-art').forEach(sizePixelArtImage);
+            document.querySelectorAll('.item-image.is-pixel-art, .item-modal-media img.is-pixel-art, .item-related-image.is-pixel-art').forEach(sizePixelArtImage);
         }, { signal: controller.signal });
         if (typeof window.ResizeObserver === 'function') {
             spriteObserver = new window.ResizeObserver(function () {
-                document.querySelectorAll('.item-image.is-pixel-art, .item-modal-media img.is-pixel-art').forEach(sizePixelArtImage);
+                document.querySelectorAll('.item-image.is-pixel-art, .item-modal-media img.is-pixel-art, .item-related-image.is-pixel-art').forEach(sizePixelArtImage);
             });
             var grid = document.getElementById('items-grid'); if (grid) spriteObserver.observe(grid);
         }
@@ -629,8 +636,9 @@
         var card = document.createElement('article');
         card.className = 'item-card ' + meta.cls;
         var modal = document.querySelector('.item-modal');
-        if (modal && modal.style.display === 'flex' && modal.dataset.item === item.id) card.classList.add('is-selected');
+        if (modal && modal.style.display === 'flex' && modal.dataset.item === item.id && !modal.hasAttribute('data-reference-closing')) card.classList.add('is-selected');
         card.dataset.id = item.id;
+        card.dataset.rarity = item.rarity;
         card.dataset.selectedLabel = itemUi('Sélectionné', 'Selected');
         card.tabIndex = 0;
         card.setAttribute('role', 'button');
@@ -651,7 +659,6 @@
         var badge = document.createElement('span');
         badge.className = 'item-rarity-badge ' + meta.cls;
         badge.textContent = displayName(meta.label);
-        media.appendChild(badge);
         card.appendChild(media);
 
         var body = document.createElement('div');
@@ -660,10 +667,13 @@
         name.className = 'item-name';
         name.textContent = displayName(item.name);
         body.appendChild(name);
+        var cardMeta = document.createElement('div');
+        cardMeta.className = 'item-card-meta';
         var catChip = document.createElement('span');
         catChip.className = 'item-cat';
         catChip.textContent = displayName(item.categoryLabel);
-        body.appendChild(catChip);
+        cardMeta.append(catChip, badge);
+        body.appendChild(cardMeta);
         card.appendChild(body);
         return card;
     }
@@ -683,6 +693,7 @@
         if (moveFocus) modalReturnFocus = document.activeElement;
         modal.setAttribute('aria-labelledby', 'item-dialog-title');
         modal.dataset.item = id;
+        modal.dataset.rarity = item.rarity;
         modal.innerHTML = '';
 
         var content = document.createElement('div');
@@ -726,7 +737,7 @@
         info.appendChild(badges);
         var overview = document.createElement('div'); overview.className = 'item-overview';
         var description = document.createElement('p'); description.className = 'item-detail-description';
-        description.textContent = item.description ? displayName(item.description) : itemUi('Aucune description renseignée dans le catalogue.', 'No description recorded in the catalogue.'); overview.appendChild(description);
+        description.textContent = item.description ? displayName(item.description) : itemUi('Aucune description renseignée.', 'No description recorded.'); overview.appendChild(description);
         var facts = document.createElement('section'); facts.className = 'item-verified-facts';
         var factsTitle = document.createElement('h3'); factsTitle.textContent = itemUi('Informations du catalogue', 'Catalogue information'); facts.appendChild(factsTitle);
         var properties = document.createElement('dl');
@@ -759,7 +770,7 @@
             window.NamelessGlobalSearch.getIndex().then(function (entries) {
                 if (!currentSources()) return;
                 var entry = entries.find(function (candidate) { return candidate.kind === 'item' && candidate.id === id; });
-                var knownSources = entry && Array.isArray(entry.sources) ? entry.sources : [];
+                var knownSources = entry && Array.isArray(entry.sources) ? entry.sources.filter(validBestiarySource) : [];
                 sourceStatus.textContent = knownSources.length ? '' : itemUi('Aucune source confirmée dans le bestiaire.', 'No confirmed sources in the bestiary.');
                 if (!knownSources.length) return;
                 var list = document.createElement('ul');
@@ -768,13 +779,30 @@
                     var url;
                     try { url = new URL(source.url, window.location.origin); } catch (error) { return; }
                     if (url.origin !== window.location.origin || url.pathname !== '/bestiaire' || !/^\d+$/.test(url.searchParams.get('creature') || '')) return;
-                    var row = document.createElement('li'); var link = document.createElement('a');
+                    var row = document.createElement('li'); row.className = 'item-source-row';
+                    var link = document.createElement('a'); link.className = 'item-source-creature';
                     link.href = url.pathname + url.search;
-                    link.textContent = displayName(source.title) + (/^[1-3]$/.test(String(source.floor)) ? itemUi(' — Palier ', ' — Floor ') + source.floor : '');
+                    var creature = entries.find(function (candidate) { return (candidate.kind === 'creature' || candidate.kind === 'boss') && String(candidate.id) === url.searchParams.get('creature'); });
+                    if (creature && typeof creature.image === 'string') {
+                        var nativeImage;
+                        try { nativeImage = new URL(creature.image, window.location.origin); } catch (_) { nativeImage = null; }
+                        if (nativeImage && nativeImage.origin === window.location.origin && nativeImage.pathname.startsWith('/assets/mobs/')) {
+                            var portrait = document.createElement('img'); portrait.className = 'item-source-portrait'; portrait.src = nativeImage.pathname + nativeImage.search; portrait.alt = ''; portrait.loading = 'lazy'; portrait.width = 42; portrait.height = 42; link.appendChild(portrait);
+                        }
+                    }
+                    var sourceLabel = document.createElement('span'); sourceLabel.className = 'item-source-label';
+                    var sourceName = document.createElement('strong'); sourceName.textContent = displayName(source.title); sourceLabel.appendChild(sourceName);
+                    if (/^[1-3]$/.test(String(source.floor))) { var floorLabel = document.createElement('small'); floorLabel.textContent = itemUi('Palier ', 'Floor ') + source.floor; sourceLabel.appendChild(floorLabel); }
+                    link.appendChild(sourceLabel);
                     row.appendChild(link);
                     if (typeof source.location === 'string' && source.location.trim()) {
                         var zone = document.createElement('span'); zone.className = 'item-source-zone';
-                        zone.textContent = ' — ' + displayName(source.location);
+                        var location = entries.find(function (candidate) {
+                            if (candidate.kind !== 'location' || candidate.title !== source.location || typeof candidate.url !== 'string') return false;
+                            try { var target = new URL(candidate.url, window.location.origin); return target.origin === window.location.origin && target.pathname === '/carte' && target.searchParams.get('floor') === String(source.floor) && (target.searchParams.get('entity') || '').startsWith('location:' + source.floor + ':'); } catch (_) { return false; }
+                        });
+                        if (location) { var regionLink = document.createElement('a'); regionLink.className = 'item-source-region-link'; var regionUrl = new URL(location.url, window.location.origin); regionLink.href = regionUrl.pathname + regionUrl.search; regionLink.textContent = displayName(source.location); zone.appendChild(regionLink); }
+                        else zone.textContent = displayName(source.location);
                         row.appendChild(zone);
                     }
                     if (typeof source.mapUrl === 'string') {
@@ -784,8 +812,10 @@
                             && mapUrl.searchParams.get('entity') === 'creature:' + url.searchParams.get('creature')
                             && /^[1-3]$/.test(String(source.floor)) && mapUrl.searchParams.get('floor') === String(source.floor)) {
                             var mapLink = document.createElement('a'); mapLink.className = 'item-source-map-link';
-                            mapLink.href = mapUrl.pathname + mapUrl.search; mapLink.textContent = itemUi('Voir sur la carte', 'View on map');
-                            row.appendChild(document.createTextNode(' · ')); row.appendChild(mapLink);
+                            mapLink.href = mapUrl.pathname + mapUrl.search; mapLink.setAttribute('aria-label', itemUi('Voir sur la carte : ', 'View on map: ') + displayName(source.title)); mapLink.title = itemUi('Voir sur la carte', 'View on map');
+                            var mapIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); mapIcon.setAttribute('viewBox', '0 0 24 24'); mapIcon.setAttribute('aria-hidden', 'true');
+                            var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); circle.setAttribute('cx', '12'); circle.setAttribute('cy', '12'); circle.setAttribute('r', '6');
+                            var cross = document.createElementNS('http://www.w3.org/2000/svg', 'path'); cross.setAttribute('d', 'M12 2v5m0 10v5M2 12h5m10 0h5'); mapIcon.append(circle, cross); mapLink.appendChild(mapIcon); row.appendChild(mapLink);
                         }
                     }
                     list.appendChild(row);
@@ -838,9 +868,12 @@
             var list = document.createElement('div'); list.className = 'catalogue-related-items';
             entries.forEach(function (entry) {
                 var item = allItems.find(function (record) { return record.id === entry.id; }); if (!item) return;
-                var link = document.createElement('a'); link.className = 'catalogue-related-item'; link.href = '/items?item=' + encodeURIComponent(item.id);
-                var image = document.createElement('img'); image.src = item.image; image.alt = ''; image.dataset.fallback = 'item';
-                var name = document.createElement('span'); name.textContent = displayName(item.name); link.append(image, name); list.appendChild(link);
+                var link = document.createElement('a'); link.className = 'catalogue-related-item'; link.dataset.rarity = item.rarity; link.href = '/items?item=' + encodeURIComponent(item.id);
+                var sprite = document.createElement('span'); sprite.className = 'item-related-sprite';
+                var image = document.createElement('img'); image.className = 'item-related-image'; image.src = item.image; image.alt = ''; image.dataset.fallback = 'item'; sprite.appendChild(image);
+                var label = document.createElement('span'); label.className = 'item-related-label';
+                var name = document.createElement('strong'); name.textContent = displayName(item.name);
+                var category = document.createElement('small'); category.textContent = displayName(item.categoryLabel); label.append(name, category); link.append(sprite, label); list.appendChild(link);
             }); panel.appendChild(list);
         } };
     }

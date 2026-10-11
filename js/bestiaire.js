@@ -911,6 +911,7 @@ function showBestiaryTooltip(card, delayed) {
         besTooltip.replaceChildren();
         const heading = document.createElement('strong'); heading.textContent = besDisplayName(creature.name);
         const meta = document.createElement('span'); meta.textContent = besDisplayName(getCategoryDisplay(creature.category)) + ' · ' + besUi('Palier ', 'Floor ') + creature.palier;
+        if (besNormalize(creature.type) !== besNormalize(getCategoryDisplay(creature.category))) meta.textContent += ' · ' + besDisplayName(creature.type);
         const zone = document.createElement('span'); zone.textContent = besDisplayName(besLocationLabel(creature.location));
         besTooltip.append(heading, meta, zone);
         besTooltip.hidden = false; besTooltipCard = card;
@@ -1068,7 +1069,8 @@ function initBestiary(root) {
         hideBestiaryTooltip();
         setupBestiaryFilterChoices();
         filterCreatures();
-        if (selectedCreature && document.querySelector('.creature-modal')?.style.display === 'flex') openCreatureModal(selectedCreature.id, false, false);
+        const modal = document.querySelector('.creature-modal');
+        if (selectedCreature && modal?.style.display === 'flex' && !modal.hasAttribute('data-reference-closing')) openCreatureModal(selectedCreature.id, false, false);
     }, { signal: besController.signal });
 }
 
@@ -1322,7 +1324,7 @@ function renderCreatures() {
 function makeChip(text, cls) {
     const s = document.createElement('span');
     s.className = 'creature-chip ' + (cls || '');
-    s.textContent = text;
+    s.textContent = besDisplayName(text);
     return s;
 }
 
@@ -1360,24 +1362,27 @@ function buildCard(creature) {
 
     const name = document.createElement('h2');
     name.className = 'creature-name';
-    name.textContent = creature.name;
+    name.textContent = besDisplayName(creature.name);
     body.appendChild(name);
 
     const meta = document.createElement('div');
     meta.className = 'creature-meta';
-    meta.appendChild(makeChip('Palier ' + creature.palier, 'chip-palier'));
-    meta.appendChild(makeChip(creature.type, 'chip-type'));
+    meta.appendChild(makeChip(besUi('Palier ', 'Floor ') + creature.palier, 'chip-palier'));
+    meta.appendChild(makeChip(getCategoryDisplay(creature.category), 'chip-category chip-' + creature.category));
+    if (besNormalize(creature.type) !== 'creature' && besNormalize(creature.type) !== besNormalize(getCategoryDisplay(creature.category))) meta.appendChild(makeChip(creature.type, 'chip-type'));
     body.appendChild(meta);
 
 
-    const zone = document.createElement('div');
-    zone.className = 'creature-zone';
-    zone.textContent = besLocationLabel(creature.location);
-    body.appendChild(zone);
+    if (creature.location !== UNKNOWN_BESTIARY_LOCATION) {
+        const zone = document.createElement('div');
+        zone.className = 'creature-zone';
+        zone.textContent = besDisplayName(creature.location);
+        body.appendChild(zone);
+    }
 
     const btn = document.createElement('span');
     btn.className = 'creature-details-btn';
-    btn.textContent = 'Détails';
+    btn.textContent = besUi('Détails', 'Details');
     body.appendChild(btn);
 
     card.appendChild(body);
@@ -1434,14 +1439,14 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
     const h2 = document.createElement('h2');
     h2.className = 'modal-name';
     h2.id = 'creature-dialog-title';
-    h2.textContent = creature.name;
+    h2.textContent = besDisplayName(creature.name);
     info.appendChild(h2);
 
     const badges = document.createElement('div');
     badges.className = 'modal-badges';
     badges.appendChild(makeChip(getCategoryDisplay(creature.category), 'chip-' + creature.category));
     badges.appendChild(makeChip(creature.type, 'chip-type'));
-    badges.appendChild(makeChip('Palier ' + creature.palier, 'chip-palier'));
+    badges.appendChild(makeChip(besUi('Palier ', 'Floor ') + creature.palier, 'chip-palier'));
     info.appendChild(badges);
     const actions = document.createElement('div'); actions.className = 'catalogue-detail-actions';
     const share = document.createElement('button'); share.type = 'button'; share.className = 'catalogue-share'; share.textContent = besUi('Partager la fiche', 'Share details');
@@ -1464,12 +1469,12 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
 
     const statRow = document.createElement('div');
     statRow.className = 'modal-stats';
-    statRow.appendChild(makeStat('Zone', besLocationLabel(creature.location)));
+    statRow.appendChild(makeStat(besUi('Zone', 'Area'), besDisplayName(besLocationLabel(creature.location))));
     info.appendChild(statRow);
     const mapSection = document.createElement('div');
     mapSection.className = 'creature-map-location';
     const mapStatus = document.createElement('p');
-    mapStatus.textContent = 'Position non renseignée.';
+    mapStatus.textContent = besUi('Position non renseignée.', 'Position unknown.');
     mapSection.appendChild(mapStatus);
     info.appendChild(mapSection);
     if (window.NamelessGlobalSearch && typeof window.NamelessGlobalSearch.getIndex === 'function') {
@@ -1491,6 +1496,21 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
                 let itemUrl;
                 try { itemUrl = new URL(item.url, window.location.origin); } catch { continue; }
                 if (itemUrl.origin === window.location.origin && itemUrl.pathname === '/items' && itemUrl.searchParams.get('item') === item.id) drop.href = '/items?item=' + encodeURIComponent(item.id);
+            }
+            // A named zone is linked only when the public index has the exact
+            // source location on this floor. Never infer a region from artwork.
+            const zone = creature.location !== UNKNOWN_BESTIARY_LOCATION && entries.find(candidate => candidate.kind === 'location' && besNormalize(candidate.title) === besNormalize(creature.location));
+            if (zone && typeof zone.mapUrl === 'string') {
+                try {
+                    const zoneUrl = new URL(zone.mapUrl, window.location.origin);
+                    const entity = zoneUrl.searchParams.get('entity');
+                    if (zoneUrl.origin === window.location.origin && zoneUrl.pathname === '/carte' && zoneUrl.searchParams.get('floor') === String(creature.palier)
+                        && entity?.startsWith('location:' + creature.palier + ':') && entity.length > ('location:' + creature.palier + ':').length) {
+                        const zoneLink = document.createElement('a'); zoneLink.className = 'creature-zone-link'; zoneLink.href = zoneUrl.pathname + zoneUrl.search;
+                        zoneLink.textContent = besDisplayName(zone.title); zoneLink.setAttribute('aria-label', besUi('Explorer la zone : ', 'Explore area: ') + besDisplayName(zone.title));
+                        statRow.querySelector('.modal-stat-value').replaceChildren(zoneLink);
+                    }
+                } catch { /* An invalid or foreign location stays plain text. */ }
             }
             const entry = entries.find(candidate => (candidate.kind === 'boss' || candidate.kind === 'creature') && String(candidate.id) === String(id));
             if (!entry) return;
@@ -1537,7 +1557,7 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
         } else {
             const none = document.createElement('p');
             none.className = 'modal-desc';
-            none.textContent = 'Aucun butin connu.';
+            none.textContent = besUi('Aucun butin connu.', 'No known drops.');
             sec.appendChild(none);
         }
     });
@@ -1607,7 +1627,7 @@ function buildDrop(drop) {
     el.className = 'drop-item';
     el.href = '/items?q=' + encodeURIComponent(drop.name);
     el.dataset.item = drop.name;
-    el.title = 'Voir cet item';
+    el.title = besUi('Voir cet objet', 'View item');
     const img = document.createElement('img');
     img.className = 'drop-icon';
     img.alt = drop.name;
@@ -1618,7 +1638,7 @@ function buildDrop(drop) {
     info.className = 'drop-info';
     const n = document.createElement('span');
     n.className = 'drop-name';
-    n.textContent = drop.name;
+    n.textContent = besDisplayName(drop.name);
     info.appendChild(n);
     if (drop.rate !== null && drop.rate !== undefined) {
         const r = document.createElement('span');
@@ -1667,7 +1687,7 @@ function updatePagination() {
         } else {
             const start = (currentPage - 1) * itemsPerPage + 1;
             const end = Math.min(currentPage * itemsPerPage, total);
-            info.textContent = 'Affichage de ' + start + '-' + end + ' sur ' + total + ' créatures';
+            info.textContent = besUi('Affichage de ', 'Showing ') + start + '–' + end + besUi(' sur ', ' of ') + total + besUi(' créatures', ' creatures');
         }
     }
     if (prev) prev.disabled = currentPage <= 1;

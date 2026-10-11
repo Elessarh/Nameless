@@ -103,7 +103,7 @@ function paletteIsolation(w, selector) {
     frame = 100; w.dispatchEvent(new w.Event('resize'));
     check(image.style.getPropertyValue('--item-image-width') === '47px', 'A narrow sprite frame uses native pixels rather than a fractional scale');
     frame = 500; w.dispatchEvent(new w.Event('resize'));
-    check(image.style.getPropertyValue('--item-image-width') === '94px', 'Wide frames never enlarge sprites beyond 2x');
+    check(image.style.getPropertyValue('--item-image-width') === '141px' && image.style.getPropertyValue('--item-image-height') === '144px', 'Wide frames use a bounded whole 3x scale and preserve the native ratio');
     image.dispatchEvent(new w.Event('error'));
     check(!image.classList.contains('is-pixel-art') && !image.hasAttribute('width') && image.style.getPropertyValue('--item-image-width') === '' && image.classList.contains('is-fallback'), 'Image failure clears all sprite sizing before displaying the fallback');
     const remaining = d.querySelectorAll('.item-image')[1];

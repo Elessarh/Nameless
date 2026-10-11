@@ -111,12 +111,12 @@
             source: 'pages/bestiaire.html',
             title: 'Bestiaire - Nameless',
             css: [
-                'css/components/bestiaire.css?v=20261010phase3native',
+                'css/components/bestiaire.css?v=20261011phasec4',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011catalogue5b'
+                'css/components/reference-catalogs.css?v=20261011phasec4'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261011catalogue5'
+                'js/bestiaire.js?v=20261011phasec4'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -135,13 +135,13 @@
             source: 'pages/items.html',
             title: "Catalogue d'Items - Nameless",
             css: [
-                'css/components/items.css?v=20261010phase3native',
+                'css/components/items.css?v=20261011phasec4',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011catalogue5b'
+                'css/components/reference-catalogs.css?v=20261011phasec4'
             ],
             scripts: [
                 'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261011catalogue5'
+                'js/items.js?v=20261011phasec4'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
