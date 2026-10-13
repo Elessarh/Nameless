@@ -1,0 +1,150 @@
+
+> nameless-guild@1.0.0 test
+> node tools/run-tests.mjs --skip-browser
+
+Bestiary-location audit passed: 60 creatures, 32 requested assignments and 17 approved named zones.
+Game-content i18n audit passed: 194 Bestiary values and 112 Item values explicitly reviewed (275 unique).
+i18n audit passed: 2134 translated strings, 14 entry pages, reviewed glossary intact.
+Item-asset audit passed: 104 immutable catalogue targets; PNG CRC, RGBA pixels and alpha counts match the manifest (2 item(s) touch a corner).
+Quest/map i18n audit passed: 218 quest-page strings, 43 map-page strings, 198 source data values and 108 bilingual runtime labels reviewed.
+Archive portability passed: 7 original hashes and Git clean filters preserve immutable snapshots.
+Audio player DOM test passed: title, track count, progress, previous/next controls, auto-advance and bilingual labels.
+Boss page build: 18 generated pages, 204 checks passed.
+PASS: publication build, 44 HTML documents, 2585 local references, CSP/head placement, legacy URLs, public sitemap, robots exclusions and artifact allowlist.
+Cache tests passed: per-key TTL, boundary, deduplication, failure, account isolation.
+Catalogue DOM regressions: 52 checks passed.
+Game-content i18n extraction passed: real nested catalogue strings retained, UI/URL/comment false positives excluded, dynamic text and spreads rejected.
+PASS: Paris calendar, ISO week/year, event timezone and daylight-saving validation (10 checks).
+PASS: real HQ calendar, member gate, keyboard tabs, event details/focus, persisted role/checklist actions, migration fallback, SPA cleanup; PostgreSQL admin create, own attendance, capacity/role change, private checks, RLS and idempotence.
+Guild recipe HTTP: 24 checks passed with actual migration 007 and the delivered Supabase SDK; no remote writes.
+Hybrid catalogue regressions: 144 checks passed for actual data, filters, sorting, pagination and mobile disclosure lifecycles.
+Hybrid foundations passed: shared palette AA contrast, lazy search, actual counts, original artwork, archive exclusion, keyboard and current favorites.
+PASS: headquarters context and real data rendering, membership gate, accessible progress/sorting, profile edit fields and inactive SPA route styles.
+Hybrid home tests passed: genuine records/routes, artwork, shared search/focus, bounded/coalesced parallax, session pause/storage refusal, reduced/coarse/narrow/hidden/offscreen motion, SPA cleanup, scroll and delayed failure.
+Hybrid map passed: public atlas without archived quests, actual floor shortcuts, keyboard, drawers, genuine thumbnails and Leaflet lifecycle.
+DOM i18n test passed: dynamic popups, coordinates, administrator publication controls, FR/EN/FR switching and 13 English entry pages.
+PASS map migration is additive and idempotent
+PASS registry is public read only; players and missing sessions cannot write
+PASS unknown entities, wrong floors and invalid numeric values fail
+PASS server imposes identity and authors; update identity spoof is rejected
+PASS public RPC returns tombstones but never hidden coordinates or author metadata
+PASS delete restores static marker; hide/delete never reset server budgets
+PASS minute/hour budgets reject writes and survive removal
+PASS audit failure rolls back both marker and budget
+PASS privileged maintenance without JWT is allowed and audited
+PASS editor uses safe labels, draft click/drag never writes, save is explicit
+PASS hide/remove are tombstones and restore is the only real DELETE
+PASS archive or failed public RPC disables editing despite a readable private table
+PASS P1 → P2 → P1 stale private read cannot replace the newest override identity
+PASS write freezes type before auth awaits and changed floor abandons the pending intent
+PASS a committed request refreshes public overrides after a floor change and keeps the editor reusable
+PASS public refresh happens before a suspended post-commit private read, even across floors
+PASS a committed write still refreshes the public view when its private cache read fails
+PASS role/session changes refuse mutation and logout clears editor
+PASS pending writes disable duplicate actions and late completion leaves a destroyed editor alone
+PASS floor with empty registry does not invent an entity; navigation cleans listeners
+20 isolated map admin checks passed.
+Map graph tests passed: 1237 checks, 176 archived identities excluded, 60 creatures, 104 items and 33 current default points preserved.
+Real Leaflet lifecycle passed: zoom, selection, repeated floor changes, pan and destruction.
+Map links tests passed: 45 checks for real deferred script order, cached data, safe URLs and stale modal lifecycles.
+Map publication: 22 checks passed with real SQL 006 payloads and bundled Leaflet; migration-only and retired baselines remain hidden.
+Map QA HTTP server: 18 checks passed with real SQL and the bundled Supabase SDK; no remote API or browser automation.
+PASS validated geometry rejects crossings, zero area, repeated points, boundaries and excessive vertices
+PASS schema is bound to original atlas identity and known floor zone keys
+PASS schema preserves indicative, verified and draft states without accepting arbitrary publication labels
+PASS draft revision metadata accepts integer snapshots and rejects malformed conflict identifiers
+PASS public access cannot open, load or persist an editor, even with a forged editor button or local drafts
+PASS editor permission requires an explicit boolean grant rather than a role label or missing bridge method
+PASS published region rows replace matching seeded entities and carry their verified geometry into selection
+PASS shared tombstones and unpublished rows suppress matching seed outlines while missing service retains proposals
+PASS a failed published-region service hides seed polygons despite healthy markers and explains the outage
+PASS an absent region RPC preserves all twelve labelled original-atlas proposals without exposing the editor
+PASS all twelve actual proposals use real zone keys and valid original-atlas geometry
+PASS accent-free region filtering matches the actual Vallée proposal without changing its source identity
+PASS selections during an active zoom queue only the newest region camera until zoomend
+PASS stale selection, floor changes, editor opening and abort cancel queued region cameras
+PASS a queued region becoming pending, failed, hidden or deleted never fits after zoomend
+PASS exact shared views replace queued region fits and are cancelled by URL, floor or selection changes
+PASS coordinate conversion preserves original atlas bounds and overlay selection fits geometry
+PASS hidden, deleted, unavailable and pending entities never become public polygons
+PASS the native checkbox stays synchronized across marker refreshes, language and floor changes
+PASS delayed or failed floor changes cannot reopen or save a previous-atlas draft
+PASS an unexpected bridge floor mismatch independently blocks contour save and export
+PASS drawing, geometric error reporting, undo, redo and three-vertex deletion work through real controls
+PASS outline tools progress from choosing a zone to drawing, closing and adjusting without active irrelevant actions
+PASS drawing mode does not allow adjustment shortcuts to mutate points until the outline is closed
+PASS opening a contour fits above the mobile sheet without moving the map on vertex edits
+PASS save is explicit, browser-only, restores on reload and resets to the original proposal
+PASS administrator saves retain the publication revision through local storage, export and restored drafts
+PASS imports are staged, safe text remains literal, invalid input is atomic and replacing entity does not duplicate
+PASS floor changes cancel handles and pending imports while keeping saved local contours
+PASS reopening and language changes do not stack controls, and Escape restores opener focus
+PASS legend and modal dialog shortcuts preserve the underlying unsaved editor draft
+PASS stale fetch and aborted bridge cannot leave overlays or listeners behind
+PASS undo histories isolate snapshots and discard redo after a new edit
+33 map region validation, public access, administrator draft and lifecycle regressions passed.
+Map view: archived cache/override/search/relationships/deep links blocked; current floors, positions, camera, keyboard and lifecycle passed.
+Real Leaflet viewport passed: hidden gates, late sizing, neutral overview, manual camera, fullscreen, hidden floor races, shared camera, legacy repair and observer cleanup.
+PASS immutable standalone migration installs its historical 269-identity baseline without 004/005/006 services
+PASS current additive 005/006 seeds retain all historical rows while publishing only the 93 current identities
+PASS anonymous/member/missing-session clients cannot read private workspace or write through RPC or direct table
+PASS marker RPC enforces registered identity, icon whitelist and finite image-relative coordinates
+PASS marker hide and delete suppress baseline without disclosing hidden coordinates
+PASS optimistic revisions reject stale first saves, updates, resets and reset→recreate ABA
+PASS all original indicative contours pass server geometry validation without source changes
+PASS polygon validation rejects malformed, duplicate, collinear, out-of-bounds and crossing geometry
+PASS draft region is private; indicative/verified publication and hide are explicit and metadata-free
+PASS region identity cannot be relabelled and stale save/reset cannot overwrite newer geometry
+PASS custom marker key is generated server-side; a draft remains unpublished until explicit save
+PASS custom hide/delete are revision-protected tombstones; deleted private records never leak
+PASS publication gate suppresses retired markers and regions without coordinate or author leakage
+PASS write limits are atomic and shared by marker, region, reset and custom operations
+PASS audit failure rolls back geometry, revision, custom identity and rate budget together
+PASS audit records real actor and operations; role revocation blocks later mutations immediately
+PASS migration reapplication preserves overrides, authors, revisions, budgets, audit and other roles
+PASS legacy 005/006 records and publication gates survive upgrading without hardening 004
+Map workspace server: 18 isolated checks passed.
+Map workspace UI: 13 checks passed for linked names, explanatory publication gating and FR/EN rebuilds; no mutations.
+PASS: mobile navigation, SPA namespaces/modal, keyboard tabs, profile validation, Paris event date, activity image preservation and stale lifecycle.
+Art policy: 43 page/style sources exclude retired scenery; six reviewed generated environments, twenty-four optimized derivatives; native city sources intact.
+PASS: Phase D guild 69 DOM checks (public/member/admin gates, empty states, FR/EN, real date and navigation, no automatic writes).
+PASS: 47 Phase D profile checks: real character summary, account disclosure, role gates, saved edits, native avatar fallback, FR/EN, public/error states and SPA lifecycle.
+Phase 3 bestiary regressions: 86 checks passed for union filters, compact details, accessible tooltips and modal sheet/drawer lifecycles.
+Explicit browser skip (--skip-browser): test-phase3-items-layout.mjs
+Phase 3 item inventory: 89 checks passed.
+Public content policy: 232 checks, immutable archive, secondary projection, creature stats purge and real SQL publication gate passed.
+Reference shell passed: official identity, distinct settings, real account/logout, private announcements, focus/ARIA, language, mobile ownership and cancellable/reduced-motion exits.
+Search/router tests passed: accent/case search, deep links, keyboard wrap, real index metadata, clear/focus, favorites, locale changes, query preservation, metadata, network failure.
+PASS media path validates own project, bucket and traversal
+PASS legacy bearer URL gets short signature, cache is cleared on logout
+PASS uploads validate MIME, size and current account
+PASS SDK query builders remain intact beyond former throttle and depth
+PASS Edge rejects unknown origins, non-object JSON and oversized bodies
+PASS auth callback returns synchronously and logout purges private caches
+PASS chat shows the latest 100 and remounting does not duplicate controls
+PASS chat and DM uploads share validated paths without global helper collision
+PASS admin Edge verifies JWT and role before body/actions and enforces rate limit
+PASS migration is parseable and idempotent
+PASS player cannot escalate role; browser admin cannot bypass Edge
+PASS server rejects invalid profile classes and levels; permits all five game classes
+PASS unchanged legacy class survives migration and unrelated profile edits
+PASS new profile insert validates class on the server
+PASS private guild messages remain hidden from third parties
+PASS author cannot redirect or publish an existing DM
+PASS private message recipient can update read_at, never sender or content
+PASS Storage permits public guild images and DM recipient, excludes third parties
+PASS forged references to another author media are refused
+PASS database enforces send bursts despite spoofed timestamps
+PASS deleting messages cannot reset the server send budget
+PASS deleting uploads cannot reset the server upload budget
+PASS editing an existing guild message cannot evade the send budget
+PASS last administrator cannot be demoted or deleted through Auth cascade
+PASS Edge rate counters enforce atomic limit and deny browser RPC
+PASS revoking guild membership denies both messages and media
+26 security checks passed (isolated database; production RLS not exercised).
+Wiki codex DOM regressions: 65 checks passed.
+Wiki search language passed: 55 native links, translated inline summaries before truncation and exact French restoration.
+World atmosphere passed: 13 direct shells, legacy routes, static boss, SPA sync, hidden state and preserved content/classes.
+World transition tests passed: native updates, direct fallbacks, assets ready, stale callbacks, same-route return, animation rejection, single commit, shell/focus/history/aria-busy.
+All executed JavaScript syntax, DOM regressions and content audits passed.
+1 native browser test explicitly skipped; validate its layout separately.

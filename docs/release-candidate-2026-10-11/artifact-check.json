@@ -4,9 +4,11 @@
     "bootstrap": "20261011release1",
     "sharedAssets": "20261011phasee3",
     "catalogueCssAndReviewedTranslations": "20261011phasee4",
-    "indexBuiltAt": "2026-10-11T15:46:46.942Z",
-    "artifactBytes": 153149847,
-    "mapWorkspaceAndGuildExpeditions": "20261011release1"
+    "indexBuiltAt": "2026-10-12T09:56:30.731Z",
+    "artifactBytes": 153151882,
+    "mapWorkspaceAndGuildExpeditions": "20261011release1",
+    "reviewedTranslations": "20261011release1",
+    "guildAndMapModules": "20261011release1"
   },
   "status": "pass",
   "routes": {
@@ -189,5 +191,25 @@
     "unchangedProfileSaveAndReload": true,
     "guildAndAdminLiveReadsAccessible": true,
     "productionDomainOAuthAllowlistInspected": false
+  },
+  "finalizedOn": "2026-10-12",
+  "finalSuite": {
+    "command": "npm test -- --skip-browser",
+    "exitCode": 0,
+    "executedSuites": 46,
+    "omitted": [
+      "test-phase3-items-layout.mjs"
+    ],
+    "log": "tests-2026-10-12.txt",
+    "browserRecipe": "browser/verification.json",
+    "deployed": false
+  },
+  "finalArtifact": {
+    "path": "_site",
+    "files": 502,
+    "bytes": 153151882,
+    "sha256": "9bcbeb592acb88aea57970e450fa60b0b95ee86c3829ccd3b24601b300a21c47",
+    "digestMethod": "Sorted relative paths and per-file SHA-256 digests",
+    "searchEntries": 252
   }
 }

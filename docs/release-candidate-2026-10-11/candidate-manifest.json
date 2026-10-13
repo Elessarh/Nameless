@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-12",
+  "sourceCommit": "66679b04cbd0353dc32db6791354724964bdb1eb",
+  "artifact": {
+    "path": "_site",
+    "files": 502,
+    "bytes": 153151882,
+    "sha256": "9bcbeb592acb88aea57970e450fa60b0b95ee86c3829ccd3b24601b300a21c47",
+    "digestMethod": "Sorted relative paths and per-file SHA-256 digests",
+    "searchEntries": 252
+  },
+  "verification": {
+    "command": "npm test -- --skip-browser",
+    "exitCode": 0,
+    "executedSuites": 46,
+    "omitted": [
+      "test-phase3-items-layout.mjs"
+    ],
+    "log": "tests-2026-10-12.txt",
+    "browserRecipe": "browser/verification.json",
+    "deployed": false
+  },
+  "sourceHashes": {
+    "package.json": "6b61bb4e14cdd1b499c0a7cf893ba4a0768903fd55515b6417339c0ecebfb951",
+    "package-lock.json": "920a09d965909c926b66e3ad1e64e045f3324a17cd956622474f5a2ac8bfcf18",
+    ".github/workflows/deploy-pages.yml": "0c3e33cd9c7e4a4769369c84c9341e458e5ba7d2d69baebb3fcc390544d0fb7d",
+    "tools/run-tests.mjs": "5c81be81d99c707d69430d5c706202679c5edb17417a2b01c0ad48a14de83b3d",
+    "js/page-registry.js": "d5ac4c7a075318f8cbeae5025838b1fdd099d2f3718efd782f912d3b63a31336",
+    "js/guild-expeditions.js": "b27e94fafc2b75a4b554252430781f34a1a7fbffc6c18b240a604783a70546a4",
+    "js/map-workspace.js": "fb3321bdd757676a698c273a49006fa38127352a7ee0c9e54c1e0187c304dc13",
+    "js/i18n-en-reviewed.js": "59d90710a70b60a503685061ae13ba1b9930ebe19cb891008e6b4c21d57bc7d1",
+    "404.html": "7843e37c50f94d79b8cdd2b6a7bcfa81ad1254853fa2a3105d795845caf25e86"
+  }
+}

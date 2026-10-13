@@ -1,4 +1,4 @@
-# Candidat de publication — 11 octobre 2026
+# Candidat de publication — recette finalisée le 12 octobre 2026
 
 Recette menée sur le build local et deux bases SQL éphémères. Aucun déploiement, commit ou push effectué.
 
@@ -17,11 +17,14 @@ La seule sauvegarde vers le service réel concerne le profil, avec les mêmes va
 - Le registre de navigation et les modules modifiés ont des versions de cache mises à jour.
 - La fiche d’expédition restitue le focus au bouton actuel lorsqu’une inscription a reconstruit la liste, avec des replis adaptés si le bouton n’est plus affiché. Une autre fenêtre native conserve son focus.
 - L’atelier explique la relation entre une zone et sa fiche. Le champ de nom lié conserve son état de lecture seule après un changement de langue.
+- Les textes statiques du panneau de publication sont traduits en anglais sans modifier les noms de zones, les contrôles ou leurs valeurs. Le contrôle des traductions distingue les catalogues des expressions de code, ce qui supprime un faux positif tout en conservant la vérification des vraies données.
 - Playwright est déclaré et verrouillé dans les dépendances de développement. La CI installe Chromium et ses dépendances Linux avant la suite complète ; le test visuel utilise les dépendances du projet. Cette préparation suit la [documentation officielle Playwright](https://playwright.dev/docs/ci).
 
 ## Preuves et candidat
 
-[Contrôle de l’artifact](artifact-check.json), [recette navigateur](browser/verification.json), [éditeur desktop](browser/map-admin-desktop-qa.png), [éditeur mobile](browser/map-admin-mobile-qa.png), [repère public de test](browser/map-custom-marker-public-qa.png), [inscription persistée](browser/guild-signup-persisted-qa.png), [404 profonde](browser/404-deep.png).
+[Contrôle de l’artifact](artifact-check.json), [recette navigateur](browser/verification.json), [éditeur pendant la publication de test](browser/map-region-published-qa.png), [éditeur mobile](browser/map-admin-mobile-qa.png), [repère public de test](browser/map-custom-marker-public-qa.png), [inscription persistée](browser/guild-signup-persisted-qa.png), [404 profonde](browser/404-deep.png).
+
+Le 12 octobre, `npm test -- --skip-browser` termine avec un code de sortie 0 : les 46 suites exécutées, la syntaxe JavaScript, les tests DOM, les audits de contenu et les tests SQL locaux passent. Le seul test omis est `test-phase3-items-layout.mjs`, qui ouvre un navigateur. [Journal complet](tests-2026-10-12.txt), [empreinte du candidat](candidate-manifest.json).
 
 Le build à publier se trouve dans `_site`. Il contient les 13 routes, 18 fiches boss et 252 entrées de recherche. Les outils de recette, leurs comptes et leurs bases éphémères sont exclus de cet artifact.
 
