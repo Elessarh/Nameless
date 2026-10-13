@@ -1,6 +1,10 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# Subresource integrity is byte-sensitive. Keep Leaflet identical on every OS.
+css/vendor/leaflet-1.9.4.css text eol=lf
+js/vendor/leaflet-1.9.4.js text eol=lf
+
 # Historical snapshots are checked byte-for-byte against their original hash.
 # Text normalization would change them on Linux and block the public build.
 data/archive/** -text

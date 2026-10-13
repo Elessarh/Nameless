@@ -75,14 +75,14 @@
             source: 'pages/map.html',
             title: "Carte d'Aincrad - Nameless",
             css: [
-                'css/vendor/leaflet-1.9.4.css?v=20261007a',
+                'css/vendor/leaflet-1.9.4.css?v=20261013mapfix1',
                 'css/components/map.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261011ux2e',
                 'css/components/map-regions.css?v=20261011ux2e',
                 'css/components/reference-map.css?v=20261011ux2e'
             ],
             scripts: [
-                'js/vendor/leaflet-1.9.4.js?v=20261007a',
+                'js/vendor/leaflet-1.9.4.js?v=20261013mapfix1',
                 'js/map-regions.js?v=20261010maprework2',
                 'js/map.js?v=20261013taxonomy1'
             ],
@@ -99,9 +99,9 @@
         }),
         publicRoute({
             id: 'admin-carte', path: '/admin-carte', source: 'pages/admin-carte.html', title: 'Atelier cartographique — Nameless',
-            css: ['css/vendor/leaflet-1.9.4.css?v=20261007a', 'css/components/map.css?v=20261008hybrid',
+            css: ['css/vendor/leaflet-1.9.4.css?v=20261013mapfix1', 'css/components/map.css?v=20261008hybrid',
                 'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261010maprework2'],
-            scripts: ['js/vendor/leaflet-1.9.4.js?v=20261007a', 'js/map-regions.js?v=20261010maprework2',
+            scripts: ['js/vendor/leaflet-1.9.4.js?v=20261013mapfix1', 'js/map-regions.js?v=20261010maprework2',
                 'js/map.js?v=20261013taxonomy1', 'js/map-workspace.js?v=20261013taxonomy1'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),

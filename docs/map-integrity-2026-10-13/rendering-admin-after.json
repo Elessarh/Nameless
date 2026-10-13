@@ -1,0 +1,26 @@
+{
+  "image": [
+    {
+      "height": 4951,
+      "maxWidth": "none",
+      "position": "absolute",
+      "width": 4951
+    },
+    {
+      "height": 4951,
+      "maxWidth": "none",
+      "position": "absolute",
+      "width": 4951
+    }
+  ],
+  "markerCount": 40,
+  "paneCount": 9,
+  "staticMarkers": 0,
+  "staticPanes": 0,
+  "stylesheet": [
+    {
+      "href": "/css/vendor/leaflet-1.9.4.css?v=20261013mapfix1",
+      "integrity": "sha256-M3v8pcq9A7OYFbJwD+vis7ft9VkhxZzUn4jssyghIwM="
+    }
+  ]
+}
