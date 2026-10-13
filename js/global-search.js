@@ -3,11 +3,13 @@
     'use strict';
     var script = document.currentScript;
     var indexUrl = new URL('../assets/search-index.json', script ? script.src : new URL('/js/global-search.js', location.href)).href;
+    var indexVersion = script && new URL(script.src, location.href).searchParams.get('v');
+    if (indexVersion) indexUrl += '?v=' + encodeURIComponent(indexVersion);
     var indexPromise = null, entries = [], results = [], dialog, input, list, status, opener, favoriteFilter, favoriteLabel, favoriteCount, indexMeta, clearQuery;
     var favoritesOnly = false, loading = false;
     var key = 'nameless-public-favorites-v1';
     var favorites = [];
-    var groups = {boss: ['Boss', 'Bosses'], creature: ['Bestiaire', 'Creatures'], item: ['Objets', 'Items'], quest: ['Quêtes', 'Quests'], location: ['Lieux', 'Locations'], npc: ['PNJ', 'NPCs'], wiki: ['Wiki & guides', 'Wiki & guides'], action: ['Accès rapides', 'Quick navigation']};
+    var groups = {boss: ['Boss et mini-boss', 'Bosses & mini-bosses'], creature: ['Bestiaire', 'Creatures'], item: ['Objets', 'Items'], quest: ['Quêtes', 'Quests'], location: ['Lieux', 'Locations'], npc: ['PNJ', 'NPCs'], wiki: ['Wiki & guides', 'Wiki & guides'], action: ['Accès rapides', 'Quick navigation']};
     try {
         var stored = JSON.parse(localStorage.getItem(key) || '[]');
         if (Array.isArray(stored)) favorites = stored.filter(function (id) {return typeof id === 'string' && id.length < 120;}).slice(0, 100);
@@ -138,7 +140,7 @@
                 var content = document.createElement('span'); content.className = 'nm-search-result-content';
                 var title = document.createElement('strong'); title.textContent = english() ? entry.titleEn || entry.title : entry.title;
                 content.appendChild(title);
-                var category = document.createElement('span'); category.className = 'nm-search-result-category'; category.textContent = groups[kind][english() ? 1 : 0];
+                var category = document.createElement('span'); category.className = 'nm-search-result-category'; category.textContent = entry.categoryLabel ? (english() ? entry.categoryLabelEn || entry.categoryLabel : entry.categoryLabel) : groups[kind][english() ? 1 : 0];
                 content.appendChild(category);
                 if (entry.summary) {var description = document.createElement('span'); description.className = 'nm-search-result-description'; description.textContent = english() ? entry.summaryEn || entry.summary : entry.summary; content.appendChild(description);}
                 link.appendChild(content);

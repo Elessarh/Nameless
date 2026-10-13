@@ -185,6 +185,10 @@
     }
     function markerDraftKey(s) {return s.marker?.key||'new:'+s.bridge.getFloor();}
     function savedMarkers(s) { try{const data=JSON.parse(global.localStorage.getItem(localKey(s))||'{}');return data&&typeof data==='object'?data:{};}catch(_){return{};} }
+    function creatureMarkerType(s,m) {
+        const entity=!m?.custom&&s.bridge.getData()?.entities[m?.key];
+        return entity?.kind==='creature'&&['creature','miniboss','boss','floor-boss'].includes(entity.category)?entity.markerType:null;
+    }
     function loadMarker(s,key) {
         if(!canEdit(s)||!key)return;
         const custom=s.shared?.custom_markers?.find(r=>r.entity_key===key);
@@ -198,6 +202,9 @@
         s.markerRevision=revision(s,key,custom?'custom':'marker');
         const saved=savedMarkers(s)[key];
         if(saved&&saved.floor===s.marker.floor&&saved.imageId===image(s)&&saved.key===key&&saved.custom===s.marker.custom) {s.marker={...s.marker,...saved};s.markerRevision=Number.isInteger(saved.baseRevision)?saved.baseRevision:-1;message(s,'Brouillon local restauré. Il n’est pas publié. Rechargez les données si sa révision est ancienne.');}
+        // Linked names and creature classification come from the current
+        // catalogue, even when an older server/browser placement is restored.
+        if(!custom){s.marker.title=entity.title;s.marker.description=entity.description||'';s.marker.type=creatureMarkerType(s,s.marker)||s.marker.type;}
         s.editGeneration++;
         s.history=global.NamelessMapRegions.createHistory(s.marker);s.placing=false;syncMarker(s);if(point(s.marker))s.bridge.viewCamera?.(s.bridge.getLatLng(s.marker),Math.max(s.bridge.map.getZoom(),-1.75),{animate:!global.matchMedia?.('(prefers-reduced-motion: reduce)').matches});
     }
@@ -214,7 +221,7 @@
         const value=id=>s.root.querySelector('#workspace-marker-'+id).value;
         const previous=clone(s.marker);
         if(s.marker.custom){s.marker.title=value('title').trim();s.marker.description=value('description').trim();}
-        s.marker.type=value('type');s.marker.state=value('state');
+        s.marker.type=creatureMarkerType(s,s.marker)||value('type');s.marker.state=value('state');
         s.marker.u=value('u')===''?null:Number(value('u'));s.marker.v=value('v')===''?null:Number(value('v'));
         if(JSON.stringify(previous)!==JSON.stringify(s.marker)){s.history.push(s.marker);markDraft(s);}
         syncMarker(s);
@@ -229,7 +236,7 @@
         clearDraftPoint(s);if(s.mode!=='markers')return;
         const get=id=>s.root.querySelector('#workspace-marker-'+id),m=s.marker;
         const host=s.root.querySelector('#workspace-marker-tool');host.querySelector('.workspace-marker-empty').hidden=!!m;host.querySelector('.workspace-marker-properties').hidden=!m;
-        for(const id of ['title','description','type','state','u','v']) {const input=get(id);if(!input)continue;input.disabled=!m;input.value=m?String(m[id==='type'?'type':id]??''):'';}
+        for(const id of ['title','description','type','state','u','v']) {const input=get(id);if(!input)continue;input.disabled=!m||(id==='type'&&!!creatureMarkerType(s,m));input.value=m?String(m[id==='type'?'type':id]??''):'';}
         if(get('title')){get('title').readOnly=!m?.custom;get('description').readOnly=!m?.custom;get('state').querySelector('[value=draft]').disabled=!m?.custom;get('select').value=m?.key||'';}
         if(get('undo'))get('undo').disabled=!s.history?.canUndo;if(get('redo'))get('redo').disabled=!s.history?.canRedo;
         for(const id of ['reset','delete'])if(get(id))get(id).disabled=!m?.key||!s.serverReady||s.busy||((id==='reset')&&m?.custom);

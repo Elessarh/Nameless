@@ -2,6 +2,8 @@
 
 Recette menée sur le build local et deux bases SQL éphémères. Aucun déploiement, commit ou push effectué.
 
+Ce bilan décrit le candidat contrôlé le 12 octobre. Le classement des monstres et le nom de Nazgul ont ensuite été corrigés selon la liste de l’utilisateur : [version corrigée du 13 octobre](../bestiary-taxonomy-2026-10-13/README.md), avec son propre contrôle d’artifact. L’empreinte du présent dossier reste celle du candidat précédent.
+
 ## Parcours vérifiés
 
 - Microsoft : ouverture du fournisseur, connexion effectuée par l’utilisateur, retour au vrai profil. Sauvegarde avec les valeurs existantes, puis rechargement confirmant leur conservation. Accès réel à la guilde et à l’atelier administrateur vérifié en lecture.

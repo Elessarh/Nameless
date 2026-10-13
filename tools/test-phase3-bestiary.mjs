@@ -32,26 +32,35 @@ function close(s) { s.w.NamelessBestiaryPage.destroy(); s.dom.window.close(); }
 
 {
     const s = surface(), { d, data } = s;
+    const approvedGroups = { boss: [19, 21, 58, 60], miniboss: [11, 15, 17, 41, 43, 44, 46, 47, 56], 'floor-boss': [53] };
+    for (const [category, approvedIds] of Object.entries(approvedGroups)) {
+        equal(data.filter(creature => creature.category === category).map(creature => creature.id), approvedIds, 'Only the user-approved records belong to ' + category);
+    }
+    const exceptionalIds = new Set(Object.values(approvedGroups).flat());
+    equal(data.filter(creature => creature.category === 'creature').map(creature => creature.id), data.filter(creature => !exceptionalIds.has(creature.id)).map(creature => creature.id), 'All 46 remaining records are normal monsters');
+    equal(data.filter(creature => creature.category === 'creature').length, 46, 'The user-approved taxonomy keeps 46 normal monsters');
+    equal(data.find(creature => creature.id === 58).name, 'Nazgul', 'The renamed Soul Knight keeps its existing identity 58 as Nazgul');
+    check(!data.some(creature => creature.category === 'elite' || creature.name === 'Soul Knight'), 'The live bestiary does not retain old elite categories or the obsolete Soul Knight display name');
     check(!d.querySelector('.creature-modal') && !d.querySelector('.bestiary-page').classList.contains('catalogue-has-selection'), 'A fresh bestiary gives catalogue space to its records without an empty detail rail');
     equal([...d.querySelectorAll('.creature-card')].map(card => Number(card.dataset.id)), data.slice(0, 48).map(creature => creature.id), 'The initial page presents the first 48 native records directly');
     equal(d.getElementById('items-per-page').value, '48', 'The visible page size control agrees with the 48 rendered records');
-    equal([...d.querySelectorAll('.creature-card')].map(card => card.querySelector('.chip-category').textContent), data.slice(0, 48).map(creature => ({boss: 'Boss', elite: 'Élite', creature: 'Créature'})[creature.category]), 'Every visible card identifies its actual category rather than inventing a rarity');
-    check([1, 2, 5].every(id => !d.querySelector('.creature-card[data-id="' + id + '"] .chip-type')) && d.querySelector('.creature-card[data-id="6"] .chip-type').textContent === 'Bête', 'Compact type badges omit generic Créature labels for bosses, creatures and elites while retaining meaningful native Bête types');
+    equal([...d.querySelectorAll('.creature-card')].map(card => card.querySelector('.chip-category').textContent), data.slice(0, 48).map(creature => ({boss: 'Boss', miniboss: 'Mini-boss', 'floor-boss': 'Boss de palier', creature: 'Monstre'})[creature.category]), 'Every visible card identifies its approved category rather than inventing a rarity');
+    check([1, 2, 5].every(id => !d.querySelector('.creature-card[data-id="' + id + '"] .chip-type')) && d.querySelector('.creature-card[data-id="6"] .chip-type').textContent === 'Bête', 'Compact type badges omit generic Créature labels while retaining meaningful native Bête types');
     equal(d.querySelector('.creature-card[data-id="6"] .creature-zone').textContent, data.find(creature => creature.id === 6).location, 'The compact zone label comes directly from its creature record');
     check(d.querySelectorAll('.catalogue-filter-section').length === 4 && d.querySelectorAll('.catalogue-filter-section > summary').length === 4, 'All four logical groups are real keyboard accessible disclosures');
-    choice(s, 'bes-category', 'boss').click(); choice(s, 'bes-category', 'elite').click();
-    equal(allIds(s), data.filter(creature => ['boss', 'elite'].includes(creature.category)).map(creature => creature.id), 'Category choices use a real union instead of overwriting each other');
-    check(choice(s, 'bes-category', 'boss').checked && choice(s, 'bes-category', 'elite').checked, 'Both selected category checkboxes stay checked');
+    choice(s, 'bes-category', 'boss').click(); choice(s, 'bes-category', 'miniboss').click();
+    equal(allIds(s), data.filter(creature => ['boss', 'miniboss'].includes(creature.category)).map(creature => creature.id), 'Boss and mini-boss choices use a real union instead of overwriting each other');
+    check(choice(s, 'bes-category', 'boss').checked && choice(s, 'bes-category', 'miniboss').checked, 'Both selected category checkboxes stay checked');
     equal(d.querySelector('[data-selected-count="bes-category"]').textContent, '2', 'Disclosure badge counts individually selected values');
-    const zones = [...new Set(data.filter(creature => ['boss', 'elite'].includes(creature.category)).map(creature => creature.location))].slice(0, 2);
+    const zones = [...new Set(data.filter(creature => ['boss', 'miniboss'].includes(creature.category)).map(creature => creature.location))].slice(0, 2);
     zones.forEach(zone => choice(s, 'bes-zone', zone).click());
-    equal(allIds(s), data.filter(creature => ['boss', 'elite'].includes(creature.category) && zones.includes(creature.location)).map(creature => creature.id), 'Unions in each group intersect across groups');
+    equal(allIds(s), data.filter(creature => ['boss', 'miniboss'].includes(creature.category) && zones.includes(creature.location)).map(creature => creature.id), 'Unions in each group intersect across groups');
     const categoryChip = [...d.querySelectorAll('[data-clear-filter="bes-category"]')].find(chip => chip.dataset.clearValue === 'boss');
     categoryChip.click();
-    equal(allIds(s), data.filter(creature => creature.category === 'elite' && zones.includes(creature.location)).map(creature => creature.id), 'Removing one chip preserves the other selected category and both selected regions');
-    check(!choice(s, 'bes-category', 'boss').checked && choice(s, 'bes-category', 'elite').checked, 'Individual chip removal updates precisely its own checkbox');
+    equal(allIds(s), data.filter(creature => creature.category === 'miniboss' && zones.includes(creature.location)).map(creature => creature.id), 'Removing one chip preserves the other selected category and both selected regions');
+    check(!choice(s, 'bes-category', 'boss').checked && choice(s, 'bes-category', 'miniboss').checked, 'Individual chip removal updates precisely its own checkbox');
     const regionCount = choice(s, 'bes-zone', zones[0]).parentElement.lastElementChild;
-    equal(Number(regionCount.textContent), data.filter(creature => creature.category === 'elite' && creature.location === zones[0]).length, 'Facet counts obey selections in the other groups');
+    equal(Number(regionCount.textContent), data.filter(creature => creature.category === 'miniboss' && creature.location === zones[0]).length, 'Facet counts obey selections in the other groups');
     const search = d.querySelector('[data-search-filter="bes-zone"]'); search.value = 'introuvable'; search.dispatchEvent(new s.w.Event('input', { bubbles: true }));
     check([...search.parentElement.querySelectorAll('.catalogue-filter-option')].every(row => row.hidden), 'Long region groups can be searched independently without clearing the actual filter');
     d.getElementById('bes-reset').click();
@@ -178,8 +187,16 @@ function close(s) { s.w.NamelessBestiaryPage.destroy(); s.dom.window.close(); }
 }
 
 {
+    const s = surface(1280, '?creature=58'), { d } = s;
+    check(d.querySelector('.modal-name').textContent === 'Nazgul' && d.querySelector('.modal-badges .chip-boss').textContent === 'Boss', 'The original identity deep link opens Nazgul with its approved Boss label');
+    check(s.w.location.search.includes('creature=58'), 'Renaming Nazgul preserves the stable creature deep link');
+    close(s);
+}
+
+{
     const s = surface(390, '?creature=53'), { d } = s;
     check(d.querySelector('.modal-name').textContent === 'Illfang' && d.querySelector('.creature-modal').getAttribute('aria-modal') === 'true', 'Existing mobile creature deep links still open a focus-contained sheet');
+    equal(d.querySelector('.modal-badges .chip-floor-boss').textContent, 'Boss de palier', 'Illfang is explicitly labelled as the floor boss in its detail sheet');
     key(s, d.activeElement, 'Escape');
     check(!d.querySelector('.bestiary-page').classList.contains('catalogue-has-selection') && !s.w.location.search.includes('creature='), 'Closing a mobile deep link clears precisely the selection parameter');
     close(s);
@@ -193,7 +210,7 @@ function close(s) { s.w.NamelessBestiaryPage.destroy(); s.dom.window.close(); }
     check(d.getElementById('bes-search').value === '', 'A same-route URL without q clears the former search query');
     equal(allIds(s), data.filter(creature => creature.category === 'boss').map(creature => creature.id), 'Clearing the URL query preserves the user-selected union filters');
     w.history.replaceState({}, '', '/bestiaire?q=slime'); d.dispatchEvent(new w.CustomEvent('nameless:routechange'));
-    check(d.getElementById('bes-search').value === 'slime' && d.querySelectorAll('.creature-card').length === 1, 'Returning to a search URL restores its exact query and composes with existing filters');
+    check(d.getElementById('bes-search').value === 'slime' && d.querySelectorAll('.creature-card').length === 0, 'Returning to a search URL restores its exact query and correctly excludes normal slimes from the boss filter');
     close(s);
 }
 

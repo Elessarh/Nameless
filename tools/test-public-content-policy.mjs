@@ -29,7 +29,18 @@ check(manifest.files.length === 7, 'All historical data and translation sources 
 const historical = literal(archived('js/bestiaire.js'), 'creaturesData');
 const creatures = literal(read('js/bestiaire.js'), 'creaturesData');
 assert.equal(historical.length,60); assert.equal(creatures.length,60);
-assert.deepEqual(creatures,historical.map(projectCreature),'All reliable creature fields and IDs survive, only unverified combat fields are removed');
+const approvedBossIds = new Set([19, 21, 58, 60]);
+const approvedMiniBossIds = new Set([11, 15, 17, 41, 43, 44, 46, 47, 56]);
+const approvedCreature = creature => {
+    const projected = projectCreature(creature);
+    // Only the explicit taxonomy correction and Nazgul display-name correction
+    // may differ from the private immutable historical projection.
+    projected.category = creature.id === 53 ? 'floor-boss' : approvedBossIds.has(creature.id) ? 'boss' : approvedMiniBossIds.has(creature.id) ? 'miniboss' : 'creature';
+    if (creature.id === 58) projected.name = 'Nazgul';
+    return projected;
+};
+assert.deepEqual(creatures,historical.map(approvedCreature),'All historical reliable fields and stable IDs survive except the exact user-approved categories and Nazgul name, with unverified combat fields removed');
+check(historical.find(creature=>creature.id===58).name==='Soul Knight','The old Soul Knight identity and display name remain recoverable in the immutable private archive');
 check(historical.every(creature=>Number.isFinite(creature.hp)), 'The sixty historical HP values remain recoverable privately');
 assertNoCombatFields(creatures);
 check(!/creature\.hp|Points de vie|creature-hp|hp-label|hp-val/.test(read('js/bestiaire.js')), 'Published bestiary code cannot render historical HP');

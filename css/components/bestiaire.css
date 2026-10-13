@@ -18,15 +18,15 @@
 .creature-image { width: 100%; height: 100%; object-fit: contain; padding: .75rem; }
 .creature-image.is-fallback { opacity: .6; }
 .creature-cat-tag { position: absolute; top: .5rem; right: .5rem; padding: .25rem .5rem; font-size: .6875rem; line-height: 1.3; background: var(--nm-bg-secondary); border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); color: var(--nm-text); }
-.creature-cat-tag.tag-boss { color: var(--nm-gold-light); border-color: var(--nm-hairline); }
+.creature-cat-tag.tag-boss, .creature-cat-tag.tag-floor-boss { color: var(--nm-gold-light); border-color: var(--nm-hairline); }
 .creature-cat-tag.tag-elite { color: #C5B9CC; }
 .creature-body { display: flex; flex: 1; flex-direction: column; gap: .625rem; padding: var(--nm-space-3); }
 .creature-name { margin: 0; font: 600 .9375rem/1.4 var(--font-text); color: var(--nm-text-bright); overflow-wrap: anywhere; }
 .creature-meta, .modal-badges { display: flex; flex-wrap: wrap; gap: .375rem; }
 .creature-chip { padding: .1875rem .4375rem; border: 1px solid var(--nm-border); border-radius: var(--nm-radius-sm); color: var(--nm-text-secondary); font-size: .6875rem; line-height: 1.4; }
-.creature-chip.chip-palier, .creature-chip.chip-boss { color: var(--nm-gold-light); }
+.creature-chip.chip-palier, .creature-chip.chip-boss, .creature-chip.chip-floor-boss { color: var(--nm-gold-light); }
 .creature-chip.chip-type { color: var(--nm-link); }
-.creature-chip.chip-elite { color: #C5B9CC; }
+.creature-chip.chip-miniboss, .creature-cat-tag.tag-miniboss { color: #C5B9CC; }
 .creature-zone { margin-top: auto; color: var(--nm-text-secondary); font-size: .8125rem; line-height: 1.45; overflow-wrap: anywhere; }
 .creature-details-btn { border-top: 1px solid var(--nm-border); margin-top: .125rem; padding-top: .625rem; color: var(--nm-link); font-size: .75rem; }
 .creature-details-btn::after { content: ' →'; }

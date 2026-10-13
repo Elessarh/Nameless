@@ -17,7 +17,7 @@ vm.runInContext(`${source.slice(start, end)}\nthis.creatures = creaturesData;`, 
 
 const creatures = context.creatures;
 const expectedZones = new Map([
-    ...['Soul Knight', 'Narax', 'Squelette', 'Archer Squelette', 'Épéiste Squelette',
+    ...['Nazgul', 'Narax', 'Squelette', 'Archer Squelette', 'Épéiste Squelette',
         'Guerrier Squelette', 'Hallebardier Squelette', 'Tank Squelette', 'Sorcier Squelette']
         .map((name) => [name, 'Ruines Maudites']),
     ...['Ornstein', 'Smoug', 'Soldat Déchu', 'Gardien Déchu', 'Guerrier Déchu',

@@ -26,12 +26,18 @@ assert.ok(window.document.querySelector('.nm-search-result a').href.includes('/b
 assert.equal(window.document.querySelector('.nm-search-index-meta').textContent,index.length+' fiches indexées','Palette metadata is counted from the real loaded index');
 const clear = window.document.querySelector('.nm-search-clear');
 assert.equal(clear.hidden,false,'A nonempty query exposes its clear control');
-assert.equal(window.document.querySelector('.nm-search-result-category').textContent,'Boss','Results identify their actual index category');
+assert.equal(window.document.querySelector('.nm-search-result-category').textContent,'Boss de palier','Illfang is identified precisely as the floor boss');
 const mapLink = window.document.querySelector('.nm-search-map-link');
 assert.ok(mapLink && new URL(mapLink.href).searchParams.get('entity') === 'creature:53', 'Global search links to the creature panel on its known map floor');
 const legacyPlace = index.find(entry => entry.id === 'villesData-0');
 assert.ok(legacyPlace && legacyPlace.url.includes('entity='), 'Legacy favorite identities keep the new map destination');
 assert.ok(index.filter(entry => entry.kind === 'item').some(entry => entry.sources.some(source => source.mapUrl && source.location)), 'Item sources include their known zone and map destination');
+for (const [query,category,url] of [['Gardien Colossal','Mini-boss','/boss/gardien-colossal'],['Gorbel','Monstre','/bestiaire?creature=1'],['Nazgul','Boss','/boss/nazgul'],['Soul Knight','Boss','/boss/nazgul']]) {
+    input.value=query;input.dispatchEvent(new window.Event('input'));
+    assert.equal(window.document.querySelector('.nm-search-result-category').textContent,category,'The palette presents the reviewed category for '+query);
+    assert.equal(new URL(window.document.querySelector('.nm-search-entry-link').href).pathname+new URL(window.document.querySelector('.nm-search-entry-link').href).search,url,'The precise current identity is linked for '+query);
+}
+input.value='Illfang';input.dispatchEvent(new window.Event('input'));
 input.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));
 assert.equal(window.document.activeElement.tagName,'A');
 input.focus();
@@ -53,6 +59,7 @@ assert.equal(window.document.querySelector('.nm-search-index-meta').textContent,
 window.document.querySelector('.nm-search-favorites').click();
 assert.equal(window.document.querySelector('.nm-search-favorites').getAttribute('aria-pressed'),'true');
 assert.equal(window.document.querySelectorAll('.nm-search-result').length,1,'Favorites retain the same saved real entry after clearing and changing locale');
+assert.equal(window.document.querySelector('.nm-search-result-category').textContent,'Floor boss','English palette keeps the precise floor-boss category');
 language='fr';window.document.dispatchEvent(new window.Event('nameless:languagechange'));
 assert.equal(window.document.querySelector('.nm-search-favorites span').textContent,'Mes favoris');
 const savedStar=window.document.querySelector('.nm-search-star');savedStar.focus();savedStar.click();

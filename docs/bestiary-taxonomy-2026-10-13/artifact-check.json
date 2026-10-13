@@ -1,0 +1,2712 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-13",
+  "verification": "local-files-only",
+  "noDeploy": true,
+  "checks": {
+    "sourceCreatures": 60,
+    "indexedCreatures": 60,
+    "exactCategories": {
+      "creature": 46,
+      "miniboss": 9,
+      "boss": 4,
+      "floor-boss": 1
+    },
+    "canonicalBossPages": 14,
+    "legacyCompatibilityPages": 8,
+    "legacyAliasesExcludedFromSitemap": true,
+    "stableNazgul": {
+      "id": 58,
+      "title": "Nazgul",
+      "canonical": "/boss/nazgul",
+      "oldRoute": "/boss/soul-knight"
+    },
+    "htmlDocuments": 48,
+    "sourceMatchesBuiltBestiary": true
+  },
+  "testCLI": {
+    "status": "passed",
+    "suites": 46,
+    "browserTestsExcluded": true,
+    "provenance": "Reported by the root agent after executing the non-browser CLI suites; this manifest task did not rerun them."
+  },
+  "canonicalBossPages": [
+    {
+      "path": "/boss/albal",
+      "id": 15,
+      "title": "Albal",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/faucheuse-dechu",
+      "id": 44,
+      "title": "Faucheuse Déchu",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/gardien-colossal",
+      "id": 11,
+      "title": "Gardien Colossal",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/gardien-dechu",
+      "id": 41,
+      "title": "Gardien Déchu",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/heraut-dechu",
+      "id": 43,
+      "title": "Héraut Déchu",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/illfang",
+      "id": 53,
+      "title": "Illfang",
+      "category": "floor-boss"
+    },
+    {
+      "path": "/boss/leviathan",
+      "id": 56,
+      "title": "Léviathan",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/narax",
+      "id": 17,
+      "title": "Narax",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/nazgul",
+      "id": 58,
+      "title": "Nazgul",
+      "category": "boss"
+    },
+    {
+      "path": "/boss/octana",
+      "id": 60,
+      "title": "Octana",
+      "category": "boss"
+    },
+    {
+      "path": "/boss/ornstein",
+      "id": 19,
+      "title": "Ornstein",
+      "category": "boss"
+    },
+    {
+      "path": "/boss/ours-glacial",
+      "id": 46,
+      "title": "Ours Glacial",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/plante-mutante",
+      "id": 47,
+      "title": "Plante Mutante",
+      "category": "miniboss"
+    },
+    {
+      "path": "/boss/smoug",
+      "id": 21,
+      "title": "Smoug",
+      "category": "boss"
+    }
+  ],
+  "legacyAliases": [
+    {
+      "path": "/boss/gorbel",
+      "target": "/bestiaire?creature=1",
+      "canonical": "https://nameless-sao.fr/bestiaire?creature=1"
+    },
+    {
+      "path": "/boss/ika",
+      "target": "/bestiaire?creature=16",
+      "canonical": "https://nameless-sao.fr/bestiaire?creature=16"
+    },
+    {
+      "path": "/boss/jira",
+      "target": "/bestiaire?creature=54",
+      "canonical": "https://nameless-sao.fr/bestiaire?creature=54"
+    },
+    {
+      "path": "/boss/kamilia",
+      "target": "/bestiaire?creature=55",
+      "canonical": "https://nameless-sao.fr/bestiaire?creature=55"
+    },
+    {
+      "path": "/boss/nephantes",
+      "target": "/bestiaire?creature=18",
+      "canonical": "https://nameless-sao.fr/bestiaire?creature=18"
+    },
+    {
+      "path": "/boss/priscilia",
+      "target": "/bestiaire?creature=57",
+      "canonical": "https://nameless-sao.fr/bestiaire?creature=57"
+    },
+    {
+      "path": "/boss/soul-knight",
+      "target": "/boss/nazgul",
+      "canonical": "https://nameless-sao.fr/boss/nazgul"
+    },
+    {
+      "path": "/boss/yula",
+      "target": "/bestiaire?creature=59",
+      "canonical": "https://nameless-sao.fr/bestiaire?creature=59"
+    }
+  ],
+  "sourceHashes": [
+    {
+      "path": "js/bestiaire.js",
+      "bytes": 87602,
+      "sha256": "4b76a63e5a52c64a6ee3f77333c29eac32bc3fdab46e7094203eb53e056ee994"
+    },
+    {
+      "path": "tools/creature-taxonomy.mjs",
+      "bytes": 1051,
+      "sha256": "f32ac6ec0142564c62ee7a6e54ae58a12d9b1d092a1582cef37e75bacdfcc759"
+    }
+  ],
+  "artifactTree": {
+    "algorithm": "SHA-256",
+    "fingerprintEncoding": "Sorted relative path + NUL + hexadecimal SHA-256 + LF per file",
+    "sha256": "b20157cff800a3fd9a375e3db5b54ce1b71dd48afeb25a4b599d9feac39cd730",
+    "files": 506,
+    "totalBytes": 153134177,
+    "manifest": [
+      {
+        "path": ".nojekyll",
+        "bytes": 106,
+        "sha256": "92b5835e17fc6b359c71b1b1148c4046c143673343e4049b40b65b61b777ceae"
+      },
+      {
+        "path": "404.html",
+        "bytes": 7160,
+        "sha256": "3b47343aee717ca5da19c44ada30968d1b341ac7d7b83ed5e313de233d43dcfb"
+      },
+      {
+        "path": "admin-carte/index.html",
+        "bytes": 18453,
+        "sha256": "86c5bbcaaab22743db796873918626abf083602b8ec4fac701738258a11e2e46"
+      },
+      {
+        "path": "admin-dashboard/index.html",
+        "bytes": 30744,
+        "sha256": "67a55e69eb4d3a5f8eda0bba496c3066236d3354b4a49cf4fac46cff3205ef27"
+      },
+      {
+        "path": "assets/art-v3/aincrad-1280.webp",
+        "bytes": 139672,
+        "sha256": "c7e46ce53da0080989098425ec4608a0c9653912481cfdfbf25544b2ad6d3452"
+      },
+      {
+        "path": "assets/art-v3/aincrad-1672.webp",
+        "bytes": 198628,
+        "sha256": "89ed3fc4dc5fefe21eab9d33a55ec819a8e1b7ba42f7d7d6c2e4db5e5d065971"
+      },
+      {
+        "path": "assets/art-v3/aincrad-960.webp",
+        "bytes": 91822,
+        "sha256": "75d8f36f0b228a9f9f6c2c31aad3481fa597dd456569f0abff1078422e2055a6"
+      },
+      {
+        "path": "assets/art-v3/aincrad-mobile.webp",
+        "bytes": 76200,
+        "sha256": "9211e6cc9ea81cdd3e33d0393aacab6e86d44c82cbd3b77581eb35837648cf0b"
+      },
+      {
+        "path": "assets/art-v3/aincrad-source.png",
+        "bytes": 2283492,
+        "sha256": "41b178665abae05d5fb740c5c277dc2cec8c60c3268511f52f1629c8e82b51c9"
+      },
+      {
+        "path": "assets/art-v3/asset-manifest.json",
+        "bytes": 7509,
+        "sha256": "7a8bc174ea613044eb0b0816d88022bfa9dcc0aedd93284f506f29eb9bce56a7"
+      },
+      {
+        "path": "assets/art-v3/forest-1280.webp",
+        "bytes": 202570,
+        "sha256": "323ac14063992df9a0950ea2e1924b47b3af1bd5d7541ceb147226e8487e5774"
+      },
+      {
+        "path": "assets/art-v3/forest-320.webp",
+        "bytes": 18444,
+        "sha256": "756ad13fc4125bd31b0982a94fd0ca0fca629af7d12882df0568e0438466f8e8"
+      },
+      {
+        "path": "assets/art-v3/forest-640.webp",
+        "bytes": 68332,
+        "sha256": "5a45527006ae41530d9523197f82722acd96c6959f2d49230a5575704af2f4ac"
+      },
+      {
+        "path": "assets/art-v3/forest-960.webp",
+        "bytes": 133208,
+        "sha256": "f410dde3138018cf95acb4d32ea378563342baf6ac14fd9fbd6656edd68b0b1d"
+      },
+      {
+        "path": "assets/art-v3/forest-source.png",
+        "bytes": 2678448,
+        "sha256": "d1c015e483309857d8a0106198335207a85a729caaf4e3b23cff0b6c5cd63cac"
+      },
+      {
+        "path": "assets/art-v3/guild-1280.webp",
+        "bytes": 135304,
+        "sha256": "a5a7ed9f83c45ebe921f604251d6e1c7ef2c633f7a37543ae7256b82f4c4f69f"
+      },
+      {
+        "path": "assets/art-v3/guild-320.webp",
+        "bytes": 13974,
+        "sha256": "23a63b9b460fc04a6d387d4fada114bcbe8df11b903cbff20bb5d04a6702dd5e"
+      },
+      {
+        "path": "assets/art-v3/guild-640.webp",
+        "bytes": 45554,
+        "sha256": "ea9df6e183f517a5e4c6b80111811f5cbbbdc2e2aea69a4512431661460471a6"
+      },
+      {
+        "path": "assets/art-v3/guild-960.webp",
+        "bytes": 87242,
+        "sha256": "75a1c9a8872b8d59120c6c55053bd2a01235a9c2efb0cd6086042caa4b4768fa"
+      },
+      {
+        "path": "assets/art-v3/guild-source.png",
+        "bytes": 2204323,
+        "sha256": "f4742731f2b9ebd6edc395eee338f5d90605547f44b6ae38b105101103b00a14"
+      },
+      {
+        "path": "assets/art-v3/workshop-1280.webp",
+        "bytes": 92256,
+        "sha256": "8279e4453130ddd557e67f9548672f089cf9b6ff616b09d89be9945b6348b62d"
+      },
+      {
+        "path": "assets/art-v3/workshop-320.webp",
+        "bytes": 11414,
+        "sha256": "df7bf93e86d5590b6b582e7dcf9bcdc4f14f50db7bcde8ecdc50a5619c028881"
+      },
+      {
+        "path": "assets/art-v3/workshop-640.webp",
+        "bytes": 33808,
+        "sha256": "d8a13be26258a417069a4ae8c9337ae2220aa01e30fccbeacaf05d5fe3671636"
+      },
+      {
+        "path": "assets/art-v3/workshop-960.webp",
+        "bytes": 62440,
+        "sha256": "256a502d4c4f3047f709f024c083394302724bdeb08f50d669ab6e0d3ca5f498"
+      },
+      {
+        "path": "assets/art-v3/workshop-source.png",
+        "bytes": 1910106,
+        "sha256": "39bab15b99ac2cf9e4ff5c992191d30fc58dafc88453f3ca22bef3ce55df44e7"
+      },
+      {
+        "path": "assets/art-v4/aincrad-1280.webp",
+        "bytes": 160994,
+        "sha256": "cc632381ebf9f62c5773355e9db1c5b02b29fe51d954fcfcb75b6a8d3a616677"
+      },
+      {
+        "path": "assets/art-v4/aincrad-1672.webp",
+        "bytes": 231856,
+        "sha256": "1bbc7841c637a2a3339401ac88034ef37e7d9db9021cee6afc4ad07eb2f6daf3"
+      },
+      {
+        "path": "assets/art-v4/aincrad-960.webp",
+        "bytes": 110212,
+        "sha256": "cdb2d823d424a80cd27a6d54166c8e2cffc0045277f283d621d5d1cc82a72b74"
+      },
+      {
+        "path": "assets/art-v4/aincrad-mobile.webp",
+        "bytes": 72382,
+        "sha256": "84cb465d8c71653cb8b248288b6b78ce04650ce81bbd1213a12825e61a8ab439"
+      },
+      {
+        "path": "assets/art-v4/aincrad-source.png",
+        "bytes": 2460501,
+        "sha256": "c2dab16c5c61d8101ce27aa21da07c346c03bd8dc145f18e7017cee3e84e71e0"
+      },
+      {
+        "path": "assets/art-v4/asset-manifest.json",
+        "bytes": 7513,
+        "sha256": "6e6a5009a20d19924091012933b532b550fd21330a1a08fc3b2b104e8727ea29"
+      },
+      {
+        "path": "assets/art-v4/forest-1280.webp",
+        "bytes": 250302,
+        "sha256": "4408bad418f6da62f50fe77340b73f7f31af94161d86c425d92bf26991afd843"
+      },
+      {
+        "path": "assets/art-v4/forest-320.webp",
+        "bytes": 23658,
+        "sha256": "bb5ea0480d2d40aceed2a3c50dbf5ab0bae3a3c78c7dda7025173e9f0b799f6d"
+      },
+      {
+        "path": "assets/art-v4/forest-640.webp",
+        "bytes": 83914,
+        "sha256": "b3cde1b6a75610ee19f3afb5c30a761d08fc44c7ef8e6262435ee88deecf2df9"
+      },
+      {
+        "path": "assets/art-v4/forest-960.webp",
+        "bytes": 164022,
+        "sha256": "933af8d7ccc0e4fc86b7d1f8e1765784c3447ab336b1230a15add3eaf4274924"
+      },
+      {
+        "path": "assets/art-v4/forest-source.png",
+        "bytes": 2939381,
+        "sha256": "dcfead24f8fafdca8eefc32fc39bd06f68eb4cd289421eaa71da1ff23b78bb04"
+      },
+      {
+        "path": "assets/art-v4/guild-1280.webp",
+        "bytes": 102462,
+        "sha256": "e8f79550ae8396a1dda92a3b15f562a5e8de9baa425e2839b0bf06ac8ca9a600"
+      },
+      {
+        "path": "assets/art-v4/guild-320.webp",
+        "bytes": 11044,
+        "sha256": "57559a3657d0307aff79e5babe7af071bbc3d2377e96699bd7e8259491e488c3"
+      },
+      {
+        "path": "assets/art-v4/guild-640.webp",
+        "bytes": 33884,
+        "sha256": "d021e31cef1d0057826ff7c095a68a29f176f0ea2b0c942ef87ef0b5dd65bf70"
+      },
+      {
+        "path": "assets/art-v4/guild-960.webp",
+        "bytes": 65402,
+        "sha256": "9f9cbd867250ef9981588f8dfb932a6317e809fcbab09ef60d2f86e67821cc0f"
+      },
+      {
+        "path": "assets/art-v4/guild-source.png",
+        "bytes": 2099720,
+        "sha256": "c4305b3abc90284b3f0a3d2837d397f4a36b935d0660b3f62003f633b473bdb3"
+      },
+      {
+        "path": "assets/art-v4/workshop-1280.webp",
+        "bytes": 90246,
+        "sha256": "36b3a7d280ea66d298c25a50d3838a46096099c52fead87fa79117a406a870ab"
+      },
+      {
+        "path": "assets/art-v4/workshop-320.webp",
+        "bytes": 8862,
+        "sha256": "25b903b34495365d857e075b31a885c9ec80b5fa7f452870515b8e0cbb263f03"
+      },
+      {
+        "path": "assets/art-v4/workshop-640.webp",
+        "bytes": 29952,
+        "sha256": "85e943cf780580fb0f0c1983340bce240a41907e6b903a885c53ab887a370590"
+      },
+      {
+        "path": "assets/art-v4/workshop-960.webp",
+        "bytes": 59190,
+        "sha256": "ef843ccbc1a6befac2a1e79cdedb01f7b1243228959d69c43dd9f5234eb77568"
+      },
+      {
+        "path": "assets/art-v4/workshop-source.png",
+        "bytes": 2034234,
+        "sha256": "06443b627d525feea49f443a496e08bd83ec3c5445f6e325db6e106e14a75099"
+      },
+      {
+        "path": "assets/art-v5/asset-manifest.json",
+        "bytes": 2077,
+        "sha256": "922522bf8e5c3368e9458b364f923f8a16fb29baabf4ff476eac723d0eacb820"
+      },
+      {
+        "path": "assets/art-v5/kobold-arena-1280.webp",
+        "bytes": 64884,
+        "sha256": "df6df2fcfb97f60a986097c80eb38b719fbb2962dad9bbb7d6ac33f887b2f863"
+      },
+      {
+        "path": "assets/art-v5/kobold-arena-1672.webp",
+        "bytes": 96708,
+        "sha256": "94f8b66df0775740ea41237a27b8b409dc5d1e7cb2c89d0e7339ad77e2355bbb"
+      },
+      {
+        "path": "assets/art-v5/kobold-arena-640.webp",
+        "bytes": 19122,
+        "sha256": "7381f8ea7653e1b231c97b970558784897c963763cd0551851a4280bf611ae92"
+      },
+      {
+        "path": "assets/art-v5/kobold-arena-960.webp",
+        "bytes": 39348,
+        "sha256": "04bf65fb936a70a85d65ecb521e57f5ffc06be7bd0bed20a082b9fc011f041e9"
+      },
+      {
+        "path": "assets/art-v5/kobold-arena-source.png",
+        "bytes": 1945883,
+        "sha256": "11ba217b03dd93ac9c961e10fc392eaeefc7107d3c28733407e01a5180eea394"
+      },
+      {
+        "path": "assets/art-v6/archives-1280.webp",
+        "bytes": 93902,
+        "sha256": "981956cc6a404cea50c7ee284251e1176c44239135752ea146e3c72594be4b71"
+      },
+      {
+        "path": "assets/art-v6/archives-1672.webp",
+        "bytes": 139208,
+        "sha256": "f89718587ca4f925b0e24de2f77e31efa95ef5c4430b1ab2b2668a3fc91e298b"
+      },
+      {
+        "path": "assets/art-v6/archives-640.webp",
+        "bytes": 30370,
+        "sha256": "75fab8dae7df6677ecb7723b3c656bc0b387be6aef910cc4da8c06ef058d10a2"
+      },
+      {
+        "path": "assets/art-v6/archives-960.webp",
+        "bytes": 59524,
+        "sha256": "f018ff7114a3f285d910a6dc73432f2dea2389ead22a2ab37e9b9bfbc55bd382"
+      },
+      {
+        "path": "assets/art-v6/archives-source.png",
+        "bytes": 2093983,
+        "sha256": "931647086425882c099790b23b7f9c913bae6bda2f00d37054a415b7114e07a5"
+      },
+      {
+        "path": "assets/art-v6/asset-manifest.json",
+        "bytes": 2043,
+        "sha256": "ff4bbda3edbd6a855b3fa393f155dfc6606c6d8e01e7523b4ca70dc92367d933"
+      },
+      {
+        "path": "assets/audio/nameless-echoes-2.mp3",
+        "bytes": 4119408,
+        "sha256": "c08379c848e1dcd9cb9927496ffa6483c2aebbcc1ca39a4a14785cc2c47730c8"
+      },
+      {
+        "path": "assets/audio/nameless-echoes.mp3",
+        "bytes": 3961189,
+        "sha256": "678943dd226efe132ed6a28e8beee3677b8c12132d81afe467dd540b2c427e4f"
+      },
+      {
+        "path": "assets/audio/nameless-oath.mp3",
+        "bytes": 3923300,
+        "sha256": "9888a18d7d4487874daebebb3ddeacbffc254b76010e2264284ed4b8bb34821a"
+      },
+      {
+        "path": "assets/brand/apple-touch-icon.png",
+        "bytes": 44155,
+        "sha256": "e6e7000cbb31c4b1b45db623a9caffb3b58544723108a8ed0953efa8a10cf106"
+      },
+      {
+        "path": "assets/brand/favicon-192.png",
+        "bytes": 49214,
+        "sha256": "17e380caa5907b44de7f1a65bae8752fc9b5d2d7eb675751845446b8f0d80d31"
+      },
+      {
+        "path": "assets/brand/favicon-32.png",
+        "bytes": 2316,
+        "sha256": "d935736817b5ee5844d25eaf2af5e730c0530063049aa5784ad50269567a6547"
+      },
+      {
+        "path": "assets/brand/favicon-64.png",
+        "bytes": 7556,
+        "sha256": "d1049cd4619661eb974d68d968bb0c1792eb25730edbab834449fc58c68d9a59"
+      },
+      {
+        "path": "assets/brand/favicon.svg",
+        "bytes": 10265,
+        "sha256": "1e6a205adc03c40bc358aa1f34b26917afea8a7b8a55793c8d185bf5bbcbb680"
+      },
+      {
+        "path": "assets/brand/nameless-emblem-128.webp",
+        "bytes": 9756,
+        "sha256": "2cf04be7cb5cecb1c2bea3f7ddf62135b48a4238b27d29d06d1af919fae4dd00"
+      },
+      {
+        "path": "assets/brand/nameless-emblem-256.webp",
+        "bytes": 28132,
+        "sha256": "d8090c27efd3bef72ff2015d5858c795400a3f6e86d9e3183920d3edee4a3bb9"
+      },
+      {
+        "path": "assets/brand/nameless-emblem-512.webp",
+        "bytes": 83568,
+        "sha256": "19e06a33ac226cff39596c8df1cfadecd5e59b9f145826707ce31f15a84b9699"
+      },
+      {
+        "path": "assets/brand/nameless-emblem-64.webp",
+        "bytes": 3320,
+        "sha256": "a143b3724fabf1cf2c25a170ae0025058c43862e21c03fd16b69e03ea2f854d4"
+      },
+      {
+        "path": "assets/brand/nameless-emblem-768.webp",
+        "bytes": 166438,
+        "sha256": "241af4b7f9daddeed09f26f837398ed8da060ef5e09f0734f8aaa3a3ebfcfe63"
+      },
+      {
+        "path": "assets/brand/nameless-hero-boss-mobile.webp",
+        "bytes": 101294,
+        "sha256": "09c63548651815e6888798ddcb309d61455e6f2e340c1a00279303d5ece46e17"
+      },
+      {
+        "path": "assets/brand/nameless-hero-boss.png",
+        "bytes": 2322952,
+        "sha256": "291d31c70af008e43ba6e84305403e52d9dc9ba543f900f20f9e0b7937f9c4f5"
+      },
+      {
+        "path": "assets/brand/nameless-hero-boss.webp",
+        "bytes": 279766,
+        "sha256": "12aa7c087f1db6f941972814cea56bdd2e2199dd7af803fd011b28605bfecc51"
+      },
+      {
+        "path": "assets/brand/nameless-hero-mobile.webp",
+        "bytes": 30908,
+        "sha256": "6f00d66699aabc8ac2b4557415b348ed21744abc41e35033e16fe96027f9848e"
+      },
+      {
+        "path": "assets/brand/nameless-hero.png",
+        "bytes": 1667502,
+        "sha256": "1ab65ca0578d8bdcb36bb60a1b05edb04bded172c9d078ca31596ee99dad891c"
+      },
+      {
+        "path": "assets/brand/nameless-hero.webp",
+        "bytes": 90154,
+        "sha256": "9f0a8a4451242d4b16673c3c508383e0364129d5026ff3d1dd23ab64832b1eb0"
+      },
+      {
+        "path": "assets/brand/nameless-logo-horizontal.svg",
+        "bytes": 1372,
+        "sha256": "ab4301be600d07a66e69c17a43d6c58324cd2288c9175432ef4c04476ea06c40"
+      },
+      {
+        "path": "assets/brand/nameless-logo.png",
+        "bytes": 1536502,
+        "sha256": "8afaaa6a804362e36a7a5a20ebbb6bb3a81307c71e6f8515a4cf9b575202cb9b"
+      },
+      {
+        "path": "assets/brand/nameless-logo.webp",
+        "bytes": 83568,
+        "sha256": "19e06a33ac226cff39596c8df1cfadecd5e59b9f145826707ce31f15a84b9699"
+      },
+      {
+        "path": "assets/brand/nameless-mark.svg",
+        "bytes": 13198,
+        "sha256": "f4381419f2eeffc7f6f8bc19f3bc28da906ba58f6c3f71780e6ed268144af211"
+      },
+      {
+        "path": "assets/brand/nameless-reference-emblem.svg",
+        "bytes": 756,
+        "sha256": "01f6a6f00ac840e29bc3833090bd6586bf4c101d9c14f5bfd4eee9bbf9c30512"
+      },
+      {
+        "path": "assets/brand/nameless-social-logo.png",
+        "bytes": 276152,
+        "sha256": "a9e413d88d8006eb5add847656a5f86e1338e0a475dbed916749c91edcf3a129"
+      },
+      {
+        "path": "assets/brand/page-font-bestiaire-mobile.webp",
+        "bytes": 84914,
+        "sha256": "5c432d025f66043b03179360d6cc1c870df6862345ba032a5b3e10aab962c13a"
+      },
+      {
+        "path": "assets/brand/page-font-bestiaire.png",
+        "bytes": 2170156,
+        "sha256": "f6730dfdbcfb1f080a9948ed3b5e80852c43f854c3f800d78b9cd7c39336a367"
+      },
+      {
+        "path": "assets/brand/page-font-bestiaire.webp",
+        "bytes": 238366,
+        "sha256": "c6273c50dd38009c7db85649e8185052166e634692a1e5207384ed2e947e8697"
+      },
+      {
+        "path": "assets/brand/page-font-items-mobile.webp",
+        "bytes": 102462,
+        "sha256": "c61287f1b8d2f54c59c95141a471582a49d863ddd88c6680e61d87a9333536e5"
+      },
+      {
+        "path": "assets/brand/page-font-items.png",
+        "bytes": 2258533,
+        "sha256": "5342d3218263337397682e989af4ec49856a4138a18bba84842d5a103e05cdb6"
+      },
+      {
+        "path": "assets/brand/page-font-items.webp",
+        "bytes": 268256,
+        "sha256": "9370fb07f0493c27ecc1717a24b889f10794251b77b8ff50810296a117eba625"
+      },
+      {
+        "path": "assets/brand/page-font-map-mobile.webp",
+        "bytes": 130470,
+        "sha256": "36bfe8ae6d14b983a2a52ec1bad1f1de73bae233241f9057ce6605b9328bc248"
+      },
+      {
+        "path": "assets/brand/page-font-map.png",
+        "bytes": 2607929,
+        "sha256": "439e330ceefc7c3f7486fe18df209618c385a182958325558636072f2a98112b"
+      },
+      {
+        "path": "assets/brand/page-font-map.webp",
+        "bytes": 570046,
+        "sha256": "2b813f01b909cfff3866ec8cc5e1215ec6e6509677b29f638f3b1523807db949"
+      },
+      {
+        "path": "assets/brand/page-font-profil-mobile.webp",
+        "bytes": 74656,
+        "sha256": "ccdf068c3aae7f5a01450d1e12609886a8b328fc4efbb9528a7b05036bb35081"
+      },
+      {
+        "path": "assets/brand/page-font-profil.png",
+        "bytes": 2030611,
+        "sha256": "c5d27671be18d9faf2b138a94823fd6ed92d9fc2f9eb29f87844b35fbcbb6f58"
+      },
+      {
+        "path": "assets/brand/page-font-profil.webp",
+        "bytes": 209430,
+        "sha256": "69ba4ac17b042a7d75f63c3d5bf38a67c90f06f579dfa635c3aa233ec9caeae8"
+      },
+      {
+        "path": "assets/brand/page-font-quetes-mobile.webp",
+        "bytes": 98346,
+        "sha256": "09875d117d0676e0f460a41c28eda5e2a50b7a7360f340f48a3e48ffb3586310"
+      },
+      {
+        "path": "assets/brand/page-font-quetes.png",
+        "bytes": 2242075,
+        "sha256": "1aa977ce761711cd8b6926362b6d861b64ec7ed6446525f9ffec925884070af9"
+      },
+      {
+        "path": "assets/brand/page-font-quetes.webp",
+        "bytes": 277182,
+        "sha256": "e0044e1b04624a74c79b067434353a2b69184390a2bc04a474594bd78e1a7841"
+      },
+      {
+        "path": "assets/brand/page-font-wiki-mobile.webp",
+        "bytes": 111014,
+        "sha256": "9e79c1a3a13f9d16dd5fdbf7022a1ab35b87a8763b71bca3bd3c0e9c39a5db9e"
+      },
+      {
+        "path": "assets/brand/page-font-wiki.png",
+        "bytes": 2382995,
+        "sha256": "2952bd463360d0f5d05075d7a6e90c7d4d8f8417afd37751406dd933d89c00c3"
+      },
+      {
+        "path": "assets/brand/page-font-wiki.webp",
+        "bytes": 308986,
+        "sha256": "2ad248fecc1548ad37b2b5eb7425093ee4e282e2b517296db5f9fa46e97798c5"
+      },
+      {
+        "path": "assets/brand/pinned-tab.svg",
+        "bytes": 846,
+        "sha256": "60b163602fc87d634a11930073b78d96da62eaca93c6dc6b0cb3de59d6c94f59"
+      },
+      {
+        "path": "assets/brand/social-cover.jpg",
+        "bytes": 221408,
+        "sha256": "89a880c9e3de0d4875fe6ac6c691fb18b6b6a4af43cb88c7289a98cfdb516441"
+      },
+      {
+        "path": "assets/caroussel_ensemble.png",
+        "bytes": 1674073,
+        "sha256": "6ceabced43ee81410589de7794a9fe1b02376e6ff017d26e82f4532fd9389f1c"
+      },
+      {
+        "path": "assets/caroussel_ensemble.webp",
+        "bytes": 122762,
+        "sha256": "9a82f380d7d6479134be7fc06c92e81c0ff03ab04e3357fd1874a2311926108b"
+      },
+      {
+        "path": "assets/caroussel_recrutement.png",
+        "bytes": 1436403,
+        "sha256": "6bc3f20733d86d7951945f54dbd26ababf4f92ec45c65770b08afaea189ca499"
+      },
+      {
+        "path": "assets/caroussel_recrutement.webp",
+        "bytes": 83164,
+        "sha256": "662ca0d1386671c6ce9e62a4eb858bbb4a2862a70f657d8d63fc86126dca8b41"
+      },
+      {
+        "path": "assets/carte-overview-mobile.webp",
+        "bytes": 530752,
+        "sha256": "f2e8cf638071a5d6f8be56fc3ca2c25d9091baa42a2e7782100b0b8ceaf0e0c5"
+      },
+      {
+        "path": "assets/carte-overview.webp",
+        "bytes": 1251712,
+        "sha256": "e62a7474f6095f259ce4b29a3fa1ed198d2327550bf6ed6928d70dbe56a5f53f"
+      },
+      {
+        "path": "assets/carte.png",
+        "bytes": 9757890,
+        "sha256": "738741f1f63954dbcf9384f88a7e2b5717f0fd6fdbd4df1cf90735a390545011"
+      },
+      {
+        "path": "assets/carte.webp",
+        "bytes": 8383564,
+        "sha256": "e1cc3d07e5b6d199972b4cd1e53887d4d43abf2b724624e07acba6ea1b070098"
+      },
+      {
+        "path": "assets/font_nameless_bestiaire.png",
+        "bytes": 2170156,
+        "sha256": "f6730dfdbcfb1f080a9948ed3b5e80852c43f854c3f800d78b9cd7c39336a367"
+      },
+      {
+        "path": "assets/font_nameless_carte.png",
+        "bytes": 2607929,
+        "sha256": "439e330ceefc7c3f7486fe18df209618c385a182958325558636072f2a98112b"
+      },
+      {
+        "path": "assets/font_nameless_items.png",
+        "bytes": 2258533,
+        "sha256": "5342d3218263337397682e989af4ec49856a4138a18bba84842d5a103e05cdb6"
+      },
+      {
+        "path": "assets/font_nameless_quêtes.png",
+        "bytes": 2242075,
+        "sha256": "1aa977ce761711cd8b6926362b6d861b64ec7ed6446525f9ffec925884070af9"
+      },
+      {
+        "path": "assets/font_nameless_wiki.png",
+        "bytes": 2382995,
+        "sha256": "2952bd463360d0f5d05075d7a6e90c7d4d8f8417afd37751406dd933d89c00c3"
+      },
+      {
+        "path": "assets/font_nameless.png",
+        "bytes": 1667502,
+        "sha256": "1ab65ca0578d8bdcb36bb60a1b05edb04bded172c9d078ca31596ee99dad891c"
+      },
+      {
+        "path": "assets/fonts/cinzel-latin-ext.woff2",
+        "bytes": 14540,
+        "sha256": "8fc2606f8ae6c569f444e138dba052d9a6e3f0657f9031796503bbb94eced600"
+      },
+      {
+        "path": "assets/fonts/cinzel-latin.woff2",
+        "bytes": 25904,
+        "sha256": "09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370"
+      },
+      {
+        "path": "assets/fonts/cinzel-OFL.txt",
+        "bytes": 4383,
+        "sha256": "f2b3029aba64c378bf0963b62945eee15e564fe4330b934c8f2eb058282b5e83"
+      },
+      {
+        "path": "assets/fonts/inter-latin-ext.woff2",
+        "bytes": 85068,
+        "sha256": "34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956"
+      },
+      {
+        "path": "assets/fonts/inter-latin.woff2",
+        "bytes": 48256,
+        "sha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62"
+      },
+      {
+        "path": "assets/fonts/inter-OFL.txt",
+        "bytes": 4377,
+        "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+      },
+      {
+        "path": "assets/fonts/sources.json",
+        "bytes": 561,
+        "sha256": "74deff1c1417ee35a146f6bd9c7e749cfa637f20a3217832a7f2cb2ce2026f58"
+      },
+      {
+        "path": "assets/home/aincrad-minecraft-1440.webp",
+        "bytes": 125134,
+        "sha256": "8b8620c309bc310ae7e835b9bf1814f69863542af2cb16db0cb8a0b2d892fd25"
+      },
+      {
+        "path": "assets/home/aincrad-minecraft-1920.webp",
+        "bytes": 201012,
+        "sha256": "4e50fec3667262c1ca39100a72b218a39f4e45b5078b34a4c2a6c0a3b4fa034d"
+      },
+      {
+        "path": "assets/home/aincrad-minecraft-960.webp",
+        "bytes": 61494,
+        "sha256": "e4b41694e067a90ca0dcc8c28221c7d9db0e9776189f90d40d098f2498585d62"
+      },
+      {
+        "path": "assets/home/aincrad-minecraft-mobile.webp",
+        "bytes": 50826,
+        "sha256": "4332905f7e31fe07f85e7eb59ff733a24f81cc542e5675b6621fcaa70416efa4"
+      },
+      {
+        "path": "assets/home/bestiary-256.webp",
+        "bytes": 6852,
+        "sha256": "6822f81051904400a502e1c83ab80c7b61847e91940460c12bbfc8de67ad8d00"
+      },
+      {
+        "path": "assets/home/bestiary-512.webp",
+        "bytes": 23460,
+        "sha256": "c110e945f87a6c33d6411269189498bd08ee23031ab7f177c61d28587b241957"
+      },
+      {
+        "path": "assets/home/gorbel-256.webp",
+        "bytes": 18744,
+        "sha256": "acefed5be63fa102d993d2872c9b6659a32bb6eadde6b31b4a33c3a88f1090ef"
+      },
+      {
+        "path": "assets/home/guild-256.webp",
+        "bytes": 6788,
+        "sha256": "b8a1ebe395e8050f7f770e724587f282652ba7c718927b23c6b1671681e25fa3"
+      },
+      {
+        "path": "assets/home/guild-512.webp",
+        "bytes": 21308,
+        "sha256": "98a9e0fe19abcf8b2d0e9533e60cd494b77d027fbf09d48b1456e91fbf5f6eb6"
+      },
+      {
+        "path": "assets/home/illfang-256.webp",
+        "bytes": 13464,
+        "sha256": "fe3088f56fbdcb0b2e5ef7e6336258867130de0faee01277ed5e43fe4e4de1c2"
+      },
+      {
+        "path": "assets/home/items-256.webp",
+        "bytes": 8756,
+        "sha256": "a053ad6381dd5efde2f515a431eb5f2d66aa8c5a688e8147fda25068ea49d321"
+      },
+      {
+        "path": "assets/home/items-512.webp",
+        "bytes": 29436,
+        "sha256": "421462bfe674fe7757a124f4c92809ff303e1f2d141f43782b23c58869d64076"
+      },
+      {
+        "path": "assets/home/map-256.webp",
+        "bytes": 8960,
+        "sha256": "9a8abb8cadee4c976531e9e16dce3142a80c426c721369334389dd21897cbb52"
+      },
+      {
+        "path": "assets/home/map-512.webp",
+        "bytes": 32970,
+        "sha256": "e4e1b5d1a0519219b237a026b1dce532f9196b5f6172247841ddfa2274eb8553"
+      },
+      {
+        "path": "assets/home/sao-city-1600.webp",
+        "bytes": 151128,
+        "sha256": "258b62bd854bfeb37e71cb36699d8d90ce2dcd342cf796b2d85c5a57b4cb172e"
+      },
+      {
+        "path": "assets/home/sao-city-1920.webp",
+        "bytes": 220884,
+        "sha256": "5eee780b21311e0bfd348072ea628dea3d0a2a887c8a91c8bec86ded78202f0e"
+      },
+      {
+        "path": "assets/home/sao-city-960.webp",
+        "bytes": 54648,
+        "sha256": "aaabb69203bf3c96397928a522bc9fe5e2cf5dce14379780986d632cdeba4d33"
+      },
+      {
+        "path": "assets/home/sao-city-mobile.webp",
+        "bytes": 52616,
+        "sha256": "1c0607a9e5d7c05c2684b165d86bfe34e6fcb9b1e6de9c6f0b1dd8565db25a6f"
+      },
+      {
+        "path": "assets/home/sao-guild-256.webp",
+        "bytes": 6788,
+        "sha256": "b8a1ebe395e8050f7f770e724587f282652ba7c718927b23c6b1671681e25fa3"
+      },
+      {
+        "path": "assets/home/sao-guild-512.webp",
+        "bytes": 21308,
+        "sha256": "98a9e0fe19abcf8b2d0e9533e60cd494b77d027fbf09d48b1456e91fbf5f6eb6"
+      },
+      {
+        "path": "assets/home/sao-map-256.webp",
+        "bytes": 13094,
+        "sha256": "40afbe8352058858dd956079f68c70ae918fbbb98dd3248b6251e03729d5f7dc"
+      },
+      {
+        "path": "assets/home/sao-map-512.webp",
+        "bytes": 60564,
+        "sha256": "3eb95f4d2c8a5ad518a4a789df683f43efb134cc2597fd9b95ec9133c704c723"
+      },
+      {
+        "path": "assets/home/white-wolf-256.webp",
+        "bytes": 14760,
+        "sha256": "cc64d93ab0086591cc38b0c7a62097dfaf953234302d4907646fdb1fc6db7c27"
+      },
+      {
+        "path": "assets/items/Accessoires/AnneaudelaFaucheuse.png",
+        "bytes": 562,
+        "sha256": "e6a290cfc5fb4cd75d725e6b638b1cbf3a99617630a3bdcb50f9f3b0ba7fdd91"
+      },
+      {
+        "path": "assets/items/Accessoires/AnneaudeLéviathan.png",
+        "bytes": 557,
+        "sha256": "6da92030153f1d348476d43b8b97457d0136b63f90442c0d581464f3b840ad14"
+      },
+      {
+        "path": "assets/items/Accessoires/Anneaudepacte.png",
+        "bytes": 638,
+        "sha256": "11c0ca98732354d7e95128fc9cbe6b05b120633ebb91c7f0664141dcd0e5d8d0"
+      },
+      {
+        "path": "assets/items/Accessoires/CollierdeAragorn.png",
+        "bytes": 585,
+        "sha256": "28001d58dda67143dd428728d21dca522f267507dee548ba54496f88565cee25"
+      },
+      {
+        "path": "assets/items/Armes/BatonduSorcierduShaman.png",
+        "bytes": 908,
+        "sha256": "25e1467df72504a208b8b9931356d23f480e36690e5fcfc27bfb0556d409643b"
+      },
+      {
+        "path": "assets/items/Consommables/Clédelaforêt.png",
+        "bytes": 405,
+        "sha256": "1dc3f7f3db7eafbd494582d4f7f643cb359f07161edfb325f382fb9765ed2a73"
+      },
+      {
+        "path": "assets/items/Consommables/ClédesDechus.png",
+        "bytes": 393,
+        "sha256": "b7703aac121386627093b872b11c8375ccc3c62bbe46ce6b20d11dbfd1878c48"
+      },
+      {
+        "path": "assets/items/Consommables/ClédeXalZirith.png",
+        "bytes": 441,
+        "sha256": "9608fba9ebb7f756c99e627c9a8377110318caea5c2594d7bbbf96f7fef6cef9"
+      },
+      {
+        "path": "assets/items/Consommables/CléHalloween.png",
+        "bytes": 1150,
+        "sha256": "f21c6b9eb702aa51f95c54f8f0c08f50a7c559baa9afe99049d7f4f662bb8dd9"
+      },
+      {
+        "path": "assets/items/Consommables/CléOverall.png",
+        "bytes": 2460,
+        "sha256": "df296dd743ffb44db5aea34c79b46650eecff411fffab7076c9e94819da7a299"
+      },
+      {
+        "path": "assets/items/Consommables/CristaldePotion.png",
+        "bytes": 786,
+        "sha256": "a7cf64398aa4a25400907c9516c5b7626b63b2c1a3c0c68b907447a23d4eace3"
+      },
+      {
+        "path": "assets/items/Consommables/CristalDHalloween.png",
+        "bytes": 773,
+        "sha256": "ce545a157800e7d5e833848b3bb67050063fed829093b65359e0b3e45772a709"
+      },
+      {
+        "path": "assets/items/Consommables/CristalduSoutienI.png",
+        "bytes": 772,
+        "sha256": "188b1249e07f5318b6be4bde9d4b1f749f96be1247f590086cd054d056b46758"
+      },
+      {
+        "path": "assets/items/Consommables/ParchemindeMaîtrise.png",
+        "bytes": 4165,
+        "sha256": "7766df4a9bc33cfd47e766b90f0de889c09a852e5f4fabc2ea68c2753e946de3"
+      },
+      {
+        "path": "assets/items/Consommables/ParchemindeRéallocation.png",
+        "bytes": 4124,
+        "sha256": "da7fcd2280daff9ace0d6ec1f0739d4f863d81556f6efc5d0a94a26d58fdf67c"
+      },
+      {
+        "path": "assets/items/Consommables/Potion de Mana Moyenne.png",
+        "bytes": 785,
+        "sha256": "9a14f3c83c3e9644e03bd3f1e7756ba2e0e18f0b0c4b7629338682f512c4be49"
+      },
+      {
+        "path": "assets/items/Consommables/Potion de Mana Supérieur.png",
+        "bytes": 992,
+        "sha256": "a7510a90735b7b6a68b26ad4e2b8d2ef6ea588ffe52f7ab9a7e983e0084f0acf"
+      },
+      {
+        "path": "assets/items/Consommables/PotiondAlbal.png",
+        "bytes": 1667,
+        "sha256": "a6136f0760583dc8ec6b4cb8dac442649cd5798621315cfb69b47ff6558bc8cc"
+      },
+      {
+        "path": "assets/items/Consommables/PotiondeMana.png",
+        "bytes": 2623,
+        "sha256": "42c251ae9a6edbd73e83b1011593ece82d09835b45705b7a85f2f87aeda52012"
+      },
+      {
+        "path": "assets/items/Consommables/PotiondeVieI.png",
+        "bytes": 477,
+        "sha256": "c7475f228501066750d7de91758c041e5bfee2355909a655a0834597bd59592d"
+      },
+      {
+        "path": "assets/items/Consommables/PotiondeVieII.png",
+        "bytes": 788,
+        "sha256": "0cf66670c71e3c9aee57bf547df5eb65c7653a11fdfea08aebb9d14c15cf5e06"
+      },
+      {
+        "path": "assets/items/Consommables/PotiondeVieIII.png",
+        "bytes": 1000,
+        "sha256": "1801daadcb4803a85b717ac7e4b40cd76bd5e629f1b962f87de0c8fe7202c73a"
+      },
+      {
+        "path": "assets/items/Consommables/PotionduMartyr.png",
+        "bytes": 3596,
+        "sha256": "9b2ef38fd258682a6b369f9a59170fd4f8f2f971f54cce9442fb0d41267110c6"
+      },
+      {
+        "path": "assets/items/Consommables/SandwichdeNephantes.png",
+        "bytes": 3588,
+        "sha256": "95801b851e69a8979c2cbb0d8447830fde23134b0b7f75f5272f648b84228bce"
+      },
+      {
+        "path": "assets/items/Consommables/ViandedeSanglier.png",
+        "bytes": 3031,
+        "sha256": "26c73a7926f13a557a4d96e6e6b3eed20ff797b7bb2961c3f4e0ff1e9e51624e"
+      },
+      {
+        "path": "assets/items/default.png",
+        "bytes": 71130,
+        "sha256": "47a988c6a16ed37d622545aa49bc33a2d0d8d8ab38a1c744efde7f52efd5b362"
+      },
+      {
+        "path": "assets/items/Familiers/KrynnLeFléauMuticolore.png",
+        "bytes": 5455,
+        "sha256": "58b25838ccdfc317c1f9d47b16096b1fbc0a8afb3a6c9de8d4cf26cf3cf83ce2"
+      },
+      {
+        "path": "assets/items/Familiers/PetFrankenstein.png",
+        "bytes": 3576,
+        "sha256": "6ce23825561f92adc49f3771c78fd47a87da28fff00b16ac7d4e18262d6c3fc4"
+      },
+      {
+        "path": "assets/items/Montures/MontureBalaisVolant.png",
+        "bytes": 2654,
+        "sha256": "d53b6e68204f8471ff7a17688855eaf773a65a46a3cc5db37f94aeed9276e0c1"
+      },
+      {
+        "path": "assets/items/Outils/Canneàpêche.png",
+        "bytes": 429,
+        "sha256": "69e27be8b9ccdc82e9e9f1e0adef2d52fd85c279bda8df7f8210500a81fdb7f3"
+      },
+      {
+        "path": "assets/items/Outils/Hacheébréchée.png",
+        "bytes": 866,
+        "sha256": "7975dde795eeb406a60ea7ea53f03a256934c1e968ee38d31f15a0e45de83858"
+      },
+      {
+        "path": "assets/items/Outils/PinceauMagique.png",
+        "bytes": 431,
+        "sha256": "18cbfb18e7757e078981f2620130abc742ce8038b9206211357739cad76372ca"
+      },
+      {
+        "path": "assets/items/Outils/PiocheFêlée.png",
+        "bytes": 877,
+        "sha256": "99cfac2b5f0933dd7f645f34ead16b4ad3a61f886cdd58a26770bb94b145fcf3"
+      },
+      {
+        "path": "assets/items/Outils/SerpeTordue.png",
+        "bytes": 881,
+        "sha256": "40e7307f5ffdaa3a222f36bddaa23a417c42cb1a10856865e4e04bce6fcd3a58"
+      },
+      {
+        "path": "assets/items/Ressources/AileTénébreuse.png",
+        "bytes": 2215,
+        "sha256": "102cba52d482843b09806ac5a6b44fdb4df546b7127b433b061a0bddda0c96f7"
+      },
+      {
+        "path": "assets/items/Ressources/ÂmedelHerald.png",
+        "bytes": 499,
+        "sha256": "de9a4732cfb252086b73c6d52664fabf5f397a6fa628435b2f3dae400488abe3"
+      },
+      {
+        "path": "assets/items/Ressources/Âmedesruines.png",
+        "bytes": 439,
+        "sha256": "c81563b06f24e4b4e5f0260a31e4d5a968d314b78571eb270e511fbc3b9bedfe"
+      },
+      {
+        "path": "assets/items/Ressources/ÂmeduReaper.png",
+        "bytes": 449,
+        "sha256": "c0aa0d6cd78eeeea94b2df96ec573bde7067d963cccc15679d7326843ff1e45b"
+      },
+      {
+        "path": "assets/items/Ressources/ÂmeduWarden.png",
+        "bytes": 502,
+        "sha256": "fa1584d6bb14d784e2f91e4fbb630ce2a6eabd2123748cd142fc85eb1d4c3491"
+      },
+      {
+        "path": "assets/items/Ressources/BonbonSucréeauSucre.png",
+        "bytes": 3778,
+        "sha256": "ea5063905e5ada646d9fed5f84e571e8dcbd95b48ea2bd276855b336a8497bfc"
+      },
+      {
+        "path": "assets/items/Ressources/BrindilleEnchantées.png",
+        "bytes": 706,
+        "sha256": "856019af7953b24284274f4ebfffb266e82ec5829cfde7b7bcf25960d58acdae"
+      },
+      {
+        "path": "assets/items/Ressources/BuchedeBouleau.png",
+        "bytes": 3483,
+        "sha256": "e85f5a2db199974aef2b623bec0903822f6edeb8ab3bfe1d2a4e827492241942"
+      },
+      {
+        "path": "assets/items/Ressources/BuchedeChêne.png",
+        "bytes": 3224,
+        "sha256": "4c8481a73386fd53a1385364679093df53fe93dc7d7ce2143a7f9441a3f12bef"
+      },
+      {
+        "path": "assets/items/Ressources/CarapacedIka.png",
+        "bytes": 424,
+        "sha256": "effa432590f7ccc9599f6663b01ac252d953ef71ef441c19c0bf0b8f941ea252"
+      },
+      {
+        "path": "assets/items/Ressources/CarapcedeRequin.png",
+        "bytes": 548,
+        "sha256": "791d83054561b1312c9860d40b265e339841369c3593366f68cf8c71a3a2e396"
+      },
+      {
+        "path": "assets/items/Ressources/CendredeSarcophage.png",
+        "bytes": 4448,
+        "sha256": "d46ef270d5cc8f29511f868637ea331100d12503d1942a5a6968cca3e9a2073a"
+      },
+      {
+        "path": "assets/items/Ressources/CoeurArcanique.png",
+        "bytes": 4167,
+        "sha256": "7e398b34cf14906b3912b263ecebb922692c3f440919411aacd693256006f32b"
+      },
+      {
+        "path": "assets/items/Ressources/CoeurdeBois.png",
+        "bytes": 4152,
+        "sha256": "7c3764ae8768077655b733588300a5f59c559eefde520e3627230953796e3790"
+      },
+      {
+        "path": "assets/items/Ressources/CoeurdeFlammes.png",
+        "bytes": 1846,
+        "sha256": "d61888688dc79d42779c19af7be818433ec5076bc950353c5773746d1b9f2aca"
+      },
+      {
+        "path": "assets/items/Ressources/CoeurdeNautherion.png",
+        "bytes": 811,
+        "sha256": "b4ac082097c616055a79f0c1cd130d945afe2f8a2426d4f8c15fbd9cfc43c446"
+      },
+      {
+        "path": "assets/items/Ressources/CoeurNécrotique.png",
+        "bytes": 3489,
+        "sha256": "02700a153a97273ae901eb8f70533dccc744edef48915044ed28c6abc7c2ff21"
+      },
+      {
+        "path": "assets/items/Ressources/CoeurPutrifié.png",
+        "bytes": 3536,
+        "sha256": "e2395a2fc0f52578950b88c8b858c9fe8f23dc49e79d49dfed862440026175e0"
+      },
+      {
+        "path": "assets/items/Ressources/CordedarcSylvestre.png",
+        "bytes": 2793,
+        "sha256": "d3512ac218a54e4f4bd9d6d4557e3c983e279f79f506bf943f9671485a35cc32"
+      },
+      {
+        "path": "assets/items/Ressources/CorneEbrechée.png",
+        "bytes": 2948,
+        "sha256": "9668592ad8bc3e1870f046596084a9f154b42b5f25de46eaae5e49f2a308938e"
+      },
+      {
+        "path": "assets/items/Ressources/Crinière.png",
+        "bytes": 482,
+        "sha256": "5cfecb9d1c6c55e742b647c63db59a6ef4331ff88ecdf2bfc8a0f196cb2dab15"
+      },
+      {
+        "path": "assets/items/Ressources/CristalCorrompu.png",
+        "bytes": 2035,
+        "sha256": "2d466f82e8dc6fe404ff4436f646676f5cfae0d7ca28cd34d4fae2e627d6c80a"
+      },
+      {
+        "path": "assets/items/Ressources/CrocsdeLoup.png",
+        "bytes": 464,
+        "sha256": "c5a7f6697b242c15e3890ccf8d48dc38fe5389befcaf374c39a6742d5439fa50"
+      },
+      {
+        "path": "assets/items/Ressources/DébrisPutridedeChair.png",
+        "bytes": 4111,
+        "sha256": "b3fb1fa9efea98d5fd4fa2b603173593e528dd0e369ddafb958db3c5213f9cfc"
+      },
+      {
+        "path": "assets/items/Ressources/EclatdeBoisMagique.png",
+        "bytes": 483,
+        "sha256": "f082aa8b1e87c98bc6726f1ce6e329d09d3afdbea32b30959abf4417515569aa"
+      },
+      {
+        "path": "assets/items/Ressources/EcorcedeTitan.png",
+        "bytes": 1727,
+        "sha256": "a7b48236d005eb400b104144e26ee1c3b8d69bed1fe9c247e6b6166c0f379ab6"
+      },
+      {
+        "path": "assets/items/Ressources/EcorceSylvestre.png",
+        "bytes": 361,
+        "sha256": "4b0992371ad9c655db97350db08a0451b5f83719abcf47d383b597a20f142aa3"
+      },
+      {
+        "path": "assets/items/Ressources/EssencedeGorbel.png",
+        "bytes": 3031,
+        "sha256": "63e3d1903a4332af4ebdb3d83e70aacedbb006821bd41de39c4ebc4d1a9d9b93"
+      },
+      {
+        "path": "assets/items/Ressources/EssencedeMiasme.png",
+        "bytes": 2290,
+        "sha256": "532bc4aeb7a5df759f8434ccf9d676cbfba3dbb55244e126414840492f6a9656"
+      },
+      {
+        "path": "assets/items/Ressources/FildAraignée.png",
+        "bytes": 392,
+        "sha256": "3862a1fdf9de90b342b74544e344968792802b5850e6f411f4507b1d4468832c"
+      },
+      {
+        "path": "assets/items/Ressources/FildAraignéeRenforcé.png",
+        "bytes": 392,
+        "sha256": "338f673a24933f1a221d29c7fdbc659b64314451ea4623cf1e2a8daf7ade09c6"
+      },
+      {
+        "path": "assets/items/Ressources/FourruredeLoup.png",
+        "bytes": 628,
+        "sha256": "6e4a5254724b6b216f431345d43b4b78a4942feac1f379520c709dd568c69d44"
+      },
+      {
+        "path": "assets/items/Ressources/FourrureduVide.png",
+        "bytes": 3588,
+        "sha256": "9cb0eadf1aa8e2e9af4d2fd4cb544178ecb5f0e4aee8009e1917abd3aa0bde37"
+      },
+      {
+        "path": "assets/items/Ressources/FragmentCasséJaune.png",
+        "bytes": 510,
+        "sha256": "56c7db4194764b324c7de028127183f2d6676b89e8a79bcd3007c0f8f20bd966"
+      },
+      {
+        "path": "assets/items/Ressources/FragmentCasséRouge.png",
+        "bytes": 515,
+        "sha256": "5c4ee955e05068fb3ed1bbdacd254795f4d30c8038ee9619eda55dbb2ceea2fd"
+      },
+      {
+        "path": "assets/items/Ressources/FragmentdeCitrouille.png",
+        "bytes": 4472,
+        "sha256": "832cb7a673ed78e566d8cbc69d83311cb5ecea35c1c8c4328acc6871a0ddc749"
+      },
+      {
+        "path": "assets/items/Ressources/FragmentdelÂmedelOurs.png",
+        "bytes": 393,
+        "sha256": "f1930d43c83f25ca298578cd3155660a8b5277e814a2d9949fee69c7b71392f8"
+      },
+      {
+        "path": "assets/items/Ressources/FragmentsCasséViolet.png",
+        "bytes": 394,
+        "sha256": "b22442adca7997e03ab3448c9f4da1a06aca61ab834435de8581901d56c29d70"
+      },
+      {
+        "path": "assets/items/Ressources/FragmentsdeFeuilles.png",
+        "bytes": 588,
+        "sha256": "adc97f9b45543ec14257c08d70b11084c8cca61f9370fcb907b1492c737a5c56"
+      },
+      {
+        "path": "assets/items/Ressources/GeléedeSlime.png",
+        "bytes": 449,
+        "sha256": "e23df8f4d5e0ef34ec34b8d3334bb778b4fb2e7f83f89c1d3d4367f65335d004"
+      },
+      {
+        "path": "assets/items/Ressources/GriffeNocturne.png",
+        "bytes": 1674,
+        "sha256": "f27c196e4568233491946ec13de7bde1a8ea30090e85eaf46a0fa5c90f16f8e3"
+      },
+      {
+        "path": "assets/items/Ressources/Lingot cramoisi.png",
+        "bytes": 4561,
+        "sha256": "537cd7d6d82585d60131a55b9b694e173c9ab734e617cf061e3dfd1ad9ebacb7"
+      },
+      {
+        "path": "assets/items/Ressources/LingotdÂmedeMétal.png",
+        "bytes": 502,
+        "sha256": "782ab028adaadb9250e2ba8235c4283c7c5e0bab9e800ef15b834413ea5e5dee"
+      },
+      {
+        "path": "assets/items/Ressources/LingotdeCuivre.png",
+        "bytes": 618,
+        "sha256": "300b7af0f1cfbc1c45c67c2043666a5ae11446be5cfee390f23ec62be645a356"
+      },
+      {
+        "path": "assets/items/Ressources/LingotdeFer.png",
+        "bytes": 2483,
+        "sha256": "a8d37a884b1621d13a2cddca80697d08c7b35f4f97a9ae4818d187815f6ff929"
+      },
+      {
+        "path": "assets/items/Ressources/Lingotdemétalenchanté.png",
+        "bytes": 540,
+        "sha256": "ebc96a29051491fa35edeebf6737a82c6891dc3559e05f0ae3b11ec412220062"
+      },
+      {
+        "path": "assets/items/Ressources/Mineraicramoisi.png",
+        "bytes": 10002,
+        "sha256": "79363e938a26b7431498bccc1cde7a0af4abc842b2c836b8e879dafd1ca61b39"
+      },
+      {
+        "path": "assets/items/Ressources/MineraideCharbon.png",
+        "bytes": 386,
+        "sha256": "61eb426d7420c17ab74641947f8b192e0036bf888640b40f9a7d47565b7605d9"
+      },
+      {
+        "path": "assets/items/Ressources/MineraideCuivre.png",
+        "bytes": 676,
+        "sha256": "87ace0d729104742b65fa6765c29cbdcb6bb96742fb50d162af61bd7970eed49"
+      },
+      {
+        "path": "assets/items/Ressources/MineraideFer.png",
+        "bytes": 487,
+        "sha256": "facc9a2a97ab873fa8890e66aa883b837bee64212d2cde056288ee0f1607dfde"
+      },
+      {
+        "path": "assets/items/Ressources/MycéliumMagique.png",
+        "bytes": 569,
+        "sha256": "c5cb60f3a6845e59bf84632b190f75357e45a253de2e681e751ec80795dda3fb"
+      },
+      {
+        "path": "assets/items/Ressources/NoyaudeSlime.png",
+        "bytes": 4954,
+        "sha256": "28f7288d17db5ded739b9b5dc297b21a68fc9454b293cb225fc241c08c34f4c0"
+      },
+      {
+        "path": "assets/items/Ressources/OsdeSquelette.png",
+        "bytes": 4888,
+        "sha256": "be61c077867879728230e885d07d8de92e4bd7f251760cb4329e81fec8740009"
+      },
+      {
+        "path": "assets/items/Ressources/OsdeSqueletteRenforcé.png",
+        "bytes": 4081,
+        "sha256": "0d1c3c5d6dd72ec5bd8f0e4a06898cddf7ee5f3d3c2a1733c4a075a0b8594ab7"
+      },
+      {
+        "path": "assets/items/Ressources/Peau de Sanglier.png",
+        "bytes": 744,
+        "sha256": "c08aad9af4bd84e7aa1cdc6698ead3a1f764337e28c4090376c2c48c09e8ba81"
+      },
+      {
+        "path": "assets/items/Ressources/PeaudurGlacial.png",
+        "bytes": 573,
+        "sha256": "ec7536d19f55ee0d5ec76b2d4d793deb046f2bbe13f101735f2710f4112ef91f"
+      },
+      {
+        "path": "assets/items/Ressources/PetiteBourse.png",
+        "bytes": 385,
+        "sha256": "953012c25060997fa0a8a1bbc00c0e803fd46757c4a1a3fbf296f6ebd3b7cac7"
+      },
+      {
+        "path": "assets/items/Ressources/PiècedÂmedeMétal.png",
+        "bytes": 394,
+        "sha256": "79c956d763d6fd3081ac2c88e6813ee8a541714a9da5fdf891b5e6ed248fc052"
+      },
+      {
+        "path": "assets/items/Ressources/Piècedemétalenchanté.png",
+        "bytes": 565,
+        "sha256": "73e66fff95597c1744e858824a1d5495200d13f81f1e8d64220fa65bb23af4c8"
+      },
+      {
+        "path": "assets/items/Ressources/PoussedeSylve.png",
+        "bytes": 592,
+        "sha256": "550d7fab9570bbe7fa4eb196d566a616c06f238dedb904ab80600d87544fd9e5"
+      },
+      {
+        "path": "assets/items/Ressources/PoussièredEchoSpectrale.png",
+        "bytes": 3992,
+        "sha256": "5eb2e03100c0d066f11b30a1f4144240d506e66f89d823adadbcbf2e1947216f"
+      },
+      {
+        "path": "assets/items/Ressources/PoussièredeGivre.png",
+        "bytes": 1116,
+        "sha256": "35415e82b6302ded85708cad2ea1ac144232f06382ae5c969f79cfef238f1c89"
+      },
+      {
+        "path": "assets/items/Ressources/PoussièredOs.png",
+        "bytes": 6232,
+        "sha256": "7ad6cb609a7f6a5b87f6dd242430f4fa667c724bc444d05aff996652ebc329d4"
+      },
+      {
+        "path": "assets/items/Ressources/RacineAncestrale.png",
+        "bytes": 538,
+        "sha256": "a1a67fbc3a7923e6b6b39489aff22db6dbaddd2446652103abba7e7f7ea405ad"
+      },
+      {
+        "path": "assets/items/Ressources/SporeCorrompu.png",
+        "bytes": 876,
+        "sha256": "827451a6ec8a2179cb96e9109116f52ee0659aa7e8a8c639264fd30c9cf90b82"
+      },
+      {
+        "path": "assets/items/Ressources/TissudAraignée.png",
+        "bytes": 3752,
+        "sha256": "431d5aee1879be2c57b79e9dadb82fb08813bf21208231abd02f52a2f40323e8"
+      },
+      {
+        "path": "assets/items/Ressources/TissuMaudit.png",
+        "bytes": 2571,
+        "sha256": "fd1ccef8733e313400ca140558ddf823207b0775cb78cdb57dc0e69e51b0c5c5"
+      },
+      {
+        "path": "assets/items/Ressources/TissuSpectral.png",
+        "bytes": 388,
+        "sha256": "7567d5429113032bd9eceeef491c70ce6b0df72c58aaa774f9efc92dc7767cc3"
+      },
+      {
+        "path": "assets/items/Ressources/VenindAraignée.png",
+        "bytes": 4755,
+        "sha256": "24daff2f367a47bba922c357cf601e19d44f4858335c586627ece3a733688ca8"
+      },
+      {
+        "path": "assets/items/Ressources/VoiledelaBanshee.png",
+        "bytes": 3552,
+        "sha256": "bbf6e3b8a7a1ac84924f355963702986d5ab4352b21ccced8044c69755392686"
+      },
+      {
+        "path": "assets/items/Runes/RunedHalloween.png",
+        "bytes": 4920,
+        "sha256": "1dd04949b27686b16009a8c69643517a28e270cbd96f6d5a390e4b756e45c22c"
+      },
+      {
+        "path": "assets/Logo_3.png",
+        "bytes": 71130,
+        "sha256": "47a988c6a16ed37d622545aa49bc33a2d0d8d8ab38a1c744efde7f52efd5b362"
+      },
+      {
+        "path": "assets/logo_nameless.png",
+        "bytes": 2196136,
+        "sha256": "a00cf43e35e4889d700120acb1c2d12ad596ab371fa6078ef5ef403d8650abc5"
+      },
+      {
+        "path": "assets/map_assets/Donjon.png",
+        "bytes": 239814,
+        "sha256": "8817a9b717bfaaf03ff20dabe1747e58d0b7bc540a173ddbaacc03536c36b572"
+      },
+      {
+        "path": "assets/map_assets/Marchand.png",
+        "bytes": 246230,
+        "sha256": "597c493d00c1c4bc01d1af49e0df371e2c175ea841982098f433176563cb4053"
+      },
+      {
+        "path": "assets/map_assets/markers/Donjon.webp",
+        "bytes": 3730,
+        "sha256": "1911d1f2a11657ce17a69dac22004fb350ed4514badcffaeb3f627adc980a38b"
+      },
+      {
+        "path": "assets/map_assets/markers/Marchand.webp",
+        "bytes": 4756,
+        "sha256": "1f4e356e419920de2cd285c05e127287f6adf9f7deff7d643f647fcee4f0e0cc"
+      },
+      {
+        "path": "assets/map_assets/markers/Monstre.webp",
+        "bytes": 4428,
+        "sha256": "7a3349ea4a6ac5f513494b97025f8494a024cb3efe8640a8057881f87e64b570"
+      },
+      {
+        "path": "assets/map_assets/markers/Quetes-Principales.webp",
+        "bytes": 4170,
+        "sha256": "02b7cc52ad807d7585b7380aae52d453ccb35ba59e38c45d15904a5f08ce5558"
+      },
+      {
+        "path": "assets/map_assets/markers/Quetes-Secondaires.webp",
+        "bytes": 4250,
+        "sha256": "4d59b9bb20bb832bb7279f75011fe43a48f5d207e70ee3fdb9b5fd99c2576986"
+      },
+      {
+        "path": "assets/map_assets/markers/Ville.webp",
+        "bytes": 4998,
+        "sha256": "bce42256496302ab3c698506d9353cdfa3d80291ce24d0896e7d2571312e28da"
+      },
+      {
+        "path": "assets/map_assets/Monstre.png",
+        "bytes": 221534,
+        "sha256": "07466c1630cd293569c3ada8f6e54aaeab93ce27af896e39d9fb020e2de8bb15"
+      },
+      {
+        "path": "assets/map_assets/Quetes-Principales.png",
+        "bytes": 776491,
+        "sha256": "21786f98a3f0062b70d44723899640143415df2dabd1acf44093b9813d57e82e"
+      },
+      {
+        "path": "assets/map_assets/Quetes-Secondaires.png",
+        "bytes": 229584,
+        "sha256": "f128a26064a27e5314e7c334766a2f035426e6a1a531dc2a91716abd2a4f2a45"
+      },
+      {
+        "path": "assets/map_assets/Ville.png",
+        "bytes": 254467,
+        "sha256": "4e7962e6938dc3c55471d35a9cf99fb4d2fac4e97cbde0b347f82a83aa20649c"
+      },
+      {
+        "path": "assets/map-preview/floor-1-desktop.webp",
+        "bytes": 624658,
+        "sha256": "ee175e318f403d95fac2a331eb45f4d5e9104d681509bfe6c647a4d832810499"
+      },
+      {
+        "path": "assets/map-preview/floor-1-detail.webp",
+        "bytes": 7727910,
+        "sha256": "269328b992f401f16927f1aea777271ed7822e01b20a4c461a2095a682c62456"
+      },
+      {
+        "path": "assets/map-preview/floor-1-mobile.webp",
+        "bytes": 141166,
+        "sha256": "dbf93b33fd660666e6629ebd805c4474f0be78814cde63d6e75b344e54126e8c"
+      },
+      {
+        "path": "assets/map-preview/floor-2-desktop.webp",
+        "bytes": 548218,
+        "sha256": "9f5a3dfb2dc752ea847b44f04f178a90ddd9a46cf7a469e4645723a8eeea7854"
+      },
+      {
+        "path": "assets/map-preview/floor-2-detail.webp",
+        "bytes": 1471228,
+        "sha256": "9320aa2b3337d4dd40e96123deb8532143222ee91830e8a5152803ce121ef12e"
+      },
+      {
+        "path": "assets/map-preview/floor-2-mobile.webp",
+        "bytes": 148116,
+        "sha256": "b8792f5cea8843b0566734b51660f182dd8aa12d1fdc472e237354fe8eb8ddae"
+      },
+      {
+        "path": "assets/map-preview/floor-3-desktop.webp",
+        "bytes": 628652,
+        "sha256": "69763e78a81fafe315149388dc46ecb4ff4b031d26a637724aefa8f99cd71f76"
+      },
+      {
+        "path": "assets/map-preview/floor-3-detail.webp",
+        "bytes": 662582,
+        "sha256": "cfa513d516bbcb86099dc31dc1d9a06450ea1c9d53576261e9a717545b459c21"
+      },
+      {
+        "path": "assets/map-preview/floor-3-mobile.webp",
+        "bytes": 189240,
+        "sha256": "b1330a54e1d2e7b0bec6d99e290eec34c492f094a4185df81798fcc17ff63f37"
+      },
+      {
+        "path": "assets/map/catalog.json",
+        "bytes": 84790,
+        "sha256": "e61486737bd74d53dc1b3413bf055fa5752b273e6ffbc2896b286ff440c6febb"
+      },
+      {
+        "path": "assets/map/floor-1.json",
+        "bytes": 143417,
+        "sha256": "a43840264d70135fae783b9f4d99090ce27258ac6a711c3f2e6be0f221d286e0"
+      },
+      {
+        "path": "assets/map/floor-2.json",
+        "bytes": 49,
+        "sha256": "bced1e7032b61e93b33474f8e397b65b2a3afc1522368fe5bef06c414a20773b"
+      },
+      {
+        "path": "assets/map/floor-3.json",
+        "bytes": 49,
+        "sha256": "9543a1e64f0d4b43ccb262a6304259e5fbfc9d62691b0409450a51a6454770a8"
+      },
+      {
+        "path": "assets/map/regions.json",
+        "bytes": 4439,
+        "sha256": "355434e5d17ac83105d4b9f2f9f34794c7dccabdc54bcb82a8b082ccc1612078"
+      },
+      {
+        "path": "assets/mobs/Araignée_chasseuse.png",
+        "bytes": 30391,
+        "sha256": "91ffc7ce875f51a39a06dda10f9e6baff33e5d7ac4aa22044d65d74cd0d56dbe"
+      },
+      {
+        "path": "assets/mobs/Araignée_empoisonnée.png",
+        "bytes": 38423,
+        "sha256": "965f1f937294bad039d14895b142e201e0103b5365ec63f32467bba6aab23442"
+      },
+      {
+        "path": "assets/mobs/Araignée_étrangleuse.png",
+        "bytes": 43017,
+        "sha256": "ac0de24fbd3382a1a81bf9933e3e1e4548f8a5fb60120f060780649c06e1eb7f"
+      },
+      {
+        "path": "assets/mobs/Archer_kobold.png",
+        "bytes": 38070,
+        "sha256": "f61a78969015a7745fefece9e5a20e47ddf8fc00818b2adc3ffd535163050a0a"
+      },
+      {
+        "path": "assets/mobs/Archer_squelette.png",
+        "bytes": 38948,
+        "sha256": "698372f2beb8661a4fed5359a5f5a7a078040cb51626fd4254fad458c6273fbe"
+      },
+      {
+        "path": "assets/mobs/Bandit Assassin.png",
+        "bytes": 28179,
+        "sha256": "19d64b636c9fff0e00480c6b496973203cd3cf7c8a9d61ab4d348dad1ad7df40"
+      },
+      {
+        "path": "assets/mobs/Cerf.png",
+        "bytes": 29837,
+        "sha256": "b0f8111775ccc24d95694918576b2f5e0967f80e972eddf5a415982e966910a9"
+      },
+      {
+        "path": "assets/mobs/Epeiste_squelette.png",
+        "bytes": 20566,
+        "sha256": "4035b52c9b516cf30e03e32d63abca288c6bb6c54dfef48e56af462911e7e1ba"
+      },
+      {
+        "path": "assets/mobs/Essaim d'insectes.png",
+        "bytes": 8785,
+        "sha256": "b03e1c91e6e1f37c4b9afb98577077d70e874915042b4b619b10eeeb76dd69ca"
+      },
+      {
+        "path": "assets/mobs/Farfadet.png",
+        "bytes": 12257,
+        "sha256": "5f0ce87538ec3c5b4dde1e7d9fa097c6f69c6f105e7185bfecee5b06d0d2438a"
+      },
+      {
+        "path": "assets/mobs/Faucheuse-Déchu.png",
+        "bytes": 328739,
+        "sha256": "811f31d04ea75e00b2759e2aace3b2da763138dc17e3b4ecd87206e226fecb12"
+      },
+      {
+        "path": "assets/mobs/Gardien Colossal.avif",
+        "bytes": 298838,
+        "sha256": "3a405bb55399f3241731b99afd7df5dfbf9d07dce47ba495f557e1a782bddeb3"
+      },
+      {
+        "path": "assets/mobs/Gardien-Déchu.png",
+        "bytes": 290975,
+        "sha256": "31af3a101e706a77bc6928d6e12ca64a53ad527d8e2e6d9c244a27f0d8113c3c"
+      },
+      {
+        "path": "assets/mobs/Golem_de_glace.png",
+        "bytes": 52150,
+        "sha256": "1c219ab150e74d2a1dc3d7864ead379c170d639d4f6f064f5c5aaa4cd348df15"
+      },
+      {
+        "path": "assets/mobs/Gorbel.png",
+        "bytes": 30160,
+        "sha256": "c96a07ed2e9393d984bf695ff6883c14fbe65a106ce8016de3fc79445c5e30e2"
+      },
+      {
+        "path": "assets/mobs/Guerrier Déchu.png",
+        "bytes": 261279,
+        "sha256": "25c7cf2d982316b3c1a8b38a1466413b17ac74405d98725c0cb6f41e7b47fd68"
+      },
+      {
+        "path": "assets/mobs/Guerrier Slime.avif",
+        "bytes": 60350,
+        "sha256": "9b2b7fe5b6a0d024f58a300f53cfc6b01cc2217a06ca91191130abcf6e487f51"
+      },
+      {
+        "path": "assets/mobs/Guerrier Tréant.avif",
+        "bytes": 191267,
+        "sha256": "dcc5baee6edbd1119d76aa8ac3881ea87b8d921088bdeeeab817d23aa5a3af14"
+      },
+      {
+        "path": "assets/mobs/Guerrier_kobold.png",
+        "bytes": 31175,
+        "sha256": "4344e66b667bf112b6611a9d89273ec426a674e192b158d7d48e495a0484fa84"
+      },
+      {
+        "path": "assets/mobs/Guerrier_squelette.png",
+        "bytes": 31876,
+        "sha256": "0c7013aa62e4e6836190cf733016179c297b8901b54d035ccc52b1158ac3d3c8"
+      },
+      {
+        "path": "assets/mobs/Hallebardier_Kobold.png",
+        "bytes": 41558,
+        "sha256": "e2dc94f3a740f69c9d4e331272b85f45a9420e2d692f63fe5e7e082378601ad7"
+      },
+      {
+        "path": "assets/mobs/Hallebardier_squelette.png",
+        "bytes": 38795,
+        "sha256": "1a45d511821a7834acb91d91111697f315677c96a14431f0c556fa332749795f"
+      },
+      {
+        "path": "assets/mobs/Héraut-Déchu.png",
+        "bytes": 354504,
+        "sha256": "04b41e26d11ba53b08c471e0658e8304e2e10b5aff38ccea09b9effe4666b045"
+      },
+      {
+        "path": "assets/mobs/Ika.avif",
+        "bytes": 101225,
+        "sha256": "de951ef74c3a54d0355677c4c0ef8ad609dfa9804fcaa9fe41dee683970010bb"
+      },
+      {
+        "path": "assets/mobs/Ika.png",
+        "bytes": 22217,
+        "sha256": "68fb3422c7665f03bb313bd53689d5490cc3ae29ba2486749c59e998e42b39cc"
+      },
+      {
+        "path": "assets/mobs/illfang.png",
+        "bytes": 68729,
+        "sha256": "cf3188b0c322e9f56d3667fba6f93458d228a7d5d4029c1961d4bc15ad9aee1e"
+      },
+      {
+        "path": "assets/mobs/Jira.png",
+        "bytes": 75212,
+        "sha256": "b5e9ae76ed2c91791b7ed9e1773aeb2f1fadff65f45d92b68fbabbf05ccada86"
+      },
+      {
+        "path": "assets/mobs/Kamilia.png",
+        "bytes": 87551,
+        "sha256": "fdf9c74d14f52bf8a5068077c6de9b5c042360dc286135bd251f55ca90e77f46"
+      },
+      {
+        "path": "assets/mobs/Kobold.png",
+        "bytes": 19532,
+        "sha256": "ca5e9114f16a67064d4e68740150e0699f844c38e73ea83c73589790f52ce1ff"
+      },
+      {
+        "path": "assets/mobs/leviathan.png",
+        "bytes": 100168,
+        "sha256": "b63fb37c35338b3eaab91d7554518474889917e0d9d8e5048e78164a7b976ff1"
+      },
+      {
+        "path": "assets/mobs/Loup Sinistre Blanc.png",
+        "bytes": 42301,
+        "sha256": "f7ac916cfe102489b7625d9c8fb20472dfef055c53fa028c15675c5248aec964"
+      },
+      {
+        "path": "assets/mobs/Loup Sinistre Brun.png",
+        "bytes": 63986,
+        "sha256": "c1bf9da820a11cbdcb3557be68b68a8ad42c106ccba454517b70eab8b9e53731"
+      },
+      {
+        "path": "assets/mobs/Loup SInistre Noir.png",
+        "bytes": 78520,
+        "sha256": "9a2978d290cfde0762c03d6229e4c4fb33d846f59cd135601ed75b4be48335e9"
+      },
+      {
+        "path": "assets/mobs/Mage Sylvestre.avif",
+        "bytes": 173023,
+        "sha256": "48f77804672e63b11996badc8308bd978cca95c580475d2950d342f2812997e6"
+      },
+      {
+        "path": "assets/mobs/Mineur_Kobold.png",
+        "bytes": 30476,
+        "sha256": "af274a26b725758dae6c9e6b4649c736db642ca47e8327950cc1d37cac014300"
+      },
+      {
+        "path": "assets/mobs/Mini Tréant.avif",
+        "bytes": 59258,
+        "sha256": "e647ea3a9a06adef55f1db7d5990bfc0ed16f8341f877b3b01dbd3dab1423d76"
+      },
+      {
+        "path": "assets/mobs/Narax.png",
+        "bytes": 284702,
+        "sha256": "667fdd185fe081d184af94b8cc7d06342c839e7317f3b5d43b7294e605e3322f"
+      },
+      {
+        "path": "assets/mobs/Nephantes.gif",
+        "bytes": 1608410,
+        "sha256": "18203714436aa3d04a8726cea3c0474fc9c27c5b56e9f28ff240507f295ebc1d"
+      },
+      {
+        "path": "assets/mobs/Octana.png",
+        "bytes": 65148,
+        "sha256": "88f1737136d7fa9b5396a75b5d783e849819c746589b2558da343fa6c5e1a3b3"
+      },
+      {
+        "path": "assets/mobs/Ornstein.avif",
+        "bytes": 260825,
+        "sha256": "d9553f646e01165461c51669e8bf21a3fd2ad727213646d705fcda7a2c8480ad"
+      },
+      {
+        "path": "assets/mobs/Ours_Glacial.png",
+        "bytes": 54590,
+        "sha256": "0be8f0b5a973e3a98e7d85adaf3947601f5c8011b24efd7ac422fa98b049d0ed"
+      },
+      {
+        "path": "assets/mobs/Petit Slime.png",
+        "bytes": 6428,
+        "sha256": "bd2c916646fd61eaa35a6d77cbc4ff2ff4ae1177662cc7f22a59656bda30cfc2"
+      },
+      {
+        "path": "assets/mobs/Plante Dévoreuse.avif",
+        "bytes": 131438,
+        "sha256": "dc312fb8dd49e503cd80b1c134501689bf762797e48f1f01fa9a1981e58338db"
+      },
+      {
+        "path": "assets/mobs/Plante_mutante.png",
+        "bytes": 71455,
+        "sha256": "8189eb159e225334c8d4cc051fc078f3062ca2677b55f8a60b043f99929939d2"
+      },
+      {
+        "path": "assets/mobs/Poisson_requin.png",
+        "bytes": 19493,
+        "sha256": "6ff1883775a58c293ba3ed3525453f8dc13424ff5d1c80007745f2a7979f0f41"
+      },
+      {
+        "path": "assets/mobs/priscilia.png",
+        "bytes": 83508,
+        "sha256": "521d7b620d138ae12443f525e937425c7c87a3b6f2b6c29680839bc3a4cbb120"
+      },
+      {
+        "path": "assets/mobs/Sangliers.png",
+        "bytes": 194105,
+        "sha256": "4bea8ed1ddd615efcf59c5c0150524780e1f40c15e55f1c3124aae626eb4f2d1"
+      },
+      {
+        "path": "assets/mobs/Slime Magicien.png",
+        "bytes": 45608,
+        "sha256": "0b41e26d91a0224df991d5cc78b9f41a73e2e886b9b70f2b7bd010eeb76ac911"
+      },
+      {
+        "path": "assets/mobs/Slime Soigneur.png",
+        "bytes": 6869,
+        "sha256": "37d034785ea8404e7c42ccea146a8fdc1cc654c6ff9e60255e1be893e76bda37"
+      },
+      {
+        "path": "assets/mobs/Smoug.png",
+        "bytes": 656124,
+        "sha256": "58be38bf13d1821ca0289a06b73fdc5534e45d23acdddba60caa2099bb3d921c"
+      },
+      {
+        "path": "assets/mobs/Soldat_kobold.png",
+        "bytes": 37637,
+        "sha256": "ef3b5c84b2e4abc62f2431b44d28029b57240761fee154d8c391121a8765cc01"
+      },
+      {
+        "path": "assets/mobs/Soldat-Déchu.png",
+        "bytes": 404229,
+        "sha256": "ad1421f7a5d12d097286ee5c60e6874d32676d2b0c0183667277f76dca4fcd20"
+      },
+      {
+        "path": "assets/mobs/Sorcier_kobold.png",
+        "bytes": 26955,
+        "sha256": "c3ca53394bd0d9d33dbbc6c2df49617cd47de8f721de950ee965941f8f4fe4b4"
+      },
+      {
+        "path": "assets/mobs/Sorcier_squelette.png",
+        "bytes": 23920,
+        "sha256": "be4cd180ce71023b62f26feb1df00e1204526d6b8a98dde8d88cd433c4f74662"
+      },
+      {
+        "path": "assets/mobs/soulknight.png",
+        "bytes": 64931,
+        "sha256": "5c6b90ddb95f768e7b5a5fdee683dc47296ed80e85c022b2d848dd7785b93dbe"
+      },
+      {
+        "path": "assets/mobs/Spirite de glace.png",
+        "bytes": 25075,
+        "sha256": "a0081288d6803f1b70ce8b06d8fb4f422b6d207b86f7b18cff7a6d064af976e2"
+      },
+      {
+        "path": "assets/mobs/squelette.png",
+        "bytes": 17069,
+        "sha256": "2c4bb41096318a9c972a2487cf155b9192d4e065bf76d79b659786f51175a781"
+      },
+      {
+        "path": "assets/mobs/Tank_squelette.png",
+        "bytes": 28139,
+        "sha256": "1f46213f0c8549777590cab440470252d1d36c4506b21d8421a149ded54d2278"
+      },
+      {
+        "path": "assets/mobs/Tréant Elite.avif",
+        "bytes": 177263,
+        "sha256": "94c361ca8ad54ee7420f50faeaa52c162eb701edc876b10e80e3c48c824344c2"
+      },
+      {
+        "path": "assets/mobs/Yula.png",
+        "bytes": 67234,
+        "sha256": "1de50fd1ba696a44d11c337239f8b059d16b88cb4b129863178fafc4ba9085f2"
+      },
+      {
+        "path": "assets/new_nameless_font.png",
+        "bytes": 2322952,
+        "sha256": "291d31c70af008e43ba6e84305403e52d9dc9ba543f900f20f9e0b7937f9c4f5"
+      },
+      {
+        "path": "assets/Palier2-map.png",
+        "bytes": 6739673,
+        "sha256": "135b89c6b930876cbb3c7d0ca2c780690eb416e8c3d224ccf43e9591cc200eb0"
+      },
+      {
+        "path": "assets/Palier2-map.webp",
+        "bytes": 2527368,
+        "sha256": "f960e1d6f13fbaf48666962edefd872cfadb1e9697cd353fd7ba3685813d373a"
+      },
+      {
+        "path": "assets/Palier3-map.png",
+        "bytes": 2597767,
+        "sha256": "5f96cb240f31390f71199079e4fcee87427c695108ec644541d8f260e6f795c7"
+      },
+      {
+        "path": "assets/Palier3-map.webp",
+        "bytes": 963572,
+        "sha256": "f32479eb066dd57413bec92c19092ecf4c22be1435ebc82159ec1c2f6b80f8bf"
+      },
+      {
+        "path": "assets/reference-v2/asset-manifest.json",
+        "bytes": 6241,
+        "sha256": "067207d9a78d563af98d40800f922aaa8fbbde3abdfceb84558d74a8d943149b"
+      },
+      {
+        "path": "assets/reference-v2/forest-environment-1280.webp",
+        "bytes": 192884,
+        "sha256": "aa0ed187c29c4633161d8a8ac64f29c7e8d253402f87d847dce9eeeee4c91c90"
+      },
+      {
+        "path": "assets/reference-v2/forest-environment-320.webp",
+        "bytes": 19368,
+        "sha256": "da60c7a77c2718e201178c1edfb7b1234175c5d71d1b3d28c638828586fa1258"
+      },
+      {
+        "path": "assets/reference-v2/forest-environment-640.webp",
+        "bytes": 65446,
+        "sha256": "c3617b2284ee78f44ecf75fb378d36aa067392fa1fb770160ae78cc46e357902"
+      },
+      {
+        "path": "assets/reference-v2/forest-environment-source.png",
+        "bytes": 2421862,
+        "sha256": "19accf925f620ade0e033b38600eb6d6844972c8c6e8a1bd8943ea44aa600bb1"
+      },
+      {
+        "path": "assets/reference-v2/guild-environment-1280.webp",
+        "bytes": 182464,
+        "sha256": "356a2bd236b40390dccf37c6c9bb396042d951a47018c22915ed432c415e8499"
+      },
+      {
+        "path": "assets/reference-v2/guild-environment-320.webp",
+        "bytes": 19138,
+        "sha256": "93c681cb429ab4bd0e48516e2c013b187f59294b599e296df3c90c0bfdefdb32"
+      },
+      {
+        "path": "assets/reference-v2/guild-environment-640.webp",
+        "bytes": 61924,
+        "sha256": "0af32d8e6c0b2045f11db3911198320043b96b761d541ee73e5a4832de5d1f03"
+      },
+      {
+        "path": "assets/reference-v2/guild-environment-source.png",
+        "bytes": 2349311,
+        "sha256": "63e04534e2600634a93b6bd5f5ab36b85f685b7d265e07cb6154279f665c0406"
+      },
+      {
+        "path": "assets/reference-v2/home-castle-card-320.webp",
+        "bytes": 13946,
+        "sha256": "78299c9d7f256e4d0f680a1fee10291a148205b06cd88dfbc8d207a5ea1504c4"
+      },
+      {
+        "path": "assets/reference-v2/home-castle-card-640.webp",
+        "bytes": 44644,
+        "sha256": "e4fec5fa8f8b2238c76a0ead9e4e768d0b16b9fc87b60f197244c1f02fc71253"
+      },
+      {
+        "path": "assets/reference-v2/home-environment-1280.webp",
+        "bytes": 215888,
+        "sha256": "314e355a1617d1e496d47d5c796a75289a32e3c6b924fbb2a749e8141298b980"
+      },
+      {
+        "path": "assets/reference-v2/home-environment-1672.webp",
+        "bytes": 312140,
+        "sha256": "bd42b18f5611aaa8e69df582cbd06d5f1109e767c055f0ee18562fb16bf6920a"
+      },
+      {
+        "path": "assets/reference-v2/home-environment-960.webp",
+        "bytes": 140354,
+        "sha256": "d16af9a0b56af918f0c7bbbee9756c2933bdccb56e6e123db1243a5143edb37c"
+      },
+      {
+        "path": "assets/reference-v2/home-environment-mobile.webp",
+        "bytes": 141154,
+        "sha256": "645eecb6ec9297b74e691f3515f47c99c8aa767371129bbb4b26eb6a6c698080"
+      },
+      {
+        "path": "assets/reference-v2/home-environment-source.png",
+        "bytes": 2491354,
+        "sha256": "1326fba15883f38d7acb1fe697df309f45c0c991b5b516e4c16c8a78c7054e98"
+      },
+      {
+        "path": "assets/reference-v2/workshop-environment-1280.webp",
+        "bytes": 158100,
+        "sha256": "9ef6046d456a531a47bd4b21e27aa9b0d9c459938ab2777ba28836ed049f2d0d"
+      },
+      {
+        "path": "assets/reference-v2/workshop-environment-320.webp",
+        "bytes": 17202,
+        "sha256": "5b20ec86a8b2204bd35e1e15f68e8b34499c014c11e1ded6b73f17256dbcf46b"
+      },
+      {
+        "path": "assets/reference-v2/workshop-environment-640.webp",
+        "bytes": 55184,
+        "sha256": "b0ea865ac1e3231cc82e52ef40022ab0d1fad1e868ab2c41f2d0b0c5eea336d9"
+      },
+      {
+        "path": "assets/reference-v2/workshop-environment-source.png",
+        "bytes": 2206593,
+        "sha256": "1b77146d7d0af8f26995e9487523532bdffd3b2b6fbb903b8b0d0fee668fb988"
+      },
+      {
+        "path": "assets/SAO-Font.png",
+        "bytes": 152580,
+        "sha256": "7f6531b85ca5f06ce4317d7fd7eddaf46d571b4349960e137431bb9e0f28b7b2"
+      },
+      {
+        "path": "assets/SAO-Font.webp",
+        "bytes": 41462,
+        "sha256": "dc0cc0b5f8d010fc00d7206159955739f6679cee25dd7c363ce89e400eafd089"
+      },
+      {
+        "path": "assets/search-index.json",
+        "bytes": 100851,
+        "sha256": "cdf78540dd04171d02c28c568b74216db9ff8d6e3b891e1c0d79b06a9460973f"
+      },
+      {
+        "path": "assets/ui/nameless-divider.svg",
+        "bytes": 166,
+        "sha256": "67e2aff904c3e800f033690206dcf156caad9c6533c1154500fdc1a3bcf957ad"
+      },
+      {
+        "path": "assets/ui/nameless-frame.svg",
+        "bytes": 301,
+        "sha256": "2f6fababafe9c9495e8083eb372e3a3e19cd63408d15a23e89cd509f9eefee56"
+      },
+      {
+        "path": "assets/ui/nameless-icons.svg",
+        "bytes": 1389,
+        "sha256": "8532778544f2ca2ee61ea0d5110d193d66ac8d6e2656d2781097e6405174b6fb"
+      },
+      {
+        "path": "assets/ui/player-avatar.svg",
+        "bytes": 453,
+        "sha256": "3d35462994f15ba991bdb23f0117b301d6ffa1333afb712cb7478caa34d2a490"
+      },
+      {
+        "path": "assets/ui/reference-frame.svg",
+        "bytes": 421,
+        "sha256": "edd3c9a52b26725e85aef19a3342e1976f36f833bba2f26d415dab8ec7e7e6d1"
+      },
+      {
+        "path": "assets/ui/reference-icons.svg",
+        "bytes": 2138,
+        "sha256": "1c4dd33253fb420ce14d171b5f09305f6d08cb63fa4268122d9badd4d118b9a7"
+      },
+      {
+        "path": "assets/ui/world-canopy.svg",
+        "bytes": 508,
+        "sha256": "8f4bdaf3381ad045a86d9a7cdaf057cd79196ae637a3ce012a2d6da818a138e3"
+      },
+      {
+        "path": "assets/ui/world-foreground.svg",
+        "bytes": 719,
+        "sha256": "5d5eb109b7084fc37a77e3cf104de05c8a3869ed9d6aa229a9e4905066adf9d5"
+      },
+      {
+        "path": "assets/ui/world-stone.svg",
+        "bytes": 499,
+        "sha256": "f81d6ae6f8205ba256899e6a1435422ae6f79011117b62155fbb989484f60c3d"
+      },
+      {
+        "path": "bestiaire/index.html",
+        "bytes": 13076,
+        "sha256": "d157be27657cade36fc14da116bfa194ba94ca02c106f2ebea0c2b67c050e06a"
+      },
+      {
+        "path": "boss/albal/index.html",
+        "bytes": 11324,
+        "sha256": "0af73a522923816373c707b022a65cb7a92022f4f739b05810981bd3d1935400"
+      },
+      {
+        "path": "boss/faucheuse-dechu/index.html",
+        "bytes": 11250,
+        "sha256": "6ef5f5110f6f004615c7322819618a463e1d2645cd9697d4bd60d764fe015e01"
+      },
+      {
+        "path": "boss/gardien-colossal/index.html",
+        "bytes": 11211,
+        "sha256": "2c866515a35c9301560603e6e1195efc1e129de40e74f2d704cd1279ddb38dd4"
+      },
+      {
+        "path": "boss/gardien-dechu/index.html",
+        "bytes": 10988,
+        "sha256": "2684ef7a5a96f6f8bb0f33091928f3bfdf05d770606608a8ec5e05ef81b6564a"
+      },
+      {
+        "path": "boss/gorbel/index.html",
+        "bytes": 645,
+        "sha256": "53bf49ecb850da96e0719d1e14d252c9c1ed910b8ec50bbe9bfb6328c77477a2"
+      },
+      {
+        "path": "boss/heraut-dechu/index.html",
+        "bytes": 11177,
+        "sha256": "8114b06a0c9909dd98b01bb1a9d1796f77e73b9661b2fa682c380aa453452d0e"
+      },
+      {
+        "path": "boss/ika/index.html",
+        "bytes": 642,
+        "sha256": "02a7ccf890a9266db932fd977aca4a27ffd7c9b27d7ca30262b4235a840be53a"
+      },
+      {
+        "path": "boss/illfang/index.html",
+        "bytes": 10858,
+        "sha256": "1c3ba138b83d237c4e0ccd2887f24f50e7c6ec52334c707e51d839844c46a204"
+      },
+      {
+        "path": "boss/jira/index.html",
+        "bytes": 644,
+        "sha256": "0371577d5c17f821bc3cda4c1a38fcb449fd57e5af2e857f7445ad34613bfec3"
+      },
+      {
+        "path": "boss/kamilia/index.html",
+        "bytes": 650,
+        "sha256": "8ca987b1a9692dec7d21e1796fc86ffde4f4355e274ce2067575068782695ca4"
+      },
+      {
+        "path": "boss/leviathan/index.html",
+        "bytes": 11240,
+        "sha256": "f47f8ea49a185995b3e865f04f463f8216e8e19e3e8db7f66212edbbc182d7e1"
+      },
+      {
+        "path": "boss/narax/index.html",
+        "bytes": 10704,
+        "sha256": "ea62966d642159ad51cb6c158733e3b0bc45a9e09dfff668946fdb7cfe392cda"
+      },
+      {
+        "path": "boss/nazgul/index.html",
+        "bytes": 10751,
+        "sha256": "8756f66345e53af81dccf0e53b7b0cbc5a9f545d16b215aeeddb4feb05787550"
+      },
+      {
+        "path": "boss/nephantes/index.html",
+        "bytes": 656,
+        "sha256": "0f7e23c5ee2e84f31429ff8e0dce36f770075872a0330180432370afa5f94c6e"
+      },
+      {
+        "path": "boss/octana/index.html",
+        "bytes": 10779,
+        "sha256": "92c94fe4cbdd18b7f1c3fe8c3c8b61f67c87a1319cb5a549394f814b169ad44c"
+      },
+      {
+        "path": "boss/ornstein/index.html",
+        "bytes": 10702,
+        "sha256": "47762f6ec85609d7a42fe8db747c07d1d296e60068bc94e661d1360dc82aa157"
+      },
+      {
+        "path": "boss/ours-glacial/index.html",
+        "bytes": 11231,
+        "sha256": "86bd9659e49922b12f199171a1fade08040a28ea8b01b9e8f52c8b4a930f7587"
+      },
+      {
+        "path": "boss/plante-mutante/index.html",
+        "bytes": 11057,
+        "sha256": "2616a0062fc7d10d0d51bd7693fb0f2afd416cf76e7718a2cc0307ec974b1a0f"
+      },
+      {
+        "path": "boss/priscilia/index.html",
+        "bytes": 654,
+        "sha256": "a98554e6fbff47c8eedc21920be40ca343e4ede7bc830d9f9f555542059251f7"
+      },
+      {
+        "path": "boss/smoug/index.html",
+        "bytes": 10769,
+        "sha256": "83eb50b3cd11bd0b6b2c8f9750617c254e3d2be57e4ef0f762f20897e6eb1c55"
+      },
+      {
+        "path": "boss/soul-knight/index.html",
+        "bytes": 615,
+        "sha256": "f3c1939f19e7b91a8cf3c994f312af679f78ec5bffb6ed260cd9d68956128aa0"
+      },
+      {
+        "path": "boss/yula/index.html",
+        "bytes": 644,
+        "sha256": "5c3f1194f37be590c57ed97880f93569873c07aab4937d346af6b756cf3af373"
+      },
+      {
+        "path": "carte/index.html",
+        "bytes": 16089,
+        "sha256": "c95d968d5a2eb595850fb8e3157771c4247d0e16b5aab122a72f3ac99e4bd8e4"
+      },
+      {
+        "path": "CNAME",
+        "bytes": 15,
+        "sha256": "44b9469d51e04cbb445c735f55011eb13185e339c332fee42fd333db1a89af8b"
+      },
+      {
+        "path": "conditions/index.html",
+        "bytes": 10306,
+        "sha256": "cdf8265dcbf427813d3b921405e1bede35e273a8e75f28bbc70cb997a4da3c67"
+      },
+      {
+        "path": "confidentialite/index.html",
+        "bytes": 12197,
+        "sha256": "8d9ddc32e28a24b54e25ab15172d1f75785fd569f251a4103f039ef06b7cdb2a"
+      },
+      {
+        "path": "connexion/index.html",
+        "bytes": 10580,
+        "sha256": "52cdfd7ee305ec2c1f0e2891995ad8a7662abb5f77c0d034f6f77383d681fd95"
+      },
+      {
+        "path": "css/components/activity-wall.css",
+        "bytes": 10794,
+        "sha256": "79ea3a6ec2962ce5820972a48544003ec6adb21b9f89933712ada8b3778e1d30"
+      },
+      {
+        "path": "css/components/admin-dashboard.css",
+        "bytes": 17656,
+        "sha256": "6408939c8b68ecfabf1b80f6430ada95fdb87bb4f2d7f69768dfedbcbfc9280b"
+      },
+      {
+        "path": "css/components/audio-player.css",
+        "bytes": 5157,
+        "sha256": "a8d89eb1040590261c88b6f1e68003b61ef82f84fed8d6c1850e7318cd51ca24"
+      },
+      {
+        "path": "css/components/bestiaire.css",
+        "bytes": 21397,
+        "sha256": "4d9e55239864afe428481c03047215cd7400e080cbba83a53fcec7463ad412cb"
+      },
+      {
+        "path": "css/components/connexion.css",
+        "bytes": 2847,
+        "sha256": "2f50b150cb44076b6e7c911994094d151fbe8b0b7fe597c77250497c2318d302"
+      },
+      {
+        "path": "css/components/global-search.css",
+        "bytes": 10302,
+        "sha256": "cc11c04fadcb18caf762f5adb51317c92085eff0ca0e7ea1a063404f950e59a5"
+      },
+      {
+        "path": "css/components/guild-chat.css",
+        "bytes": 20191,
+        "sha256": "f967a3d8a1fa99a27a68031200aa16cdb35f0fa9d1d1a08d95da8414360c1970"
+      },
+      {
+        "path": "css/components/guild-dm.css",
+        "bytes": 12065,
+        "sha256": "6e966f1010ab9134fdf830d10a5beb0917f0708f997e6c18a41e92fcdcfda9e9"
+      },
+      {
+        "path": "css/components/guild-reference.css",
+        "bytes": 13498,
+        "sha256": "8558c05032940b87f8665cf63965933a9f7ddd6be0fb3beef3de87f5960be2dc"
+      },
+      {
+        "path": "css/components/guilde-nameless.css",
+        "bytes": 10845,
+        "sha256": "09d622e363f3703d70dab11d1938e0e4269ea3b6b404f5310b8048889f09ea20"
+      },
+      {
+        "path": "css/components/guilde.css",
+        "bytes": 8604,
+        "sha256": "ea0da7622178986cf008cf08af7093456a12290847f16f55f0cc08e52736ccfa"
+      },
+      {
+        "path": "css/components/home-premium.css",
+        "bytes": 25761,
+        "sha256": "a8f68e4ac006e24921a74c0a32e4ad4f5a1a8cd169c0bb481225802ae58e95d7"
+      },
+      {
+        "path": "css/components/home.css",
+        "bytes": 14246,
+        "sha256": "f1e8120daeee4b9aeb4e6ed7dcc102fb790565dc7797a439b1efb1997175ee09"
+      },
+      {
+        "path": "css/components/information.css",
+        "bytes": 1246,
+        "sha256": "ad67f6bd4c78e7ad6b31888e4682f3945578b10077d0ce5e208207a591836ac7"
+      },
+      {
+        "path": "css/components/items.css",
+        "bytes": 24457,
+        "sha256": "e106192e39ab251015f94135e47f20216849f3062be63617f008bdce19f459dd"
+      },
+      {
+        "path": "css/components/map-regions.css",
+        "bytes": 7453,
+        "sha256": "ec74fff089b7432575a2edb8706f37bcedca051c729355d18bf5f58e7811742a"
+      },
+      {
+        "path": "css/components/map-workspace.css",
+        "bytes": 17084,
+        "sha256": "84a2060303b636f9a211907d7c860267a5187b06e715da6e07e231f08c524ff3"
+      },
+      {
+        "path": "css/components/map.css",
+        "bytes": 18135,
+        "sha256": "33098fa578a331646acb97a2fa97ee0102c19d2a1a4717fa17a52511f6492533"
+      },
+      {
+        "path": "css/components/mmorpg-kit.css",
+        "bytes": 3689,
+        "sha256": "4620082f4281a3edc5f5badbcf3f4925d4d086db6b63d106266e5f2455a85231"
+      },
+      {
+        "path": "css/components/page-hero.css",
+        "bytes": 5129,
+        "sha256": "8e127c57768aba30cf75af65c33b20b05b0e1cbd0903c51434f6a6cbf4d73764"
+      },
+      {
+        "path": "css/components/pixel-icons.css",
+        "bytes": 36017,
+        "sha256": "14192253e4c53815305ba31b8a6af88090c1b2b9055906b86eb9056e9489c83f"
+      },
+      {
+        "path": "css/components/profil.css",
+        "bytes": 15092,
+        "sha256": "1259efd0b46e31a62311dc90a027c9d0ef2b746c2099eb357b773ce88de585cd"
+      },
+      {
+        "path": "css/components/quetes.css",
+        "bytes": 9538,
+        "sha256": "1dca90f9e819ba4c58ea081c2d47371639e4f62b8574d9a2387b59f22ed4f49b"
+      },
+      {
+        "path": "css/components/reference-catalogs.css",
+        "bytes": 33616,
+        "sha256": "2c52c16dbbf1318ecf4b36c48c260e9195265e37160cc437971aaa489bb1465d"
+      },
+      {
+        "path": "css/components/reference-home.css",
+        "bytes": 24571,
+        "sha256": "b791354f319a142343e457a85d31e5e41cedaf160b8fb884cd6edb0e8a91ef78"
+      },
+      {
+        "path": "css/components/reference-map.css",
+        "bytes": 28654,
+        "sha256": "406dc055f7100c7f7e6d4033143a0828c6081adf6d0295be00898a0a0efa0ed4"
+      },
+      {
+        "path": "css/components/reference-shell.css",
+        "bytes": 15276,
+        "sha256": "fa0ad2dd19e0d963f61b800972fbd48ec50a263c640ec407036a0b8706189ef0"
+      },
+      {
+        "path": "css/components/wiki-codex.css",
+        "bytes": 22164,
+        "sha256": "f312c8601421e70a15a38ae2b5aff3f6184cca93a6f5e3f96d86d35ff50c06d5"
+      },
+      {
+        "path": "css/components/wiki.css",
+        "bytes": 12249,
+        "sha256": "eafa654e20632751253ed8906a5f24b7640e850f1501e2c96935e6a1bde5fbf1"
+      },
+      {
+        "path": "css/components/world-experience.css",
+        "bytes": 21509,
+        "sha256": "02fa480397bf5cceeb1c69a6dc9ef57c41e731b36406b8b0e02f93d9d0c4839f"
+      },
+      {
+        "path": "css/fonts.css",
+        "bytes": 1588,
+        "sha256": "a6b2d73072dafa396db1278561be473aac97980b97a48fb3d30df34bcd788911"
+      },
+      {
+        "path": "css/nameless-effects.css",
+        "bytes": 1936,
+        "sha256": "6ed3ff455e8252dddf433892d9ceadad386822165940c76789e8a3c0960a2f58"
+      },
+      {
+        "path": "css/sao-animations.css",
+        "bytes": 10692,
+        "sha256": "233a8e8eef3d8a1f06a385db529f84e89b68efc3e83c05c578ef3baf1c55a361"
+      },
+      {
+        "path": "css/style.css",
+        "bytes": 40756,
+        "sha256": "7069b1ab3a264ebb29b5160b6fe58c3ea3a389099004cbe1292412bddd0a413a"
+      },
+      {
+        "path": "css/tokens.css",
+        "bytes": 3952,
+        "sha256": "761660b21b26b996285c3b064c87d45e0c33636b28f667c84b59d5982adb5e23"
+      },
+      {
+        "path": "css/vendor/images/layers-2x.png",
+        "bytes": 1259,
+        "sha256": "066daca850d8ffbef007af00b06eac0015728dee279c51f3cb6c716df7c42edf"
+      },
+      {
+        "path": "css/vendor/images/layers.png",
+        "bytes": 696,
+        "sha256": "1dbbe9d028e292f36fcba8f8b3a28d5e8932754fc2215b9ac69e4cdecf5107c6"
+      },
+      {
+        "path": "css/vendor/images/marker-icon-2x.png",
+        "bytes": 2464,
+        "sha256": "00179c4c1ee830d3a108412ae0d294f55776cfeb085c60129a39aa6fc4ae2528"
+      },
+      {
+        "path": "css/vendor/images/marker-icon.png",
+        "bytes": 1466,
+        "sha256": "574c3a5cca85f4114085b6841596d62f00d7c892c7b03f28cbfa301deb1dc437"
+      },
+      {
+        "path": "css/vendor/images/marker-shadow.png",
+        "bytes": 618,
+        "sha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da"
+      },
+      {
+        "path": "css/vendor/leaflet-1.9.4.css",
+        "bytes": 14806,
+        "sha256": "a7837102824184820dfa198d1ebcd109ff6d0ff9a2672a074b9a1b4d147d04c6"
+      },
+      {
+        "path": "espace-guilde/index.html",
+        "bytes": 25518,
+        "sha256": "c943b48db97d7a483e3679369a8488a964c54bef9631327a31dd7e1f9695b60c"
+      },
+      {
+        "path": "index.html",
+        "bytes": 23066,
+        "sha256": "16c6a33941c25b447c760369e1eddf97c51f82384953115d1e9a58eaf2053cd0"
+      },
+      {
+        "path": "items/index.html",
+        "bytes": 13541,
+        "sha256": "374a699f2bf8b1e0540124ae825e5b8c9eb8c09864d0e343bfa8c5c05baa31bd"
+      },
+      {
+        "path": "js/admin-dashboard.js",
+        "bytes": 67363,
+        "sha256": "f5031c4930cd31660fbb2187ca0ee6e2af528f699f05238b1211600aac3704ef"
+      },
+      {
+        "path": "js/app-router.js",
+        "bytes": 16452,
+        "sha256": "2264b14a812ffe14720945bcfd8fd65ebc71fdd586ed33b19df2e170751d5331"
+      },
+      {
+        "path": "js/audio-controller.js",
+        "bytes": 18898,
+        "sha256": "016183c1d90abf17f7180b96ca3f2589b48b1e23f5a82a57057fc4e040715785"
+      },
+      {
+        "path": "js/auth-supabase.js",
+        "bytes": 30935,
+        "sha256": "db1504b6f1f89742baa85a441bc98088cb4368ea2b791e17903ea6cb2d5e21b1"
+      },
+      {
+        "path": "js/bestiaire.js",
+        "bytes": 87602,
+        "sha256": "4b76a63e5a52c64a6ee3f77333c29eac32bc3fdab46e7094203eb53e056ee994"
+      },
+      {
+        "path": "js/cache-manager.js",
+        "bytes": 2754,
+        "sha256": "05addfa6745d1f26c71f37ac9fcdca7d5a17732c45ab604cc565fce4a5755569"
+      },
+      {
+        "path": "js/db-guard.js",
+        "bytes": 464,
+        "sha256": "b00d4d526c39bf1857e5e60b88ad9d2c1c34832766996fc1c1ec6a285eeb6e5a"
+      },
+      {
+        "path": "js/espace-guilde.js",
+        "bytes": 40328,
+        "sha256": "86bec5a8f44b22009f45b3415805fb5f166d7dd50bb0dd6e3dda84fc774c6ab2"
+      },
+      {
+        "path": "js/global-search.js",
+        "bytes": 23320,
+        "sha256": "1ca3186d588be09c9f9263e6522758e47c9a1527308a2601dac05f27c373589e"
+      },
+      {
+        "path": "js/guild-chat.js",
+        "bytes": 34563,
+        "sha256": "a7ccab2a5369cadbc05b3bc65afea6092d1e36f65397055814b08cda339d0c95"
+      },
+      {
+        "path": "js/guild-date-utils.js",
+        "bytes": 2872,
+        "sha256": "4c94cb04e95e23ac82fdb3fbfc9e0e7db17b8cf1699cf00fefb10d66b189a534"
+      },
+      {
+        "path": "js/guild-dm.js",
+        "bytes": 24029,
+        "sha256": "ac9568f4b522a4a183d56d2ca5189c852b9657b58346535e287a95b19ef1cd88"
+      },
+      {
+        "path": "js/guild-expeditions.js",
+        "bytes": 39552,
+        "sha256": "b27e94fafc2b75a4b554252430781f34a1a7fbffc6c18b240a604783a70546a4"
+      },
+      {
+        "path": "js/home-carousel.js",
+        "bytes": 8588,
+        "sha256": "a0d6db6fc51b7cb3d44eb70751b264d7e65a6b2be47457182e9f7a1668ac5b05"
+      },
+      {
+        "path": "js/i18n-en-reviewed.js",
+        "bytes": 31920,
+        "sha256": "93539a788b92d13a8c960b1206aa607bad0d893f308b2a228c4ab16240d7d091"
+      },
+      {
+        "path": "js/i18n-en.js",
+        "bytes": 101978,
+        "sha256": "f1b573cc2644116b160b861e0f69bb9604d8bd835678a7f52aede9e45a5a0a2c"
+      },
+      {
+        "path": "js/i18n-game-en-reviewed.js",
+        "bytes": 24027,
+        "sha256": "7db692d8017ce4b0cc74776afef2ee86e6b4957c64d4e0c3c64b23206a9a71e4"
+      },
+      {
+        "path": "js/i18n-information-en-reviewed.js",
+        "bytes": 12409,
+        "sha256": "adefd395d762456d3d1c88bd1a075677fd2872be717bbc733737cbf6801875bb"
+      },
+      {
+        "path": "js/i18n-quests-en-reviewed.js",
+        "bytes": 22372,
+        "sha256": "9c04661978aacfbaa1ec5aec2b01d58270685254d208bab86336c72d2c5a43ad"
+      },
+      {
+        "path": "js/i18n.js",
+        "bytes": 17655,
+        "sha256": "33766d2bc4e8e76b5aeb32a670a29fd1f288f0412ad749168d84a7e4d341b42d"
+      },
+      {
+        "path": "js/items-catalog-hdv.js",
+        "bytes": 14007,
+        "sha256": "51ee837d170a91185185d70a1449bb9f2cf12f2e80ff65b9efec4e8db719d078"
+      },
+      {
+        "path": "js/items.js",
+        "bytes": 65814,
+        "sha256": "ec4d81ed0dfd9360ff3db5ee23eea9ec26b332453986f7135d88bd2d5b800423"
+      },
+      {
+        "path": "js/map-admin.js",
+        "bytes": 22088,
+        "sha256": "453e949387b5a2639c97474a20eaa0cdd74b1d7994ba1c1d91233db0863f7fbe"
+      },
+      {
+        "path": "js/map-regions.js",
+        "bytes": 62984,
+        "sha256": "3343ce449aa6a9998491ef31d9e67b0fd4813a92715dcd70788ab39f8f5c55d4"
+      },
+      {
+        "path": "js/map-workspace.js",
+        "bytes": 38325,
+        "sha256": "747dbb454fe402098002c6851046d3d51926ee82be77fff7bdf17489fd0beea6"
+      },
+      {
+        "path": "js/map.js",
+        "bytes": 82659,
+        "sha256": "73d5cee3da3f081f07798aa3cfa2b034d9ca476b067688bfcf83447694453fa9"
+      },
+      {
+        "path": "js/navbar-mobile.js",
+        "bytes": 4903,
+        "sha256": "87545a5a377a25eccecc7523018df7652f93bb93e94f1b527e0a1a4d16b05803"
+      },
+      {
+        "path": "js/page-registry.js",
+        "bytes": 14468,
+        "sha256": "3c2886fafecae4bd8d0765d9e6da28a995bea69dfc39626d2d5240e7a5652d72"
+      },
+      {
+        "path": "js/performance-monitor.js",
+        "bytes": 3627,
+        "sha256": "6e3fc46ecc7e9ae0c1fe4f51fa9cf12e8ff48fdd3c3530c9972146044ff9d468"
+      },
+      {
+        "path": "js/profil.js",
+        "bytes": 32420,
+        "sha256": "89442e397b71166cf21ba08e2ce670cdc7e8798ca870e9c6ec08835f286511e8"
+      },
+      {
+        "path": "js/quetes.js",
+        "bytes": 15082,
+        "sha256": "d88ba6038f9e6fc0164134e80f79139e5144137f7218f3c41798c772657381ca"
+      },
+      {
+        "path": "js/reference-shell.js",
+        "bytes": 20693,
+        "sha256": "11596ab601166837059c92f129c6dffb0dba2289e38b1282ed8b66cf530e310f"
+      },
+      {
+        "path": "js/security-utils.js",
+        "bytes": 8679,
+        "sha256": "39cf92f4cf6c6fdb7bdf9db47fccf24725082887bde0e6dc211000318bba23dc"
+      },
+      {
+        "path": "js/supabase-public-config.js",
+        "bytes": 599,
+        "sha256": "99a3c60edc0094f787a0203df61208d9ed55ed56086c99b3e19012753e27003e"
+      },
+      {
+        "path": "js/vendor/leaflet-1.9.4.js",
+        "bytes": 147552,
+        "sha256": "db49d009c841f5ca34a888c96511ae936fd9f5533e90d8b2c4d57596f4e5641a"
+      },
+      {
+        "path": "js/vendor/LEAFLET-LICENSE.txt",
+        "bytes": 1395,
+        "sha256": "53e8dc25862014e4324741ca18fbe3611e11d42ef69f59f86ea8c5389647d4cb"
+      },
+      {
+        "path": "js/vendor/supabase-2.117.2.min.js",
+        "bytes": 218237,
+        "sha256": "2eebfe06b1b5309985dc1526e8981ea3a18b71beeef83e7f38e04c303e142d6d"
+      },
+      {
+        "path": "js/vendor/SUPABASE-LICENSE.txt",
+        "bytes": 1065,
+        "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+      },
+      {
+        "path": "js/wiki.js",
+        "bytes": 26805,
+        "sha256": "416ba7dbac40992998c358c42e603c8180a7b3193b6d130d5752e376acaa42d0"
+      },
+      {
+        "path": "js/world-atmosphere.js",
+        "bytes": 3541,
+        "sha256": "e42eb90ee052a3bb930e47cfa58b0d5716d5668e87fbca77b054ce80572111c9"
+      },
+      {
+        "path": "pages/admin-carte.html",
+        "bytes": 18806,
+        "sha256": "90824dd4152deba69b5a3c515561255c32a811c94417b870936f539c93859d3b"
+      },
+      {
+        "path": "pages/admin-dashboard.html",
+        "bytes": 31227,
+        "sha256": "c81e1b197ab916d0edb280910db2a473cab08872e0247edbb41ca759fd9de2d2"
+      },
+      {
+        "path": "pages/bestiaire.html",
+        "bytes": 13241,
+        "sha256": "25076d3f5dbd9ceec9a4aff1fcd391a9c3c1977adb66f0679a1ae64b8f069099"
+      },
+      {
+        "path": "pages/conditions.html",
+        "bytes": 10437,
+        "sha256": "301e41b34b5e2d6e400b7d38ad1f5fcff4ab1afb6bba1edfb85f2f4740676cc0"
+      },
+      {
+        "path": "pages/confidentialite.html",
+        "bytes": 12337,
+        "sha256": "91ccf20ca20e11b1f1716b1180da6ac1f483e076086dd4b7a30f82bbeed8580a"
+      },
+      {
+        "path": "pages/connexion.html",
+        "bytes": 10714,
+        "sha256": "471aab60b782061487360d9cc8d51048a208f82e37547638635134dde4167fca"
+      },
+      {
+        "path": "pages/espace-guilde.html",
+        "bytes": 25677,
+        "sha256": "965b60fbaf3b6c75f45b1e0cf73d00674c055005943beabfd96a90f7fa483d1f"
+      },
+      {
+        "path": "pages/items.html",
+        "bytes": 13702,
+        "sha256": "ce9082fac5739a640b4890ca90d034775fc3c6d1d51d1eaaec6ac835fab3a3b8"
+      },
+      {
+        "path": "pages/map.html",
+        "bytes": 16475,
+        "sha256": "a8c673d8cbd07bce3d7983b8554a6768030d150e3d560ba44fe603b5fd8a7114"
+      },
+      {
+        "path": "pages/profil.html",
+        "bytes": 20734,
+        "sha256": "ba2666fce8b7090ef78edd6afae1f0b00120db8e699ca82b7969afd295187129"
+      },
+      {
+        "path": "pages/quetes.html",
+        "bytes": 48380,
+        "sha256": "003ba45c627e92ba3f6ce1ae029a3b51e1986ad4cc5530c3b248c50d30554579"
+      },
+      {
+        "path": "pages/wiki.html",
+        "bytes": 112774,
+        "sha256": "1d76b84b36494cb2f1012c9730a95dcd0a3a1f95eaf0031fbaeaddeb1eec0609"
+      },
+      {
+        "path": "profil/index.html",
+        "bytes": 20536,
+        "sha256": "3453fbe7bb26f4a5d183d50cca5a16573a13f254ab3e62d973b8760c8eb183a6"
+      },
+      {
+        "path": "quetes/index.html",
+        "bytes": 47686,
+        "sha256": "2decf1e3527b5b5dd94401b1733593b3c6e42386f41e0423f1ebab990da0e334"
+      },
+      {
+        "path": "robots.txt",
+        "bytes": 298,
+        "sha256": "34fa5a2c773a77922a706428eec08520b6a3528bb9059c8b3be1d09f2c435194"
+      },
+      {
+        "path": "sitemap.xml",
+        "bytes": 1267,
+        "sha256": "e23560f4b0012bbf73f676401bf473917c46ae222fdbfe380f3289a9b19971db"
+      },
+      {
+        "path": "wiki/index.html",
+        "bytes": 111368,
+        "sha256": "5c5309fbcae615a766c310b986cdc4f943cc63a92e43d2da354be1f52d416b65"
+      }
+    ]
+  }
+}

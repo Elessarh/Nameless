@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import {createMapGraph} from './build-map-graph.mjs';
 import {projectCreature} from './public-content-policy.mjs';
+import {isBossFamily, creatureCategory, LEGACY_BOSS_ROUTES} from './creature-taxonomy.mjs';
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const origin = 'https://nameless-sao.fr';
@@ -79,14 +80,15 @@ export function buildBossPages({ root, output, mapGraph }) {
     const template = read('pages/bestiaire.html').replace(/^\uFEFF/, '');
     const used = new Set();
     const generated = [];
-    for (const boss of creatures.filter(creature => creature.category === 'boss')) {
+    for (const boss of creatures.filter(creature => isBossFamily(creature.category))) {
+        const category = creatureCategory(boss.category);
         const slug = bossSlug(boss.name);
         if (!slug || used.has(slug)) throw new Error('Boss URL collision: ' + boss.name);
         used.add(slug);
         const route = '/boss/' + slug;
         const canonical = origin + route;
-        const title = boss.name + ' — Boss du palier ' + boss.palier + ' | Nameless';
-        const description = (boss.name + ', boss du palier ' + boss.palier + " d'Aincrad : " + boss.location + '. ' + boss.description).slice(0, 160);
+        const title = boss.name + ' — ' + category.label + ' · Palier ' + boss.palier + ' | Nameless';
+        const description = (boss.name + ', ' + category.label.toLowerCase() + " d'Aincrad (palier " + boss.palier + ') : ' + boss.location + '. ' + boss.description).slice(0, 160);
         const image = assetPath(root, boss.image);
         const imageSize = pngSize(root, image);
         const dom = new JSDOM(template, { url: origin + '/pages/bestiaire.html' });
@@ -110,7 +112,7 @@ export function buildBossPages({ root, output, mapGraph }) {
         doc.title = title;
         doc.head.querySelector('link[rel="canonical"]').setAttribute('href', canonical);
         meta('description', description);
-        meta('keywords', [boss.name, 'boss', 'Aincrad', boss.location, 'palier ' + boss.palier, 'Nameless', 'Minecraft'].join(', '));
+        meta('keywords', [boss.name, category.label, 'Aincrad', boss.location, 'palier ' + boss.palier, 'Nameless', 'Minecraft'].join(', '));
         for (const name of ['og:title', 'twitter:title']) meta(name, title, name.startsWith('og:'));
         for (const name of ['og:description', 'twitter:description']) meta(name, description, name.startsWith('og:'));
         meta('og:url', canonical, true); meta('og:type', 'article', true);
@@ -125,7 +127,7 @@ export function buildBossPages({ root, output, mapGraph }) {
         const current = element('span', '', boss.name); current.setAttribute('aria-current', 'page'); breadcrumb.appendChild(current);
         main.appendChild(breadcrumb);
         const hero = element('header', 'bes-hero');
-        hero.append(element('span', 'nm-eyebrow', 'Codex des boss'), element('h1', '', boss.name), element('p', 'bes-subtitle', 'Boss du palier ' + boss.palier + " d'Aincrad"));
+        hero.append(element('span', 'nm-eyebrow', 'Codex des boss'), element('h1', '', boss.name), element('p', 'bes-subtitle', category.label + ' · Palier ' + boss.palier + " d'Aincrad"));
         main.appendChild(hero);
         const article = element('article', 'modal-content boss-fact');
         const header = element('div', 'modal-header');
@@ -135,7 +137,7 @@ export function buildBossPages({ root, output, mapGraph }) {
         media.appendChild(portrait); header.appendChild(media);
         const info = element('div', 'modal-info');
         const badges = element('div', 'modal-badges');
-        badges.append(element('span', 'creature-chip chip-boss', 'Boss'), element('span', 'creature-chip chip-type', boss.type), element('span', 'creature-chip chip-palier', 'Palier ' + boss.palier));
+        badges.append(element('span', 'creature-chip chip-' + boss.category, category.label), element('span', 'creature-chip chip-type', boss.type), element('span', 'creature-chip chip-palier', 'Palier ' + boss.palier));
         info.appendChild(badges);
         const stats = element('dl', 'modal-stats');
         for (const [label, value] of [['Zone', boss.location]]) {
@@ -199,7 +201,26 @@ export function buildBossPages({ root, output, mapGraph }) {
         fs.mkdirSync(directory, { recursive: true });
         fs.writeFileSync(path.join(directory, 'index.html'), dom.serialize());
         dom.window.close();
-        generated.push({ path: route, title: boss.name, id: boss.id });
+        generated.push({ path: route, title: boss.name, id: boss.id, category: boss.category });
+    }
+    // Former public URLs stay usable without retaining an incorrect boss page.
+    // These aliases are deliberately not returned to the sitemap compiler.
+    for (const [id, oldSlug] of LEGACY_BOSS_ROUTES) {
+        const creature = creatures.find(entry => entry.id === id);
+        if (!creature) continue;
+        const target = isBossFamily(creature.category) ? '/boss/' + bossSlug(creature.name) : '/bestiaire?creature=' + creature.id;
+        if (target === '/boss/' + oldSlug) continue;
+        const dom = new JSDOM('<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'self\'; script-src \'self\'; base-uri \'self\'; object-src \'none\'"><meta name="robots" content="noindex,follow"><title></title></head><body><main id="main-content"><h1></h1><p>Cette fiche a été mise à jour.</p><a>Ouvrir la fiche</a></main></body></html>');
+        const doc = dom.window.document;
+        doc.title = creature.name + ' — ' + creatureCategory(creature.category).label + ' | Nameless';
+        doc.querySelector('h1').textContent = creature.name;
+        doc.querySelector('a').setAttribute('href', target);
+        const canonical = doc.createElement('link'); canonical.rel = 'canonical'; canonical.href = origin + target; doc.head.appendChild(canonical);
+        const refresh = doc.createElement('meta'); refresh.httpEquiv = 'refresh'; refresh.content = '0;url=' + target; doc.head.appendChild(refresh);
+        const directory = path.join(output, 'boss', oldSlug);
+        fs.mkdirSync(directory, {recursive: true});
+        fs.writeFileSync(path.join(directory, 'index.html'), dom.serialize());
+        dom.window.close();
     }
     return generated;
 }

@@ -343,4 +343,18 @@ function page({ url = '/carte', mobile = false, rpc, waits = {}, stored, deniedS
     }
     p.cleanup();
 }
-console.log('Map view: archived cache/override/search/relationships/deep links blocked; current floors, positions, camera, keyboard and lifecycle passed.');
+{
+    const nazgul={...creature,key:'creature:58',id:58,title:'Nazgul',titleEn:'Nazgul',category:'boss',categoryLabel:'Boss',categoryLabelEn:'Boss',legacyBossSlugs:['soul-knight'],url:'/boss/nazgul'};
+    const mini={...creature,key:'creature:11',id:11,title:'Gardien Colossal',category:'miniboss',categoryLabel:'Mini-boss',categoryLabelEn:'Mini-boss',url:'/boss/gardien-colossal'};
+    const normal={...creature,key:'creature:7',id:7,title:'Mage Sylvestre',category:'creature',categoryLabel:'Monstre',categoryLabelEn:'Monster',markerType:'creature',legacyBossSlugs:['ancien-boss'],url:'/bestiaire?creature=7'};
+    const p=page({url:'/carte?floor=1&boss=soul-knight',extraEntities:[nazgul,mini,normal]}); const bridge=await p.init(),d=p.w.document;
+    assert.equal(bridge.getSelection(),nazgul.key,'A saved Soul Knight map URL selects the stable Nazgul identity');
+    await bridge.selectEntity(mini.key);
+    assert.match(d.getElementById('map-panel-content').textContent,/Mini-boss/,'Map details retain the precise mini-boss category');
+    p.route('/carte?floor=1&boss=ancien-boss');await tick();
+    assert.equal(bridge.getSelection(),normal.key,'A saved former-boss slug still resolves its now-normal creature');
+    p.language('en');
+    assert.match(d.getElementById('map-panel-content').textContent,/Monster/,'Normal creatures have the precise English category in map details');
+    p.cleanup();
+}
+console.log('Map view: reviewed categories, legacy boss aliases, archived cache/override/search/relationships/deep links blocked; current floors, positions, camera, keyboard and lifecycle passed.');

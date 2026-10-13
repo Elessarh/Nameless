@@ -222,7 +222,7 @@
         'Sorcier Kobold': 'Kobold Sorcerer',
         'Sorcier Squelette': 'Skeleton Sorcerer',
         'Sorcière': 'Witch',
-        'Soul Knight': 'Soul Knight',
+        'Nazgul': 'Nazgul',
         'Spirite de Glace': 'Ice Spirit',
         'Spore Corrompu': 'Corrupted Spore',
         'Squelette': 'Skeleton',

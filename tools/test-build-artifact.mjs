@@ -101,6 +101,14 @@ assert.equal(sitemapRoot.namespaceURI, namespace, 'Sitemap namespace is invalid'
 const locations = [...sitemapRoot.getElementsByTagNameNS(namespace, 'loc')].map((element) => element.textContent.trim());
 sitemap.window.close();
 assert.equal(new Set(locations).size, locations.length, 'Sitemap contains duplicate URLs');
+assert.equal(locations.filter(location => new URL(location).pathname.startsWith('/boss/')).length, 14, 'Sitemap contains exactly the 14 confirmed boss-family pages');
+for (const slug of ['gorbel', 'ika', 'nephantes', 'jira', 'kamilia', 'priscilia', 'yula', 'soul-knight']) {
+    const url = new URL('/boss/' + slug, origin);
+    assert.ok(!locations.includes(url.href), 'Compatibility alias excluded from the sitemap: ' + slug);
+    const alias = verifyHtml(publicFile(url), url.href + '/');
+    assert.match(alias.robots, /(?:^|,|\s)noindex(?:,|\s|$)/, 'Compatibility alias is not independently indexable: ' + slug);
+}
+assert.ok(locations.includes(origin + '/boss/nazgul'), 'Renamed boss has its current canonical sitemap route');
 for (const route of routes.filter((route) => !nonPublic.has(route.id))) {
     assert.ok(locations.includes(origin + route.path), 'Public route missing from sitemap: ' + route.path);
 }

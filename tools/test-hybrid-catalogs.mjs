@@ -90,8 +90,8 @@ for (const kind of ['creature', 'item']) {
     field(s, 'bes-sort', 'name-desc');
     equal(allPages(s, 'creature'), [...data].sort((a, b) => -byName(a, b)).map(c => String(c.id)), 'Name descending changes the actual dataset order');
     field(s, 'bes-sort', 'category');
-    const categoryOrder = { boss: 0, elite: 1, creature: 2 };
-    equal(allPages(s, 'creature'), [...data].sort((a, b) => categoryOrder[a.category] - categoryOrder[b.category] || byName(a, b)).map(c => String(c.id)), 'Category sort puts boss, elite and creature records in their real groups');
+    const categoryOrder = { 'floor-boss': 0, boss: 1, miniboss: 2, creature: 3 };
+    equal(allPages(s, 'creature'), [...data].sort((a, b) => categoryOrder[a.category] - categoryOrder[b.category] || byName(a, b)).map(c => String(c.id)), 'Category sort puts floor boss, bosses, mini-bosses and normal monsters in their approved groups');
     const target = data.find(c => c.category === 'creature' && c.location !== '???');
     field(s, 'bes-category', target.category); field(s, 'bes-zone', target.location);
     equal(allPages(s, 'creature'), data.filter(c => c.category === target.category && c.location === target.location).sort(byName).map(c => String(c.id)), 'Category and zone filters intersect rather than replace each other');
@@ -164,6 +164,17 @@ for (const kind of ['creature', 'item']) {
     const s = surface(kind), { w, d, data } = s;
     for (const file of ['js/i18n-en.js', 'js/i18n-en-reviewed.js', 'js/i18n-game-en-reviewed.js', 'js/i18n.js']) w.eval(read(file));
     w.NamelessI18n.setLanguage('en');
+    if (kind === 'creature') {
+        const approvedLabels = { boss: 'Boss', miniboss: 'Mini-boss', 'floor-boss': 'Floor boss', creature: 'Monster' };
+        for (const [category, label] of Object.entries(approvedLabels)) {
+            equal(d.querySelector('#bes-category option[value="' + category + '"]').textContent, label, 'English category control displays the reviewed ' + category + ' label');
+            field(s, 'bes-category', category);
+            equal(new Set(allPages(s, kind)), new Set(data.filter(record => record.category === category).map(record => String(record.id))), 'English ' + category + ' filter keeps precisely the approved stable identities');
+            check([...d.querySelectorAll('.chip-category')].every(chip => chip.textContent === label), 'English ' + category + ' cards retain their precise classification label');
+        }
+        field(s, 'bes-category', '');
+        equal(w.NamelessI18n.translate('Nazgul'), 'Nazgul', 'Nazgul retains its approved display name in English');
+    }
     const searchId = kind === 'creature' ? 'bes-search' : 'it-search';
     const sortId = kind === 'creature' ? 'bes-sort' : 'it-sort';
     const compact = value => String(value).normalize('NFD').replace(/[\u0300-\u036f\s]/g, '').toLowerCase();

@@ -5,6 +5,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
+import {isBossFamily, creatureCategory, legacyBossSlugs} from './creature-taxonomy.mjs';
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
 const { JSDOM } = require('jsdom');
@@ -288,12 +289,14 @@ function compile({ root = defaultRoot } = {}) {
     const glacial = entities.get('item:peau_glacial');
     const glacialProof = audit.itemAliasEvidence[0];
     creatures.forEach((creature, index) => {
+        const category = creatureCategory(creature.category);
         const place = creature.location === '???' ? null : placesByName.get(matchLocationName(creature.location));
         const entity = add({ key: 'creature:' + creature.id, id: creature.id, kind: 'creature', title: creature.name, floor: creature.palier,
-            markerType: creature.category === 'boss' ? 'boss' : 'creature', description: creature.description,
-            url: creature.category === 'boss' ? '/boss/' + slug(creature.name) : '/bestiaire?creature=' + creature.id,
+            markerType: isBossFamily(creature.category) ? 'boss' : 'creature', description: creature.description,
+            url: isBossFamily(creature.category) ? '/boss/' + slug(creature.name) : '/bestiaire?creature=' + creature.id,
             image: imageUrl(creature.image), positionRef: place?.key || null, placeKey: place?.key || null,
-            category: creature.category, type: creature.type,
+            category: creature.category, categoryLabel: category.label, categoryLabelEn: category.labelEn,
+            type: creature.type, legacyBossSlugs: legacyBossSlugs(creature.id),
             sources: [{ file: 'js/bestiaire.js', literal: 'creaturesData', index, id: creature.id, location: creature.location }] });
         if (place) { place.creatureKeys.push(entity.key); link(place, entity); }
         else audit.unmatchedCreatureLocations.push({ key: entity.key, title: entity.title, location: creature.location, reason: creature.location === '???' ? 'unknown' : 'no-exact-or-approved-alias' });
@@ -336,6 +339,8 @@ function compile({ root = defaultRoot } = {}) {
     const registry = [...entities.values()].filter(entity => entity.kind !== 'item').map(entity => ({ key: entity.key, kind: entity.kind, floor: entity.floor, markerType: entity.markerType }));
     const catalog = { version: 1, floors: floorMeta, index: [...entities.values()].map(entity => ({ key: entity.key, id: entity.id, kind: entity.kind, title: entity.title,
         titleEn: entity.titleEn, floor: entity.floor, markerType: entity.markerType, status: entity.status || null, positionRef: entity.position ? entity.key : entity.positionRef, url: entity.url,
+        ...(entity.kind === 'creature' ? {category: entity.category, categoryLabel: entity.categoryLabel, categoryLabelEn: entity.categoryLabelEn, type: entity.type} : {}),
+        ...(entity.legacyBossSlugs?.length ? {legacyBossSlugs: entity.legacyBossSlugs} : {}),
         mapUrl: '/carte?floor=' + entity.floor + '&entity=' + encodeURIComponent(entity.key),
         keywords: clean([entity.description, entity.npc, entity.category, ...entity.sources.map(source => source.location || source.city || ''), ...entity.drops.map(drop => drop.name)].join(' ')) })), registry };
     audit.counts = { entities: entities.size, byKind: Object.fromEntries(['location', 'quest', 'guide', 'npc', 'creature', 'item'].map(kind => [kind, [...entities.values()].filter(entity => entity.kind === kind).length])),

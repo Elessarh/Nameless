@@ -35,6 +35,29 @@ assert.equal(graph.registry.length, all.length - 104);
 assert.deepEqual(graph.catalog.registry, graph.registry);
 assert.deepEqual(createMapGraph({ root }), graph, 'Compilation is deterministic');
 
+const confirmed = {boss: [19, 21, 58, 60], miniboss: [11, 15, 17, 41, 43, 44, 46, 47, 56], 'floor-boss': [53]};
+for (const [category, ids] of Object.entries(confirmed)) {
+    assert.deepEqual(byKind('creature').filter(entity => entity.category === category).map(entity => entity.id).sort((a, b) => a - b), ids, 'Graph classification matches the explicit ' + category + ' list');
+}
+assert.equal(byKind('creature').filter(entity => entity.category === 'creature').length, 46, 'Every unlisted creature is a normal monster');
+for (const entity of byKind('creature')) {
+    const bossFamily = entity.category !== 'creature';
+    assert.equal(entity.markerType, bossFamily ? 'boss' : 'creature', 'Map marker grouping follows the actual family');
+    const entry = graph.catalog.index.find(entry => entry.key === entity.key);
+    assert.equal(entry.url, entity.url, 'Map search opens the same public creature identity');
+    assert.equal(entry.category, entity.category, 'Lightweight map search retains the exact category');
+    assert.equal(entry.categoryLabel, entity.categoryLabel, 'Lightweight map search retains the exact French category label');
+    assert.equal(entry.categoryLabelEn, entity.categoryLabelEn, 'Lightweight map search retains the exact English category label');
+    assert.equal(entry.type, entity.type, 'Lightweight map search preserves the native creature type');
+    assert.equal(entity.url.startsWith('/boss/'), bossFamily, 'Only boss families use generated boss URLs');
+}
+assert.equal(byKey.get('creature:58').title, 'Nazgul', 'Map displays the corrected boss name');
+assert.equal(byKey.get('creature:58').url, '/boss/nazgul');
+for (const [id, slug] of [[1, 'gorbel'], [16, 'ika'], [18, 'nephantes'], [54, 'jira'], [55, 'kamilia'], [57, 'priscilia'], [59, 'yula'], [58, 'soul-knight']]) {
+    assert.deepEqual(byKey.get('creature:' + id).legacyBossSlugs, [slug], 'Former map boss aliases preserve the permanent identity');
+    assert.deepEqual(graph.catalog.index.find(entry => entry.key === 'creature:' + id).legacyBossSlugs, [slug], 'Map lightweight catalogue includes the former alias');
+}
+
 const previewManifest = JSON.parse(fs.readFileSync(path.join(root, 'docs/map-exploration-2026-10-08/preview-manifest.json'), 'utf8'));
 assert.equal(previewManifest.version, 1);
 assert.equal(previewManifest.process.method, 6);

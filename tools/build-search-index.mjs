@@ -5,6 +5,7 @@ import {createRequire} from 'node:module';
 import {bossSlug} from './build-boss-pages.mjs';
 import {createMapGraph} from './build-map-graph.mjs';
 import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
+import {isBossFamily, creatureCategory} from './creature-taxonomy.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
@@ -50,8 +51,15 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
         const url = new URL(String(value), 'https://nameless-sao.fr/pages/bestiaire.html');
         return url.origin === 'https://nameless-sao.fr' && url.pathname.startsWith('/assets/') ? url.pathname : null;
     };
-    creatures.forEach(c => add({kind: c.category === 'boss' ? 'boss' : 'creature', id: String(c.id), title: c.name,
-        url: c.category === 'boss' ? '/boss/' + bossSlug(c.name) : '/bestiaire?creature=' + c.id, image: assetUrl(c.image), summary: c.location + ' · Palier ' + c.palier, location: c.location, ...mapMetadata('creature:' + c.id), keywords: c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')}));
+    creatures.forEach(c => {
+        const category = creatureCategory(c.category);
+        add({kind: isBossFamily(c.category) ? 'boss' : 'creature', category: c.category, categoryLabel: category.label, categoryLabelEn: category.labelEn,
+            id: String(c.id), title: c.name,
+            url: isBossFamily(c.category) ? '/boss/' + bossSlug(c.name) : '/bestiaire?creature=' + c.id, image: assetUrl(c.image),
+            summary: category.label + ' · ' + c.location + ' · Palier ' + c.palier,
+            summaryEn: category.labelEn + ' · ' + (en[c.location] || c.location) + ' · Floor ' + c.palier,
+            location: c.location, ...mapMetadata('creature:' + c.id), keywords: category.label + ' ' + category.labelEn + ' ' + (c.id === 58 ? 'Soul Knight ' : '') + c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')});
+    });
     const sandbox = {};
     vm.runInNewContext(read('js/items-catalog-hdv.js') + ';this.catalog = itemsCatalog;', sandbox);
     for (const group of Object.values(sandbox.catalog)) {

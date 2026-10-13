@@ -85,6 +85,11 @@ try {
     await bridge.reloadOverrides();const centerBeforeRetiredSelection=bridge.map.getCenter();await bridge.selectEntity(noOverride);
     check(!bridge.getData().points.includes(noOverride)&&bridge.getData().entities[noOverride].position===null,'Retirement immediately suppresses an existing static town');
     check(bridge.map.getCenter().equals(centerBeforeRetiredSelection),'A newly retired baseline-only town cannot trigger centering');
+    await db.query("insert into public.map_marker_overrides(entity_key,floor,marker_type,state,u,v) values('creature:1',1,'boss','visible',.4,.5),('creature:11',1,'creature','visible',.6,.7)");
+    await bridge.reloadOverrides();
+    check(bridge.getData().entities['creature:1'].markerType==='creature','A stale published Boss type cannot reclassify the normal monster Gorbel');
+    check(bridge.getData().entities['creature:11'].markerType==='boss','A stale normal marker cannot downgrade the reviewed mini-boss family');
+    check(bridge.getData().entities['creature:1'].position.source==='override'&&bridge.getData().points.includes('creature:11'),'Reviewed categories retain published coordinates and visibility');
     check(errors.length===0,errors.map(String).join('\n'));
 } finally {if(dom){dom.window.NamelessMapPage?.destroy();dom.window.close();}await db.close();}
 console.log('Map publication: '+checks+' checks passed with real SQL 006 payloads and bundled Leaflet; migration-only and retired baselines remain hidden.');

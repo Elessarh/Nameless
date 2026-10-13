@@ -84,7 +84,7 @@
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261007a',
                 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261010phase3native'
+                'js/map.js?v=20261013taxonomy1'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -102,7 +102,7 @@
             css: ['css/vendor/leaflet-1.9.4.css?v=20261007a', 'css/components/map.css?v=20261008hybrid',
                 'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261010maprework2'],
             scripts: ['js/vendor/leaflet-1.9.4.js?v=20261007a', 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261010phase3native', 'js/map-workspace.js?v=20261011release1'],
+                'js/map.js?v=20261013taxonomy1', 'js/map-workspace.js?v=20261013taxonomy1'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),
         publicRoute({
@@ -111,12 +111,12 @@
             source: 'pages/bestiaire.html',
             title: 'Bestiaire - Nameless',
             css: [
-                'css/components/bestiaire.css?v=20261011phasec4',
+                'css/components/bestiaire.css?v=20261013taxonomy1',
                 'css/components/page-hero.css?v=20261011ux2e',
                 'css/components/reference-catalogs.css?v=20261011phasee4'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261011phasee3'
+                'js/bestiaire.js?v=20261013taxonomy1'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {

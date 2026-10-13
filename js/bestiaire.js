@@ -4,7 +4,7 @@ const creaturesData = [
     {
         id: 1,
         name: "Gorbel",
-        category: "boss",
+        category: "creature",
         type: "Créature",
         palier: 1,
         image: "../assets/mobs/Gorbel.png",
@@ -59,7 +59,7 @@ const creaturesData = [
     {
         id: 5,
         name: "Slime Magicien",
-        category: "elite",
+        category: "creature",
         type: "Créature",
         palier: 1,
         image: "../assets/mobs/Slime Magicien.png",
@@ -90,7 +90,7 @@ const creaturesData = [
     {
         id: 7,
         name: "Mage Sylvestre",
-        category: "elite",
+        category: "creature",
         type: "Plante",
         palier: 1,
         image: "../assets/mobs/Mage Sylvestre.avif",
@@ -119,7 +119,7 @@ const creaturesData = [
     {
         id: 9,
         name: "Tréant Elite",
-        category: "elite",
+        category: "creature",
         type: "Plante",
         palier: 1,
         image: "../assets/mobs/Tréant Elite.avif",
@@ -133,7 +133,7 @@ const creaturesData = [
     {
         id: 10,
         name: "Guerrier Tréant",
-        category: "elite",
+        category: "creature",
         type: "Plante",
         palier: 1,
         image: "../assets/mobs/Guerrier Tréant.avif",
@@ -147,7 +147,7 @@ const creaturesData = [
     {
         id: 11,
         name: "Gardien Colossal",
-        category: "boss",
+        category: "miniboss",
         type: "Golem",
         palier: 1,
         image: "../assets/mobs/Gardien Colossal.avif",
@@ -204,7 +204,7 @@ const creaturesData = [
     {
         id: 15,
         name: "Albal",
-        category: "boss",
+        category: "miniboss",
         type: "Bête",
         palier: 1,
         image: "../assets/mobs/Loup SInistre Noir.png",
@@ -220,7 +220,7 @@ const creaturesData = [
     {
         id: 16,
         name: "Ika",
-        category: "boss",
+        category: "creature",
         type: "Tortue Ancienne",
         palier: 1,
         image: "../assets/mobs/Ika.avif",
@@ -233,7 +233,7 @@ const creaturesData = [
     {
         id: 17,
         name: "Narax",
-        category: "boss",
+        category: "miniboss",
         type: "Démon",
         palier: 1,
         image: "../assets/mobs/Narax.png",
@@ -244,7 +244,7 @@ const creaturesData = [
     {
         id: 18,
         name: "Néphantes",
-        category: "boss",
+        category: "creature",
         type: "Plante Carnivore",
         palier: 1,
         image: "../assets/mobs/Nephantes.gif",
@@ -269,7 +269,7 @@ const creaturesData = [
     {
         id: 20,
         name: "Plante Dévoreuse",
-        category: "elite",
+        category: "creature",
         type: "Plante",
         palier: 1,
         image: "../assets/mobs/Plante Dévoreuse.avif",
@@ -291,7 +291,7 @@ const creaturesData = [
     {
         id: 22,
         name: "Spirite de Glace",
-        category: "elite",
+        category: "creature",
         type: "Élémentaire",
         palier: 1,
         image: "../assets/mobs/Spirite de glace.png",
@@ -321,7 +321,7 @@ const creaturesData = [
     {
         id: 24,
         name: "Araignée Empoisonnée",
-        category: "elite",
+        category: "creature",
         type: "Araignée",
         palier: 1,
         image: "../assets/mobs/Araignée_empoisonnée.png",
@@ -335,7 +335,7 @@ const creaturesData = [
     {
         id: 25,
         name: "Araignée Étrangleuse",
-        category: "elite",
+        category: "creature",
         type: "Araignée",
         palier: 1,
         image: "../assets/mobs/Araignée_étrangleuse.png",
@@ -373,7 +373,7 @@ const creaturesData = [
     {
         id: 28,
         name: "Guerrier Kobold",
-        category: "elite",
+        category: "creature",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Guerrier_kobold.png",
@@ -384,7 +384,7 @@ const creaturesData = [
     {
         id: 29,
         name: "Hallebardier Kobold",
-        category: "elite",
+        category: "creature",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Hallebardier_Kobold.png",
@@ -406,7 +406,7 @@ const creaturesData = [
     {
         id: 31,
         name: "Soldat Kobold",
-        category: "elite",
+        category: "creature",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Soldat_kobold.png",
@@ -417,7 +417,7 @@ const creaturesData = [
     {
         id: 32,
         name: "Sorcier Kobold",
-        category: "elite",
+        category: "creature",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Sorcier_kobold.png",
@@ -457,7 +457,7 @@ const creaturesData = [
     {
         id: 35,
         name: "Épéiste Squelette",
-        category: "elite",
+        category: "creature",
         type: "Mort-vivant",
         palier: 1,
         image: "../assets/mobs/Epeiste_squelette.png",
@@ -470,7 +470,7 @@ const creaturesData = [
     {
         id: 36,
         name: "Guerrier Squelette",
-        category: "elite",
+        category: "creature",
         type: "Mort-vivant",
         palier: 1,
         image: "../assets/mobs/Guerrier_squelette.png",
@@ -483,7 +483,7 @@ const creaturesData = [
     {
         id: 37,
         name: "Hallebardier Squelette",
-        category: "elite",
+        category: "creature",
         type: "Mort-vivant",
         palier: 1,
         image: "../assets/mobs/Hallebardier_squelette.png",
@@ -496,7 +496,7 @@ const creaturesData = [
     {
         id: 38,
         name: "Tank Squelette",
-        category: "elite",
+        category: "creature",
         type: "Mort-vivant",
         palier: 1,
         image: "../assets/mobs/Tank_squelette.png",
@@ -509,7 +509,7 @@ const creaturesData = [
     {
         id: 39,
         name: "Sorcier Squelette",
-        category: "elite",
+        category: "creature",
         type: "Mort-vivant",
         palier: 1,
         image: "../assets/mobs/Sorcier_squelette.png",
@@ -522,7 +522,7 @@ const creaturesData = [
     {
         id: 40,
         name: "Soldat Déchu",
-        category: "elite",
+        category: "creature",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Soldat-Déchu.png",
@@ -533,7 +533,7 @@ const creaturesData = [
     {
         id: 41,
         name: "Gardien Déchu",
-        category: "elite",
+        category: "miniboss",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Gardien-Déchu.png",
@@ -544,7 +544,7 @@ const creaturesData = [
     {
         id: 42,
         name: "Guerrier Déchu",
-        category: "elite",
+        category: "creature",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Guerrier Déchu.png",
@@ -555,7 +555,7 @@ const creaturesData = [
     {
         id: 43,
         name: "Héraut Déchu",
-        category: "boss",
+        category: "miniboss",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Héraut-Déchu.png",
@@ -568,7 +568,7 @@ const creaturesData = [
     {
         id: 44,
         name: "Faucheuse Déchu",
-        category: "boss",
+        category: "miniboss",
         type: "Mort-vivant",
         palier: 1,
         image: "../assets/mobs/Faucheuse-Déchu.png",
@@ -583,7 +583,7 @@ const creaturesData = [
     {
         id: 45,
         name: "Golem de Glace",
-        category: "elite",
+        category: "creature",
         type: "Élémentaire",
         palier: 1,
         image: "../assets/mobs/Golem_de_glace.png",
@@ -597,7 +597,7 @@ const creaturesData = [
     {
         id: 46,
         name: "Ours Glacial",
-        category: "elite",
+        category: "miniboss",
         type: "Bête",
         palier: 1,
         image: "../assets/mobs/Ours_Glacial.png",
@@ -610,7 +610,7 @@ const creaturesData = [
     {
         id: 47,
         name: "Plante Mutante",
-        category: "elite",
+        category: "miniboss",
         type: "Plante",
         palier: 1,
         image: "../assets/mobs/Plante_mutante.png",
@@ -654,7 +654,7 @@ const creaturesData = [
     {
         id: 51,
         name: "Bandit Assassin",
-        category: "elite",
+        category: "creature",
         type: "Humanoïde",
         palier: 1,
         image: "../assets/mobs/Bandit Assassin.png",
@@ -667,7 +667,7 @@ const creaturesData = [
     {
         id: 52,
         name: "Poisson Requin",
-        category: "elite",
+        category: "creature",
         type: "Bête Aquatique",
         palier: 1,
         image: "../assets/mobs/Poisson_requin.png",
@@ -678,11 +678,11 @@ const creaturesData = [
         location: "Virelune"
     },
 
-    // Palier 1 - Boss légendaires
+    // Palier 1 - Autres monstres et boss de donjon
     {
         id: 53,
         name: "Illfang",
-        category: "boss",
+        category: "floor-boss",
         type: "Kobold Seigneur",
         palier: 1,
         image: "../assets/mobs/illfang.png",
@@ -693,7 +693,7 @@ const creaturesData = [
     {
         id: 54,
         name: "Jira",
-        category: "boss",
+        category: "creature",
         type: "Démon",
         palier: 1,
         image: "../assets/mobs/Jira.png",
@@ -704,7 +704,7 @@ const creaturesData = [
     {
         id: 55,
         name: "Kamilia",
-        category: "boss",
+        category: "creature",
         type: "Mage",
         palier: 1,
         image: "../assets/mobs/Kamilia.png",
@@ -715,7 +715,7 @@ const creaturesData = [
     {
         id: 56,
         name: "Léviathan",
-        category: "boss",
+        category: "miniboss",
         type: "Serpent de Mer",
         palier: 1,
         image: "../assets/mobs/leviathan.png",
@@ -728,7 +728,7 @@ const creaturesData = [
     {
         id: 57,
         name: "Priscilia",
-        category: "boss",
+        category: "creature",
         type: "Dragon-Humanoïde",
         palier: 1,
         image: "../assets/mobs/priscilia.png",
@@ -738,7 +738,7 @@ const creaturesData = [
     },
     {
         id: 58,
-        name: "Soul Knight",
+        name: "Nazgul",
         category: "boss",
         type: "Chevalier Maudit",
         palier: 1,
@@ -750,7 +750,7 @@ const creaturesData = [
     {
         id: 59,
         name: "Yula",
-        category: "boss",
+        category: "creature",
         type: "Sorcière",
         palier: 1,
         image: "../assets/mobs/Yula.png",
@@ -951,7 +951,7 @@ function showBestiaryTooltip(card, delayed) {
         besTooltip.replaceChildren();
         const heading = document.createElement('strong'); heading.textContent = besDisplayName(creature.name);
         const meta = document.createElement('span'); meta.textContent = besDisplayName(getCategoryDisplay(creature.category)) + ' · ' + besUi('Palier ', 'Floor ') + creature.palier;
-        if (besNormalize(creature.type) !== besNormalize(getCategoryDisplay(creature.category))) meta.textContent += ' · ' + besDisplayName(creature.type);
+        if (besNormalize(creature.type) !== 'creature' && besNormalize(creature.type) !== besNormalize(getCategoryDisplay(creature.category))) meta.textContent += ' · ' + besDisplayName(creature.type);
         const zone = document.createElement('span'); zone.textContent = besDisplayName(besLocationLabel(creature.location));
         besTooltip.append(heading, meta, zone);
         besTooltip.hidden = false; besTooltipCard = card;
@@ -1328,7 +1328,7 @@ function filterCreatures() {
     if (sort === 'name-asc') filteredCreatures.sort(byName);
     else if (sort === 'name-desc') filteredCreatures.sort((a, b) => -byName(a, b));
     else if (sort === 'category') {
-        const order = { boss: 0, elite: 1, creature: 2 };
+        const order = { 'floor-boss': 0, boss: 1, miniboss: 2, creature: 3 };
         filteredCreatures.sort((a, b) => (order[a.category] ?? 3) - (order[b.category] ?? 3) || byName(a, b));
     }
     currentPage = 1;
@@ -1774,7 +1774,7 @@ function pageEllipsis() {
 
 // --- Utilitaires ---
 function getCategoryDisplay(category) {
-    const categories = { boss: 'Boss', elite: 'Élite', creature: 'Créature' };
+    const categories = { boss: 'Boss', miniboss: besUi('Mini-boss', 'Mini-boss'), 'floor-boss': besUi('Boss de palier', 'Floor boss'), creature: besUi('Monstre', 'Monster') };
     return categories[category] || category;
 }
 

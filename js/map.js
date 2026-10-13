@@ -9,7 +9,7 @@
         town: ['Villes', 'Towns'], dungeon: ['Donjons', 'Dungeons'], zone: ['Zones', 'Zones'],
         merchant: ['Marchands', 'Merchants'], 'quest-primary': ['Quêtes principales', 'Main quests'],
         'quest-secondary': ['Quêtes secondaires', 'Side quests'], npc: ['PNJ', 'NPCs'],
-        teleporter: ['Téléporteurs', 'Teleporters'], boss: ['Boss', 'Bosses'], creature: ['Créatures', 'Creatures']
+        teleporter: ['Téléporteurs', 'Teleporters'], boss: ['Boss et mini-boss', 'Bosses & mini-bosses'], creature: ['Monstres', 'Monsters']
     };
     const KIND_LABELS = { location: ['Lieu', 'Location'], quest: ['Quête', 'Quest'], guide: ['Guide', 'Guide'], npc: ['PNJ', 'NPC'], creature: ['Créature', 'Creature'], item: ['Ressource', 'Resource'] };
     const GLYPHS = {
@@ -35,7 +35,14 @@
     function label(entity) { return english() && entity.titleEn ? entity.titleEn : entity.title || entity.id || entity.key; }
     function typeLabel(type) { const value = TYPE_LABELS[type] || ['Repères', 'Markers']; return text(...value); }
     function kindLabel(kind) { return text(...(KIND_LABELS[kind] || ['Lieu', 'Location'])); }
-    function entryKind(entity) { return entity.markerType === 'boss' ? text('Boss', 'Boss') : kindLabel(entity.kind); }
+    const CREATURE_LABELS = { creature: ['Monstre', 'Monster'], miniboss: ['Mini-boss', 'Mini-boss'], boss: ['Boss', 'Boss'], 'floor-boss': ['Boss de palier', 'Floor boss'] };
+    function entryKind(entity) {
+        if (entity.kind === 'creature') {
+            if (entity.categoryLabel) return english() ? entity.categoryLabelEn || entity.categoryLabel : entity.categoryLabel;
+            if (Object.hasOwn(CREATURE_LABELS, entity.category)) return text(...CREATURE_LABELS[entity.category]);
+        }
+        return entity.markerType === 'boss' ? text('Boss', 'Boss') : kindLabel(entity.kind);
+    }
     function publicEntity(entity) {
         if (!entity || ['historical-unverified', 'archived'].includes(entity.status)) return false;
         // Old JSON without a status must not revive retired legacy identities.
@@ -265,7 +272,11 @@
             }
             const coord = latlng(state, { u: record.u, v: record.v });
             entity.position = { ...relative(state, coord), source: 'override' };
-            entity.markerType = Object.hasOwn(TYPE_LABELS, record.marker_type) ? record.marker_type : entity.markerType;
+            // Published placements can move/hide a creature, but its reviewed
+            // category owns the icon and filter group, including old overrides.
+            if (!(entity.kind === 'creature' && Object.hasOwn(CREATURE_LABELS, entity.category))) {
+                entity.markerType = Object.hasOwn(TYPE_LABELS, record.marker_type) ? record.marker_type : entity.markerType;
+            }
             entity.overrideState = 'visible'; entity.overrideId = record.id; points.add(key);
         }
         state.data = { ...state.rawData, entities, points: [...points] };
@@ -614,7 +625,7 @@
         const aliases = [['location', 'location'], ['creature', 'creature'], ['boss', 'creature'], ['guide', 'guide'], ['quest', 'quest']];
         for (const [param, kind] of aliases) {
             if (!params.has(param)) continue;
-            const id = params.get(param); const candidates = state.catalog.index.filter(entity => entity.kind === kind && (String(entity.id) === id || entity.key === id || entity.key === kind + ':' + id || (param === 'boss' && entity.url === '/boss/' + id)));
+            const id = params.get(param); const candidates = state.catalog.index.filter(entity => entity.kind === kind && (String(entity.id) === id || entity.key === id || entity.key === kind + ':' + id || (param === 'boss' && (entity.url === '/boss/' + id || entity.legacyBossSlugs?.includes(id)))));
             return (candidates.find(entity => Number(entity.floor) === floor) || candidates[0])?.key || null;
         }
         return null;

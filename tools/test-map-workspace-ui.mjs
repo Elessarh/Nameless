@@ -8,11 +8,13 @@ const errors=[],output=new VirtualConsole();output.on('jsdomError',error=>errors
 const dom=new JSDOM(read('pages/admin-carte.html'),{url:'https://nameless-sao.fr/admin-carte?floor=1',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:output});
 const w=dom.window,d=w.document,catalog=JSON.parse(read('assets/map/catalog.json'));
 let language='fr',checks=0;const calls=[];
+const originalImage=catalog.floors.find(floor=>floor.id===1).originalImage||catalog.floors.find(floor=>floor.id===1).image;
+w.localStorage.setItem('nameless.map-marker-drafts.v1.11111111-1111-4111-8111-111111111111',JSON.stringify({'creature:58':{key:'creature:58',custom:false,floor:1,imageId:originalImage,title:'Soul Knight',description:'Ancienne fiche',type:'creature',state:'visible',u:.3,v:.4,baseRevision:0}}));
 const check=(value,message)=>{assert.ok(value,message);checks++;};
 w.NamelessSpaRouter={controlsLifecycle:true};w.NamelessI18n={getLanguage:()=>language};w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};
 w.fetch=async input=>({ok:true,json:async()=>JSON.parse(read(new URL(String(input),w.location.href).pathname.slice(1)))});
 w.supabase={auth:{getUser:async()=>({data:{user:{id:'11111111-1111-4111-8111-111111111111'}},error:null})},rpc:async name=>{
-    calls.push(name);return {data:name==='current_user_role'?'admin':name==='map_workspace_read'?{registry:catalog.registry.map(row=>({entity_key:row.key,marker_revision:0,region_revision:0})),markers:[],regions:[],custom_markers:[],maps:[]}:[],error:null};
+    calls.push(name);return {data:name==='current_user_role'?'admin':name==='map_workspace_read'?{registry:catalog.registry.map(row=>({entity_key:row.key,marker_revision:0,region_revision:0})),markers:[{entity_key:'creature:1',marker_type:'boss',floor:1,state:'visible',u:.4,v:.5}],regions:[],custom_markers:[],maps:[]}:[],error:null};
 }};
 const map=d.getElementById('game-map');Object.defineProperties(map,{clientWidth:{value:900},clientHeight:{value:600}});map.getBoundingClientRect=()=>({top:0,left:0,bottom:600,right:900,width:900,height:600});
 w.SVGSVGElement.prototype.createSVGRect=()=>({});
@@ -37,6 +39,13 @@ try {
     const selection=d.querySelector('.map-region-entity');selection.value=originalKey;selection.dispatchEvent(new w.Event('change',{bubbles:true}));
     check(d.querySelector('.map-region-name').readOnly && !publish.disabled && help().textContent==='Le nom public de la zone reprend celui de la fiche associée.','Linking a real existing entry replaces the disabled-publication explanation with the source-name guidance');
     check(d.querySelectorAll('#workspace-region-help').length===1,'Changes of selection and language reuse one contextual publication note');
+    d.querySelector('[data-workspace-mode="markers"]').click();
+    const markerSelect=d.getElementById('workspace-marker-select');
+    markerSelect.value='creature:58';markerSelect.dispatchEvent(new w.Event('change'));
+    check(d.getElementById('workspace-marker-title').value==='Nazgul','An old private Soul Knight draft cannot replace the current official Nazgul name');
+    check(d.getElementById('workspace-marker-type').value==='boss'&&d.getElementById('workspace-marker-type').disabled,'The linked Nazgul classification is restored from its reviewed catalogue rather than its older draft');
+    markerSelect.value='creature:1';markerSelect.dispatchEvent(new w.Event('change'));
+    check(d.getElementById('workspace-marker-type').value==='creature'&&d.getElementById('workspace-marker-type').disabled,'An old published Boss placement cannot reclassify the normal monster Gorbel in the editor');
     check(!calls.some(name=>/^map_workspace_(save|reset|delete)/.test(name)),'Selection, naming guidance and translation never publish or mutate backend state');
     check(errors.length===0,errors.map(String).join('\n'));
 } finally {w.NamelessMapWorkspace.destroy();w.NamelessMapRegions.destroy();w.NamelessMapPage.destroy();w.close();}

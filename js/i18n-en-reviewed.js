@@ -10,6 +10,7 @@
     global.NamelessTranslations.en = global.NamelessTranslations.en || {};
 
     Object.assign(global.NamelessTranslations.en, {
+        "Bestiaire d'Aincrad : boss de palier, boss, mini-boss et monstres. Découvrez leurs zones et butins dans le codex Nameless.": "Aincrad bestiary: floor bosses, bosses, mini-bosses and monsters. Discover their zones and drops in the Nameless codex.",
         "Renseigner ma présence": "Record my attendance",
         "Navigation du codex": "Codex navigation",
         "Guides d’Aincrad": "Aincrad guides",
@@ -156,6 +157,7 @@
         "Ressource": "Resource",
         "Consommable": "Consumable",
         "Boss · Palier 1": "Boss · Floor 1",
+        "Boss de palier · Palier 1": "Floor boss · Floor 1",
         "Créature · Palier 1": "Creature · Floor 1",
         "Butin des slimes": "Slime loot",
         "Présentez votre personnage sur Discord. Une fois membre, connectez-vous pour consulter le planning, les objectifs et les messages de la guilde.": "Introduce your character on Discord. Once you are a member, sign in to view the guild's schedule, goals and messages.",
@@ -248,6 +250,8 @@
         'Marchand': 'Merchant',
         'Marchands': 'Merchants',
         'Monstre': 'Monster',
+        'Mini-boss': 'Mini-boss',
+        'Boss de palier': 'Floor boss',
         'Monstres': 'Monsters',
         'Zone de Monstres': 'Monster Area',
         'Zone de monstres': 'Monster Area',
