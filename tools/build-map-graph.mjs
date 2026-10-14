@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
 import {isBossFamily, creatureCategory, legacyBossSlugs} from './creature-taxonomy.mjs';
+import {readOfficialItemCatalogue, normalizeItemName} from './items-catalogue.mjs';
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
 const { JSDOM } = require('jsdom');
@@ -115,13 +116,15 @@ function compile({ root = defaultRoot } = {}) {
     const read = file => fs.readFileSync(path.join(root, file), 'utf8');
     const source = projectMapSource(JSON.parse(read('data/map-source.json')));
     const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData').map(projectCreature);
-    const groups = readLiteral(read('js/items-catalog-hdv.js'), 'itemsCatalog');
+    const itemCatalogue = readOfficialItemCatalogue({root});
+    const groups = itemCatalogue.groups;
     const en = readEnglish(read);
     const audit = { version: 1, source: 'data/map-source.json', locationAliases: aliases, cityAliases,
         forbiddenAliases, itemAliases: [['Brindille Enchantée', 'Brindille Enchantées'], ['Peau Dur Glacial', "Peau d'ur Glacial"]],
-        itemAliasEvidence: [{ itemKey: 'item:peau_glacial', catalogId: 'peau_glacial', catalogName: "Peau d'ur Glacial",
-            catalogImage: 'Ressources/PeaudurGlacial.png', dropName: 'Peau Dur Glacial', dropImage: 'PeaudurGlacial.png',
-            rule: 'Explicit reviewed name alias; catalogue ID and identical image filename are both required', matches: [] }], counts: {},
+        itemAliasEvidence: [{legacyId: 'brindille_enchantees', dropName: 'Brindille Enchantée'},
+            {legacyId: 'peau_glacial', dropName: 'Peau Dur Glacial'}].map(alias => ({...alias,
+                provenance: 'nameless-bestiary', evidence: 'Previously reviewed Nameless link spelling; current counterpart required through official catalogue compatibility IDs',
+                verification: 'not-revalidated-against-official-export'})), counts: {},
         coordinateConflicts: [], unmatchedCreatureLocations: [], unmatchedDrops: [], unmatchedLegacyGuides: [],
         legacyFavorites: [], coordinateNotes: [
             'P1 and P2 preserve game X/Z and use Leaflet [5121-Z,X].',
@@ -146,11 +149,12 @@ function compile({ root = defaultRoot } = {}) {
     const entities = new Map();
     const add = data => {
         if (entities.has(data.key)) throw new Error('Duplicate graph entity: ' + data.key);
-        if (!floors[data.floor]) throw new Error('Invalid entity floor: ' + data.key);
+        const globalItem = data.kind === 'item' && data.floor === null;
+        if (!globalItem && !floors[data.floor]) throw new Error('Invalid entity floor: ' + data.key);
         const entity = { key: data.key, id: String(data.id), kind: data.kind, title: clean(data.title), titleEn: en[clean(data.title)] || clean(data.title),
             floor: data.floor, markerType: data.markerType ?? null, description: clean(data.description), url: data.url,
             position: null, positionRef: null, placeKey: null, creatureKeys: [], guideKeys: [], relatedKeys: [], drops: [], sources: [], ...data };
-        entities.set(entity.key, entity); floors[entity.floor].entities[entity.key] = entity; return entity;
+        entities.set(entity.key, entity); if (!globalItem) floors[entity.floor].entities[entity.key] = entity; return entity;
     };
     const position = (coordinates, floor) => {
         if (!Array.isArray(coordinates) || coordinates.length !== 2 || !coordinates.every(Number.isFinite)) return null;
@@ -272,22 +276,24 @@ function compile({ root = defaultRoot } = {}) {
         if (npc.placeKey) { const place = entities.get(npc.placeKey); place.guideKeys.push(...npc.guideKeys); link(place, npc); }
         npc.url = npc.guideKeys.length ? entities.get(npc.guideKeys[0]).url : npc.url;
     }
-    const itemsByName = new Map();
+    const itemsByName = new Map(), itemsById = new Map();
     for (const [category, group] of Object.entries(groups)) {
         group.items.forEach((item, index) => {
             const key = 'item:' + item.id;
-            const entity = add({ key, id: item.id, kind: 'item', title: item.name, floor: 1, markerType: null, description: clean(group.name).replace(/^[^\p{L}\p{N}]+/u, ''),
-                url: '/items?item=' + encodeURIComponent(item.id), image: imageUrl('/assets/items/' + item.image), category, rarity: item.rarity,
-                sources: [{ file: 'js/items-catalog-hdv.js', literal: 'itemsCatalog', category, index, id: item.id }] });
-            const name = normalize(item.name);
-            if (itemsByName.has(name)) throw new Error('Duplicate normalized item title: ' + item.name);
-            itemsByName.set(name, entity);
+            const entity = add({ key, id: item.id, kind: 'item', title: item.name, floor: null, markerType: null, description: clean(group.name).replace(/^[^\p{L}\p{N}]+/u, ''),
+                url: '/items?item=' + encodeURIComponent(item.id), image: item.image === null ? null : imageUrl('/assets/items/' + item.image), category, rarity: item.rarity,
+                officialId: item.officialId, provenance: 'sao-minecraft-official-wiki',
+                sources: [{file: 'data/official-items.json', officialId: item.officialId, sourceId: item.sourceId, sourceUrl: item.sourceUrl, index}] });
+            const name = normalizeItemName(item.name);
+            itemsByName.set(name, [...(itemsByName.get(name) || []), entity]); itemsById.set(item.id, entity);
         });
     }
-    const brindille = itemsByName.get(normalize('Brindille Enchantées'));
-    if (brindille) itemsByName.set(normalize('Brindille Enchantée'), brindille);
-    const glacial = entities.get('item:peau_glacial');
-    const glacialProof = audit.itemAliasEvidence[0];
+    // Existing Nameless spellings only resolve if that historical URL identity
+    // has an unambiguous counterpart in the official current snapshot.
+    const historicalDropAliases = new Map([
+        [normalizeItemName('Brindille Enchantée'), 'brindille_enchantees'],
+        [normalizeItemName('Peau Dur Glacial'), 'peau_glacial']
+    ]);
     creatures.forEach((creature, index) => {
         const category = creatureCategory(creature.category);
         const place = creature.location === '???' ? null : placesByName.get(matchLocationName(creature.location));
@@ -301,21 +307,20 @@ function compile({ root = defaultRoot } = {}) {
         if (place) { place.creatureKeys.push(entity.key); link(place, entity); }
         else audit.unmatchedCreatureLocations.push({ key: entity.key, title: entity.title, location: creature.location, reason: creature.location === '???' ? 'unknown' : 'no-exact-or-approved-alias' });
         entity.drops = creature.drops.map((drop, dropIndex) => {
-            let item = itemsByName.get(normalize(drop.name)), aliasEvidence = null;
-            if (!item && glacial && normalize(drop.name) === normalize(glacialProof.dropName)
-                && glacial.id === glacialProof.catalogId && glacial.title === glacialProof.catalogName
-                && decodeURIComponent(glacial.image) === '/assets/items/' + glacialProof.catalogImage
-                && drop.image === glacialProof.dropImage) {
-                item = glacial;
-                aliasEvidence = { match: 'explicit-name-image-id', alias: 'peau-glacial', catalogId: glacial.id,
-                    catalogImage: glacialProof.catalogImage, dropImage: drop.image };
-                glacialProof.matches.push({ creatureKey: entity.key, dropIndex, file: 'js/bestiaire.js', name: drop.name, image: drop.image });
+            const candidates = itemsByName.get(normalizeItemName(drop.name)) || [];
+            let item = candidates.length === 1 ? candidates[0] : null, aliasEvidence = null;
+            const legacyId = historicalDropAliases.get(normalizeItemName(drop.name));
+            if (!item && legacyId && itemCatalogue.aliases[legacyId]) {
+                item = itemsById.get(itemCatalogue.aliases[legacyId]);
+                aliasEvidence = {match: 'reviewed-historical-name-alias', legacyId};
             }
             if (item) {
                 item.creatureKeys.push(entity.key); link(item, entity);
-                item.sources.push({ file: 'js/bestiaire.js', literal: 'creaturesData', index, id: creature.id, creatureKey: entity.key, dropIndex, name: drop.name, rate: Number.isFinite(drop.rate) ? drop.rate : null, ...aliasEvidence });
+                item.sources.push({ file: 'js/bestiaire.js', literal: 'creaturesData', index, id: creature.id, creatureKey: entity.key, dropIndex, name: drop.name, rate: Number.isFinite(drop.rate) ? drop.rate : null,
+                    provenance: 'nameless-bestiary', verification: 'not-revalidated-against-official-export', ...aliasEvidence });
             } else audit.unmatchedDrops.push({ creatureKey: entity.key, name: drop.name, rate: Number.isFinite(drop.rate) ? drop.rate : null });
-            return { name: drop.name, itemKey: item?.key || null, rate: Number.isFinite(drop.rate) ? drop.rate : null };
+            return { name: drop.name, itemKey: item?.key || null, rate: Number.isFinite(drop.rate) ? drop.rate : null,
+                provenance: 'nameless-bestiary', verification: 'not-revalidated-against-official-export' };
         });
     });
     // Keep historical evidence in the private compiler audit, never in the
@@ -340,14 +345,15 @@ function compile({ root = defaultRoot } = {}) {
     const catalog = { version: 1, floors: floorMeta, index: [...entities.values()].map(entity => ({ key: entity.key, id: entity.id, kind: entity.kind, title: entity.title,
         titleEn: entity.titleEn, floor: entity.floor, markerType: entity.markerType, status: entity.status || null, positionRef: entity.position ? entity.key : entity.positionRef, url: entity.url,
         ...(entity.kind === 'creature' ? {category: entity.category, categoryLabel: entity.categoryLabel, categoryLabelEn: entity.categoryLabelEn, type: entity.type} : {}),
+        ...(entity.kind === 'item' ? {image: entity.image, officialId: entity.officialId, provenance: entity.provenance} : {}),
         ...(entity.legacyBossSlugs?.length ? {legacyBossSlugs: entity.legacyBossSlugs} : {}),
-        mapUrl: '/carte?floor=' + entity.floor + '&entity=' + encodeURIComponent(entity.key),
+        ...(entity.floor !== null ? {mapUrl: '/carte?floor=' + entity.floor + '&entity=' + encodeURIComponent(entity.key)} : {}),
         keywords: clean([entity.description, entity.npc, entity.category, ...entity.sources.map(source => source.location || source.city || ''), ...entity.drops.map(drop => drop.name)].join(' ')) })), registry };
     audit.counts = { entities: entities.size, byKind: Object.fromEntries(['location', 'quest', 'guide', 'npc', 'creature', 'item'].map(kind => [kind, [...entities.values()].filter(entity => entity.kind === kind).length])),
         floors: Object.fromEntries(Object.values(floors).map(floor => [floor.floor, { entities: Object.keys(floor.entities).length, defaultPoints: floor.points.length }])), registry: registry.length,
         guidesByCategory: Object.fromEntries(['1:principale', '1:secondaire', '2:principale', '2:secondaire'].map(key => [key, guides.filter(guide => entities.has(guide.key) && guide.floor + ':' + guide.category === key).length])) };
     audit.legacyFavorites = audit.legacyFavorites.filter((entry, index, all) => entities.has(entry.key) && all.findIndex(other => other.key === entry.key && JSON.stringify(other.globalIds) === JSON.stringify(entry.globalIds)) === index);
-    const graph = { catalog, floors, registry };
+    const graph = { catalog, floors, registry, items: Object.fromEntries([...entities.values()].filter(entity => entity.kind === 'item').map(entity => [entity.key, entity])) };
     assertNoCombatFields(graph);
     return { graph, audit };
 }

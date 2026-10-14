@@ -6,6 +6,7 @@ import {bossSlug} from './build-boss-pages.mjs';
 import {createMapGraph} from './build-map-graph.mjs';
 import {projectMapSource, projectCreature, HISTORICAL_QUEST_STATUS, isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
 import {isBossFamily, creatureCategory} from './creature-taxonomy.mjs';
+import {readOfficialItemCatalogue} from './items-catalogue.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
@@ -34,7 +35,7 @@ function literalArray(source, name) {
 export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
     const mapSource = projectMapSource(JSON.parse(read('data/map-source.json')));
     const mapEntries = new Map(mapGraph.catalog.index.map(entry => [entry.key, entry]));
-    const mapEntities = Object.assign({}, ...Object.values(mapGraph.floors).map(floor => floor.entities));
+    const mapEntities = Object.assign({}, mapGraph.items, ...Object.values(mapGraph.floors).map(floor => floor.entities));
     const mapMetadata = key => {
         const entry = mapEntries.get(key);
         return entry ? {mapUrl: entry.mapUrl, positionKnown: Boolean(entry.positionRef)} : {};
@@ -60,16 +61,18 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
             summaryEn: category.labelEn + ' · ' + (en[c.location] || c.location) + ' · Floor ' + c.palier,
             location: c.location, ...mapMetadata('creature:' + c.id), keywords: category.label + ' ' + category.labelEn + ' ' + (c.id === 58 ? 'Soul Knight ' : '') + c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')});
     });
-    const sandbox = {};
-    vm.runInNewContext(read('js/items-catalog-hdv.js') + ';this.catalog = itemsCatalog;', sandbox);
-    for (const group of Object.values(sandbox.catalog)) {
+    const itemCatalogue = readOfficialItemCatalogue({root});
+    for (const group of Object.values(itemCatalogue.groups)) {
         for (const item of group.items) {
             const graphItem = mapEntities['item:' + item.id];
             const sources = creatures.filter(c => graphItem?.creatureKeys.includes('creature:' + c.id))
                 .map(c => ({title: c.name, url: '/bestiaire?creature=' + c.id, floor: c.palier, location: c.location,
+                    provenance: 'nameless-bestiary', verification: 'not-revalidated-against-official-export',
                     ...(mapEntries.get('creature:' + c.id)?.positionRef ? {mapUrl: mapEntries.get('creature:' + c.id).mapUrl} : {})}));
             add({kind: 'item', id: item.id, title: item.name, url: '/items?item=' + encodeURIComponent(item.id),
-                image: assetUrl('/assets/items/' + item.image), summary: clean(group.name).replace(/^\S+\s+/, ''), keywords: item.rarity + ' ' + sources.map(s => s.title).join(' '), sources,
+                image: item.image === null ? null : assetUrl('/assets/items/' + item.image), summary: clean(group.name).replace(/^[^\p{L}\p{N}]+/u, ''),
+                officialId: item.officialId, provenance: 'sao-minecraft-official-wiki', sourceUrl: item.sourceUrl,
+                keywords: [item.rarity, item.sourceId, item.description, ...(item.lore || []), ...sources.map(s => s.title)].join(' '), sources,
                 dropNames: [...new Set((graphItem?.sources || []).filter(source => source.creatureKey).map(source => source.name))]});
         }
     }

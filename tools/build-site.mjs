@@ -6,11 +6,21 @@ import {createSearchIndex} from './build-search-index.mjs';
 import {buildBossPages} from './build-boss-pages.mjs';
 import {writeMapGraph} from './build-map-graph.mjs';
 import {verifyHistoricalArchive} from './public-content-policy.mjs';
+import {writeOfficialItemCatalogue} from './items-catalogue.mjs';
+import {createHash} from 'node:crypto';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.resolve(root, '_site');
 verifyHistoricalArchive(root);
+writeOfficialItemCatalogue({root});
+const officialVersion = createHash('sha256').update(fs.readFileSync(path.join(root, 'data/official-items.json'))).digest('hex').slice(0, 12);
+const stampOfficial = source => source.replace(/(js\/items-catalog-official\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + officialVersion);
+const publicationRegistry = stampOfficial(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'));
+const registryVersion = createHash('sha256').update(publicationRegistry).digest('hex').slice(0, 12);
+const stampHtml = source => stampOfficial(source)
+    .replace(/(js\/page-registry\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + registryVersion)
+    .replace(/(js\/global-search\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + officialVersion);
 // The only directory removed by this build is this repository's generated artifact.
 if (output !== path.join(root, '_site') || path.dirname(output) !== root) throw new Error('Unsafe build output');
 fs.rmSync(output, {recursive: true, force: true, maxRetries: 3, retryDelay: 100});
@@ -27,13 +37,20 @@ try {
     fs.writeFileSync(path.join(root, 'assets/map/regions.json'), JSON.stringify(checkedRegions));
 } finally { regionValidator.window.close(); }
 for (const name of ['assets', 'css', 'js', 'pages']) fs.cpSync(path.join(root, name), path.join(output, name), {recursive: true});
+// The old HDV literal stays private for historical identity and asset audits.
+fs.rmSync(path.join(output, 'js/items-catalog-hdv.js'), {force: true});
+fs.writeFileSync(path.join(output, 'js/page-registry.js'), publicationRegistry);
 for (const name of ['index.html', '404.html', 'CNAME', '.nojekyll']) fs.copyFileSync(path.join(root, name), path.join(output, name));
+for (const filename of ['index.html', '404.html', ...fs.readdirSync(path.join(root, 'pages')).filter(name => name.endsWith('.html')).map(name => 'pages/' + name)]) {
+    const target = path.join(output, filename);
+    fs.writeFileSync(target, stampHtml(fs.readFileSync(target, 'utf8')));
+}
 const registry = {window:{}};
 vm.runInNewContext(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'), registry);
 const routes = registry.window.NamelessPageRegistry.routes;
 for (const route of routes) {
     if (route.path === '/') continue;
-    const source = fs.readFileSync(path.join(root, route.source), 'utf8').replace(/^\uFEFF/, '');
+    const source = stampHtml(fs.readFileSync(path.join(root, route.source), 'utf8').replace(/^\uFEFF/, ''));
     const dom = new JSDOM(source, {url: 'https://nameless-sao.fr/' + route.source});
     const doc = dom.window.document;
     // Assets and legacy page URLs keep their meaning on /route/ directory URLs.

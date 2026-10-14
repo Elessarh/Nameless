@@ -63,44 +63,33 @@
   ],
   "itemAliasEvidence": [
     {
-      "itemKey": "item:peau_glacial",
-      "catalogId": "peau_glacial",
-      "catalogName": "Peau d'ur Glacial",
-      "catalogImage": "Ressources/PeaudurGlacial.png",
+      "legacyId": "brindille_enchantees",
+      "dropName": "Brindille Enchantée",
+      "provenance": "nameless-bestiary",
+      "evidence": "Previously reviewed Nameless link spelling; current counterpart required through official catalogue compatibility IDs",
+      "verification": "not-revalidated-against-official-export"
+    },
+    {
+      "legacyId": "peau_glacial",
       "dropName": "Peau Dur Glacial",
-      "dropImage": "PeaudurGlacial.png",
-      "rule": "Explicit reviewed name alias; catalogue ID and identical image filename are both required",
-      "matches": [
-        {
-          "creatureKey": "creature:22",
-          "dropIndex": 0,
-          "file": "js/bestiaire.js",
-          "name": "Peau Dur Glacial",
-          "image": "PeaudurGlacial.png"
-        },
-        {
-          "creatureKey": "creature:45",
-          "dropIndex": 0,
-          "file": "js/bestiaire.js",
-          "name": "Peau Dur Glacial",
-          "image": "PeaudurGlacial.png"
-        }
-      ]
+      "provenance": "nameless-bestiary",
+      "evidence": "Previously reviewed Nameless link spelling; current counterpart required through official catalogue compatibility IDs",
+      "verification": "not-revalidated-against-official-export"
     }
   ],
   "counts": {
-    "entities": 197,
+    "entities": 1475,
     "byKind": {
       "location": 33,
       "quest": 0,
       "guide": 0,
       "npc": 0,
       "creature": 60,
-      "item": 104
+      "item": 1382
     },
     "floors": {
       "1": {
-        "entities": 197,
+        "entities": 93,
         "defaultPoints": 33
       },
       "2": {
@@ -230,7 +219,13 @@
       "reason": "no-exact-or-approved-alias"
     }
   ],
-  "unmatchedDrops": [],
+  "unmatchedDrops": [
+    {
+      "creatureKey": "creature:56",
+      "name": "Coeur de Nautherion",
+      "rate": 10
+    }
+  ],
   "unmatchedLegacyGuides": [
     {
       "key": "quest:1:secondary-nacht",

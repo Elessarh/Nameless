@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 import {createMapGraph} from './build-map-graph.mjs';
 import {projectCreature} from './public-content-policy.mjs';
 import {isBossFamily, creatureCategory, LEGACY_BOSS_ROUTES} from './creature-taxonomy.mjs';
+import {readOfficialItemCatalogue} from './items-catalogue.mjs';
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const origin = 'https://nameless-sao.fr';
@@ -74,7 +75,7 @@ export function buildBossPages({ root, output, mapGraph }) {
     root = path.resolve(root); output = path.resolve(output);
     const read = file => fs.readFileSync(path.join(root, file), 'utf8');
     const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData').map(projectCreature);
-    const catalog = readLiteral(read('js/items-catalog-hdv.js'), 'itemsCatalog');
+    const catalog = readOfficialItemCatalogue({root}).groups;
     const items = Object.values(catalog).flatMap(group => group.items);
     mapGraph ||= createMapGraph({root});
     const template = read('pages/bestiaire.html').replace(/^\uFEFF/, '');
@@ -162,14 +163,16 @@ export function buildBossPages({ root, output, mapGraph }) {
                 const item = items.find(candidate => itemKey === 'item:' + candidate.id);
                 const target = item ? '/items?item=' + encodeURIComponent(item.id) : '/items?q=' + encodeURIComponent(drop.name);
                 const row = link(target, undefined, 'drop-item');
-                if (item) {
+                if (item?.image) {
                     const icon = element('img', 'drop-icon'); icon.src = assetPath(root, '/assets/items/' + item.image); icon.alt = ''; icon.width = 40; icon.height = 40; icon.loading = 'lazy'; icon.decoding = 'async'; row.appendChild(icon);
                 }
                 const details = element('span', 'drop-info'); details.appendChild(element('span', 'drop-name', drop.name));
                 if (typeof drop.rate === 'number' && Number.isFinite(drop.rate)) details.appendChild(element('span', 'drop-rate', drop.rate + '%'));
                 row.appendChild(details); grid.appendChild(row);
             }
-            section('Butin possible', grid);
+            const loot = element('div');
+            loot.append(element('p', 'modal-desc', 'Associations renseignées par Nameless ; non revérifiées dans l’export officiel actuel.'), grid);
+            section('Butin possible', loot);
         } else section('Butin possible', element('p', 'modal-desc', 'Aucun butin connu.'));
         const related = element('p', 'boss-related');
         related.append(link('/bestiaire?creature=' + boss.id, 'Ouvrir dans le bestiaire'), doc.createTextNode(' · '), link('/wiki#donjons', 'Guide des donjons'));

@@ -84,7 +84,7 @@
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261013mapfix1',
                 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261013taxonomy1'
+                'js/map.js?v=20261014official1'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -102,7 +102,7 @@
             css: ['css/vendor/leaflet-1.9.4.css?v=20261013mapfix1', 'css/components/map.css?v=20261008hybrid',
                 'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261010maprework2'],
             scripts: ['js/vendor/leaflet-1.9.4.js?v=20261013mapfix1', 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261013taxonomy1', 'js/map-workspace.js?v=20261013taxonomy1'],
+                'js/map.js?v=20261014official1', 'js/map-workspace.js?v=20261013taxonomy1'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),
         publicRoute({
@@ -135,13 +135,13 @@
             source: 'pages/items.html',
             title: "Catalogue d'Items - Nameless",
             css: [
-                'css/components/items.css?v=20261011phasec4',
+                'css/components/items.css?v=20261014official1',
                 'css/components/page-hero.css?v=20261011ux2e',
                 'css/components/reference-catalogs.css?v=20261011phasee4'
             ],
             scripts: [
-                'js/items-catalog-hdv.js?v=20261007a',
-                'js/items.js?v=20261011phasee3'
+                'js/items-catalog-official.js?v=20261014official1',
+                'js/items.js?v=20261014official1'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {

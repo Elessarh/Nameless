@@ -528,6 +528,8 @@
         relation(state, text('Quêtes et guides', 'Quests and guides'), [...guides, ...quests.map(other => other.key)], null, overview);
         const areaCreatures = entity.kind === 'location' ? reverse.filter(other => other.kind === 'creature' && (other.placeKey === entity.key || other.positionRef === entity.key || entity.creatureKeys?.includes(other.key))) : [];
         const drops = [...(entity.drops || []), ...areaCreatures.flatMap(creature => creature.drops || [])];
+        if (drops.some(drop => drop.provenance === 'nameless-bestiary')) panes.items.append(node('p', 'map-position-note',
+            text('Associations renseignées par Nameless ; non revérifiées dans l’export officiel actuel.', 'Associations recorded by Nameless; not revalidated against the current official export.')));
         const rates = Object.fromEntries(drops.filter(drop => drop.itemKey).map(drop => [drop.itemKey, drop.rate != null && entity.kind === 'creature' ? String(drop.rate) + ' %' : '']));
         relation(state, text('Butin et ressources', 'Loot and resources'), drops.map(drop => drop.itemKey), rates, panes.items);
         const unlinked = drops.filter(drop => !drop.itemKey); if (unlinked.length) { panes.items.append(node('h3', '', text('Autres ressources connues', 'Other known resources'))); for (const drop of unlinked) panes.items.append(node('p', '', drop.name + (drop.rate != null ? ' · ' + drop.rate : ''))); }
@@ -592,6 +594,18 @@
         if (!valid(state) || !state.catalog) return false;
         if (options.url !== false) state.explicitCamera = false;
         const entry = state.catalog.index.find(entity => entity.key === key); if (!publicEntity(entry)) { notice(state, text('Ce repère est introuvable.', 'This marker could not be found.')); return false; }
+        if (entry.kind === 'item' && entry.floor == null) {
+            // Current official objects are global catalogue entries. A search
+            // or related loot link opens their item page without assigning P1.
+            const destination = publicDetailsUrl(entry.url);
+            if (!destination) return false;
+            ++state.intent; hideSearch(state);
+            if (global.NamelessSpaRouter?.navigate) {
+                const handled = await global.NamelessSpaRouter.navigate('/items', {url: destination});
+                if (handled) return true;
+            }
+            global.location.assign(destination); return true;
+        }
         const intent = options.intent ?? ++state.intent;
         const targetFloor = Number(entry.floor) || state.floor;
         if (state.floor !== targetFloor || !state.data) { if (!(await changeFloor(state, targetFloor))) return false; }

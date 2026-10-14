@@ -1,19 +1,47 @@
 // ============================================================
 // NAMELESS — Catalogue d'Items
 // Rendu 100% DOM (createElement/textContent), délégation,
-// aucun handler inline. Données: itemsCatalog (items-catalog-hdv.js).
-// N'affiche que des champs RÉELS: image, nom, catégorie, rareté.
+// aucun handler inline. Données: instantané du wiki officiel.
+// Les caractéristiques absentes de la source restent absentes.
 // ============================================================
 (function () {
     'use strict';
 
-    var FALLBACK_IMG = '/assets/brand/nameless-emblem-128.webp?v=20261008logo';
+    var FALLBACK_IMG = '/assets/items/item-unavailable.svg';
     var RARITY = {
         common:    { label: 'Commun',     cls: 'r-common' },
         uncommon:  { label: 'Peu commun', cls: 'r-uncommon' },
         rare:      { label: 'Rare',       cls: 'r-rare' },
         epic:      { label: 'Épique',     cls: 'r-epic' },
-        legendary: { label: 'Légendaire', cls: 'r-legendary' }
+        legendary: { label: 'Légendaire', cls: 'r-legendary' },
+        mythic:    { label: 'Mythique', cls: 'r-mythic' },
+        godlike:   { label: 'Godlike', cls: 'r-godlike' },
+        splus:     { label: 'S+', cls: 'r-splus' },
+        splusplus: { label: 'S++', cls: 'r-splusplus' },
+        c: { label: 'Commun', cls: 'r-common' }, b: { label: 'Rare', cls: 'r-rare' },
+        a: { label: 'Légendaire', cls: 'r-legendary' }, s: { label: 'Épique', cls: 'r-epic' },
+        ss: { label: 'Mythique', cls: 'r-mythic' }, sss: { label: 'Godlike', cls: 'r-godlike' },
+        unrecorded:{ label: 'Non renseignée', cls: 'r-unrecorded' }
+    };
+    var CATEGORY_LABELS = {
+        'Floor Key': ['Clés de palier', 'Floor keys'], 'Sword': ['Épées', 'Swords'], 'Armor': ['Armures', 'Armor'],
+        'Shield': ['Boucliers', 'Shields'], 'Dagger': ['Dagues', 'Daggers'], 'Gauntlet': ['Gantelets', 'Gauntlets'],
+        'Bow': ['Arcs', 'Bows'], 'Crossbow': ['Arbalètes', 'Crossbows'], 'Staff_Mage': ['Bâtons de mage', 'Mage staves'],
+        'Catalyst': ['Catalyseurs', 'Catalysts'], 'Staff_Shaman': ['Bâtons de shaman', 'Shaman staves'],
+        'Ring': ['Anneaux', 'Rings'], 'Amulet': ['Amulettes', 'Amulets'], 'Bracelet': ['Bracelets', 'Bracelets'],
+        'Gloves': ['Gants', 'Gloves'], 'Artifact': ['Artefacts', 'Artifacts'], 'Accessory': ['Accessoires', 'Accessories'],
+        'Tool': ['Outils', 'Tools'], 'Consumable': ['Consommables', 'Consumables'], 'Food': ['Nourriture', 'Food'],
+        'Crystal': ['Cristaux', 'Crystals'], 'Fortifier': ['Fortifiants', 'Fortifiers'],
+        'Consumable Item': ['Objets consommables', 'Consumable items'], 'Potion Heal': ['Potions de soin', 'Healing potions'],
+        'Potion Mana': ['Potions de mana', 'Mana potions'], 'Potion Stamina': ['Potions d’endurance', 'Stamina potions'],
+        'Rune': ['Runes', 'Runes'], 'Material': ['Matériaux', 'Materials'],
+        'Material P1': ['Matériaux · Palier 1', 'Materials · Floor 1'], 'Material P2': ['Matériaux · Palier 2', 'Materials · Floor 2'],
+        'Material P3': ['Matériaux · Palier 3', 'Materials · Floor 3'], 'Saint Valentin': ['Saint-Valentin', 'Valentine’s Day'],
+        'Nouvel An Chinois': ['Nouvel An chinois', 'Lunar New Year'], 'Dungeon Keys': ['Clés de donjon', 'Dungeon keys'],
+        'Miner Job': ['Métier · Mineur', 'Profession · Miner'], 'Lumberjack Job': ['Métier · Bûcheron', 'Profession · Lumberjack'],
+        'Farmer Job': ['Métier · Fermier', 'Profession · Farmer'], 'Fishing Job': ['Métier · Pêcheur', 'Profession · Fisher'],
+        'Item halloween': ['Halloween', 'Halloween'], 'Item Noël 2025': ['Noël 2025', 'Christmas 2025'],
+        'Key Crate': ['Clés de coffre', 'Crate keys']
     };
 
     var allItems = [];
@@ -35,9 +63,10 @@
     var drawerOverflow = '';
     var drawerInert = [];
     var spriteObserver = null;
+    var activeQuery = '';
 
     function normalizeSearch(value) {
-        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/œ/g, 'oe').replace(/æ/g, 'ae').trim();
     }
 
     function matchesQuery(value, query) {
@@ -58,6 +87,7 @@
     }
 
     function itemUi(fr, en) { return window.NamelessI18n && typeof window.NamelessI18n.getLanguage === 'function' && window.NamelessI18n.getLanguage() === 'en' ? en : fr; }
+    function categoryLabel(value) { var labels = CATEGORY_LABELS[cleanCategory(value)]; return labels ? itemUi(labels[0], labels[1]) : displayName(cleanCategory(value)); }
     function compactPanel() { return window.innerWidth <= 980; }
 
     function itemPage() { return document.querySelector('.items-page'); }
@@ -67,9 +97,7 @@
     }
 
     function passesItemFilters(item, exceptField) {
-        var search = document.getElementById('it-search');
-        var query = normalizeSearch(search && search.value || '');
-        if (query && ![item.name, item.category, item.categoryLabel].some(function (value) { return matchesQuery(value, query); })) return false;
+        if (activeQuery && item.searchText.indexOf(activeQuery) === -1 && item.searchCompact.indexOf(activeQuery.replace(/\s+/g, '')) === -1) return false;
         return Object.keys(selectedFilters).every(function (id) {
             if (id === exceptField || (id === 'it-source' && !sourceFiltersReady)) return true;
             var values = selectedFilters[id];
@@ -169,7 +197,7 @@
                 if (!countValue) return;
                 var row = document.createElement('label'); row.className = 'catalogue-filter-option';
                 var input = document.createElement('input'); input.type = 'checkbox'; input.dataset.filterField = id; input.value = option.value; input.checked = selectedFilters[id].has(option.value);
-                var name = document.createElement('span'); name.textContent = displayName(option.textContent);
+                var name = document.createElement('span'); name.textContent = id === 'it-category' ? categoryLabel(option.value) : displayName(option.textContent);
                 var count = document.createElement('span'); count.className = 'catalogue-filter-result-count'; count.textContent = String(countValue);
                 row.append(input, name, count); options.appendChild(row);
             });
@@ -200,7 +228,7 @@
             var values = id === 'it-search' ? field.value ? [field.value] : [] : Array.from(selectedFilters[id]);
             values.forEach(function (value) {
                 var option = field.tagName === 'SELECT' ? Array.from(field.options).find(function (entry) { return entry.value === value; }) : null;
-                var label = option ? option.textContent : value;
+                var label = id === 'it-category' ? categoryLabel(value) : option ? option.textContent : value;
                 var button = document.createElement('button'); button.type = 'button'; button.className = 'catalogue-filter-chip'; button.dataset.clearFilter = id; button.dataset.filterValue = value; button.textContent = displayName(label) + ' ×';
                 button.setAttribute('aria-label', itemUi('Retirer le filtre ', 'Remove filter ') + displayName(label)); chips.appendChild(button);
             });
@@ -247,13 +275,25 @@
         });
         applyFilters();
         var id = params.get('item');
-        if (id && allItems.some(function (item) { return item.id === id; })) openItemModal(id, false);
-        else closeModal(false);
+        var meta = window.NamelessItemCatalogueMeta;
+        var resolved = id && meta && typeof meta.resolveAlias === 'function' ? meta.resolveAlias(id) : id;
+        var notice = document.getElementById('it-link-notice');
+        if (notice) { notice.hidden = true; notice.textContent = ''; }
+        if (resolved && allItems.some(function (item) { return item.id === resolved; })) openItemModal(resolved, false);
+        else {
+            closeModal(false);
+            if (id && notice) {
+                var oldName = meta && meta.unmatchedLegacy && Object.prototype.hasOwnProperty.call(meta.unmatchedLegacy, id) && typeof meta.unmatchedLegacy[id] === 'string' ? meta.unmatchedLegacy[id] : null;
+                notice.textContent = oldName ? itemUi('Cet ancien lien ne correspond pas à un objet identifié dans le catalogue officiel actuel : ', 'This old link does not identify an item in the current official catalogue: ') + oldName + '.' : itemUi('Cet objet n’est pas présent dans le catalogue officiel importé.', 'This item is not in the imported official catalogue.');
+                notice.hidden = false;
+                if (oldName && search && query === null) { search.value = oldName; applyFilters(); }
+            }
+        }
     }
 
     function cleanCategory(name) {
         // "💍 Accessoires" -> "Accessoires"
-        return String(name || '').replace(/^\S+\s+/, '').trim() || String(name || '');
+        return String(name || '').replace(/^[^\p{L}\p{N}]+/u, '').trim();
     }
 
     function setFilterDrawer(open, restoreFocus) {
@@ -316,8 +356,9 @@
         }
         tooltip.replaceChildren();
         var name = document.createElement('strong'), category = document.createElement('span'), rarity = document.createElement('span');
-        name.textContent = displayName(item.name); category.textContent = displayName(item.categoryLabel); rarity.textContent = displayName(rarityMeta(item.rarity).label);
+        name.textContent = displayName(item.name); category.textContent = categoryLabel(item.category); rarity.textContent = displayName(rarityMeta(item.rarity, item.rarityLabel).label);
         tooltip.dataset.rarity = item.rarity;
+        tooltip.style.removeProperty('--rarity'); tooltip.style.removeProperty('--item-rarity'); applyRarityColor(tooltip, item);
         tooltip.append(name, category, rarity); tooltip.hidden = false; card.setAttribute('aria-describedby', tooltip.id); positionItemTooltip();
     }
 
@@ -329,6 +370,8 @@
         itemsPerPage = parseInt(document.getElementById('items-per-page-select')?.value, 10) || 48;
         loadItems();
         populateCategoryFilter();
+        populateRarityFilter();
+        updateSnapshotStatus();
         setupFilterChoices();
         setupItemImages();
         setupListeners();
@@ -338,6 +381,8 @@
         loadSourceFilters();
         document.addEventListener('nameless:routechange', applyItemUrl, { signal: controller.signal });
         document.addEventListener('nameless:languagechange', function () {
+            cacheItemSearch();
+            populateCategoryFilter(); populateRarityFilter(); updateSnapshotStatus();
             setupFilterChoices(); applyFilters();
             var modal = document.querySelector('.item-modal');
             if (modal && modal.style.display === 'flex' && modal.dataset.item && !modal.hasAttribute('data-reference-closing')) openItemModal(modal.dataset.item, false, false);
@@ -391,15 +436,33 @@
                 allItems.push({
                     id: item.id,
                     name: item.name,
-                    rarity: item.rarity || 'common',
+                    rarity: item.rarity || 'unrecorded',
+                    rarityLabel: item.rarityLabel || null,
+                    rarityColor: typeof item.rarityColor === 'string' && /^#[0-9a-f]{6}$/i.test(item.rarityColor) ? item.rarityColor : null,
                     category: group.name,
                     categoryLabel: cleanCategory(group.name),
                     description: typeof item.description === 'string' ? item.description : '',
-                    image: '../assets/items/' + item.image + '?v=items-cleaned-20261007'
+                    level: typeof item.level === 'number' && Number.isFinite(item.level) ? item.level : null,
+                    stats: Array.isArray(item.stats) ? item.stats.filter(function (stat) { return stat && typeof stat.label === 'string' && ['string', 'number', 'boolean'].includes(typeof stat.value); }) : [],
+                    requiredClass: typeof item.requiredClass === 'string' ? item.requiredClass : null,
+                    sourceUrl: officialUrl(item.sourceUrl),
+                    sourceId: item.sourceId || '',
+                    image: item.image ? '/assets/items/' + item.image + '?v=20261014official1' : FALLBACK_IMG,
+                    imageAvailable: !!item.image
                 });
             });
         });
+        cacheItemSearch();
         filtered = allItems.slice();
+    }
+
+    function cacheItemSearch() {
+        allItems.forEach(function (item) {
+            var labels = CATEGORY_LABELS[cleanCategory(item.category)] || [];
+            var translation = window.NamelessTranslations && window.NamelessTranslations.en && window.NamelessTranslations.en[item.name];
+            item.searchText = normalizeSearch([item.name, typeof translation === 'string' ? translation : '', item.category, labels.join(' '), item.description, item.sourceId].join(' '));
+            item.searchCompact = item.searchText.replace(/\s+/g, '');
+        });
     }
 
     function populateCategoryFilter() {
@@ -412,10 +475,44 @@
                 seen[i.category] = true;
                 var opt = document.createElement('option');
                 opt.value = i.category;             // valeur = nom réel du groupe
-                opt.textContent = i.categoryLabel;  // libellé nettoyé (sans emoji)
+                opt.textContent = categoryLabel(i.category);
                 select.appendChild(opt);
             }
         });
+    }
+
+    function officialUrl(value) {
+        if (typeof value !== 'string') return null;
+        try { var url = new URL(value); return url.origin === 'https://saominecraft.com' && /^\/(fr|us|es)\/wiki\/?$/.test(url.pathname) ? url.href : null; } catch (_) { return null; }
+    }
+
+    function officialRarities() {
+        var published = window.NamelessItemCatalogueMeta && window.NamelessItemCatalogueMeta.snapshot && window.NamelessItemCatalogueMeta.snapshot.rarities;
+        return Array.isArray(published) && published.length ? published.map(function (rarity) { return typeof rarity === 'string' ? rarity : rarity.slug; }).filter(Boolean) : ['common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic', 'godlike', 'splus', 'splusplus', 'unrecorded'];
+    }
+
+    function populateRarityFilter() {
+        var select = document.getElementById('it-rarity'); if (!select) return;
+        while (select.options.length > 1) select.remove(1);
+        var keys = officialRarities();
+        allItems.forEach(function (item) { if (!keys.includes(item.rarity)) keys.push(item.rarity); });
+        keys.forEach(function (key) {
+            var sample = allItems.find(function (item) { return item.rarity === key; }); if (!sample) return;
+            var option = document.createElement('option'); option.value = key; option.textContent = displayName(rarityMeta(key, sample.rarityLabel).label); select.appendChild(option);
+        });
+    }
+
+    function updateSnapshotStatus() {
+        var element = document.getElementById('it-snapshot-status'); if (!element) return;
+        var meta = window.NamelessItemCatalogueMeta;
+        element.replaceChildren(); element.hidden = !meta;
+        if (!meta) return;
+        var url = officialUrl(meta.sourceUrl);
+        var label = document.createElement(url ? 'a' : 'span'); label.textContent = itemUi('Catalogue officiel SAO Minecraft', 'Official SAO Minecraft catalogue');
+        if (url) { label.href = url; label.target = '_blank'; label.rel = 'noopener noreferrer'; }
+        element.appendChild(label);
+        var date = new Date(meta.fetchedAt);
+        if (Number.isFinite(date.getTime())) { var time = document.createElement('time'); time.dateTime = date.toISOString(); time.textContent = itemUi('Import du ', 'Imported on ') + date.toLocaleDateString(currentLocale(), {timeZone:'Europe/Paris'}); element.appendChild(time); }
     }
 
     function sizePixelArtImage(img) {
@@ -440,7 +537,7 @@
         // Les autres illustrations conservent le cadrage contain de la carte.
         document.addEventListener('load', function (e) {
             var t = e.target;
-            if (!t || t.tagName !== 'IMG' || !t.dataset || t.dataset.fallback !== 'item' || t.dataset.fbApplied) return;
+            if (!t || t.tagName !== 'IMG' || !t.dataset || t.dataset.fallback !== 'item' || t.dataset.fbApplied || t.getAttribute('src') === FALLBACK_IMG) return;
             if (t.naturalWidth > 0 && t.naturalWidth <= 128 && t.naturalHeight > 0 && t.naturalHeight <= 128) {
                 t.classList.add('is-pixel-art');
                 t.width = t.naturalWidth;
@@ -636,15 +733,27 @@
     }
 
     function applyFilters() {
+        activeQuery = normalizeSearch(document.getElementById('it-search')?.value || '');
         filtered = allItems.filter(function (item) { return passesItemFilters(item); });
         var sort = document.getElementById('it-sort') && document.getElementById('it-sort').value || 'catalogue';
         var byName = function (a, b) { return displayName(a.name).localeCompare(displayName(b.name), currentLocale(), { sensitivity: 'base', numeric: true }) || a.id.localeCompare(b.id); };
-        var rarityOrder = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 };
+        var rarityOrder = {}; officialRarities().forEach(function (key, index) { rarityOrder[key] = index; });
+        var rarityRank = function (item) { return Object.prototype.hasOwnProperty.call(rarityOrder, item.rarity) ? rarityOrder[item.rarity] : Number.MAX_SAFE_INTEGER; };
+        var compareRarity = function (a, b, descending) {
+            var unknownA = a.rarity === 'unrecorded' || rarityRank(a) === Number.MAX_SAFE_INTEGER;
+            var unknownB = b.rarity === 'unrecorded' || rarityRank(b) === Number.MAX_SAFE_INTEGER;
+            if (unknownA || unknownB) return unknownA === unknownB ? byName(a, b) : unknownA ? 1 : -1;
+            return (descending ? rarityRank(b) - rarityRank(a) : rarityRank(a) - rarityRank(b)) || byName(a, b);
+        };
         if (sort === 'name-asc') filtered.sort(byName);
         else if (sort === 'name-desc') filtered.sort(function (a, b) { return -byName(a, b); });
-        else if (sort === 'rarity-asc') filtered.sort(function (a, b) { return rarityOrder[a.rarity] - rarityOrder[b.rarity] || byName(a, b); });
-        else if (sort === 'rarity-desc') filtered.sort(function (a, b) { return rarityOrder[b.rarity] - rarityOrder[a.rarity] || byName(a, b); });
-        else if (sort === 'category') filtered.sort(function (a, b) { return cleanCategory(displayName(a.category)).localeCompare(cleanCategory(displayName(b.category)), currentLocale()) || byName(a, b); });
+        else if (sort === 'rarity-asc') filtered.sort(function (a, b) { return compareRarity(a, b, false); });
+        else if (sort === 'rarity-desc') filtered.sort(function (a, b) { return compareRarity(a, b, true); });
+        else if (sort === 'category') filtered.sort(function (a, b) { return categoryLabel(a.category).localeCompare(categoryLabel(b.category), currentLocale()) || byName(a, b); });
+        else if (sort === 'level-asc' || sort === 'level-desc') filtered.sort(function (a, b) {
+            if (a.level === null || b.level === null) return a.level === b.level ? byName(a, b) : a.level === null ? 1 : -1;
+            return (sort === 'level-asc' ? a.level - b.level : b.level - a.level) || byName(a, b);
+        });
         currentPage = 1;
         syncFilterChoices();
         render();
@@ -682,12 +791,18 @@
         updatePagination();
     }
 
-    function rarityMeta(r) { return RARITY[r] || RARITY.common; }
+    function rarityMeta(r, sourceLabel) { return Object.prototype.hasOwnProperty.call(RARITY, r) ? RARITY[r] : { label: sourceLabel || itemUi('Non renseignée', 'Not recorded'), cls: 'r-unrecorded' }; }
+    function applyRarityColor(element, item) {
+        if (!item.rarityColor) return;
+        element.style.setProperty('--rarity', item.rarityColor);
+        element.style.setProperty('--item-rarity', item.rarityColor);
+    }
 
     function buildCard(item) {
-        var meta = rarityMeta(item.rarity);
+        var meta = rarityMeta(item.rarity, item.rarityLabel);
         var card = document.createElement('article');
         card.className = 'item-card ' + meta.cls;
+        applyRarityColor(card, item);
         var modal = document.querySelector('.item-modal');
         if (modal && modal.style.display === 'flex' && modal.dataset.item === item.id && !modal.hasAttribute('data-reference-closing')) card.classList.add('is-selected');
         card.dataset.id = item.id;
@@ -709,6 +824,7 @@
         img.dataset.fallback = 'item';
         img.src = item.image;
         media.appendChild(img);
+        if (!item.imageAvailable) { var missing = document.createElement('span'); missing.className = 'item-image-unavailable'; missing.textContent = itemUi('Aperçu indisponible', 'Preview unavailable'); media.appendChild(missing); }
         var badge = document.createElement('span');
         badge.className = 'item-rarity-badge ' + meta.cls;
         badge.textContent = displayName(meta.label);
@@ -724,8 +840,9 @@
         cardMeta.className = 'item-card-meta';
         var catChip = document.createElement('span');
         catChip.className = 'item-cat';
-        catChip.textContent = displayName(item.categoryLabel);
+        catChip.textContent = categoryLabel(item.category);
         cardMeta.append(catChip, badge);
+        if (item.level !== null) { var level = document.createElement('span'); level.className = 'item-level'; level.textContent = itemUi('Niv. ', 'Lv. ') + item.level; cardMeta.appendChild(level); }
         body.appendChild(cardMeta);
         card.appendChild(body);
         return card;
@@ -737,7 +854,7 @@
         hideItemTooltip();
         setFilterDrawer(false, false);
         itemPage()?.classList.add('catalogue-has-selection');
-        var meta = rarityMeta(item.rarity);
+        var meta = rarityMeta(item.rarity, item.rarityLabel);
 
         var modal = document.querySelector('.item-modal');
         if (!modal) { modal = document.createElement('div'); modal.className = 'item-modal'; modal.id = 'item-dialog'; (document.querySelector('.items-page .catalogue-detail-slot') || document.body).appendChild(modal); }
@@ -748,6 +865,7 @@
         modal.setAttribute('aria-labelledby', 'item-dialog-title');
         modal.dataset.item = id;
         modal.dataset.rarity = item.rarity;
+        modal.style.removeProperty('--rarity'); modal.style.removeProperty('--item-rarity'); applyRarityColor(modal, item);
         modal.innerHTML = '';
 
         var content = document.createElement('div');
@@ -786,8 +904,9 @@
         badges.appendChild(rb);
         var cb = document.createElement('span');
         cb.className = 'item-chip chip-cat';
-        cb.textContent = displayName(item.categoryLabel);
+        cb.textContent = categoryLabel(item.category);
         badges.appendChild(cb);
+        if (item.level !== null) { var lb = document.createElement('span'); lb.className = 'item-chip'; lb.textContent = itemUi('Niveau ', 'Level ') + item.level; badges.appendChild(lb); }
         info.appendChild(badges);
         var overview = document.createElement('div'); overview.className = 'item-overview';
         var description = document.createElement('p'); description.className = 'item-detail-description';
@@ -795,8 +914,21 @@
         var facts = document.createElement('section'); facts.className = 'item-verified-facts';
         var factsTitle = document.createElement('h3'); factsTitle.textContent = itemUi('Informations du catalogue', 'Catalogue information'); facts.appendChild(factsTitle);
         var properties = document.createElement('dl');
-        [[itemUi('Catégorie', 'Category'), displayName(item.categoryLabel)], [itemUi('Rareté', 'Rarity'), displayName(meta.label)]].forEach(function (value) { var term = document.createElement('dt'), detail = document.createElement('dd'); term.textContent = value[0]; detail.textContent = value[1]; properties.append(term, detail); });
+        var recordedFacts = [[itemUi('Catégorie', 'Category'), categoryLabel(item.category)], [itemUi('Rareté', 'Rarity'), displayName(meta.label)]];
+        if (item.level !== null) recordedFacts.push([itemUi('Niveau requis', 'Required level'), String(item.level)]);
+        if (item.requiredClass) recordedFacts.push([itemUi('Classe requise', 'Required class'), item.requiredClass]);
+        recordedFacts.forEach(function (value) { var term = document.createElement('dt'), detail = document.createElement('dd'); term.textContent = value[0]; detail.textContent = value[1]; properties.append(term, detail); });
         facts.appendChild(properties); overview.appendChild(facts);
+        if (item.stats.length) {
+            var characteristics = document.createElement('section'); characteristics.className = 'item-official-stats';
+            var statsTitle = document.createElement('h3'); statsTitle.textContent = itemUi('Caractéristiques', 'Characteristics'); characteristics.appendChild(statsTitle);
+            var statList = document.createElement('dl');
+            item.stats.forEach(function (stat) { var term = document.createElement('dt'), detail = document.createElement('dd'); term.textContent = displayName(stat.label); detail.textContent = String(stat.value); statList.append(term, detail); });
+            characteristics.appendChild(statList); overview.appendChild(characteristics);
+        }
+        if (item.sourceUrl) {
+            var official = document.createElement('a'); official.className = 'item-official-source'; official.href = item.sourceUrl; official.target = '_blank'; official.rel = 'noopener noreferrer'; official.textContent = itemUi('Consulter la source officielle ↗', 'View the official source ↗'); overview.appendChild(official);
+        }
 
         var sources = document.createElement('section'); sources.className = 'item-sources';
         var sourcesTitle = document.createElement('h3'); sourcesTitle.textContent = itemUi('Sources d’obtention', 'Known sources'); sources.appendChild(sourcesTitle);
@@ -927,7 +1059,7 @@
                 var image = document.createElement('img'); image.className = 'item-related-image'; image.src = item.image; image.alt = ''; image.dataset.fallback = 'item'; sprite.appendChild(image);
                 var label = document.createElement('span'); label.className = 'item-related-label';
                 var name = document.createElement('strong'); name.textContent = displayName(item.name);
-                var category = document.createElement('small'); category.textContent = displayName(item.categoryLabel); label.append(name, category); link.append(sprite, label); list.appendChild(link);
+                var category = document.createElement('small'); category.textContent = categoryLabel(item.category); label.append(name, category); link.append(sprite, label); list.appendChild(link);
             }); panel.appendChild(list);
         } };
     }

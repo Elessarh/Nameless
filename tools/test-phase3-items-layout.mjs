@@ -24,7 +24,7 @@ try {
     });
     await page.goto('https://nameless-layout.test/items');
     await page.addScriptTag({ content: 'window.NamelessSpaRouter = { controlsLifecycle: true };' });
-    await page.addScriptTag({ content: fs.readFileSync(path.join(root, 'js/items-catalog-hdv.js'), 'utf8') });
+    await page.addScriptTag({ content: fs.readFileSync(path.join(root, 'js/items-catalog-official.js'), 'utf8') });
     await page.addScriptTag({ content: fs.readFileSync(path.join(root, 'js/items.js'), 'utf8') });
     await page.evaluate(() => window.NamelessItemsPage.init(document));
     for (const width of [360, 390, 768]) {

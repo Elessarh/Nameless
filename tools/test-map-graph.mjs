@@ -7,31 +7,37 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { createMapGraph, writeMapGraph } from './build-map-graph.mjs';
+import {readOfficialItemCatalogue, normalizeItemName} from './items-catalogue.mjs';
 import {isPublishedMapEntity, assertNoCombatFields} from './public-content-policy.mjs';
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const source = JSON.parse(fs.readFileSync(path.join(root, 'data/map-source.json'), 'utf8'));
 const graph = createMapGraph({ root });
-const all = Object.values(graph.floors).flatMap(floor => Object.values(floor.entities));
+const officialCatalogue = readOfficialItemCatalogue({root});
+const floorEntities = Object.values(graph.floors).flatMap(floor => Object.values(floor.entities));
+const all = [...floorEntities, ...Object.values(graph.items)];
 const byKey = new Map(all.map(entity => [entity.key, entity]));
 const byKind = kind => all.filter(entity => entity.kind === kind);
 const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/œ/g, 'oe').replace(/[^a-z0-9]+/g, ' ').trim();
 let checks = 0;
 const check = (condition, message) => { assert.ok(condition, message); checks++; };
 
-assert.deepEqual(Object.keys(graph).sort(), ['catalog', 'floors', 'registry']);
+assert.deepEqual(Object.keys(graph).sort(), ['catalog', 'floors', 'items', 'registry']);
 assert.equal(graph.catalog.version, 1);
 assert.equal(byKind('guide').length, 0);
 assert.equal(byKind('creature').length, 60);
-assert.equal(byKind('item').length, 104);
+assert.equal(byKind('item').length, officialCatalogue.items.length);
+check(!floorEntities.some(entity => entity.kind === 'item'), 'Official items are global catalogue records, not fabricated floor placements');
+check(byKind('item').every(item => item.floor === null), 'Official item identities carry no invented floor');
+check(graph.catalog.index.filter(entry => entry.kind === 'item').every(entry => entry.floor === null && !Object.hasOwn(entry, 'mapUrl')), 'Lightweight search never assigns global items a fabricated map destination');
 assert.equal(byKind('location').length, 33);
 assert.equal(byKind('quest').length, 0);
 assert.equal(byKind('npc').length, 0);
 assertNoCombatFields(graph);
 assert.equal(all.length, byKey.size, 'Stable keys are unique');
 assert.equal(graph.catalog.index.length, all.length);
-assert.equal(graph.registry.length, all.length - 104);
+assert.equal(graph.registry.length, all.length - officialCatalogue.items.length);
 assert.deepEqual(graph.catalog.registry, graph.registry);
 assert.deepEqual(createMapGraph({ root }), graph, 'Compilation is deterministic');
 
@@ -137,12 +143,14 @@ assert.equal(steps.length, 58, 'Retired guide source remains recoverable');
 dom.window.close();
 
 for (const entity of all) {
-    assert.equal(graph.floors[entity.floor].entities[entity.key], entity);
+    assert.equal(entity.kind === 'item' ? graph.items[entity.key] : graph.floors[entity.floor].entities[entity.key], entity);
     assert.ok(entity.sources.length, 'Every entity has source evidence');
     check(isPublishedMapEntity(entity), 'No archived entity is shipped');
     for (const reference of [entity.positionRef, entity.placeKey, ...entity.relatedKeys, ...entity.creatureKeys, ...entity.guideKeys].filter(Boolean)) {
         check(byKey.has(reference), 'Reference exists: ' + reference);
-        assert.equal(byKey.get(reference).floor, entity.floor, 'Linked entities are on the same floor');
+        const target = byKey.get(reference);
+        if (entity.kind !== 'item' && target.kind !== 'item') assert.equal(target.floor, entity.floor, 'Linked world entities are on the same floor');
+        else assert.equal(entity.kind === 'item' ? entity.floor : target.floor, null, 'A catalogue relationship never invents a floor for the global item');
     }
     if (entity.kind === 'creature' || entity.kind === 'npc' || entity.kind === 'item') assert.equal(entity.position, null, 'Derived actors/items have no invented coordinates');
     if (entity.kind === 'item') {
@@ -175,15 +183,18 @@ for (const place of byKind('location')) {
     check(!place.relatedKeys.some(key => /^(?:quest|guide|npc):/.test(key)), 'Current place relations contain no historical quest entry');
 }
 
-// Each individual drop keeps its own rate, and only exact normalized item names match.
-const itemNames = new Set();
+// Distinct source identities may legitimately have identical names. Only
+// unambiguous identities receive existing Nameless drop associations.
+const officialById = new Map(officialCatalogue.items.map(item => [item.id, item]));
 for (const item of byKind('item')) {
-    check(!itemNames.has(normalize(item.title)), 'Normalized item names are deduplicated'); itemNames.add(normalize(item.title));
+    check(officialById.has(item.id), 'Every graph item resolves to a current official identity');
+    check(item.provenance === 'sao-minecraft-official-wiki' && item.sources.some(source => source.officialId === officialById.get(item.id).officialId), 'Official identity evidence is distinct from old bestiary drop evidence');
     const evidence = item.sources.filter(source => source.creatureKey);
     assert.deepEqual(new Set(item.creatureKeys), new Set(evidence.map(source => source.creatureKey)), 'Item sources are actual matching creature drops');
     for (const source of evidence) {
         const drop = byKey.get(source.creatureKey).drops[source.dropIndex];
         assert.equal(drop.itemKey, item.key); assert.equal(drop.rate, source.rate); assert.equal(drop.name, source.name);
+        check(source.provenance === 'nameless-bestiary' && source.verification === 'not-revalidated-against-official-export', 'Existing drop observations never claim to come from the current official item export');
     }
 }
 for (const creature of byKind('creature')) {
@@ -193,17 +204,18 @@ for (const creature of byKind('creature')) {
         const knownBrindille = item.id === 'brindille_enchantees' && normalize(drop.name) === 'brindille enchantee';
         const knownGlacial = item.id === 'peau_glacial' && normalize(drop.name) === 'peau dur glacial'
             && item.sources.some(source => source.creatureKey === creature.key && source.name === drop.name
-                && source.match === 'explicit-name-image-id' && source.catalogImage === 'Ressources/PeaudurGlacial.png' && source.dropImage === 'PeaudurGlacial.png');
-        check(knownBrindille || knownGlacial || normalize(drop.name) === normalize(item.title), 'Drops match exact normalized names or an explicitly evidenced alias');
+                && source.match === 'reviewed-historical-name-alias' && source.legacyId === 'peau_glacial');
+        check(knownBrindille || knownGlacial || normalizeItemName(drop.name) === normalizeItemName(item.title), 'Drops match exact normalized names or an explicitly evidenced alias');
     }
 }
-assert.equal(byKey.get('creature:7').drops[0].itemKey, 'item:brindille_enchantees');
-for (const id of [22, 45]) assert.equal(byKey.get('creature:' + id).drops.find(drop => drop.name === 'Peau Dur Glacial').itemKey, 'item:peau_glacial', 'Reviewed ID and shared image identify the explicit Glacial alias');
+if (officialById.has('brindille_enchantees')) assert.equal(byKey.get('creature:7').drops[0].itemKey, 'item:brindille_enchantees');
+for (const id of [22, 45]) if (officialById.has('peau_glacial')) assert.equal(byKey.get('creature:' + id).drops.find(drop => drop.name === 'Peau Dur Glacial').itemKey, 'item:peau_glacial', 'A reviewed alias remains a link only when the current official identity exists');
 
 // Appended page code proves the compiler reads literal catalogues, not whole scripts.
 const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'nameless-map-graph-'));
 try {
-    for (const file of ['data/map-source.json', 'js/bestiaire.js', 'js/items-catalog-hdv.js', 'js/i18n-en.js', 'js/i18n-en-reviewed.js', 'js/i18n-quests-en-reviewed.js', 'js/i18n-game-en-reviewed.js', 'pages/quetes.html', 'assets/carte.webp', 'assets/Palier2-map.webp', 'assets/Palier3-map.webp']) {
+    const officialImages = JSON.parse(fs.readFileSync(path.join(root, 'data/official-items.json'), 'utf8')).items.map(item => item.image).filter(Boolean).map(image => image.slice(1));
+    for (const file of ['data/map-source.json', 'data/official-items.json', 'data/item-legacy-identities.json', 'js/bestiaire.js', 'js/items-catalog-hdv.js', 'js/i18n-en.js', 'js/i18n-en-reviewed.js', 'js/i18n-quests-en-reviewed.js', 'js/i18n-game-en-reviewed.js', 'pages/quetes.html', 'assets/carte.webp', 'assets/Palier2-map.webp', 'assets/Palier3-map.webp', ...officialImages]) {
         const target = path.join(fixture, file); fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(path.join(root, file), target);
     }
     for (const file of ['js/bestiaire.js', 'js/items-catalog-hdv.js']) fs.appendFileSync(path.join(fixture, file), '\nthrow new Error("Page runtime must not execute");\n');
@@ -216,8 +228,10 @@ try {
     assert.equal(audit.counts.byKind.guide, 0);
     assert.equal(audit.excludedHistoricalEntities.length, 176, 'All 59 quests, 58 guides and 59 derived NPCs are excluded');
     assert.ok(audit.excludedHistoricalEntities.every(entry => !graph.catalog.index.some(entity => entity.key === entry.key)));
-    assert.deepEqual(audit.unmatchedDrops, [], 'Every current drop has an exact or explicitly evidenced catalogue identity');
-    assert.deepEqual(audit.itemAliasEvidence[0].matches.map(match => match.creatureKey), ['creature:22', 'creature:45']);
+    for (const unmatched of audit.unmatchedDrops) {
+        const drop = byKey.get(unmatched.creatureKey)?.drops.find(drop => drop.name === unmatched.name);
+        check(drop && !drop.itemKey, 'An unresolved old drop stays plain text instead of receiving a fabricated official identity');
+    }
     assert.equal(audit.legacyFavorites.find(entry => entry.key === 'location:1:ville-depart').globalIds[0], 'location:villesData-0');
     assert.equal(audit.legacyFavorites.find(entry => entry.key === 'location:1:marchand-depart').globalIds[0], 'npc:marchandsData-0');
     check(audit.coordinateConflicts.some(conflict => conflict.key === 'npc:1:varn'), 'The retained secondary NPC conflict appears in the audit');
@@ -230,4 +244,4 @@ try {
     if (!resolved.startsWith(temporaryRoot) || !path.basename(resolved).startsWith('nameless-map-graph-')) throw new Error('Unsafe temporary fixture cleanup');
     fs.rmSync(resolved, { recursive: true, force: true });
 }
-console.log('Map graph tests passed: ' + checks + ' checks, 176 archived identities excluded, 60 creatures, 104 items and 33 current default points preserved.');
+console.log('Map graph tests passed: ' + checks + ' checks, 176 archived identities excluded, 60 creatures, ' + officialCatalogue.items.length + ' global official items and 33 current default points preserved.');

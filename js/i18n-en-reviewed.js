@@ -526,3 +526,14 @@ Object.assign(window.NamelessTranslations.en, {
     "Retire la modification publiée et rétablit les limites proposées par le site.": "Remove the published change and restore the site's proposed boundaries.",
     "Restaurer les limites d’origine": "Restore original boundaries"
 });
+
+// Interface labels for the published official item catalogue.
+Object.assign(window.NamelessTranslations.en, {
+    "Niveau : croissant": "Level: ascending",
+    "Niveau : décroissant": "Level: descending",
+    "Mythique": "Mythic",
+    "Godlike": "Godlike",
+    "S+": "S+",
+    "S++": "S++",
+    "Non renseignée": "Not recorded"
+});

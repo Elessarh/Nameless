@@ -22,7 +22,7 @@ function surface(kind, getIndex, id) {
     w.scrollTo = () => {};
     w.HTMLElement.prototype.scrollIntoView = () => {};
     w.matchMedia = () => ({ matches: true });
-    w.eval(isCreature ? read('js/bestiaire.js') : read('js/items-catalog-hdv.js') + '\n' + read('js/items.js'));
+    w.eval(isCreature ? read('js/bestiaire.js') : read('js/items-catalog-official.js') + '\n' + read('js/items.js'));
     (isCreature ? w.NamelessBestiaryPage : w.NamelessItemsPage).init(w.document);
     return dom;
 }
@@ -160,7 +160,7 @@ const sourceEntry = (overrides = {}) => ({ title: 'Gorbel', url: '/bestiaire?cre
 // Deferred scripts run after parsing, with readyState=interactive. Execute the
 // actual script order and shared search implementation rather than preinstalling its API.
 for (const [pageFile, route, controllerFile, catalogFile] of [
-    ['pages/items.html', '/items?item=gelee_slime', 'js/items.js', 'js/items-catalog-hdv.js'],
+    ['pages/items.html', '/items?item=gelee_slime', 'js/items.js', 'js/items-catalog-official.js'],
     ['pages/bestiaire.html', '/bestiaire?creature=1', 'js/bestiaire.js', null]
 ]) {
     const dom = new JSDOM(read(pageFile), { url: 'https://nameless-sao.fr' + route, runScripts: 'outside-only', pretendToBeVisual: true });

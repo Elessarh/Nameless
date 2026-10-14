@@ -66,13 +66,13 @@ function paletteIsolation(w, selector) {
 }
 
 {
-    const dom = surface('pages/items.html', '/items?item=potion_mana', ['js/items-catalog-hdv.js', 'js/items.js']);
+    const dom = surface('pages/items.html', '/items?item=gelee_slime', ['js/items-catalog-official.js', 'js/items.js']);
     const w = dom.window, d = w.document;
     w.innerWidth = 390;
-    w.NamelessGlobalSearch = { getIndex: async () => [{ kind: 'item', id: 'potion_mana', sources: [{ title: '<script>unsafe</script>', url: '/bestiaire?creature=1', floor: 1 }] }] };
+    w.NamelessGlobalSearch = { getIndex: async () => [{ kind: 'item', id: 'gelee_slime', sources: [{ title: '<script>unsafe</script>', url: '/bestiaire?creature=1', floor: 1 }] }] };
     w.NamelessItemsPage.init(d); await pause(0);
     check(d.querySelector('.item-card .item-name').tagName === 'H2', 'Item cards follow the page H1 without skipping a heading level');
-    check(d.querySelector('[role="dialog"] h2').textContent === 'Potion de Mana', 'Item deep link opens a real catalogue ID');
+    check(d.querySelector('[role="dialog"] h2').textContent === 'Gelée de Slime', 'An unambiguous old item deep link opens its current official identity');
     paletteIsolation(w, '.item-modal');
     check(d.querySelector('.item-sources a').textContent.includes('<script>unsafe</script>') && !d.querySelector('.item-sources script'), 'Derived item sources are rendered as plain text');
     const links = d.querySelectorAll('.item-modal button, .item-modal a'); links[links.length - 1].focus(); key(w, d.activeElement, 'Tab');
@@ -88,6 +88,8 @@ function paletteIsolation(w, selector) {
 }
 
 {
+    // Historical PNG sizing is an explicit isolated compatibility fixture,
+    // separate from the source-backed active official catalogue above.
     const dom = surface('pages/items.html', '/items', ['js/items-catalog-hdv.js', 'js/items.js']);
     const w = dom.window, d = w.document;
     w.NamelessItemsPage.init(d);
@@ -99,7 +101,7 @@ function paletteIsolation(w, selector) {
     Object.defineProperty(image, 'naturalHeight', { value: 48 });
     image.dispatchEvent(new w.Event('load'));
     check(image.classList.contains('is-pixel-art') && image.style.getPropertyValue('--item-image-width') === '94px' && image.style.getPropertyValue('--item-image-height') === '96px', 'Small item sprites use a whole 2x enlargement that preserves their ratio');
-    check(image.src.endsWith('?v=items-cleaned-20261007'), 'Replacement PNG requests have a cache version without changing the path');
+    check(new URL(image.src).searchParams.get('v') && new URL(image.src).pathname.startsWith('/assets/items/'), 'The isolated legacy sprite fixture keeps a local item path and a cache version');
     frame = 100; w.dispatchEvent(new w.Event('resize'));
     check(image.style.getPropertyValue('--item-image-width') === '47px', 'A narrow sprite frame uses native pixels rather than a fractional scale');
     frame = 500; w.dispatchEvent(new w.Event('resize'));

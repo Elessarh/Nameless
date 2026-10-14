@@ -67,7 +67,13 @@ check(!index.entries.some(entry=>entry.status===HISTORICAL_QUEST_STATUS), 'Archi
 check(!entities.some(entity=>entity.status===HISTORICAL_QUEST_STATUS), 'Archives cannot enter map markers or relationships');
 for (const primary of raw.questData.filter(entry=>entry.type==='principale')) check(!graph.floors[1].entities['quest:1:' + primary.id], 'Old main raw ID is omitted');
 for (const primary of raw.questDataFloor2.filter(entry=>entry.type==='principale')) check(!graph.floors[2].entities['quest:2:' + primary.id], 'Old floor-two main raw ID is omitted');
-for (const entry of index.entries.filter(entry=>['item','creature','boss'].includes(entry.kind))) check(entry.image.startsWith('/assets/'), 'Search thumbnails use original local project assets');
+const officialImageById = new Map(JSON.parse(read('data/official-items.json')).items.map(item=>[item.id,item.image]));
+for (const entry of index.entries.filter(entry=>['item','creature','boss'].includes(entry.kind))) {
+    if (entry.kind==='item') {
+        assert.equal(entry.image,officialImageById.get(entry.officialId),'Official item thumbnails preserve the actual imported source or its explicit absence');
+        check(entry.image===null || entry.image.startsWith('/assets/items/official/'),'Item thumbnails use imported official assets without substituting historical pictures');
+    } else check(entry.image.startsWith('/assets/mobs/'),'Creature thumbnails retain the original project models');
+}
 const output = path.join(root,'_site');
 if (fs.existsSync(output)) {
     check(!fs.existsSync(path.join(output,'data')) && !fs.existsSync(path.join(output,'docs')), 'Build allowlist excludes historical data, private archives and migrations');

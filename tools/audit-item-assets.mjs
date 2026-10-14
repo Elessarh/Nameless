@@ -230,13 +230,59 @@ export function auditItemAssets({ root = defaultRoot, manifestPath = path.join(r
     return { errors, checked, cornerTouchingItems };
 }
 
+// The historical 104-image pixel audit above stays independent. Current
+// official assets may be shared, absent, or larger than those old sprites.
+export function auditOfficialItemAssets({root = defaultRoot} = {}) {
+    const errors = []; let checked = 0;
+    try {
+        const snapshotBytes = fs.readFileSync(path.join(root, 'data/official-items.json'));
+        const snapshot = JSON.parse(snapshotBytes);
+        const manifest = JSON.parse(fs.readFileSync(path.join(root, 'data/official-items.manifest.json'), 'utf8'));
+        if (sha256(snapshotBytes) !== manifest.snapshotSha256) throw new Error('Official snapshot differs from its import manifest');
+        if (snapshot.items.length !== manifest.itemCount) throw new Error('Official manifest item coverage differs from the snapshot');
+        const assets = new Map();
+        for (const record of manifest.assets) {
+            try {
+                if (typeof record.path !== 'string' || !record.path.startsWith('/assets/items/official/') || record.path.includes('..') || record.path.includes('\\')) throw new Error('Unsafe official asset path');
+                if (assets.has(record.path)) throw new Error('Duplicate official asset manifest path');
+                assets.set(record.path, record);
+                const officialDirectory = fs.realpathSync(path.join(root, 'assets/items/official'));
+                const filename = path.resolve(root, '.' + decodeURIComponent(record.path));
+                const target = fs.realpathSync(filename);
+                if (!within(officialDirectory, filename) || !within(officialDirectory, target) || !fs.statSync(target).isFile()) throw new Error('Official asset leaves its imported directory');
+                const bytes = fs.readFileSync(target);
+                if (bytes.length !== record.bytes || sha256(bytes) !== record.sha256) throw new Error('Official asset bytes differ from the downloaded source');
+                const png = bytes.subarray(0, 8).equals(pngSignature);
+                const webp = bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.toString('ascii', 8, 12) === 'WEBP';
+                const jpeg = bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255;
+                const gif = /^GIF8[79]a$/.test(bytes.toString('ascii', 0, 6));
+                if (!png && !webp && !jpeg && !gif) throw new Error('Downloaded official asset is not a supported local raster image');
+                if (png && (bytes.length < 24 || (record.width != null && bytes.readUInt32BE(16) !== record.width) || (record.height != null && bytes.readUInt32BE(20) !== record.height))) throw new Error('Official PNG dimensions differ from the import record');
+                checked++;
+            } catch (error) { errors.push((record?.path || '(unknown official asset)') + ': ' + error.message); }
+        }
+        for (const item of snapshot.items) {
+            if (item.image === null) continue;
+            if (!assets.has(item.image)) errors.push('Official item image is absent from the import manifest: ' + item.id);
+        }
+        const visible = snapshot.items.filter(item => item.image !== null).length;
+        if (manifest.images?.itemsWithImages !== visible) errors.push('Official image item coverage differs from the snapshot');
+        const missingIds = new Set((manifest.images?.itemsWithoutImages || []).map(item => item.id));
+        for (const item of snapshot.items.filter(item => item.image === null)) if (!missingIds.has(item.id)) errors.push('Missing official preview is not recorded explicitly: ' + item.id);
+    } catch (error) { errors.push('Cannot load official asset audit inputs: ' + error.message); }
+    return {errors, checked};
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     const result = auditItemAssets();
+    const official = auditOfficialItemAssets();
+    result.errors.push(...official.errors);
     if (result.errors.length) {
         console.error('Item-asset audit failed (' + result.errors.length + ' issue(s)):');
         result.errors.forEach(error => console.error('- ' + error));
         process.exitCode = 1;
     } else {
         console.log('Item-asset audit passed: ' + result.checked + ' immutable catalogue targets; PNG CRC, RGBA pixels and alpha counts match the manifest (' + result.cornerTouchingItems + ' item(s) touch a corner).');
+        console.log('Official item-asset audit passed: ' + official.checked + ' downloaded local assets match their recorded bytes; all current item previews and explicit absences are covered.');
     }
 }

@@ -19,6 +19,11 @@
 .item-card.r-rare { --rarity: #A8C4D5; }
 .item-card.r-epic { --rarity: #C5B9CC; }
 .item-card.r-legendary { --rarity: var(--nm-gold-light); }
+.item-card.r-mythic { --rarity: #d8a3c4; }
+.item-card.r-godlike { --rarity: #edc99c; }
+.item-card.r-splus { --rarity: #bcabef; }
+.item-card.r-splusplus { --rarity: #e5b8eb; }
+.item-card.r-unrecorded { --rarity: #99a7ad; }
 .item-media { position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--nm-bg-secondary); border-bottom: 1px solid var(--nm-border); }
 .item-image { width: 100%; height: 100%; object-fit: contain; padding: 1rem; }
 .item-image.is-pixel-art, .item-modal-media img.is-pixel-art, .item-related-image.is-pixel-art { width: var(--item-image-width); height: var(--item-image-height); max-width: none; max-height: none; flex-shrink: 0; padding: 0; image-rendering: pixelated; }
@@ -168,6 +173,11 @@
 .items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="rare"], .inventory-tooltip[data-rarity="rare"] { --item-rarity: #a8c4d5; }
 .items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="epic"], .inventory-tooltip[data-rarity="epic"] { --item-rarity: #c5b9cc; }
 .items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="legendary"], .inventory-tooltip[data-rarity="legendary"] { --item-rarity: var(--nm-gold-light); }
+.items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="mythic"], .inventory-tooltip[data-rarity="mythic"] { --item-rarity: #d8a3c4; }
+.items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="godlike"], .inventory-tooltip[data-rarity="godlike"] { --item-rarity: #edc99c; }
+.items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="splus"], .inventory-tooltip[data-rarity="splus"] { --item-rarity: #bcabef; }
+.items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="splusplus"], .inventory-tooltip[data-rarity="splusplus"] { --item-rarity: #e5b8eb; }
+.items-container.items-page :is(.item-card,.item-modal,.catalogue-related-item)[data-rarity="unrecorded"], .inventory-tooltip[data-rarity="unrecorded"] { --item-rarity: #99a7ad; }
 .items-container.items-page .item-body { padding: 10px 9px; }
 .items-container.items-page .item-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: auto; }
 .items-container.items-page .item-rarity-badge { position: static; inset: auto; width: max-content; max-width: 100%; margin-left: auto; padding: 3px 6px; color: var(--item-rarity, var(--nm-text-secondary)); border-color: currentColor; border-radius: 3px; font-size: .6875rem; line-height: 1.3; }
@@ -203,3 +213,16 @@
 @media (max-width: 980px) {
  .items-container.items-page .item-source-region-link { min-height: 44px; }
 }
+.item-snapshot-status { display: flex; align-items: center; flex-wrap: wrap; gap: .35rem 1rem; margin: .75rem 0 0; color: var(--nm-text-secondary); font-size: .75rem; }
+.item-snapshot-status[hidden], .item-link-notice[hidden] { display: none; }
+.item-snapshot-status a, .item-official-source { color: var(--nm-link); text-underline-offset: 3px; }
+.item-link-notice { margin: .75rem 0; padding: .875rem 1rem; border: 1px solid var(--nm-border); color: var(--nm-gold-light); background: var(--nm-surface); line-height: 1.5; }
+.items-container.items-page .item-card-meta { flex-wrap: wrap; }
+.item-level { color: var(--nm-text-secondary); font-size: .6875rem; white-space: nowrap; margin-left: auto; }
+.item-image-unavailable { position: absolute; inset: auto .5rem .5rem; text-align: center; color: var(--nm-text-secondary); font-size: .625rem; }
+.item-official-stats { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--nm-border); }
+.item-official-stats h3 { margin: 0 0 .75rem; font-size: .875rem; color: var(--nm-text-bright); }
+.item-official-stats dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, auto); gap: .5rem 1rem; margin: 0; font-size: .8125rem; line-height: 1.45; }
+.item-official-stats dt { color: var(--nm-text-secondary); overflow-wrap: anywhere; }
+.item-official-stats dd { margin: 0; color: var(--nm-text-bright); text-align: right; overflow-wrap: anywhere; max-width: 12rem; }
+.item-official-source { display: inline-flex; align-items: center; min-height: 44px; margin-top: .75rem; font-size: .8125rem; }

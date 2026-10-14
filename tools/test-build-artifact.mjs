@@ -11,6 +11,7 @@ const { JSDOM } = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.join(root, '_site');
 const origin = 'https://nameless-sao.fr';
+const normalizeGeneratedCacheStamp = html => html.replace(/(\bsrc=["'][^"']*\/js\/(?:items-catalog-official|global-search|page-registry)\.js\?v=)[^"'&]+/g, '$1SOURCE_HASH');
 const build = spawnSync(process.execPath, ['tools/build-site.mjs'], {
     cwd: root, encoding: 'utf8', env: process.env, timeout: 60000
 });
@@ -82,7 +83,7 @@ for (const route of routes) {
     const clean = verifyHtml(publicFile(new URL(cleanUrl)), cleanUrl);
     const legacyUrl = origin + '/' + route.source;
     const legacyFile = publicFile(new URL(legacyUrl));
-    assert.deepEqual(fs.readFileSync(legacyFile), fs.readFileSync(path.join(root, route.source)), route.source + ': legacy page was altered or omitted');
+    assert.equal(normalizeGeneratedCacheStamp(fs.readFileSync(legacyFile, 'utf8')), normalizeGeneratedCacheStamp(fs.readFileSync(path.join(root, route.source), 'utf8')), route.source + ': legacy page content remains exact except the three generated content-cache stamps');
     if (route.path !== '/') {
         const legacy = verifyHtml(legacyFile, legacyUrl);
         assert.equal(clean.title, legacy.title, route.path + ': title differs between clean and legacy URLs');

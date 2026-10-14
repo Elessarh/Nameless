@@ -2,7 +2,9 @@
 (function (global) {
     'use strict';
     var script = document.currentScript;
-    var indexUrl = new URL('../assets/search-index.json', script ? script.src : new URL('/js/global-search.js', location.href)).href;
+    var indexLocation = new URL('../assets/search-index.json', script ? script.src : new URL('/js/global-search.js', location.href));
+    indexLocation.searchParams.set('v', script ? new URL(script.src).searchParams.get('v') || '20261014official1' : '20261014official1');
+    var indexUrl = indexLocation.href;
     var indexVersion = script && new URL(script.src, location.href).searchParams.get('v');
     if (indexVersion) indexUrl += '?v=' + encodeURIComponent(indexVersion);
     var indexPromise = null, entries = [], results = [], dialog, input, list, status, opener, favoriteFilter, favoriteLabel, favoriteCount, indexMeta, clearQuery;

@@ -47,7 +47,8 @@ try {
             check(map && new URL(map.getAttribute('href'), 'https://nameless-sao.fr').searchParams.get('floor') === '1', 'Confirmed boss zone links to the correct map floor');
             check(d.body.textContent.includes('Aucun butin connu.'), 'Unknown boss loot stays explicitly unknown');
         }
-        if (page.title === 'Léviathan') check(d.querySelector('a[href="/items?item=coeur_nautherion"]'), 'Confirmed loot links directly to its existing item ID');
+        if (page.title === 'Léviathan') check(!d.querySelector('a[href="/items?item=coeur_nautherion"]')
+            && d.querySelector('a[href="/items?q=Coeur%20de%20Nautherion"]'), 'An old drop absent from the current official catalogue remains a name search rather than a fabricated identity');
         check(!/Points de vie|\b(?:PV|HP)\b/.test(html), 'Unverified combat labels and metadata are absent from generated boss pages');
         dom.window.close();
     }

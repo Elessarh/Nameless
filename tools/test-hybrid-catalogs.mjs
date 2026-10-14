@@ -20,7 +20,7 @@ function surface(kind, width = 1080, query = '') {
     w.NamelessSpaRouter = { controlsLifecycle: true };
     w.scrollTo = () => {}; w.HTMLElement.prototype.scrollIntoView = () => {};
     w.matchMedia = () => ({ matches: true });
-    w.eval((creature ? '' : read('js/items-catalog-hdv.js') + '\n') + read(creature ? 'js/bestiaire.js' : 'js/items.js') + '\nwindow.__hybridRecords = ' + (creature ? 'JSON.stringify(creaturesData);' : 'JSON.stringify(Object.values(itemsCatalog).flatMap(group => group.items.map(item => ({...item, category:group.name}))));'));
+    w.eval((creature ? '' : read('js/items-catalog-official.js') + '\n') + read(creature ? 'js/bestiaire.js' : 'js/items.js') + '\nwindow.__hybridRecords = ' + (creature ? 'JSON.stringify(creaturesData);' : 'JSON.stringify(Object.values(itemsCatalog).flatMap(group => group.items.map(item => ({...item, category:group.name}))));'));
     const api = creature ? w.NamelessBestiaryPage : w.NamelessItemsPage;
     api.init(w.document);
     const data = JSON.parse(w.__hybridRecords);
@@ -52,7 +52,9 @@ for (const kind of ['creature', 'item']) {
     const expectedIds = records => records.map(record => String(record.id));
     equal(d.getElementById(sizeId).value, '48', kind + ' page-size control starts at 48');
     equal(ids(s, kind), expectedIds(data.slice(0, 48)), kind + ' first page displays the first 48 real records');
-    equal(numbers.querySelectorAll('button').length, Math.ceil(data.length / 48), kind + ' default page controls cover the actual full catalogue');
+    const pageCount = Math.ceil(data.length / 48);
+    check(numbers.querySelector('[data-page="1"][aria-current="page"]') && numbers.querySelector('[data-page="' + pageCount + '"]'), kind + ' compact page controls expose the actual first and final page');
+    check(numbers.querySelectorAll('button').length <= Math.min(pageCount, 9), kind + ' pagination stays compact for a large catalogue');
     while (!next.disabled) next.click();
     equal(ids(s, kind), expectedIds(data.slice(Math.floor((data.length - 1) / 48) * 48)), kind + ' last default page contains precisely the remaining records');
     check(next.disabled && !prev.disabled, kind + ' final page disables forward navigation and permits returning');
@@ -109,18 +111,27 @@ for (const kind of ['creature', 'item']) {
 }
 {
     const s = surface('item'), { d, data } = s;
-    equal(data.length, 104, 'The inventory retains every supplied item');
+    equal(data.length, JSON.parse(read('data/official-items.json')).items.length, 'The inventory includes every current official source item');
     equal(ids(s, 'item'), data.slice(0, 48).map(c => c.id), 'Default item order preserves the catalogue source');
     field(s, 'it-sort', 'name-asc');
     equal(allPages(s, 'item'), [...data].sort(byName).map(c => c.id), 'Item name ascending sorts across all pages');
     field(s, 'it-sort', 'name-desc');
     equal(allPages(s, 'item'), [...data].sort((a, b) => -byName(a, b)).map(c => c.id), 'Item name descending reverses the real names');
-    const rarityOrder = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 };
+    const officialSource = JSON.parse(read('data/official-items.json'));
+    const rarityOrder = Object.fromEntries(officialSource.rarities.map((rarity, rank) => [rarity.slug, rank]));
+    const rarityRank = item => Object.hasOwn(rarityOrder, item.rarity) ? rarityOrder[item.rarity] : Number.MAX_SAFE_INTEGER;
     for (const direction of ['asc', 'desc']) {
         field(s, 'it-sort', 'rarity-' + direction);
-        equal(allPages(s, 'item'), [...data].sort((a, b) => (direction === 'asc' ? 1 : -1) * (rarityOrder[a.rarity] - rarityOrder[b.rarity]) || byName(a, b)).map(c => c.id), 'Rarity ' + direction + ' uses the defined order with stable name ties');
+        equal(allPages(s, 'item'), [...data].sort((a, b) => (direction === 'asc' ? 1 : -1) * (rarityRank(a) - rarityRank(b)) || byName(a, b)).map(c => c.id), 'Rarity ' + direction + ' uses the published source order with stable name ties');
     }
-    const target = data.find(c => c.rarity === 'rare');
+    for (const direction of ['asc', 'desc']) {
+        field(s, 'it-sort', 'level-' + direction);
+        const expected = [...data].sort((a, b) => a.level === null || b.level === null
+            ? a.level === b.level ? byName(a, b) : a.level === null ? 1 : -1
+            : (direction === 'asc' ? a.level - b.level : b.level - a.level) || byName(a, b));
+        equal(allPages(s, 'item'), expected.map(item => item.id), 'Required-level ' + direction + ' sorts actual numbers with unknown requirements last');
+    }
+    const target = data.find(c => c.rarity === officialSource.rarities.find(rarity => rarity.label === 'Rare').slug);
     field(s, 'it-category', target.category); field(s, 'it-rarity', target.rarity);
     equal(new Set(allPages(s, 'item')), new Set(data.filter(c => c.category === target.category && c.rarity === target.rarity).map(c => c.id)), 'Category and rarity intersect on actual item properties');
     field(s, 'it-search', 'no-known-item-zzzz', 'input');
@@ -178,13 +189,13 @@ for (const kind of ['creature', 'item']) {
     const searchId = kind === 'creature' ? 'bes-search' : 'it-search';
     const sortId = kind === 'creature' ? 'bes-sort' : 'it-sort';
     const compact = value => String(value).normalize('NFD').replace(/[\u0300-\u036f\s]/g, '').toLowerCase();
-    for (const query of kind === 'creature' ? ['WhiteWolf'] : ['ManaPotion', 'SlimeJelly']) {
+    for (const query of kind === 'creature' ? ['WhiteWolf'] : ['SlimeJelly']) {
         field(s, searchId, query, 'input');
         equal(new Set(allPages(s, kind)), new Set(data.filter(record => compact(w.NamelessTranslations.en[record.name] || record.name).includes(compact(query))).map(record => String(record.id))), query + ' finds actual translated names while preserving IDs');
     }
     field(s, searchId, kind === 'creature' ? 'Loup Blanc' : 'Gelée de Slime', 'input');
     check(ids(s, kind).length > 0, 'Original French ' + kind + ' names remain searchable in English');
-    field(s, searchId, kind === 'creature' ? 'Beast' : 'Resources', 'input');
+    field(s, searchId, kind === 'creature' ? 'Beast' : 'Materials', 'input');
     check(ids(s, kind).length > 0, 'Translated ' + kind + ' type/category is searchable');
     field(s, searchId, '', 'input'); field(s, sortId, 'name-asc');
     const compareVisible = (a, b) => w.NamelessI18n.translate(a.name).localeCompare(w.NamelessI18n.translate(b.name), w.NamelessI18n.getLocale(), { sensitivity: 'base', numeric: true }) || String(a.id).localeCompare(String(b.id));

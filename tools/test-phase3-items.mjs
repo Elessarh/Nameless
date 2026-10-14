@@ -6,10 +6,12 @@ import { JSDOM } from 'jsdom';
 
 const root = path.resolve(import.meta.dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
+const officialSnapshot = JSON.parse(read('data/official-items.json'));
+const raritySlug = label => { const rarity = officialSnapshot.rarities.find(rarity => rarity.label === label); assert.ok(rarity, 'Official rarity missing: ' + label); return rarity.slug; };
 let checks = 0;
 const check = (condition, message) => { assert.ok(condition, message); checks++; };
 const equal = (actual, expected, message) => { assert.deepEqual(actual, expected, message); checks++; };
-function surface(width = 1440, query = '', sourceIndex) {
+function surface(width = 1440, query = '', sourceIndex, catalogueFile = 'js/items-catalog-official.js') {
     const dom = new JSDOM(read('pages/items.html'), { url: 'https://nameless-sao.fr/items' + query, runScripts: 'outside-only', pretendToBeVisual: true });
     const w = dom.window, d = w.document;
     Object.defineProperty(w, 'innerWidth', { value: width, writable: true });
@@ -17,7 +19,9 @@ function surface(width = 1440, query = '', sourceIndex) {
     w.NamelessSpaRouter = { controlsLifecycle: true };
     w.matchMedia = () => ({ matches: true }); w.HTMLElement.prototype.scrollIntoView = () => {};
     if (sourceIndex) w.NamelessGlobalSearch = { getIndex: async () => sourceIndex };
-    w.eval(read('js/items-catalog-hdv.js') + '\n' + read('js/items.js') + '\nwindow.__items = JSON.stringify(Object.values(itemsCatalog).flatMap(group => group.items.map(item => ({...item, category: group.name}))));');
+    const catalogueSource = typeof catalogueFile === 'string' ? read(catalogueFile)
+        : 'const itemsCatalog = ' + JSON.stringify(catalogueFile.groups) + ';\nwindow.NamelessItemCatalogueMeta = ' + JSON.stringify(catalogueFile.metadata) + ';';
+    w.eval(catalogueSource + '\n' + read('js/items.js') + '\nwindow.__items = JSON.stringify(Object.values(itemsCatalog).flatMap(group => group.items.map(item => ({...item, category: group.name}))));');
     const data = JSON.parse(w.__items); w.NamelessItemsPage.init(d);
     return { dom, w, d, data, close() { w.NamelessItemsPage.destroy(); dom.window.close(); } };
 }
@@ -29,7 +33,7 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     const s = surface(), { d, data } = s;
     check(!d.querySelector('.item-modal') && !d.querySelector('.catalogue-has-selection'), 'Initial inventory uses its full catalogue area without selecting an arbitrary record');
     check(!d.querySelector('.catalogue-detail-slot').children.length, 'The unused detail slot contains no empty panel');
-    equal(data.length, 104, 'All 104 native item records are preserved');
+    equal(data.length, officialSnapshot.items.length, 'The active inventory covers the complete current official snapshot');
     equal(d.querySelectorAll('.item-card').length, 48, 'The initial inventory actually renders 48 native items');
     equal(d.getElementById('items-per-page-select').value, '48', 'The default 48 item page agrees with its control');
     check([...d.querySelectorAll('.item-card')].every(card => card.dataset.rarity === data.find(item => item.id === card.dataset.id).rarity), 'Rarity accents use each item’s recorded rarity');
@@ -39,15 +43,16 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     const categories = [...new Set(data.map(item => item.category))].slice(0, 2);
     categories.forEach(category => choose(s, 'it-category', category).click());
     equal(new Set(allIds(s)), new Set(data.filter(item => categories.includes(item.category)).map(item => item.id)), 'Two categories combine with OR');
-    ['rare', 'epic'].forEach(rarity => choose(s, 'it-rarity', rarity).click());
-    const expected = data.filter(item => categories.includes(item.category) && ['rare', 'epic'].includes(item.rarity));
+    const rarityChoices = [raritySlug('Rare'), raritySlug('Epic')];
+    rarityChoices.forEach(rarity => choose(s, 'it-rarity', rarity).click());
+    const expected = data.filter(item => categories.includes(item.category) && rarityChoices.includes(item.rarity));
     equal(new Set(allIds(s)), new Set(expected.map(item => item.id)), 'Multiple rarities combine with OR and intersect categories with AND');
     equal(d.querySelectorAll('#it-active-filters button').length, 4, 'Each selected value gets an individual removable chip');
     equal(d.querySelector('[data-filter-group="it-category"] .catalogue-filter-selected-count').textContent, '2', 'Collapsed group badge records the number of selected categories');
     const categoryChip = [...d.querySelectorAll('[data-clear-filter="it-category"]')].find(chip => chip.dataset.filterValue === categories[0]); categoryChip.click();
     check(!choose(s, 'it-category', categories[0]).checked && choose(s, 'it-category', categories[1]).checked, 'Removing one chip preserves the other category');
-    const rare = choose(s, 'it-rarity', 'rare');
-    equal(Number(rare.parentElement.lastElementChild.textContent), data.filter(item => item.category === categories[1] && item.rarity === 'rare').length, 'Faceted counts use real matching records from the other groups');
+    const rare = choose(s, 'it-rarity', raritySlug('Rare'));
+    equal(Number(rare.parentElement.lastElementChild.textContent), data.filter(item => item.category === categories[1] && item.rarity === raritySlug('Rare')).length, 'Faceted counts use real matching records from the other groups');
     field(s, 'it-category', categories[0]);
     equal(d.querySelectorAll('[data-filter-field="it-category"]:checked').length, 1, 'Legacy select change remains compatible and replaces only its group');
     const group = d.querySelector('[data-filter-group="it-category"]'); group.open = false;
@@ -57,9 +62,13 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     const modal = d.querySelector('.item-modal');
     check(d.querySelector('.items-page').classList.contains('catalogue-has-selection') && modal.dataset.panelMode === 'rail', 'Only a real item selection opens the desktop rail');
     equal(modal.dataset.rarity, data[0].rarity, 'The selected detail inherits its real rarity');
-    check(modal.querySelector('.item-detail-description').textContent.includes('Aucune description'), 'Missing native descriptions are stated honestly');
-    equal([...modal.querySelectorAll('.item-verified-facts dd')].map(node => node.textContent), [data[0].category.replace(/^\S+\s+/, ''), 'Légendaire'], 'The facts section only contains verified category and rarity');
-    check(!modal.querySelector('.modal-stats, .item-damage, .item-defense'), 'No combat statistics or invented item characteristics are rendered');
+    equal(modal.querySelector('.item-detail-description').textContent, data[0].description || 'Aucune description renseignée.', 'The selected detail shows the exact source description or an honest missing-description message');
+    const expectedFacts = [d.querySelector('#it-category option[value="' + data[0].category + '"]').textContent,
+        d.querySelector('#it-rarity option[value="' + data[0].rarity + '"]').textContent];
+    if (data[0].level !== null) expectedFacts.push(String(data[0].level));
+    if (data[0].requiredClass) expectedFacts.push(data[0].requiredClass);
+    equal([...modal.querySelectorAll('.item-verified-facts dd')].map(node => node.textContent), expectedFacts, 'The facts section uses the recorded category, rarity and only documented requirements');
+    equal([...modal.querySelectorAll('.item-official-stats dd')].map(node => node.textContent), (data[0].stats || []).map(stat => String(stat.value)), 'Selected characteristics preserve exact official textual values');
     modal.querySelector('.item-share-button').click();
     await new Promise(resolve => setTimeout(resolve, 0));
     check(modal.querySelector('.item-share input').value.endsWith('/items?item=' + data[0].id) && !modal.querySelector('.item-share input').hidden, 'Unavailable clipboard offers a selectable native permalink');
@@ -68,7 +77,41 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     s.close();
 }
 {
-    const s = surface(), { d, w } = s;
+    // A source-contract fixture exercises missing values and safe textual stats
+    // even if the current full snapshot has no example of a zero level.
+    const documented = {id: 'documented', name: 'Épée <source>', image: null, rarity: 'splus', rarityLabel: 'S+', level: 0,
+        description: 'Description <script>source</script>', stats: [{label: 'Dégâts <preuve>', value: '12–18'}, {label: 'Force', value: '+3%'}],
+        sourceUrl: 'https://saominecraft.com/fr/wiki?categories=sword'};
+    const missing = {id: 'missing', name: 'Objet sans valeurs', image: null, rarity: 'unrecorded', level: null, description: '', stats: [],
+        sourceUrl: 'https://saominecraft.com/fr/wiki?categories=sword'};
+    const groups = {sword: {name: 'Sword', items: [documented, missing]}};
+    const metadata = {sourceUrl: 'https://saominecraft.com/fr/wiki', fetchedAt: '2026-10-14T00:00:00Z', snapshot: {rarities: [{slug: 'splus', label: 'S+'}]}};
+    const s = surface(1440, '', undefined, {groups, metadata}), {d} = s;
+    d.querySelector('.item-card[data-id="documented"]').click();
+    const modal = d.querySelector('.item-modal');
+    equal(modal.querySelector('.item-detail-description').textContent, documented.description, 'Official descriptions remain literal text, including markup-like source values');
+    check(!modal.querySelector('script') && modal.querySelector('.item-modal-name').textContent === documented.name, 'Source strings never create executable markup');
+    equal([...modal.querySelectorAll('.item-official-stats dt')].map(node => node.textContent), documented.stats.map(stat => stat.label), 'Official stat labels render as exact plain text');
+    equal([...modal.querySelectorAll('.item-official-stats dd')].map(node => node.textContent), ['12–18', '+3%'], 'Ranges and percentages remain source text without inventing numeric combat facts');
+    check([...modal.querySelectorAll('.item-verified-facts dt')].some(term => term.textContent === 'Niveau requis')
+        && [...modal.querySelectorAll('.item-verified-facts dd')].some(value => value.textContent === '0'), 'A documented zero level is not mistaken for an unknown requirement');
+    equal(modal.querySelector('.item-official-source').href, documented.sourceUrl, 'The item opens its original official category source');
+    equal(d.querySelector('#it-snapshot-status time').dateTime, '2026-10-14T00:00:00.000Z', 'The catalogue states when its actual source was imported');
+    modal.querySelector('.modal-close').click(); d.querySelector('.item-card[data-id="missing"]').click();
+    check(!modal.querySelector('.item-official-stats') && ![...modal.querySelectorAll('.item-verified-facts dt')].some(term => term.textContent === 'Niveau requis'), 'An unknown level and missing stats produce no made-up characteristics');
+    check(modal.querySelector('.item-detail-description').textContent.includes('Aucune description')
+        && [...modal.querySelectorAll('.item-verified-facts dd')].some(value => value.textContent === 'Non renseignée'), 'Missing official description and rarity are clearly labelled as unknown');
+    modal.querySelector('.modal-close').click();
+    for (const direction of ['asc', 'desc']) {
+        field(s, 'it-sort', 'rarity-' + direction);
+        equal([...d.querySelectorAll('.item-card')].map(card => card.dataset.id), ['documented', 'missing'], 'Unknown rarity stays after the source-defined tiers when sorting ' + direction);
+    }
+    s.close();
+}
+{
+    const s = surface(1440, '', undefined, 'js/items-catalog-hdv.js'), { d, w } = s;
+    // This explicit compatibility fixture protects the 104 previously cleaned
+    // PNGs; its historical values are never treated as the active catalogue.
     // Read the actual immutable PNG dimensions, not a duplicated asset table.
     // JSDOM supplies the media geometry while the real load handler sizes it.
     const verifyImage = (image, width, height, expectedScale) => {
@@ -174,21 +217,22 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
 }
 {
     const index = JSON.parse(read('assets/search-index.json')).entries;
-    const s = surface(1440, '?item=gelee_slime&rarity=common&rarity=rare', index), { d, w, data } = s;
+    const sourceRarities = [raritySlug('Common'), raritySlug('Rare')];
+    const s = surface(1440, '?item=gelee_slime&' + sourceRarities.map(value => 'rarity=' + value).join('&'), index), { d, w, data } = s;
     await new Promise(resolve => setTimeout(resolve, 0));
     equal(d.querySelectorAll('[data-filter-field="it-rarity"]:checked').length, 2, 'Repeated native URL filter values restore a real multiselection');
     const modal = d.querySelector('.item-modal');
     check(modal && modal.dataset.item === 'gelee_slime', 'Direct links select exactly the requested item');
     check(modal.querySelector('.item-sources a[href^="/bestiaire?creature="]') && modal.querySelector('.item-source-map-link'), 'Confirmed sources maintain native item to creature to map links');
     equal(modal.querySelectorAll('.item-source-row').length, index.find(entry => entry.kind === 'item' && entry.id === 'gelee_slime').sources.length, 'The compact source rows preserve every confirmed creature');
-    equal(modal.querySelectorAll('.item-source-portrait').length, modal.querySelectorAll('.item-source-row').length, 'Every indexed source has its real portrait, including Gorbel classified as a boss');
+    equal(modal.querySelectorAll('.item-source-portrait').length, modal.querySelectorAll('.item-source-row').length, 'Every indexed source has its real portrait, including the normal monster Gorbel');
     check([...modal.querySelectorAll('.item-source-portrait')].every(image => image.getAttribute('src').startsWith('/assets/mobs/')), 'Source portraits come exclusively from the native creature index');
     const region = modal.querySelector('.item-source-region-link');
     check(region && new URL(region.href).searchParams.get('entity') === 'location:1:marecage-putride', 'The source region links to the existing swamp location, rather than inventing a region');
     const sourceMap = modal.querySelector('.item-source-map-link');
     check(sourceMap.getAttribute('aria-label').includes('Gorbel') && sourceMap.querySelector('svg[aria-hidden="true"]'), 'Compact map actions retain a named accessible target');
     choose(s, 'it-source', 'known').click(); choose(s, 'it-source', 'unknown').click();
-    equal(new Set(allIds(s)), new Set(data.filter(item => ['common', 'rare'].includes(item.rarity)).map(item => item.id)), 'Selecting both source groups includes all records matching the other filters');
+    equal(new Set(allIds(s)), new Set(data.filter(item => sourceRarities.includes(item.rarity)).map(item => item.id)), 'Selecting both source groups includes all records matching the other filters');
     field(s, 'it-search', 'Slime');
     w.history.replaceState({}, '', '/items'); d.dispatchEvent(new w.CustomEvent('nameless:routechange'));
     check(modal.style.display === 'none' && !d.querySelector('.catalogue-has-selection') && !d.querySelectorAll('[data-filter-field]:checked').length && !d.getElementById('it-search').value, 'Same-route root navigation clears prior record and filter selections');
@@ -205,7 +249,9 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     check(relatedLinks.length > 0 && relatedLinks.length <= 6, 'The contextual list stays compact without fabricated filler');
     check(relatedLinks.every(link => {
         const id = new URL(link.href).searchParams.get('item'), record = data.find(item => item.id === id), indexed = index.find(entry => entry.kind === 'item' && entry.id === id);
-        return record && indexed.sources.some(source => sourceUrls.has(source.url)) && link.dataset.rarity === record.rarity && link.querySelector('.item-related-label small').textContent === record.category.replace(/^\S+\s+/, '') && link.querySelector('.item-related-sprite .item-related-image');
+        return record && indexed.sources.some(source => sourceUrls.has(source.url)) && link.dataset.rarity === record.rarity
+            && link.querySelector('.item-related-label small').textContent === d.querySelector('#it-category option[value="' + record.category + '"]').textContent
+            && link.querySelector('.item-related-sprite .item-related-image');
     }), 'Related links preserve real provenance, category, rarity and native sprite supports');
     relatedTab.click();
     check(relatedTab.getAttribute('aria-selected') === 'true' && !modal.querySelector('[data-catalogue-tab-panel="related"]').hidden && modal.querySelector('[data-catalogue-tab-panel="overview"]').hidden, 'The compact related list opens in the existing accessible tab model');
@@ -215,11 +261,10 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     const index = JSON.parse(read('assets/search-index.json')).entries;
     const s = surface(1440, '?item=coeur_nautherion', index), { d } = s;
     await new Promise(resolve => setTimeout(resolve, 0));
-    const source = d.querySelector('.item-source-creature[href="/bestiaire?creature=56"]'), boss = index.find(entry => entry.kind === 'boss' && entry.id === '56');
-    check(source && boss && source.querySelector('.item-source-portrait'), 'Heart of Nautherion renders its confirmed Leviathan boss portrait');
-    equal(source.querySelector('img').getAttribute('src'), boss.image, 'The boss portrait is the exact native indexed Leviathan image');
-    const map = new URL(d.querySelector('.item-source-map-link').href);
-    equal([map.searchParams.get('entity'), map.searchParams.get('floor')], ['creature:56', '1'], 'Adding a boss portrait preserves the existing source identifier and floor');
+    check(!index.some(entry => entry.kind === 'item' && entry.id === 'coeur_nautherion'), 'An old item absent from the official snapshot is absent from active search');
+    check(!d.querySelector('.item-modal') || d.querySelector('.item-modal').style.display === 'none', 'An unresolved old Heart of Nautherion link cannot open a fabricated item record');
+    check(!d.getElementById('it-link-notice').hidden && d.getElementById('it-link-notice').textContent.includes('Coeur de Nautherion')
+        && d.getElementById('it-search').value === 'Coeur de Nautherion', 'The old link explains its missing official identity and offers a name search');
     s.close();
 }
 for (const width of [1440, 390]) {

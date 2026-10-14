@@ -1,0 +1,423 @@
+{
+  "schemaVersion": 1,
+  "source": "Historical Nameless catalogue identities; no gameplay or rarity facts",
+  "items": [
+    {
+      "id": "anneau_faucheuse",
+      "name": "Anneau de la Faucheuse"
+    },
+    {
+      "id": "anneau_leviathan",
+      "name": "Anneau de Léviathan"
+    },
+    {
+      "id": "anneau_pacte",
+      "name": "Anneau de Pacte"
+    },
+    {
+      "id": "collier_aragorn",
+      "name": "Collier de Aragorn"
+    },
+    {
+      "id": "baton_sorcier_shaman",
+      "name": "Bâton du Sorcier du Shaman"
+    },
+    {
+      "id": "cle_foret",
+      "name": "Clé de la Forêt"
+    },
+    {
+      "id": "cle_dechus",
+      "name": "Clé des Déchus"
+    },
+    {
+      "id": "cle_xal_zirith",
+      "name": "Clé de Xal'Zirith"
+    },
+    {
+      "id": "cle_halloween",
+      "name": "Clé Halloween"
+    },
+    {
+      "id": "cle_overall",
+      "name": "Clé Overall"
+    },
+    {
+      "id": "cristal_potion",
+      "name": "Cristal de Potion"
+    },
+    {
+      "id": "cristal_halloween",
+      "name": "Cristal d'Halloween"
+    },
+    {
+      "id": "cristal_soutien",
+      "name": "Cristal du Soutien I"
+    },
+    {
+      "id": "parchemin_maitrise",
+      "name": "Parchemin de Maîtrise"
+    },
+    {
+      "id": "parchemin_reallocation",
+      "name": "Parchemin de Réallocation"
+    },
+    {
+      "id": "potion_mana",
+      "name": "Potion de Mana"
+    },
+    {
+      "id": "potion_mana_moyenne",
+      "name": "Potion de Mana Moyenne"
+    },
+    {
+      "id": "potion_mana_superieur",
+      "name": "Potion de Mana Supérieur"
+    },
+    {
+      "id": "potion_albal",
+      "name": "Potion d'Albal"
+    },
+    {
+      "id": "potion_vie_i",
+      "name": "Potion de Vie I"
+    },
+    {
+      "id": "potion_vie_ii",
+      "name": "Potion de Vie II"
+    },
+    {
+      "id": "potion_vie_iii",
+      "name": "Potion de Vie III"
+    },
+    {
+      "id": "potion_martyr",
+      "name": "Potion du Martyr"
+    },
+    {
+      "id": "sandwich_nephantes",
+      "name": "Sandwich de Nephantes"
+    },
+    {
+      "id": "viande_sanglier",
+      "name": "Viande de Sanglier"
+    },
+    {
+      "id": "aile_tenebreuse",
+      "name": "Aile Ténébreuse"
+    },
+    {
+      "id": "bonbon_sucre",
+      "name": "Bonbon Sucrée au Sucre"
+    },
+    {
+      "id": "brindille_enchantees",
+      "name": "Brindille Enchantées"
+    },
+    {
+      "id": "buche_bouleau",
+      "name": "Bûche de Bouleau"
+    },
+    {
+      "id": "buche_chene",
+      "name": "Bûche de Chêne"
+    },
+    {
+      "id": "carapace_ika",
+      "name": "Carapace d'Ika"
+    },
+    {
+      "id": "carapace_requin",
+      "name": "Carapace de Requin"
+    },
+    {
+      "id": "cendre_sarcophage",
+      "name": "Cendre de Sarcophage"
+    },
+    {
+      "id": "coeur_arcanique",
+      "name": "Coeur Arcanique"
+    },
+    {
+      "id": "coeur_bois",
+      "name": "Coeur de Bois"
+    },
+    {
+      "id": "coeur_flammes",
+      "name": "Coeur de Flammes"
+    },
+    {
+      "id": "coeur_nautherion",
+      "name": "Coeur de Nautherion"
+    },
+    {
+      "id": "coeur_necrotique",
+      "name": "Coeur Nécrotique"
+    },
+    {
+      "id": "coeur_putrifie",
+      "name": "Coeur Putrifié"
+    },
+    {
+      "id": "corde_arc_sylvestre",
+      "name": "Corde d'arc Sylvestre"
+    },
+    {
+      "id": "corne_ebrechee",
+      "name": "Corne Ébrechée"
+    },
+    {
+      "id": "criniere",
+      "name": "Crinière"
+    },
+    {
+      "id": "cristal_corrompu",
+      "name": "Cristal Corrompu"
+    },
+    {
+      "id": "crocs_loup",
+      "name": "Crocs de Loup"
+    },
+    {
+      "id": "debris_chair",
+      "name": "Débris Putride de Chair"
+    },
+    {
+      "id": "eclat_bois_magique",
+      "name": "Éclat de Bois Magique"
+    },
+    {
+      "id": "ecorce_titan",
+      "name": "Écorce de Titan"
+    },
+    {
+      "id": "ecorce_sylvestre",
+      "name": "Écorce Sylvestre"
+    },
+    {
+      "id": "essence_gorbel",
+      "name": "Essence de Gorbel"
+    },
+    {
+      "id": "essence_miasme",
+      "name": "Essence de Miasme"
+    },
+    {
+      "id": "fil_araignee",
+      "name": "Fil d'Araignée"
+    },
+    {
+      "id": "fil_araignee_renforce",
+      "name": "Fil d'Araignée Renforcé"
+    },
+    {
+      "id": "fourrure_loup",
+      "name": "Fourrure de Loup"
+    },
+    {
+      "id": "fourrure_vide",
+      "name": "Fourrure du Vide"
+    },
+    {
+      "id": "fragment_jaune",
+      "name": "Fragment Cassé Jaune"
+    },
+    {
+      "id": "fragment_rouge",
+      "name": "Fragment Cassé Rouge"
+    },
+    {
+      "id": "fragment_violet",
+      "name": "Fragments Cassé Violet"
+    },
+    {
+      "id": "fragment_citrouille",
+      "name": "Fragment de Citrouille"
+    },
+    {
+      "id": "fragment_ame_ours",
+      "name": "Fragment de l'Âme de l'Ours"
+    },
+    {
+      "id": "fragments_feuilles",
+      "name": "Fragments de Feuilles"
+    },
+    {
+      "id": "gelee_slime",
+      "name": "Gelée de Slime"
+    },
+    {
+      "id": "griffe_nocturne",
+      "name": "Griffe Nocturne"
+    },
+    {
+      "id": "lingot_cramoisi",
+      "name": "Lingot Cramoisi"
+    },
+    {
+      "id": "lingot_cuivre",
+      "name": "Lingot de Cuivre"
+    },
+    {
+      "id": "lingot_fer",
+      "name": "Lingot de Fer"
+    },
+    {
+      "id": "lingot_metal_enchante",
+      "name": "Lingot de métal enchanté"
+    },
+    {
+      "id": "lingot_ame_metal",
+      "name": "Lingot d'Âme de Métal"
+    },
+    {
+      "id": "minerai_cramoisi",
+      "name": "Minerai Cramoisi"
+    },
+    {
+      "id": "minerai_charbon",
+      "name": "Minerai de Charbon"
+    },
+    {
+      "id": "minerai_cuivre",
+      "name": "Minerai de Cuivre"
+    },
+    {
+      "id": "minerai_fer",
+      "name": "Minerai de Fer"
+    },
+    {
+      "id": "mycelium_magique",
+      "name": "Mycélium Magique"
+    },
+    {
+      "id": "noyau_slime",
+      "name": "Noyau de Slime"
+    },
+    {
+      "id": "os_squelette",
+      "name": "Os de Squelette"
+    },
+    {
+      "id": "os_squelette_renforce",
+      "name": "Os de Squelette Renforcé"
+    },
+    {
+      "id": "peau_sanglier",
+      "name": "Peau de Sanglier"
+    },
+    {
+      "id": "peau_glacial",
+      "name": "Peau d'ur Glacial"
+    },
+    {
+      "id": "petite_bourse",
+      "name": "Petite Bourse"
+    },
+    {
+      "id": "piece_metal_enchante",
+      "name": "Pièce de métal enchanté"
+    },
+    {
+      "id": "piece_ame_metal",
+      "name": "Pièce d'Âme de Métal"
+    },
+    {
+      "id": "pousse_sylve",
+      "name": "Pousse de Sylve"
+    },
+    {
+      "id": "poussiere_echo",
+      "name": "Poussière d'Echo Spectrale"
+    },
+    {
+      "id": "poussiere_givre",
+      "name": "Poussière de Givre"
+    },
+    {
+      "id": "poussiere_os",
+      "name": "Poussière d'Os"
+    },
+    {
+      "id": "racine_ancestrale",
+      "name": "Racine Ancestrale"
+    },
+    {
+      "id": "spore_corrompu",
+      "name": "Spore Corrompu"
+    },
+    {
+      "id": "tissu_araignee",
+      "name": "Tissu d'Araignée"
+    },
+    {
+      "id": "tissu_maudit",
+      "name": "Tissu Maudit"
+    },
+    {
+      "id": "tissu_spectral",
+      "name": "Tissu Spectral"
+    },
+    {
+      "id": "venin_araignee",
+      "name": "Venin d'Araignée"
+    },
+    {
+      "id": "voile_banshee",
+      "name": "Voile de la Banshee"
+    },
+    {
+      "id": "ame_herald",
+      "name": "Âme de l'Herald"
+    },
+    {
+      "id": "ame_ruines",
+      "name": "Âme des ruines"
+    },
+    {
+      "id": "ame_reaper",
+      "name": "Âme du Reaper"
+    },
+    {
+      "id": "ame_warden",
+      "name": "Âme du Warden"
+    },
+    {
+      "id": "canne_peche",
+      "name": "Canne à Pêche"
+    },
+    {
+      "id": "hache_ebrechee",
+      "name": "Hache Ébréchée"
+    },
+    {
+      "id": "pinceau_magique",
+      "name": "Pinceau Magique"
+    },
+    {
+      "id": "pioche_felee",
+      "name": "Pioche Fêlée"
+    },
+    {
+      "id": "serpe_tordue",
+      "name": "Serpe Tordue"
+    },
+    {
+      "id": "krynn_fleau",
+      "name": "Krynn Le Fléau Multicolore"
+    },
+    {
+      "id": "pet_frankenstein",
+      "name": "Pet Frankenstein"
+    },
+    {
+      "id": "balais_volant",
+      "name": "Monture Balais Volant"
+    },
+    {
+      "id": "rune_halloween",
+      "name": "Rune d'Halloween"
+    }
+  ],
+  "reviewedAliases": []
+}
