@@ -5,6 +5,10 @@
 css/vendor/leaflet-1.9.4.css text eol=lf
 js/vendor/leaflet-1.9.4.js text eol=lf
 data/official-items*.json text eol=lf
+data/official-item-previews.json text eol=lf
+assets/items/official/previews/*.svg text eol=lf
+# Upstream model/texture proofs are checked against their downloaded bytes.
+assets/items/official/previews/source/** -text
 
 # Historical snapshots are checked byte-for-byte against their original hash.
 # Text normalization would change them on Linux and block the public build.

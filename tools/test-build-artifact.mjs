@@ -5,13 +5,15 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
+import {getOfficialSearchVersion} from './official-item-previews.mjs';
 
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.join(root, '_site');
 const origin = 'https://nameless-sao.fr';
-const normalizeGeneratedCacheStamp = html => html.replace(/(\bsrc=["'][^"']*\/js\/(?:items-catalog-official|global-search|page-registry)\.js\?v=)[^"'&]+/g, '$1SOURCE_HASH');
+const expectedSearchVersion = getOfficialSearchVersion({root});
+const normalizeGeneratedCacheStamp = html => html.replace(/(\bsrc=["'](?:[^"']*\/)?js\/(?:items-catalog-official|global-search|page-registry)\.js\?v=)[^"'&]+/g, '$1SOURCE_HASH');
 const build = spawnSync(process.execPath, ['tools/build-site.mjs'], {
     cwd: root, encoding: 'utf8', env: process.env, timeout: 60000
 });
@@ -63,6 +65,10 @@ function verifyHtml(file, pageUrl) {
         assert.ok(doc.querySelector('h1'), pageUrl + ': no page heading');
         for (const element of doc.querySelectorAll('[src], [href]')) {
             for (const attribute of ['src', 'href']) checkReference(element.getAttribute(attribute), pageUrl);
+        }
+        for (const script of doc.querySelectorAll('script[src]')) {
+            const url = new URL(script.src, pageUrl);
+            if (url.pathname === '/js/global-search.js') assert.equal(url.searchParams.get('v'), expectedSearchVersion, pageUrl + ': search code and index cache use the current version on every route, including boss facts');
         }
         for (const element of doc.querySelectorAll('[srcset]')) {
             for (const candidate of element.getAttribute('srcset').split(',')) {
@@ -157,4 +163,14 @@ function inspectTree(dir) {
     }
 }
 inspectTree(output);
+const publishedCatalogue = {window: {}};
+vm.runInNewContext(fs.readFileSync(path.join(output, 'js/items-catalog-official.js'), 'utf8') + '\nwindow.images = Object.values(itemsCatalog).flatMap(group => group.items).map(item => item.image).filter(Boolean);', publishedCatalogue);
+const currentImages = new Set(publishedCatalogue.window.images.map(image => 'assets/items/' + image));
+assert.equal(fs.existsSync(path.join(output, 'assets/items/official/previews/source')), false, 'Native source model/texture audit evidence stays outside the publication artifact');
+for (const raw of JSON.parse(fs.readFileSync(path.join(root, 'data/official-items.manifest.json'), 'utf8')).assets) {
+    assert.equal(fs.existsSync(path.join(output, raw.path.slice(1))), currentImages.has(raw.path.slice(1)), 'Raw wiki assets are published only when selected as a proven flat preview');
+}
+for (const filename of fs.readdirSync(path.join(output, 'assets/items/official/previews'))) {
+    assert.ok(currentImages.has('assets/items/official/previews/' + filename), 'Publication excludes unused or obsolete native preview variants');
+}
 console.log(`PASS: publication build, ${htmlCount} HTML documents, ${localReferences} local references, CSP/head placement, legacy URLs, public sitemap, robots exclusions and artifact allowlist.`);

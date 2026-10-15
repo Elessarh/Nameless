@@ -6,6 +6,7 @@ import {createMapGraph} from './build-map-graph.mjs';
 import {projectCreature} from './public-content-policy.mjs';
 import {isBossFamily, creatureCategory, LEGACY_BOSS_ROUTES} from './creature-taxonomy.mjs';
 import {readOfficialItemCatalogue} from './items-catalogue.mjs';
+import {getOfficialSearchVersion} from './official-item-previews.mjs';
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const origin = 'https://nameless-sao.fr';
@@ -76,6 +77,7 @@ export function buildBossPages({ root, output, mapGraph }) {
     const read = file => fs.readFileSync(path.join(root, file), 'utf8');
     const creatures = readLiteral(read('js/bestiaire.js'), 'creaturesData').map(projectCreature);
     const catalog = readOfficialItemCatalogue({root}).groups;
+    const searchVersion = getOfficialSearchVersion({root});
     const items = Object.values(catalog).flatMap(group => group.items);
     mapGraph ||= createMapGraph({root});
     const template = read('pages/bestiaire.html').replace(/^\uFEFF/, '');
@@ -190,6 +192,11 @@ export function buildBossPages({ root, output, mapGraph }) {
         doc.head.appendChild(structured);
         doc.querySelectorAll('script[src]').forEach(script => {
             if (/\/(?:bestiaire|app-router|page-registry)\.js(?:\?|$)/.test(script.getAttribute('src'))) script.remove();
+            else if (/\/global-search\.js(?:\?|$)/.test(script.getAttribute('src'))) {
+                const source = new URL(script.getAttribute('src'), dom.window.location.href);
+                source.searchParams.set('v', searchVersion);
+                script.setAttribute('src', source.pathname + source.search);
+            }
         });
         doc.querySelector('.nav-link.active')?.setAttribute('aria-current', 'location');
         doc.querySelectorAll('[href],[src]').forEach(node => {

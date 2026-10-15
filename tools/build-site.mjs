@@ -8,19 +8,31 @@ import {writeMapGraph} from './build-map-graph.mjs';
 import {verifyHistoricalArchive} from './public-content-policy.mjs';
 import {writeOfficialItemCatalogue} from './items-catalogue.mjs';
 import {createHash} from 'node:crypto';
+import {getOfficialCatalogueVersion, getOfficialSearchVersion} from './official-item-previews.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.resolve(root, '_site');
 verifyHistoricalArchive(root);
-writeOfficialItemCatalogue({root});
-const officialVersion = createHash('sha256').update(fs.readFileSync(path.join(root, 'data/official-items.json'))).digest('hex').slice(0, 12);
+const officialCatalogue = writeOfficialItemCatalogue({root});
+const publicItemImages = new Set(officialCatalogue.items.filter(item => item.image).map(item => '/assets/items/' + item.image));
+const rawItemImages = new Set(JSON.parse(fs.readFileSync(path.join(root, 'data/official-items.manifest.json'), 'utf8')).assets.map(asset => asset.path));
+function publishAsset(source) {
+    const relative = path.relative(path.join(root, 'assets'), source).split(path.sep).join('/');
+    if (relative === 'items/official/previews/source' || relative.startsWith('items/official/previews/source/')) return false;
+    const url = '/assets/' + relative;
+    if (rawItemImages.has(url) && !publicItemImages.has(url)) return false;
+    if (relative.startsWith('items/official/previews/') && fs.statSync(source).isFile()) return publicItemImages.has(url);
+    return true;
+}
+const officialVersion = getOfficialCatalogueVersion({root});
+const searchVersion = getOfficialSearchVersion({root});
 const stampOfficial = source => source.replace(/(js\/items-catalog-official\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + officialVersion);
 const publicationRegistry = stampOfficial(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'));
 const registryVersion = createHash('sha256').update(publicationRegistry).digest('hex').slice(0, 12);
 const stampHtml = source => stampOfficial(source)
     .replace(/(js\/page-registry\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + registryVersion)
-    .replace(/(js\/global-search\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + officialVersion);
+    .replace(/(js\/global-search\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + searchVersion);
 // The only directory removed by this build is this repository's generated artifact.
 if (output !== path.join(root, '_site') || path.dirname(output) !== root) throw new Error('Unsafe build output');
 fs.rmSync(output, {recursive: true, force: true, maxRetries: 3, retryDelay: 100});
@@ -36,7 +48,7 @@ try {
         regionValidator.window.JSON.parse(JSON.stringify(regionDocument)), mapGraph.catalog);
     fs.writeFileSync(path.join(root, 'assets/map/regions.json'), JSON.stringify(checkedRegions));
 } finally { regionValidator.window.close(); }
-for (const name of ['assets', 'css', 'js', 'pages']) fs.cpSync(path.join(root, name), path.join(output, name), {recursive: true});
+for (const name of ['assets', 'css', 'js', 'pages']) fs.cpSync(path.join(root, name), path.join(output, name), {recursive: true, ...(name === 'assets' ? {filter: publishAsset} : {})});
 // The old HDV literal stays private for historical identity and asset audits.
 fs.rmSync(path.join(output, 'js/items-catalog-hdv.js'), {force: true});
 fs.writeFileSync(path.join(output, 'js/page-registry.js'), publicationRegistry);

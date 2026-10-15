@@ -226,3 +226,5 @@
 .item-official-stats dt { color: var(--nm-text-secondary); overflow-wrap: anywhere; }
 .item-official-stats dd { margin: 0; color: var(--nm-text-bright); text-align: right; overflow-wrap: anywhere; max-width: 12rem; }
 .item-official-source { display: inline-flex; align-items: center; min-height: 44px; margin-top: .75rem; font-size: .8125rem; }
+.item-source-provenance { color: var(--nm-text-secondary); font-size: .75rem; line-height: 1.55; }
+.item-source-provenance[hidden] { display: none; }

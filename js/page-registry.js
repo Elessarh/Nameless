@@ -135,13 +135,13 @@
             source: 'pages/items.html',
             title: "Catalogue d'Items - Nameless",
             css: [
-                'css/components/items.css?v=20261014official1',
+                'css/components/items.css?v=20261014native1',
                 'css/components/page-hero.css?v=20261011ux2e',
                 'css/components/reference-catalogs.css?v=20261011phasee4'
             ],
             scripts: [
                 'js/items-catalog-official.js?v=20261014official1',
-                'js/items.js?v=20261014official1'
+                'js/items.js?v=20261014native1'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {

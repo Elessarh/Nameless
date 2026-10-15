@@ -5,8 +5,6 @@
     var indexLocation = new URL('../assets/search-index.json', script ? script.src : new URL('/js/global-search.js', location.href));
     indexLocation.searchParams.set('v', script ? new URL(script.src).searchParams.get('v') || '20261014official1' : '20261014official1');
     var indexUrl = indexLocation.href;
-    var indexVersion = script && new URL(script.src, location.href).searchParams.get('v');
-    if (indexVersion) indexUrl += '?v=' + encodeURIComponent(indexVersion);
     var indexPromise = null, entries = [], results = [], dialog, input, list, status, opener, favoriteFilter, favoriteLabel, favoriteCount, indexMeta, clearQuery;
     var favoritesOnly = false, loading = false;
     var key = 'nameless-public-favorites-v1';
@@ -130,7 +128,8 @@
             group.forEach(function (entry) {
                 var row = document.createElement('div'); row.className = 'nm-search-result'; row.dataset.kind = kind; row.dataset.entityKey = entityKey(entry);
                 var link = document.createElement('a'); link.href = entry.url; link.className = 'nm-search-entry-link';
-                if (typeof entry.image === 'string' && /^\/assets\/[A-Za-z0-9/_ .%-]+\.(?:webp|png|jpg|jpeg)$/.test(entry.image) && !entry.image.includes('..')) {
+                var nativePreview = kind === 'item' && typeof entry.image === 'string' && /^\/assets\/items\/official\/previews\/[a-f0-9]{64}\.svg$/.test(entry.image);
+                if (nativePreview || typeof entry.image === 'string' && /^\/assets\/[A-Za-z0-9/_ .%-]+\.(?:webp|png|jpg|jpeg)$/.test(entry.image) && !entry.image.includes('..')) {
                     var thumbnail = document.createElement('img'); thumbnail.className = 'nm-search-thumbnail' + (kind === 'item' ? ' nm-search-thumbnail--item' : '');
                     thumbnail.src = entry.image; thumbnail.alt = ''; thumbnail.width = 44; thumbnail.height = 44; thumbnail.loading = 'lazy'; thumbnail.decoding = 'async';
                     link.appendChild(thumbnail);

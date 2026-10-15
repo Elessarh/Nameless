@@ -9,10 +9,17 @@ const dom = new JSDOM('<nav class="nav-container"><button id="hamburger">Menu</b
 const {window} = dom;
 window.HTMLDialogElement.prototype.showModal = function () {this.open = true;};
 window.HTMLDialogElement.prototype.close = function () {this.open = false;this.dispatchEvent(new window.Event('close'));};
-window.fetch = async()=>({ok:true,json:async()=>data});
+const sourceScript = window.document.createElement('script');
+sourceScript.src = '/js/global-search.js?v=native-preview-test';
+Object.defineProperty(window.document, 'currentScript', {configurable:true, value:sourceScript});
+let requestedIndex;
+window.fetch = async url => {requestedIndex = new URL(url); return {ok:true,json:async()=>data};};
 window.eval(read('js/global-search.js'));
 window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
 const index = await window.NamelessGlobalSearch.getIndex();
+assert.equal(requestedIndex.pathname, '/assets/search-index.json');
+assert.equal(requestedIndex.searchParams.get('v'), 'native-preview-test', 'The current script version reaches the index exactly once');
+assert.equal(requestedIndex.searchParams.size, 1, 'The index URL contains one cache parameter');
 assert.ok(index.length>=240);
 assert.equal(index.filter(entry=>entry.kind==='quest').length,0,'Historical quest archives are absent from public search');
 assert.ok(!index.some(entry=>['historical-unverified','archived'].includes(entry.status)), 'Public palette cannot link to archived NPCs or quest details');
@@ -37,6 +44,12 @@ for (const [query,category,url] of [['Gardien Colossal','Mini-boss','/boss/gardi
     assert.equal(window.document.querySelector('.nm-search-result-category').textContent,category,'The palette presents the reviewed category for '+query);
     assert.equal(new URL(window.document.querySelector('.nm-search-entry-link').href).pathname+new URL(window.document.querySelector('.nm-search-entry-link').href).search,url,'The precise current identity is linked for '+query);
 }
+const nativeItem = index.find(entry => entry.kind === 'item' && /^\/assets\/items\/official\/previews\/[a-f0-9]{64}\.svg$/.test(entry.image));
+assert.ok(nativeItem, 'The public index includes verified native item art');
+input.value=nativeItem.title;input.dispatchEvent(new window.Event('input'));
+const nativeResult = [...window.document.querySelectorAll('.nm-search-entry-link')].find(link => link.getAttribute('href') === nativeItem.url);
+assert.ok(nativeResult, 'The current native item is reachable through the search palette');
+assert.equal(nativeResult.querySelector('.nm-search-thumbnail')?.getAttribute('src'), nativeItem.image, 'Search renders the same verified native SVG as the catalogue');
 input.value='Illfang';input.dispatchEvent(new window.Event('input'));
 input.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));
 assert.equal(window.document.activeElement.tagName,'A');

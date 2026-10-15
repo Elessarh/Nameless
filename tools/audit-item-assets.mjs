@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import crypto from 'node:crypto';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import {auditOfficialItemPreviews} from './official-item-previews.mjs';
 
 const defaultRoot = path.resolve(import.meta.dirname, '..');
 const manifestRelativePath = 'docs/item-assets-2026-10-07/integration-manifest.json';
@@ -276,7 +277,8 @@ export function auditOfficialItemAssets({root = defaultRoot} = {}) {
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     const result = auditItemAssets();
     const official = auditOfficialItemAssets();
-    result.errors.push(...official.errors);
+    const previews = auditOfficialItemPreviews();
+    result.errors.push(...official.errors, ...previews.errors);
     if (result.errors.length) {
         console.error('Item-asset audit failed (' + result.errors.length + ' issue(s)):');
         result.errors.forEach(error => console.error('- ' + error));
@@ -284,5 +286,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     } else {
         console.log('Item-asset audit passed: ' + result.checked + ' immutable catalogue targets; PNG CRC, RGBA pixels and alpha counts match the manifest (' + result.cornerTouchingItems + ' item(s) touch a corner).');
         console.log('Official item-asset audit passed: ' + official.checked + ' downloaded local assets match their recorded bytes; all current item previews and explicit absences are covered.');
+        console.log('Official item-preview audit passed: ' + previews.checked + ' item identities, ' + previews.available + ' native previews; availability, SHA, textures and safe self-contained SVG verified.');
     }
 }

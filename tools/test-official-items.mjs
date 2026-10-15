@@ -4,6 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {createHash} from 'node:crypto';
 import {readOfficialItemCatalogue, writeOfficialItemCatalogue} from './items-catalogue.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
@@ -24,6 +25,10 @@ function fixture(items, legacy = oldIdentities) {
     fs.mkdirSync(path.join(temporaryRoot, 'data'), {recursive: true});
     fs.mkdirSync(path.join(temporaryRoot, 'js'), {recursive: true});
     fs.writeFileSync(path.join(temporaryRoot, 'data/official-items.json'), JSON.stringify(snapshot(items)));
+    const snapshotBytes = fs.readFileSync(path.join(temporaryRoot, 'data/official-items.json'));
+    fs.writeFileSync(path.join(temporaryRoot, 'data/official-item-previews.json'), JSON.stringify({schemaVersion: 1,
+        snapshotSha256: createHash('sha256').update(snapshotBytes).digest('hex'), partial: false,
+        records: items.map(item => ({officialId: item.id, status: 'unavailable-model', image: null, sha256: null}))}));
     fs.writeFileSync(path.join(temporaryRoot, 'data/item-legacy-identities.json'), JSON.stringify(legacy));
     return readOfficialItemCatalogue({root: temporaryRoot});
 }
@@ -62,7 +67,7 @@ try {
         assert.throws(() => fixture([currentItem('wiki_gel_b', 'Gelée de Slime')], {...oldIdentities, reviewedAliases: [alias]}), /alias/i);
         checks++;
     }
-    assert.throws(() => fixture([currentItem('duplicate', 'A'), currentItem('duplicate', 'B')]), /duplicate official item ID/); checks++;
+    assert.throws(() => fixture([currentItem('duplicate', 'A'), currentItem('duplicate', 'B')]), /duplicate official item ID|duplicate or unknown official preview identity/, 'Duplicate identities are rejected by either current identity guard'); checks++;
     assert.throws(() => fixture([currentItem('unsafe', 'A', {image: '/assets/items/official/../old.png'})]), /local imported asset/); checks++;
     assert.throws(() => fixture([currentItem('unsafe', 'A', {image: 'https://foreign.example/a.png'})]), /local imported asset/); checks++;
 

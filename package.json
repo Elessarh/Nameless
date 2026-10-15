@@ -8,6 +8,7 @@
   "scripts": {
     "build": "node tools/build-site.mjs",
     "import:items": "node tools/import-official-items.mjs",
+    "preview:items": "node tools/build-official-item-previews.mjs",
     "start": "node tools/serve.mjs",
     "test": "node tools/run-tests.mjs",
     "audit:performance": "node tools/lighthouse.mjs"

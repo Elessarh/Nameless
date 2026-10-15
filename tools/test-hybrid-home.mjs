@@ -9,6 +9,7 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 const html = read('index.html');
 const runtime = read('js/home-carousel.js');
 const index = JSON.parse(read('assets/search-index.json')).entries;
+const itemPreviews = new Map(JSON.parse(read('data/official-item-previews.json')).records.map(record => [record.officialId, record]));
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 const page = () => new JSDOM(html, { url: 'https://nameless-sao.fr/', runScripts: 'outside-only', pretendToBeVisual: true });
 const reducedQuery = '(prefers-reduced-motion: reduce)';
@@ -86,6 +87,18 @@ const referenceArt = JSON.parse(read('assets/reference-v2/asset-manifest.json'))
 const reviewedArt = JSON.parse(read('assets/art-v4/asset-manifest.json'));
 const derivedImages = new Map();
 const fileHash = name => createHash('sha256').update(fs.readFileSync(path.join(root, name))).digest('hex');
+function assertCurrentItemImage(image, entry) {
+    const preview = itemPreviews.get(entry.officialId);
+    assert.ok(preview && ['safe-flat', 'native-model-render'].includes(preview.status), 'A featured item has a verified current native preview');
+    assert.equal(image.getAttribute('src'), entry.image, 'Homepage art matches the active item catalogue');
+    assert.equal(entry.image, preview.image, 'The active image is the approved official model preview');
+    assert.match(entry.image, /^\/assets\/items\/official\/previews\/[a-f0-9]{64}\.svg$/);
+    assert.equal(fileHash(entry.image.slice(1)), preview.sha256, 'Homepage item art retains its verified preview bytes');
+    const svgDocument = new JSDOM(read(entry.image.slice(1)), { contentType: 'image/svg+xml' });
+    const svg = svgDocument.window.document.documentElement;
+    assert.deepEqual([image.getAttribute('width'), image.getAttribute('height')], [svg.getAttribute('width'), svg.getAttribute('height')], 'HTML reserves the actual SVG canvas dimensions');
+    svgDocument.window.close();
+}
 for (const record of reviewedArt.artwork) {
     assert.equal(fileHash(record.source.path), record.source.sha256);
     for (const output of record.outputs) {
@@ -175,6 +188,7 @@ for (const output of heroArt.outputs) {
         assert.ok(entry, 'Featured record exists in the actual catalogue: ' + link.dataset.homeRecord);
         assert.equal(link.getAttribute('href'), entry.url);
         assert.equal(link.querySelector('h3').textContent, entry.title);
+        if (kind === 'item') assertCurrentItemImage(link.querySelector('img'), entry);
         if (kind === 'boss' || kind === 'creature') assert.ok(link.textContent.includes(entry.location), 'Creature location is sourced from its actual entry');
     }
     assert.equal(main.querySelector('img[src*="/assets/illustrations/"]'), null, 'Rejected fantasy paintings never return to the homepage');
@@ -183,13 +197,15 @@ for (const output of heroArt.outputs) {
     for (const tile of main.querySelectorAll('[data-home-item-source]')) {
         const entry = index.find(item => item.kind === 'item' && item.id === tile.dataset.homeItemSource);
         assert.ok(entry, 'Inventory preview uses a real catalogue item');
-        assert.equal(tile.querySelector('img').getAttribute('src'), entry.image);
+        assertCurrentItemImage(tile.querySelector('img'), entry);
     }
-    assert.equal(main.querySelectorAll('[data-home-item-source]').length, 2, 'The item portal displays two real native inventory sprites');
+    assert.equal(main.querySelectorAll('[data-home-item-source]').length, 2, 'The item portal displays two verified native inventory previews');
     for (const support of main.querySelectorAll('.home-record-art--item')) {
         const sprite = support.querySelector('img');
-        assert.equal(parseFloat(support.style.getPropertyValue('--sprite-width')), Number(sprite.getAttribute('width')) * 2, 'Featured inventory sprites use a crisp integer horizontal scale');
-        assert.equal(parseFloat(support.style.getPropertyValue('--sprite-height')), Number(sprite.getAttribute('height')) * 2, 'Featured inventory sprites use a crisp integer vertical scale');
+        const width = parseFloat(support.style.getPropertyValue('--sprite-width'));
+        const height = parseFloat(support.style.getPropertyValue('--sprite-height'));
+        assert.ok(width > 0 && width <= 112 && height > 0 && height <= 112, 'Native item previews fit the existing 112px inventory artwork area');
+        assert.equal(width / height, Number(sprite.getAttribute('width')) / Number(sprite.getAttribute('height')), 'Native previews retain the original SVG canvas proportions');
     }
     const hero = main.querySelector('.home-hero-scene img');
     assert.equal(hero.getAttribute('src'), '/assets/art-v4/aincrad-1672.webp');

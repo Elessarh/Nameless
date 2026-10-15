@@ -2,6 +2,7 @@
 // names below resolve URLs only; they never supply missing item facts.
 import fs from 'node:fs';
 import path from 'node:path';
+import {readOfficialItemPreviews, resolveItemPreview, assertCompleteOfficialItemPreviews} from './official-item-previews.mjs';
 
 const defaultRoot = path.resolve(import.meta.dirname, '..');
 export const OFFICIAL_ITEMS_PATH = 'data/official-items.json';
@@ -14,10 +15,12 @@ export function normalizeItemName(value) {
 
 export function readOfficialItemCatalogue({root = defaultRoot} = {}) {
     root = path.resolve(root);
-    const snapshot = JSON.parse(fs.readFileSync(path.join(root, OFFICIAL_ITEMS_PATH), 'utf8'));
+    const snapshotBytes = fs.readFileSync(path.join(root, OFFICIAL_ITEMS_PATH));
+    const snapshot = JSON.parse(snapshotBytes);
     const legacy = JSON.parse(fs.readFileSync(path.join(root, LEGACY_IDENTITIES_PATH), 'utf8'));
     if (snapshot.schemaVersion !== 1 || !Array.isArray(snapshot.items) || !snapshot.items.length) throw new Error('Invalid or empty official item snapshot');
     if (legacy.schemaVersion !== 1 || !Array.isArray(legacy.items) || !Array.isArray(legacy.reviewedAliases)) throw new Error('Invalid historical item identity document');
+    const previews = readOfficialItemPreviews({root, snapshot, snapshotBytes});
     const names = new Map(), legacyNames = new Map();
     for (const item of snapshot.items) {
         const name = normalizeItemName(item.name);
@@ -60,9 +63,11 @@ export function readOfficialItemCatalogue({root = defaultRoot} = {}) {
             const imagePath = path.resolve(root, '.' + decodeURIComponent(item.image));
             if (!imagePath.startsWith(path.resolve(root, 'assets/items/official') + path.sep) || !fs.existsSync(imagePath)) throw new Error('Missing or unsafe official item image: ' + item.id);
         }
+        const preview = resolveItemPreview(item, previews.records.get(item.id));
         const current = {
             id, officialId: item.id, sourceId: item.sourceId, sourceKey: item.sourceKey, name: item.name,
-            image: item.image === null ? null : item.image.slice('/assets/items/'.length), rarity: item.rarity?.slug || 'unrecorded',
+            image: preview.image === null ? null : preview.image.slice('/assets/items/'.length),
+            imageStatus: preview.status, sourceModelUrl: preview.sourceModelUrl, rarity: item.rarity?.slug || 'unrecorded',
             rarityLabel: item.rarity?.label || null, rarityColor: item.rarity?.color || null,
             level: item.level ?? null, description: item.description || '', lore: item.lore || [],
             stats: item.stats || [],
@@ -81,11 +86,15 @@ export function readOfficialItemCatalogue({root = defaultRoot} = {}) {
     const legacyResolution = Object.fromEntries(unresolved.map(item => [item.id, {name: item.name,
         status: names.get(normalizeItemName(item.name))?.length > 1 || legacyNames.get(normalizeItemName(item.name))?.length > 1 ? 'ambiguous' : 'not-in-current-snapshot'}]));
     const snapshotInfo = {schemaVersion: snapshot.schemaVersion, source: snapshot.source, fetchedAt: snapshot.fetchedAt, itemCount: items.length,
-        rarities: snapshot.rarities || [], confirmedLegacyIds: matchedLegacyIds.size};
+        rarities: snapshot.rarities || [], confirmedLegacyIds: matchedLegacyIds.size,
+        previews: {manifestHash: previews.manifestHash, partial: previews.partial, available: items.filter(item => item.image).length}};
     return {groups, items, aliases, unmatchedLegacy, legacyResolution, snapshotInfo};
 }
 
 export function writeOfficialItemCatalogue({root = defaultRoot} = {}) {
+    // Validation precedes any generated-file mutation. A --sample run cannot
+    // replace a complete browser catalogue, even when called outside build.
+    assertCompleteOfficialItemPreviews({root});
     const catalogue = readOfficialItemCatalogue({root});
     const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
     const metadata = {sourceUrl: catalogue.snapshotInfo.source?.wikiUrl || null, fetchedAt: catalogue.snapshotInfo.fetchedAt,

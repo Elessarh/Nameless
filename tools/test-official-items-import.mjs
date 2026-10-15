@@ -40,6 +40,8 @@ assert.equal(officialModel(registry,{sourceId:'ia:pack:sword'}).resolution,'offi
 assert.equal(officialModel(registry,{sourceId:'new-id',material:'minecraft:stone_sword',customModelData:250}).stem,'pack/item/enchanted');checks++;
 assert.equal(officialModel(registry,{sourceId:'unidentified',material:'paper',customModelData:0}),null);checks++;
 assert.throws(()=>officialModel({models:{bad:'../private'},alias:{x:'bad'}},{sourceId:'x'}),/Unsafe/);checks++;
+const collided={models:{'furniture:bar':'furniture/bar'},items:{},alias:{bar:'furniture:bar'},vanilla:{cod:{e:[[485200,'fishing_expansion/item/ia_auto/bass']]}}};
+check(officialModel(collided,{sourceId:'BAR',material:'cod',customModelData:485200}).stem==='fishing_expansion/item/ia_auto/bass','Exact material/CMD outranks a collided global bare-name alias');
 const file={path:'/assets/items/official/abc.png',sha256:'a',bytes:1,sourceUrl:'https://api.saominecraft.com/uploads/items/a.png'};
 assert.deepEqual(uniqueAssets([file,{...file,sourceUrl:'https://api.saominecraft.com/uploads/items/b.png'}])[0].sourceUrls,[file.sourceUrl,'https://api.saominecraft.com/uploads/items/b.png']);checks++;
 assert.throws(()=>uniqueAssets([file,{...file,sha256:'different'}]),/Conflicting/);checks++;

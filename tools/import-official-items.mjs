@@ -120,15 +120,30 @@ export function sniffImage(bytes) {
 
 // Resolve only associations published by the official viewer's registry. A
 // generic vanilla texture is never invented for an unidentified custom item.
-export function officialModel(index,item) {
-    const candidates=[item.sourceId,item.modelKey].filter(value=>typeof value==='string'&&value.trim());
-    let stem=null, resolution=null;
-    for(const value of candidates){const key=value.trim().toLowerCase().replace(/^(ia|itemsadder):/,'');if(key.includes(':')&&(index.items?.[key]||index.models?.[key])){stem=index.items?.[key]||index.models?.[key];resolution='official-key';break;}}
-    if(!stem)for(const value of candidates){const m=/^MMO:([^.]+)\.(.+)$/i.exec(value);const key=(m?m[2]:value.includes(':')?value.split(':').slice(1).join(':'):value).toLowerCase();const target=index.alias?.[key];if(target&&index.models?.[target]){stem=index.models[target];resolution='official-item-alias';break;}}
-    if(!stem&&Number(item.customModelData)>0){const material=String(item.material||'').replace(/^minecraft:/i,'').toLowerCase();for(const [threshold,target] of index.vanilla?.[material]?.e||[])if(threshold<=Number(item.customModelData))stem=target;if(stem)resolution='official-material-cmd';}
-    if(!stem)return null;
+export function modelReference(stem,resolution) {
     if(typeof stem!=='string'||!/^[-a-z0-9_/.]+$/i.test(stem)||stem.split('/').some(part=>part==='..'||part===''))throw new Error('Unsafe public model path');
     return {stem,url:new URL('/item-models/m/'+stem.split('/').map(encodeURIComponent).join('/')+'.json',WIKI).href,resolution};
+}
+export function officialModelCandidates(index,item) {
+    const candidates=[item.sourceId,item.modelKey].filter(value=>typeof value==='string'&&value.trim());
+    const found=[];
+    for(const value of candidates){const key=value.trim().toLowerCase().replace(/^(ia|itemsadder):/,'');const stem=key.includes(':')&&(index.items?.[key]||index.models?.[key]);if(stem)found.push({...modelReference(stem,'official-key'),qualifiedKey:key});}
+    if(Number(item.customModelData)>0){const material=String(item.material||'').replace(/^minecraft:/i,'').toLowerCase();let range=null;for(const [threshold,stem] of index.vanilla?.[material]?.e||[])if(threshold<=Number(item.customModelData))range={threshold,stem};if(range)found.push({...modelReference(range.stem,'official-material-cmd'),material,matchedCMD:range.threshold,exactCMD:range.threshold===Number(item.customModelData)});}
+    for(const value of candidates){const m=/^MMO:([^.]+)\.(.+)$/i.exec(value);const key=(m?m[2]:value.includes(':')?value.split(':').slice(1).join(':'):value).toLowerCase();const target=index.alias?.[key];if(target&&index.models?.[target])found.push({...modelReference(index.models[target],'official-item-alias'),alias:key});}
+    return found;
+}
+export function publishedImageModel(index,item) {
+    const source=publicImageUrl(item.sourceImage);if(!source)return null;
+    const parts=decodeURIComponent(new URL(source).pathname).slice('/uploads/items/'.length).split('/'),namespace=parts[0],basename=parts.at(-1).replace(/\.[^.]+$/,'');
+    const key=(namespace+':'+basename).toLowerCase(),stem=index.items?.[key]||index.models?.[key]||index.models?.[index.alias?.[key]];
+    return stem?{...modelReference(stem,'official-image-key'),qualifiedKey:key,sourceImage:source}:null;
+}
+export function officialModel(index,item) {
+    const found=officialModelCandidates(index,item);
+    // Material plus exact CMD is stronger than a global bare-name alias (BAR
+    // collided with tavern furniture). Presentation still checks conflicts.
+    const chosen=found.find(model=>model.resolution==='official-key')||found.find(model=>model.exactCMD)||found.find(model=>model.resolution==='official-item-alias')||found.find(model=>model.resolution==='official-material-cmd');
+    return chosen?modelReference(chosen.stem,chosen.resolution):null;
 }
 
 export function uniqueAssets(assets) {

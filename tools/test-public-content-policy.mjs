@@ -68,9 +68,13 @@ check(!entities.some(entity=>entity.status===HISTORICAL_QUEST_STATUS), 'Archives
 for (const primary of raw.questData.filter(entry=>entry.type==='principale')) check(!graph.floors[1].entities['quest:1:' + primary.id], 'Old main raw ID is omitted');
 for (const primary of raw.questDataFloor2.filter(entry=>entry.type==='principale')) check(!graph.floors[2].entities['quest:2:' + primary.id], 'Old floor-two main raw ID is omitted');
 const officialImageById = new Map(JSON.parse(read('data/official-items.json')).items.map(item=>[item.id,item.image]));
+const previewById = new Map(JSON.parse(read('data/official-item-previews.json')).records.map(record=>[record.officialId,record]));
 for (const entry of index.entries.filter(entry=>['item','creature','boss'].includes(entry.kind))) {
     if (entry.kind==='item') {
-        assert.equal(entry.image,officialImageById.get(entry.officialId),'Official item thumbnails preserve the actual imported source or its explicit absence');
+        const preview = previewById.get(entry.officialId);
+        const expected = preview?.association?.exact === true && ['safe-flat','native-model-render'].includes(preview.status) && preview.image ? preview.image
+            : preview?.association?.exact === true && preview.status === 'safe-flat' && preview.nativeFlatVerified && preview.source2DVerified ? officialImageById.get(entry.officialId) : null;
+        assert.equal(entry.image,expected,'Official item thumbnails use verified native previews, never an unverified raw UV atlas');
         check(entry.image===null || entry.image.startsWith('/assets/items/official/'),'Item thumbnails use imported official assets without substituting historical pictures');
     } else check(entry.image.startsWith('/assets/mobs/'),'Creature thumbnails retain the original project models');
 }

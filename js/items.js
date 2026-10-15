@@ -43,6 +43,40 @@
         'Item halloween': ['Halloween', 'Halloween'], 'Item Noël 2025': ['Noël 2025', 'Christmas 2025'],
         'Key Crate': ['Clés de coffre', 'Crate keys']
     };
+    // Display labels only: the official identification keys and values stay intact.
+    var STAT_LABELS_FR = {
+        'Additional Defense': 'Défense supplémentaire', 'Additional Dexterity': 'Dextérité supplémentaire',
+        'Additional Esprit': 'Esprit supplémentaire', 'Additional Intelligence': 'Intelligence supplémentaire',
+        'Additional Strength': 'Force supplémentaire', 'Additional Vitality': 'Vitalité supplémentaire',
+        'Attack Speed': 'Vitesse d’attaque', 'Block Power': 'Puissance de blocage', 'Block Rating': 'Chance de blocage',
+        'Cooldown Reduction': 'Réduction des temps de recharge', 'Critical Strike Chance': 'Chance de coup critique',
+        'Critical Strike Power': 'Puissance des coups critiques', 'DMG': 'Dégâts', 'Damage Reduction': 'Réduction des dégâts',
+        'Defense': 'Défense', 'Disable Attack Passive': 'Attaque passive désactivée', 'Disable Crafting': 'Fabrication désactivée',
+        'Disable Droping': 'Abandon de l’objet désactivé', 'Disable Enchanting': 'Enchantement désactivé',
+        'Disable Interaction': 'Interaction désactivée', 'Disable Repairing': 'Réparation désactivée',
+        'Disable Right Click Consume': 'Consommation au clic droit désactivée', 'Disable Smelting': 'Cuisson désactivée',
+        'Disable Smithing': 'Forge désactivée', 'Dodge Cooldown Reduction': 'Réduction du temps de recharge d’esquive',
+        'Dodge Rating': 'Chance d’esquive', 'Durability Bar': 'Barre de durabilité',
+        'Entity Interaction Range': 'Portée d’interaction', 'Faction Damage Dungeon': 'Dégâts contre la faction Donjon',
+        'Fall Damage Reduction': 'Réduction des dégâts de chute', 'Heal Bonus': 'Bonus de soin',
+        'HEAL BONUS': 'Bonus de soin', 'HEAL_BONUS': 'Bonus de soin', 'Health Regeneration': 'Régénération de vie',
+        'Hide Dye': 'Teinture masquée', 'Hide Enchants': 'Enchantements masqués', 'Inedible': 'Non comestible',
+        'Item Cooldown': 'Temps de recharge', 'Knockback Resistance': 'Résistance au recul', 'Lifesteal': 'Vol de vie',
+        'Magic Damage': 'Dégâts magiques', 'Mana Regeneration': 'Régénération de mana', 'Max Consume': 'Consommation maximale',
+        'Max Durability': 'Durabilité maximale', 'Max Health': 'Vie maximale', 'Max Item Damage': 'Dégâts maximum de l’objet',
+        'Max Mana': 'Mana maximal', 'Max Stack Size': 'Taille maximale d’une pile', 'Max Stamina': 'Endurance maximale',
+        'Movement Speed': 'Vitesse de déplacement', 'Movement_speed': 'Vitesse de déplacement',
+        'Physical Damage': 'Dégâts physiques', 'Pickaxe Power': 'Puissance de minage', 'Projectile Damage': 'Dégâts des projectiles',
+        'Random Unsocket': 'Retrait aléatoire d’une gemme', 'Range': 'Portée', 'Repair Percent': 'Réparation',
+        'Required Defense': 'Défense requise', 'Required Dexterity': 'Dextérité requise', 'Required Esprit': 'Esprit requis',
+        'Required Intelligence': 'Intelligence requise', 'Required Strength': 'Force requise', 'Required Vitality': 'Vitalité requise',
+        'Restore Food': 'Faim restaurée', 'Restore Health': 'Vie restaurée', 'Restore Mana': 'Mana restauré',
+        'Restore Saturation': 'Saturation restaurée', 'Restore Stamina': 'Endurance restaurée',
+        'Skill Critical Strike Chance': 'Chance de coup critique des compétences',
+        'Skill Critical Strike Power': 'Puissance des coups critiques des compétences', 'Skill Damage': 'Dégâts des compétences',
+        'Sneaking Speed': 'Vitesse en déplacement furtif', 'Spell Vampirism': 'Vampirisme des sorts',
+        'Stamina Regeneration': 'Régénération d’endurance', 'Weapon Damage': 'Dégâts de l’arme'
+    };
 
     var allItems = [];
     var filtered = [];
@@ -87,6 +121,7 @@
     }
 
     function itemUi(fr, en) { return window.NamelessI18n && typeof window.NamelessI18n.getLanguage === 'function' && window.NamelessI18n.getLanguage() === 'en' ? en : fr; }
+    function statLabel(value) { return Object.prototype.hasOwnProperty.call(STAT_LABELS_FR, value) ? itemUi(STAT_LABELS_FR[value], value) : value; }
     function categoryLabel(value) { var labels = CATEGORY_LABELS[cleanCategory(value)]; return labels ? itemUi(labels[0], labels[1]) : displayName(cleanCategory(value)); }
     function compactPanel() { return window.innerWidth <= 980; }
 
@@ -923,7 +958,7 @@
             var characteristics = document.createElement('section'); characteristics.className = 'item-official-stats';
             var statsTitle = document.createElement('h3'); statsTitle.textContent = itemUi('Caractéristiques', 'Characteristics'); characteristics.appendChild(statsTitle);
             var statList = document.createElement('dl');
-            item.stats.forEach(function (stat) { var term = document.createElement('dt'), detail = document.createElement('dd'); term.textContent = displayName(stat.label); detail.textContent = String(stat.value); statList.append(term, detail); });
+            item.stats.forEach(function (stat) { var term = document.createElement('dt'), detail = document.createElement('dd'); term.dataset.sourceLabel = stat.label; term.textContent = statLabel(stat.label); detail.textContent = String(stat.value); statList.append(term, detail); });
             characteristics.appendChild(statList); overview.appendChild(characteristics);
         }
         if (item.sourceUrl) {
@@ -933,6 +968,7 @@
         var sources = document.createElement('section'); sources.className = 'item-sources';
         var sourcesTitle = document.createElement('h3'); sourcesTitle.textContent = itemUi('Sources d’obtention', 'Known sources'); sources.appendChild(sourcesTitle);
         var sourceStatus = document.createElement('p'); sourceStatus.textContent = itemUi('Sources non renseignées.', 'Sources not recorded.'); sources.appendChild(sourceStatus);
+        var sourceNote = document.createElement('p'); sourceNote.className = 'item-source-provenance'; sourceNote.hidden = true; sources.appendChild(sourceNote);
         content.appendChild(info);
         var detailTabs = installItemDetailTabs(content, id, sources, overview);
         var share = document.createElement('div'); share.className = 'item-share catalogue-detail-actions';
@@ -957,7 +993,11 @@
                 if (!currentSources()) return;
                 var entry = entries.find(function (candidate) { return candidate.kind === 'item' && candidate.id === id; });
                 var knownSources = entry && Array.isArray(entry.sources) ? entry.sources.filter(validBestiarySource) : [];
-                sourceStatus.textContent = knownSources.length ? '' : itemUi('Aucune source confirmée dans le bestiaire.', 'No confirmed sources in the bestiary.');
+                sourceStatus.textContent = knownSources.length ? '' : itemUi('Aucune source renseignée dans le bestiaire.', 'No sources recorded in the bestiary.');
+                if (knownSources.some(function (source) { return source.provenance === 'nameless-bestiary' && source.verification === 'not-revalidated-against-official-export'; })) {
+                    sourceNote.hidden = false;
+                    sourceNote.textContent = itemUi('Sources renseignées par Nameless, à confirmer sur le serveur actuel.', 'Sources recorded by Nameless; confirm them on the current server.');
+                }
                 if (!knownSources.length) return;
                 var list = document.createElement('ul');
                 knownSources.forEach(function (source) {
@@ -1007,7 +1047,7 @@
                     list.appendChild(row);
                 });
                 if (list.children.length) { sourceStatus.remove(); sources.appendChild(list); }
-                else sourceStatus.textContent = itemUi('Aucune source confirmée dans le bestiaire.', 'No confirmed sources in the bestiary.');
+                else sourceStatus.textContent = itemUi('Aucune source renseignée dans le bestiaire.', 'No sources recorded in the bestiary.');
                 var sourceUrls = new Set(knownSources.filter(validBestiarySource).map(function (source) { return source.url; }));
                 var related = entries.filter(function (candidate) {
                     return candidate.kind === 'item' && candidate.id !== id && allItems.some(function (record) { return record.id === candidate.id; }) && Array.isArray(candidate.sources) && candidate.sources.some(function (source) { return validBestiarySource(source) && sourceUrls.has(source.url); });

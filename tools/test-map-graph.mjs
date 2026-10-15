@@ -215,7 +215,9 @@ for (const id of [22, 45]) if (officialById.has('peau_glacial')) assert.equal(by
 const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'nameless-map-graph-'));
 try {
     const officialImages = JSON.parse(fs.readFileSync(path.join(root, 'data/official-items.json'), 'utf8')).items.map(item => item.image).filter(Boolean).map(image => image.slice(1));
-    for (const file of ['data/map-source.json', 'data/official-items.json', 'data/item-legacy-identities.json', 'js/bestiaire.js', 'js/items-catalog-hdv.js', 'js/i18n-en.js', 'js/i18n-en-reviewed.js', 'js/i18n-quests-en-reviewed.js', 'js/i18n-game-en-reviewed.js', 'pages/quetes.html', 'assets/carte.webp', 'assets/Palier2-map.webp', 'assets/Palier3-map.webp', ...officialImages]) {
+    const previews = JSON.parse(fs.readFileSync(path.join(root, 'data/official-item-previews.json'), 'utf8'));
+    const previewImages = [...new Set(previews.records.map(record => record.image).filter(Boolean))].map(image => image.slice(1));
+    for (const file of ['data/map-source.json', 'data/official-items.json', 'data/official-item-previews.json', 'data/item-legacy-identities.json', 'js/bestiaire.js', 'js/items-catalog-hdv.js', 'js/i18n-en.js', 'js/i18n-en-reviewed.js', 'js/i18n-quests-en-reviewed.js', 'js/i18n-game-en-reviewed.js', 'pages/quetes.html', 'assets/carte.webp', 'assets/Palier2-map.webp', 'assets/Palier3-map.webp', ...officialImages, ...previewImages]) {
         const target = path.join(fixture, file); fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(path.join(root, file), target);
     }
     for (const file of ['js/bestiaire.js', 'js/items-catalog-hdv.js']) fs.appendFileSync(path.join(fixture, file), '\nthrow new Error("Page runtime must not execute");\n');

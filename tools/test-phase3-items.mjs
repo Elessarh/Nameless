@@ -80,7 +80,7 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     // A source-contract fixture exercises missing values and safe textual stats
     // even if the current full snapshot has no example of a zero level.
     const documented = {id: 'documented', name: 'Épée <source>', image: null, rarity: 'splus', rarityLabel: 'S+', level: 0,
-        description: 'Description <script>source</script>', stats: [{label: 'Dégâts <preuve>', value: '12–18'}, {label: 'Force', value: '+3%'}],
+        description: 'Description <script>source</script>', stats: [{label: 'Dégâts <preuve>', value: '12–18'}, {label: 'Force', value: '+3%'}, {label: 'Weapon Damage', value: '+4.5'}],
         sourceUrl: 'https://saominecraft.com/fr/wiki?categories=sword'};
     const missing = {id: 'missing', name: 'Objet sans valeurs', image: null, rarity: 'unrecorded', level: null, description: '', stats: [],
         sourceUrl: 'https://saominecraft.com/fr/wiki?categories=sword'};
@@ -91,8 +91,9 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     const modal = d.querySelector('.item-modal');
     equal(modal.querySelector('.item-detail-description').textContent, documented.description, 'Official descriptions remain literal text, including markup-like source values');
     check(!modal.querySelector('script') && modal.querySelector('.item-modal-name').textContent === documented.name, 'Source strings never create executable markup');
-    equal([...modal.querySelectorAll('.item-official-stats dt')].map(node => node.textContent), documented.stats.map(stat => stat.label), 'Official stat labels render as exact plain text');
-    equal([...modal.querySelectorAll('.item-official-stats dd')].map(node => node.textContent), ['12–18', '+3%'], 'Ranges and percentages remain source text without inventing numeric combat facts');
+    equal([...modal.querySelectorAll('.item-official-stats dt')].map(node => node.dataset.sourceLabel), documented.stats.map(stat => stat.label), 'Every translated characteristic retains its exact official identification key');
+    equal([...modal.querySelectorAll('.item-official-stats dt')].map(node => node.textContent), ['Dégâts <preuve>', 'Force', 'Dégâts de l’arme'], 'Known labels read naturally in French while unrecognized labels remain literal safe text');
+    equal([...modal.querySelectorAll('.item-official-stats dd')].map(node => node.textContent), ['12–18', '+3%', '+4.5'], 'Ranges, percentages and decimals remain source text without inventing numeric combat facts');
     check([...modal.querySelectorAll('.item-verified-facts dt')].some(term => term.textContent === 'Niveau requis')
         && [...modal.querySelectorAll('.item-verified-facts dd')].some(value => value.textContent === '0'), 'A documented zero level is not mistaken for an unknown requirement');
     equal(modal.querySelector('.item-official-source').href, documented.sourceUrl, 'The item opens its original official category source');
