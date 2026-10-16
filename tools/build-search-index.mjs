@@ -9,6 +9,7 @@ import {isBossFamily, creatureCategory} from './creature-taxonomy.mjs';
 import {readOfficialItemCatalogue} from './items-catalogue.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
+const ts = require('typescript');
 const root = path.resolve(import.meta.dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const normalize = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -30,6 +31,28 @@ function literalArray(source, name) {
         else if (char === ']' && --depth === 0) return vm.runInNewContext(source.slice(start, i + 1));
     }
     throw new Error('Unclosed data array: ' + name);
+}
+
+// Share the catalogue's display vocabulary without running its DOM lifecycle
+// or creating a second category translator. Accept only a literal of pairs.
+export function readItemCategoryLabels(source = read('js/items.js')) {
+    const tree = ts.createSourceFile('items.js', source, ts.ScriptTarget.Latest, true);
+    const declarations = [];
+    function visit(node) {
+        if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.name.text === 'CATEGORY_LABELS') declarations.push(node.initializer);
+        ts.forEachChild(node, visit);
+    }
+    visit(tree);
+    if (declarations.length !== 1 || !ts.isObjectLiteralExpression(declarations[0])) throw new Error('Missing literal item category vocabulary');
+    const labels = Object.create(null);
+    for (const property of declarations[0].properties) {
+        if (!ts.isPropertyAssignment(property) || !ts.isStringLiteral(property.name) || !ts.isArrayLiteralExpression(property.initializer)
+            || property.initializer.elements.length !== 2 || !property.initializer.elements.every(ts.isStringLiteral)) throw new Error('Item category vocabulary must contain literal FR/EN pairs');
+        const key = property.name.text;
+        if (Object.hasOwn(labels, key)) throw new Error('Duplicate item category display label: ' + key);
+        labels[key] = property.initializer.elements.map(value => value.text);
+    }
+    return labels;
 }
 
 export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
@@ -62,7 +85,10 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
             location: c.location, ...mapMetadata('creature:' + c.id), keywords: category.label + ' ' + category.labelEn + ' ' + (c.id === 58 ? 'Soul Knight ' : '') + c.type + ' ' + c.description + ' ' + c.drops.map(d => d.name).join(' ')});
     });
     const itemCatalogue = readOfficialItemCatalogue({root});
+    const itemCategoryLabels = readItemCategoryLabels();
     for (const group of Object.values(itemCatalogue.groups)) {
+        const category = clean(group.name).replace(/^[^\p{L}\p{N}]+/u, '');
+        const [summary, summaryEn] = itemCategoryLabels[category] || [category, category];
         for (const item of group.items) {
             const graphItem = mapEntities['item:' + item.id];
             const sources = creatures.filter(c => graphItem?.creatureKeys.includes('creature:' + c.id))
@@ -70,7 +96,7 @@ export function createSearchIndex({mapGraph = createMapGraph({root})} = {}) {
                     provenance: 'nameless-bestiary', verification: 'not-revalidated-against-official-export',
                     ...(mapEntries.get('creature:' + c.id)?.positionRef ? {mapUrl: mapEntries.get('creature:' + c.id).mapUrl} : {})}));
             add({kind: 'item', id: item.id, title: item.name, url: '/items?item=' + encodeURIComponent(item.id),
-                image: item.image === null ? null : assetUrl('/assets/items/' + item.image), summary: clean(group.name).replace(/^[^\p{L}\p{N}]+/u, ''),
+                image: item.image === null ? null : assetUrl('/assets/items/' + item.image), summary, summaryEn,
                 officialId: item.officialId, provenance: 'sao-minecraft-official-wiki', sourceUrl: item.sourceUrl,
                 keywords: [item.rarity, item.sourceId, item.description, ...(item.lore || []), ...sources.map(s => s.title)].join(' '), sources,
                 dropNames: [...new Set((graphItem?.sources || []).filter(source => source.creatureKey).map(source => source.name))]});

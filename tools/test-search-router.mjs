@@ -1,10 +1,28 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
+import {createSearchIndex,readItemCategoryLabels} from './build-search-index.mjs';
+import {readOfficialItemCatalogue} from './items-catalogue.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const read = file => fs.readFileSync(new URL('../'+file, import.meta.url),'utf8');
-const data = JSON.parse(read('assets/search-index.json'));
+const data = createSearchIndex();
+const categoryLabels = readItemCategoryLabels();
+const catalogue = readOfficialItemCatalogue();
+const groups = Object.values(catalogue.groups);
+assert.equal(groups.length, 34, 'Every populated public item category participates in the shared display vocabulary');
+for (const group of groups) {
+    const category = group.name.replace(/^[^\p{L}\p{N}]+/u, '').trim();
+    assert.ok(categoryLabels[category], 'The UI vocabulary contains this public category: ' + category);
+    for (const item of group.items) {
+        const entry = data.entries.find(entry => entry.kind === 'item' && entry.id === item.id);
+        assert.equal(entry.summary, categoryLabels[category][0], 'French search summary matches the catalogue display label: ' + item.id);
+        assert.equal(entry.summaryEn, categoryLabels[category][1], 'English search summary matches the catalogue display label: ' + item.id);
+    }
+    assert.equal(group.name, category, 'Published category identities are preserved, rather than replaced by display labels');
+}
+assert.deepEqual(readItemCategoryLabels("var CATEGORY_LABELS = { 'Épées': ['Épées', 'Swords'] };" )['Épées'], ['Épées', 'Swords'], 'Only the literal vocabulary is read, including Unicode');
+assert.throws(() => readItemCategoryLabels("var CATEGORY_LABELS = { 'Armor': ['Armures', (() => { throw new Error('must not execute'); })()] };"), /literal FR\/EN pairs/, 'An executable value is rejected without invoking page code');
 const dom = new JSDOM('<nav class="nav-container"><button id="hamburger">Menu</button></nav><main id="main-content"></main>',{url:'https://nameless-sao.fr/',runScripts:'outside-only'});
 const {window} = dom;
 window.HTMLDialogElement.prototype.showModal = function () {this.open = true;};
@@ -50,6 +68,13 @@ input.value=nativeItem.title;input.dispatchEvent(new window.Event('input'));
 const nativeResult = [...window.document.querySelectorAll('.nm-search-entry-link')].find(link => link.getAttribute('href') === nativeItem.url);
 assert.ok(nativeResult, 'The current native item is reachable through the search palette');
 assert.equal(nativeResult.querySelector('.nm-search-thumbnail')?.getAttribute('src'), nativeItem.image, 'Search renders the same verified native SVG as the catalogue');
+const guardianLeggings = index.find(entry => entry.kind === 'item' && entry.title === 'Jambières du Gardien');
+input.value = guardianLeggings.title; input.dispatchEvent(new window.Event('input'));
+const guardianResult = () => [...window.document.querySelectorAll('.nm-search-entry-link')].find(link => link.getAttribute('href') === guardianLeggings.url);
+assert.equal(guardianResult().querySelector('.nm-search-result-description').textContent, 'Armures', 'French search displays Armures rather than the raw official Armor category');
+window.NamelessI18n = {getLanguage: () => 'en'}; window.document.dispatchEvent(new window.Event('nameless:languagechange'));
+assert.equal(guardianResult().querySelector('.nm-search-result-description').textContent, 'Armor', 'The same current item uses the catalogue English category after a live language change');
+delete window.NamelessI18n; window.document.dispatchEvent(new window.Event('nameless:languagechange'));
 input.value='Illfang';input.dispatchEvent(new window.Event('input'));
 input.dispatchEvent(new window.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}));
 assert.equal(window.document.activeElement.tagName,'A');

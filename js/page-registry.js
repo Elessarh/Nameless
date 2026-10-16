@@ -234,7 +234,7 @@
             scripts: [
                 'js/cache-manager.js?v=20261007a',
                 'js/guild-date-utils.js?v=20261007a',
-                'js/profil.js?v=20261011phased3'
+                'js/profil.js?v=20261015auth1'
             ],
             init: function (root) {
                 if (global.NamelessProfilePage && typeof global.NamelessProfilePage.init === 'function') {

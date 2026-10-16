@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-10-15T20:04:48.899Z",
+  "scope": "Existing local publication artifact, no rebuild or regeneration performed",
+  "previewOrigin": "http://127.0.0.1:4173",
+  "methods": [
+    "Resolve HTML src/href/srcset/poster/social images and CSS url() references against their actual published locations",
+    "Read runtime JS asset literals and runtime JSON image references without executing page lifecycle",
+    "Match filesystem paths with exact case, suitable for a case-sensitive production host",
+    "HEAD every unique known runtime local URL; require HTTP200 and image MIME for bitmap/SVG paths",
+    "Check all60 creature portraits and all54 bestiary-drop references (34 unique drop images)"
+  ],
+  "excludedFromRuntimeReferences": [
+    "Asset provenance manifests with repository-relative source paths, not loaded by the frontend",
+    "Historical path strings in translation dictionaries; URL attributes are not translated",
+    "Hidden decorative home atmosphere img without src; no HTTP asset request"
+  ],
+  "htmlCount": 48,
+  "cssCount": 36,
+  "jsCount": 31,
+  "uniqueReferences": 1411,
+  "publishedFiles": 1693,
+  "catalogueItems": 1382,
+  "itemImages": 1344,
+  "neutralItems": 38,
+  "creatures": 60,
+  "staticErrors": [],
+  "httpChecked": 1411,
+  "httpErrors": [],
+  "bestiaryDropReferences": 54,
+  "uniqueBestiaryDropImages": 34,
+  "bestiaryDropErrors": [],
+  "previewCounts": {
+    "safe-flat": 934,
+    "native-model-render": 410,
+    "uncertain-model-reference": 17,
+    "unavailable-model": 20,
+    "unsupported-model": 1
+  },
+  "limitation": "This static and HTTP audit does not claim browser layout, OAuth, authorization or server-state validation."
+}

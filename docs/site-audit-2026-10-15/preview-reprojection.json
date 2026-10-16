@@ -1,0 +1,1604 @@
+{
+  "counts": {
+    "safe-flat": 934,
+    "native-model-render": 410,
+    "uncertain-model-reference": 17,
+    "unavailable-model": 20,
+    "unsupported-model": 1
+  },
+  "rendererVersion": 3,
+  "changed": [
+    {
+      "officialId": "official_armor_66c6e9e1a6e460a7",
+      "name": "Bottes Tactiques",
+      "image": "/assets/items/official/previews/8b0e8dd01b9da5b3f6ae807d5f29f021b08ec021061a3dff6ee8cc7db6292db8.svg"
+    },
+    {
+      "officialId": "official_armor_48dcfccd56567bad",
+      "name": "Casque d'Améthyste Féroce",
+      "image": "/assets/items/official/previews/ef5816b5f77a4a21957f510aba53bb03ee2d2a0fe52f3f6c723b31d35c9a8f4d.svg"
+    },
+    {
+      "officialId": "official_armor_012ffe2203afc34f",
+      "name": "Bottines du Chasseur",
+      "image": "/assets/items/official/previews/6155782fa5d9031fec793ad58fda28c6a50549b3992aa17f1d7eac5ec82fe4e4.svg"
+    },
+    {
+      "officialId": "official_armor_a170c0d82122a6a7",
+      "name": "Tunique du Chasseur",
+      "image": "/assets/items/official/previews/c18d81c586fe05b1cc8869e8cd2cae3519ce3825539fb37aa5b099ba8dfe4735.svg"
+    },
+    {
+      "officialId": "official_armor_ee776a54779625e7",
+      "name": "Jambières du Chasseur",
+      "image": "/assets/items/official/previews/d9c05aa3fee56678fcaf9ca8788897772bf43da93e728107809243f6e22cc81f.svg"
+    },
+    {
+      "officialId": "official_armor_7a41bca27a7851ba",
+      "name": "Jambières Tactiques",
+      "image": "/assets/items/official/previews/b78d1ac241e0586ca2244e06aeae633859a39cd47445211f20c4ea22ea60c178.svg"
+    },
+    {
+      "officialId": "official_armor_8b320dc03000c1b2",
+      "name": "Sandales du Magicien",
+      "image": "/assets/items/official/previews/397d59038475014040358e169f86c2456dd58fcecc848ea7b8866d2bf4a50af6.svg"
+    },
+    {
+      "officialId": "official_armor_062d911d0d591587",
+      "name": "Robe du Magicien",
+      "image": "/assets/items/official/previews/8600e9f465b834e525aaf0697d9fbd93d1a7c950c351f4d1aeff09763a8d0514.svg"
+    },
+    {
+      "officialId": "official_armor_228de41a5f644aef",
+      "name": "Jambières du Magicien",
+      "image": "/assets/items/official/previews/4c0dc63e29738d2a6bf19fc93e645bf88d272abfc79b9d06fc57ada22b123f2e.svg"
+    },
+    {
+      "officialId": "official_armor_333ee0f7e8cb2678",
+      "name": "Masque du Dragon Lunaire",
+      "image": "/assets/items/official/previews/3f3fcf1bed2b018dd7fba700f10304593919d7a551a44d061d33918e9ecb0f0f.svg"
+    },
+    {
+      "officialId": "official_armor_453da1f5d4833604",
+      "name": "Masque du Necromancien",
+      "image": "/assets/items/official/previews/b4569fc74202805a7519162db39744a7850b3192017652ee4968fcd94e5cc9a9.svg"
+    },
+    {
+      "officialId": "official_armor_16773a6735b4003e",
+      "name": "Bottines du Ninja",
+      "image": "/assets/items/official/previews/c0ce1730cc444af43b29f65cdbe0e777f2b52bfdc2da01d65571d0e6334a7b44.svg"
+    },
+    {
+      "officialId": "official_armor_90c468de3f5323db",
+      "name": "Tunique du Ninja",
+      "image": "/assets/items/official/previews/6c53cdaeecd811fd0e3643345e73bdd96c80c4c18daf62de94b354bb407301b1.svg"
+    },
+    {
+      "officialId": "official_armor_04187d8f29d85a4a",
+      "name": "Jambières du Ninja",
+      "image": "/assets/items/official/previews/d91581a9db6c519bdc312d8a50820093bd6e1517fff07f8275a5ea71edfe4fee.svg"
+    },
+    {
+      "officialId": "official_armor_dd8e7e3f261f0558",
+      "name": "Plastron Tactique",
+      "image": "/assets/items/official/previews/1f2655e9a1cdd6a26bf7bf7cfd2989ab5192a32446f8c5d4f74cdc4a44bf1e42.svg"
+    },
+    {
+      "officialId": "official_armor_b23dcba1c6ef017b",
+      "name": "Bottes du Titan",
+      "image": "/assets/items/official/previews/7c9a4c25cd36edd15cf12c77ea70c027239b06e2c3071826bd3d609a3981bb18.svg"
+    },
+    {
+      "officialId": "official_armor_fea846e550ef9985",
+      "name": "Plastron du Titan",
+      "image": "/assets/items/official/previews/0131172b76b4aeccf022d62333e9980cca294dc992d5bc2d80d1fa19391e46c2.svg"
+    },
+    {
+      "officialId": "official_armor_092e6c85f193a7de",
+      "name": "Casque du Titan",
+      "image": "/assets/items/official/previews/82709d71db10e4c94bd902525136abefca7ed74209c7df56f2aba8204a3202de.svg"
+    },
+    {
+      "officialId": "official_armor_303295441dc806f7",
+      "name": "Jambières du Titan",
+      "image": "/assets/items/official/previews/e0449f2c1a555e6dc231c8aea11fb4b99bf3fbe4dce7eae540fdec395e09dff7.svg"
+    },
+    {
+      "officialId": "official_armor_3a7732cc70ba423c",
+      "name": "Tunique Tactique",
+      "image": "/assets/items/official/previews/1f2655e9a1cdd6a26bf7bf7cfd2989ab5192a32446f8c5d4f74cdc4a44bf1e42.svg"
+    },
+    {
+      "officialId": "official_bow_1b4c1ebcd666bba8",
+      "name": "Arc de l’Abeille Traqueuse",
+      "image": "/assets/items/official/previews/1a7a143b7f87d5b0663bf434f3b738010e0a62504bd89268c98a9910ac27dc63.svg"
+    },
+    {
+      "officialId": "official_bow_d2e31014fc5b7829",
+      "name": "Arc en Améthyste",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_b52996703f3b19eb",
+      "name": "Arc en Bauxite",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_87f170dd626af159",
+      "name": "Arc des Bois Ancien",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_1825446e1cc9ab5a",
+      "name": "Arc en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_c28a6b30b4146696",
+      "name": "Arc en Cuivre",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_11d84b67b345afcc",
+      "name": "Arc d'Entraînement",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_4b85f1b1b81dd0d9",
+      "name": "Arc en Fer d'Acier",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_53a82fed5e08fc47",
+      "name": "Arc en Fer",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_2329aabd54f1c62f",
+      "name": "Arc en Ferraille",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_e80a4ada0018c48b",
+      "name": "Arc Déchu",
+      "image": "/assets/items/official/previews/65389f298b0fb774a3923f59423cae77ad7dc09d16942031e6c7aa53176fa775.svg"
+    },
+    {
+      "officialId": "official_bow_dc85d87bab18990d",
+      "name": "Arc de la Nécropole",
+      "image": "/assets/items/official/previews/5a5adba5b9054fc62a57c6bae6ccba9f9374d6a385c4d4b57a3901f4e91733ea.svg"
+    },
+    {
+      "officialId": "official_bow_7968b11de58b2b0b",
+      "name": "Arc Hivernale",
+      "image": "/assets/items/official/previews/7ab2b12fc667f0977fce3d33bf1bfcdbb416d85a83a70577863c74109212f68d.svg"
+    },
+    {
+      "officialId": "official_bow_16d27ee920e9c4a9",
+      "name": "Arc en Onyx Impur",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_95e9441574eeb34f",
+      "name": "Arc en Onyx Pur",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_7970937d1a69b195",
+      "name": "Arc d'Amour",
+      "image": "/assets/items/official/previews/cee058875458d1a7e45027f8fca45dcd248e20f06b76550e6b02eefb69e7b5f4.svg"
+    },
+    {
+      "officialId": "official_bow_ed4bfa40ba13606d",
+      "name": "Arc de Rang S",
+      "image": "/assets/items/official/previews/7e6af7384b4ec3772a5dd679db90cde6f13e2118235ff186009c01812c59012b.svg"
+    },
+    {
+      "officialId": "official_bow_610096794702981c",
+      "name": "Arc Basique",
+      "image": "/assets/items/official/previews/1235a6f2368a62755ab158eba58f8e0ae709b57725ff76c9bb2ce024155cc189.svg"
+    },
+    {
+      "officialId": "official_bow_c85841aa7a3c3270",
+      "name": "Arc de l'Héraut",
+      "image": "/assets/items/official/previews/4b15c57e0f1d98e61a4d50b409e3bef33541e0ce2893cc0bd641c390569d67ee.svg"
+    },
+    {
+      "officialId": "official_bow_2b69e3ce27ecf825",
+      "name": "Arc Sylvestre",
+      "image": "/assets/items/official/previews/2d255b7bf22227c1de91a9fed2c59a992f0314ea8dff69d3fa40cd10040cf67f.svg"
+    },
+    {
+      "officialId": "official_bow_f917a50cda1fd616",
+      "name": "Arc de Chasse",
+      "image": "/assets/items/official/previews/ff5e3fd701b36a988281397093aebb0624cb076da54c724ac02a3beee48a3272.svg"
+    },
+    {
+      "officialId": "official_bow_274fffeb6a515037",
+      "name": "Arc Nodachi",
+      "image": "/assets/items/official/previews/bd31fa317b0111d59cc0c95795ff8b147771208d43663515e104f7e6546bb011.svg"
+    },
+    {
+      "officialId": "official_catalyst_c233883b84c8502e",
+      "name": "Catalyseur Hivernale",
+      "image": "/assets/items/official/previews/5bea16349dbb1f43c55fb0ce6acc663d37fc7b0560a5a23c04029fc46ff2ba1e.svg"
+    },
+    {
+      "officialId": "official_catalyst_9f53fcaf564e2223",
+      "name": "Catalyseur Abeille",
+      "image": "/assets/items/official/previews/65989928be0380c0ed80a9993957c82f9d9a18c14820e76fac119e2eed9651a1.svg"
+    },
+    {
+      "officialId": "official_catalyst_db2b0569b4c3f3c5",
+      "name": "Sceptre Nécrotique",
+      "image": "/assets/items/official/previews/5dcbc965477197b54e88919d435c634850ff2cbdd9cbd5601f8c5b4908644b72.svg"
+    },
+    {
+      "officialId": "official_catalyst_548777da753975f7",
+      "name": "Grimoire Délié",
+      "image": "/assets/items/official/previews/e9f8c02022435730d4eda6f76e82170f364c7ada9907b97d526ea338a1421c11.svg"
+    },
+    {
+      "officialId": "official_catalyst_861aaf32bd4f7af1",
+      "name": "Grimoire du Magicien",
+      "image": "/assets/items/official/previews/bc638371a1f346cc8ce53c81fe577a8ac98ac085f770d5f3b6df238e80aeea6b.svg"
+    },
+    {
+      "officialId": "official_catalyst_66021eb24ab2405b",
+      "name": "Grimoire Obscur",
+      "image": "/assets/items/official/previews/d8f683f8b73c4245e36d763eb4906ac3217357906e88bbe797ebac014287a193.svg"
+    },
+    {
+      "officialId": "official_catalyst_facca5ad96a3fae4",
+      "name": "Grimoire des Revenants",
+      "image": "/assets/items/official/previews/bf4e0cf3cdce0a8db26382f9ca30def1f0896a32899c62c06916988d8506163c.svg"
+    },
+    {
+      "officialId": "official_catalyst_85fa3cb593b491ae",
+      "name": "Grimoire Sylvestre",
+      "image": "/assets/items/official/previews/00a35da5a53588e12bcaf28bf2bfd0ea31755ee5dbe6240edac01467dca18d17.svg"
+    },
+    {
+      "officialId": "official_catalyst_77a990fce1067fda",
+      "name": "Catalyseur des Bois Ancien",
+      "image": "/assets/items/official/previews/35922fd409217324e01e57e38df01aed46e80f6b3e2ae69f58ba754cbdd567bc.svg"
+    },
+    {
+      "officialId": "official_catalyst_e1242d0711b468a8",
+      "name": "Grimoire aux rayures d'Améthyste",
+      "image": "/assets/items/official/previews/b1b85e6a3adbf84f33d33eb3ec46b8e52e4aac502119da108b248e6f5be59ae2.svg"
+    },
+    {
+      "officialId": "official_catalyst_c3521fa05bf2e99f",
+      "name": "Grimoire aux rayures de Bauxite",
+      "image": "/assets/items/official/previews/619fd9e1f518ff897afced4470a98a7ca00b724fc1a6b636bc77048c3796e9a8.svg"
+    },
+    {
+      "officialId": "official_catalyst_2613239784e9eefe",
+      "name": "Grimoire Bestial",
+      "image": "/assets/items/official/previews/00a35da5a53588e12bcaf28bf2bfd0ea31755ee5dbe6240edac01467dca18d17.svg"
+    },
+    {
+      "officialId": "official_catalyst_10fe56ad5e67727f",
+      "name": "Grimoire aux rayures de Cuivre Granuleux",
+      "image": "/assets/items/official/previews/b5c1ab73bc8a6ed2c96831ef56a901f2d5376058fb6c48e577388a1e90d06b6b.svg"
+    },
+    {
+      "officialId": "official_catalyst_655a72a36ac23dda",
+      "name": "Grimoire Sauvage",
+      "image": "/assets/items/official/previews/e9f8c02022435730d4eda6f76e82170f364c7ada9907b97d526ea338a1421c11.svg"
+    },
+    {
+      "officialId": "official_catalyst_0f01aaba679e631b",
+      "name": "Grimoire Fantomatique",
+      "image": "/assets/items/official/previews/f104089563e9c7d47e42fca14ce6d281106cfd90b4cfe64587632687ebbdccd6.svg"
+    },
+    {
+      "officialId": "official_catalyst_beb81aa52011b724",
+      "name": "Grimoire aux rayures de Fer d'Acier",
+      "image": "/assets/items/official/previews/46a402bfbb0331054bcc81231f385ddb53f84b06c3ac18e3f75b8cc4be6b9bf9.svg"
+    },
+    {
+      "officialId": "official_catalyst_eeb746a8b427d5ac",
+      "name": "Grimoire aux rayures de Ferraille",
+      "image": "/assets/items/official/previews/bdc87fe5f9c763de8274faf8d6497e5865fcc2e0ee599efdc30dc6c74de1915e.svg"
+    },
+    {
+      "officialId": "official_catalyst_3794ed92f086f3f1",
+      "name": "Grimoire aux rayures d'Onyx Impur",
+      "image": "/assets/items/official/previews/840310280480c7e8b62cc46cecfd4fb63d98dab711cc38878bc2cfc5fb90ebe6.svg"
+    },
+    {
+      "officialId": "official_catalyst_178c630e410a4c57",
+      "name": "Grimoire aux rayures d'Onyx Pur",
+      "image": "/assets/items/official/previews/084468bdd0b1f1e0868958da82d6062eab60b256136adce5d820f3ca3fb96ef8.svg"
+    },
+    {
+      "officialId": "official_catalyst_11544342cb668341",
+      "name": "Grimoire du Sorcier",
+      "image": "/assets/items/official/previews/c4934829fbb4a7afac319112c8983cb87efaf63f8a21ab4fc8d92d52caf884a2.svg"
+    },
+    {
+      "officialId": "official_catalyst_4c116b413b3205c7",
+      "name": "Grimoire Squelettique",
+      "image": "/assets/items/official/previews/4d15217c5f275f83abb5f2e2a1259031a3211182e5582f5a5652170f58c39bef.svg"
+    },
+    {
+      "officialId": "official_catalyst_dd9401c09414300e",
+      "name": "Lanterne en Améthyste",
+      "image": "/assets/items/official/previews/a44633929fc919912ed1b37e0863f8bdee9c7349e1ecf1e296874673aa57df20.svg"
+    },
+    {
+      "officialId": "official_catalyst_4e669bed567c3816",
+      "name": "Lanterne Basique",
+      "image": "/assets/items/official/previews/3900d3a63bc81daf49df81a583f6b99d07222fe434868009534433951153d354.svg"
+    },
+    {
+      "officialId": "official_catalyst_4a0880dd7bd6cfed",
+      "name": "Lanterne en Bauxite",
+      "image": "/assets/items/official/previews/f95a15b146febb2fc4af9eaf205a0e4169f0e1ad29b3933bf31d6756d88ed7c2.svg"
+    },
+    {
+      "officialId": "official_catalyst_07827b8e33fc6a90",
+      "name": "Lanterne en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/6d040b6a694e15a0a0b9ff032b1045b050fc164c7d4602625b5a58a0a1030a4a.svg"
+    },
+    {
+      "officialId": "official_catalyst_f806db598d29b8d5",
+      "name": "Lanterne en Cuivre",
+      "image": "/assets/items/official/previews/a5c5044dba9e579516a0a1602e7da7d4df93a23ecc564d7dbfa2586e23902b73.svg"
+    },
+    {
+      "officialId": "official_catalyst_3112700097535a97",
+      "name": "Lanterne d'Entraînement",
+      "image": "/assets/items/official/previews/f87d856642388e124dbf533a7dcf64b2bbc69c6f13790b15617bb377b454f503.svg"
+    },
+    {
+      "officialId": "official_catalyst_13a320b662ce9be7",
+      "name": "Lanterne en Fer d'Acier",
+      "image": "/assets/items/official/previews/d9398c56ba1d258b48b31ed9809d0445ca5a156de54468505bd4198ecf5be90b.svg"
+    },
+    {
+      "officialId": "official_catalyst_463dc388c953ad55",
+      "name": "Lanterne en Fer",
+      "image": "/assets/items/official/previews/b4d854f9445c6a6f701b038466dab9f6ae4023c6d7e9690e0ff54b1938e97806.svg"
+    },
+    {
+      "officialId": "official_catalyst_ab8b8fe5068d8979",
+      "name": "Lanterne en Ferraille",
+      "image": "/assets/items/official/previews/b72a1acea181c1b85b8561eea8ecad34ed99d77cf1fd8934e50498ba519ad70c.svg"
+    },
+    {
+      "officialId": "official_catalyst_0e2df89bf99aefd2",
+      "name": "Lanterne du Magicien",
+      "image": "/assets/items/official/previews/35922fd409217324e01e57e38df01aed46e80f6b3e2ae69f58ba754cbdd567bc.svg"
+    },
+    {
+      "officialId": "official_catalyst_316aebbfb2eb67af",
+      "name": "Lanterne en Onyx Impur",
+      "image": "/assets/items/official/previews/9b91363ee885b50b72ae2b7aa4de9925568d28d1a3968de8b14bf39bda8aa833.svg"
+    },
+    {
+      "officialId": "official_catalyst_aa8fc24630541e7f",
+      "name": "Lanterne en Onyx Pur",
+      "image": "/assets/items/official/previews/ca838aa343bfa956994c0421f395365a29575d1206130ede2688b1bac534a30f.svg"
+    },
+    {
+      "officialId": "official_consumable_item_4caaccbbeee8ce11",
+      "name": "Ailes de Noël",
+      "image": "/assets/items/official/previews/6c1e64ec00da214a75ca0dcddf2d7c7ea94a1b39e53a60ea7f6dfdcf3979aac1.svg"
+    },
+    {
+      "officialId": "official_consumable_item_8bce3acd9551fe7d",
+      "name": "Sac à Dos de Bonheur",
+      "image": "/assets/items/official/previews/0b0b33a9b8c3319585e4d6839bb924c2ec5db2324b312ddde88e0e0ed1ecbfe6.svg"
+    },
+    {
+      "officialId": "official_consumable_item_d3f58618b519847e",
+      "name": "Robe de Noël",
+      "image": "/assets/items/official/previews/89de94f0bf5ec74a0f7b154577bb8347e02c1e599590ce994407369aa9e48874.svg"
+    },
+    {
+      "officialId": "official_consumable_item_dfd3068355369ec1",
+      "name": "Chapeau de Bonheur",
+      "image": "/assets/items/official/previews/48684c049b9fcea9e742263e124f2158ceff075bac0c3defeea000aa6f600e10.svg"
+    },
+    {
+      "officialId": "official_consumable_item_a1a71208b7edf52a",
+      "name": "Cosmétique Halloween",
+      "image": "/assets/items/official/previews/5f263c48779490135f626293a4b658aa1b248829c46b297dd6df7bcd30e40a2d.svg"
+    },
+    {
+      "officialId": "official_consumable_item_bbe53438f8e3badd",
+      "name": "Bonnet de Noël",
+      "image": "/assets/items/official/previews/c3cf89dc8e9decefe42470f12af74df9aab22730ff190195b74d74cd7c83010b.svg"
+    },
+    {
+      "officialId": "official_consumable_item_b1bc348373e88cc4",
+      "name": "Bois de Noël",
+      "image": "/assets/items/official/previews/a3e6c9c51aa10ffe12ae14d708d040f801060575cfe59868361953601704641e.svg"
+    },
+    {
+      "officialId": "official_consumable_item_dec03789fced6e9b",
+      "name": "Écharpe de Noël",
+      "image": "/assets/items/official/previews/84f7defc96a47d08d4bc81664f2fd30a4be97fc8e9f108769fc6982c1957b3d8.svg"
+    },
+    {
+      "officialId": "official_consumable_item_4b6fc81a8c9e28a0",
+      "name": "Chapeau d'Amour",
+      "image": "/assets/items/official/previews/006c707bd520f4e3bc97796622c272b29e596317b109287b5dffd8ebbb38a57d.svg"
+    },
+    {
+      "officialId": "official_crossbow_7c885dc1f84f7e41",
+      "name": "Arbalète du Dard",
+      "image": "/assets/items/official/previews/8dc07692074c7c74038db9995424ad84f9bf6ff913258ef2ea24513c9c971e3f.svg"
+    },
+    {
+      "officialId": "official_crossbow_9dcca04f3e99d1f2",
+      "name": "Arbalète en Améthyste",
+      "image": "/assets/items/official/previews/704a3e2a517f6e24453794b646b4425784f2d65cde5acd6ada080d2c8d767376.svg"
+    },
+    {
+      "officialId": "official_crossbow_cfd5eb29b3e8667b",
+      "name": "Arbalète d'Amour",
+      "image": "/assets/items/official/previews/b498327250f9f4fe1ef5256c60bc725890b3ea1448f8a1b134bf24f0f617de6b.svg"
+    },
+    {
+      "officialId": "official_crossbow_a7864d9e8ff2bb8c",
+      "name": "Arbalète des Bandits",
+      "image": "/assets/items/official/previews/f37a7efab92eba5e3d56fbef96f8afc7cab5fadd38a2650ea5822bf024f72d50.svg"
+    },
+    {
+      "officialId": "official_crossbow_996928c4f4f901e7",
+      "name": "Arbalète en Bauxite",
+      "image": "/assets/items/official/previews/cdc0530c095b9b07990e050380fb295a66e2a77319d70c78dce8c4fc6f31b87c.svg"
+    },
+    {
+      "officialId": "official_crossbow_075dfeb62121fac8",
+      "name": "Arbalète de Cendre",
+      "image": "/assets/items/official/previews/ee7a21d32c4ec6ce730f4f55c7a9a550906fd8717e5bbb59992a80d07769706a.svg"
+    },
+    {
+      "officialId": "official_crossbow_c67e9bb617ab94eb",
+      "name": "Arbalète du Chasseur",
+      "image": "/assets/items/official/previews/81bbbf71b1d58741f9efd8d063e4746ba7cc8813e1767f4b2260799740875b21.svg"
+    },
+    {
+      "officialId": "official_crossbow_21285c2a15fe759c",
+      "name": "Arbalète en Cuivre",
+      "image": "/assets/items/official/previews/dab46a3d0818421e2833825c7a677c06993275fff102e42d673c783a2e87dab4.svg"
+    },
+    {
+      "officialId": "official_crossbow_15eb0f7071572feb",
+      "name": "Arbalète en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/9985a49a88c81c916b405c31d6f217dbd354c1fc3545fab22896a1372a5dd934.svg"
+    },
+    {
+      "officialId": "official_crossbow_bc0ccb29c2812c5f",
+      "name": "Arbalète en Fer",
+      "image": "/assets/items/official/previews/d722d8b9205b3a09a8b49142bf18ce34a3f3e723407ae202cc6c90392c170bb8.svg"
+    },
+    {
+      "officialId": "official_crossbow_220a7d362ee57513",
+      "name": "Arbalète en Fer d'Acier",
+      "image": "/assets/items/official/previews/4a9b70abb14805cc1ee97b4fb2249d23ea9c3d549938799e56d48cfbc33843ae.svg"
+    },
+    {
+      "officialId": "official_crossbow_83d55e568ffc1b10",
+      "name": "Arbalète en Ferraille",
+      "image": "/assets/items/official/previews/2951f47fd19652a4265360fdeaae526fb0ff37323ed214792fb1fd2d12dd6020.svg"
+    },
+    {
+      "officialId": "official_crossbow_a55c675ca4520c9d",
+      "name": "Arbalète Hurlante",
+      "image": "/assets/items/official/previews/513f896e1541d2251d8ebeff99bd449e522c2c98077ed314b0bd7c09b9f4e3f3.svg"
+    },
+    {
+      "officialId": "official_crossbow_157576b59c7555a7",
+      "name": "Arbalète Déchue",
+      "image": "/assets/items/official/previews/f94e005cb534c53991ed2022e0a4506f4d39d898af58ca689c9aa0647d7d2d90.svg"
+    },
+    {
+      "officialId": "official_crossbow_88cffc53c585789b",
+      "name": "Arbalète du Nécromancien",
+      "image": "/assets/items/official/previews/87437fb9cad9335b176f09c1d9fd33c7d5815fd8ac5cea351c6287d0bbed36d6.svg"
+    },
+    {
+      "officialId": "official_crossbow_e5b20fb016d76ebf",
+      "name": "Arbalète Hivernale",
+      "image": "/assets/items/official/previews/88d64542959508d3dfc8e3db7c7b584b68b7f7014a56170357988766f334e289.svg"
+    },
+    {
+      "officialId": "official_crossbow_4a63e80de7e08416",
+      "name": "Arbalète en Onyx Impur",
+      "image": "/assets/items/official/previews/a8eaaba791b139a028a811f3cb0b7aa7a830e2ef1b1e184bb05ff0bf3a3b3bfe.svg"
+    },
+    {
+      "officialId": "official_crossbow_44a815aeaac02cee",
+      "name": "Arbalète en Onyx Pur",
+      "image": "/assets/items/official/previews/61bdb94cad7007fcd423e7aecf53010fcf90fb351f34b24d031414c0ac50d661.svg"
+    },
+    {
+      "officialId": "official_dagger_e33417050954d462",
+      "name": "Dague d'Améthyste",
+      "image": "/assets/items/official/previews/43d2cd992b8898cd13a7922d0168a48e630f19c9a486547aba6d82d5e63fee71.svg"
+    },
+    {
+      "officialId": "official_dagger_aa29d61b242aa6cd",
+      "name": "Dague du Bandit",
+      "image": "/assets/items/official/previews/a5d07852b5675432b84bf8753ec9087bb5cacdfcb0d1ab1332eff77f6d1c1994.svg"
+    },
+    {
+      "officialId": "official_dagger_7da91950aa045b34",
+      "name": "Dague en Bauxite",
+      "image": "/assets/items/official/previews/16dcf305e70179212691c7d2cfbacae05429dbc969b4339d378b4bb2f2053fd0.svg"
+    },
+    {
+      "officialId": "official_dagger_7acb16d9eadab64c",
+      "name": "Dague en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/62d5fa9a1bc0bd4be423fc4575194e2604a7fe4cefab318ac4ae3ce3009604f5.svg"
+    },
+    {
+      "officialId": "official_dagger_6adb589d51a1bc80",
+      "name": "Dague en Cuivre",
+      "image": "/assets/items/official/previews/fa64dfc890bd36d4c33ab09386e59cfb121b97894034c77099cb29b9948f3a4d.svg"
+    },
+    {
+      "officialId": "official_dagger_1eb470988e0d7562",
+      "name": "Dague en Fer-Acier",
+      "image": "/assets/items/official/previews/6675b4ef30128936018f38313427ffb883d7c1fb02e79f3ec37c3cf83f3db2d9.svg"
+    },
+    {
+      "officialId": "official_dagger_fdd37c12f61bba12",
+      "name": "Dague en Fer",
+      "image": "/assets/items/official/previews/1519c330fa40bde31e0b77d8dd0e3a14edf78988c3b151131ec956658e0aa8fc.svg"
+    },
+    {
+      "officialId": "official_dagger_a0f649256bee8c53",
+      "name": "Dague en Ferraille",
+      "image": "/assets/items/official/previews/5905c008b6186a41d9ec7faf18f63612bedfbf571c195010c2ebf31f6f2d2063.svg"
+    },
+    {
+      "officialId": "official_dagger_7e0af776648fbd7e",
+      "name": "Dague Terrifiante",
+      "image": "/assets/items/official/previews/3eda4fb960c2eef21e371e5366339d6adf0ec04b603d30d2052ed8e7a8ce6244.svg"
+    },
+    {
+      "officialId": "official_dagger_f610cc9c2db0d748",
+      "name": "Dague de l'Héraut",
+      "image": "/assets/items/official/previews/7564c4360bb51a8f35d6f30c047c5763ee4f7dffae5a7aa3c8d91f611f377bf6.svg"
+    },
+    {
+      "officialId": "official_dagger_eb2b59ee20af66a5",
+      "name": "Dague Basique",
+      "image": "/assets/items/official/previews/30812ec50519005468e81a6ed12cb275c9ef331edde79ccb0f4be8100b3a3300.svg"
+    },
+    {
+      "officialId": "official_dagger_a1d2cf81f4860ff4",
+      "name": "Dague Déchue",
+      "image": "/assets/items/official/previews/c10dc6b96254a01081bb2c4984891fea468f301c1ff7e37e8e61e9e2fa62d422.svg"
+    },
+    {
+      "officialId": "official_dagger_b9198090a9702726",
+      "name": "Dague Médiocre",
+      "image": "/assets/items/official/previews/027e429750494c3b4b2ffa8478b7ae4e8c1aa6191f21025141b55f7177569c1b.svg"
+    },
+    {
+      "officialId": "official_dagger_3f35ee57dc605f15",
+      "name": "Dague de la Nodachi",
+      "image": "/assets/items/official/previews/b29fe6f2fc9416f5cd7b02758270449dad70968a2c802678bc3d84efd6e63e42.svg"
+    },
+    {
+      "officialId": "official_dagger_94da9e8953aa34da",
+      "name": "Dague en Onyx Impur",
+      "image": "/assets/items/official/previews/e0364fe16ff19f10fe3c66455c592fe34e97f359fd0ffcab2e85dbe256b54856.svg"
+    },
+    {
+      "officialId": "official_dagger_df230495fac0f7d1",
+      "name": "Dague en Onyx Pur",
+      "image": "/assets/items/official/previews/3d0328316c6355d67b6283c1a0c81fcb6855f90e02d989f9cdaeeaa639c77dfe.svg"
+    },
+    {
+      "officialId": "official_dagger_7ba9694b104b50b5",
+      "name": "Dague du Chasseur",
+      "image": "/assets/items/official/previews/14fa79d4274f519cd4d3d7df8d960b303348ae270fa95655403654d6743dd427.svg"
+    },
+    {
+      "officialId": "official_dagger_291f9b4e3c0a5aee",
+      "name": "Faux Assassine",
+      "image": "/assets/items/official/previews/1f9a037ad99f58bdd28b2d737ff8350d8f732c26088bb937ecd79b6a836fe30b.svg"
+    },
+    {
+      "officialId": "official_dagger_9a8182a598896619",
+      "name": "Faux d'Améthyste",
+      "image": "/assets/items/official/previews/95f29d9290de2f4efea25d4342cbf4ed0e53f1eafdfe53973f95b91fdd5934c2.svg"
+    },
+    {
+      "officialId": "official_dagger_ada7608553d0d5b1",
+      "name": "Faux Basique",
+      "image": "/assets/items/official/previews/77869cc6940a5abceb6de8485c8c1f3f4eb62d6a0b382f41beb390e53d6ede26.svg"
+    },
+    {
+      "officialId": "official_dagger_a908e68f52425a9a",
+      "name": "Faux en Bauxite",
+      "image": "/assets/items/official/previews/41b3b9a47646fecc4d9256ad583521f99ad45b83bca5833ef65fa5e731ccc4cb.svg"
+    },
+    {
+      "officialId": "official_dagger_032f6d5acb746d53",
+      "name": "Faux du Chasseur",
+      "image": "/assets/items/official/previews/8271719ef872217acf6508b56af02b0cd99b443199684295c9326b8019270799.svg"
+    },
+    {
+      "officialId": "official_dagger_5d232738bf9e27bd",
+      "name": "Faux en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/1e6f000fd703dafb524da76fcdeffab1626baa5be4e10213ba9e1227fb0706e5.svg"
+    },
+    {
+      "officialId": "official_dagger_d9f1be710780ba23",
+      "name": "Faux en Cuivre",
+      "image": "/assets/items/official/previews/08e9adc41415c91e681799bcc8da95507bdd34d29e1ec60015f85131d9bf110a.svg"
+    },
+    {
+      "officialId": "official_dagger_32dd531260413929",
+      "name": "Faux d'Entraînement",
+      "image": "/assets/items/official/previews/ab3faad0da82f80fd367b8bdab52b66b478a995eff367e745ff42865d618554b.svg"
+    },
+    {
+      "officialId": "official_dagger_400d4b47d5453837",
+      "name": "Faux en Fer-Acier",
+      "image": "/assets/items/official/previews/a1480a9f0c3c9151b58a0a1f007e2315c37b1fb1687b0a2f936c9ea93515b405.svg"
+    },
+    {
+      "officialId": "official_dagger_4002dd3b1eceabcc",
+      "name": "Faux en Fer",
+      "image": "/assets/items/official/previews/277b9ecaa004071b6dda5b4d80912f24e34d5081c09f1abc0beb6a56d2f7539d.svg"
+    },
+    {
+      "officialId": "official_dagger_16b55a2f37f5d824",
+      "name": "Faux en Ferraille",
+      "image": "/assets/items/official/previews/34bdb88e3d984ff6bb70e5442a2c10ed59436d76aae9932d66e7d8801128cd06.svg"
+    },
+    {
+      "officialId": "official_dagger_da84c5e25285254a",
+      "name": "Faux de l'Héraut",
+      "image": "/assets/items/official/previews/25e37bcebd5ea2c77f703b7543d262db8b4d20c42616da60d5434513fc2e8193.svg"
+    },
+    {
+      "officialId": "official_dagger_5742560500192dbd",
+      "name": "Faux Déchue",
+      "image": "/assets/items/official/previews/cff079c83e82d2837b6425205abf119f7035dfc42fa802984b6445571a10cd01.svg"
+    },
+    {
+      "officialId": "official_dagger_f122e204397aa919",
+      "name": "Faux Nécromancien",
+      "image": "/assets/items/official/previews/34e8bbe2d7065e8720655c16133c2dc3f2dc8d2aa45b9c67c2549edc88f738a1.svg"
+    },
+    {
+      "officialId": "official_dagger_d5da45c57d6d9927",
+      "name": "Faux Noël",
+      "image": "/assets/items/official/previews/702ff3ec811e387a4154216a430bc6ae63ec40c3b4cfbca5300cdbc7d3469cfe.svg"
+    },
+    {
+      "officialId": "official_dagger_21898c345d47ad03",
+      "name": "Faux en Onyx Impur",
+      "image": "/assets/items/official/previews/9777f662a1d2707c60dfe99034367fb97156086294d749c24d0b749ca753d070.svg"
+    },
+    {
+      "officialId": "official_dagger_065c299fe04d2eb0",
+      "name": "Faux en Onyx Pur",
+      "image": "/assets/items/official/previews/a22227046bb776172b045ffcbf7eb13e9a9e7106c6315ac0810791c9a52e9490.svg"
+    },
+    {
+      "officialId": "official_dagger_6867d54128bd454b",
+      "name": "Faux d'Amour",
+      "image": "/assets/items/official/previews/9b2606c844b826235e95942b9231acd0e4dc21f69d169ce39e92f9cb9ac83911.svg"
+    },
+    {
+      "officialId": "official_dagger_d3966ad29b277fa4",
+      "name": "Katana Assassin",
+      "image": "/assets/items/official/previews/37c65e46480891e74658caa409a1eba267f28ff6dbab4cb9b88cfa35f8397a48.svg"
+    },
+    {
+      "officialId": "official_dagger_9301bd5d932885f6",
+      "name": "Katana Nécromancien",
+      "image": "/assets/items/official/previews/69f5aa8ab1d692758dbadcb63fcccfc5e6fe782b20f431c6c32854c62b2b25b1.svg"
+    },
+    {
+      "officialId": "official_dagger_6e154c630d67e302",
+      "name": "Serpe Assassine",
+      "image": "/assets/items/official/previews/456336771f2c1fa5895eaf4488b11c8b6e90f021d46cb674eb6e9a98145a3496.svg"
+    },
+    {
+      "officialId": "official_dagger_1a7249c9281b91dd",
+      "name": "Serpe Nécromancienne",
+      "image": "/assets/items/official/previews/9d1319f11529cfed4ce34c7d5d5671aa9cf9c29c680ab342083030f5bae75734.svg"
+    },
+    {
+      "officialId": "official_dungeon_key_929f104d7c6101e7",
+      "name": "Clé de Xal’Zirith",
+      "image": "/assets/items/official/previews/95ba9bdde453ba4159d0792d2b051f8275c874a0c979440b87ec603c838cef8d.svg"
+    },
+    {
+      "officialId": "official_dungeon_key_39220f345702460a",
+      "name": "Clé de Melliona",
+      "image": "/assets/items/official/previews/30ee425ff0918dc12f7a69ddf665575d1ccdae3cbd2aa1b294016b0588a84dd7.svg"
+    },
+    {
+      "officialId": "official_fortifier_8219f3ed71105f10",
+      "name": "Potion d’Albal",
+      "image": "/assets/items/official/previews/739778344c853c6a48eeb773a0bbc7c6bb5091d4073b6d9af349fd30cff95a4b.svg"
+    },
+    {
+      "officialId": "official_fortifier_eead80a4d91e7418",
+      "name": "Goutte de Sève",
+      "image": "/assets/items/official/previews/c66d4c0c42e29969207bb79dd4e36ad6838b762bf7740117198caa17fa9599e7.svg"
+    },
+    {
+      "officialId": "official_fortifier_cde30f32c500fa08",
+      "name": "Potion de l’Écorcheur d’Âmes",
+      "image": "/assets/items/official/previews/da19f823316db9929e8d59f9982e0d3818cf873109d3bb8a54069cca4e3b6c17.svg"
+    },
+    {
+      "officialId": "official_fortifier_20067ab455066220",
+      "name": "Potion de la Sorcière (Défense)",
+      "image": "/assets/items/official/previews/de7d58fa92b27a3584770801865e87b2b7e21a7f4789bd97c59e5366190bf8aa.svg"
+    },
+    {
+      "officialId": "official_fortifier_eabc5cb6d0b32ea9",
+      "name": "Potion de la Sorcière (Dextérité)",
+      "image": "/assets/items/official/previews/99a378e00abe05688734e520dccca9a99a1454cb75b4af3b98a7b7ab653a9feb.svg"
+    },
+    {
+      "officialId": "official_fortifier_95518c41096b3b5c",
+      "name": "Potion de la Sorcière (Esprit)",
+      "image": "/assets/items/official/previews/a67ed98136d80b456a9269da60ff7d3324bccdbb93f814a8b96df2cf0c2b4b5e.svg"
+    },
+    {
+      "officialId": "official_fortifier_1d11e51669eb7c0a",
+      "name": "Potion de la Sorcière (Force)",
+      "image": "/assets/items/official/previews/ce8231d214b9098d0e6db5e1bb2af537e7bbc76570242f4d33bd403f3dda3392.svg"
+    },
+    {
+      "officialId": "official_fortifier_1ca150a16a098acb",
+      "name": "Potion de la Sorcière (Intelligence)",
+      "image": "/assets/items/official/previews/b26003b324a4cdc4ce3a3138bdb45d8a387feb4c9e2854c4f64c40e5615e4070.svg"
+    },
+    {
+      "officialId": "official_fortifier_f01c680f4b07086c",
+      "name": "Potion de la Sorcière (Vitalité)",
+      "image": "/assets/items/official/previews/09469d43cf98e9951857b068a8b9a97eabff54440cf91909b604f7b1afdce5ef.svg"
+    },
+    {
+      "officialId": "official_halloween_8f3a82b41b0896f8",
+      "name": "Arc des Murmures",
+      "image": "/assets/items/official/previews/8ec46c911fe93b2980f2d2d8c746f260a2eca6b96f46da339a907324f9438910.svg"
+    },
+    {
+      "officialId": "official_halloween_b390910fbfaa6595",
+      "name": "Faux Macabre",
+      "image": "/assets/items/official/previews/20913073f342dbe6ac84c45a7a39349cbadcd930d19f3f234bb6147b7d6d0b2c.svg"
+    },
+    {
+      "officialId": "official_halloween_d9f5acc7dae88552",
+      "name": "Claymore Crépusculaire",
+      "image": "/assets/items/official/previews/a07b4b3d05fdbaed9be9887a82397ca469791c37dd8f40e390b954495a264219.svg"
+    },
+    {
+      "officialId": "official_halloween_12c3e0ea07417773",
+      "name": "Sceptre Maudit",
+      "image": "/assets/items/official/previews/4fef193525707d3c0ce513ce32821a4adb8fd068df80993967d376ce2afc21db.svg"
+    },
+    {
+      "officialId": "official_key_crate_ea8165d3ff0a49c4",
+      "name": "Clé des Bois Anciens",
+      "image": "/assets/items/official/previews/20940f00f83d44be90b2bb1c7e4bc7bc9bed090649776c20da238a99903518e4.svg"
+    },
+    {
+      "officialId": "official_key_crate_609c9b2a4fd9cff4",
+      "name": "Clé d'Amour",
+      "image": "/assets/items/official/previews/53e1bd08e1990ca80f82c87bfc4039328607a7f99a059faedbbfbc6a7c6ca9f5.svg"
+    },
+    {
+      "officialId": "official_key_crate_e395057a5afdc45b",
+      "name": "Clé Halloween",
+      "image": "/assets/items/official/previews/ce8bae5a95ff791da8f23a61a1dd07b5da87c00334f41df7be1a1eaced9c340b.svg"
+    },
+    {
+      "officialId": "official_key_crate_38f1f351bdd8838b",
+      "name": "Clé Noël",
+      "image": "/assets/items/official/previews/a9d822aa9f0208cd116e4a79af0cc1d4d4291916257a031fc7210198af62a358.svg"
+    },
+    {
+      "officialId": "official_key_crate_0f68dc89cc5fed1f",
+      "name": "SUPER Clé Noël",
+      "image": "/assets/items/official/previews/a9d822aa9f0208cd116e4a79af0cc1d4d4291916257a031fc7210198af62a358.svg"
+    },
+    {
+      "officialId": "official_lunar_faf54dce226cf6a7",
+      "name": "Fusée Lunaire",
+      "image": "/assets/items/official/previews/e5c4d671f8ac89f5194d93618c91008b522828f41c52190a78c6a89ef9e2135f.svg"
+    },
+    {
+      "officialId": "official_lunar_2cbcfaabd4f4ef6e",
+      "name": "Petards Lunaire",
+      "image": "/assets/items/official/previews/48684c049b9fcea9e742263e124f2158ceff075bac0c3defeea000aa6f600e10.svg"
+    },
+    {
+      "officialId": "official_material_4cba4dc6679319da",
+      "name": "Brindille Enchantées",
+      "image": "/assets/items/official/previews/f71c7e6a799732d3490f343050965e18b65fa6c8c5ffc40074e03ae26a3819d1.svg"
+    },
+    {
+      "officialId": "official_material_e37022925e99b875",
+      "name": "Fragments de Feuilles",
+      "image": "/assets/items/official/previews/bf9351d0dc2b2d4ebaf6db9732b4b7b5a66ccf2f39bf53dae5833da6347eed15.svg"
+    },
+    {
+      "officialId": "official_miner_job_fa28100e28a3dbf7",
+      "name": "Lingot de Cuivre",
+      "image": "/assets/items/official/previews/c892d39c9c50985fadc8b339c0a6b3f7540c40032e1e36af3e9bde7ca40e69fe.svg"
+    },
+    {
+      "officialId": "official_miner_job_5e7413d62547e328",
+      "name": "Lingot de Fer",
+      "image": "/assets/items/official/previews/9515773a5ceeae2eb2923894df0a12f42dcdb8b59dfbb5e29b393cd473b6e47d.svg"
+    },
+    {
+      "officialId": "official_noel2025_8b45e6417615686b",
+      "name": "Potion de Lumière",
+      "image": "/assets/items/official/previews/6e8a47cf62c662c66944c47cdd60178155438954c39a2c2d1d02c4328463a5b6.svg"
+    },
+    {
+      "officialId": "official_noel2025_7625ad7b044563af",
+      "name": "Cloche de Noël",
+      "image": "/assets/items/official/previews/3e309f5c59321fb6fb3d430b960e0a17dc481148f13918e866004381133f3f6f.svg"
+    },
+    {
+      "officialId": "official_shield_bb4362cd8466acef",
+      "name": "Bouclier Putride",
+      "image": "/assets/items/official/previews/fc6f6e8b187d09e22bd4377b197acaa9e73f504302d5aa432042e698b2112d6a.svg"
+    },
+    {
+      "officialId": "official_shield_546cf64bade48173",
+      "name": "Pavois du Nécromancien",
+      "image": "/assets/items/official/previews/10fceff7195d264c2e0c73ba822f36bad30395d0d180af4942faba227b1605bf.svg"
+    },
+    {
+      "officialId": "official_shield_63cca1fa92f1d4ae",
+      "name": "Bouclier Hivernale",
+      "image": "/assets/items/official/previews/f0da79b4a161eb0492dd829ecd17c66459e62ba36521b5989b4c2c19903849ec.svg"
+    },
+    {
+      "officialId": "official_shield_6c963fad43980b6b",
+      "name": "Pavois du Dard",
+      "image": "/assets/items/official/previews/d2902fd9eb1ad54870d460d873a3f0892f6887a6356e06d1a122dd8ffbeec033.svg"
+    },
+    {
+      "officialId": "official_shield_0474922965232c81",
+      "name": "Rondache en Bois Piqué",
+      "image": "/assets/items/official/previews/cb6c7e53d0f546a1b9934f42e7758c86d0da52eaf129332cb0afac92102dceb0.svg"
+    },
+    {
+      "officialId": "official_shield_a1220169a21aac71",
+      "name": "Bouclier Simple",
+      "image": "/assets/items/official/previews/ce6e87b0db7ae5cfc350e216f228f0dcecbf3f7beb7a5116cfcb4733e7aecc04.svg"
+    },
+    {
+      "officialId": "official_shield_605f9b1ccd661652",
+      "name": "Rondache du Magicien",
+      "image": "/assets/items/official/previews/b286fd8b4eb505858bffa8256bebadecc846a789db1c9041b3f5eecc10163f81.svg"
+    },
+    {
+      "officialId": "official_shield_07e1313b253cb8e0",
+      "name": "Pavois du Magicien",
+      "image": "/assets/items/official/previews/2f0dad67ce890806984e21f0b045c671f8f1ebd9374ab92c14243521e78861d4.svg"
+    },
+    {
+      "officialId": "official_shield_c5ee46ea3c1c2191",
+      "name": "Pavois d'Améthyste",
+      "image": "/assets/items/official/previews/918afab80d3d4798bc0621150d783f3f3f4ff283099a383bb7bb461ae7664c44.svg"
+    },
+    {
+      "officialId": "official_shield_1bf33f1ce7d562a6",
+      "name": "Pavois en Bauxite",
+      "image": "/assets/items/official/previews/af8a3a37233532d8fbe2db92d7be5bf831e23036c4c3da6f9cf6d8aaeeef87d6.svg"
+    },
+    {
+      "officialId": "official_shield_e34ffd1f3c839647",
+      "name": "Pavois des Bois Anciens",
+      "image": "/assets/items/official/previews/f949c1db4ee0289b27ed15ec538b64ed1e111b0fefc65f28cb5cfe4d28e7c551.svg"
+    },
+    {
+      "officialId": "official_shield_6de7d713df799866",
+      "name": "Pavois en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/3c5a70989531e170e869055886978b6a6d93b4d154f2514cb680049cf4e4b33a.svg"
+    },
+    {
+      "officialId": "official_shield_a78bbeffab367081",
+      "name": "Pavois en Cuivre",
+      "image": "/assets/items/official/previews/6dba02ed91ba7eb181e4e05484126f4ee6da15821dba2c7604439765379c0afc.svg"
+    },
+    {
+      "officialId": "official_shield_52abae9ebd034d1c",
+      "name": "Pavois d'entraînement",
+      "image": "/assets/items/official/previews/90e448d31afdf6f1b0f44b99bd5a8176fff77189fdd6274eb785be542c29fe9a.svg"
+    },
+    {
+      "officialId": "official_shield_a21aefce98ddbdd4",
+      "name": "Pavois en Fer-Acier",
+      "image": "/assets/items/official/previews/43d2d89577c8ee24a297a35483bf3aebd6c21598f5e1fb5851fc4133e81201e6.svg"
+    },
+    {
+      "officialId": "official_shield_81ffb93e4b4ba46b",
+      "name": "Pavois en Fer",
+      "image": "/assets/items/official/previews/cb7de6aea998c4d16a5dc0beabbb4b4e68b5cd6c969bcd7ee40b74c95f8d2c76.svg"
+    },
+    {
+      "officialId": "official_shield_ab2792d93deb6d02",
+      "name": "Pavois en Ferraille",
+      "image": "/assets/items/official/previews/e8c636f409abd8c9a669f48724c5ee44160ee31c1b7f40257ac0f694388b3c73.svg"
+    },
+    {
+      "officialId": "official_shield_a5bb11e1d8fd199a",
+      "name": "Pavois en Onyx Impur",
+      "image": "/assets/items/official/previews/fa92dc49fd3e8945b35f6f403f372d5f02d8e51facc6c1cb750620e4fcbabea7.svg"
+    },
+    {
+      "officialId": "official_shield_4e19b5aeaf213032",
+      "name": "Pavois en Onyx Pur",
+      "image": "/assets/items/official/previews/49a5d3c6ca6720647368a5af77fc02d4db94f279eacc04ae14b099461508aed0.svg"
+    },
+    {
+      "officialId": "official_shield_5fe4908284b3d825",
+      "name": "Rondache du Dard",
+      "image": "/assets/items/official/previews/548c9288d71464701bae2eb5ed5eeafce1d775082aa3c52a7cafab55b7d86574.svg"
+    },
+    {
+      "officialId": "official_shield_bd9963ba5c7cac58",
+      "name": "Rondache d'Améthyste",
+      "image": "/assets/items/official/previews/6bad0ea7827402c23c0840b7948ce536ae9d1070b915805ff38044018c993a7e.svg"
+    },
+    {
+      "officialId": "official_shield_83943ca99da31a47",
+      "name": "Rondache en Bauxite",
+      "image": "/assets/items/official/previews/60b219a42953b26412fa2d779a47d53aa50088cffed604f5a51af67e76eb96b1.svg"
+    },
+    {
+      "officialId": "official_shield_b1a1fb0474eed553",
+      "name": "Rondache des Bois Anciens",
+      "image": "/assets/items/official/previews/e182a0db2602c30836169ef7805206c80a87d7ac6ce986c252afc162beae5bf3.svg"
+    },
+    {
+      "officialId": "official_shield_e25827d6d5ef2cd4",
+      "name": "Rondache en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/35639888126c1c042980f471aee98f5528e6c2472dffb6a6f2b16057b34b52c0.svg"
+    },
+    {
+      "officialId": "official_shield_43a311cd7ec88012",
+      "name": "Rondache en Cuivre",
+      "image": "/assets/items/official/previews/fda341f14f7fe875cc5979b4b19f36e505d12ba52bac678151930b9b41ac3644.svg"
+    },
+    {
+      "officialId": "official_shield_e2982e671309d595",
+      "name": "Rondache d'entraînement",
+      "image": "/assets/items/official/previews/90e448d31afdf6f1b0f44b99bd5a8176fff77189fdd6274eb785be542c29fe9a.svg"
+    },
+    {
+      "officialId": "official_shield_161672cf6fcf92f6",
+      "name": "Rondache en Fer-Acier",
+      "image": "/assets/items/official/previews/9ee7dda498b2defe1036c40d2159ae81f7f269d10667fe2e569212cf08060147.svg"
+    },
+    {
+      "officialId": "official_shield_022ab3e582eda913",
+      "name": "Rondache en Fer",
+      "image": "/assets/items/official/previews/e15d6640852f92ef94b8e7d9dbaa1c286de6280d79ef915e4e0fef439e46edf0.svg"
+    },
+    {
+      "officialId": "official_shield_2344d5d509f2a251",
+      "name": "Rondache en Ferraille",
+      "image": "/assets/items/official/previews/ca045263d4f3d908fb3bc2864febc87852b68f01702ceb0540adcdf8b09060a6.svg"
+    },
+    {
+      "officialId": "official_shield_98f2d6ea16918dec",
+      "name": "Rondache du Nécromancien",
+      "image": "/assets/items/official/previews/10fceff7195d264c2e0c73ba822f36bad30395d0d180af4942faba227b1605bf.svg"
+    },
+    {
+      "officialId": "official_shield_1641cecf7c27bef3",
+      "name": "Rondache en Onyx Impur",
+      "image": "/assets/items/official/previews/bce115d96665aaaefd0a34f04419b4f82c1a4fc76ea5bf42bd343c54e5b3529b.svg"
+    },
+    {
+      "officialId": "official_shield_44fb955a54a0003a",
+      "name": "Rondache en Onyx Pur",
+      "image": "/assets/items/official/previews/37a31a5ed8e96911924b711444ced3c8f01b25ba509e2147836b91d4516d3f73.svg"
+    },
+    {
+      "officialId": "official_shield_72e51c883a873cda",
+      "name": "Pavois Sylvestre",
+      "image": "/assets/items/official/previews/bcf9b026a66556ebba89a925b6203c6e545ce928d8a48cb6d03b1988657194a4.svg"
+    },
+    {
+      "officialId": "official_staff_mage_e8a85626811092fa",
+      "name": "Bâton Magique du Dard",
+      "image": "/assets/items/official/previews/130c6656cabcff1190704c2cc9256a56ce95e7b67eb5892245cb72365b43b468.svg"
+    },
+    {
+      "officialId": "official_staff_mage_47672cfddbdea2d1",
+      "name": "Bâton Magique en Améthyste",
+      "image": "/assets/items/official/previews/baa820d02d6ef602a39268d80d7a1101061340bde9c13af6a34bd7ff28ae7e21.svg"
+    },
+    {
+      "officialId": "official_staff_mage_dd2990bbca1632c2",
+      "name": "Bâton Magique en Bauxite",
+      "image": "/assets/items/official/previews/bc925751464e1c212ff36a57186712e433e08535b398cc3801ba8799656bc0a2.svg"
+    },
+    {
+      "officialId": "official_staff_mage_9b3da3625ecf1c7e",
+      "name": "Bâton Magique des Bois Ancien",
+      "image": "/assets/items/official/previews/a715887b9230344f735e813a73ec5848a5bf80baad7c637c8ded7a04e8f26cc4.svg"
+    },
+    {
+      "officialId": "official_staff_mage_bcfdf485ce59bf3a",
+      "name": "Bâton Magique en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/8b20828b2e882b4963364aa42159d9eb21c1473b6edda60c65e9b2c512480858.svg"
+    },
+    {
+      "officialId": "official_staff_mage_9a913a7a22685079",
+      "name": "Bâton Magique en Cuivre",
+      "image": "/assets/items/official/previews/2534131b1b41f0f9267ca8b2b911bf7c0f5ef0fa62e536793447d6a71098f1f9.svg"
+    },
+    {
+      "officialId": "official_staff_mage_a3b1c1e9578c8838",
+      "name": "Bâton Magique d'Entraînement",
+      "image": "/assets/items/official/previews/97147d241b949009e9afcff68f98a3e298fa1a23bd9f2d348d8f0091b44b5f5e.svg"
+    },
+    {
+      "officialId": "official_staff_mage_5a000996f908de5d",
+      "name": "Bâton Magique en Fer d'Acier",
+      "image": "/assets/items/official/previews/a6c3a0d4f7fe05ab2f0267702d4fc229e26b00cdd25ce039678bae228115fcb9.svg"
+    },
+    {
+      "officialId": "official_staff_mage_42a260ec259c03dc",
+      "name": "Bâton Magique en Fer",
+      "image": "/assets/items/official/previews/603966facd293438da001c0b2543bbfcc0e754e66e2bae7c91d268bfeb37a079.svg"
+    },
+    {
+      "officialId": "official_staff_mage_b45cb33c250976d9",
+      "name": "Bâton Magique en Ferraille",
+      "image": "/assets/items/official/previews/b03e6b08a6bfd353ed41e2b425f48d7a25207ab3607b6ce7845eacd40ff7dd2e.svg"
+    },
+    {
+      "officialId": "official_staff_mage_938da22369f96f4e",
+      "name": "Bâton Magique Maudit",
+      "image": "/assets/items/official/previews/4fef193525707d3c0ce513ce32821a4adb8fd068df80993967d376ce2afc21db.svg"
+    },
+    {
+      "officialId": "official_staff_mage_9f53df775a839e2d",
+      "name": "Spectre Maudit",
+      "image": "/assets/items/official/previews/4fef193525707d3c0ce513ce32821a4adb8fd068df80993967d376ce2afc21db.svg"
+    },
+    {
+      "officialId": "official_staff_mage_2b385d6d0c1fc685",
+      "name": "Bâton Magique Déchu",
+      "image": "/assets/items/official/previews/3b3a81ad3cdc99b4b2dc6cea4c6616fc96f1327e21e62f5f779b7019c7902541.svg"
+    },
+    {
+      "officialId": "official_staff_mage_60dff2af623f009d",
+      "name": "Bâton Magique du Nécromancien",
+      "image": "/assets/items/official/previews/56a83e48e905f88b6cf775ede60339cbf2799c9348f9e7412b5da8d18f6bc38b.svg"
+    },
+    {
+      "officialId": "official_staff_mage_0263ccddca562113",
+      "name": "Bâton Magique Nodachi",
+      "image": "/assets/items/official/previews/d24383516c138817aa36ea57ef2ec36be2de76f4d5cc73622c3449de28515ff6.svg"
+    },
+    {
+      "officialId": "official_staff_mage_c14dc33d63950ee0",
+      "name": "Bâton Magique Hivernal",
+      "image": "/assets/items/official/previews/2b29dd32212a840d158b8c613747f381ad111af3285ff0636db5a1899ea9bb73.svg"
+    },
+    {
+      "officialId": "official_staff_mage_b4ef793fc9ab2cfc",
+      "name": "Spectre Hivernale",
+      "image": "/assets/items/official/previews/2b29dd32212a840d158b8c613747f381ad111af3285ff0636db5a1899ea9bb73.svg"
+    },
+    {
+      "officialId": "official_staff_mage_ec5bdeb234e92102",
+      "name": "Bâton Magique Obscur",
+      "image": "/assets/items/official/previews/b0b3c480aa17056b3f99948f29f815311f9db1c227160c9fc4082bed2a8925ae.svg"
+    },
+    {
+      "officialId": "official_staff_mage_e2324fad71777f8c",
+      "name": "Bâton Magique en Onyx Impur",
+      "image": "/assets/items/official/previews/fcac5abfd0060cb866b2ec40a65f0c2ade5f2c965c920aff5c77fd84adfedf19.svg"
+    },
+    {
+      "officialId": "official_staff_mage_7f766ff4a11a997c",
+      "name": "Bâton Magique en Onyx Pur",
+      "image": "/assets/items/official/previews/3645372020c971eb47f4dea999c9c8928106fc0a98876047ea8a28b671b546f3.svg"
+    },
+    {
+      "officialId": "official_staff_mage_eb0aaeac0e2a92d7",
+      "name": "Bâton Magique des Ruines",
+      "image": "/assets/items/official/previews/8f54f11ac0a6e53cdbb58e2dd7009b177cc12134e7fb68353ca2cd2920fbcc53.svg"
+    },
+    {
+      "officialId": "official_staff_mage_ba0c237ecbd729a0",
+      "name": "Bâton Magique Sylvestre",
+      "image": "/assets/items/official/previews/421a904783682c5580468298fe045d95cd2807a84057df2a9e4353672b6019dc.svg"
+    },
+    {
+      "officialId": "official_staff_mage_27d049917528be28",
+      "name": "Orbe d'Avarice",
+      "image": "/assets/items/official/previews/6274806fde941ee5453e0b59578d7f4a51df112a346f6e69e8c4915dd2650ccd.svg"
+    },
+    {
+      "officialId": "official_staff_mage_0cf5aa481031a10a",
+      "name": "Orbe d'Avarice",
+      "image": "/assets/items/official/previews/6274806fde941ee5453e0b59578d7f4a51df112a346f6e69e8c4915dd2650ccd.svg"
+    },
+    {
+      "officialId": "official_staff_mage_a44eda9a34375259",
+      "name": "Orbe d'Avarice",
+      "image": "/assets/items/official/previews/6274806fde941ee5453e0b59578d7f4a51df112a346f6e69e8c4915dd2650ccd.svg"
+    },
+    {
+      "officialId": "official_staff_shaman_2d961accae2d229a",
+      "name": "Spectre Maudit",
+      "image": "/assets/items/official/previews/4fef193525707d3c0ce513ce32821a4adb8fd068df80993967d376ce2afc21db.svg"
+    },
+    {
+      "officialId": "official_staff_shaman_cdd7df5be782dd4d",
+      "name": "Bâton Magique du Magicien",
+      "image": "/assets/items/official/previews/ae9604245db1cc140bc3111bcc8f5e86d396477eab24fc8d6afaa99fb6db591f.svg"
+    },
+    {
+      "officialId": "official_sword_aff9a052c61cf8b2",
+      "name": "Bâton Lanterne",
+      "image": "/assets/items/official/previews/d6cf4b247b74758e706635282b0a158b370ab67ab92f1752b40d45c26d6ec1d6.svg"
+    },
+    {
+      "officialId": "official_sword_6e69ea3a3227cfde",
+      "name": "Bouquet de Fleur",
+      "image": "/assets/items/official/previews/f04314c19fc490749a0ff386eb2c29bef0791534794763078c8b8fe3010c5a67.svg"
+    },
+    {
+      "officialId": "official_sword_f544f8068d3f3ac8",
+      "name": "Claymore Hivernale",
+      "image": "/assets/items/official/previews/2729e255866edb9bfcad8905c617e25cd552416b1179de899cdcc84d7333417d.svg"
+    },
+    {
+      "officialId": "official_sword_2927b3a9067fb90d",
+      "name": "Double Hache en Fer",
+      "image": "/assets/items/official/previews/fd103c12a1acc2c7d37f7ccae1c8a07d617bf7050a594694d121bc576c0a5268.svg"
+    },
+    {
+      "officialId": "official_sword_adca2070d44deecd",
+      "name": "Hache Double Déchue",
+      "image": "/assets/items/official/previews/fb3ba51b010bb11bb0e58badb50682ff0fa86a8f9449f4c6a46c45dd3a5366e1.svg"
+    },
+    {
+      "officialId": "official_sword_6a839081ac453535",
+      "name": "Épée du Dard",
+      "image": "/assets/items/official/previews/b3a96b1c741b491e227b79d630d13902728cf95d442808160947a0304fb09edb.svg"
+    },
+    {
+      "officialId": "official_sword_86bd8c65d4893491",
+      "name": "Épée en Améthyste",
+      "image": "/assets/items/official/previews/8975b659e8d6ac5a18c72131b421f9f8d9e487f9873b640a8bee7f10cc72a5ee.svg"
+    },
+    {
+      "officialId": "official_sword_cdb38c6fa8f44646",
+      "name": "Épée en Bauxite",
+      "image": "/assets/items/official/previews/e46c78fa91b452d7f9ecff11317dbfb8d229d4992c7926093e4200d4473f5d64.svg"
+    },
+    {
+      "officialId": "official_sword_8f49bf91676be8b7",
+      "name": "Épée des Dunes",
+      "image": "/assets/items/official/previews/1f77cb4485a1fb7cf09b226920ea1c59a94f022ea580e25eff6d6bcfa104e5b5.svg"
+    },
+    {
+      "officialId": "official_sword_825ad790f3e0bab6",
+      "name": "Épée en Ferraille",
+      "image": "/assets/items/official/previews/05766f45598038031db0472fd491a11e14e1c1a0acc589a297772c67f8f5b5b7.svg"
+    },
+    {
+      "officialId": "official_sword_d0741bfa46975ec2",
+      "name": "Épée Terrifiante",
+      "image": "/assets/items/official/previews/a07b4b3d05fdbaed9be9887a82397ca469791c37dd8f40e390b954495a264219.svg"
+    },
+    {
+      "officialId": "official_sword_0917a0d0c8d9de35",
+      "name": "Epée Déchue",
+      "image": "/assets/items/official/previews/99bc0a35854943e2362879fa86b8722950d29eb897d5a4ec07f93bba44fe3f89.svg"
+    },
+    {
+      "officialId": "official_sword_1e26ba7540e5be18",
+      "name": "Épée Longue du Dard",
+      "image": "/assets/items/official/previews/286478780aa1e5ba58fe14b9bc96d7d5d838ba2b49cda46dc104f5df63d232ea.svg"
+    },
+    {
+      "officialId": "official_sword_b2509f5bb616200e",
+      "name": "Epée Longue en Améthyste",
+      "image": "/assets/items/official/previews/27421035ec303e1f72fd7bef2e2652a912e9bd4e671cf0430164bf52ac16ce92.svg"
+    },
+    {
+      "officialId": "official_sword_55b8afdbbb90e860",
+      "name": "Epée Longue en Bauxite",
+      "image": "/assets/items/official/previews/c8cea17bc3d23984e3ffe5a43fdd4d5c53d0c61b1b1081bb77eafb243252b016.svg"
+    },
+    {
+      "officialId": "official_sword_4c8638685b4290e3",
+      "name": "Epée Longue en Ferraille",
+      "image": "/assets/items/official/previews/b0163942bf07e311285e55a1cd9d15a2f1c99dc6c156e1795b14485e1aa68b90.svg"
+    },
+    {
+      "officialId": "official_sword_ed154f7c87a5e171",
+      "name": "Epée Longue du Nécromancien",
+      "image": "/assets/items/official/previews/04744786d5adeed7b6cb75512f965cba14b15eb126cf7bcd87fac407d3deb131.svg"
+    },
+    {
+      "officialId": "official_sword_1380480cb45e6098",
+      "name": "Epée Longue en Onyx Impur",
+      "image": "/assets/items/official/previews/96b7a67cf4fd13f73fa9beebb22ba6571ed6780ac3a062268d0d79257f91d3c1.svg"
+    },
+    {
+      "officialId": "official_sword_888168201049ff51",
+      "name": "Epée Longue en Onyx Pur",
+      "image": "/assets/items/official/previews/17ce1c6f27ec59d2e704c9228ae62b41ae9c6f819efbc00217102d8788fdfcf9.svg"
+    },
+    {
+      "officialId": "official_sword_816fa825f8acf596",
+      "name": "Épée Médiocre",
+      "image": "/assets/items/official/previews/b5be40def3c838524eccbba86119d2187a9463b1c30b3d2b546e0bf0210b1073.svg"
+    },
+    {
+      "officialId": "official_sword_1ccb87aa649d15d2",
+      "name": "Épée du Nécromancien",
+      "image": "/assets/items/official/previews/704150f324f9a4c4c8ca34ea8bb6419ed6d339f18e8a01d72f74c1e5c543d233.svg"
+    },
+    {
+      "officialId": "official_sword_d26b4644d79b0fda",
+      "name": "Épée en Onyx Impur",
+      "image": "/assets/items/official/previews/6adc69e4bb1e9fb71b06d7bd66b8c3e08984a56cc40da37dcb6e10606638fe77.svg"
+    },
+    {
+      "officialId": "official_sword_a69649f3248f088b",
+      "name": "Épée en Onyx Pur",
+      "image": "/assets/items/official/previews/d6af09ce7c9faecac0675d2fea9336e0fc30f2a4b1add0bd8cf8141e27b49ded.svg"
+    },
+    {
+      "officialId": "official_sword_98494d2e3156bcf5",
+      "name": "Épée Simple",
+      "image": "/assets/items/official/previews/b02fe241e4e21084fce88ae727c904d815cf3c70e5604b9e01fdea2b337c2a1f.svg"
+    },
+    {
+      "officialId": "official_sword_04514f561d5cd3e7",
+      "name": "Dague croc de Kasaka",
+      "image": "/assets/items/official/previews/8af354533458e6f9b6b99ac28f88baedcfa663c8c1fbcfb2f8253f4fa4048a1b.svg"
+    },
+    {
+      "officialId": "official_sword_253f65ccb84a06e1",
+      "name": "Espadon du Dard",
+      "image": "/assets/items/official/previews/9c939ec82ac7691d94de84e72ec0113319e19ca274a10a87b0fbbfca4e62d5ba.svg"
+    },
+    {
+      "officialId": "official_sword_9a1c2f164ef6610f",
+      "name": "Espadon en Améthyste",
+      "image": "/assets/items/official/previews/40abc3bb145fe8c79097ca887356e78eb487a49d04aac867f8c59ccbbeba2a9b.svg"
+    },
+    {
+      "officialId": "official_sword_410b36765f6811e0",
+      "name": "Espadon en Bauxite",
+      "image": "/assets/items/official/previews/b71b9ad816a4e24fe32250e3cf26941580ff28b409311193b34d00651b46e995.svg"
+    },
+    {
+      "officialId": "official_sword_fcd0f4f302d6ae92",
+      "name": "Espadon des Dunes",
+      "image": "/assets/items/official/previews/37e2e0a4447b539c995d8182bb5048002c03e6bbd61ea2d11c9c04d1ae5c93fa.svg"
+    },
+    {
+      "officialId": "official_sword_6f56b40e18264ff1",
+      "name": "Espadon du Fallen",
+      "image": "/assets/items/official/previews/0240d39979e0e3e0cdc789210590d4a7d55993a9651baf3f7f5e6c22df7c862d.svg"
+    },
+    {
+      "officialId": "official_sword_a1a68cf3779e7261",
+      "name": "Espadon en Ferraille",
+      "image": "/assets/items/official/previews/dea03056f91816804bb875f8a9ebcb5ecd84312d23b37bc2e3c9ff5697dd9180.svg"
+    },
+    {
+      "officialId": "official_sword_67ce75d6a4a9bd07",
+      "name": "Espadon du Nécromancien",
+      "image": "/assets/items/official/previews/82d7b4606443c3cd642525c6b28b2bc85a7b925a1141f5ae94dec348a9747caf.svg"
+    },
+    {
+      "officialId": "official_sword_2727c0e670961fc9",
+      "name": "Espadon en Onyx Impur",
+      "image": "/assets/items/official/previews/7d10c1d72394ec3c93a09a3361dd30803891d8d49ebe8b4acf80f64ba4c91d23.svg"
+    },
+    {
+      "officialId": "official_sword_ea9e350d581b4d2c",
+      "name": "Espadon en Onyx Pur",
+      "image": "/assets/items/official/previews/a1411d186baefbaa62a327ddd3afbb625c3cf0046ae0a36c22b192cd27a709d6.svg"
+    },
+    {
+      "officialId": "official_sword_a7a1f397c286e25c",
+      "name": "Hache de Guerre du Dard",
+      "image": "/assets/items/official/previews/397dade45ad1a5649da01fd02d6343911079574d5b4128d81281531c41beac47.svg"
+    },
+    {
+      "officialId": "official_sword_75391216f03bc305",
+      "name": "Hache Double en Bauxite",
+      "image": "/assets/items/official/previews/a0c34bc4f35eee50e0ccf69d9c1d3203293960bf0f9b7d181540c6beebd9e279.svg"
+    },
+    {
+      "officialId": "official_sword_99393fc7a59ab9cf",
+      "name": "Double Hache en Cuivre",
+      "image": "/assets/items/official/previews/efa64da8e30473360e534ec79b471b152c8e74cf480220c36cc26cd645846d89.svg"
+    },
+    {
+      "officialId": "official_sword_7a446fb5680a8085",
+      "name": "Hache Double des Dunes",
+      "image": "/assets/items/official/previews/9fe7a99b0e96604ecca1b737085af43e5ab6e0d722d91af8a2d4114ac442c1c2.svg"
+    },
+    {
+      "officialId": "official_sword_0c02e1735a161a84",
+      "name": "Hache Double Basique",
+      "image": "/assets/items/official/previews/0d1c70cde7c09335c84c99d5e474afa266e0d96da390c3c886179cb10a189be0.svg"
+    },
+    {
+      "officialId": "official_sword_473710bfb5c12f5f",
+      "name": "Hache Double en Ferraille",
+      "image": "/assets/items/official/previews/9eb5dd990958916cde57d2d23818ba471b9fcd6a832a0b46c45c7b5088d4ab5b.svg"
+    },
+    {
+      "officialId": "official_sword_ca4d97a02ff497a6",
+      "name": "Hache Double en Onyx Impur",
+      "image": "/assets/items/official/previews/2ad91be21837bb240ae67bca5cb82210f4c2bc5ed1f06e3e296a336dc09bcd2f.svg"
+    },
+    {
+      "officialId": "official_sword_be02b81ef25d1cea",
+      "name": "Hache Double en Onyx Pur",
+      "image": "/assets/items/official/previews/8993957dd0e982c98e0b44a079d2b7e0274b933fcf18750a6019318096957ee3.svg"
+    },
+    {
+      "officialId": "official_sword_816c64c7f581bdc8",
+      "name": "Hache de Guerre en Améthyste",
+      "image": "/assets/items/official/previews/6707e557830080415f514010719774ecdd9ecbd83794776ef98f0f8b2cd2b6c3.svg"
+    },
+    {
+      "officialId": "official_sword_7cb3cabd304ed69c",
+      "name": "Hache de Guerre en Cuivre Granuleux",
+      "image": "/assets/items/official/previews/7700873323f9a4d1d02a10cb7ed1d31fa6b14ffb97f432cf0b33a8bb699ae087.svg"
+    },
+    {
+      "officialId": "official_sword_ffaed4ebc44b60ac",
+      "name": "Hache de Guerre en Fer-Acier",
+      "image": "/assets/items/official/previews/1dc23e1d67d5cbcb57dfb2b23f772853e5b872799ad0cd059cb8ab54fbf44b8b.svg"
+    },
+    {
+      "officialId": "official_sword_2ce14b90e9f74569",
+      "name": "Hache Double du Nécromancien",
+      "image": "/assets/items/official/previews/fcda4a6d92871fa582985be3b1609eda9724f5dc4ce3ee4a3ad5f637fe401409.svg"
+    },
+    {
+      "officialId": "official_sword_a0a4a9702e4a60a7",
+      "name": "Hallebard du Fallen",
+      "image": "/assets/items/official/previews/7e9602e0dcdd9be3c24c8237b454ac6e43140fb74a07aa8e4889cfe02237ba40.svg"
+    },
+    {
+      "officialId": "official_sword_5c57be7ee3084c58",
+      "name": "Hache d'Illfang",
+      "image": "/assets/items/official/previews/d1abbceef507895feedd8e07eb03eaf0cd8ab1f0afc40329d8343507759f1681.svg"
+    },
+    {
+      "officialId": "official_sword_e1392b6d459678bd",
+      "name": "Lance du Dard Perçant",
+      "image": "/assets/items/official/previews/cf7f938b047e2fee707b4d1c138a0e1de563269b0cad6a416bc84c7068f874d9.svg"
+    },
+    {
+      "officialId": "official_sword_fbc4f4f06aea0912",
+      "name": "Longue Épée du Fallen",
+      "image": "/assets/items/official/previews/0240d39979e0e3e0cdc789210590d4a7d55993a9651baf3f7f5e6c22df7c862d.svg"
+    },
+    {
+      "officialId": "official_sword_59cebe760be1df56",
+      "name": "Longue Épée Médiocre",
+      "image": "/assets/items/official/previews/b5be40def3c838524eccbba86119d2187a9463b1c30b3d2b546e0bf0210b1073.svg"
+    },
+    {
+      "officialId": "official_sword_e4b226e48b8925f6",
+      "name": "Longue Épée Simple",
+      "image": "/assets/items/official/previews/b02fe241e4e21084fce88ae727c904d815cf3c70e5604b9e01fdea2b337c2a1f.svg"
+    },
+    {
+      "officialId": "official_sword_3c5ff6df2f1ddcdd",
+      "name": "Marteau du Magicien",
+      "image": "/assets/items/official/previews/6d133a264c7bb0ec7e807dc908d2812435b9da3bfdab48d04831c9c593908b76.svg"
+    },
+    {
+      "officialId": "official_sword_81e3b4c7cfa262c6",
+      "name": "Epée du Magicien",
+      "image": "/assets/items/official/previews/0931dc0c216d2cfe8db9eb5f89191e2d6fec5d032ac2808728fabbc1cf827699.svg"
+    },
+    {
+      "officialId": "official_sword_2e5385d268ac142d",
+      "name": "Marteau de Guerre du Dard",
+      "image": "/assets/items/official/previews/38eaa003320c45084eea55c5640faaf661bfcf26af7bcac422f72e8cde5f703e.svg"
+    },
+    {
+      "officialId": "official_sword_235e6c9022381dfb",
+      "name": "Marteau en Améthyste",
+      "image": "/assets/items/official/previews/489e5b7708c5f3d684e0e2aee9689eef201592c952129bcd70bb794a78b7875f.svg"
+    },
+    {
+      "officialId": "official_sword_e56973c1c5e9d5ed",
+      "name": "Marteau de Guerre en Bauxite",
+      "image": "/assets/items/official/previews/4f1a5cc0a581902091fd449694a485721017753e6b825d23f97a87188892299d.svg"
+    },
+    {
+      "officialId": "official_sword_bae6d4356eccb34c",
+      "name": "Marteau des Bois Anciens",
+      "image": "/assets/items/official/previews/66ede382965d7fa5e3a972ef2b7e5e71a2808541a15c8dd5e101dd30ddb8ea0c.svg"
+    },
+    {
+      "officialId": "official_sword_80f465ab108610bc",
+      "name": "Marteau de Guerre en Ferraille",
+      "image": "/assets/items/official/previews/ccb8884d25427dbf72820299d5337bd7171bbf3283524939c2a27f41771b5398.svg"
+    },
+    {
+      "officialId": "official_sword_5dae9fcfde6e01d9",
+      "name": "Marteau Crépusculaire",
+      "image": "/assets/items/official/previews/5564645ab0da7dbdd52132429330397ebe1bf8e9260ea71e1d39f02aa142e435.svg"
+    },
+    {
+      "officialId": "official_sword_b69c44ce6cfbc66c",
+      "name": "Marteau Du Nécromancien",
+      "image": "/assets/items/official/previews/182ea426d5f44d2c086f9fa55cd21e2bcc949dbd42d30db49b682705174bc74b.svg"
+    },
+    {
+      "officialId": "official_sword_e7c3f6a59115d243",
+      "name": "Marteau Hivernale",
+      "image": "/assets/items/official/previews/3a181b6b8816edbdfc48f5f3507c67369ef9db2f320096870116e6df12e58964.svg"
+    },
+    {
+      "officialId": "official_sword_37fce2bd0cee81cc",
+      "name": "Marteau de Guerre en Onyx Impur",
+      "image": "/assets/items/official/previews/d7b195a5fb743481bed4b239e17e4228562eae5a18fbed249b8e748d65b50bb3.svg"
+    },
+    {
+      "officialId": "official_sword_1337239089253f79",
+      "name": "Marteau de Guerre en Onyx Pur",
+      "image": "/assets/items/official/previews/941f0c52ce4d7f80ef6dfdad45cbbc9ec212cf8c29863a58927cd5d6f2463421.svg"
+    },
+    {
+      "officialId": "official_sword_62fc7fff0136c61c",
+      "name": "Marteau d'Amour",
+      "image": "/assets/items/official/previews/104afbaac08740108109e1940901c6da4d782e872eea43c7cd1a59cb86bea27f.svg"
+    },
+    {
+      "officialId": "official_sword_9ad5ca6727309c18",
+      "name": "Marteau du Colosse",
+      "image": "/assets/items/official/previews/eb55e5b886177866a0c63fd80b16ac711ec38d6cf2a8379f9ddaea41241bbeb0.svg"
+    },
+    {
+      "officialId": "official_sword_e190ec0717cc5f49",
+      "name": "Nodachi",
+      "image": "/assets/items/official/previews/0d7ecfcd6ee4b8576a95746cf0e2915c57c79008e9ba8b4685dd9dc2cc5c6532.svg"
+    },
+    {
+      "officialId": "official_sword_67ae0c5e54befa5d",
+      "name": "Massue des Sentinelles",
+      "image": "/assets/items/official/previews/c317a8e0ac0974ac60ddc3148e3ee859dc39540f310628e507464385d837cfa9.svg"
+    },
+    {
+      "officialId": "official_sword_89b31cdcc92baae9",
+      "name": "Épée Squelettique",
+      "image": "/assets/items/official/previews/fb218be9cd38025323b9e632a94e6f3f1c14bce7caa0dcc0e378ad23d6ed81ab.svg"
+    },
+    {
+      "officialId": "official_sword_c40b13b088118cb3",
+      "name": "Épée du Fallen",
+      "image": "/assets/items/official/previews/0240d39979e0e3e0cdc789210590d4a7d55993a9651baf3f7f5e6c22df7c862d.svg"
+    },
+    {
+      "officialId": "official_tool_b395cd4b11915327",
+      "name": "Hache de Métal",
+      "image": "/assets/items/official/previews/15eee6c2bca8df839c84af247d0698e2ec38bf0ffd489066e09d5eb3c3a1df4c.svg"
+    },
+    {
+      "officialId": "official_tool_f5e9c346d463587e",
+      "name": "Canne à Pêche en Métal",
+      "image": "/assets/items/official/previews/439d152439d374ba80ca9d3a2e42ec1cb065037339d2380872021ea7c0852705.svg"
+    },
+    {
+      "officialId": "official_tool_fbd108375f8afef9",
+      "name": "Houe en Métal",
+      "image": "/assets/items/official/previews/2eab42952fe8877cb559d1754208a815c03ce9dc4ce454ed9abcfa6cc26296e2.svg"
+    },
+    {
+      "officialId": "official_tool_c076404c0b797f36",
+      "name": "Pioche de Métal",
+      "image": "/assets/items/official/previews/59258a6566f410dee43af6b73d3234f27d9ac48b1a7cdbf2f00a7ef898a6afb1.svg"
+    },
+    {
+      "officialId": "official_tool_fb3c920fc345150a",
+      "name": "Hache de la Savane",
+      "image": "/assets/items/official/previews/6eec32ea50f5b7bdde63ed197d864fe783e10a0a8a313328078e1e1c387ab5e4.svg"
+    },
+    {
+      "officialId": "official_tool_a3fc9dadfe6df29c",
+      "name": "Houe de la Savane",
+      "image": "/assets/items/official/previews/6c50fc7f354a167e5782e4653f8d6f580881b9ede5d13be1f6184bfcb3daea40.svg"
+    },
+    {
+      "officialId": "official_tool_d4511aa8de6c6d5e",
+      "name": "Pioche de la Savane",
+      "image": "/assets/items/official/previews/0603177a72fe3a39c92a4b6d178d177874a3d362a9db4e2b21d25e3990e5cd7e.svg"
+    },
+    {
+      "officialId": "official_tool_590757c4a0071e73",
+      "name": "Hache de la Forêt",
+      "image": "/assets/items/official/previews/3872468f1049037090c424a174b7c2c29cbffea01e1a6baeff862219f3287389.svg"
+    },
+    {
+      "officialId": "official_tool_2977710f9e873f04",
+      "name": "Hache Nécrotique",
+      "image": "/assets/items/official/previews/0c89516a09ca76d7c6958f78f1237a8a583887ad1a4f43d621acfc7b337ca460.svg"
+    },
+    {
+      "officialId": "official_tool_6a1d9517933e8500",
+      "name": "Hache Renforcée",
+      "image": "/assets/items/official/previews/b22df3a9ea8be5fe44bae5a04a51a2e87575971bae9e41468cd7764b32a40af4.svg"
+    },
+    {
+      "officialId": "official_tool_e9e7830e03b81466",
+      "name": "Houe Nécrotique",
+      "image": "/assets/items/official/previews/9d1319f11529cfed4ce34c7d5d5671aa9cf9c29c680ab342083030f5bae75734.svg"
+    },
+    {
+      "officialId": "official_tool_281055f17ec38cd0",
+      "name": "Houe Renforcée",
+      "image": "/assets/items/official/previews/08dd05e929851d2d945f4bb5bdfdd3ada5d484f0dc4ec59690f5f80ff8b1e709.svg"
+    },
+    {
+      "officialId": "official_tool_34bc97e65263ac71",
+      "name": "Marteau de Forge",
+      "image": "/assets/items/official/previews/2f86a1081d4cc85b6a1c2986aba1090b184a596c484183e45d14c584a6a971af.svg"
+    },
+    {
+      "officialId": "official_tool_9e8f09c96a96c067",
+      "name": "Pioche Nécrotique",
+      "image": "/assets/items/official/previews/b62a85cfa71e3564e5c09615b8b024460f0d764a1afa0500156e8258a9c5cea7.svg"
+    },
+    {
+      "officialId": "official_tool_da47dd42186071d0",
+      "name": "Pioche Renforcée",
+      "image": "/assets/items/official/previews/70d57c480fafd868242f01c1c274deca7eb2dc9c6f618952347929f7bce5272b.svg"
+    },
+    {
+      "officialId": "official_tool_21766a8ec2c2b61e",
+      "name": "Hache Ébréchée",
+      "image": "/assets/items/official/previews/41b96a526e506a326453c724cc3654bddea191a51c0bcfe564ac5794b599535d.svg"
+    },
+    {
+      "officialId": "official_tool_8f04d2e69c14e285",
+      "name": "Canne à Pêche en Bois",
+      "image": "/assets/items/official/previews/7b2fa2c8b5cbcfd6249adc59cb85b5256593f6c65db53512aa05ee32bc6a51fb.svg"
+    },
+    {
+      "officialId": "official_tool_ffa24f68a1120ef7",
+      "name": "Serpe Tordue",
+      "image": "/assets/items/official/previews/ffd11fd49e203e1fab1c218d4b45090ef9262c255c301f65fba140791aebaa7d.svg"
+    },
+    {
+      "officialId": "official_tool_2ccf4ff9818d14ee",
+      "name": "Pioche Fêlée",
+      "image": "/assets/items/official/previews/3aaac5e4d3f880bf6fa3aa3919376b7a48d47079992a1b8959a783d0d04ad993.svg"
+    }
+  ],
+  "lost": [],
+  "factsSha256": "8fa04d9ce0beb5923d55a55bb2ad8fe7c2a3ac0d0eec38aba85eebacb6037cb9"
+}

@@ -7,6 +7,8 @@ let localUserProfile = null;
 let profileInitToken = 0;
 let minecraftLookupController = null;
 let profileLanguageBound = false;
+let profileAuthBound = false;
+let profileActorId = null;
 const MINECRAFT_USERNAME_PATTERN = /^[A-Za-z0-9_]{3,16}$/;
 const MINECRAFT_UUID_PATTERN = /^[0-9a-f]{32}$/i;
 const PROFILE_CLASSES = ['Shaman', 'Mage', 'Assassin', 'Guerrier', 'Archer'];
@@ -17,7 +19,12 @@ document.addEventListener('DOMContentLoaded', initProfilePage);
 // Attendre que l'authentification soit prête ET que l'utilisateur soit connecté
 async function initProfilePage() {
     const token = ++profileInitToken;
+    profileActorId = window.currentUser?.id || null;
     bindProfileTools();
+    if (!profileAuthBound) {
+        document.addEventListener('nameless:auth-changed', onProfileAuthChanged);
+        profileAuthBound = true;
+    }
     if (!profileLanguageBound) {
         document.addEventListener('nameless:languagechange', updateProfileLanguage);
         profileLanguageBound = true;
@@ -27,6 +34,7 @@ async function initProfilePage() {
     if (!await waitForAuthAndUser(token)) return;
 
     if (token !== profileInitToken) return;
+    profileActorId = window.currentUser?.id || null;
     await loadProfilePage(token);
 }
 
@@ -37,6 +45,47 @@ function destroyProfilePage() {
     minecraftLookupController = null;
     if (profileLanguageBound) document.removeEventListener('nameless:languagechange', updateProfileLanguage);
     profileLanguageBound = false;
+    if (profileAuthBound) document.removeEventListener('nameless:auth-changed', onProfileAuthChanged);
+    profileAuthBound = false;
+    profileActorId = null;
+}
+
+function onProfileAuthChanged() {
+    const nextActor = window.currentUser?.id || null;
+    if (nextActor && nextActor === profileActorId) return;
+    profileInitToken++;
+    profileActorId = nextActor;
+    localUserProfile = null;
+    if (minecraftLookupController) minecraftLookupController.abort();
+    minecraftLookupController = null;
+    const content = document.getElementById('profil-content');
+    const hadFocus = !!content?.contains(document.activeElement);
+    if (content) content.style.display = 'none';
+    for (const id of ['mc-display-name', 'profile-role', 'profile-class-summary', 'profile-level-summary', 'profile-character-state', 'profile-microsoft-state', 'profile-minecraft-state', 'profile-minecraft-username', 'profile-minecraft-uuid', 'profile-created', 'profile-feedback']) setText(id, '');
+    const avatar = document.getElementById('mc-avatar-img');
+    if (avatar) { avatar.removeAttribute('src'); avatar.alt = ''; }
+    for (const id of ['profile-classe', 'profile-niveau', 'minecraft-username-input']) {
+        const input = document.getElementById(id);
+        if (input) { input.value = ''; input.removeAttribute('aria-invalid'); }
+    }
+    const account = document.getElementById('profile-account');
+    if (account) account.open = false;
+    for (const id of ['dashboard-btn', 'guilde-btn']) document.getElementById(id)?.style.setProperty('display', 'none', 'important');
+    const saveButton = document.getElementById('save-profile-btn');
+    if (saveButton) {
+        saveButton.disabled = false;
+        saveButton.removeAttribute('aria-busy');
+        saveButton.textContent = profileLabel('Sauvegarder les modifications', 'Save changes');
+    }
+    setMinecraftLinkBusy(false);
+    if (!nextActor) {
+        showError('Vous devez être connecté pour voir votre profil.');
+        if (hadFocus) document.getElementById('profile-login-btn')?.focus();
+        return;
+    }
+    setElementDisplay('error-content', 'none');
+    setElementDisplay('loading', 'block');
+    initProfilePage().catch(() => showError('Impossible de charger votre profil. Veuillez reessayer.'));
 }
 
 function profileIsEnglish() {
@@ -190,8 +239,8 @@ function isMissingProfileError(error) {
         || message.indexOf('406') !== -1;
 }
 
-function getDefaultUsername() {
-    var userId = window.currentUser && window.currentUser.id ? String(window.currentUser.id).replace(/-/g, '') : '';
+function getDefaultUsername(profileUserId = window.currentUser?.id) {
+    var userId = profileUserId ? String(profileUserId).replace(/-/g, '') : '';
     var suffix = userId ? userId.substring(0, 6) : Math.random().toString(36).substring(2, 8);
     return 'Joueur_' + suffix;
 }
@@ -354,7 +403,7 @@ async function fetchPublicMinecraftProfile(username) {
     };
 }
 
-async function saveDetectedMinecraftProfile(minecraftProfile) {
+async function saveDetectedMinecraftProfile(minecraftProfile, userId) {
     var { data, error } = await supabase
         .from('user_profiles')
         .update({
@@ -363,7 +412,7 @@ async function saveDetectedMinecraftProfile(minecraftProfile) {
             minecraft_verified: false,
             minecraft_linked_at: new Date().toISOString()
         })
-        .eq('id', window.currentUser.id)
+        .eq('id', userId)
         .select('*')
         .single();
 
@@ -397,6 +446,7 @@ async function submitMinecraftPublicLink(event) {
     const token = profileInitToken;
     const button = document.getElementById('minecraft-link-btn');
     if (!window.currentUser || !button || button.disabled) return;
+    const userId = window.currentUser.id;
 
     var input = document.getElementById('minecraft-username-input');
     var username = normalizeMinecraftUsername(input ? input.value : '');
@@ -411,11 +461,11 @@ async function submitMinecraftPublicLink(event) {
 
     try {
         var minecraftProfile = await fetchPublicMinecraftProfile(username);
-        if (token !== profileInitToken || !window.currentUser) return;
+        if (token !== profileInitToken || window.currentUser?.id !== userId) return;
         setMinecraftLinkStatus('Profil public trouvé. Sauvegarde en cours...');
 
-        var updatedProfile = await saveDetectedMinecraftProfile(minecraftProfile);
-        if (token !== profileInitToken) return;
+        var updatedProfile = await saveDetectedMinecraftProfile(minecraftProfile, userId);
+        if (token !== profileInitToken || window.currentUser?.id !== userId) return;
         localUserProfile = updatedProfile;
         window.userProfile = updatedProfile;
         invalidateProfileCache();
@@ -449,11 +499,11 @@ function prepareMinecraftPublicLink(profile, hasMinecraftProfile) {
     setMinecraftLinkStatus('Minecraft non lié.');
 }
 
-async function fetchOwnProfile() {
+async function fetchOwnProfile(userId = window.currentUser?.id) {
     var query = supabase
         .from('user_profiles')
         .select('*')
-        .eq('id', window.currentUser.id);
+        .eq('id', userId);
 
     if (typeof query.maybeSingle === 'function') {
         return await query.maybeSingle();
@@ -462,12 +512,13 @@ async function fetchOwnProfile() {
     return await query.single();
 }
 
-async function createOwnPlayerProfile() {
+async function createOwnPlayerProfile(userId) {
+    if (!userId || window.currentUser?.id !== userId) throw new Error('profile_session_changed');
     var result = await supabase
         .from('user_profiles')
         .insert([{
-            id: window.currentUser.id,
-            username: getDefaultUsername(),
+            id: userId,
+            username: getDefaultUsername(userId),
             role: 'joueur'
         }])
         .select('*')
@@ -476,20 +527,21 @@ async function createOwnPlayerProfile() {
     if (!result.error) return result.data;
 
     if (result.error.code === '23505') {
-        var retry = await fetchOwnProfile();
+        var retry = await fetchOwnProfile(userId);
         if (!retry.error && retry.data) return retry.data;
     }
 
     throw result.error;
 }
 
-async function resolveOwnProfile() {
-    var result = await fetchOwnProfile();
+async function resolveOwnProfile(userId) {
+    var result = await fetchOwnProfile(userId);
+    if (!userId || window.currentUser?.id !== userId) throw new Error('profile_session_changed');
 
     if (!result.error && result.data) return result.data;
 
     if (!result.error || isMissingProfileError(result.error)) {
-        return await createOwnPlayerProfile();
+        return await createOwnPlayerProfile(userId);
     }
 
     throw result.error;
@@ -503,10 +555,11 @@ async function loadProfilePage(token = profileInitToken) {
 
             return;
         }
+        const userId = window.currentUser.id;
         
         
         // Essayer de charger depuis le cache d'abord
-        const cacheKey = `user_profile_${window.currentUser.id}`;
+        const cacheKey = `user_profile_${userId}`;
         if (hasMinecraftLinkReturnState() && window.cacheManager) {
             window.cacheManager.invalidate(cacheKey);
             window.cacheManager.invalidate('all_users');
@@ -523,8 +576,8 @@ async function loadProfilePage(token = profileInitToken) {
         // Recuperer ou creer la fiche joueur de l'utilisateur connecte.
         let profile = null;
         try {
-            profile = await resolveOwnProfile();
-            if (token !== profileInitToken || !document.getElementById('profil-content')) return;
+            profile = await resolveOwnProfile(userId);
+            if (token !== profileInitToken || window.currentUser?.id !== userId || !document.getElementById('profil-content')) return;
         } catch (error) {
             if (token === profileInitToken) showError('Impossible de charger votre profil. Veuillez reessayer.');
             return;
@@ -728,9 +781,11 @@ async function saveProfileChanges() {
     } catch (error) {
         if (token === profileInitToken) showError('Une erreur technique est survenue.');
     } finally {
-        saveBtn.disabled = false;
-        saveBtn.removeAttribute('aria-busy');
-        saveBtn.textContent = profileLabel('Sauvegarder les modifications', 'Save changes');
+        if (token === profileInitToken) {
+            saveBtn.disabled = false;
+            saveBtn.removeAttribute('aria-busy');
+            saveBtn.textContent = profileLabel('Sauvegarder les modifications', 'Save changes');
+        }
     }
 }
 

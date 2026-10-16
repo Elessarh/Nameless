@@ -1,5 +1,7 @@
 # Catalogue des objets officiels — 14 octobre 2026
 
+Mise à jour du 15 octobre : **29 aperçus supplémentaires**, soit **1 344 disponibles et 38 neutres**. Le [rapport de récupération](../official-items-2026-10-15/README.md) détaille les preuves et les validations. Les chiffres ci-dessous décrivent la passe initiale.
+
 Le catalogue actif reprend les **1 382 objets** du [wiki public SAO Minecraft](https://saominecraft.com/fr/wiki), importés entre 08 h 54 et 09 h 06, heure de Paris. L’import a parcouru 139 pages publiques réparties sur 41 catégories annoncées, dont 34 contiennent des objets. Il conserve les huit raretés publiées, les noms, descriptions, niveaux et valeurs des caractéristiques.
 
 Il s’agit d’un instantané du wiki public, pas d’une synchronisation directe du serveur de jeu. Aucun fichier des anciennes versions du serveur local n’alimente ce catalogue. Aucun objet, taux de butin, niveau ou emplacement manquant n’est inventé.

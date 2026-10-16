@@ -9,11 +9,14 @@ import {verifyHistoricalArchive} from './public-content-policy.mjs';
 import {writeOfficialItemCatalogue} from './items-catalogue.mjs';
 import {createHash} from 'node:crypto';
 import {getOfficialCatalogueVersion, getOfficialSearchVersion} from './official-item-previews.mjs';
+import {bindHomeItemPreviews} from './home-item-previews.mjs';
 const require = createRequire(import.meta.url);
 const {JSDOM} = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.resolve(root, '_site');
 verifyHistoricalArchive(root);
+// This validates the complete native-preview manifest before any generated
+// catalogue, map, index or publication artifact can be changed.
 const officialCatalogue = writeOfficialItemCatalogue({root});
 const publicItemImages = new Set(officialCatalogue.items.filter(item => item.image).map(item => '/assets/items/' + item.image));
 const rawItemImages = new Set(JSON.parse(fs.readFileSync(path.join(root, 'data/official-items.manifest.json'), 'utf8')).assets.map(asset => asset.path));
@@ -25,19 +28,23 @@ function publishAsset(source) {
     if (relative.startsWith('items/official/previews/') && fs.statSync(source).isFile()) return publicItemImages.has(url);
     return true;
 }
-const officialVersion = getOfficialCatalogueVersion({root});
-const searchVersion = getOfficialSearchVersion({root});
-const stampOfficial = source => source.replace(/(js\/items-catalog-official\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + officialVersion);
-const publicationRegistry = stampOfficial(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'));
-const registryVersion = createHash('sha256').update(publicationRegistry).digest('hex').slice(0, 12);
-const stampHtml = source => stampOfficial(source)
-    .replace(/(js\/page-registry\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + registryVersion)
-    .replace(/(js\/global-search\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + searchVersion);
 // The only directory removed by this build is this repository's generated artifact.
 if (output !== path.join(root, '_site') || path.dirname(output) !== root) throw new Error('Unsafe build output');
 fs.rmSync(output, {recursive: true, force: true, maxRetries: 3, retryDelay: 100});
 fs.mkdirSync(output, {recursive: true});
 const mapGraph = writeMapGraph({root});
+// Compile once, against the same graph used by routes and boss facts. The
+// version covers these exact bytes, even if the committed index was stale.
+const index = createSearchIndex({mapGraph});
+const indexBytes = Buffer.from(JSON.stringify(index));
+const officialVersion = getOfficialCatalogueVersion({root});
+const searchVersion = getOfficialSearchVersion({root, indexBytes});
+const stampOfficial = source => source.replace(/(js\/items-catalog-official\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + officialVersion);
+const publicationRegistry = stampOfficial(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'));
+const registryVersion = createHash('sha256').update(publicationRegistry).digest('hex').slice(0, 12);
+const stampHtml = source => stampOfficial(bindHomeItemPreviews(source, {catalogue: officialCatalogue}))
+    .replace(/(js\/page-registry\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + registryVersion)
+    .replace(/(js\/global-search\.js)(?:\?v=[^\s"'<>]+)?/g, '$1?v=' + searchVersion);
 // Region outlines are a separate, image-relative source document. Only the
 // reviewed public seed is compiled; browser drafts never enter the build.
 const regionDocument = JSON.parse(fs.readFileSync(path.join(root, 'data/map-regions.json'), 'utf8'));
@@ -79,11 +86,11 @@ for (const route of routes) {
     fs.writeFileSync(path.join(dir,'index.html'), dom.serialize());
     dom.window.close();
 }
-const index = createSearchIndex({mapGraph});
+// Publish the source index before boss rendering: its default version reader
+// must see the same bytes already stamped into every other generated page.
+fs.writeFileSync(path.join(root,'assets/search-index.json'), indexBytes);
 const bossPages = buildBossPages({root, output, mapGraph});
-fs.writeFileSync(path.join(output,'assets/search-index.json'), JSON.stringify(index));
-// Keep the committed preview index aligned with the same source of truth.
-fs.writeFileSync(path.join(root,'assets/search-index.json'), JSON.stringify(index));
+fs.writeFileSync(path.join(output,'assets/search-index.json'), indexBytes);
 const publicRoutes = routes.filter(r => !['connexion','profil','espace-guilde','admin-dashboard','admin-carte','confidentialite','conditions','quetes'].includes(r.id));
 const urls = publicRoutes.concat(bossPages).map(r => '  <url><loc>https://nameless-sao.fr' + (r.path === '/' ? '/' : r.path) + '</loc></url>').join('\n');
 fs.writeFileSync(path.join(output,'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'\n</urlset>\n');

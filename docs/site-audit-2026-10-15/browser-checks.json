@@ -1,0 +1,126 @@
+[
+  {
+    "route": "/",
+    "accountButton": false,
+    "broken": [],
+    "h1": [
+      "Explorez Aincrad, ensemble"
+    ],
+    "overflow": false,
+    "path": "/",
+    "title": "Nameless | Guilde Minecraft sur SAO France",
+    "note": "L’image vide sans src de la notification repliée est un emplacement interne, pas une ressource cassée."
+  },
+  {
+    "route": "/bestiaire",
+    "checks": [
+      "60 créatures,48/page",
+      "Boss: Ornstein,Smoug,Nazgul,Octana",
+      "Fiche Nazgul,onglet Drops et page complète fonctionnels"
+    ],
+    "brokenImages": 0,
+    "overflow": false
+  },
+  {
+    "route": "/carte",
+    "checks": [
+      "Lien boss vers région Nazgul",
+      "Paliers01→02→03→01",
+      "Sélection Archipel et contour visible",
+      "Recentrage et entrée/sortie plein écran"
+    ],
+    "brokenImages": 0,
+    "overflow": false
+  },
+  {
+    "route": "/admin-carte",
+    "checks": [
+      "Accès administrateur existant reconnu",
+      "Atlas,repères,zones: onglets affichés",
+      "Contours et sommets visibles"
+    ],
+    "liveWritesPerformed": false
+  },
+  {
+    "route": "/espace-guilde",
+    "checks": [
+      "5 onglets accessibles",
+      "Calendrier réel et états vides",
+      "Ouverture/fermeture formulaire expédition",
+      "Ouverture/fermeture chat sans envoi"
+    ],
+    "liveWritesPerformed": false,
+    "brokenImages": 0
+  },
+  {
+    "route": "/profil",
+    "checks": [
+      "Profil existant chargé depuis menu",
+      "Avatar chargé",
+      "5 classes accessibles",
+      "Informations compte repliées",
+      "Aucune modification sauvegardée"
+    ],
+    "liveWritesPerformed": false,
+    "brokenImages": 0
+  },
+  {
+    "route": "/wiki",
+    "checks": [
+      "Recherche codex donjon",
+      "Ouverture article par résultat",
+      "FR→EN→FR"
+    ],
+    "brokenImages": 0,
+    "overflow": false
+  },
+  {
+    "route": "/confidentialite + /conditions",
+    "checks": [
+      "Pages légales chargées par liens du pied de page"
+    ],
+    "overflow": false
+  },
+  {
+    "route": "/admin-dashboard",
+    "checks": [
+      "Accès rôle admin réel",
+      "4 sections ouvertes sans mutation"
+    ],
+    "liveWritesPerformed": false
+  },
+  {
+    "route": "/carte mobile",
+    "viewport": 390,
+    "checks": [
+      "Menu ouvert/fermé clavier",
+      "Carte356×395 chargée",
+      "Contour sélectionné et fiche mobile"
+    ],
+    "overflow": false,
+    "brokenImages": 0
+  },
+  {
+    "route": "/items mobile + recherche",
+    "viewport": 390,
+    "checks": [
+      "Hallebarde réorientée affichée",
+      "48 cartes/page",
+      "Résumé Armures en français",
+      "Résultat ouvert au clavier sur même route"
+    ],
+    "brokenImages": 0,
+    "overflow": false
+  },
+  {
+    "route": "/items desktop",
+    "viewport": 1280,
+    "checks": [
+      "Pose GUI corrigée hallebarde",
+      "Aperçu chargé",
+      "Fiche,statistiques et source visibles"
+    ],
+    "brokenImages": 0,
+    "overflow": false
+  }
+]

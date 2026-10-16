@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-10-15T20:32:19.610Z",
+  "scope": "Final local publication artifact after renderer3 orientation updates and home identity binding; build-artifact test completed before this HTTP audit",
+  "previewOrigin": "http://127.0.0.1:4173",
+  "sourcePreviewManifestSha256": "6c81b1078256c7a9eceb21f589728f07a59b21e7206141bc05b67472664ef032",
+  "sourceCatalogueSha256": "33d38406e3c7646b24e8f84f755ed5516fbbd8e7ea94feef147cd8d64ef8f18b",
+  "publishedCatalogueSha256": "33d38406e3c7646b24e8f84f755ed5516fbbd8e7ea94feef147cd8d64ef8f18b",
+  "publishedHomeSha256": "c2cb2eba6dda8588ba48b1f2c1776cc4372df683aa07f32e8cd2f074894a7424",
+  "methods": [
+    "Resolve HTML src/href/srcset/poster/social images and CSS url() references against their actual published locations",
+    "Read runtime JS asset literals and runtime JSON image references without executing page lifecycle",
+    "Match filesystem paths with exact case, suitable for a case-sensitive production host",
+    "HEAD every unique known runtime local URL; require HTTP200 and image MIME for bitmap/SVG paths",
+    "Check all60 creature portraits and all54 bestiary-drop references (34 unique drop images)"
+  ],
+  "excludedFromRuntimeReferences": [
+    "Asset provenance manifests with repository-relative source paths, not loaded by the frontend",
+    "Historical path strings in translation dictionaries; URL attributes are not translated",
+    "Hidden decorative home atmosphere img without src; no HTTP asset request"
+  ],
+  "htmlCount": 48,
+  "cssCount": 36,
+  "jsCount": 31,
+  "uniqueReferences": 1410,
+  "publishedFiles": 1692,
+  "catalogueItems": 1382,
+  "itemImages": 1344,
+  "neutralItems": 38,
+  "creatures": 60,
+  "staticErrors": [],
+  "httpChecked": 1410,
+  "httpErrors": [],
+  "bestiaryDropReferences": 54,
+  "uniqueBestiaryDropImages": 34,
+  "bestiaryDropErrors": [],
+  "previewRendererVersion": 3,
+  "previewCounts": {
+    "safe-flat": 934,
+    "native-model-render": 410,
+    "uncertain-model-reference": 17,
+    "unavailable-model": 20,
+    "unsupported-model": 1
+  },
+  "limitation": "This static and HTTP audit does not claim browser layout, OAuth, authorization or server-state validation."
+}

@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Reviewed identity corroboration for three current official crossbow previews; published gameplay facts remain unchanged",
+  "reviewedOn": "2026-10-15",
+  "snapshotSha256": "8fa04d9ce0beb5923d55a55bb2ad8fe7c2a3ac0d0eec38aba85eebacb6037cb9",
+  "modelIndex": {
+    "url": "https://saominecraft.com/item-models/index.json",
+    "sha256": "c61bd4072223d3e4c75e3bc9cb80d454299d41ffed522db2a05c48506a10374a",
+    "format": 46
+  },
+  "publicViewer": {
+    "url": "https://saominecraft.com/_next/static/chunks/6988-94f04cf0240016ae.js",
+    "sha256": "f5cc6e96e5cf80c9ca2178151bf92fb6a3f87d9c854d687a6f4af29d18c0fa65",
+    "observation": "The public viewer resolves material/CMD by the last threshold and has no default vanilla item model. CMD 10004 is not an exact published crossbow threshold; the reviewed qualified model identities supersede only the preview association."
+  },
+  "reviewImage": "docs/official-items-2026-10-15/crossbows-reviewed.png",
+  "nativeOnly": true,
+  "sourceGeometryModified": false,
+  "sourceTexturePixelsModified": false,
+  "records": [
+    {
+      "sourceKey": "crossbow:ARBALETE_AMOUR_P3",
+      "officialId": "official_crossbow_cfd5eb29b3e8667b",
+      "name": "Arbalète d'Amour",
+      "sourceId": "ARBALETE_AMOUR_P3",
+      "material": "crossbow",
+      "customModelData": 10004,
+      "sourceUrl": "https://saominecraft.com/fr/wiki?categories=crossbow",
+      "qualifiedKey": "lovestruck_em:crossbow_lovestruck_em",
+      "stem": "lovestruck_em/item/weapons/crossbow_lovestruck_em",
+      "modelUrl": "https://saominecraft.com/item-models/m/lovestruck_em/item/weapons/crossbow_lovestruck_em.json",
+      "modelSha256": "a9837b300e9572bb5182b0e9fe5d2a62ff263fa0e217ece608eaa07e8d25035a",
+      "sourcePng": {
+        "url": "https://api.saominecraft.com/uploads/items/lovestruck_em/crossbow_lovestruck_em.png?v=2",
+        "sha256": "0ea55c77d3a5df0281c0b2116bda616277e27d65892c7b5e1b02f996c516865d",
+        "bytes": 1022,
+        "dimensions": [
+          64,
+          64
+        ],
+        "currentHttpStatus": 200,
+        "currentVerifiedAt": "2026-10-15T12:29:46.200Z",
+        "currentMatchesImportedSource": true
+      },
+      "nativeTextures": [
+        {
+          "url": "https://saominecraft.com/item-models/t/a1c5c316c74b85ea.png",
+          "sha256": "0ea55c77d3a5df0281c0b2116bda616277e27d65892c7b5e1b02f996c516865d",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "url": "https://saominecraft.com/item-models/t/79e21da8cf8b97c3.png",
+          "sha256": "1abce42dcca3ac575d0b1143c66f2d1be4bb05f93b6b43a0b32435bb8e9d6e7f",
+          "dimensions": [
+            64,
+            64
+          ]
+        }
+      ],
+      "qaSvgSha256": "8a2df40f057113c0978f9e30f8935d6bd45820ebc86605f7f2f46a2d97e12c96",
+      "geometry": {
+        "elements": 27,
+        "sourceFaces": 154,
+        "visibleFaces": 58,
+        "projectedFragments": 436,
+        "gui": "official-gui-transform",
+        "rotation": [
+          90,
+          45,
+          0
+        ],
+        "scale": [
+          0.4,
+          0.4,
+          0.4
+        ],
+        "translation": [
+          0.25,
+          -0.25,
+          6
+        ]
+      },
+      "selectionReason": "Le PNG source correspond exactement à la texture native ; la clé qualifiée lovestruck_em:crossbow_lovestruck_em figure dans index.items. Candidate forte malgré le CMD 10004 non exact.",
+      "evidence": [
+        {
+          "kind": "reviewed-native-identity",
+          "qualifiedKey": "lovestruck_em:crossbow_lovestruck_em",
+          "sourceCategory": "crossbow",
+          "sourceImageNamespace": "lovestruck_em",
+          "reviewImage": "docs/official-items-2026-10-15/crossbows-reviewed.png",
+          "reviewMethod": "CUA browser inspection of the unchanged native model projection; reviewed by the root agent on 2026-10-15"
+        },
+        {
+          "kind": "qualified-wiki-image-key",
+          "qualifiedKey": "lovestruck_em:crossbow_lovestruck_em",
+          "url": "https://api.saominecraft.com/uploads/items/lovestruck_em/crossbow_lovestruck_em.png?v=2"
+        },
+        {
+          "kind": "wiki-png-equals-native-texture",
+          "sha256": "0ea55c77d3a5df0281c0b2116bda616277e27d65892c7b5e1b02f996c516865d",
+          "nativeTextureUrls": [
+            "https://saominecraft.com/item-models/t/a1c5c316c74b85ea.png"
+          ],
+          "scope": "item-specific texture"
+        }
+      ]
+    },
+    {
+      "sourceKey": "crossbow:ARBALETE_HALLOWEEN_P3",
+      "officialId": "official_crossbow_a55c675ca4520c9d",
+      "name": "Arbalète Hurlante",
+      "sourceId": "ARBALETE_HALLOWEEN_P3",
+      "material": "crossbow",
+      "customModelData": 10004,
+      "sourceUrl": "https://saominecraft.com/fr/wiki?categories=crossbow&page=2",
+      "qualifiedKey": "plny_halloween_set:plny_halloween_crossbow",
+      "stem": "plny_halloween_set/crossbow",
+      "modelUrl": "https://saominecraft.com/item-models/m/plny_halloween_set/crossbow.json",
+      "modelSha256": "eba6600d46f08db210a2e41d57db68010f345d58370f49439207cf8857d234a2",
+      "sourcePng": {
+        "url": "https://api.saominecraft.com/uploads/items/plny_halloween_set/animation_1.png?v=2",
+        "sha256": "178df8806be07cc804daf620121f84e8ad778d31c4124a4a726a231bd1f0b838",
+        "bytes": 401,
+        "dimensions": [
+          32,
+          128
+        ],
+        "currentHttpStatus": 200,
+        "currentVerifiedAt": "2026-10-15T12:29:46.241Z",
+        "currentMatchesImportedSource": true
+      },
+      "nativeTextures": [
+        {
+          "url": "https://saominecraft.com/item-models/t/71f13204725e8d29.png",
+          "sha256": "23696a492fc693b980143320828ad2978da81c217c24f09f7a81ff9b57418c60",
+          "dimensions": [
+            32,
+            32
+          ]
+        },
+        {
+          "url": "https://saominecraft.com/item-models/t/19a8f09d8abced3e.png",
+          "sha256": "e983f427d4a440fb4892fa80f25f0926e6bae46bccb31bdb6638ff50c4745c94",
+          "dimensions": [
+            80,
+            80
+          ]
+        }
+      ],
+      "qaSvgSha256": "916bf343039faa1e36a0ad8cc3c64ebbc2327684c552370f9737cf4f6b2bacb9",
+      "geometry": {
+        "elements": 26,
+        "sourceFaces": 116,
+        "visibleFaces": 50,
+        "projectedFragments": 125,
+        "gui": "official-gui-transform",
+        "rotation": [
+          90,
+          45,
+          0
+        ],
+        "scale": [
+          0.75,
+          0.75,
+          0.75
+        ],
+        "translation": [
+          1.75,
+          -1.75,
+          0
+        ]
+      },
+      "selectionReason": "Même namespace Halloween et type crossbow. La première trame du PNG source 32×128 est identique en RGBA à la texture native 32×32 (RGBA SHA-256 7dae08273790f3660850721ec33536b013683b8baba6f3ac90e13e78c4137b12). Candidate à valider visuellement.",
+      "evidence": [
+        {
+          "kind": "reviewed-native-identity",
+          "qualifiedKey": "plny_halloween_set:plny_halloween_crossbow",
+          "sourceCategory": "crossbow",
+          "sourceImageNamespace": "plny_halloween_set",
+          "reviewImage": "docs/official-items-2026-10-15/crossbows-reviewed.png",
+          "reviewMethod": "CUA browser inspection of the unchanged native model projection; reviewed by the root agent on 2026-10-15"
+        },
+        {
+          "kind": "wiki-png-first-frame-equals-native-texture-rgba",
+          "sourceImage": "https://api.saominecraft.com/uploads/items/plny_halloween_set/animation_1.png?v=2",
+          "sourcePngDimensions": [
+            32,
+            128
+          ],
+          "frameIndex": 0,
+          "frameRect": [
+            0,
+            0,
+            32,
+            32
+          ],
+          "nativeTextureUrl": "https://saominecraft.com/item-models/t/71f13204725e8d29.png",
+          "nativePngSha256": "23696a492fc693b980143320828ad2978da81c217c24f09f7a81ff9b57418c60",
+          "rgbaSha256": "7dae08273790f3660850721ec33536b013683b8baba6f3ac90e13e78c4137b12",
+          "rgbaBytes": 4096,
+          "comparison": "Decoded RGBA8 bytes are identical; source PNG is an animation strip, not a sprite thumbnail",
+          "scope": "shared pack atlas; category and explicit native review also required"
+        }
+      ]
+    },
+    {
+      "sourceKey": "crossbow:ARBALETE_NOEL_P3",
+      "officialId": "official_crossbow_e5b20fb016d76ebf",
+      "name": "Arbalète Hivernale",
+      "sourceId": "ARBALETE_NOEL_P3",
+      "material": "crossbow",
+      "customModelData": 10004,
+      "sourceUrl": "https://saominecraft.com/fr/wiki?categories=crossbow&page=2",
+      "qualifiedKey": "plny_christmas_2025_set:plny_christmas_2025_set_crossbow",
+      "stem": "plny_christmas_2025_set/crossbow",
+      "modelUrl": "https://saominecraft.com/item-models/m/plny_christmas_2025_set/crossbow.json",
+      "modelSha256": "292d3e8fdd197cacb06093fe905ad5a684c90ab716609224641c346886982883",
+      "sourcePng": {
+        "url": "https://api.saominecraft.com/uploads/items/plny_christmas_2025_set/assets_1.png?v=2",
+        "sha256": "431486217e7392b8b9839b06f0b675fb5f8d29fb68e90fb73f70544a472cb753",
+        "bytes": 959,
+        "dimensions": [
+          64,
+          64
+        ],
+        "currentHttpStatus": 200,
+        "currentVerifiedAt": "2026-10-15T12:29:46.256Z",
+        "currentMatchesImportedSource": true
+      },
+      "nativeTextures": [
+        {
+          "url": "https://saominecraft.com/item-models/t/4bfba0fd5ee46f2d.png",
+          "sha256": "a4c4cb1213719640df3ba5d2886e90a8e6091c7f095b8810c64255e3d372379f",
+          "dimensions": [
+            160,
+            160
+          ]
+        },
+        {
+          "url": "https://saominecraft.com/item-models/t/39fdb0dd008fe444.png",
+          "sha256": "431486217e7392b8b9839b06f0b675fb5f8d29fb68e90fb73f70544a472cb753",
+          "dimensions": [
+            64,
+            64
+          ]
+        },
+        {
+          "url": "https://saominecraft.com/item-models/t/5b28f498c1fe7104.png",
+          "sha256": "96328ebff38d5170741253399694d3ccfbcb193c82db4d30901cfb269ed79ee2",
+          "dimensions": [
+            32,
+            32
+          ]
+        }
+      ],
+      "qaSvgSha256": "3363ca6fc48e36cb83627277e5f2a58dd546a6c29f58ed36ab0f329b355c0663",
+      "geometry": {
+        "elements": 70,
+        "sourceFaces": 309,
+        "visibleFaces": 128,
+        "projectedFragments": 695,
+        "gui": "official-gui-transform",
+        "rotation": [
+          90,
+          45,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "translation": [
+          1,
+          -0.75,
+          0
+        ]
+      },
+      "selectionReason": "Même namespace Noël et type crossbow. La texture native assets_1 est identique au PNG du wiki, mais partagée par 11 objets : le choix requiert aussi la catégorie crossbow et la QA.",
+      "evidence": [
+        {
+          "kind": "reviewed-native-identity",
+          "qualifiedKey": "plny_christmas_2025_set:plny_christmas_2025_set_crossbow",
+          "sourceCategory": "crossbow",
+          "sourceImageNamespace": "plny_christmas_2025_set",
+          "reviewImage": "docs/official-items-2026-10-15/crossbows-reviewed.png",
+          "reviewMethod": "CUA browser inspection of the unchanged native model projection; reviewed by the root agent on 2026-10-15"
+        },
+        {
+          "kind": "wiki-png-equals-native-texture",
+          "sha256": "431486217e7392b8b9839b06f0b675fb5f8d29fb68e90fb73f70544a472cb753",
+          "nativeTextureUrls": [
+            "https://saominecraft.com/item-models/t/39fdb0dd008fe444.png"
+          ],
+          "scope": "shared pack atlas; category and explicit native review also required"
+        }
+      ]
+    }
+  ]
+}

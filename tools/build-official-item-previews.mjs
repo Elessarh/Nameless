@@ -43,6 +43,11 @@ export function snapshotResourceCache(previous,snapshotSha256,indexSha256){
 export function verifyIndexHash(actual,expected){
     if(typeof expected!=='string'||!/^[0-9a-f]{64}$/.test(expected)||actual!==expected)throw new Error('Official model index changed; import a fresh official item snapshot before generating previews');
 }
+export function nativeTextureMetadata(bytes){
+    const format=sniffImage(bytes);
+    if(format?.extension!=='png'||format.width<1||format.height<1||format.width>1024||format.height>1024)throw new Error('unsupported-native-texture');
+    return {width:format.width,height:format.height};
+}
 async function pool(list,limit,run){let cursor=0,failure=null;await Promise.all(Array.from({length:Math.min(limit,list.length)},async()=>{while(cursor<list.length&&!failure){try{await run(list[cursor++]);}catch(error){failure ||= error;}}}));if(failure)throw failure;}
 
 export async function buildPreviews({sample=false,refresh=false}={}){
@@ -56,7 +61,7 @@ export async function buildPreviews({sample=false,refresh=false}={}){
         if(inflight.has(url))return inflight.get(url);
         const promise=(async()=>{
             const prior=cache.get(url);
-            if(prior&&!refresh){try{const cached=await fs.readFile(localPath(prior.path));if(cached.length===prior.bytes&&sha(cached)===prior.sha256){resources.set(url,prior);return {bytes:cached,record:prior};}}catch{}}
+            if(prior&&!refresh){try{const cached=await fs.readFile(localPath(prior.path));if(cached.length===prior.bytes&&sha(cached)===prior.sha256){const record={...prior,url,kind,...kind==='texture'?nativeTextureMetadata(cached):{}};resources.set(url,record);return {bytes:cached,record};}}catch{}}
             for(let attempt=0;attempt<3;attempt++){
                 try{
                     const scheduled=Math.max(Date.now(),nextAt);nextAt=scheduled+180;if(scheduled>Date.now())await new Promise(r=>setTimeout(r,scheduled-Date.now()));
@@ -68,7 +73,7 @@ export async function buildPreviews({sample=false,refresh=false}={}){
                     const bytes=Buffer.concat(parts),digest=sha(bytes);
                     const relative=ASSET+'source/'+(kind==='texture'?'textures/':'models/')+digest+(kind==='texture'?'.png':'.json');
                     const record={url,path:relative,sha256:digest,bytes:bytes.length,fetchedAt:new Date().toISOString(),kind};
-                    if(kind==='texture'){const format=sniffImage(bytes);if(format?.extension!=='png'||format.width<1||format.height<1||format.width>1024||format.height>1024)throw new Error('unsupported-native-texture');Object.assign(record,{width:format.width,height:format.height});}
+                    if(kind==='texture')Object.assign(record,nativeTextureMetadata(bytes));
                     else JSON.parse(bytes.toString('utf8'));
                     await atomicWrite(localPath(relative),bytes);resources.set(url,record);return {bytes,record};
                 }catch(error){if(/^(missing|unsupported)/.test(error.message)||attempt===2)throw error;await new Promise(r=>setTimeout(r,500*(attempt+1)));}
@@ -81,7 +86,7 @@ export async function buildPreviews({sample=false,refresh=false}={}){
     if(sample&&selected.length!==4)throw new Error('Missing required native-preview sample');
     const records=new Map(facts.items.map(item=>{
         const proof=modelProof(index,item);
-        const status=!item.sourceModel?'unavailable-model':!proof.exact&&!proof.requiresCorroboration?'uncertain-model-reference':'pending';
+        const status=proof.reason==='no-public-model'?'unavailable-model':!proof.exact&&!proof.requiresCorroboration?'uncertain-model-reference':'pending';
         return [item.id,{officialId:item.id,name:item.name,status,image:null,sha256:null,sourceModelUrl:item.sourceModel?.url||null,source2DVerified:false,nativeFlatVerified:false,reason:status==='pending'?null:proof.reason||'no-public-model',association:proof}];
     }));
     let done=0;
@@ -89,15 +94,18 @@ export async function buildPreviews({sample=false,refresh=false}={}){
     await pool(selected,2,async item=>{
         const record=records.get(item.id);if(record.status!=='pending')return;
         try{
-            const context=record.association,eligible=[];let firstFailure=null;
+            const context=record.association,eligible=[],acquired=[];let firstFailure=null;
             for(const candidate of context.requiresCorroboration?context.candidates:[context.model]){
                 try{
                     const original=await resource(candidate.url,'model'),model=JSON.parse(original.bytes);validateModel(model);
                     const textures=await Promise.all(model.tex.map(name=>resource(BASE+'/item-models/t/'+name.split('/').map(encodeURIComponent).join('/'),'texture')));
-                    const identity=nativeModelIdentityProof(index,item,{sourceModelUrl:candidate.url,sourceModelSha256:original.record.sha256,textureHashes:textures.map(texture=>texture.record.sha256)});
-                    if(identity.exact)eligible.push({original,model,textures,identity});
-                    if(!context.requiresCorroboration&&eligible.length)break;
+                    acquired.push({candidate,original,model,textures});
                 }catch(error){if(error.code)throw error;firstFailure ||= error;}
+            }
+            const nativeCandidates=acquired.map(({candidate,original,model,textures})=>({sourceModelUrl:candidate.url,sourceModelSha256:original.record.sha256,textureHashes:textures.map(texture=>texture.record.sha256),model}));
+            for(const result of acquired){
+                const identity=nativeModelIdentityProof(index,item,{...nativeCandidates.find(candidate=>candidate.sourceModelUrl===result.candidate.url),nativeCandidates});
+                if(identity.exact)eligible.push({...result,identity});
             }
             if(!eligible.length){if(!context.requiresCorroboration&&firstFailure)throw firstFailure;record.status='uncertain-model-reference';record.reason='conflicting-model-without-independent-corroboration';return;}
             const distinct=[...new Map(eligible.map(result=>[result.identity.model.stem,result])).values()];
@@ -106,7 +114,7 @@ export async function buildPreviews({sample=false,refresh=false}={}){
             const {original,model,textures,identity}=reviewed[0]||distinct[0];
             record.association=identity;record.sourceModelUrl=identity.model.url;record.sourceModelSha256=original.record.sha256;record.sourceModelPath=original.record.path;
             record.textures=textures.map(texture=>texture.record);
-            const key=sha(Buffer.from(JSON.stringify({model:original.record.sha256,textures:textures.map(t=>t.record.sha256),renderer:1})));
+            const key=sha(Buffer.from(JSON.stringify({model:original.record.sha256,textures:textures.map(t=>t.record.sha256),renderer:3})));
             let preview=rendered.get(key);if(!preview){preview=renderNativeSvg(model,textures.map(t=>({bytes:t.bytes,width:t.record.width,height:t.record.height})));rendered.set(key,preview);}
             const svgBytes=Buffer.from(preview.svg),image=ASSET+sha(svgBytes)+'.svg';await atomicWrite(localPath(image),svgBytes);
             Object.assign(record,{status:preview.status,image,sha256:sha(svgBytes),bytes:svgBytes.length,geometry:preview.geometry,nativeFlatVerified:preview.nativeFlatVerified,source2DVerified:preview.nativeFlatVerified&&item.imageSha256===textures[0].record.sha256});
@@ -115,7 +123,7 @@ export async function buildPreviews({sample=false,refresh=false}={}){
     });
     if(sha(await fs.readFile(path.join(root,'data/official-items.json')))!==snapshotSha256)throw new Error('Official snapshot changed during native preview generation');
     const counts={};for(const record of records.values())counts[record.status]=(counts[record.status]||0)+1;
-    const manifest={schemaVersion:1,rendererVersion:1,snapshotSha256,partial:sample,createdAt:new Date().toISOString(),noDeploy:true,noAI:true,sourceGeometryModified:false,modelIndex:{url:MODEL_INDEX,sha256:indexResponse.record.sha256},renderMethod:'Verified flat texture or native cuboids, original UV and GUI transforms, orthographic projection, back-face culling, BSP painter depth, unchanged embedded PNG alpha',counts,records:[...records.values()],resources:[...resources.values()],limits:{elements:384,fragments:6000,svgBytes:750000},limitations:['Correspondences selected only by a nonexact CMD range remain neutral.','Unsupported native geometry, UVs, texture format or preview budget remains neutral.','Only the current public models needed by these 1382 facts are requested; raw facts and PNG snapshot are immutable.']};
+    const manifest={schemaVersion:1,rendererVersion:3,snapshotSha256,partial:sample,createdAt:new Date().toISOString(),noDeploy:true,noAI:true,sourceGeometryModified:false,modelIndex:{url:MODEL_INDEX,sha256:indexResponse.record.sha256},renderMethod:'Verified flat texture or native cuboids, original UV and GUI Euler XYZ transforms, NEAREST constant-UV and edge-clamped native texture sampling, orthographic projection, back-face culling, BSP painter depth, unchanged embedded PNG alpha',counts,records:[...records.values()],resources:[...resources.values()],limits:{elements:384,fragments:6000,svgBytes:750000},limitations:['Correspondences selected only by a nonexact CMD range remain neutral.','Unsupported native geometry, UVs, texture format or preview budget remains neutral.','Animation strips without a verified native frame definition remain neutral; no frame is invented.','Only the current public models needed by these 1382 facts are requested; raw facts and PNG snapshot are immutable.']};
     await atomicWrite(path.join(root,'data/official-item-previews.json'),Buffer.from(JSON.stringify(manifest,null,2)+'\n'));
     console.log(JSON.stringify({partial:sample,counts,resources:resources.size}));return manifest;
 }

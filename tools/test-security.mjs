@@ -125,6 +125,30 @@ await test('auth callback returns synchronously and logout purges private caches
   authDom.window.close();
 });
 
+await test('direct auth initialization plus SPA remount starts one Microsoft OAuth request', async () => {
+  const authDom = new JSDOM('<!doctype html><html><body><button id="microsoft-login-btn">Microsoft</button><p id="auth-message"></p></body></html>', { url: 'https://nameless-sao.fr/connexion', runScripts: 'outside-only' });
+  const w = authDom.window;
+  await new Promise(resolve => w.document.addEventListener('DOMContentLoaded', resolve, { once: true }));
+  let oauthRequests = 0;
+  const raw = { auth: {
+    async getUser() { return { data: { user: null }, error: null }; },
+    async getSession() { return { data: { session: null }, error: null }; },
+    onAuthStateChange() {},
+    async signInWithOAuth() { oauthRequests++; return { data: {}, error: null }; }
+  } };
+  w.supabase = { createClient: () => raw };
+  w.NamelessPublicConfig = { supabaseUrl: storageOrigin, supabasePublishableKey: 'public-test-key' };
+  w.eval(read('js/auth-supabase.js'));
+  w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
+  await new Promise(resolve => setTimeout(resolve, 10));
+  await w.NamelessAuthPage.init(w.document);
+  await w.NamelessAuthPage.init(w.document);
+  w.document.getElementById('microsoft-login-btn').click();
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(oauthRequests, 1);
+  authDom.window.close();
+});
+
 await test('chat shows the latest 100 and remounting does not duplicate controls', async () => {
   const chatDom = new JSDOM(read('pages/espace-guilde.html'), { url: 'https://nameless-sao.fr/pages/espace-guilde.html', runScripts: 'outside-only' });
   const chatWin = chatDom.window;

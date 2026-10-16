@@ -6,19 +6,22 @@ import vm from 'node:vm';
 import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import {getOfficialSearchVersion} from './official-item-previews.mjs';
+import {bindHomeItemPreviews} from './home-item-previews.mjs';
+import {readOfficialItemCatalogue} from './items-catalogue.mjs';
 
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.join(root, '_site');
 const origin = 'https://nameless-sao.fr';
-const expectedSearchVersion = getOfficialSearchVersion({root});
 const normalizeGeneratedCacheStamp = html => html.replace(/(\bsrc=["'](?:[^"']*\/)?js\/(?:items-catalog-official|global-search|page-registry)\.js\?v=)[^"'&]+/g, '$1SOURCE_HASH');
 const build = spawnSync(process.execPath, ['tools/build-site.mjs'], {
     cwd: root, encoding: 'utf8', env: process.env, timeout: 60000
 });
 assert.ifError(build.error);
 assert.equal(build.status, 0, 'Publication build failed:\n' + build.stdout + build.stderr);
+const expectedSearchVersion = getOfficialSearchVersion({root});
+const officialCatalogue = readOfficialItemCatalogue({root});
 
 const scope = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, 'js/page-registry.js'), 'utf8'), scope);
@@ -89,7 +92,9 @@ for (const route of routes) {
     const clean = verifyHtml(publicFile(new URL(cleanUrl)), cleanUrl);
     const legacyUrl = origin + '/' + route.source;
     const legacyFile = publicFile(new URL(legacyUrl));
-    assert.equal(normalizeGeneratedCacheStamp(fs.readFileSync(legacyFile, 'utf8')), normalizeGeneratedCacheStamp(fs.readFileSync(path.join(root, route.source), 'utf8')), route.source + ': legacy page content remains exact except the three generated content-cache stamps');
+    const sourceHtml = fs.readFileSync(path.join(root, route.source), 'utf8');
+    const expectedHtml = route.id === 'home' ? bindHomeItemPreviews(sourceHtml, {catalogue: officialCatalogue}) : sourceHtml;
+    assert.equal(normalizeGeneratedCacheStamp(fs.readFileSync(legacyFile, 'utf8')), normalizeGeneratedCacheStamp(expectedHtml), route.source + ': legacy page content remains exact except current bound home item previews and the three generated content-cache stamps');
     if (route.path !== '/') {
         const legacy = verifyHtml(legacyFile, legacyUrl);
         assert.equal(clean.title, legacy.title, route.path + ': title differs between clean and legacy URLs');

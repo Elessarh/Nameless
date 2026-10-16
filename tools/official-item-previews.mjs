@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {JSDOM} from 'jsdom';
-import {nativeModelIdentityProof} from './official-model-identity.mjs';
+import {modelProof, nativeModelIdentityProof} from './official-model-identity.mjs';
+import {sniffImage} from './import-official-items.mjs';
 
 const defaultRoot = path.resolve(import.meta.dirname, '..');
 export const PREVIEW_MANIFEST_PATH = 'data/official-item-previews.json';
@@ -68,9 +69,11 @@ export function getOfficialCatalogueVersion({root = defaultRoot} = {}) {
     return digest.digest('hex').slice(0, 12);
 }
 
-export function getOfficialSearchVersion({root = defaultRoot} = {}) {
+export function getOfficialSearchVersion({root = defaultRoot, indexBytes} = {}) {
     return createHash('sha256').update(getOfficialCatalogueVersion({root}))
-        .update(fs.readFileSync(path.join(root, 'js/global-search.js'))).digest('hex').slice(0, 12);
+        .update('\0global-search\0').update(fs.readFileSync(path.join(root, 'js/global-search.js')))
+        .update('\0search-index\0').update(indexBytes ?? fs.readFileSync(path.join(root, 'assets/search-index.json')))
+        .digest('hex').slice(0, 12);
 }
 
 const tags = new Set(['svg', 'g', 'defs', 'clipPath', 'path', 'polygon', 'polyline', 'rect', 'circle', 'ellipse', 'line', 'image', 'use', 'title', 'desc', 'style', 'filter', 'feColorMatrix']);
@@ -101,6 +104,48 @@ export function validatePreviewSvg(source, textureHashes = null, parser) {
         }
     } finally { owner?.window.close(); }
     return true;
+}
+
+// Candidates are rebuilt from the current index, never from the identity claims
+// recorded alongside a preview. Missing acquisitions remain absent; acquired
+// bytes must pass their own resource evidence before they can corroborate a
+// different model's geometry, UVs, GUI transform or whole-flat native pixels.
+function verifyNativeTextureDimensions(bytes, texture) {
+    const format = sniffImage(bytes);
+    if (format?.extension !== 'png' || format.width < 1 || format.height < 1 || format.width > 1024 || format.height > 1024) throw new Error('Native texture format or dimensions exceed the supported static PNG budget');
+    if (texture.width !== format.width || texture.height !== format.height) throw new Error('Native texture dimensions differ from their acquired source bytes');
+}
+
+function acquiredNativeCandidates(root, document, index, item) {
+    const acquired = [];
+    const resourceBytes = (resource, kind) => {
+        if (resource.kind !== kind || !/^[a-f0-9]{64}$/.test(resource.sha256 || '') || !Number.isSafeInteger(resource.bytes) || resource.bytes < 1) throw new Error('Candidate native resource evidence is incomplete');
+        const bytes = fs.readFileSync(previewFile(root, resource.path));
+        if (bytes.length !== resource.bytes || hash(bytes) !== resource.sha256) throw new Error('Candidate native resource differs from its acquired source bytes');
+        if (kind === 'texture') verifyNativeTextureDimensions(bytes, resource);
+        return bytes;
+    };
+    for (const candidate of modelProof(index, item).candidates || []) {
+        if (!/^https:\/\/saominecraft\.com\/item-models\/m\/[-a-z0-9_/.]+\.json$/i.test(candidate.url)) throw new Error('Candidate model URL is outside the current public registry');
+        const matches = document.resources?.filter(resource => resource.kind === 'model' && resource.url === candidate.url) || [];
+        if (!matches.length) continue;
+        if (matches.length !== 1) throw new Error('Candidate native model must have one acquired source resource');
+        const resource = matches[0], bytes = resourceBytes(resource, 'model'), model = JSON.parse(bytes);
+        if (!Array.isArray(model.tex) || !model.tex.length || model.tex.length > 16) throw new Error('Candidate native model has invalid texture references');
+        let complete = true;
+        const textureHashes = [];
+        for (const name of model.tex) {
+            if (typeof name !== 'string' || !/^[-a-z0-9_/]+\.png$/i.test(name) || name.split('/').some(part => part === '..' || !part)) throw new Error('Candidate native model references an unsafe texture');
+            const url = 'https://saominecraft.com/item-models/t/' + name.split('/').map(encodeURIComponent).join('/');
+            const textures = document.resources?.filter(texture => texture.kind === 'texture' && texture.url === url) || [];
+            if (!textures.length) { complete = false; continue; }
+            if (textures.length !== 1) throw new Error('Candidate native texture must have one acquired source resource');
+            resourceBytes(textures[0], 'texture');
+            textureHashes.push(textures[0].sha256);
+        }
+        if (complete) acquired.push({sourceModelUrl: candidate.url, sourceModelSha256: resource.sha256, model, textureHashes});
+    }
+    return acquired;
 }
 
 export function auditOfficialItemPreviews({root = defaultRoot} = {}) {
@@ -137,7 +182,7 @@ export function auditOfficialItemPreviews({root = defaultRoot} = {}) {
                     const model = JSON.parse(modelBytes);
                     if (!Array.isArray(record.textures) || !record.textures.length) throw new Error('Rendered preview must identify its native textures');
                     if (!Array.isArray(model.tex) || model.tex.length !== record.textures.length) throw new Error('Preview textures must match the selected native model');
-                    const textureHashes = new Set();
+                    const textureHashes = new Set(), nativeTextureHashes = [];
                     for (const [position, texture] of record.textures.entries()) {
                         const textureName = model.tex[position];
                         if (typeof textureName !== 'string' || !/^[-a-z0-9_/]+\.png$/i.test(textureName) || textureName.split('/').some(part => part === '..' || !part)) throw new Error('Native model references an unsafe texture');
@@ -145,12 +190,16 @@ export function auditOfficialItemPreviews({root = defaultRoot} = {}) {
                         if (texture.url !== sourceUrl) throw new Error('Preview texture URL differs from its native model reference');
                         const bytes = fs.readFileSync(previewFile(root, texture.path));
                         if (hash(bytes) !== texture.sha256 || (texture.bytes != null && bytes.length !== texture.bytes)) throw new Error('Native texture SHA differs from preview source evidence');
+                        verifyNativeTextureDimensions(bytes, texture);
                         const textureResources = previews.document.resources?.filter(resource => resource.kind === 'texture' && resource.url === texture.url) || [];
                         if (textureResources.length !== 1 || textureResources[0].path !== texture.path || textureResources[0].sha256 !== texture.sha256
                             || textureResources[0].bytes !== bytes.length) throw new Error('Selected native texture differs from its acquired public resource evidence');
+                        verifyNativeTextureDimensions(bytes, textureResources[0]);
                         textureHashes.add(texture.sha256);
+                        nativeTextureHashes.push(texture.sha256);
                     }
-                    const proof = nativeModelIdentityProof(index, item, {sourceModelUrl: record.sourceModelUrl, sourceModelSha256: hash(modelBytes), textureHashes: [...textureHashes]});
+                    const nativeCandidates = acquiredNativeCandidates(root, previews.document, index, item);
+                    const proof = nativeModelIdentityProof(index, item, {sourceModelUrl: record.sourceModelUrl, sourceModelSha256: hash(modelBytes), textureHashes: nativeTextureHashes, nativeCandidates});
                     if (!proof.exact || proof.model?.url !== record.sourceModelUrl) throw new Error('Preview identity is not independently corroborated by the current official index and native bytes');
                     for (const field of ['model', 'evidence', 'conflicts', 'reason']) if (JSON.stringify(record.association[field]) !== JSON.stringify(proof[field])) throw new Error('Recorded preview identity evidence differs from independently verified source proof');
                     for (const field of ['elements', 'sourceFaces', 'projectedFragments']) if (!Number.isSafeInteger(record.geometry?.[field]) || record.geometry[field] < 0) throw new Error('Native preview geometry evidence is missing or invalid');

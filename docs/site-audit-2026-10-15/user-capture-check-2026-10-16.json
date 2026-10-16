@@ -1,0 +1,94 @@
+{
+  "before": {
+    "catalogueScript": [
+      "/js/items-catalog-official.js?v=54828853e6c1"
+    ],
+    "filters": [],
+    "neutral": [
+      "Casque d'Améthyste Chasseuse",
+      "Casque d'Améthyste Faucheuse",
+      "Casque d'Améthyste Magique",
+      "Casque d'Améthyste Sauvage",
+      "Diademe du Berserker",
+      "Bottes de l’Héraut",
+      "Tunique de l’Héraut",
+      "Jambières de l’Héraut",
+      "Bottes de la Faucheuse",
+      "Plastron de la Faucheuse",
+      "Jambières de la Faucheuse",
+      "Bottes du Gardien",
+      "Plastron du Gardien",
+      "Jambières du Gardien",
+      "Bottes de l’écume"
+    ],
+    "pageSize": "48",
+    "pagination": "Affichage de 49–96 sur 1382 objets\nPrécédent\n1\n2\n3\n4\n5\n6\n7\n…\n29\nSuivant\nPar page\n12\n24\n36\n48",
+    "search": "",
+    "selected": "Jambières du Gardien",
+    "selectedPreview": [
+      {
+        "loaded": true,
+        "src": "/assets/items/item-unavailable.svg"
+      }
+    ],
+    "url": "http://127.0.0.1:4173/items/?item=official_armor_fa1066a5083f1f91"
+  },
+  "after": {
+    "armor": [
+      {
+        "loaded": true,
+        "name": "Bottes de l’Héraut",
+        "src": "/assets/items/official/previews/0bd8759e769504b0094c572a429f60dc9dba29160f98b396f08a955f52a9bd0d.svg?v=20261014official1",
+        "unavailable": false
+      },
+      {
+        "loaded": true,
+        "name": "Tunique de l’Héraut",
+        "src": "/assets/items/official/previews/aee49143f3bf259729bd18f973752c112a87fe52a553bddad5225f18d4596aa7.svg?v=20261014official1",
+        "unavailable": false
+      },
+      {
+        "loaded": true,
+        "name": "Jambières de l’Héraut",
+        "src": "/assets/items/official/previews/7f82d9dc10fd3c471e2e390d77d0021b6b4eea941a38735d67e28ba079057e26.svg?v=20261014official1",
+        "unavailable": false
+      },
+      {
+        "loaded": true,
+        "name": "Bottes de la Faucheuse",
+        "src": "/assets/items/official/previews/4fcf2f549f406ede8dc35267b21747114d314b885b92f8dec7dd9953b9cf3f45.svg?v=20261014official1",
+        "unavailable": false
+      },
+      {
+        "loaded": true,
+        "name": "Plastron de la Faucheuse",
+        "src": "/assets/items/official/previews/016ed234601665296e43011f76fe01648a14666db59d504fb16a70d9ca819156.svg?v=20261014official1",
+        "unavailable": false
+      },
+      {
+        "loaded": true,
+        "name": "Jambières de la Faucheuse",
+        "src": "/assets/items/official/previews/971fd613600be3767eb43ce48056b3ad371d0925bd9c39d87f65ac3589fabd2b.svg?v=20261014official1",
+        "unavailable": false
+      },
+      {
+        "loaded": true,
+        "name": "Bottes du Gardien",
+        "src": "/assets/items/official/previews/109fc674b31abb59bd6753a144334ceda6cef575fae6b6a4e6bee96816459810.svg?v=20261014official1",
+        "unavailable": false
+      },
+      {
+        "loaded": true,
+        "name": "Plastron du Gardien",
+        "src": "/assets/items/official/previews/3eb6aece19c61d22c1be152a41bd595f7974e3a1a56bcea0a196fbe6097a3c66.svg?v=20261014official1",
+        "unavailable": false
+      }
+    ],
+    "catalogueScript": [
+      "/js/items-catalog-official.js?v=e0d10a07f7f3"
+    ],
+    "pageSize": "48",
+    "url": "http://127.0.0.1:4173/items/"
+  },
+  "guardianLeggingsOpenedAfterRefresh": true
+}

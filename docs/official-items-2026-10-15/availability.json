@@ -1,0 +1,1137 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-10-15",
+  "snapshotSha256": "8fa04d9ce0beb5923d55a55bb2ad8fe7c2a3ac0d0eec38aba85eebacb6037cb9",
+  "previewManifest": {
+    "path": "data/official-item-previews.json",
+    "sha256": "b6247c6c6e919c6b097b8010de3a52a66c9b65aac3ea5f1bea5a844926ee24f0",
+    "partial": false
+  },
+  "baseline": {
+    "sha256": "2b8617b1f029366e5e368a585a56da73b59fb4742b7a08add50655b5839d3b3e",
+    "available": 1315,
+    "counts": {
+      "safe-flat": 918,
+      "native-model-render": 397,
+      "uncertain-model-reference": 40,
+      "unavailable-model": 20,
+      "unsupported-model": 7
+    }
+  },
+  "summary": {
+    "totalItems": 1382,
+    "previousAvailable": 1315,
+    "available": 1344,
+    "recovered": 29,
+    "unavailable": 38,
+    "preservedUnchanged": 1315,
+    "changedPreviousPreviews": 0,
+    "availableByStatus": {
+      "safe-flat": 934,
+      "native-model-render": 410
+    },
+    "unavailableByStatus": {
+      "uncertain-model-reference": 17,
+      "unavailable-model": 20,
+      "unsupported-model": 1
+    },
+    "unavailableGroups": {
+      "conflicting-public-associations": 12,
+      "nonexact-cmd-range": 5,
+      "vanilla-cmd-zero": 19,
+      "custom-model-absent": 1,
+      "unsupported-native-animation-texture": 1
+    }
+  },
+  "validation": {
+    "manifestComparison": "passed: 29 recoveries and all 1315 previous available image paths and SHA-256 unchanged",
+    "visualReview": {
+      "status": "representative-native-candidates-reviewed-in-CUA",
+      "proofs": [
+        "docs/official-items-2026-10-15/reviewed-identities.png",
+        "docs/official-items-2026-10-15/herald-dagger-reviewed.png",
+        "docs/official-items-2026-10-15/crossbows-reviewed.png",
+        "docs/official-items-2026-10-15/guardian-preview-desktop.png",
+        "docs/official-items-2026-10-15/crossbow-catalogue-desktop.png",
+        "docs/official-items-2026-10-15/crossbow-catalogue-mobile.png",
+        "docs/official-items-2026-10-15/items-grid-mobile.png"
+      ],
+      "excludedCase": "Bâton à Lanterne Lunaire: 32×1760 texture without usable frame metadata, experimental candidate rejected",
+      "catalogueChecks": {
+        "viewports": [
+          1920,
+          390
+        ],
+        "pageSize": 48,
+        "brokenImages": 0,
+        "horizontalOverflow": false,
+        "guardianPreviewLoaded": true,
+        "winterCrossbowPreviewLoaded": true,
+        "keyboardDetailClose": true
+      }
+    },
+    "automatedSuite": {
+      "status": "passed",
+      "command": "npm test -- --skip-browser",
+      "exitCode": 0,
+      "buildCommand": "npm run build",
+      "buildExitCode": 0,
+      "nativeBrowserFixture": "Replaced locally by CUA desktop 1920px and mobile 390px checks",
+      "targetedChecks": {
+        "previewContract": 59,
+        "modelIdentity": 81,
+        "nativeRenderer": 48,
+        "officialFacts": 5553
+      }
+    }
+  },
+  "recovered": [
+    {
+      "officialId": "official_armor_15e0f20cc51e9bb8",
+      "sourceKey": "armor:fallen_herald_boots",
+      "name": "Bottes de l’Héraut",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fherald_boots.json",
+      "sourceModelSha256": "895f360da0439195570d4b97bff691f714ecdcf113c4603e715d75a5dc24d510",
+      "image": "/assets/items/official/previews/0bd8759e769504b0094c572a429f60dc9dba29160f98b396f08a955f52a9bd0d.svg",
+      "sha256": "0bd8759e769504b0094c572a429f60dc9dba29160f98b396f08a955f52a9bd0d",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "wiki-png-equals-native-texture",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_3beef5171320fe8f",
+      "sourceKey": "armor:fallen_herald_chestplate",
+      "name": "Tunique de l’Héraut",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fherald_chestplate.json",
+      "sourceModelSha256": "2addbfa2c0de1151bf8f2b320aee7db586fe9aa3716f1e6ce84beffaf3a0faa3",
+      "image": "/assets/items/official/previews/aee49143f3bf259729bd18f973752c112a87fe52a553bddad5225f18d4596aa7.svg",
+      "sha256": "aee49143f3bf259729bd18f973752c112a87fe52a553bddad5225f18d4596aa7",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_b1f5c1b9c8d8717f",
+      "sourceKey": "armor:fallen_herald_leggins",
+      "name": "Jambières de l’Héraut",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fherald_leggings.json",
+      "sourceModelSha256": "b1e174ee125d8a2959ee38c7157669fb458b6c443f7f76f283318542345351c2",
+      "image": "/assets/items/official/previews/7f82d9dc10fd3c471e2e390d77d0021b6b4eea941a38735d67e28ba079057e26.svg",
+      "sha256": "7f82d9dc10fd3c471e2e390d77d0021b6b4eea941a38735d67e28ba079057e26",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_ea6a8c76617d6a61",
+      "sourceKey": "armor:fallen_reaper_boots",
+      "name": "Bottes de la Faucheuse",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/freaper_boots.json",
+      "sourceModelSha256": "aa2cb5ac3551071beb6a2d8e1f98e8a9ee3edc248b1e04c7b8a7ee4406f3cf32",
+      "image": "/assets/items/official/previews/4fcf2f549f406ede8dc35267b21747114d314b885b92f8dec7dd9953b9cf3f45.svg",
+      "sha256": "4fcf2f549f406ede8dc35267b21747114d314b885b92f8dec7dd9953b9cf3f45",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "wiki-png-equals-native-texture",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_18e1095c96079a1a",
+      "sourceKey": "armor:fallen_reaper_chestplate",
+      "name": "Plastron de la Faucheuse",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/freaper_chestplate.json",
+      "sourceModelSha256": "c89d99177f34b782e2feeac0332ed93a9e2d558f99e9f60107dbe87ebdd0b239",
+      "image": "/assets/items/official/previews/016ed234601665296e43011f76fe01648a14666db59d504fb16a70d9ca819156.svg",
+      "sha256": "016ed234601665296e43011f76fe01648a14666db59d504fb16a70d9ca819156",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_9905e0f69c341678",
+      "sourceKey": "armor:fallen_reaper_leggins",
+      "name": "Jambières de la Faucheuse",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/freaper_leggings.json",
+      "sourceModelSha256": "858219eeed1b2cddab569656292e35212ae55e6048d54e77e8b6ab3a0235dd06",
+      "image": "/assets/items/official/previews/971fd613600be3767eb43ce48056b3ad371d0925bd9c39d87f65ac3589fabd2b.svg",
+      "sha256": "971fd613600be3767eb43ce48056b3ad371d0925bd9c39d87f65ac3589fabd2b",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_b28a0a22bf6ccb2f",
+      "sourceKey": "armor:fallen_warden_boots",
+      "name": "Bottes du Gardien",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fwarden_boots.json",
+      "sourceModelSha256": "2430f14d7d7a103a76a52d367941007e8455161bce414b3235c48857a9d8da3a",
+      "image": "/assets/items/official/previews/109fc674b31abb59bd6753a144334ceda6cef575fae6b6a4e6bee96816459810.svg",
+      "sha256": "109fc674b31abb59bd6753a144334ceda6cef575fae6b6a4e6bee96816459810",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "wiki-png-equals-native-texture",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_71d445453d1bf057",
+      "sourceKey": "armor:fallen_warden_chestplate",
+      "name": "Plastron du Gardien",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fwarden_chestplate.json",
+      "sourceModelSha256": "2af43926a90ac0660977d2e022f487cbd4b47ac490390c204622d095939d2fed",
+      "image": "/assets/items/official/previews/3eb6aece19c61d22c1be152a41bd595f7974e3a1a56bcea0a196fbe6097a3c66.svg",
+      "sha256": "3eb6aece19c61d22c1be152a41bd595f7974e3a1a56bcea0a196fbe6097a3c66",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_armor_fa1066a5083f1f91",
+      "sourceKey": "armor:fallen_warden_leggins",
+      "name": "Jambières du Gardien",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fwarden_leggings.json",
+      "sourceModelSha256": "84414f8f459a959ded69a2ed5699594627a896b5002d354c39feeb872c7a279c",
+      "image": "/assets/items/official/previews/a4d999730afce505ae6cd071d37bd9ef2d9ed6147c01ab094cc3d73be32f3831.svg",
+      "sha256": "a4d999730afce505ae6cd071d37bd9ef2d9ed6147c01ab094cc3d73be32f3831",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_crossbow_cfd5eb29b3e8667b",
+      "sourceKey": "crossbow:ARBALETE_AMOUR_P3",
+      "name": "Arbalète d'Amour",
+      "previousStatus": "uncertain-model-reference",
+      "status": "native-model-render",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Modèle qualifié du même pack corroboré par les textures sources et approuvé en revue CUA malgré le CMD non exact.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/lovestruck_em/item/weapons/crossbow_lovestruck_em.json",
+      "sourceModelSha256": "a9837b300e9572bb5182b0e9fe5d2a62ff263fa0e217ece608eaa07e8d25035a",
+      "image": "/assets/items/official/previews/8a2df40f057113c0978f9e30f8935d6bd45820ebc86605f7f2f46a2d97e12c96.svg",
+      "sha256": "8a2df40f057113c0978f9e30f8935d6bd45820ebc86605f7f2f46a2d97e12c96",
+      "evidenceKinds": [
+        "qualified-wiki-image-key",
+        "reviewed-qualified-image-candidate",
+        "wiki-png-equals-native-texture",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/crossbows-reviewed.png"
+      ]
+    },
+    {
+      "officialId": "official_crossbow_a55c675ca4520c9d",
+      "sourceKey": "crossbow:ARBALETE_HALLOWEEN_P3",
+      "name": "Arbalète Hurlante",
+      "previousStatus": "uncertain-model-reference",
+      "status": "native-model-render",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Modèle qualifié du même pack corroboré par les textures sources et approuvé en revue CUA malgré le CMD non exact.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/plny_halloween_set/crossbow.json",
+      "sourceModelSha256": "eba6600d46f08db210a2e41d57db68010f345d58370f49439207cf8857d234a2",
+      "image": "/assets/items/official/previews/916bf343039faa1e36a0ad8cc3c64ebbc2327684c552370f9737cf4f6b2bacb9.svg",
+      "sha256": "916bf343039faa1e36a0ad8cc3c64ebbc2327684c552370f9737cf4f6b2bacb9",
+      "evidenceKinds": [
+        "reviewed-qualified-image-candidate",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/crossbows-reviewed.png"
+      ]
+    },
+    {
+      "officialId": "official_crossbow_e5b20fb016d76ebf",
+      "sourceKey": "crossbow:ARBALETE_NOEL_P3",
+      "name": "Arbalète Hivernale",
+      "previousStatus": "uncertain-model-reference",
+      "status": "native-model-render",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Modèle qualifié du même pack corroboré par les textures sources et approuvé en revue CUA malgré le CMD non exact.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/plny_christmas_2025_set/crossbow.json",
+      "sourceModelSha256": "292d3e8fdd197cacb06093fe905ad5a684c90ab716609224641c346886982883",
+      "image": "/assets/items/official/previews/3363ca6fc48e36cb83627277e5f2a58dd546a6c29f58ed36ab0f329b355c0663.svg",
+      "sha256": "3363ca6fc48e36cb83627277e5f2a58dd546a6c29f58ed36ab0f329b355c0663",
+      "evidenceKinds": [
+        "reviewed-qualified-image-candidate",
+        "wiki-png-equals-native-texture",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/crossbows-reviewed.png"
+      ]
+    },
+    {
+      "officialId": "official_dagger_f610cc9c2db0d748",
+      "sourceKey": "dagger:DAGUE_HEROIQUE",
+      "name": "Dague de l'Héraut",
+      "previousStatus": "uncertain-model-reference",
+      "status": "native-model-render",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Identité native approuvée en revue CUA ; modèle et textures retenus sont verrouillés par leurs empreintes SHA-256.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs_weapons/item/daggers/dague_heraut.json",
+      "sourceModelSha256": "656e94d7f29ae42757f7377b28ab6bb4f8c31113edc779a2f6654cc5e2eedac2",
+      "image": "/assets/items/official/previews/88eeac9b39400c1cf29a53fba1919da13f9e82b0449e3f81613e3276e07eecd2.svg",
+      "sha256": "88eeac9b39400c1cf29a53fba1919da13f9e82b0449e3f81613e3276e07eecd2",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/herald-dagger-reviewed.png"
+      ]
+    },
+    {
+      "officialId": "official_dagger_eb2b59ee20af66a5",
+      "sourceKey": "dagger:DAGUE_INTERMEDIAIRE",
+      "name": "Dague Basique",
+      "previousStatus": "uncertain-model-reference",
+      "status": "native-model-render",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Identité native approuvée en revue CUA ; modèle et textures retenus sont verrouillés par leurs empreintes SHA-256.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs_weapons/item/daggers/dague_entrainement.json",
+      "sourceModelSha256": "1d45e18efa2cce38f8a170c973ce1653a3024decb0b368efe0453c3262411d87",
+      "image": "/assets/items/official/previews/309349c118192481f2936ca394881f8773aa6cf50cbaa5e6f1bc06fb0d1eac3d.svg",
+      "sha256": "309349c118192481f2936ca394881f8773aa6cf50cbaa5e6f1bc06fb0d1eac3d",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "wiki-png-equals-native-texture",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/reviewed-identities.png"
+      ]
+    },
+    {
+      "officialId": "official_fishing_job_a47fd99f714a29d8",
+      "sourceKey": "fishing_job:RAIE",
+      "name": "Raie",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "exact-cmd-and-qualified-image-agree",
+      "reasonFr": "Le matériau/CMD exact et la clé qualifiée du PNG désignent le même modèle ; l’alias global contradictoire est écarté.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/provanas/item/ia_auto/stingray.json",
+      "sourceModelSha256": "04721162e3b3a35f5674da6336e14470f18e76a4797393d6267164dd293aaa8e",
+      "image": "/assets/items/official/previews/67f6fd8381e4faadd517b67da0746aee32d542e444901ed13e1d418d1fa0ff78.svg",
+      "sha256": "67f6fd8381e4faadd517b67da0746aee32d542e444901ed13e1d418d1fa0ff78",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "qualified-wiki-image-key",
+        "exact-cmd-and-qualified-image-agree"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_fishing_job_a50d91ad77ebf4ca",
+      "sourceKey": "fishing_job:SARDINE",
+      "name": "Sardine",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "exact-cmd-and-qualified-image-agree",
+      "reasonFr": "Le matériau/CMD exact et la clé qualifiée du PNG désignent le même modèle ; l’alias global contradictoire est écarté.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/provanas/item/ia_auto/sardine_fish.json",
+      "sourceModelSha256": "8a63f2ae154fe10b9efd5886ac656676e9ad08fdc8f2583e26475a5268ffe728",
+      "image": "/assets/items/official/previews/0a41c2805c2823cca897f4f063801790bc0bddb8133efddaca36d9f4d90a8584.svg",
+      "sha256": "0a41c2805c2823cca897f4f063801790bc0bddb8133efddaca36d9f4d90a8584",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "qualified-wiki-image-key",
+        "exact-cmd-and-qualified-image-agree"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_halloween_011411fafff99202",
+      "sourceKey": "halloween:AILE_HALLOWEEN",
+      "name": "Catalyseur Damnée",
+      "previousStatus": "unsupported-model",
+      "status": "native-model-render",
+      "reasonCode": "authored-zero-gui-axis-supported",
+      "reasonFr": "Le moteur conserve désormais l’axe Z nul du GUI d’origine et rend sa silhouette plane, sans gonfler le modèle.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/plny_halloween_set/wings.json",
+      "sourceModelSha256": "a23d6edc0e4827356846ea700e97fe8271e97f16af6856fb23a7b053bd048b6c",
+      "image": "/assets/items/official/previews/ca2e99dc7e4b03a66613f1dff7cde1fb928c21943db7e03ef804a19ad5d994b9.svg",
+      "sha256": "ca2e99dc7e4b03a66613f1dff7cde1fb928c21943db7e03ef804a19ad5d994b9",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "qualified-wiki-image-key",
+        "exact-cmd-and-qualified-image-agree"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_material_eb78f735548c015d",
+      "sourceKey": "material:FRAGMENT_ORICHALQUE",
+      "name": "Fragment d'Orichalque",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Identité native approuvée en revue CUA ; modèle et textures retenus sont verrouillés par leurs empreintes SHA-256.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/crystal_pack/item/ia_auto/2d_medium_amber_bud.json",
+      "sourceModelSha256": "aa681b778085ad5b7afb91aa9b77e0d4b8de7332cec7d2327de972b25db41f3f",
+      "image": "/assets/items/official/previews/78cdbd37c0693ea41c51aedd6d2282a0d841007918467da55689114c2f6ee5e8.svg",
+      "sha256": "78cdbd37c0693ea41c51aedd6d2282a0d841007918467da55689114c2f6ee5e8",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "wiki-png-equals-native-texture",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/reviewed-identities.png"
+      ]
+    },
+    {
+      "officialId": "official_material_958322a6b7f363e8",
+      "sourceKey": "material:ingot_metal_enchanted",
+      "name": "Lingot de Métal Enchanté",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fhero_ingot.json",
+      "sourceModelSha256": "1204bd254dd3a986e8cbf1fac392087276ca1fbf85f2524bb5d902cfc4ef431e",
+      "image": "/assets/items/official/previews/a76d804ad1d93e0951ce6daca151997077f67540e4b07663faaad99a59e48a20.svg",
+      "sha256": "a76d804ad1d93e0951ce6daca151997077f67540e4b07663faaad99a59e48a20",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_material_ffb19031f5f2bfa8",
+      "sourceKey": "material:reaper_soul",
+      "name": "Âme du Reaper",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fhero_oldfabric.json",
+      "sourceModelSha256": "bf0fe8ae475bf0d316e604277e561b36dc552b25a7130cfbbdc114bffab08f83",
+      "image": "/assets/items/official/previews/34b0448cfc8e0a1394cd26fce1bdf5bb47c477abf84fc654dbae5a9341686ef6.svg",
+      "sha256": "34b0448cfc8e0a1394cd26fce1bdf5bb47c477abf84fc654dbae5a9341686ef6",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "wiki-png-equals-native-texture",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_material_a2dc1eb1a0581411",
+      "sourceKey": "material:scrap_metal_enchanted",
+      "name": "Pièce de Métal Enchanté",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fhero_metalscrap.json",
+      "sourceModelSha256": "09e331601d0a079299fbc1429fb611efc8f7bbc235fb59d6d1b794b9a1972bea",
+      "image": "/assets/items/official/previews/0b308e4e543209f95243e8de2aa767792b7db31df34d34bcce5a0a7aba3933f6.svg",
+      "sha256": "0b308e4e543209f95243e8de2aa767792b7db31df34d34bcce5a0a7aba3933f6",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_material_85fc3bf7f04693d5",
+      "sourceKey": "material:scrap_soulmetal",
+      "name": "Pièce d’Âme de Métal",
+      "previousStatus": "uncertain-model-reference",
+      "status": "safe-flat",
+      "reasonCode": "native-equivalent-qualified-image",
+      "reasonFr": "Le modèle au CMD exact et la référence d’image qualifiée sont équivalents sur les pixels natifs, malgré leurs chemins différents.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fherov1items/item/ia_auto/fhero_soulmetalscrap.json",
+      "sourceModelSha256": "3af7bf40f60b6c5cf757b36f8f502829c23640b8c594a8b2c2333bfc128e0343",
+      "image": "/assets/items/official/previews/98117a1a23de49fcdf60cee6a6e2d195e580b6511fcaaf22ddc3f4a825507da4.svg",
+      "sha256": "98117a1a23de49fcdf60cee6a6e2d195e580b6511fcaaf22ddc3f4a825507da4",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "native-equivalent-qualified-image"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_shield_0474922965232c81",
+      "sourceKey": "shield:BOUCLIER_POINTUE_BOIS",
+      "name": "Rondache en Bois Piqué",
+      "previousStatus": "uncertain-model-reference",
+      "status": "native-model-render",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Identité native approuvée en revue CUA ; modèle et textures retenus sont verrouillés par leurs empreintes SHA-256.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/elitecreatures/goblin_assortment/wooden_shield.json",
+      "sourceModelSha256": "cc3ff63eaccbae3f1a072037d1971f1dfe8bc1f9b70ab21a4a8a02f59bd513ca",
+      "image": "/assets/items/official/previews/9681c66869057d8d45ed0290b0e228404f171711993e88f442c1adc473fe1266.svg",
+      "sha256": "9681c66869057d8d45ed0290b0e228404f171711993e88f442c1adc473fe1266",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/reviewed-identities.png"
+      ]
+    },
+    {
+      "officialId": "official_shield_605f9b1ccd661652",
+      "sourceKey": "shield:BOUCLIER_TOLBANA_SEMITANK",
+      "name": "Rondache du Magicien",
+      "previousStatus": "uncertain-model-reference",
+      "status": "native-model-render",
+      "reasonCode": "reviewed-native-identity",
+      "reasonFr": "Identité native approuvée en revue CUA ; modèle et textures retenus sont verrouillés par leurs empreintes SHA-256.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/elitecreatures/mage_assortment/shield.json",
+      "sourceModelSha256": "32f40906cfbbbc861ec72c4167bcbe98951e2c741f529de3c41cf4b1d5fed18a",
+      "image": "/assets/items/official/previews/f4168bf3d2c805b1f9757a0648e1f807613ed9ab1350fc97c625ec3f4a3a5cf0.svg",
+      "sha256": "f4168bf3d2c805b1f9757a0648e1f807613ed9ab1350fc97c625ec3f4a3a5cf0",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "reviewed-native-identity"
+      ],
+      "reviewProofs": [
+        "docs/official-items-2026-10-15/reviewed-identities.png"
+      ]
+    },
+    {
+      "officialId": "official_staff_mage_27d049917528be28",
+      "sourceKey": "staff_mage:BATON1_EARTHLEVELING_P1",
+      "name": "Orbe d'Avarice",
+      "previousStatus": "unsupported-model",
+      "status": "native-model-render",
+      "reasonCode": "authored-uv-edge-clamp-supported",
+      "reasonFr": "Le moteur prend désormais en charge les UV natives hors atlas avec le même échantillonnage de bord que le viewer officiel, sans modifier les coordonnées ou pixels.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs/nerfs3d/catalyseurs/orb1_earthleveling.json",
+      "sourceModelSha256": "5ccfb031f7a04766ab466d7b2293730957a6449a5701f3e658eec18b7e1514d7",
+      "image": "/assets/items/official/previews/c8077bcb7304910685099659a8c6b595e6e6deb86d03619971918f5732cba334.svg",
+      "sha256": "c8077bcb7304910685099659a8c6b595e6e6deb86d03619971918f5732cba334",
+      "evidenceKinds": [
+        "exact-material-cmd"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_staff_mage_0cf5aa481031a10a",
+      "sourceKey": "staff_mage:BATON1_EARTHLEVELING_P2",
+      "name": "Orbe d'Avarice",
+      "previousStatus": "unsupported-model",
+      "status": "native-model-render",
+      "reasonCode": "authored-uv-edge-clamp-supported",
+      "reasonFr": "Le moteur prend désormais en charge les UV natives hors atlas avec le même échantillonnage de bord que le viewer officiel, sans modifier les coordonnées ou pixels.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs/nerfs3d/catalyseurs/orb1_earthleveling.json",
+      "sourceModelSha256": "5ccfb031f7a04766ab466d7b2293730957a6449a5701f3e658eec18b7e1514d7",
+      "image": "/assets/items/official/previews/c8077bcb7304910685099659a8c6b595e6e6deb86d03619971918f5732cba334.svg",
+      "sha256": "c8077bcb7304910685099659a8c6b595e6e6deb86d03619971918f5732cba334",
+      "evidenceKinds": [
+        "exact-material-cmd"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_staff_mage_a44eda9a34375259",
+      "sourceKey": "staff_mage:BATON1_EARTHLEVELING_P3",
+      "name": "Orbe d'Avarice",
+      "previousStatus": "unsupported-model",
+      "status": "native-model-render",
+      "reasonCode": "authored-uv-edge-clamp-supported",
+      "reasonFr": "Le moteur prend désormais en charge les UV natives hors atlas avec le même échantillonnage de bord que le viewer officiel, sans modifier les coordonnées ou pixels.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs/nerfs3d/catalyseurs/orb1_earthleveling.json",
+      "sourceModelSha256": "5ccfb031f7a04766ab466d7b2293730957a6449a5701f3e658eec18b7e1514d7",
+      "image": "/assets/items/official/previews/c8077bcb7304910685099659a8c6b595e6e6deb86d03619971918f5732cba334.svg",
+      "sha256": "c8077bcb7304910685099659a8c6b595e6e6deb86d03619971918f5732cba334",
+      "evidenceKinds": [
+        "exact-material-cmd"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_staff_shaman_5806bd4068ce8d9b",
+      "sourceKey": "staff_shaman:SCEPTRE_SAINT_VALENTIN",
+      "name": "Bâton Magique d'Amour",
+      "previousStatus": "unsupported-model",
+      "status": "native-model-render",
+      "reasonCode": "authored-uv-edge-clamp-supported",
+      "reasonFr": "Le moteur prend désormais en charge les UV natives hors atlas avec le même échantillonnage de bord que le viewer officiel, sans modifier les coordonnées ou pixels.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/lovestruck_em/item/weapons/mace_lovestruck_em.json",
+      "sourceModelSha256": "cdc5df3653ce07078d354d682d553421422b5bd5e3057b3769051297db25f2c0",
+      "image": "/assets/items/official/previews/137800c6036b0f60f69baab126ef727cff9d6b4473c8112454e6633bfed5856c.svg",
+      "sha256": "137800c6036b0f60f69baab126ef727cff9d6b4473c8112454e6633bfed5856c",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "qualified-wiki-image-key",
+        "wiki-png-equals-native-texture",
+        "exact-cmd-and-qualified-image-agree"
+      ],
+      "reviewProofs": []
+    },
+    {
+      "officialId": "official_staff_shaman_c68877f75d846bd5",
+      "sourceKey": "staff_shaman:SCEPTRE_SAINT_VALENTIN_P3",
+      "name": "Sceptre d'Amour",
+      "previousStatus": "unsupported-model",
+      "status": "native-model-render",
+      "reasonCode": "authored-uv-edge-clamp-supported",
+      "reasonFr": "Le moteur prend désormais en charge les UV natives hors atlas avec le même échantillonnage de bord que le viewer officiel, sans modifier les coordonnées ou pixels.",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/lovestruck_em/item/weapons/mace_lovestruck_em.json",
+      "sourceModelSha256": "cdc5df3653ce07078d354d682d553421422b5bd5e3057b3769051297db25f2c0",
+      "image": "/assets/items/official/previews/137800c6036b0f60f69baab126ef727cff9d6b4473c8112454e6633bfed5856c.svg",
+      "sha256": "137800c6036b0f60f69baab126ef727cff9d6b4473c8112454e6633bfed5856c",
+      "evidenceKinds": [
+        "exact-material-cmd",
+        "qualified-wiki-image-key",
+        "wiki-png-equals-native-texture",
+        "exact-cmd-and-qualified-image-agree"
+      ],
+      "reviewProofs": []
+    }
+  ],
+  "unavailable": [
+    {
+      "officialId": "official_armor_856dda1632aba921",
+      "sourceKey": "armor:CASQUE_AMETHYSTE_ARCHER",
+      "name": "Casque d'Améthyste Chasseuse",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "L’alias de casque de classe contredit le modèle générique golden_helmet/CMD 10000 ; aucun PNG ou preuve indépendante ne permet de choisir.",
+      "material": "golden_helmet",
+      "customModelData": 10000,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs_armors/item/casque_amethyste_archer.json"
+    },
+    {
+      "officialId": "official_armor_e0f0809d69c3e86a",
+      "sourceKey": "armor:CASQUE_AMETHYSTE_ASSASSIN",
+      "name": "Casque d'Améthyste Faucheuse",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "L’alias de casque de classe contredit le modèle générique golden_helmet/CMD 10000 ; aucun PNG ou preuve indépendante ne permet de choisir.",
+      "material": "golden_helmet",
+      "customModelData": 10000,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs_armors/item/casque_amethyste_assassin.json"
+    },
+    {
+      "officialId": "official_armor_b498ef573bb13a97",
+      "sourceKey": "armor:CASQUE_AMETHYSTE_MAGE",
+      "name": "Casque d'Améthyste Magique",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "L’alias de casque de classe contredit le modèle générique golden_helmet/CMD 10000 ; aucun PNG ou preuve indépendante ne permet de choisir.",
+      "material": "golden_helmet",
+      "customModelData": 10000,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs_armors/item/casque_amethyste_mage.json"
+    },
+    {
+      "officialId": "official_armor_e4185b787402954b",
+      "sourceKey": "armor:CASQUE_AMETHYSTE_SHAMAN",
+      "name": "Casque d'Améthyste Sauvage",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "L’alias de casque de classe contredit le modèle générique golden_helmet/CMD 10000 ; aucun PNG ou preuve indépendante ne permet de choisir.",
+      "material": "golden_helmet",
+      "customModelData": 10000,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs_armors/item/casque_amethyste_shaman.json"
+    },
+    {
+      "officialId": "official_armor_0d507c48f6d710ce",
+      "sourceKey": "armor:DIADEM_WARRIOR_P3",
+      "name": "Diademe du Berserker",
+      "status": "uncertain-model-reference",
+      "reason": "nonexact-cmd-range",
+      "group": "nonexact-cmd-range",
+      "reasonFr": "CMD 10100 absent des seuils exacts ; le repli vers le casque d’améthyste 10000 ne démontre pas l’identité du diadème.",
+      "material": "golden_helmet",
+      "customModelData": 10100,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/amethyst/item/amethyst_helmet.json"
+    },
+    {
+      "officialId": "official_armor_a98ba3e601c374f1",
+      "sourceKey": "armor:foam_boots",
+      "name": "Bottes de l’écume",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "iron_boots",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_consumable_cace45c48d7f072c",
+      "sourceKey": "consumable:KIT_REPARATION_COMPLET",
+      "name": "Kit de Réparation Complet",
+      "status": "uncertain-model-reference",
+      "reason": "nonexact-cmd-range",
+      "group": "nonexact-cmd-range",
+      "reasonFr": "CMD 12417 absent des seuils exacts ; le repli vers iconpalier3 (12416) est incorrect et aucun PNG ne rattache un autre kit à cet objet.",
+      "material": "paper",
+      "customModelData": 12417,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/nerfs/item/ia_auto/iconpalier3.json"
+    },
+    {
+      "officialId": "official_crossbow_8a0346e475d5b221",
+      "sourceKey": "crossbow:ARBALETE_BASIQUE",
+      "name": "Arbalète Basique",
+      "status": "uncertain-model-reference",
+      "reason": "nonexact-cmd-range",
+      "group": "nonexact-cmd-range",
+      "reasonFr": "CMD 10004 absent des seuils exacts ; aucun modèle d’arbalète basique ni PNG ou clé qualifiée ne corrobore une identité précise.",
+      "material": "crossbow",
+      "customModelData": 10004,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/necros_set/crossbow.json"
+    },
+    {
+      "officialId": "official_crossbow_21fb9c3a47e5de38",
+      "sourceKey": "crossbow:ARBALETE_BOIS_ANCIEN",
+      "name": "Arbalète des Bois Ancien",
+      "status": "uncertain-model-reference",
+      "reason": "nonexact-cmd-range",
+      "group": "nonexact-cmd-range",
+      "reasonFr": "Un modèle nommé arbalete_boisancien existe au seuil 12691, mais le wiki indique 10004 sans PNG ni clé qualifiée corroborante.",
+      "material": "crossbow",
+      "customModelData": 10004,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/necros_set/crossbow.json"
+    },
+    {
+      "officialId": "official_crossbow_595cd415d23a0e6b",
+      "sourceKey": "crossbow:ARBALETE_ENTRAINEMENT",
+      "name": "Arbalète d'Entraînement",
+      "status": "uncertain-model-reference",
+      "reason": "nonexact-cmd-range",
+      "group": "nonexact-cmd-range",
+      "reasonFr": "CMD 10004 absent des seuils exacts ; les modèles arc_entrainement sont des arcs et ne prouvent pas l’identité de cette arbalète.",
+      "material": "crossbow",
+      "customModelData": 10004,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/necros_set/crossbow.json"
+    },
+    {
+      "officialId": "official_dagger_8933ed9f83393c8f",
+      "sourceKey": "dagger:SERPE_NOEL_P3",
+      "name": "Serpe Noël",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "custom-model-absent",
+      "reasonFr": "Aucun modèle netherite_hoe/10000 publié ; le modèle Noël scythe correspond déjà à Faux Noël et le seul atlas partagé ne prouve pas une serpe identique.",
+      "material": "netherite_hoe",
+      "customModelData": 10000,
+      "sourceImage": "https://api.saominecraft.com/uploads/items/plny_christmas_2025_set/assets_1.png?v=2",
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_farmer_job_8743d5643808283c",
+      "sourceKey": "farmer_job:FLAREVAE",
+      "name": "Flarevae",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "torchflower",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_farmer_job_7a7e722117a72e2f",
+      "sourceKey": "farmer_job:FLEUR_ALLIUM",
+      "name": "Fleur d’Allium",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "allium",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_farmer_job_ee17ca6bc2042b92",
+      "sourceKey": "farmer_job:WHEAT_BASE",
+      "name": "Blé",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "wheat",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_lunar_c2b9b79b81e49706",
+      "sourceKey": "lunar:BATON_LANTERNE_LUNAR",
+      "name": "Bâton à Lanterne Lunaire",
+      "status": "unsupported-model",
+      "reason": "unsupported-native-texture",
+      "group": "unsupported-native-animation-texture",
+      "reasonFr": "Texture d’animation 32×1760 sans métadonnées de trame exploitables ; l’aperçu expérimental a été rejeté en revue CUA. Aucune trame, cadence ou répétition UV n’est supposée.",
+      "material": "paper",
+      "customModelData": 11942,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/mimix_lunar_new_year/cosmetics/lunar_fireworks_backwear.json"
+    },
+    {
+      "officialId": "official_material_0e8b244b59a2876f",
+      "sourceKey": "material:bee_shell",
+      "name": "Carapace d’Abeille",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "honeycomb",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_5b9403d26cfa759b",
+      "sourceKey": "material:BRUSH",
+      "name": "Pinceau Magique",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "brush",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_8b69397aedbb7836",
+      "sourceKey": "material:crumpled_book",
+      "name": "Carnet Froissé",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "book",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_84b375f5a84a7063",
+      "sourceKey": "material:fleur_allium",
+      "name": "Bouquet de Tulipes",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "allium",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_869c1438c5d4fd5d",
+      "sourceKey": "material:LEGGINGS_KICK",
+      "name": "Pantalon",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "leather_leggings",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_c8a051b1696ad9f8",
+      "sourceKey": "material:Mythril",
+      "name": "Mythril",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Les références publiques désignent des modèles différents ; aucune égalité native ou preuve indépendante ne permet de choisir l’apparence exacte.",
+      "material": "paper",
+      "customModelData": 10043,
+      "sourceImage": "https://api.saominecraft.com/uploads/items/minerals_pack/raw_mythril.png?v=2",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/workshop_six/crate_barrel_minipack/mixed_stack_1.json"
+    },
+    {
+      "officialId": "official_material_43a0eea3c927727c",
+      "sourceKey": "material:PANTALON_PERDU",
+      "name": "Pantalon perdu de Caulette",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "leather_leggings",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_49f8e4a3f5a56585",
+      "sourceKey": "material:PoudreACanon",
+      "name": "Poudre Explosif",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "gunpowder",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_481b8ab6005139db",
+      "sourceKey": "material:relic_swordmaster",
+      "name": "Relique du Maitre Épéiste",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "player_head",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_648e2a60b119e5fa",
+      "sourceKey": "material:Sable",
+      "name": "Sable",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "sand",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_ba8c7d57ad43752e",
+      "sourceKey": "material:skeleton_bone",
+      "name": "Os de Squelette",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "bone",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_28d108c7ccba0e3d",
+      "sourceKey": "material:skeleton_bone_superior",
+      "name": "Os de Squelette Supérieur",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "bone",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_e4b62545d46b9879",
+      "sourceKey": "material:STRING_SPIDER",
+      "name": "Fil d’Araignée",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "string",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_material_fb6d80dd102292a5",
+      "sourceKey": "material:yasneko_LugTNT",
+      "name": "TNT Artisanale",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "tnt",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_miner_job_85835f774e30c195",
+      "sourceKey": "miner_job:COPPER_ORE",
+      "name": "Minerai de Cuivre",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "raw_copper",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    },
+    {
+      "officialId": "official_miner_job_f82c2fbcbccfbdda",
+      "sourceKey": "miner_job:MALACHITE",
+      "name": "Malachite",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Les références publiques désignent des modèles différents ; aucune égalité native ou preuve indépendante ne permet de choisir l’apparence exacte.",
+      "material": "paper",
+      "customModelData": 12381,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/minerals_pack/item/ia_auto/malachite.json"
+    },
+    {
+      "officialId": "official_miner_job_4b5e12be50787238",
+      "sourceKey": "miner_job:ONYX",
+      "name": "Onyx",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Les références publiques désignent des modèles différents ; aucune égalité native ou preuve indépendante ne permet de choisir l’apparence exacte.",
+      "material": "paper",
+      "customModelData": 12383,
+      "sourceImage": null,
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/minerals_pack_v2/item/ia_auto/onyx.json"
+    },
+    {
+      "officialId": "official_potion_stamina_43a62f477c61532b",
+      "sourceKey": "potion_stamina:POTION1",
+      "name": "Potion de Vie I",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Le modèle global nommé potion1…5 contredit le modèle exact glass_bottle/CMD 29 ; le PNG publié est absent (404), sans corroboration indépendante.",
+      "material": "glass_bottle",
+      "customModelData": 29,
+      "sourceImage": "https://api.saominecraft.com/uploads/items/mmoitems_pack/endurepot_1.png?v=2",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fantasymcmatsvol1/item/ia_auto/potion1.json"
+    },
+    {
+      "officialId": "official_potion_stamina_a2766da150118b9b",
+      "sourceKey": "potion_stamina:POTION2",
+      "name": "Potion de Vie II",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Le modèle global nommé potion1…5 contredit le modèle exact glass_bottle/CMD 29 ; le PNG publié est absent (404), sans corroboration indépendante.",
+      "material": "glass_bottle",
+      "customModelData": 29,
+      "sourceImage": "https://api.saominecraft.com/uploads/items/mmoitems_pack/endurepot_2.png?v=2",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fantasymcmatsvol1/item/ia_auto/potion2.json"
+    },
+    {
+      "officialId": "official_potion_stamina_bcacbbc19c624abd",
+      "sourceKey": "potion_stamina:POTION3",
+      "name": "Potion de Mana III",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Le modèle global nommé potion1…5 contredit le modèle exact glass_bottle/CMD 29 ; le PNG publié est absent (404), sans corroboration indépendante.",
+      "material": "glass_bottle",
+      "customModelData": 29,
+      "sourceImage": "https://api.saominecraft.com/uploads/items/mmoitems_pack/endurepot_3.png?v=2",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fantasymcmatsvol1/item/ia_auto/potion3.json"
+    },
+    {
+      "officialId": "official_potion_stamina_be79a22b474d0ecc",
+      "sourceKey": "potion_stamina:POTION4",
+      "name": "Potion de Vie IV",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Le modèle global nommé potion1…5 contredit le modèle exact glass_bottle/CMD 29 ; le PNG publié est absent (404), sans corroboration indépendante.",
+      "material": "glass_bottle",
+      "customModelData": 29,
+      "sourceImage": "https://api.saominecraft.com/uploads/items/mmoitems_pack/endurepot_1.png?v=2",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fantasymcmatsvol1/item/ia_auto/potion4.json"
+    },
+    {
+      "officialId": "official_potion_stamina_70812f04d0c57a9d",
+      "sourceKey": "potion_stamina:POTION5",
+      "name": "Potion de Vie V",
+      "status": "uncertain-model-reference",
+      "reason": "conflicting-model-without-independent-corroboration",
+      "group": "conflicting-public-associations",
+      "reasonFr": "Le modèle global nommé potion1…5 contredit le modèle exact glass_bottle/CMD 29 ; le PNG publié est absent (404), sans corroboration indépendante.",
+      "material": "glass_bottle",
+      "customModelData": 29,
+      "sourceImage": "https://api.saominecraft.com/uploads/items/mmoitems_pack/endurepot_1.png?v=2",
+      "sourceModelUrl": "https://saominecraft.com/item-models/m/fantasymcmatsvol1/item/ia_auto/potion5.json"
+    },
+    {
+      "officialId": "official_tool_a693be5d0346f623",
+      "sourceKey": "tool:TORCH",
+      "name": "Torche",
+      "status": "unavailable-model",
+      "reason": "no-public-model",
+      "group": "vanilla-cmd-zero",
+      "reasonFr": "Aucun modèle/PNG public associé ; le matériau et CMD 0 ne prouvent pas l’apparence du pack SAO actuel.",
+      "material": "torch",
+      "customModelData": 0,
+      "sourceImage": null,
+      "sourceModelUrl": null
+    }
+  ]
+}

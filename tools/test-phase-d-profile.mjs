@@ -120,4 +120,88 @@ async function surface(profile = saved, options = {}) {
     check(d.getElementById('error-content').style.display === 'block', 'A failed load keeps an actionable error visible');
     w.NamelessProfilePage.destroy(); dom.window.close();
 }
+{
+    const { dom, w, d, writes } = await surface();
+    d.getElementById('profile-account').open = true;
+    d.getElementById('profile-niveau').focus();
+    w.currentUser = null;
+    d.dispatchEvent(new w.CustomEvent('nameless:auth-changed', { detail: { user: null } }));
+    check(d.getElementById('profil-content').style.display === 'none', 'External logout synchronously masks the profile without waiting for navigation');
+    check(d.getElementById('mc-display-name').textContent === '' && d.getElementById('profile-minecraft-uuid').textContent === '', 'Logout removes the previous player identity from the private DOM');
+    check(!d.getElementById('mc-avatar-img').hasAttribute('src') && d.getElementById('profile-niveau').value === '', 'Logout clears the avatar and unsaved character fields');
+    check(d.getElementById('error-content').style.display === 'block' && d.activeElement === d.getElementById('profile-login-btn'), 'Logout exposes and focuses the public sign-in action');
+    check(writes.length === 0, 'Revoking a profile causes no automatic writes');
+    const replacement = { ...saved, id: '22222222-2222-4222-8222-222222222222', minecraft_username: 'SecondPlayer', minecraft_uuid: '22222222222242228222222222222222', classe: 'Archer', niveau: 12 };
+    w.supabase.from = () => ({ select() { return this; }, eq() { return this; }, maybeSingle() { return this; }, single() { return this; }, then(resolve) { return Promise.resolve({ data: replacement, error: null }).then(resolve); } });
+    w.currentUser = { id: replacement.id };
+    d.dispatchEvent(new w.CustomEvent('nameless:auth-changed', { detail: { user: w.currentUser } }));
+    await new Promise(resolve => setTimeout(resolve, 130));
+    check(d.getElementById('profil-content').style.display === 'block' && d.getElementById('mc-display-name').textContent === 'SecondPlayer', 'Signing in to a different account reloads its own profile on the current route');
+    check(d.getElementById('profile-minecraft-uuid').textContent === replacement.minecraft_uuid && d.getElementById('profile-niveau').value === '12', 'The replacement profile contains no previous account UUID or character values');
+    d.getElementById('profile-niveau').value = '13';
+    d.dispatchEvent(new w.CustomEvent('nameless:auth-changed', { detail: { user: w.currentUser } }));
+    check(d.getElementById('profile-niveau').value === '13', 'A repeated auth event for the same account preserves unsaved character edits');
+    w.NamelessProfilePage.destroy(); dom.window.close();
+}
+{
+    const { dom, w, d } = await surface();
+    let releaseRead;
+    w.supabase.from = () => ({ select() { return this; }, eq() { return this; }, maybeSingle() { return this; }, single() { return this; }, then(resolve) { return new Promise(release => { releaseRead = release; }).then(resolve); } });
+    const pending = w.NamelessProfilePage.init();
+    await new Promise(resolve => setTimeout(resolve, 120));
+    check(typeof releaseRead === 'function', 'The isolated profile refresh can remain pending');
+    w.currentUser = null;
+    d.dispatchEvent(new w.CustomEvent('nameless:auth-changed', { detail: { user: null } }));
+    releaseRead({ data: { ...saved }, error: null }); await pending;
+    check(d.getElementById('profil-content').style.display === 'none' && d.getElementById('mc-display-name').textContent === '', 'A late profile response cannot restore private content after logout');
+    w.NamelessProfilePage.destroy(); dom.window.close();
+}
+{
+    const { dom, w, d, writes } = await surface({ ...saved, minecraft_username: null, minecraft_uuid: null });
+    let releaseLookup;
+    w.fetch = () => new Promise(resolve => { releaseLookup = resolve; });
+    d.getElementById('minecraft-username-input').value = 'Adventurer';
+    d.getElementById('minecraft-link-form').dispatchEvent(new w.Event('submit', { bubbles: true, cancelable: true }));
+    check(typeof releaseLookup === 'function', 'The isolated Minecraft lookup remains pending before saving');
+    // The SDK can publish its new currentUser before its deferred profile/event work completes.
+    w.currentUser = { id: '22222222-2222-4222-8222-222222222222' };
+    releaseLookup({ ok: true, json: async () => ({ code: 'player.found', data: { player: { username: 'Adventurer', raw_id: saved.minecraft_uuid } } }) });
+    await pause(); await pause();
+    check(writes.length === 0, 'A Minecraft lookup started by another account cannot write to the replacement account');
+    w.NamelessProfilePage.destroy(); dom.window.close();
+}
+{
+    const { dom, w, d, writes } = await surface();
+    let releaseRead;
+    w.supabase.from = () => ({ select() { return this; }, eq() { return this; }, maybeSingle() { return this; }, single() { return this; }, insert(payload) { writes.push(payload); return this; }, then(resolve) { return new Promise(release => { releaseRead = release; }).then(resolve); } });
+    const pending = w.NamelessProfilePage.init();
+    await new Promise(resolve => setTimeout(resolve, 120));
+    w.currentUser = { id: '22222222-2222-4222-8222-222222222222' };
+    releaseRead({ data: null, error: null }); await pending;
+    check(writes.length === 0, 'An old account missing-profile read cannot provision the replacement account');
+    w.NamelessProfilePage.destroy(); dom.window.close();
+}
+{
+    const { dom, w, d } = await surface();
+    const pendingWrites = [];
+    const replacement = { ...saved, id: '22222222-2222-4222-8222-222222222222', minecraft_username: 'SecondPlayer', classe: 'Archer', niveau: 12 };
+    w.supabase.from = () => {
+        let updating = false;
+        return { select() { return this; }, eq() { return this; }, maybeSingle() { return this; }, single() { return this; }, update() { updating = true; return this; }, then(resolve) { return updating ? new Promise(release => { pendingWrites.push(release); }).then(resolve) : Promise.resolve({ data: replacement, error: null }).then(resolve); } };
+    };
+    const button = d.getElementById('save-profile-btn');
+    d.getElementById('profile-niveau').value = '43'; button.click(); await pause();
+    check(pendingWrites.length === 1 && button.disabled, 'The first account can have a pending explicit save');
+    w.currentUser = { id: replacement.id };
+    d.dispatchEvent(new w.CustomEvent('nameless:auth-changed', { detail: { user: w.currentUser } }));
+    await new Promise(resolve => setTimeout(resolve, 130));
+    check(!button.disabled, 'A replacement account does not inherit the previous account saving lock');
+    d.getElementById('profile-niveau').value = '13'; button.click(); await pause();
+    check(pendingWrites.length === 2 && button.disabled, 'The replacement account can start its own guarded save');
+    pendingWrites[0]({ error: null }); await pause();
+    check(button.disabled && button.hasAttribute('aria-busy'), 'A retired account save cannot unlock the replacement account pending save');
+    pendingWrites[1]({ error: null }); await pause(); await pause();
+    check(!button.disabled && !button.hasAttribute('aria-busy'), 'The replacement account completion restores its own save control');
+    w.NamelessProfilePage.destroy(); dom.window.close();
+}
 console.log('PASS: ' + checks + ' Phase D profile checks: real character summary, account disclosure, role gates, saved edits, native avatar fallback, FR/EN, public/error states and SPA lifecycle.');
