@@ -101,9 +101,9 @@
         publicRoute({
             id: 'admin-carte', path: '/admin-carte', source: 'pages/admin-carte.html', title: 'Atelier cartographique — Nameless',
             css: ['css/vendor/leaflet-1.9.4.css?v=20261013mapfix1', 'css/components/map.css?v=20261008hybrid',
-                'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261019atlas1'],
+                'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261019auth1'],
             scripts: ['js/vendor/leaflet-1.9.4.js?v=20261013mapfix1', 'js/map-regions.js?v=20261019atlas1',
-                'js/map.js?v=20261019atlas1', 'js/map-workspace.js?v=20261019atlas1'],
+                'js/map.js?v=20261019atlas1', 'js/map-workspace.js?v=20261019auth1'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),
         publicRoute({

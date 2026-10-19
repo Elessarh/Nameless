@@ -1,5 +1,9 @@
 var namelessSupabaseLibrary = window.supabase || (window.supabasejs && window.supabasejs.supabase);
 var supabase = null;
+// Published before DOMContentLoaded so protected pages can await the initial
+// SDK/session check rather than mistaking an unfinished startup for a failure.
+var resolveNamelessAuthReady;
+window.namelessAuthReadyPromise = new Promise(resolve => { resolveNamelessAuthReady = resolve; });
 
 function _escHtml(t){if(window.NamelessSecurity&&window.NamelessSecurity.escapeHtml)return window.NamelessSecurity.escapeHtml(t);if(!t)return'';var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
 function _escAttr(t){if(window.NamelessSecurity&&window.NamelessSecurity.escapeAttr)return window.NamelessSecurity.escapeAttr(t);if(!t)return'';return t.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -714,6 +718,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const supabaseReady = await initSupabase();
     if (!supabaseReady) {
         window.namelessAuthReady = true;
+        resolveNamelessAuthReady(false);
         // console.error('❌ Impossible d\'initialiser Supabase');
         // Forcer l'affichage du bouton connexion si Supabase échoue
         setTimeout(() => {
@@ -763,6 +768,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Signale aux pages protégées que l'état de session initial est connu :
     // elles peuvent refuser l'accès immédiatement au lieu d'attendre le timeout.
     window.namelessAuthReady = true;
+    resolveNamelessAuthReady(true);
 
     // Écouter les changements d'authentification
     // The SDK dispatches this callback while holding its auth lock. Defer

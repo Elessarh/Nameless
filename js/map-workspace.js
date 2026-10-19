@@ -7,9 +7,11 @@
     const point = value => value && Number.isFinite(value.u) && Number.isFinite(value.v) && value.u >= 0 && value.u <= 1 && value.v >= 0 && value.v <= 1;
     function el(tag, className, text) { const n=document.createElement(tag); if(className)n.className=className; if(text!=null)n.textContent=text; return n; }
     function alive(s) { return active===s && !s.controller.signal.aborted; }
-    function canEdit(s) { return alive(s) && s.authorized===true && !!s.uid; }
+    function hasAccess(s) { return alive(s) && s.authorized===true && !!s.uid; }
+    function canEdit(s) { return hasAccess(s) && !s.checkingAccess; }
+    function missingSession(error) {return error?.name==='AuthSessionMissingError'||error?.code==='session_not_found';}
     function on(s, target, event, fn) { target?.addEventListener(event, fn, {signal:s.controller.signal}); }
-    function paintEditState(s) {const status=s.root.querySelector('#workspace-edit-state');if(status){status.dataset.editState=s.busy?(s.pendingAction||'publishing'):(s.editState||'private');status.textContent=s.busy?s.pendingAction==='loading'?'Rechargement des données…':'Publication en cours…':s.editState==='published'?'Version publiée':s.editState==='local'?'Brouillon conservé':'Brouillon privé';}}
+    function paintEditState(s) {const status=s.root.querySelector('#workspace-edit-state');if(status){status.dataset.editState=s.checkingAccess?'checking':s.busy?(s.pendingAction||'publishing'):(s.editState||'private');status.textContent=s.checkingAccess?'Vérification de votre accès…':s.busy?s.pendingAction==='loading'?'Rechargement des données…':'Publication en cours…':s.editState==='published'?'Version publiée':s.editState==='local'?'Brouillon conservé':'Brouillon privé';}}
     function message(s, text, editState) { if(alive(s)){if(editState)s.editState=editState;s.lastMessage=text;s.root.querySelector('#workspace-message').textContent=text;paintEditState(s);} }
     function markDraft(s) {if(canEdit(s)&&!s.busy)message(s,'Modifications privées. Enregistrez le brouillon ou publiez pour les partager.','private');}
     function image(s) { const config=s.bridge.catalog.floors.find(f=>Number(f.id)===s.bridge.getFloor()); return config.originalImage||config.image; }
@@ -25,8 +27,10 @@
     }
     function syncActions(s) {
         paintEditState(s);
+        const blocked=s.busy||s.checkingAccess;
+        s.root.querySelector('.map-body')?.setAttribute('aria-busy',String(!!blocked));
         for (const selector of ['.map-controls-container','.workspace-tool-tabs','#workspace-inspector','.map-wrapper']) {
-            const host=s.root.querySelector(selector); if(host)host.inert=s.busy;
+            const host=s.root.querySelector(selector); if(host)host.inert=blocked;
         }
         for(const id of ['workspace-region-publish','workspace-region-reset','workspace-marker-publish','workspace-marker-reset','workspace-marker-delete']) {
             const button=s.root.querySelector('#'+id); if(button)button.disabled=!canEdit(s)||!s.serverReady||s.busy||(id.startsWith('workspace-marker')&&(!s.marker||(id.endsWith('-publish')?!point(s.marker)||!s.marker.title?.trim():!s.marker.key||(id.endsWith('-reset')&&s.marker.custom))))||(id.startsWith('workspace-region')&&!s.regionKey);
@@ -35,22 +39,36 @@
             const button=s.root.querySelector('#workspace-marker-'+action);
             if(button)button.disabled=!canEdit(s)||!s.marker||s.busy||(action==='undo'&&!s.history?.canUndo)||(action==='redo'&&!s.history?.canRedo);
         }
-        const gate=s.root.querySelector('#workspace-service'); gate.hidden=s.serverReady;
-        if(!s.serverReady) gate.replaceChildren(el('strong','', 'Publication partagée indisponible. '),document.createTextNode('L’éditeur local reste accessible. Conservez votre brouillon et rechargez les données pour réessayer.'));
+        const gate=s.root.querySelector('#workspace-service'); gate.hidden=s.serverReady||!hasAccess(s)||!s.bridge;
+        if(!gate.hidden) gate.replaceChildren(el('strong','', 'Publication partagée indisponible. '),document.createTextNode('L’éditeur local reste accessible. Conservez votre brouillon et rechargez les données pour réessayer.'));
     }
     async function verified(s) {
         if(!canEdit(s))throw new Error('admin_required');
-        const uid=s.uid, generation=s.authGeneration;
-        const user=await global.supabase.auth.getUser();
-        if(!canEdit(s)||generation!==s.authGeneration||user.error||user.data?.user?.id!==uid) { if(alive(s)&&generation===s.authGeneration)lock(s,'Votre session a changé. Connectez-vous de nouveau.',true); throw new Error('session_changed'); }
-        const role=await global.supabase.rpc('current_user_role');
-        if(!canEdit(s)||generation!==s.authGeneration||role.error||role.data!=='admin') { if(alive(s)&&generation===s.authGeneration)lock(s,'Votre accès administrateur n’est plus disponible.'); throw new Error('admin_required'); }
-        return {uid,generation};
+        const uid=s.uid, generation=s.authGeneration, request=s.accessRevision;
+        try {
+            const user=await global.supabase.auth.getUser();
+            if(!hasAccess(s)||generation!==s.authGeneration)throw new Error('session_changed');
+            if(request!==s.accessRevision||s.checkingAccess)throw new Error('access_checking');
+            if(user.error&&!missingSession(user.error))throw new Error('access_unavailable');
+            if(user.error||user.data?.user?.id!==uid) {lock(s,'Votre session a changé. Connectez-vous de nouveau.',true,'signin');throw new Error('session_changed');}
+            const role=await global.supabase.rpc('current_user_role');
+            if(!hasAccess(s)||generation!==s.authGeneration)throw new Error('session_changed');
+            if(request!==s.accessRevision||s.checkingAccess)throw new Error('access_checking');
+            if(role.error)throw new Error('access_unavailable');
+            if(role.data!=='admin') {lock(s,'Votre accès administrateur n’est plus disponible.');throw new Error('admin_required');}
+            return {uid,generation};
+        }catch(error){
+            if(hasAccess(s)&&generation===s.authGeneration){
+                if(request!==s.accessRevision||s.checkingAccess)throw new Error('access_checking');
+                lock(s,'L’accès ne peut pas être vérifié. Réessayez dans quelques instants.',false,'unavailable');
+            }
+            throw error;
+        }
     }
     async function readShared(s) {
-        const uid=s.uid,generation=s.authGeneration;
+        const uid=s.uid,generation=s.authGeneration,request=s.accessRevision;
         const result=await global.supabase.rpc('map_workspace_read');
-        if(!canEdit(s)||uid!==s.uid||generation!==s.authGeneration)return false;
+        if(!hasAccess(s)||uid!==s.uid||generation!==s.authGeneration||request!==s.accessRevision)return false;
         if(result.error) {
             if(/admin_required|permission|42501|JWT|PGRST30[12]/i.test(String(result.error.message||'')+' '+String(result.error.code||''))) {
                 lock(s,'Votre accès administrateur n’est plus disponible.'); return false;
@@ -72,23 +90,32 @@
     }
     // The public readers resolve service failures as status objects, not rejections.
     function readersReady(readers) {return readers.every(result=>result.status==='fulfilled'&&result.value?.status==='ready');}
+    async function settledAccess(s, uid, generation) {
+        while(hasAccess(s)&&uid===s.uid&&generation===s.authGeneration&&s.checkingAccess) {
+            const request=s.accessRequest;if(!request)return false;await request;
+        }
+        return canEdit(s)&&uid===s.uid&&generation===s.authGeneration;
+    }
     async function mutate(s, name, params, success) {
-        if(s.busy||!s.serverReady||!canEdit(s))return false;
+        if(s.busy||!s.serverReady||!s.bridge||!canEdit(s))return false;
         const floor=s.bridge.getFloor(),editGeneration=s.editGeneration,uid=s.uid,generation=s.authGeneration;
+        let committed=false;
         s.busy=true;s.pendingAction='publishing'; syncActions(s); message(s,'Vérification et publication…');
         try {
             const session=await verified(s);
+            if(!canEdit(s))throw new Error('access_checking');
             if(s.bridge.getFloor()!==floor||s.editGeneration!==editGeneration)throw new Error('editing_changed');
             const result=await global.supabase.rpc(name,params);
-            if(!canEdit(s)||s.uid!==session.uid||s.authGeneration!==session.generation)return false;
+            if(!hasAccess(s)||s.uid!==session.uid||s.authGeneration!==session.generation)return false;
             if(result.error)throw result.error;
-            rememberCommit(s,name,params,result.data);
-            const refreshed=await readShared(s); if(!canEdit(s)||s.uid!==session.uid||s.authGeneration!==session.generation)return false;
+            committed=true;rememberCommit(s,name,params,result.data);
+            if(!await settledAccess(s,session.uid,session.generation))return false;
+            const refreshed=await readShared(s);if(!await settledAccess(s,session.uid,session.generation))return false;
             const readers=await Promise.allSettled([s.bridge.reloadOverrides(),global.NamelessMapRegions.active.reloadRemote()]);
-            if(!canEdit(s)||s.uid!==session.uid||s.authGeneration!==session.generation)return false;
+            if(!await settledAccess(s,session.uid,session.generation))return false;
             if(s.bridge.getFloor()===floor&&s.editGeneration===editGeneration)success?.(result.data);
             message(s,refreshed&&readersReady(readers)?'Modification publiée. La carte publique utilise ces données.':'Modification enregistrée sur le serveur. La relecture est indisponible : rechargez les données avant une nouvelle publication.','published'); return true;
-        } catch(error) { if(!alive(s)||uid!==s.uid||generation!==s.authGeneration)return false;if(/admin_required|permission|42501|JWT|PGRST30[12]/i.test(String(error?.message||'')+' '+String(error?.code||'')))lock(s,'Votre accès administrateur n’est plus disponible.');else message(s,errorText(error)); return false; }
+        } catch(error) { if(!alive(s)||uid!==s.uid||generation!==s.authGeneration)return false;if(error?.message==='access_checking'){message(s,'Modifications privées. Enregistrez le brouillon ou publiez pour les partager.','private');return false;}if(/admin_required|permission|42501|JWT|PGRST30[12]/i.test(String(error?.message||'')+' '+String(error?.code||'')))lock(s,'Votre accès administrateur n’est plus disponible.');else if(committed){s.serverReady=false;message(s,'Modification enregistrée sur le serveur. La relecture est indisponible : rechargez les données avant une nouvelle publication.','published');return true;}else message(s,errorText(error)); return false; }
         finally { if(alive(s)&&uid===s.uid&&generation===s.authGeneration){s.busy=false;syncActions(s);if(s.bridge&&s.bridge.getFloor()!==floor)setMode(s,s.mode);} }
     }
     function revision(s, key, kind) {
@@ -124,7 +151,7 @@
         }
     }
     function regionChanged(s) {
-        if(!canEdit(s))return;
+        if(!canEdit(s)||!s.bridge)return;
         const draft=global.NamelessMapRegions.active?.editor.getDraft();
         const key=draft?.entityKey;
         if(draft?.id&&s.bridge){s.regionSelections[s.bridge.getFloor()]=draft.id;try{global.localStorage.setItem(selectionKey(s),JSON.stringify(s.regionSelections));}catch(_){}}
@@ -135,11 +162,12 @@
             s.root.querySelector('#workspace-region-visible').checked=record?.visible!==false;
         }
         const name=s.root.querySelector('.map-region-name'); if(name)name.readOnly=!!key;
-        const publish=s.root.querySelector('#workspace-region-publish'); if(publish)publish.disabled=!s.serverReady||s.busy||!key;
+        const publish=s.root.querySelector('#workspace-region-publish'); if(publish)publish.disabled=!canEdit(s)||!s.serverReady||s.busy||!key;
         regionPublicationHelp(s,key,name,publish);
         const snapshot=JSON.stringify(draft);if(s.regionSnapshot&&snapshot!==s.regionSnapshot)markDraft(s);s.regionSnapshot=snapshot;
     }
     async function publishRegion(s) {
+        if(!canEdit(s)||s.busy||!s.bridge)return false;
         const draft=global.NamelessMapRegions.active?.editor.getDraft();
         if(!canEdit(s)||!draft?.entityKey) { message(s,'Associez le contour à une fiche de zone existante pour le publier. Les zones personnelles peuvent être exportées en JSON.'); return false; }
         try { global.NamelessMapRegions.validateVertices(draft.vertices); } catch(_) { message(s,'Le contour doit avoir au moins trois sommets, rester dans l’image et ne pas se croiser.'); return false; }
@@ -226,7 +254,7 @@
         s.markerRevision=0;s.history=global.NamelessMapRegions.createHistory(s.marker);s.placing=!point(s.marker);syncMarker(s);message(s,restored?'Brouillon du nouveau repère restauré. Il n’est pas publié.':'Nouveau repère privé. Cliquez sur la carte pour le placer.',restored?'local':'private');
     }
     function captureMarker(s) {
-        if(!canEdit(s)||!s.marker)return;
+        if(!canEdit(s)||s.busy||!s.marker)return;
         const value=id=>s.root.querySelector('#workspace-marker-'+id).value;
         const previous=clone(s.marker);
         if(s.marker.custom){s.marker.title=value('title').trim();s.marker.description=value('description').trim();}
@@ -260,13 +288,13 @@
         canvasHint(s);syncActions(s);
     }
     function saveMarkerLocal(s) {
-        if(!canEdit(s)||!s.marker)return false;captureMarker(s);
+        if(!canEdit(s)||s.busy||!s.marker)return false;captureMarker(s);
         try {const saved=savedMarkers(s);saved[markerDraftKey(s)]={...s.marker,baseRevision:s.markerRevision};global.localStorage.setItem(localKey(s),JSON.stringify(saved));message(s,'Brouillon enregistré dans ce navigateur. Aucune modification publiée.','local');return true;}
         catch(_){message(s,'Le navigateur ne permet pas d’enregistrer le brouillon.');return false;}
     }
     function forgetMarkerLocal(s,key){try{const saved=savedMarkers(s);delete saved[key];global.localStorage.setItem(localKey(s),JSON.stringify(saved));}catch(_){} }
     async function publishMarker(s) {
-        if(!canEdit(s)||!s.marker)return false;captureMarker(s);const m=clone(s.marker);
+        if(!canEdit(s)||s.busy||!s.marker)return false;captureMarker(s);const m=clone(s.marker);
         if(!point(m)||!m.title.trim()||!Object.hasOwn(TYPES,m.type)){message(s,'Renseignez un nom et placez le repère à l’intérieur de l’image.');return false;}
         const params=m.custom?{p_entity_key:m.key,p_title:m.title,p_description:m.description,p_marker_type:m.type,p_floor:m.floor,p_image_id:m.imageId,p_state:m.state,p_u:m.u,p_v:m.v,p_expected_revision:s.markerRevision}
             :{p_entity_key:m.key,p_marker_type:m.type,p_state:m.state,p_u:m.u,p_v:m.v,p_expected_revision:s.markerRevision};
@@ -304,51 +332,95 @@
         title.textContent=s.mode==='regions'?'Édition des zones':s.mode==='markers'?'Placement des repères':'Atlas original';
         hint.textContent=s.mode==='regions'?'Choisissez une zone. Dessinez son contour ou ajustez ses points.':s.mode==='atlas'?'Explorez l’image originale du palier.':s.placing?'Cliquez dans l’image pour placer le repère.':s.marker?point(s.marker)?'Déplacez le point doré pour ajuster la position.':'Cliquez sur Placer, puis dans l’image. Le point doré peut aussi être déplacé.':'Choisissez un repère ou utilisez ＋ pour en créer un.';
     }
-    function lock(s, text, login=false) {
-        s.authorized=false;s.uid=null;s.authGeneration++;s.serverReady=false;
+    function showGate(s, state, text) {
+        const gate=s.root.querySelector('#map-workspace-gate');
+        gate.dataset.state=state;gate.setAttribute('aria-busy',String(state==='checking'));
+        gate.hidden=!!s.bridge;s.root.querySelector('#map-workspace').hidden=!s.bridge;
+        s.root.querySelector('#map-workspace-gate-message').textContent=text;
+        s.root.querySelector('#map-workspace-login').hidden=state!=='signin';
+        s.root.querySelector('#workspace-retry').hidden=!['unavailable','map-error'].includes(state);
+    }
+    function lock(s, text, login=false, state=login?'signin':'restricted') {
+        s.authorized=false;s.uid=null;s.authGeneration++;s.accessRevision++;s.checkingAccess=false;s.serverReady=false;
         for(const off of s.off)off();s.off=[];
         global.NamelessMapRegions.active?.editor.close();clearDraftPoint(s);global.NamelessMapPage.destroy();s.bridge=null;
         s.marker=null;s.markerRevision=0;s.history=null;s.placing=false;s.editState='private';s.shared=null;s.regionKey=null;s.regionSnapshot=null;s.regionRevision=0;s.regionSelections={};s.busy=false;s.editGeneration++;
         s.root.querySelector('#workspace-marker-tool').replaceChildren();s.root.querySelector('#workspace-message').textContent='';s.lastMessage='';paintEditState(s);
-        s.root.querySelector('#map-workspace').hidden=true;s.root.querySelector('#workspace-service').hidden=true;s.root.querySelector('#map-workspace-gate').hidden=false;
-        s.root.querySelector('#map-workspace-gate-message').textContent=text;s.root.querySelector('#map-workspace-login').hidden=!login;
+        showGate(s,state,text);syncActions(s);s.root.querySelector('#workspace-service').hidden=true;
     }
     async function authorize(s) {
-        if(!alive(s))return;
-        lock(s,'Vérification de votre accès…');const generation=s.authGeneration;
-        const db=global.supabase;if(!db?.auth?.getUser){lock(s,'Le service de connexion est indisponible. Réessayez.');return;}
+        if(!alive(s))return false;
+        const preserve=hasAccess(s)&&!!s.bridge;
+        if(!preserve)lock(s,'Vérification de votre accès…',false,'checking');
+        const generation=s.authGeneration,request=++s.accessRevision;
+        s.checkingAccess=true;showGate(s,'checking','Vérification de votre accès…');syncActions(s);
+        const current=()=>alive(s)&&generation===s.authGeneration&&request===s.accessRevision;
+        let openingMap=false;
         try {
-            const user=await db.auth.getUser();if(!alive(s)||generation!==s.authGeneration)return;
-            if(user.error||!user.data?.user){lock(s,'Connectez-vous avec un compte administrateur pour ouvrir l’atelier.',true);return;}
-            const role=await db.rpc('current_user_role');if(!alive(s)||generation!==s.authGeneration)return;
-            if(role.error||role.data!=='admin'){lock(s,'Cet atelier est réservé aux administrateurs du site.');return;}
+            if(global.namelessAuthReadyPromise?.then)await global.namelessAuthReadyPromise;
+            if(!current())return false;
+            const db=global.supabase;if(!db?.auth?.getUser){lock(s,'Le service de connexion est indisponible. Réessayez.',false,'unavailable');return false;}
+            const user=await db.auth.getUser();if(!current())return false;
+            if(user.error&&!missingSession(user.error)){lock(s,'L’accès ne peut pas être vérifié. Réessayez dans quelques instants.',false,'unavailable');return false;}
+            if(user.error||!user.data?.user){lock(s,'Connectez-vous avec un compte administrateur pour ouvrir l’atelier.',true);return false;}
+            if(preserve&&user.data.user.id!==s.uid){lock(s,'Vérification de votre accès…',false,'checking');return requestAccess(s);}
+            const role=await db.rpc('current_user_role');if(!current())return false;
+            if(role.error){lock(s,'L’accès ne peut pas être vérifié. Réessayez dans quelques instants.',false,'unavailable');return false;}
+            if(role.data!=='admin'){lock(s,'Cet atelier est réservé aux administrateurs du site.');return false;}
+            if(preserve){s.checkingAccess=false;s.root.querySelector('#map-workspace-gate').setAttribute('aria-busy','false');global.NamelessMapRegions.active?.setWorkspaceRecords(s.shared?.regions||[]);syncActions(s);return true;}
             s.uid=user.data.user.id;s.authorized=true;
             try{const saved=JSON.parse(global.localStorage.getItem(selectionKey(s))||'{}');for(const floor of [1,2,3])if(typeof saved?.[floor]==='string'&&saved[floor].length<=120)s.regionSelections[floor]=saved[floor];}catch(_){}
-            await readShared(s);if(!canEdit(s)||generation!==s.authGeneration)return;
+            await readShared(s);if(!current()||!hasAccess(s))return false;
             s.root.querySelector('#map-workspace-gate').hidden=true;s.root.querySelector('#map-workspace').hidden=false;
+            openingMap=true;
             const bridge=await global.NamelessMapPage.init(s.root,{canEdit:()=>canEdit(s),regionDraftKey:()=>global.NamelessMapRegions.STORAGE_KEY+'.'+s.uid,
                 regionRevision:key=>s.regionKey===key?s.regionRevision:revision(s,key,'region')});
-            if(!canEdit(s)||generation!==s.authGeneration||!bridge)return;s.bridge=bridge;
+            if(!current()||!hasAccess(s))return false;
+            if(!bridge){lock(s,'La carte n’a pas pu être chargée. Réessayez pour ouvrir l’atelier.',false,'map-error');return false;}
+            s.bridge=bridge;s.checkingAccess=false;s.root.querySelector('#map-workspace-gate').setAttribute('aria-busy','false');
             const off=s.bridge.on('floor',()=>{s.marker=null;s.history=null;s.regionKey=null;setMode(s,s.mode);});s.off.push(off);
             s.off.push(s.bridge.on('selection',entity=>{if(s.mode==='markers'&&entity?.key)loadMarker(s,entity.key);}));
             s.off.push(s.bridge.on('marker',event=>{if(s.mode==='markers')loadMarker(s,event.entities?.[0]?.key);}));
             const click=event=>{if(s.mode==='markers'&&s.placing)moveMarker(s,s.bridge.getRelative(event.latlng));};s.bridge.map.on('click',click);s.off.push(()=>s.bridge?.map.off('click',click));
             setMode(s,s.mode);s.bridge.syncViewport?.();
             const names=s.root.querySelector('#map-display-names');if(names){names.checked=false;names.dispatchEvent(new Event('change',{bubbles:true}));}
-        }catch(_){if(alive(s)&&generation===s.authGeneration)lock(s,'L’accès ne peut pas être vérifié. Réessayez dans quelques instants.');}
+            syncActions(s);return true;
+        }catch(_){if(current())lock(s,openingMap?'La carte n’a pas pu être chargée. Réessayez pour ouvrir l’atelier.':'L’accès ne peut pas être vérifié. Réessayez dans quelques instants.',false,openingMap?'map-error':'unavailable');return false;}
+    }
+    function requestAccess(s, event) {
+        if(event?.detail&&Object.hasOwn(event.detail,'user')){
+            const uid=event.detail.user?.id;
+            if(!uid){lock(s,'Connectez-vous avec un compte administrateur pour ouvrir l’atelier.',true);return s.accessRequest=Promise.resolve(false);}
+            if(s.uid&&uid!==s.uid)lock(s,'Vérification de votre accès…',false,'checking');
+        }
+        const request=authorize(s);s.accessRequest=request;return request;
+    }
+    async function retryAccess(s, source) {
+        if(!alive(s)||s.checkingAccess)return false;
+        const activation=document.activeElement===source?{source,revision:s.focusRevision}:null;
+        const request=requestAccess(s),result=await request;
+        // Hiding the retry button can move native browser focus to BODY. Only
+        // the focused user activation may restore it, never a passive auth event
+        // or a request superseded after the user chose another control.
+        if(!activation||!alive(s)||s.accessRequest!==request||activation.revision!==s.focusRevision
+            ||(document.activeElement!==source&&document.activeElement!==document.body))return result;
+        const retry=s.root.querySelector('#workspace-retry');
+        const target=canEdit(s)&&s.bridge?s.root.querySelector('#game-map'):!retry.hidden?retry:null;
+        target?.focus({preventScroll:true});return result;
     }
     async function init(root) {
         const main=(root?.matches?.('.map-admin-workspace')?root:root?.querySelector?.('.map-admin-workspace'))||document.querySelector('.map-admin-workspace');if(!main)return;
         if(active?.root===main)return active.api;destroy();
-        const s={root:main,controller:new AbortController(),off:[],authorized:false,uid:null,authGeneration:0,editGeneration:0,serverReady:false,busy:false,mode:'regions',marker:null,shared:null};active=s;
-        s.api={getState:()=>({authorized:canEdit(s),serverReady:s.serverReady,mode:s.mode,busy:s.busy,marker:clone(s.marker),regionRevision:s.regionRevision}),mode:value=>setMode(s,value),selectMarker:key=>loadMarker(s,key),newMarker:()=>newMarker(s),moveMarker:value=>moveMarker(s,value),saveLocal:()=>saveMarkerLocal(s),publishMarker:()=>publishMarker(s),publishRegion:()=>publishRegion(s),resetRegion:()=>resetRegion(s),resetMarker:()=>resetMarker(s),refresh:()=>refreshShared(s)};
-        on(s,document,'nameless:auth-changed',()=>authorize(s));on(s,main.querySelector('#workspace-retry'),'click',()=>authorize(s));
+        const s={root:main,controller:new AbortController(),off:[],authorized:false,uid:null,authGeneration:0,accessRevision:0,checkingAccess:false,focusRevision:0,editGeneration:0,serverReady:false,busy:false,mode:'regions',marker:null,shared:null};active=s;
+        s.api={getState:()=>({authorized:canEdit(s),checkingAccess:s.checkingAccess,serverReady:s.serverReady,mode:s.mode,busy:s.busy,marker:clone(s.marker),regionRevision:s.regionRevision}),mode:value=>setMode(s,value),selectMarker:key=>loadMarker(s,key),newMarker:()=>newMarker(s),moveMarker:value=>moveMarker(s,value),saveLocal:()=>saveMarkerLocal(s),publishMarker:()=>publishMarker(s),publishRegion:()=>publishRegion(s),resetRegion:()=>resetRegion(s),resetMarker:()=>resetMarker(s),refresh:()=>refreshShared(s)};
+        on(s,document,'focusin',()=>s.focusRevision++);
+        on(s,document,'nameless:auth-changed',event=>requestAccess(s,event));on(s,main.querySelector('#workspace-retry'),'click',event=>retryAccess(s,event.currentTarget));
         on(s,main,'nameless:region-draft',()=>regionChanged(s));
         on(s,document,'nameless:languagechange',()=>{translateRegionPublication(s);queueMicrotask(()=>{if(canEdit(s)&&s.mode==='regions')regionChanged(s);});});
         on(s,main.querySelector('#workspace-region-publish'),'click',()=>publishRegion(s));on(s,main.querySelector('#workspace-region-reset'),'click',()=>resetRegion(s));
         for(const id of ['workspace-region-status','workspace-region-visible'])on(s,main.querySelector('#'+id),'change',()=>markDraft(s));
         on(s,main.querySelector('#workspace-refresh'),'click',()=>s.api.refresh().catch(error=>message(s,errorText(error))));
-        on(s,main.querySelector('#workspace-labels-toggle'),'click',event=>{const names=main.querySelector('#map-display-names');if(!canEdit(s)||!names)return;names.checked=!names.checked;names.dispatchEvent(new Event('change',{bubbles:true}));event.currentTarget.setAttribute('aria-pressed',String(names.checked));});
+        on(s,main.querySelector('#workspace-labels-toggle'),'click',event=>{const names=main.querySelector('#map-display-names');if(!canEdit(s)||s.busy||!names)return;names.checked=!names.checked;names.dispatchEvent(new Event('change',{bubbles:true}));event.currentTarget.setAttribute('aria-pressed',String(names.checked));});
         on(s,main,'keydown',event=>{
             const target=event.target?.closest?event.target:document.activeElement;
             if(event.key!=='Escape'||event.defaultPrevented||!markerReady(s)||!s.placing
@@ -359,10 +431,10 @@
         });
         for(const button of main.querySelectorAll('[data-workspace-mode]'))on(s,button,'click',()=>setMode(s,button.dataset.workspaceMode));
         on(s,main.querySelector('.workspace-tool-tabs'),'keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;const buttons=[...main.querySelectorAll('[data-workspace-mode]')],index=buttons.indexOf(event.target);if(index<0)return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?2:(index+(event.key==='ArrowRight'?1:-1)+3)%3;buttons[next].click();buttons[next].focus();});
-        translateRegionPublication(s);await authorize(s);return s.api;
+        translateRegionPublication(s);await requestAccess(s);return s.api;
     }
     async function refreshShared(s) {
-        if(s.busy||!canEdit(s))return false;const uid=s.uid,generation=s.authGeneration;
+        if(s.busy||!canEdit(s)||!s.bridge)return false;const uid=s.uid,generation=s.authGeneration;
         s.busy=true;s.pendingAction='loading';syncActions(s);message(s,'Rechargement des données…');
         try {
             await verified(s);const refreshed=await readShared(s);
@@ -374,7 +446,8 @@
             if(s.marker?.key){s.markerRevision=revision(s,s.marker.key,s.marker.custom?'custom':'marker');delete s.marker.baseRevision;}
             const ready=readersReady(readers);
             message(s,ready?'Données rechargées. Votre brouillon peut être publié sur cette nouvelle révision.':'Données de publication rechargées. L’aperçu reste indisponible ; réessayez pour l’actualiser.');return ready;
-        } finally {if(alive(s)&&uid===s.uid&&generation===s.authGeneration){s.busy=false;syncActions(s);}}
+        } catch(error) {if(hasAccess(s)&&uid===s.uid&&generation===s.authGeneration&&error?.message!=='access_checking')message(s,'Les données n’ont pas pu être rechargées. Votre brouillon est conservé ; réessayez avant de publier.');return false;}
+        finally {if(alive(s)&&uid===s.uid&&generation===s.authGeneration){s.busy=false;syncActions(s);}}
     }
     function destroy(){const s=active;if(!s)return;lock(s,'Accès administrateur');active=null;s.controller.abort();for(const off of s.off)off();}
     const api=global.NamelessMapWorkspace={init,destroy};Object.defineProperty(api,'active',{get:()=>active?.api||null});

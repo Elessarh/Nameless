@@ -55,7 +55,7 @@
     <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261017account1">
     <script src="/js/reference-shell.js?v=20261011phasee3" defer></script>
     <link rel="stylesheet" href="/css/components/map-regions.css?v=20261011ux2e">
-    <link rel="stylesheet" href="/css/components/map-workspace.css?v=20261019atlas1">
+    <link rel="stylesheet" href="/css/components/map-workspace.css?v=20261019auth1">
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -101,7 +101,11 @@
             <div class="workspace-heading-actions"><span class="workspace-private-badge">Accès administrateur</span><a class="workspace-preview" href="/carte">Voir la carte publique ↗</a></div>
         </div>
         
-        <section id="map-workspace-gate" class="map-workspace-gate" role="status"><h2>Accès administrateur</h2><p id="map-workspace-gate-message">Vérification de votre accès…</p><a href="/connexion" id="map-workspace-login" hidden>Se connecter</a><a href="/carte">Revenir à la carte</a><button id="workspace-retry" type="button">Réessayer</button></section>
+        <section id="map-workspace-gate" class="map-workspace-gate" aria-labelledby="workspace-gate-title" data-state="checking" aria-busy="true">
+            <div class="workspace-gate-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="19"/><circle cx="24" cy="24" r="12"/><path d="m24 7 5 17-5 17-5-17Z"/><path d="M7 24h34M24 2v5m0 34v5M2 24h5m34 0h5"/></svg></div>
+            <div class="workspace-gate-copy"><h2 id="workspace-gate-title">Accès administrateur</h2><p id="map-workspace-gate-message" role="status" aria-atomic="true">Vérification de votre accès…</p></div>
+            <div class="workspace-gate-actions"><a href="/connexion" id="map-workspace-login" hidden>Se connecter</a><a href="/carte">Revenir à la carte</a><button id="workspace-retry" type="button" hidden>Réessayer</button></div>
+        </section>
         <div id="workspace-service" class="workspace-service" role="status" hidden></div>
         <section id="map-workspace" class="map-workspace" hidden aria-label="Carte interactive d'Aincrad">
         <!-- La recherche et les filtres restent accessibles en plein écran. -->
@@ -177,7 +181,6 @@
               <section id="workspace-region-tool" role="tabpanel" aria-labelledby="workspace-tab-regions"><aside id="map-regions-editor" class="map-regions-editor" aria-label="Éditeur des contours" hidden></aside><div id="workspace-region-publication" class="workspace-publication"><h3><span class="workspace-step">02</span> Publier la zone</h3><label>Fiabilité des limites<select id="workspace-region-status"><option value="indicative">Indicatives · à valider en jeu</option><option value="verified">Vérifiées par l’administration</option><option value="draft">Brouillon partagé · invisible au public</option></select></label><label class="workspace-check"><input id="workspace-region-visible" type="checkbox" checked>Afficher la zone sur la carte publique</label><div class="workspace-publish-actions"><button id="workspace-region-publish" class="is-primary" type="button">Publier la zone ↗</button></div><details class="workspace-advanced"><summary>Restaurer la version d’origine</summary><p>Retire la modification publiée et rétablit les limites proposées par le site.</p><button id="workspace-region-reset" type="button">Restaurer les limites d’origine</button></details></div></section>
               <section id="workspace-marker-tool" role="tabpanel" aria-labelledby="workspace-tab-markers" hidden></section>
               <section id="workspace-atlas-tool" role="tabpanel" aria-labelledby="workspace-tab-atlas" hidden></section>
-              <p id="workspace-message" class="workspace-message" role="status" aria-live="polite"></p>
             </aside>
             <aside id="map-panel" class="map-panel" aria-label="Détails de la sélection" hidden>
                 <div class="map-panel-actions">
@@ -187,6 +190,7 @@
                 <div id="map-panel-content" class="map-panel-content"></div>
             </aside>
         </div>
+        <p id="workspace-message" class="workspace-message" role="status" aria-live="polite" aria-atomic="true"></p>
         <div class="workspace-statusbar"><span id="workspace-edit-state">Brouillon privé</span><span>Déplacer : glisser · Zoomer : molette ou + / −</span></div>
         <dialog id="map-legend" class="map-legend-dialog" aria-labelledby="map-legend-title">
             <div class="map-legend-heading"><h2 id="map-legend-title">Légende de la carte</h2><button id="map-legend-close" type="button" aria-label="Fermer la légende">×</button></div>
@@ -221,12 +225,12 @@
     <script src="../js/db-guard.js?v=20261007a" defer></script>
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
-    <script src="../js/auth-supabase.js?v=20261007a" defer></script>
+    <script src="../js/auth-supabase.js?v=20261019auth1" defer></script>
     <script src="../js/map-regions.js?v=20261019atlas1" defer></script>
     <script src="../js/map.js?v=20261019atlas1" defer></script>
     <script src="../js/navbar-mobile.js?v=20261011phasee3" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
     <script src="../js/global-search.js?v=20261018search1" defer></script>
-    <script src="/js/map-workspace.js?v=20261019atlas1" defer></script>
+    <script src="/js/map-workspace.js?v=20261019auth1" defer></script>
 </body>
 </html>
