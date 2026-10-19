@@ -1202,9 +1202,18 @@ function setupEventListeners() {
     if (chips) chips.addEventListener('click', e => {
         const button = e.target.closest('[data-clear-filter]');
         if (!button) return;
+        const focusIndex = document.activeElement === button ? [...chips.querySelectorAll('[data-clear-filter]')].indexOf(button) : -1;
         const values = besFilterValues.get(button.dataset.clearFilter);
+        if (button.dataset.clearFilter === 'bes-search') {
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('q')) { url.searchParams.delete('q'); history.replaceState(history.state, '', url.href); }
+        }
         if (values) { values.delete(button.dataset.clearValue); filterCreatures(); }
         else { const field = document.getElementById(button.dataset.clearFilter); if (field) { field.value = ''; filterCreatures(); } }
+        if (focusIndex >= 0) {
+            const remaining = chips.querySelectorAll('[data-clear-filter]');
+            (remaining[Math.min(focusIndex, remaining.length - 1)] || search)?.focus({ preventScroll: true });
+        }
     }, opts);
     const view = document.querySelector('.bestiary-page .catalogue-view');
     if (view) view.addEventListener('click', e => {
@@ -1470,7 +1479,8 @@ function openCreatureModal(id, updateUrl, moveFocus = true) {
     close.setAttribute('aria-label', besUi('Fermer la fiche', 'Close details'));
     close.textContent = '×';
     setBestiarySelection(id);
-    content.appendChild(close);
+    const controls = document.createElement('div'); controls.className = 'catalogue-detail-controls';
+    controls.appendChild(close); content.appendChild(controls);
 
     const header = document.createElement('div');
     header.className = 'modal-header';
@@ -1680,7 +1690,7 @@ function buildDrop(drop) {
     el.title = besUi('Voir cet objet', 'View item');
     const img = document.createElement('img');
     img.className = 'drop-icon';
-    img.alt = drop.name;
+    img.alt = '';
     img.dataset.fallback = 'bes';
     img.src = getDropImagePath(drop);
     el.appendChild(img);

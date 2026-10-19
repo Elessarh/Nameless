@@ -47,15 +47,15 @@
     <meta name="twitter:title" content="Carte d'Aincrad — Nameless">
     <meta name="twitter:description" content="La carte interactive d'Aincrad — zones, donjons, quêtes, villes, marchands et monstres. Le territoire de la guilde Nameless.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="../css/components/global-search.css?v=20261011phasee3">
+    <link rel="stylesheet" href="../css/components/global-search.css?v=20261018search1">
     <link rel="stylesheet" href="../css/components/mmorpg-kit.css?v=20261011phasee3">
     <link rel="stylesheet" href="../css/components/world-experience.css?v=20261011phasee3">
-    <script src="../js/world-atmosphere.js?v=20261011phasee3" defer></script>
-    <link rel="stylesheet" href="../css/components/reference-map.css?v=20261011ux2e">
-    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261011phasee3">
+    <script src="../js/world-atmosphere.js?v=20261017motion2" defer></script>
+    <link rel="stylesheet" href="../css/components/reference-map.css?v=20261017polish2">
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261017account1">
     <script src="/js/reference-shell.js?v=20261011phasee3" defer></script>
     <link rel="stylesheet" href="/css/components/map-regions.css?v=20261011ux2e">
-    <link rel="stylesheet" href="/css/components/map-workspace.css?v=20261010maprework2">
+    <link rel="stylesheet" href="/css/components/map-workspace.css?v=20261019atlas1">
 </head>
 <body>
     <!-- Skip link pour l'accessibilité -->
@@ -145,7 +145,7 @@
             </div>
         </section>
         <p id="map-route-status" class="map-route-status" role="status" hidden></p>
-        <div class="workspace-tool-tabs" role="tablist" aria-label="Outils de cartographie"><button type="button" role="tab" data-workspace-mode="regions" aria-selected="true" aria-controls="workspace-region-tool"><span aria-hidden="true">◇</span> Zones</button><button type="button" role="tab" data-workspace-mode="markers" aria-selected="false" aria-controls="workspace-marker-tool"><span aria-hidden="true">⌖</span> Repères</button><button type="button" role="tab" data-workspace-mode="atlas" aria-selected="false" aria-controls="workspace-atlas-tool"><span aria-hidden="true">▧</span> Atlas</button><span class="workspace-tab-note">Vos modifications restent privées jusqu’à la publication</span><button id="workspace-refresh" type="button">↻ Recharger</button></div>
+        <div class="workspace-tool-tabs" role="tablist" aria-label="Outils de cartographie"><button type="button" id="workspace-tab-regions" role="tab" data-workspace-mode="regions" aria-selected="true" aria-controls="workspace-region-tool"><span aria-hidden="true">◇</span> Zones</button><button type="button" id="workspace-tab-markers" role="tab" data-workspace-mode="markers" aria-selected="false" aria-controls="workspace-marker-tool"><span aria-hidden="true">⌖</span> Repères</button><button type="button" id="workspace-tab-atlas" role="tab" data-workspace-mode="atlas" aria-selected="false" aria-controls="workspace-atlas-tool"><span aria-hidden="true">▧</span> Atlas</button><span class="workspace-tab-note">Vos modifications restent privées jusqu’à la publication</span><button id="workspace-refresh" type="button">↻ Recharger</button></div>
         <div class="map-body">
             <aside id="map-filter-rail" class="map-filter-rail" aria-label="Filtres de la carte">
                 <div class="map-filter-heading">
@@ -174,9 +174,9 @@
                 <div class="workspace-canvas-guidance"><span aria-hidden="true">⌖</span><span id="workspace-canvas-hint">Choisissez une zone pour ajuster son contour.</span></div>
             </div>
             <aside id="workspace-inspector" class="workspace-inspector" aria-label="Outil actif">
-              <section id="workspace-region-tool" role="tabpanel"><aside id="map-regions-editor" class="map-regions-editor" aria-label="Éditeur des contours" hidden></aside><div id="workspace-region-publication" class="workspace-publication"><h3><span class="workspace-step">02</span> Publier la zone</h3><label>Fiabilité des limites<select id="workspace-region-status"><option value="indicative">Indicatives · à valider en jeu</option><option value="verified">Vérifiées par l’administration</option><option value="draft">Brouillon partagé · invisible au public</option></select></label><label class="workspace-check"><input id="workspace-region-visible" type="checkbox" checked>Afficher la zone sur la carte publique</label><div class="workspace-publish-actions"><button id="workspace-region-publish" class="is-primary" type="button">Publier la zone ↗</button></div><details class="workspace-advanced"><summary>Restaurer la version d’origine</summary><p>Retire la modification publiée et rétablit les limites proposées par le site.</p><button id="workspace-region-reset" type="button">Restaurer les limites d’origine</button></details></div></section>
-              <section id="workspace-marker-tool" role="tabpanel" hidden></section>
-              <section id="workspace-atlas-tool" role="tabpanel" hidden></section>
+              <section id="workspace-region-tool" role="tabpanel" aria-labelledby="workspace-tab-regions"><aside id="map-regions-editor" class="map-regions-editor" aria-label="Éditeur des contours" hidden></aside><div id="workspace-region-publication" class="workspace-publication"><h3><span class="workspace-step">02</span> Publier la zone</h3><label>Fiabilité des limites<select id="workspace-region-status"><option value="indicative">Indicatives · à valider en jeu</option><option value="verified">Vérifiées par l’administration</option><option value="draft">Brouillon partagé · invisible au public</option></select></label><label class="workspace-check"><input id="workspace-region-visible" type="checkbox" checked>Afficher la zone sur la carte publique</label><div class="workspace-publish-actions"><button id="workspace-region-publish" class="is-primary" type="button">Publier la zone ↗</button></div><details class="workspace-advanced"><summary>Restaurer la version d’origine</summary><p>Retire la modification publiée et rétablit les limites proposées par le site.</p><button id="workspace-region-reset" type="button">Restaurer les limites d’origine</button></details></div></section>
+              <section id="workspace-marker-tool" role="tabpanel" aria-labelledby="workspace-tab-markers" hidden></section>
+              <section id="workspace-atlas-tool" role="tabpanel" aria-labelledby="workspace-tab-atlas" hidden></section>
               <p id="workspace-message" class="workspace-message" role="status" aria-live="polite"></p>
             </aside>
             <aside id="map-panel" class="map-panel" aria-label="Détails de la sélection" hidden>
@@ -222,11 +222,11 @@
     <script src="../js/cache-manager.js?v=20261007a" defer></script>
     <script src="../js/security-utils.js?v=20261007a" defer></script>
     <script src="../js/auth-supabase.js?v=20261007a" defer></script>
-    <script src="../js/map-regions.js?v=20261010maprework2" defer></script>
-    <script src="../js/map.js?v=20261014official1" defer></script>
+    <script src="../js/map-regions.js?v=20261019atlas1" defer></script>
+    <script src="../js/map.js?v=20261019atlas1" defer></script>
     <script src="../js/navbar-mobile.js?v=20261011phasee3" defer></script>
     <script src="../js/audio-controller.js?v=20261008hybrid" defer></script>
-    <script src="../js/global-search.js?v=20261014official1" defer></script>
-    <script src="/js/map-workspace.js?v=20261013taxonomy1" defer></script>
+    <script src="../js/global-search.js?v=20261018search1" defer></script>
+    <script src="/js/map-workspace.js?v=20261019atlas1" defer></script>
 </body>
 </html>

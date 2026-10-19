@@ -124,15 +124,16 @@ export function buildBossPages({ root, output, mapGraph }) {
         doc.head.querySelectorAll('meta[property="og:image:width"],meta[property="og:image:height"]').forEach(node => node.remove());
         if (imageSize) { meta('og:image:width', imageSize.width, true); meta('og:image:height', imageSize.height, true); }
 
-        const main = doc.querySelector('main'); main.replaceChildren();
+        const main = doc.querySelector('main'); main.replaceChildren(); main.classList.add('boss-detail-page');
         const breadcrumb = element('nav', 'boss-breadcrumb'); breadcrumb.setAttribute('aria-label', "Fil d'Ariane");
         breadcrumb.append(link('/', 'Nameless'), doc.createTextNode(' › '), link('/bestiaire', 'Bestiaire'), doc.createTextNode(' › '));
         const current = element('span', '', boss.name); current.setAttribute('aria-current', 'page'); breadcrumb.appendChild(current);
         main.appendChild(breadcrumb);
         const hero = element('header', 'bes-hero');
-        hero.append(element('span', 'nm-eyebrow', 'Codex des boss'), element('h1', '', boss.name), element('p', 'bes-subtitle', category.label + ' · Palier ' + boss.palier + " d'Aincrad"));
+        const heading = element('h1', '', boss.name); heading.id = 'boss-title';
+        hero.append(element('span', 'nm-eyebrow', 'Codex des boss'), heading, element('p', 'bes-subtitle', category.label + ' · Palier ' + boss.palier + " d'Aincrad"));
         main.appendChild(hero);
-        const article = element('article', 'modal-content boss-fact');
+        const article = element('article', 'modal-content boss-fact'); article.setAttribute('aria-labelledby', heading.id);
         const header = element('div', 'modal-header');
         const media = element('div', 'modal-media');
         const portrait = element('img'); portrait.src = image; portrait.alt = boss.name; portrait.decoding = 'async';
@@ -153,10 +154,10 @@ export function buildBossPages({ root, output, mapGraph }) {
             info.append(element('p', 'modal-desc', 'Repère de zone ; position exacte inconnue.'));
         }
         header.appendChild(info); article.appendChild(header);
-        const section = (heading, content) => {
-            const node = element('section', 'modal-section'); node.append(element('h2', 'modal-section-title', heading), content); article.appendChild(node);
+        const section = (heading, content, className = '') => {
+            const node = element('section', 'modal-section' + (className ? ' ' + className : '')); node.append(element('h2', 'modal-section-title', heading), content); article.appendChild(node);
         };
-        section('Description', element('p', 'modal-desc', boss.description));
+        section('Description', element('p', 'modal-desc', boss.description), 'boss-description');
         if (boss.drops.length) {
             const grid = element('div', 'drops-grid');
             for (const drop of boss.drops) {
@@ -177,12 +178,13 @@ export function buildBossPages({ root, output, mapGraph }) {
             section('Butin possible', loot);
         } else section('Butin possible', element('p', 'modal-desc', 'Aucun butin connu.'));
         const related = element('p', 'boss-related');
-        related.append(link('/bestiaire?creature=' + boss.id, 'Ouvrir dans le bestiaire'), doc.createTextNode(' · '), link('/wiki#donjons', 'Guide des donjons'));
+        const separator = element('span', 'boss-related-separator', ' · '); separator.setAttribute('aria-hidden', 'true');
+        related.append(link('/bestiaire?creature=' + boss.id, 'Ouvrir dans le bestiaire'), separator, link('/wiki#donjons', 'Guide des donjons'));
         section('Poursuivre la lecture', related); main.appendChild(article);
 
-        const style = element('style');
-        style.textContent = '.boss-breadcrumb{max-width:760px;margin:1rem auto;color:var(--nm-steel);font-size:.85rem}.boss-breadcrumb a,.boss-related a,.boss-related-link{color:var(--sao-cyan)}.boss-breadcrumb a,.boss-related a,.boss-related-link{display:inline-block;padding:.4rem 0}.boss-fact{max-height:none;overflow:visible;margin:1.5rem auto;background:none;border:0;box-shadow:none;padding:0}.boss-fact .modal-stat{background:none;border:0;border-bottom:1px solid var(--nm-hairline)}.boss-fact .modal-section{border-top:1px solid var(--nm-hairline);padding-top:1.25rem}.boss-fact dd{margin:0}.boss-fact a:focus-visible{outline:2px solid var(--sao-cyan);outline-offset:3px}.boss-related{color:var(--sao-text);line-height:1.7}.boss-fact .modal-info{min-width:0}';
-        doc.head.appendChild(style);
+        const stylesheet = element('link'); stylesheet.rel = 'stylesheet';
+        stylesheet.href = '/css/components/boss-detail.css?v=20261018boss1';
+        doc.head.appendChild(stylesheet);
         const structured = element('script'); structured.type = 'application/ld+json';
         structured.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Nameless', item: origin + '/' },

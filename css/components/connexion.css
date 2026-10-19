@@ -1,28 +1,104 @@
-/* Sign-in is a functional shared-theme surface. Microsoft Auth IDs stay intact. */
-.auth-page { min-height: calc(100svh - var(--nm-header-height)); padding: 40px 24px; background: var(--nm-bg); }
+/* Sign-in stays a functional surface; the shared atmosphere supplies its scene. */
+.auth-page {
+    min-height: calc(100svh - var(--nm-header-height));
+    display: grid;
+    align-content: center;
+    padding: clamp(32px, 6vh, 72px) 24px;
+    background: radial-gradient(ellipse at 24% 28%, #c79f5510, transparent 60%);
+}
 .auth-page .auth-container { width: min(100%, 1080px); margin: 0 auto; }
-.auth-page .auth-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-.auth-page .auth-card, .auth-page .guild-info { padding: 32px; border: 1px solid var(--nm-border); border-radius: var(--nm-radius); background: var(--nm-bg-secondary); }
-.auth-page .auth-title { color: var(--nm-text); font: 500 clamp(1.5rem, 3vw, 2rem)/1.3 var(--font-title); text-align: center; letter-spacing: 0; margin: 0 0 12px; }
-.auth-page .auth-subtitle { margin: 0 0 28px; text-align: center; color: var(--nm-text-secondary); font-size: .92rem; }
-.auth-page .auth-info { color: var(--nm-text); font-size: .92rem; line-height: 1.7; margin-bottom: 20px; }
-.auth-page .microsoft-btn { width: 100%; min-height: var(--nm-control-height); display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 16px; background: var(--nm-surface); border-color: var(--nm-border-control); color: var(--nm-text); }
-.auth-page .microsoft-btn:hover { background: var(--nm-surface-raised); border-color: var(--nm-gold); }
+.auth-page .auth-wrapper { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 24px; align-items: start; }
+.auth-page :is(.auth-card, .guild-info) {
+    min-width: 0;
+    padding: clamp(24px, 3.2vw, 40px);
+    border: 1px solid #ac946055;
+    border-radius: var(--nm-radius);
+    background: linear-gradient(145deg, #172f38f7, #081a24fa);
+    box-shadow: inset 0 1px #e3c99712, 0 18px 48px #010a1359;
+}
+.auth-page .auth-card {
+    position: relative;
+    border-color: #b79b647a;
+    background: linear-gradient(150deg, #1c343df7, #0a1c27fc);
+}
+.auth-page .auth-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px 24px auto;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, #efcc91, transparent);
+}
+.auth-page .auth-title { color: #f0e7d5; font: 500 clamp(1.5rem, 3vw, 2rem)/1.35 var(--font-title); text-align: center; letter-spacing: 0; margin: 0 0 12px; text-wrap: balance; }
+.auth-page .auth-subtitle { margin: 0 0 28px; padding-bottom: 26px; border-bottom: 1px solid #af966140; text-align: center; color: var(--nm-text-secondary); font-size: .92rem; line-height: 1.7; text-wrap: balance; }
+.auth-page .auth-info { color: #e0dfd5; font-size: .92rem; line-height: 1.8; margin-bottom: 24px; }
+.auth-page .microsoft-btn {
+    width: 100%;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(110deg, #203d48, #132c39);
+    border: 1px solid #bfa572a6;
+    color: #f1e9d9;
+    line-height: 1.5;
+    box-shadow: inset 0 1px #e7d3ab20, 0 4px 16px #0002;
+    transition: border-color var(--nm-duration-hover), background-color var(--nm-duration-hover), box-shadow var(--nm-duration-hover), transform var(--nm-duration-hover) var(--nm-ease);
+}
 .auth-page .microsoft-btn svg { flex: 0 0 21px; }
-.auth-page .auth-information-links { margin-top: 16px; font-size: .8rem; }
-.auth-page a { color: var(--nm-link); text-underline-offset: 3px; }
+.auth-page .microsoft-btn:focus-visible { outline: 2px solid #ead1a2; outline-offset: 4px; box-shadow: 0 0 0 3px #081a24; }
+.auth-page .microsoft-btn:active:not(:disabled):not([aria-disabled='true']) { transform: translateY(1px); box-shadow: inset 0 1px 5px #0004; }
+.auth-page .microsoft-btn:is(:disabled, [aria-disabled='true']) {
+    opacity: 1;
+    color: var(--nm-text-secondary);
+    border-color: #68787a;
+    background: #152b34;
+    box-shadow: none;
+    cursor: wait;
+    transform: none;
+}
+.auth-page .auth-information-links { margin-top: 18px; padding-top: 4px; font-size: .78rem; text-align: center; }
+.auth-page a { color: #b7d4d4; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: color var(--nm-duration-hover), border-color var(--nm-duration-hover); }
+.auth-page a:focus-visible { outline: 2px solid #ead1a2; outline-offset: 4px; border-radius: 2px; }
 .auth-page .auth-information-links a, .auth-page .discord-link { display: inline-flex; align-items: center; min-height: 44px; }
-.auth-page .auth-hint { font-size: .78rem; color: var(--nm-text-secondary); line-height: 1.6; }
-.auth-page .auth-message { margin-top: 20px; padding: 12px; border: 1px solid var(--nm-border-control); color: var(--nm-text); }
-.auth-page .auth-message.error { color: var(--nm-danger); }
-.auth-page .auth-message.success { color: var(--nm-success); }
-.auth-page .guild-eyebrow { color: var(--nm-gold); font-size: .76rem; }
-.auth-page .guild-title { font: 500 1.45rem/1.4 var(--font-title); color: var(--nm-text); margin: 10px 0 18px; }
-.auth-page .guild-description { color: var(--nm-text-secondary); font-size: .9rem; line-height: 1.75; }
+.auth-page .auth-hint { font-size: .78rem; color: var(--nm-text-secondary); line-height: 1.7; text-align: center; }
+.auth-page .auth-message { margin-top: 22px; padding: 14px 16px; border: 1px solid var(--nm-border-control); border-inline-start-width: 3px; border-radius: 2px; background: #06151dcc; color: var(--nm-text); font-size: .86rem; line-height: 1.75; overflow-wrap: anywhere; }
+.auth-page .auth-message.error { color: var(--nm-danger); border-inline-start-color: var(--nm-danger); }
+.auth-page .auth-message.success { color: var(--nm-success); border-inline-start-color: var(--nm-success); }
+.auth-page .guild-eyebrow { display: block; color: #d4ba89; font-size: .69rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
+.auth-page .guild-title { font: 500 1.45rem/1.45 var(--font-title); color: #eee4d1; margin: 10px 0 20px; }
+.auth-page .guild-description { color: #b7c5c7; font-size: .88rem; line-height: 1.8; }
 .auth-page .guild-description p { margin-bottom: 16px; }
-.auth-page .guild-list-title { color: var(--nm-text); margin-top: 24px; }
+.auth-page .guild-list-title { color: #e5ded0; margin-top: 24px; padding-top: 20px; border-top: 1px solid #af966133; }
 .auth-page .guild-list { padding-left: 20px; margin-bottom: 20px; }
-.auth-page .guild-list li { margin: 8px 0; }
-.auth-page .discord-link { margin-top: 6px; border-bottom: 1px solid var(--nm-border); text-decoration: none; }
-@media (max-width: 860px) { .auth-page .auth-wrapper { grid-template-columns: 1fr; } }
-@media (max-width: 480px) { .auth-page { padding: 20px 12px; } .auth-page .auth-card, .auth-page .guild-info { padding: 24px 20px; } }
+.auth-page .guild-list li { margin: 10px 0; padding-left: 3px; }
+.auth-page .guild-list li::marker { color: #c9ac77; }
+.auth-page .discord-link { margin-top: 6px; gap: 10px; padding: 8px 0; border-bottom: 1px solid #a58f6459; text-decoration: none; font-size: .85rem; }
+@media (hover: hover) and (pointer: fine) {
+    .auth-page .microsoft-btn:hover:not(:active):not(:disabled):not([aria-disabled='true']) { background: linear-gradient(110deg, #294954, #193442); border-color: #efd3a2; color: #fff4df; box-shadow: inset 0 1px #e7d3ab33, 0 6px 20px #0004; transform: translateY(-1px); }
+    .auth-page a:hover { color: #eed3a1; }
+    .auth-page .discord-link:hover { border-color: #dcc08c; }
+}
+@media (max-width: 860px) { .auth-page .auth-wrapper { grid-template-columns: minmax(0, 1fr); max-width: 600px; margin-inline: auto; } }
+@media (max-width: 480px) {
+    .auth-page { padding: 28px 14px 36px; align-content: start; }
+    .auth-page .auth-wrapper { gap: 18px; }
+    .auth-page :is(.auth-card, .guild-info) { padding: 26px 20px; }
+    .auth-page .auth-subtitle { margin-bottom: 22px; padding-bottom: 22px; }
+    .auth-page .microsoft-btn { padding-inline: 12px; font-size: .82rem; }
+    .auth-page .auth-information-links { font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .auth-page :is(.microsoft-btn, a) { transition: none; }
+    .auth-page .microsoft-btn:is(:hover, :active) { transform: none !important; }
+}
+@media (forced-colors: active) {
+    .auth-page { background: Canvas; }
+    .auth-page :is(.auth-card, .guild-info, .auth-message) { background: Canvas; border-color: CanvasText; box-shadow: none; }
+    .auth-page .auth-card::before { display: none; }
+    .auth-page .microsoft-btn { background: ButtonFace; color: ButtonText; border-color: ButtonText; box-shadow: none; }
+    .auth-page .microsoft-btn:is(:disabled, [aria-disabled='true']) { background: ButtonFace; color: GrayText; border-color: GrayText; }
+    .auth-page :is(a, .microsoft-btn):focus-visible { outline-color: Highlight; box-shadow: none; }
+}

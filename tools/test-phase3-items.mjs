@@ -151,6 +151,85 @@ const choose = (s, id, value) => [...s.d.querySelectorAll('[data-filter-field="'
     equal(cancellations, 1, 'SPA teardown cancels any pending exit before removing the detail DOM');
     s.close();
 }
+for (const language of ['fr', 'en']) {
+    // Source-contract fixtures cover missing media and a runtime load failure
+    // without replacing any preview identity in the actual catalogue.
+    const items = [
+        {id: 'preview-source', name: 'Objet source', image: 'fixture-source.png', rarity: 'common'},
+        {id: 'preview-related', name: 'Objet lié', image: 'fixture-related.png', rarity: 'common'},
+        {id: 'preview-missing', name: 'Objet sans aperçu', image: null, rarity: 'common'}
+    ];
+    const source = {title: 'Créature source', url: '/bestiaire?creature=1', floor: 1};
+    const index = items.map(item => ({kind: 'item', id: item.id, sources: [source]}));
+    const fixture = {groups: {material: {name: 'Material', items}}, metadata: {}};
+    const s = surface(1440, '', index, fixture), {d, w} = s;
+    w.NamelessI18n = {getLanguage: () => language, translate: value => value, getLocale: () => language === 'en' ? 'en-US' : 'fr-FR'};
+    d.dispatchEvent(new w.CustomEvent('nameless:languagechange'));
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const expectedStatus = language === 'en' ? 'Preview unavailable' : 'Aperçu indisponible';
+    const missingCard = d.querySelector('[data-id="preview-missing"]');
+    equal(missingCard.querySelector('.item-image-unavailable').textContent, expectedStatus, language + ': a missing card preview has a visible translated explanation');
+    equal(missingCard.querySelector('img').alt, '', language + ': the neutral card symbol is decorative rather than claiming to depict the item');
+    missingCard.click();
+    const modal = d.querySelector('.item-modal');
+    equal(modal.querySelector('.item-modal-media .item-image-unavailable').textContent, expectedStatus, language + ': a missing detail preview explains its unavailable state');
+    equal(modal.querySelector('.item-modal-media img').alt, '', language + ': the neutral detail symbol is decorative');
+    modal.querySelector('.modal-close').click();
+    d.querySelector('[data-id="preview-source"]').click();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    const relatedPanel = modal.querySelector('[data-catalogue-tab-panel="related"]');
+    equal(relatedPanel.querySelector('[href="/items?item=preview-missing"] .item-related-label [data-item-preview-status]').textContent,
+        expectedStatus, language + ': missing related previews use a translated label beside the named link');
+
+    const cardImage = d.querySelector('[data-id="preview-source"] img');
+    const detailImage = modal.querySelector('.item-modal-media img');
+    const relatedImage = relatedPanel.querySelector('[href="/items?item=preview-related"] img');
+    for (const [kind, image] of [['card', cardImage], ['detail', detailImage], ['related', relatedImage]]) {
+        const host = kind === 'related' ? image.closest('a').querySelector('.item-related-label') : image.parentElement;
+        const originalAlt = image.alt, originalSource = image.getAttribute('src');
+        Object.defineProperties(image, {naturalWidth: {value: 24, configurable: true}, naturalHeight: {value: 24, configurable: true}});
+        image.dispatchEvent(new w.Event('load'));
+        image.dispatchEvent(new w.Event('error'));
+        equal(host.querySelector('[data-item-preview-status]').textContent, expectedStatus, language + ': a ' + kind + ' load failure produces a visible explanation');
+        check(image.alt === '' && image.classList.contains('is-fallback') && !image.classList.contains('is-pixel-art') && !image.hasAttribute('width')
+            && image.style.getPropertyValue('--item-image-width') === '', language + ': a failed ' + kind + ' preview clears its item alt and stale sprite sizing');
+        const changes = [];
+        const observer = new w.MutationObserver(records => changes.push(...records)); observer.observe(image, {attributes: true, attributeFilter: ['src']});
+        image.dispatchEvent(new w.Event('load')); image.dispatchEvent(new w.Event('error')); image.dispatchEvent(new w.Event('error'));
+        await new Promise(resolve => setTimeout(resolve, 0)); observer.disconnect();
+        check(changes.length === 0 && host.querySelectorAll('[data-item-preview-status]').length === 1,
+            language + ': fallback load/error events neither retry recursively nor duplicate the ' + kind + ' explanation');
+        image.setAttribute('src', originalSource); image.dispatchEvent(new w.Event('load'));
+        check(!host.querySelector('[data-item-preview-status]') && !image.classList.contains('is-fallback') && !image.dataset.fbApplied
+            && image.alt === originalAlt && image.classList.contains('is-pixel-art'), language + ': a replacement ' + kind + ' preview recovers its original accessible and sprite state');
+    }
+
+    const relatedMedia = relatedImage.parentElement;
+    // External styles are not loaded by JSDOM; reproduce this support's
+    // existing --item-sprite-gutter: 0px contract from items.css.
+    relatedMedia.style.setProperty('--item-sprite-gutter', '0px');
+    let measuredSupports = 0;
+    Object.defineProperties(relatedMedia, {
+        clientWidth: {get: () => { measuredSupports++; return relatedPanel.hidden ? 0 : 80; }, configurable: true},
+        clientHeight: {get: () => { measuredSupports++; return relatedPanel.hidden ? 0 : 80; }, configurable: true}
+    });
+    relatedImage.dispatchEvent(new w.Event('load'));
+    equal(relatedImage.dataset.pixelScale, '1', language + ': a hidden related sprite starts at its safe native size');
+    let unrelatedMeasures = 0;
+    Object.defineProperty(cardImage.parentElement, 'clientWidth', {get: () => { unrelatedMeasures++; return 200; }, configurable: true});
+    const relatedTab = modal.querySelector('[data-detail-tab="related"]');
+    relatedTab.dispatchEvent(new w.KeyboardEvent('keydown', {key: 'End', bubbles: true, cancelable: true}));
+    check(!relatedPanel.hidden && d.activeElement === relatedTab && relatedImage.dataset.pixelScale === '3'
+        && relatedImage.style.getPropertyValue('--item-image-width') === '72px', language + ': keyboard tab activation remeasures the newly revealed 80px support at an integer 3x scale');
+    equal(unrelatedMeasures, 0, language + ': revealing a detail tab does not remeasure unrelated catalogue images');
+    const measuredAfterReveal = measuredSupports; relatedTab.click();
+    equal(measuredSupports, measuredAfterReveal, language + ': selecting an already visible tab does not repeat image measurements');
+    modal.querySelector('[data-detail-tab="sources"]').click(); relatedTab.click();
+    check(measuredSupports > measuredAfterReveal && relatedImage.dataset.pixelScale === '3', language + ': pointer activation also remeasures a newly revealed related tab');
+    s.close();
+    cardImage.dispatchEvent(new w.Event('error'));
+    check(!cardImage.classList.contains('is-fallback'), language + ': destroyed item surfaces remove the captured image error listener');
+}
 {
     const s = surface(390), { d, w } = s;
     const audio = d.createElement('div'); audio.className = 'nm-audio-dock'; audio.inert = false; d.body.appendChild(audio);

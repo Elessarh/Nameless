@@ -236,7 +236,7 @@
             }
             const button = node('button', 'map-region-choice'); button.type = 'button'; button.dataset.regionId = region.id;
             button.append(node('span', '', label(region)), node('small', '', region.local ? text('Brouillon', 'Draft') : region.status === 'verified' ? text('Vérifié', 'Verified') : text('Indicatif', 'Indicative')));
-            button.addEventListener('click', () => select(state, region.id), { signal: state.publicController.signal }); state.ui.list?.append(button);
+            button.addEventListener('click', event => select(state, region.id, true, event.currentTarget), { signal: state.publicController.signal }); state.ui.list?.append(button);
         }
         if (state.ui.status) {
             state.ui.status.textContent = state.remoteStatus === 'error' ? text('Les dernières limites publiées ne sont pas disponibles. Réessayez.', 'The latest published boundaries are unavailable. Please retry.')
@@ -283,14 +283,14 @@
         state.pendingCamera = {type:'view',center:[...center],zoom,href:global.location.href,floor:state.floor,generation:state.selectionGeneration};
         settleCamera(state); return true;
     }
-    async function select(state, id, center = true) {
+    async function select(state, id, center = true, activationSource = null) {
         if (!floorReady(state) || state.editing) return false;
         const region = records(state).find(item => item.id === id); if (!region || !available(state, region)) return false;
         const generation = ++state.selectionGeneration, floor = state.floor;
         state.selectionEntity = region.entityKey;
         state.selected = id; syncSelection(state);
-        if (region.entityKey) await state.bridge.selectEntity(region.entityKey, { center: false });
-        else state.bridge.showRegion?.(copy(region));
+        if (region.entityKey) await state.bridge.selectEntity(region.entityKey, { center: false, activationSource });
+        else state.bridge.showRegion?.(copy(region), { activationSource });
         if (!floorReady(state) || generation !== state.selectionGeneration || state.floor !== floor) return false;
         state.selected = id; syncSelection(state);
         if (center) requestCamera(state, region, generation);
@@ -636,18 +636,19 @@
     }
     async function reloadRemote(state) {
         const generation = state.remoteGeneration = (state.remoteGeneration || 0) + 1;
-        if (!global.supabase?.rpc) { state.remoteStatus = 'archive'; return; }
+        if (!global.supabase?.rpc) { state.remoteStatus = 'archive'; return { status: 'archive' }; }
         try {
             const result = await global.supabase.rpc('read_map_regions');
-            if (!alive(state) || generation !== state.remoteGeneration) return;
+            if (!alive(state) || generation !== state.remoteGeneration) return { status: 'stale' };
             if (result.error) throw result.error;
             state.remote = Array.isArray(result.data) ? result.data : []; state.remoteStatus = 'ready';
-            renderPublic(state);
+            renderPublic(state); return { status: 'ready' };
         } catch (error) {
-            if (!alive(state) || generation !== state.remoteGeneration) return;
-            if (error?.code === 'PGRST202') { state.remoteStatus = 'archive'; return; }
+            if (!alive(state) || generation !== state.remoteGeneration) return { status: 'stale' };
+            if (error?.code === 'PGRST202') { state.remoteStatus = 'archive'; return { status: 'archive' }; }
             state.remoteStatus = 'error'; renderPublic(state);
             if (state.ui.status) state.ui.status.textContent = text('Les dernières limites publiées ne sont pas disponibles. Réessayez.', 'The latest published boundaries are unavailable. Please retry.');
+            return { status: 'error' };
         }
     }
     async function init(bridge) {

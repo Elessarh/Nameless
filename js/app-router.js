@@ -14,6 +14,7 @@
     var basePath = '/';
     var rootHref = global.location.origin + '/';
     var currentRoute = null;
+    var currentSearch = null;
     var navToken = 0;
     var activeTransition = null;
 
@@ -202,6 +203,7 @@
     }
 
     function routeChanged(route) {
+        currentSearch = global.location.search;
         document.dispatchEvent(new CustomEvent('nameless:routechange', {
             bubbles: true,
             detail: {route: route.id, path: route.path, url: global.location.href}
@@ -246,7 +248,17 @@
         options = options || {};
         currentRoute = route;
         if (options.scroll !== false) {
-            global.scrollTo({ top: 0, behavior: 'auto' });
+            var fragment = null;
+            if (route.nativeFragments === true && global.location.hash) {
+                try { fragment = document.getElementById(decodeURIComponent(global.location.hash.slice(1))); } catch (e) { /* Malformed fragments use the ordinary page start. */ }
+            }
+            // Cross-route Back/Forward replaces the DOM, so the browser could
+            // not find this reading target when it first handled the URL.
+            if (fragment && root.contains(fragment) && typeof fragment.scrollIntoView === 'function') {
+                fragment.scrollIntoView({block: 'start', behavior: 'auto'});
+            } else {
+                global.scrollTo({ top: 0, behavior: 'auto' });
+            }
             appView.setAttribute('tabindex', '-1');
             appView.focus({preventScroll: true});
         }
@@ -361,9 +373,18 @@
     }
 
     function onPopState() {
-        var routePath = routePathFromUrl(new URL(global.location.href));
+        var url = new URL(global.location.href);
+        var routePath = routePathFromUrl(url);
         var route = registry.get(routePath);
         if (!route) return;
+        // Static reading pages use native anchors and native Back/Forward scroll.
+        // Replacing their document here undoes the browser's fragment jump.
+        if (currentRoute && currentRoute.id === route.id && route.nativeFragments === true && url.search === currentSearch) {
+            ++navToken;
+            skipActiveTransition();
+            appView.removeAttribute('aria-busy');
+            return;
+        }
         navigate(routePath, { push: false, force: true, scroll: true }).then(function (handled) {
             if (!handled) global.location.reload();
         });

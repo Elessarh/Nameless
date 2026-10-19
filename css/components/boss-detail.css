@@ -1,0 +1,283 @@
+/* Static boss facts share the codex atmosphere without inheriting dialog geometry. */
+.boss-detail-page.page-visual-shell {
+    --page-content-width: 1024px;
+}
+.boss-detail-page .boss-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 .5rem;
+    min-height: 44px;
+    margin-block: 0 .625rem;
+    color: var(--nm-text-secondary);
+    font-size: .8125rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.boss-detail-page .boss-breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--nm-link);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+.boss-detail-page .boss-breadcrumb [aria-current] {
+    color: var(--nm-text);
+    min-width: 0;
+}
+.boss-detail-page > .bes-hero {
+    padding: .5rem 0 1.5rem;
+    margin-block: 0;
+}
+.boss-detail-page > .bes-hero .nm-eyebrow {
+    text-align: start;
+}
+.boss-detail-page > .bes-hero h1 {
+    max-width: 24ch;
+    font-size: clamp(1.875rem, 4vw, 3rem);
+    line-height: 1.2;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+}
+.boss-detail-page > .bes-hero .bes-subtitle {
+    margin-top: .625rem;
+    font-size: .9375rem;
+    line-height: 1.6;
+}
+html[data-world-atmosphere] .boss-detail-page .boss-fact {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+    column-gap: clamp(1.5rem, 4vw, 2.5rem);
+    row-gap: 1.5rem;
+    min-width: 0;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    margin-block: 0;
+    border: 1px solid #9b926457;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #15313ef5, #091c27fa 58%, #071721fc);
+    box-shadow: inset 0 1px #dae3d515, 0 16px 40px #0004;
+}
+.boss-detail-page .boss-fact .modal-header {
+    display: contents;
+}
+html[data-world-atmosphere] .boss-detail-page .boss-fact .modal-media {
+    position: relative;
+    isolation: isolate;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 100%;
+    height: auto;
+    align-self: start;
+    aspect-ratio: 1;
+    margin: 0;
+    border: 1px solid #9eae9e66;
+    border-radius: 3px;
+    background: radial-gradient(ellipse at 50% 82%, #638f8930, transparent 66%), linear-gradient(145deg, #203e49, #0c202b 76%) !important;
+    box-shadow: inset 0 1px #dce7dc17, inset 0 0 30px #020c1829;
+}
+html[data-world-atmosphere] .boss-detail-page .boss-fact .modal-media::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 10px;
+    border: 1px solid #d6be8c2b;
+    background: none;
+    opacity: 1;
+    pointer-events: none;
+}
+.boss-detail-page .boss-fact .modal-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding: 1.125rem;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 9px #0005);
+}
+.boss-detail-page .boss-fact .modal-info {
+    grid-column: 2;
+    min-width: 0;
+    padding: 0;
+}
+.boss-detail-page .boss-fact .modal-badges {
+    gap: .5rem;
+    margin: 0 0 1rem;
+}
+.boss-detail-page .boss-fact .creature-chip {
+    max-width: 100%;
+    padding: .3125rem .5rem;
+    border-color: #73919b57;
+    background: #0a1d27;
+    font-size: .75rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+.boss-detail-page .boss-fact .modal-stats {
+    display: block;
+    margin: 0 0 1rem;
+}
+.boss-detail-page .boss-fact .modal-stat {
+    min-width: 0;
+    padding: 0 0 .875rem;
+    border: 0;
+    border-bottom: 1px solid #b0a17b33;
+    background: none;
+    gap: .375rem;
+}
+.boss-detail-page .boss-fact .modal-stat-label {
+    color: var(--nm-text-secondary);
+    font-size: .75rem;
+}
+.boss-detail-page .boss-fact .modal-stat-value {
+    margin: 0;
+    color: var(--nm-text-bright);
+    font-size: .9375rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.boss-detail-page .boss-fact .modal-section {
+    grid-column: 1 / -1;
+    min-width: 0;
+    margin: 0;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid #b0a17b3d;
+}
+.boss-detail-page .boss-fact .boss-description {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    padding-top: 0;
+    border-top: 0;
+}
+.boss-detail-page .boss-fact .modal-section-title {
+    margin: 0 0 .75rem;
+    font: 500 1.125rem/1.4 var(--font-title);
+    color: var(--nm-gold-light);
+    overflow-wrap: anywhere;
+}
+.boss-detail-page .boss-fact .modal-desc {
+    max-width: 70ch;
+    margin: 0;
+    color: #c8d5d8;
+    font-size: .9375rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+.boss-detail-page .boss-fact .modal-info > .modal-desc {
+    margin-top: .625rem;
+    color: var(--nm-text-secondary);
+    font-size: .8125rem;
+    line-height: 1.6;
+}
+.boss-detail-page .boss-fact .drops-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: .75rem;
+    margin-top: 1rem;
+}
+.boss-detail-page .boss-fact .drop-item {
+    min-width: 0;
+    min-height: 64px;
+    padding: .75rem;
+    border-color: #617d855e;
+    background: linear-gradient(135deg, #17303a, #0a1e29);
+    color: var(--nm-text);
+    transition: border-color var(--nm-duration-hover) var(--nm-ease), background-color var(--nm-duration-hover) var(--nm-ease), box-shadow var(--nm-duration-hover) var(--nm-ease);
+}
+.boss-detail-page .boss-fact .drop-name {
+    font-size: .875rem;
+    line-height: 1.5;
+}
+.boss-detail-page .boss-related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    align-items: center;
+    margin: 0;
+    color: var(--nm-text-secondary);
+    line-height: 1.6;
+}
+.boss-detail-page :is(.boss-related a, .boss-related-link) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    max-width: 100%;
+    padding: .625rem .875rem;
+    border: 1px solid #a38c5e91;
+    border-radius: 3px;
+    color: #e8d1a7;
+    background: linear-gradient(135deg, #243940, #102630);
+    text-decoration: none;
+    font-size: .8125rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    transition: border-color var(--nm-duration-hover) var(--nm-ease), box-shadow var(--nm-duration-hover) var(--nm-ease), transform var(--nm-duration-hover) var(--nm-ease);
+}
+.boss-detail-page a:focus-visible {
+    outline: 2px solid var(--nm-focus);
+    outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+    .boss-detail-page .boss-breadcrumb a:hover { color: var(--nm-gold-light); }
+    .boss-detail-page :is(.boss-related a, .boss-related-link):hover,
+    .boss-detail-page .boss-fact .drop-item:hover {
+        border-color: #d6b77f;
+        box-shadow: inset 0 1px #f2d7a421, 0 4px 14px #0003;
+    }
+}
+.boss-detail-page :is(.boss-related a, .boss-related-link):active {
+    transform: translateY(1px);
+}
+@media (max-width: 768px) {
+    .boss-detail-page > .bes-hero { padding-bottom: 1.25rem; }
+    html[data-world-atmosphere] .boss-detail-page .boss-fact {
+        display: block;
+        padding: 1.25rem;
+    }
+    .boss-detail-page .boss-fact .modal-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+    }
+    html[data-world-atmosphere] .boss-detail-page .boss-fact .modal-media {
+        grid-column: auto;
+        grid-row: auto;
+        width: min(100%, 280px);
+        margin: 0 auto;
+    }
+    .boss-detail-page .boss-fact .modal-info { grid-column: auto; }
+    .boss-detail-page .boss-fact .modal-section,
+    .boss-detail-page .boss-fact .boss-description {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #b0a17b3d;
+    }
+}
+@media (max-width: 480px) {
+    .boss-detail-page .boss-related { display: grid; gap: .625rem; }
+    .boss-detail-page .boss-related-separator { display: none; }
+    .boss-detail-page .boss-related a { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .boss-detail-page :is(.boss-related a, .boss-related-link),
+    .boss-detail-page .boss-fact .drop-item { transition: none; transform: none; }
+}
+@media (forced-colors: active) {
+    html[data-world-atmosphere] .boss-detail-page .boss-fact,
+    html[data-world-atmosphere] .boss-detail-page .boss-fact .modal-media,
+    .boss-detail-page .boss-fact .drop-item,
+    .boss-detail-page :is(.boss-related a, .boss-related-link) {
+        color: CanvasText;
+        background: Canvas !important;
+        border-color: CanvasText;
+        box-shadow: none;
+    }
+    .boss-detail-page .boss-fact .modal-media::before { display: none; }
+    .boss-detail-page .boss-fact .modal-media img { filter: none; }
+    .boss-detail-page .boss-fact :is(.modal-stat, .modal-section, .creature-chip) { border-color: CanvasText; }
+    .boss-detail-page a:focus-visible { outline-color: Highlight; }
+}

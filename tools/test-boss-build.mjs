@@ -23,6 +23,17 @@ try {
         const html = fs.readFileSync(path.join(output, page.path, 'index.html'), 'utf8');
         const dom = new JSDOM(html), d = dom.window.document;
         check(d.querySelector('h1').textContent === page.title, 'Boss name is present in static page content');
+        check(d.querySelector('main').classList.contains('boss-detail-page') && d.querySelectorAll('h1').length === 1
+            && d.querySelector('.boss-fact').getAttribute('aria-labelledby') === d.querySelector('h1').id,
+        'Static facts use their dedicated page surface and one named reading article');
+        const stylesheets = Array.from(d.querySelectorAll('link[rel="stylesheet"]'));
+        const detailStylesheet = stylesheets.at(-1)?.getAttribute('href');
+        check(detailStylesheet?.startsWith('/css/components/boss-detail.css?v=')
+            && fs.existsSync(path.join(root, detailStylesheet.split('?')[0])) && !d.querySelector('style'),
+        'Static facts load an existing dedicated stylesheet after the shared shell without injected dialog overrides');
+        assert.deepEqual(Array.from(d.querySelectorAll('.boss-fact > section > h2')).map(node => node.textContent),
+            ['Description', 'Butin possible', 'Poursuivre la lecture'], 'Facts preserve their readable content section headings');
+        checks++;
         check(d.title.includes(page.title) && d.querySelector('meta[name="description"]').content.includes(page.title), 'Entity-specific title and description');
         const label = creatureCategory(page.category).label;
         check(d.title.includes(' — ' + label + ' · Palier ') && d.querySelector('.modal-badges .creature-chip').textContent === label, 'Static title and badge use the true boss family');

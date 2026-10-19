@@ -296,6 +296,16 @@
         history.replaceState(history.state, '', url.href);
     }
 
+    function clearItemFilterUrl(fieldId, value) {
+        var name = { 'it-search': 'q', 'it-category': 'category', 'it-rarity': 'rarity', 'it-source': 'source' }[fieldId];
+        if (!name) return;
+        var url = new URL(window.location.href);
+        if (!url.searchParams.has(name) || (name !== 'q' && !url.searchParams.getAll(name).includes(value))) return;
+        if (name === 'q') url.searchParams.delete(name);
+        else url.searchParams.delete(name, value);
+        history.replaceState(history.state, '', url.href);
+    }
+
     function applyItemUrl(event) {
         var params = new URLSearchParams(window.location.search);
         var query = params.get('q');
@@ -567,12 +577,48 @@
         img.style.setProperty('--item-image-height', img.naturalHeight * scale + 'px');
     }
 
+    function clearPixelArtSizing(img) {
+        img.classList.remove('is-pixel-art');
+        img.removeAttribute('width');
+        img.removeAttribute('height');
+        img.style.removeProperty('--item-image-width');
+        img.style.removeProperty('--item-image-height');
+        delete img.dataset.pixelScale;
+    }
+
+    function setItemPreviewUnavailable(img, unavailable) {
+        var media = img.parentElement;
+        if (!media) return;
+        var related = img.classList.contains('item-related-image');
+        var host = related ? media.closest('.catalogue-related-item')?.querySelector('.item-related-label') : media;
+        if (!host) return;
+        var status = host.querySelector('[data-item-preview-status]');
+        img.classList.toggle('is-fallback', unavailable);
+        if (unavailable) {
+            if (!Object.prototype.hasOwnProperty.call(img.dataset, 'previewAlt')) img.dataset.previewAlt = img.alt;
+            img.alt = ''; // The neutral symbol does not depict the named item.
+            if (!status) {
+                status = document.createElement(related ? 'small' : 'span');
+                status.className = related ? 'item-related-preview-status' : 'item-image-unavailable';
+                status.dataset.itemPreviewStatus = '';
+                host.appendChild(status);
+            }
+            status.textContent = itemUi('Aperçu indisponible', 'Preview unavailable');
+        } else {
+            if (Object.prototype.hasOwnProperty.call(img.dataset, 'previewAlt')) { img.alt = img.dataset.previewAlt; delete img.dataset.previewAlt; }
+            if (status) status.remove();
+        }
+    }
+
     function setupItemImages() {
         // Les petits sprites gardent leur silhouette et des pixels entiers.
         // Les autres illustrations conservent le cadrage contain de la carte.
         document.addEventListener('load', function (e) {
             var t = e.target;
-            if (!t || t.tagName !== 'IMG' || !t.dataset || t.dataset.fallback !== 'item' || t.dataset.fbApplied || t.getAttribute('src') === FALLBACK_IMG) return;
+            if (!t || t.tagName !== 'IMG' || !t.dataset || t.dataset.fallback !== 'item' || t.getAttribute('src') === FALLBACK_IMG) return;
+            delete t.dataset.fbApplied;
+            setItemPreviewUnavailable(t, false);
+            clearPixelArtSizing(t);
             if (t.naturalWidth > 0 && t.naturalWidth <= 128 && t.naturalHeight > 0 && t.naturalHeight <= 128) {
                 t.classList.add('is-pixel-art');
                 t.width = t.naturalWidth;
@@ -582,16 +628,12 @@
         }, { capture: true, signal: controller.signal });
         document.addEventListener('error', function (e) {
             var t = e.target;
-            if (t && t.tagName === 'IMG' && t.dataset && t.dataset.fallback === 'item' && !t.dataset.fbApplied) {
+            if (t && t.tagName === 'IMG' && t.dataset && t.dataset.fallback === 'item') {
+                clearPixelArtSizing(t);
+                setItemPreviewUnavailable(t, true);
+                if (t.getAttribute('src') === FALLBACK_IMG) return;
                 t.dataset.fbApplied = '1';
-                t.classList.remove('is-pixel-art');
-                t.removeAttribute('width');
-                t.removeAttribute('height');
-                t.style.removeProperty('--item-image-width');
-                t.style.removeProperty('--item-image-height');
-                delete t.dataset.pixelScale;
                 t.src = FALLBACK_IMG;
-                t.classList.add('is-fallback');
             }
         }, { capture: true, signal: controller.signal });
         window.addEventListener('resize', function () {
@@ -629,8 +671,15 @@
             var button = event.target.closest('[data-clear-filter]'); if (!button) return;
             var field = document.getElementById(button.dataset.clearFilter);
             if (field) {
+                var focusIndex = document.activeElement === button ? Array.from(chips.querySelectorAll('[data-clear-filter]')).indexOf(button) : -1;
                 if (selectedFilters[field.id]) selectedFilters[field.id].delete(button.dataset.filterValue); else field.value = '';
+                clearItemFilterUrl(field.id, button.dataset.filterValue);
                 applyFilters();
+                if (focusIndex >= 0) {
+                    var remaining = chips.querySelectorAll('[data-clear-filter]');
+                    var nextFocus = remaining[Math.min(focusIndex, remaining.length - 1)] || search;
+                    if (nextFocus) nextFocus.focus({ preventScroll: true });
+                }
             }
         }, opts);
         var view = document.querySelector('.items-page .catalogue-view');
@@ -859,7 +908,7 @@
         img.dataset.fallback = 'item';
         img.src = item.image;
         media.appendChild(img);
-        if (!item.imageAvailable) { var missing = document.createElement('span'); missing.className = 'item-image-unavailable'; missing.textContent = itemUi('Aperçu indisponible', 'Preview unavailable'); media.appendChild(missing); }
+        if (!item.imageAvailable) setItemPreviewUnavailable(img, true);
         var badge = document.createElement('span');
         badge.className = 'item-rarity-badge ' + meta.cls;
         badge.textContent = displayName(meta.label);
@@ -912,7 +961,8 @@
         close.setAttribute('aria-label', itemUi('Fermer la fiche', 'Close details'));
         close.textContent = '×';
         setItemSelection(id);
-        content.appendChild(close);
+        var controls = document.createElement('div'); controls.className = 'catalogue-detail-controls';
+        controls.appendChild(close); content.appendChild(controls);
 
         var media = document.createElement('div');
         media.className = 'item-modal-media';
@@ -921,6 +971,7 @@
         img.dataset.fallback = 'item';
         img.src = item.image;
         media.appendChild(img);
+        if (!item.imageAvailable) setItemPreviewUnavailable(img, true);
         content.appendChild(media);
 
         var info = document.createElement('div');
@@ -1076,9 +1127,12 @@
         addTab('overview', 'Aperçu', 'Overview'); addTab('sources', 'Sources', 'Sources');
         panels.get('overview').appendChild(overview);
         function activate(key, focus) {
+            var activePanel = panels.get(key), newlyVisible = activePanel.hidden;
             panels.forEach(function (panel, name) { panel.hidden = name !== key; });
             buttons.forEach(function (button, name) { button.setAttribute('aria-selected', String(name === key)); button.tabIndex = name === key ? 0 : -1; });
             panels.get(key === 'sources' ? 'sources' : 'overview').appendChild(sources);
+            // A sprite loaded in a hidden panel had no measurable support yet.
+            if (newlyVisible) activePanel.querySelectorAll('img.is-pixel-art[data-fallback="item"]').forEach(sizePixelArtImage);
             if (focus) buttons.get(key).focus();
         }
         bar.addEventListener('click', function (e) { var button = e.target.closest('[data-detail-tab]'); if (button) activate(button.dataset.detailTab, false); }, { signal: controller.signal });
@@ -1099,7 +1153,9 @@
                 var image = document.createElement('img'); image.className = 'item-related-image'; image.src = item.image; image.alt = ''; image.dataset.fallback = 'item'; sprite.appendChild(image);
                 var label = document.createElement('span'); label.className = 'item-related-label';
                 var name = document.createElement('strong'); name.textContent = displayName(item.name);
-                var category = document.createElement('small'); category.textContent = categoryLabel(item.category); label.append(name, category); link.append(sprite, label); list.appendChild(link);
+                var category = document.createElement('small'); category.textContent = categoryLabel(item.category); label.append(name, category); link.append(sprite, label);
+                if (!item.imageAvailable) setItemPreviewUnavailable(image, true);
+                list.appendChild(link);
             }); panel.appendChild(list);
         } };
     }

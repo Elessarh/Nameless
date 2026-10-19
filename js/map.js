@@ -404,6 +404,16 @@
         // Preserve the logical map center when the detail rail changes its width.
         syncViewport(state); scheduleViewport(state);
     }
+    function focusSelectedPanel(state, activation) {
+        if (!activation || !valid(state) || state.ui.panel.hidden || activation.revision !== state.focusRevision) return;
+        // An awaited floor may have removed its initiating control. Do not
+        // interrupt someone who has since focused another control instead.
+        if (document.activeElement !== activation.source && document.activeElement !== document.body) return;
+        state.ui.close?.focus({ preventScroll: true });
+    }
+    function focusedActivation(state, source) {
+        return document.activeElement === source ? { source, revision: state.focusRevision } : null;
+    }
     function closePanel(state, update = true) {
         const restoreFocus = state.ui.panel.contains(document.activeElement);
         state.pendingCamera = null;
@@ -418,7 +428,7 @@
         state.personalRegion = null;
         state.choiceKeys = entities.map(entity => entity.key); state.ui.content.replaceChildren(node('h2', '', text('Plusieurs repères à cet endroit', 'Several markers at this location')));
         for (const entity of entities) {
-            const button = node('button', 'map-choice', label(entity)); button.type = 'button'; listen(state, button, 'click', () => selectEntity(state, entity.key));
+            const button = node('button', 'map-choice', label(entity)); button.type = 'button'; listen(state, button, 'click', () => selectEntity(state, entity.key, { activation: focusedActivation(state, button) }));
             listen(state, button, 'keydown', event => {
                 if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
                     event.preventDefault(); const choices = [...state.ui.content.querySelectorAll('.map-choice')]; const index = choices.indexOf(button);
@@ -439,7 +449,7 @@
             const note = suffixes?.[key] || '';
             if (note) info.append(node('small', '', note));
             button.append(info, node('span', 'map-relation-arrow', '›'));
-            listen(state, button, 'click', () => selectEntity(state, key)); item.append(button); list.append(item);
+            listen(state, button, 'click', () => selectEntity(state, key, { activation: focusedActivation(state, button) })); item.append(button); list.append(item);
         }
         if (list.childElementCount) host.append(node('h3', '', heading), list);
     }
@@ -554,7 +564,7 @@
         for (const entity of results) {
             const button = node('button', 'search-result-item'); button.type = 'button'; button.dataset.entityKey = entity.key;
             const info = node('span', '', label(entity)); info.append(node('small', '', entryKind(entity))); button.append(info, node('span', 'search-result-floor', entity.floor ? text('Palier ', 'Floor ') + entity.floor : ''));
-            listen(state, button, 'click', () => { hideSearch(state); selectEntity(state, entity.key); }); state.ui.results.append(button);
+            listen(state, button, 'click', () => selectEntity(state, entity.key, { activation: focusedActivation(state, button) })); state.ui.results.append(button);
         }
         state.ui.results.hidden = false; state.ui.results.style.display = 'block';
     }
@@ -592,6 +602,7 @@
     }
     async function selectEntity(state, key, options = {}) {
         if (!valid(state) || !state.catalog) return false;
+        const activation = options.url === false ? null : options.activation;
         if (options.url !== false) state.explicitCamera = false;
         const entry = state.catalog.index.find(entity => entity.key === key); if (!publicEntity(entry)) { notice(state, text('Ce repère est introuvable.', 'This marker could not be found.')); return false; }
         if (entry.kind === 'item' && entry.floor == null) {
@@ -620,10 +631,11 @@
         else if (target.position && options.center !== false) viewCamera(state, target.position, Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), global.innerWidth <= 700 ? -1 : 0)), { animate: !reducedMotion(), duration: .45 });
         else if (state.overridesStatus === 'pending' && options.center !== false) state.pendingSelection = { key, intent };
         if (options.url !== false) updateUrl(state, key);
-        emit(state, 'selection', entity); return true;
+        emit(state, 'selection', entity); focusSelectedPanel(state, activation); return true;
     }
     function showPersonalRegion(state, region, options = {}) {
         if (!valid(state) || !region?.id) return;
+        const activation = options.url === false ? null : options.activation;
         state.personalRegion = region; state.selected = null; state.pendingSelection = null; state.choiceKeys = null;
         state.ui.content.replaceChildren(node('span', 'map-kind', text('Zone personnelle', 'Personal zone')), node('h2', '', label(region)),
             node('p', '', text('Contour indicatif conservé sur cet appareil.', 'Indicative outline kept on this device.')),
@@ -632,6 +644,7 @@
         listen(state, edit, 'click', () => global.NamelessMapRegions?.active?.editor.open(region.id)); state.ui.content.append(edit);
         showPanel(state); renderMarkers(state);
         if (options.url !== false) updateUrl(state, null);
+        focusSelectedPanel(state, activation);
     }
     function findAlias(state, params) {
         const floor = Number(params.get('floor'));
@@ -689,7 +702,8 @@
         } else if (x != null && z != null) notice(state, text('Les coordonnées X/Z ne sont pas calibrées pour ce palier.', 'X/Z coordinates are not calibrated for this floor.'));
         else if (params.has('x') || params.has('y')) notice(state, text('Les coordonnées de ce lien sont invalides.', 'The coordinates in this link are invalid.'));
         else if (saved && saved.mode !== 'atlas') viewCamera(state,[saved.lat, saved.lng], Math.max(state.map.getMinZoom(), Math.min(state.map.getMaxZoom(), saved.zoom)), { animate: false });
-        if (params.has('q')) { state.ui.search.value = params.get('q').slice(0, 200); renderSearch(state); }
+        state.ui.search.value = (params.get('q') || '').slice(0, 200);
+        renderSearch(state); global.NamelessMapRegions?.active?.filter(state.ui.search.value);
     }
     async function reloadOverrides(state) {
         const generation = ++state.overrideGeneration; const db = client();
@@ -794,6 +808,7 @@
     }
     function wire(state) {
         const ui = state.ui;
+        listen(state, document, 'focusin', () => { ++state.focusRevision; });
         listen(state, ui.search, 'input', () => { renderSearch(state); global.NamelessMapRegions?.active?.filter(ui.search.value); });
         listen(state, ui.search, 'keydown', event => { if (event.key === 'ArrowDown' && !ui.results.hidden) { event.preventDefault(); ui.results.querySelector('button')?.focus(); } });
         listen(state, ui.results, 'keydown', event => {
@@ -856,7 +871,7 @@
     }
     async function chooseFloor(state, id) {
         if (!configOf(state, id) || !valid(state) || (state.floor === id && state.data)) return;
-        ++state.intent; hideSearch(state); state.ui.search.value = ''; state.ui.clear.style.display = 'none'; closePanel(state, false); state.filtersOpen = false; syncFilterDrawer(state);
+        ++state.intent; hideSearch(state); state.ui.search.value = ''; state.ui.clear.style.display = 'none'; global.NamelessMapRegions?.active?.filter(''); closePanel(state, false); state.filtersOpen = false; syncFilterDrawer(state);
         updateUrlForFloor(state, id); await changeFloor(state, id);
     }
     function updateUrlForFloor(state, id) { const previous = state.floor; state.floor = id; updateUrl(state, null); state.floor = previous; }
@@ -871,7 +886,7 @@
             root: main, floor: 1, data: null, rawData: null, catalog: null, filters: new Map(), filtersOpen: false, markers: new Map(), selected: null, intent: 0, floorGeneration: 0, overlayGeneration: 0, overrideGeneration: 0, authGeneration: 0, overlays: [], fullImages: new Map(), overrides: [], overridesStatus: 'pending', overridesDiagnostic: null, editorMode: false, regionEditorMode: false, events: new Map(), lastRoute: null };
         active = state;
         state.map = global.L.map(container, { crs: global.L.CRS.Simple, minZoom: -5, maxZoom: 3, zoom: -3, center: [2560, 2560], zoomControl: true, attributionControl: false, keyboard: true, zoomSnap: .25, zoomDelta: .5, maxBoundsViscosity: .5 });
-        state.cameraMode = 'atlas'; state.viewportReady = false; state.viewportFrame = null; state.pendingCamera = null;
+        state.cameraMode = 'atlas'; state.viewportReady = false; state.viewportFrame = null; state.pendingCamera = null; state.focusRevision = 0;
         state.viewStorageKey = main.classList.contains('map-admin-workspace') ? 'namelessMapWorkspaceView' : 'ironOathMapState';
         state.viewportZooming = false;
         state.map.on('zoomstart', () => { state.viewportZooming = true; });
@@ -887,8 +902,8 @@
             viewCamera: (center, zoom, options) => viewCamera(state, center, zoom, options),
             closeSelection: () => closePanel(state, false), chooseFloor: id => chooseFloor(state, Number(id)),
             getFloor: () => state.floor, getData: () => state.data, getSelection: () => state.selected, getOverridesStatus: () => state.overridesStatus, getOverridesDiagnostic: () => state.overridesDiagnostic,
-            selectEntity: (key, options) => selectEntity(state, key, options), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
-            showRegion: region => showPersonalRegion(state, region),
+            selectEntity: (key, options = {}) => selectEntity(state, key, { ...options, activation: focusedActivation(state, options.activationSource) }), notice: message => notice(state, message), reloadOverrides: () => reloadOverrides(state), setEditorMode: enabled => setEditorMode(state, enabled), getRelative: value => relative(state, value),
+            showRegion: (region, options = {}) => showPersonalRegion(state, region, { ...options, activation: focusedActivation(state, options.activationSource) }),
             setRegionEditorMode: enabled => setRegionEditorMode(state, enabled), isRegionEditorActive: () => state.regionEditorMode,
             isViewportZooming: () => state.viewportZooming,
             getLatLng: value => value && finite(value.u, 1) && finite(value.v, 1) && value.u >= 0 && value.v >= 0 ? latlng(state, value) : null,
@@ -907,6 +922,7 @@
                     await applyRoute(state, true); if (!valid(state)) return null;
                 }
                 await global.NamelessMapRegions?.init?.(state.bridge); if (!valid(state)) return null;
+                global.NamelessMapRegions?.active?.filter(state.ui.search.value);
                 if (state.selected && state.data?.entities[state.selected]) renderPanel(state, state.data.entities[state.selected]);
                 if (state.selected && !state.explicitCamera) global.NamelessMapRegions?.active?.focusByEntity(state.selected);
                 adminCheck(state); return state.bridge;

@@ -6,7 +6,7 @@
     indexLocation.searchParams.set('v', script ? new URL(script.src).searchParams.get('v') || '20261014official1' : '20261014official1');
     var indexUrl = indexLocation.href;
     var indexPromise = null, entries = [], results = [], dialog, input, list, status, opener, favoriteFilter, favoriteLabel, favoriteCount, indexMeta, clearQuery;
-    var favoritesOnly = false, loading = false;
+    var favoritesOnly = false, indexState = 'idle';
     var key = 'nameless-public-favorites-v1';
     var favorites = [];
     var groups = {boss: ['Boss et mini-boss', 'Bosses & mini-bosses'], creature: ['Bestiaire', 'Creatures'], item: ['Objets', 'Items'], quest: ['Quêtes', 'Quests'], location: ['Lieux', 'Locations'], npc: ['PNJ', 'NPCs'], wiki: ['Wiki & guides', 'Wiki & guides'], action: ['Accès rapides', 'Quick navigation']};
@@ -41,9 +41,11 @@
     }
     function normalize(value) { return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim(); }
     function entityKey(entry) { return entry.kind + ':' + entry.id; }
+    function canRender() { return dialog && dialog.open && !dialog.hasAttribute('data-reference-closing'); }
     function getIndex() {
         if (!indexPromise) {
-            indexPromise = fetch(indexUrl, {credentials: 'omit'}).then(function (response) {
+            indexState = 'loading';
+            indexPromise = Promise.resolve().then(function () {return fetch(indexUrl, {credentials: 'omit'});}).then(function (response) {
                 if (!response.ok) throw new Error('Index unavailable');
                 return response.json();
             }).then(function (data) {
@@ -56,8 +58,15 @@
                 var publicIds = new Set(entries.map(entityKey));
                 favorites = favorites.filter(function (id) {return publicIds.has(id);});
                 try {localStorage.setItem(key, JSON.stringify(favorites));} catch (_) { /* Optional preferences. */ }
+                indexState = 'ready';
+                if (canRender()) render();
                 return entries;
-            }).catch(function (error) {indexPromise = null; throw error;});
+            }).catch(function (error) {
+                indexPromise = null; indexState = 'error';
+                if (canRender()) render();
+                throw error;
+            });
+            if (canRender()) render();
         }
         return indexPromise;
     }
@@ -98,24 +107,48 @@
         button.setAttribute('aria-label', label(saved ? 'Retirer des favoris : ' : 'Ajouter aux favoris : ', saved ? 'Remove favorite: ' : 'Save favorite: ') + (english() ? entry.titleEn || entry.title : entry.title));
     }
     function updateMeta() {
-        var savedCount = entries.filter(function (entry) {return favorites.includes(entityKey(entry));}).length;
+        var savedCount = indexState === 'ready' ? entries.filter(function (entry) {return favorites.includes(entityKey(entry));}).length : favorites.length;
         favoriteLabel.textContent = label('Mes favoris','My favorites');
         favoriteCount.textContent = String(savedCount);
         favoriteFilter.setAttribute('aria-label', label('Mes favoris : ', 'My favorites: ') + savedCount);
-        indexMeta.textContent = entries.length ? entries.length + label(' fiches indexées',' indexed entries') : label('Index du codex','Codex index');
+        indexMeta.textContent = indexState === 'ready' ? entries.length + label(' fiches indexées',' indexed entries')
+            : indexState === 'loading' ? label('Chargement de l’index…','Loading the index…')
+            : indexState === 'error' ? label('Index indisponible','Index unavailable') : label('Index du codex','Codex index');
         clearQuery.hidden = !input.value;
+    }
+    function resultSymbol(kind, entry) {
+        var symbol = document.createElement('span'); symbol.className = 'nm-search-result-symbol'; symbol.setAttribute('aria-hidden', 'true');
+        symbol.appendChild(icon(kind === 'location' || entry.id === 'map' ? 'map' : kind === 'npc' || entry.id === 'profile' ? 'user' : kind === 'quest' ? 'quest' : 'book'));
+        return symbol;
+    }
+    function resetQuery() { input.value = ''; render(); input.focus(); }
+    function retryIndex() {
+        if (indexState === 'loading') return;
+        input.focus();
+        var request = getIndex();
+        request.catch(function () { /* The persistent error state includes its retry control. */ });
     }
     function render() {
         var focusedControl = list.contains(document.activeElement) && document.activeElement;
         var focusedLink = focusedControl && focusedControl.closest('.nm-search-result a');
         var focusedUrl = focusedLink && focusedLink.getAttribute('href');
         var focusedStarKey = focusedControl && focusedControl.matches('.nm-search-star') && focusedControl.closest('.nm-search-result').dataset.entityKey;
+        var focusedRetry = focusedControl && focusedControl.matches('.nm-search-retry');
+        var focusedEmptyAction = focusedControl && focusedControl.matches('.nm-search-empty-action');
         list.replaceChildren();
-        list.setAttribute('aria-busy', String(loading));
+        list.setAttribute('aria-busy', String(indexState === 'loading'));
         updateMeta();
         var source = favoritesOnly ? entries.filter(function (entry) {return favorites.includes(entityKey(entry));}) : entries.concat(actions());
-        results = match(input.value, source);
-        if (!input.value && !favoritesOnly) results = actions();
+        results = indexState === 'ready' ? match(input.value, source) : actions();
+        if (indexState === 'ready' && !input.value && !favoritesOnly) results = actions();
+        if (indexState === 'error') {
+            var feedback = document.createElement('div'); feedback.className = 'nm-search-empty nm-search-feedback nm-search-feedback--error';
+            feedback.appendChild(icon('search'));
+            var errorTitle = document.createElement('strong'); errorTitle.textContent = label('Le codex est momentanément indisponible','The codex is temporarily unavailable');
+            var errorHint = document.createElement('span'); errorHint.textContent = label('Réessaie pour retrouver les fiches. Les accès rapides restent disponibles.','Retry to find entries. Quick navigation remains available.');
+            var retry = document.createElement('button'); retry.type = 'button'; retry.className = 'nm-search-retry'; retry.textContent = label('Réessayer','Retry'); retry.addEventListener('click', retryIndex);
+            feedback.appendChild(errorTitle); feedback.appendChild(errorHint); feedback.appendChild(retry); list.appendChild(feedback);
+        }
         Object.keys(groups).forEach(function (kind) {
             var group = results.filter(function (entry) {return entry.kind === kind;});
             if (!group.length) return;
@@ -132,11 +165,11 @@
                 if (nativePreview || typeof entry.image === 'string' && /^\/assets\/[A-Za-z0-9/_ .%-]+\.(?:webp|png|jpg|jpeg)$/.test(entry.image) && !entry.image.includes('..')) {
                     var thumbnail = document.createElement('img'); thumbnail.className = 'nm-search-thumbnail' + (kind === 'item' ? ' nm-search-thumbnail--item' : '');
                     thumbnail.src = entry.image; thumbnail.alt = ''; thumbnail.width = 44; thumbnail.height = 44; thumbnail.loading = 'lazy'; thumbnail.decoding = 'async';
+                    thumbnail.setAttribute('aria-hidden', 'true');
+                    thumbnail.addEventListener('error', function () {thumbnail.replaceWith(resultSymbol(kind, entry));}, {once:true});
                     link.appendChild(thumbnail);
                 } else {
-                    var symbol = document.createElement('span'); symbol.className = 'nm-search-result-symbol';
-                    symbol.appendChild(icon(kind === 'location' || entry.id === 'map' ? 'map' : kind === 'npc' || entry.id === 'profile' ? 'user' : kind === 'quest' ? 'quest' : 'book'));
-                    link.appendChild(symbol);
+                    link.appendChild(resultSymbol(kind, entry));
                 }
                 var content = document.createElement('span'); content.className = 'nm-search-result-content';
                 var title = document.createElement('strong'); title.textContent = english() ? entry.titleEn || entry.title : entry.title;
@@ -158,18 +191,25 @@
                 list.appendChild(row);
             });
         });
-        if (!results.length && !loading) {
+        var savedQueryMiss = favoritesOnly && !!normalize(input.value) && source.length > 0;
+        if (!results.length && indexState === 'ready') {
             var empty = document.createElement('div'); empty.className = 'nm-search-empty'; empty.appendChild(icon(favoritesOnly ? 'star' : 'search'));
-            var emptyTitle = document.createElement('strong'); emptyTitle.textContent = favoritesOnly ? label('Aucun favori à afficher','No favorites to show') : label('Aucune fiche trouvée','No matching entry');
-            var emptyHint = document.createElement('span'); emptyHint.textContent = favoritesOnly ? label('Enregistre une fiche avec son étoile pour la retrouver ici.','Save an entry with its star to find it here.') : label('Essaie un autre nom de boss, d’objet ou de lieu.','Try another boss, item or place name.');
+            var emptyTitle = document.createElement('strong'); emptyTitle.textContent = savedQueryMiss ? label('Aucun favori ne correspond','No matching favorite') : favoritesOnly ? label('Aucun favori à afficher','No favorites to show') : label('Aucune fiche trouvée','No matching entry');
+            var emptyHint = document.createElement('span'); emptyHint.textContent = savedQueryMiss ? label('Efface la recherche pour retrouver tes favoris.','Clear the search to see your saved entries.') : favoritesOnly ? label('Enregistre une fiche avec son étoile pour la retrouver ici.','Save an entry with its star to find it here.') : label('Essaie un autre nom de boss, d’objet ou de lieu.','Try another boss, item or place name.');
             empty.appendChild(emptyTitle); empty.appendChild(emptyHint); list.appendChild(empty);
+            if (savedQueryMiss) {
+                var emptyAction = document.createElement('button'); emptyAction.type = 'button'; emptyAction.className = 'nm-search-empty-action'; emptyAction.textContent = label('Effacer la recherche','Clear search'); emptyAction.addEventListener('click', resetQuery); empty.appendChild(emptyAction);
+            }
         }
-        status.textContent = loading ? label('Chargement de l’index…','Loading the index…') : results.length
+        status.textContent = indexState === 'loading' ? label('Chargement de l’index… Les accès rapides restent disponibles.','Loading the index… Quick navigation remains available.')
+            : indexState === 'error' ? label('Index indisponible. Réessaie ou utilise un accès rapide.','Index unavailable. Retry or use quick navigation.') : results.length
             ? results.length + (results.length === 1 ? label(' résultat affiché',' result shown') : label(' résultats affichés',' results shown')) : favoritesOnly
-            ? label('Aucun favori. Ajoute une fiche avec l’étoile.','No favorites. Save an entry with its star.') : label('Aucun résultat. Essaie un nom, un PNJ ou une zone.','No results. Try a name, NPC or area.');
-        if (focusedUrl || focusedStarKey) {
+            ? savedQueryMiss ? label('Aucun favori ne correspond à cette recherche.','No saved entry matches this search.') : label('Aucun favori. Ajoute une fiche avec l’étoile.','No favorites. Save an entry with its star.') : label('Aucun résultat. Essaie un nom, un PNJ ou une zone.','No results. Try a name, NPC or area.');
+        if (focusedUrl || focusedStarKey || focusedRetry || focusedEmptyAction) {
             var replacement = focusedStarKey
                 ? Array.from(list.querySelectorAll('.nm-search-star')).find(function (star) {return star.closest('.nm-search-result').dataset.entityKey === focusedStarKey;})
+                : focusedRetry ? list.querySelector('.nm-search-retry')
+                : focusedEmptyAction ? list.querySelector('.nm-search-empty-action')
                 : Array.from(list.querySelectorAll('a')).find(function (link) {return link.getAttribute('href') === focusedUrl;});
             (replacement || favoriteFilter).focus();
         }
@@ -179,14 +219,13 @@
         if (global.NamelessReferenceShell?.closePanel) global.NamelessReferenceShell.closePanel(dialog, function () {dialog.close();});
         else dialog.close();
     }
-    async function open() {
+    function open() {
         global.NamelessReferenceShell?.cancelPanelClose?.(dialog);
         if (!dialog.open) {opener = document.activeElement; dialog.showModal();}
         input.focus();
-        loading = !entries.length;
+        var request = indexState === 'idle' ? getIndex() : indexPromise;
         render();
-        try {await getIndex(); loading = false; if (dialog.open) render();}
-        catch (_) {loading = false; list.setAttribute('aria-busy', 'false'); status.textContent = label('Recherche indisponible. Réessaie en rouvrant la recherche.','Search unavailable. Close and reopen to retry.');}
+        return request ? request.catch(function () { /* The dialog keeps the error and explicit retry available. */ }) : Promise.resolve();
     }
     function build() {
         if (document.getElementById('nameless-global-search')) return;
@@ -211,7 +250,7 @@
         input = document.createElement('input'); input.id = 'nm-global-query'; input.type = 'search'; input.autocomplete = 'off'; input.maxLength = 100;
         input.placeholder = label('Ex. : Illfang, potion, mineur…','E.g. Illfang, potion, miner…'); input.addEventListener('input', render);
         clearQuery = document.createElement('button'); clearQuery.type = 'button'; clearQuery.className = 'nm-search-clear'; clearQuery.hidden = true; clearQuery.appendChild(icon('close')); clearQuery.setAttribute('aria-label',label('Effacer la recherche','Clear search'));
-        clearQuery.addEventListener('click', function () {input.value = ''; render(); input.focus();});
+        clearQuery.addEventListener('click', resetQuery);
         field.appendChild(input); field.appendChild(clearQuery); query.appendChild(inputLabel); query.appendChild(field);
         var toolbar = document.createElement('div'); toolbar.className = 'nm-search-toolbar';
         favoriteFilter = document.createElement('button'); favoriteFilter.type = 'button'; favoriteFilter.className = 'nm-search-favorites'; favoriteFilter.setAttribute('aria-pressed','false'); favoriteFilter.appendChild(icon('star'));

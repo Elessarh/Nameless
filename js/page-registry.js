@@ -22,6 +22,7 @@
             title: config.title,
             css: config.css || [],
             scripts: config.scripts || [],
+            nativeFragments: config.nativeFragments === true,
             init: config.init,
             destroy: config.destroy
         };
@@ -42,7 +43,7 @@
             'css/components/mmorpg-kit.css?v=20261011phasee3',
             'css/components/home.css?v=20261009premium',
             'css/components/home-premium.css?v=20261010phase3native',
-            'css/components/reference-home.css?v=20261011anime4'
+            'css/components/reference-home.css?v=20261017motion2'
         ],
         scripts: [
             'js/home-carousel.js?v=20261009premium'
@@ -63,11 +64,11 @@
         homeRoute,
         publicRoute({
             id: 'confidentialite', path: '/confidentialite', source: 'pages/confidentialite.html',
-            title: 'Confidentialité | Nameless', css: ['css/components/information.css?v=20261007a']
+            title: 'Confidentialité | Nameless', nativeFragments: true, css: ['css/components/information.css?v=20261018anchors1']
         }),
         publicRoute({
             id: 'conditions', path: '/conditions', source: 'pages/conditions.html',
-            title: 'Conditions d’utilisation | Nameless', css: ['css/components/information.css?v=20261007a']
+            title: 'Conditions d’utilisation | Nameless', nativeFragments: true, css: ['css/components/information.css?v=20261018anchors1']
         }),
         publicRoute({
             id: 'carte',
@@ -79,12 +80,12 @@
                 'css/components/map.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261011ux2e',
                 'css/components/map-regions.css?v=20261011ux2e',
-                'css/components/reference-map.css?v=20261011ux2e'
+                'css/components/reference-map.css?v=20261017polish2'
             ],
             scripts: [
                 'js/vendor/leaflet-1.9.4.js?v=20261013mapfix1',
-                'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261014official1'
+                'js/map-regions.js?v=20261019atlas1',
+                'js/map.js?v=20261019atlas1'
             ],
             init: function (root) {
                 if (global.NamelessMapPage && typeof global.NamelessMapPage.init === 'function') {
@@ -100,9 +101,9 @@
         publicRoute({
             id: 'admin-carte', path: '/admin-carte', source: 'pages/admin-carte.html', title: 'Atelier cartographique — Nameless',
             css: ['css/vendor/leaflet-1.9.4.css?v=20261013mapfix1', 'css/components/map.css?v=20261008hybrid',
-                'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261010maprework2'],
-            scripts: ['js/vendor/leaflet-1.9.4.js?v=20261013mapfix1', 'js/map-regions.js?v=20261010maprework2',
-                'js/map.js?v=20261014official1', 'js/map-workspace.js?v=20261013taxonomy1'],
+                'css/components/map-regions.css?v=20261011ux2e', 'css/components/map-workspace.css?v=20261019atlas1'],
+            scripts: ['js/vendor/leaflet-1.9.4.js?v=20261013mapfix1', 'js/map-regions.js?v=20261019atlas1',
+                'js/map.js?v=20261019atlas1', 'js/map-workspace.js?v=20261019atlas1'],
             init: root => global.NamelessMapWorkspace?.init(root), destroy: () => global.NamelessMapWorkspace?.destroy()
         }),
         publicRoute({
@@ -113,10 +114,10 @@
             css: [
                 'css/components/bestiaire.css?v=20261013taxonomy1',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011phasee4'
+                'css/components/reference-catalogs.css?v=20261018filters1'
             ],
             scripts: [
-                'js/bestiaire.js?v=20261013taxonomy1'
+                'js/bestiaire.js?v=20261018filters1'
             ],
             init: function (root) {
                 if (global.NamelessBestiaryPage && typeof global.NamelessBestiaryPage.init === 'function') {
@@ -137,11 +138,11 @@
             css: [
                 'css/components/items.css?v=20261014native1',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/reference-catalogs.css?v=20261011phasee4'
+                'css/components/reference-catalogs.css?v=20261018filters1'
             ],
             scripts: [
                 'js/items-catalog-official.js?v=20261014official1',
-                'js/items.js?v=20261014native1'
+                'js/items.js?v=20261018filters1'
             ],
             init: function (root) {
                 if (global.NamelessItemsPage && typeof global.NamelessItemsPage.init === 'function') {
@@ -187,7 +188,7 @@
                 'css/components/pixel-icons.css?v=20261007a',
                 'css/components/wiki.css?v=20261008hybrid',
                 'css/components/page-hero.css?v=20261011ux2e',
-                'css/components/wiki-codex.css?v=20261011ux2e'
+                'css/components/wiki-codex.css?v=20261017polish1'
             ],
             scripts: [
                 'js/wiki.js?v=20261011ux2e'
@@ -209,7 +210,7 @@
             source: 'pages/connexion.html',
             title: 'Connexion - Nameless',
             css: [
-                'css/components/connexion.css?v=20261010regions'
+                'css/components/connexion.css?v=20261017account1'
             ],
             scripts: [],
             init: function (root) {
@@ -229,7 +230,7 @@
             source: 'pages/profil.html',
             title: 'Mon profil - Nameless',
             css: [
-                'css/components/profil.css?v=20261011phased3'
+                'css/components/profil.css?v=20261017account1'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',
@@ -285,7 +286,7 @@
                 'css/components/guild-chat.css?v=20261008hybrid',
                 'css/components/guild-dm.css?v=20261008hybrid',
                 'css/components/guilde-nameless.css?v=20261008hybrid',
-                'css/components/guild-reference.css?v=20261011phased3'
+                'css/components/guild-reference.css?v=20261017polish1'
             ],
             scripts: [
                 'js/cache-manager.js?v=20261007a',

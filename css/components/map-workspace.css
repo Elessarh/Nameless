@@ -23,12 +23,10 @@ body:has(.map-admin-workspace)::after{opacity:.035}
 .map-admin-workspace .map-search-input{height:44px;border:1px solid #51676b87;background:#06151d;color:#dbe5e8;border-radius:3px;font-size:12px}
 .map-admin-workspace .map-actions{display:flex;gap:4px;margin:0}
 .map-admin-workspace button,.map-admin-workspace .workspace-preview,.map-workspace-gate a{min-height:44px;border:1px solid #4a656c85;border-radius:3px;background:#102832;color:#dfe7e8;font:500 12px/1.35 var(--font-text);padding:9px 12px;cursor:pointer;transition:background 160ms,border-color 160ms,color 160ms,box-shadow 160ms}
-.map-admin-workspace button:hover,.map-admin-workspace .workspace-preview:hover{border-color:#ccb078;background:#1a3540;color:#ffefd2}
 .map-admin-workspace button:active:not(:disabled){background:#203f49}
 .map-admin-workspace :is(button,a,input,select,textarea,summary):focus-visible{outline:2px solid #edce94;outline-offset:3px}
 .map-admin-workspace button:disabled{opacity:.4;cursor:not-allowed}
 .map-admin-workspace button.is-primary{color:#102028;background:linear-gradient(135deg,#ead1a3,#c7a66e);border-color:#e4c895;box-shadow:inset 0 1px #ffedc780}
-.map-admin-workspace button.is-primary:hover{background:#edcf9b;box-shadow:0 3px 14px #0003,inset 0 1px #fff5}
 .map-admin-workspace .workspace-preview{display:inline-flex;align-items:center;text-decoration:none;background:transparent;border-color:#a18b5c61;white-space:nowrap}
 .map-admin-workspace #map-filters-toggle,.map-admin-workspace #map-filter-rail,.map-admin-workspace #map-panel{display:none!important}
 .map-admin-workspace :is(.map-floor-arrow,.map-floor-button){min-width:40px;padding:9px;border-color:transparent;background:transparent}
@@ -77,6 +75,11 @@ body:has(.map-admin-workspace)::after{opacity:.035}
 .workspace-marker-actions .workspace-marker-place{grid-column:1/-1}
 .workspace-marker-history{display:flex;gap:7px;margin:10px 0}
 .workspace-marker-history button{flex:1}
+.map-admin-workspace .workspace-marker-place[aria-pressed=true]{border-color:#d7b778;color:#f7e3bc;background:#304038;box-shadow:inset 3px 0 #d7b778}
+@media(hover:hover) and (pointer:fine){
+ .map-admin-workspace button:not(:disabled):hover,.map-admin-workspace .workspace-preview:hover{border-color:#ccb078;background:#1a3540;color:#ffefd2}
+ .map-admin-workspace button.is-primary:not(:disabled):hover{background:#edcf9b;box-shadow:0 3px 14px #0003,inset 0 1px #fff5}
+}
 .workspace-service{padding:12px 16px;background:#342c1dcf;border:1px solid #8b7348;border-radius:4px;margin:0 0 14px;font-size:12px;line-height:1.6}
 .map-workspace-gate{max-width:540px;margin:56px auto 80px;padding:30px;background:#0d242f;border:1px solid #9b895659;border-radius:5px;display:flex;flex-wrap:wrap;gap:12px}
 .map-workspace-gate h2,.map-workspace-gate p{flex-basis:100%;margin:0 0 10px}
@@ -96,6 +99,11 @@ body:has(.map-admin-workspace)::after{opacity:.035}
 .workspace-statusbar{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--studio-line);padding:7px 14px;background:#091a22;flex:0 0 auto;color:#8ea7b0;font:400 10px/1.5 var(--font-text)}
 #workspace-edit-state{color:#d5c49c;display:flex;align-items:center;gap:7px}
 #workspace-edit-state::before{content:'';width:5px;height:5px;border-radius:50%;background:#d5b47b}
+#workspace-edit-state[data-edit-state=local]{color:#b9d2d9}
+#workspace-edit-state[data-edit-state=local]::before{background:#a8c9d1}
+#workspace-edit-state[data-edit-state=published]{color:#b6d6c1}
+#workspace-edit-state[data-edit-state=published]::before{background:#a6ceb5}
+#workspace-edit-state[data-edit-state=publishing]{color:#f0dfb7}
 .map-admin-workspace .map-marker-name{max-width:145px;background:#071921ec;border:1px solid #9e8c6269;border-radius:2px;color:#e6d7b6;box-shadow:0 2px 4px #0003;font-size:10px;line-height:1.3;padding:3px 5px}
 .workspace-draft-marker{background:#dfc18b!important;color:#07151e;border:3px solid #f6e6c4;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 0 5px #ddbd8438;cursor:move;z-index:800!important}
 .workspace-draft-marker::after{content:'+';font:600 21px/1 sans-serif}
@@ -109,6 +117,15 @@ body:has(.map-admin-workspace)::after{opacity:.035}
 @media(max-width:900px){.map-admin-workspace{padding:15px 12px 20px}.map-admin-workspace .map-reference-hero{align-items:start;gap:12px;margin-bottom:16px}.map-admin-workspace .map-title{font-size:24px}.workspace-heading-actions .workspace-preview{font-size:10px;padding:8px;min-height:40px}.map-admin-workspace .map-workspace{height:auto;max-height:none;min-height:0;overflow:hidden}.map-admin-workspace .map-body{display:flex;flex-direction:column;overflow:visible;flex:none}.map-admin-workspace .map-wrapper{height:480px;min-height:480px;flex:none;width:100%;order:0}.workspace-inspector{order:1;border-left:0;border-top:1px solid var(--studio-line);padding:20px;overflow:visible;max-height:none;min-height:0}.workspace-inspector>section{max-width:560px;margin-inline:auto}.workspace-statusbar>span:last-child{display:none}.map-admin-workspace .map-controls-container{gap:9px;padding:9px 10px}.map-admin-workspace .map-floor-navigation{flex:1}.map-admin-workspace .map-search-container{order:3;flex-basis:100%;max-width:none}.map-admin-workspace .map-floor-buttons{margin-left:8px}.workspace-tool-tabs{flex-wrap:wrap;padding:6px 10px;gap:4px}.map-admin-workspace .workspace-tool-tabs [data-workspace-mode]{flex:1;min-width:0;text-align:center;padding-inline:6px}.map-admin-workspace #workspace-refresh{width:100%;flex-basis:100%;margin:0;min-height:44px;text-align:right;font-size:11px;border-top:1px solid #61777a32}.workspace-message{position:static;margin:14px 0 0!important;border:1px solid #bda16c60;border-radius:3px}.map-admin-workspace .map-workspace:is(:fullscreen,.is-fullscreen){overflow:auto;height:100svh}.map-admin-workspace .map-workspace.is-fullscreen .map-body{flex:none}}
 @media(max-width:550px){.map-admin-workspace .map-title{font-size:21px}.map-admin-workspace .map-subtitle{display:none}.map-admin-workspace .map-reference-hero{flex-wrap:wrap;gap:10px}.workspace-heading-actions{width:100%}.workspace-heading-actions .workspace-preview{border:0;padding:0;min-height:28px;color:#c9b58d}.map-admin-workspace .map-floor-title{display:none}.map-admin-workspace .map-floor-buttons{margin:0}.map-admin-workspace .map-floor-navigation{gap:1px}.map-admin-workspace :is(.map-floor-arrow,.map-floor-button){min-width:34px;padding:8px}.map-admin-workspace .map-wrapper{height:410px;min-height:410px}.workspace-canvas-heading{left:10px;right:10px;top:10px}.workspace-canvas-heading>div{padding:7px 9px}.workspace-canvas-heading strong{font-size:12px}.workspace-canvas-eyebrow{font-size:8px}.map-admin-workspace #workspace-labels-toggle{font-size:9px;padding:7px;max-width:100px}.workspace-canvas-guidance{left:10px;bottom:10px;max-width:calc(100% - 68px);font-size:10px;padding:6px 8px}.map-admin-workspace .leaflet-top.leaflet-left{right:10px;bottom:10px}.map-admin-workspace .leaflet-control-zoom a{width:44px;height:44px;line-height:44px}.workspace-inspector{padding:18px}}
 @media(prefers-reduced-motion:reduce){.map-admin-workspace *{animation:none!important;transition:none!important}}
+@media(forced-colors:active){
+ .map-admin-workspace :is(.map-workspace,.workspace-inspector,.workspace-statusbar,.workspace-tool-tabs,.workspace-message,.workspace-service,.workspace-canvas-heading>div,.workspace-canvas-guidance,.map-workspace-gate),.map-workspace-gate{background:Canvas!important;color:CanvasText;border-color:CanvasText;box-shadow:none}
+ .map-admin-workspace :is(button,input,select,textarea,.workspace-preview){color:CanvasText!important;background:Canvas!important;border-color:CanvasText;box-shadow:none}
+ .map-admin-workspace :is(button[aria-pressed=true],button[aria-selected=true]){border-color:Highlight;outline:1px solid Highlight;outline-offset:-3px}
+ .map-admin-workspace button:disabled{color:GrayText!important;border-color:GrayText;opacity:1}
+ .map-admin-workspace :is(button,a,input,select,textarea,summary):focus-visible{outline-color:Highlight}
+ .map-admin-workspace #workspace-edit-state{color:CanvasText}
+ #workspace-edit-state::before{background:CanvasText!important}
+}
 .map-admin-workspace.map-hide-names .map-marker-name{display:none}
 .map-admin-workspace.workspace-placing .map-marker{pointer-events:none}
 .map-admin-workspace.workspace-placing #game-map{cursor:crosshair}

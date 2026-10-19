@@ -28,11 +28,11 @@
     <meta name="twitter:title" content="Nameless">
     <meta name="twitter:description" content="Retrouve les archives et les aventuriers de Nameless.">
     <meta name="twitter:image" content="https://nameless-sao.fr/assets/brand/nameless-social-logo.png?v=20261008logo">
-    <link rel="stylesheet" href="/css/components/global-search.css?v=20261011phasee3">
+    <link rel="stylesheet" href="/css/components/global-search.css?v=20261018search1">
     <meta name="theme-color" content="#0B141B">
     <link rel="stylesheet" href="/css/components/mmorpg-kit.css?v=20261011phasee3">
     <link rel="stylesheet" href="/css/components/world-experience.css?v=20261011phasee3">
-    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261011phasee3">
+    <link rel="stylesheet" href="/css/components/reference-shell.css?v=20261017account1">
     <script src="/js/reference-shell.js?v=20261011phasee3" defer></script>
 </head>
 <body data-spa-fallback="true">
@@ -69,11 +69,12 @@
     </header>
 
     <main id="main-content" role="main">
-        <section class="section">
-            <div class="container">
-                <h1>Ce chemin ne mène plus à Aincrad.</h1>
+        <section class="section nm-not-found" aria-labelledby="not-found-title">
+            <div class="container nm-not-found__content">
+                <span class="nm-not-found__code" aria-hidden="true" data-i18n-ignore>404</span>
+                <h1 id="not-found-title">Ce chemin ne mène plus à Aincrad.</h1>
                 <p>La page demandée est introuvable. Retrouve les archives ou retourne auprès de la guilde.</p>
-                <p><a href="/">Retour à l’accueil</a> · <a href="/wiki">Explorer le wiki</a></p>
+                <div class="nm-not-found__actions"><a class="nm-game-button nm-game-button--primary" href="/">Retour à l’accueil</a><a class="nm-game-button" href="/wiki">Explorer le wiki</a></div>
             </div>
         </section>
     </main>
@@ -101,8 +102,8 @@
     <script src="/js/navbar-mobile.js?v=20261011phasee3" defer></script>
     <script src="/js/audio-controller.js?v=20261008hybrid" defer></script>
     <script src="/js/page-registry.js?v=20261014official1" defer></script>
-    <script src="/js/world-atmosphere.js?v=20261011phasee3" defer></script>
-    <script src="/js/app-router.js?v=20261009world" defer></script>
-    <script src="/js/global-search.js?v=20261014official1" defer></script>
+    <script src="/js/world-atmosphere.js?v=20261017motion2" defer></script>
+    <script src="/js/app-router.js?v=20261018anchors1" defer></script>
+    <script src="/js/global-search.js?v=20261018search1" defer></script>
 </body>
 </html>

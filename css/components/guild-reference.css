@@ -1,24 +1,24 @@
 /* Headquarters: one page atmosphere, readable surfaces and content-sized panels. */
-.guilde-container.guild-hq{max-width:1540px;padding:0 26px 56px;color:#c5d1d1;--hq-gold:#c9ab76;--hq-border:#879aa044;--hq-panel:#0b1c26ed;background:transparent}
+.guilde-container.guild-hq{max-width:1540px;padding:0 26px 56px;color:#c5d1d1;--hq-gold:#c9ab76;--hq-border:#879aa044;--hq-panel:linear-gradient(150deg,#17313bf2,#091c26f5 52%,#071822f7);--hq-edge:#d4d9bf16;--hq-ease:cubic-bezier(.16,1,.3,1);background:transparent}
 .guild-hq .guild-hall{position:relative;padding:30px 0 24px;margin:0;min-height:0;background:transparent;border:0}
 .guild-hq .guild-hall::before,.guild-hq .guild-hall::after{content:none}
 .guild-hq .guild-hall h1{font:400 clamp(2rem,3vw,2.8rem)/1.2 var(--font-title);color:#f2e5ce;margin:0 0 10px}
 .guild-hq .guild-hall p{font-size:14px;line-height:1.6;margin:0;color:#c5d1d1;max-width:65ch}
 .guild-hq .guild-hall .nm-eyebrow{display:block;color:#d4b480;margin-bottom:9px;font-size:11px;letter-spacing:.1em}
-.guild-hq .guild-hq-tabs{display:flex;position:relative;margin:0 0 20px;border:1px solid var(--hq-border);border-radius:3px;background:#0b1c26ed;overflow-x:auto}
+.guild-hq .guild-hq-tabs{display:flex;position:relative;margin:0 0 20px;border:1px solid var(--hq-border);border-radius:3px;background:linear-gradient(#112b35f2,#091a24f5);overflow-x:auto;scrollbar-width:thin;scrollbar-color:#5c746f transparent;scroll-padding-inline:8px;box-shadow:inset 0 1px var(--hq-edge),0 4px 12px #0002}
 .guild-hq .guild-hq-tab{position:relative;min-height:48px;min-width:134px;padding:12px 22px;border:0;border-right:1px solid #879aa029;background:transparent;color:#b1c6ce;font:500 13px/1.4 var(--font-text);flex:1;white-space:nowrap}
-.guild-hq .guild-hq-tab[aria-selected='true']{color:#f5e3bc;background:#b99b5820}
+.guild-hq .guild-hq-tab[aria-selected='true']{color:#f5e3bc;background:linear-gradient(0deg,#c2a36524,#c2a3650a);box-shadow:inset 0 1px #d8bd8926}
 .guild-hq .guild-hq-tab[aria-selected='true']::after{content:'';position:absolute;bottom:0;left:20px;right:20px;height:2px;background:#d8b878}
 .guild-hq [hidden]{display:none!important}
 .guild-hq .guilde-two-columns{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(320px,1fr);gap:20px;margin-bottom:20px;align-items:start}
 .guild-hq .guilde-right-column,.guild-hq .guild-side-column{display:grid;gap:20px;min-width:0;align-content:start}
-.guild-hq .hq-panel{position:relative;min-width:0;min-height:0;padding:20px;border:1px solid var(--hq-border);border-radius:3px;background:var(--hq-panel);box-shadow:none}
-.guild-hq .hq-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.guild-hq .hq-panel{position:relative;min-width:0;min-height:0;padding:20px;border:1px solid var(--hq-border);border-radius:3px;background:var(--hq-panel);box-shadow:inset 0 1px var(--hq-edge),0 7px 22px #0003}
+.guild-hq .hq-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #b5a57b2e}
 .guild-hq .hq-panel h2{font:400 17px/1.4 var(--font-title);color:#f1e5d1;margin:0}
 .guild-hq .hq-panel-head a,.guild-hq .hq-panel-head button{font-size:12px;color:#dac091;background:none;border:0;padding:6px 0;min-height:44px;text-decoration:none;white-space:nowrap}
 .guild-hq .hq-events{display:grid;gap:10px}
 .guild-hq .hq-event{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:14px;min-height:0;padding:14px;border:1px solid #73838750;background:#07151edd;color:inherit;text-align:left;width:100%;transition:border-color 160ms,background 160ms;border-radius:3px}
-.guild-hq .hq-event:hover,.guild-hq .hq-event:focus-visible{border-color:#d0ad71;background:#132a33}
+.guild-hq .hq-event:focus-visible{border-color:#d0ad71;background:#132a33}
 .guild-hq .hq-event[data-selected='true']{border-color:#e0bd83;background:#162831}
 .guild-hq .hq-event-art{display:grid;place-items:center;align-self:start;width:52px;height:52px;border:1px solid #879aa044;background:#152b36;color:#d4b480;border-radius:3px}
 .guild-hq .hq-event-art svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
@@ -46,7 +46,7 @@
 .guild-hq #hq-day-events .hq-event{grid-template-columns:minmax(0,1fr);padding:12px}
 .guild-hq #hq-day-events .hq-event-art{display:none}
 .guild-hq #hq-day-events .hq-event-side{grid-column:1;flex-direction:row;align-items:center}
-.guild-hq .hq-empty{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:0;padding:18px;text-align:left;color:#aabfc4;font-size:13px;line-height:1.6;border:1px dashed #71808855;border-radius:3px;background:#07151e66}
+.guild-hq .hq-empty{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:0;padding:18px;text-align:left;color:#aabfc4;font-size:13px;line-height:1.6;border:1px solid #71808840;border-radius:3px;background:linear-gradient(130deg,#19313a55,#07151e88);box-shadow:inset 0 1px #c5d9d20a}
 .guild-hq .hq-empty svg{width:26px;height:26px;color:#d4b480;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .guild-hq .hq-empty strong{color:#dce6e6;font-size:14px;font-weight:500}
 .guild-hq .hq-empty p{margin:0;font-size:12px;line-height:1.65;max-width:58ch}
@@ -60,13 +60,13 @@
 .guild-hq .hq-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .guild-hq .hq-quick a,.guild-hq .hq-quick button{display:flex;align-items:center;justify-content:flex-start;gap:10px;min-height:56px;padding:10px 12px;border:1px solid #77929d55;background:#07151ecc;color:#d1d8d3;font-size:12px;text-align:left;text-decoration:none;line-height:1.5;border-radius:3px}
 .guild-hq .hq-quick svg{width:23px;height:23px;flex:0 0 23px;color:#d4b480;fill:none;stroke:currentColor;stroke-width:1.4}
-.guild-hq .hq-quick :is(a,button):hover{border-color:#ccb17b;background:#172a31}
+.guild-hq .hq-quick :is(a,button):focus-visible{border-color:#ccb17b;background:#172a31}
 .guild-hq .hq-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:18px}
 .guild-hq .hq-toolbar input{flex:1;min-width:160px}
 .guild-hq :is(.hq-toolbar,.hq-form) :is(input,select,textarea){min-height:44px;padding:10px 12px;font:inherit;font-size:13px;color:#d5dddd;background:#06151e;border:1px solid #78909866;border-radius:3px;width:100%}
 .guild-hq .hq-toolbar select{width:auto;max-width:100%}
 .guild-hq .hq-button{display:inline-flex;justify-content:center;align-items:center;gap:9px;min-height:44px;padding:10px 15px;color:#e9dbbd;border:1px solid #bea2768c;border-radius:3px;background:#192d35;font:500 12px/1.5 var(--font-text);text-decoration:none}
-.guild-hq .hq-button:hover{border-color:#e8c78d;background:#354039}
+.guild-hq .hq-button:focus-visible:not(:disabled){border-color:#e8c78d;background:#354039}
 .guild-hq .hq-button:disabled{opacity:.55;cursor:default}
 .guild-hq .hq-members-full{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .guild-hq .guild-resource-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
@@ -104,9 +104,27 @@
 .guild-hq .no-data,.guild-hq .no-activities{min-height:0;padding:18px}
 .guild-hq #loading{padding:24px 0;text-align:left;font-size:14px}
 .guild-hq :is(button,a,input,select,textarea):focus-visible{outline:2px solid #dfc18b;outline-offset:3px}
+/* Choice feedback belongs to the control, while live member rows stay still. */
+.guild-hq :is(.guild-hq-tab,.hq-button,.hq-square,.hq-quick a,.hq-quick button,.guild-resource-links a,.hq-day[data-count]){transition:color var(--nm-duration-hover),border-color var(--nm-duration-hover),background-color var(--nm-duration-hover),box-shadow var(--nm-duration-hover)}
+.guild-hq :is(.hq-button,.hq-square,.hq-quick a,.hq-quick button,.guild-resource-links a){box-shadow:inset 0 1px var(--hq-edge),0 2px 5px #0002}
+.guild-hq :is(.hq-toolbar,.hq-form) :is(input,select,textarea){box-shadow:inset 0 2px 5px #0003;transition:border-color var(--nm-duration-hover),box-shadow var(--nm-duration-hover)}
+.guild-hq :is(.hq-toolbar,.hq-form) :is(input,select,textarea):focus-visible{border-color:#d3b681;box-shadow:inset 0 2px 5px #0003,0 0 0 1px #d3b68126}
+.guild-hq .hq-quick svg{transition:translate var(--nm-duration-hover) var(--hq-ease)}
+.guild-hq .hq-day[aria-pressed='true']{box-shadow:inset 0 -2px #d9bc85;background:#24434b;color:#fff2d6}
+.guild-hq .hq-day[aria-current='date'][aria-pressed='true']{box-shadow:inset 0 0 0 1px #d1b47c,inset 0 -3px #d9bc85}
+.guild-hq .hq-dialog{background:var(--hq-panel);box-shadow:inset 0 1px #e7cd9b26,0 25px 80px #0009;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#6e7463 transparent}
+.guild-hq [data-hq-panel]:not([hidden]){animation:hq-content-enter var(--nm-duration-select) var(--hq-ease)}
+@media(hover:hover) and (pointer:fine){
+    .guild-hq .guild-hq-tab:not([aria-selected='true']):hover{color:#f0dfbd;background-color:#c2a3650b}
+    .guild-hq .hq-event:hover{border-color:#d0ad71;background:#132a33;box-shadow:inset 0 1px #e7d4ad1a,0 4px 12px #0003}
+    .guild-hq :is(.hq-button,.hq-square,.hq-quick a,.hq-quick button,.guild-resource-links a):not(:disabled):hover{border-color:#d9bd87;background:#21383e;box-shadow:inset 0 1px #e7cd9b26,0 4px 12px #0003}
+    .guild-hq .hq-quick :is(a,button):hover svg{translate:2px 0}
+    .guild-hq .hq-day[data-count]:hover{color:#f4e6cf;background-color:#24434b}
+}
+@keyframes hq-content-enter{from{opacity:.72}to{opacity:1}}
 @keyframes hq-panel-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes hq-panel-exit{from{opacity:1;transform:none}to{opacity:0;transform:translateY(8px)}}
 @media(max-width:1100px){.guild-hq .guilde-two-columns{grid-template-columns:minmax(0,1.4fr) minmax(290px,1fr)}.guild-hq .hq-event{grid-template-columns:44px minmax(0,1fr);gap:11px}.guild-hq .hq-event-art{width:44px;height:44px}.guild-hq .hq-event-side{grid-column:2;flex-direction:row;align-items:center}.guild-hq .hq-members-full{grid-template-columns:repeat(2,minmax(0,1fr))}.guild-hq .hq-quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){.guilde-container.guild-hq{padding:0 16px 56px}.guild-hq .guild-hall{padding:24px 0 20px}.guild-hq .guild-hq-tabs{margin-bottom:16px}.guild-hq .guild-hq-tab{min-width:116px;padding-inline:15px}.guild-hq .guilde-two-columns{grid-template-columns:1fr;gap:16px;margin-bottom:16px}.guild-hq .guilde-right-column,.guild-hq .guild-side-column{gap:16px}.guild-hq .hq-panel{padding:16px}.guild-hq .hq-members-full{grid-template-columns:1fr}.guild-hq .hq-form-row{grid-template-columns:1fr}.guild-hq .guild-resource-links{grid-template-columns:1fr}.guild-hq .hq-dialog{padding:22px 18px}.guild-hq .hq-signup-actions .hq-button{flex:1}.guild-hq .hq-private-gate{padding:22px}.guild-hq .hq-panel-head h2{font-size:15px}.guild-hq .hq-empty{padding:15px}.guild-hq .hq-event{padding:12px}.guild-hq .hq-event-roles{gap:10px}.guild-hq .hq-quick a,.guild-hq .hq-quick button{padding:10px;font-size:11px}}
-@media(prefers-reduced-motion:reduce){.guild-hq .hq-dialog[open]{animation:none}.guild-hq .hq-event{transition:none}}
-@media(forced-colors:active){.guild-hq,.guild-hq .hq-panel,.guild-hq .hq-private-gate{background:Canvas}.guild-hq .hq-event-art{color:CanvasText}.guild-hq .hq-day[data-count]::after{background:CanvasText}}
+@media(prefers-reduced-motion:reduce){.guild-hq :is(.hq-dialog[open],[data-hq-panel]:not([hidden])){animation:none!important}.guild-hq :is(.hq-event,.guild-hq-tab,.hq-button,.hq-square,.hq-quick a,.hq-quick button,.hq-quick svg,.guild-resource-links a,.hq-day[data-count]),.guild-hq :is(.hq-toolbar,.hq-form) :is(input,select,textarea){transition:none!important}.guild-hq .hq-quick svg{translate:none!important}}
+@media(forced-colors:active){.guild-hq,.guild-hq :is(.hq-panel,.hq-private-gate,.hq-dialog,.guild-hq-tabs,.hq-empty){background:Canvas;box-shadow:none;border-color:CanvasText}.guild-hq .hq-event-art{color:CanvasText}.guild-hq .hq-day[data-count]::after{background:CanvasText}.guild-hq .guild-hq-tab[aria-selected='true']::after{background:Highlight}.guild-hq .hq-day[aria-pressed='true']{outline:2px solid Highlight;outline-offset:-3px}}
